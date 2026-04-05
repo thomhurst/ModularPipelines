@@ -43,6 +43,7 @@ internal partial class Gcloud : IGcloud
         GcloudBackupdr backupdr,
         GcloudBatch batch,
         GcloudBeyondcorp beyondcorp,
+        GcloudBiglake biglake,
         GcloudBigtable bigtable,
         GcloudBilling billing,
         GcloudBms bms,
@@ -87,7 +88,6 @@ internal partial class Gcloud : IGcloud
         GcloudIap iap,
         GcloudIdentity identity,
         GcloudIds ids,
-        GcloudImmersivestream immersivestream,
         GcloudInframanager inframanager,
         GcloudKms kms,
         GcloudLogging logging,
@@ -140,6 +140,7 @@ internal partial class Gcloud : IGcloud
         GcloudTelcoautomation telcoautomation,
         GcloudTranscoder transcoder,
         GcloudTransfer transfer,
+        GcloudVectorsearch vectorsearch,
         GcloudVmware vmware,
         GcloudWorkbench workbench,
         GcloudWorkflows workflows,
@@ -168,6 +169,7 @@ internal partial class Gcloud : IGcloud
         Backupdr = backupdr;
         Batch = batch;
         Beyondcorp = beyondcorp;
+        Biglake = biglake;
         Bigtable = bigtable;
         Billing = billing;
         Bms = bms;
@@ -212,7 +214,6 @@ internal partial class Gcloud : IGcloud
         Iap = iap;
         Identity = identity;
         Ids = ids;
-        Immersivestream = immersivestream;
         Inframanager = inframanager;
         Kms = kms;
         Logging = logging;
@@ -265,6 +266,7 @@ internal partial class Gcloud : IGcloud
         Telcoautomation = telcoautomation;
         Transcoder = transcoder;
         Transfer = transfer;
+        Vectorsearch = vectorsearch;
         Vmware = vmware;
         Workbench = workbench;
         Workflows = workflows;
@@ -334,6 +336,9 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public GcloudBeyondcorp Beyondcorp { get; }
+
+    /// <inheritdoc />
+    public GcloudBiglake Biglake { get; }
 
     /// <inheritdoc />
     public GcloudBigtable Bigtable { get; }
@@ -466,9 +471,6 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public GcloudIds Ids { get; }
-
-    /// <inheritdoc />
-    public GcloudImmersivestream Immersivestream { get; }
 
     /// <inheritdoc />
     public GcloudInframanager Inframanager { get; }
@@ -625,6 +627,9 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public GcloudTransfer Transfer { get; }
+
+    /// <inheritdoc />
+    public GcloudVectorsearch Vectorsearch { get; }
 
     /// <inheritdoc />
     public GcloudVmware Vmware { get; }

@@ -58,6 +58,21 @@ public class GcloudIamWorkloadIdentityPools
     #region Commands
 
     /// <summary>
+    /// add an     attestation rule on a workload identity pool
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AddAttestationRule(
+        GcloudIamWorkloadIdentityPoolsAddAttestationRuleOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsAddAttestationRuleOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// add IAM policy     binding for a workload identity pool
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -148,6 +163,21 @@ public class GcloudIamWorkloadIdentityPools
     }
 
     /// <summary>
+    /// list the     attestation rules on a workload identity pool
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAttestationRules(
+        GcloudIamWorkloadIdentityPoolsListAttestationRulesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsListAttestationRulesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list workload identity pools
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -163,6 +193,21 @@ public class GcloudIamWorkloadIdentityPools
     }
 
     /// <summary>
+    /// remove an     attestation rule on a workload identity pool
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RemoveAttestationRule(
+        GcloudIamWorkloadIdentityPoolsRemoveAttestationRuleOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsRemoveAttestationRuleOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// remove IAM     policy binding from a workload identity pool
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -175,6 +220,21 @@ public class GcloudIamWorkloadIdentityPools
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// set attestation     rules on a workload identity pool
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetAttestationRules(
+        GcloudIamWorkloadIdentityPoolsSetAttestationRulesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsSetAttestationRulesOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -20,6 +20,7 @@ public class GcloudPrivateca
     private readonly ICommand _command;
     private GcloudPrivatecaCertificates _certificates;
     private GcloudPrivatecaLocations _locations;
+    private GcloudPrivatecaOperations _operations;
     private GcloudPrivatecaPools _pools;
     private GcloudPrivatecaRoots _roots;
     private GcloudPrivatecaSubordinates _subordinates;
@@ -44,6 +45,11 @@ public class GcloudPrivateca
     /// gcloud locations sub-commands.
     /// </summary>
     public GcloudPrivatecaLocations Locations => _locations ??= new GcloudPrivatecaLocations(_command);
+
+    /// <summary>
+    /// gcloud operations sub-commands.
+    /// </summary>
+    public GcloudPrivatecaOperations Operations => _operations ??= new GcloudPrivatecaOperations(_command);
 
     /// <summary>
     /// gcloud pools sub-commands.

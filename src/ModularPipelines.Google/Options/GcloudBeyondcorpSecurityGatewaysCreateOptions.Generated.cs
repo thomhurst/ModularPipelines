@@ -38,7 +38,13 @@ public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions
     public IEnumerable<string>? Hubs { get; set; }
 
     /// <summary>
-    /// An optional request ID to identify requests. Specify a unique request     ID so that if you must retry your request, the server will know to     ignore the request if it has already been completed. The server will     guarantee that for at least 60 minutes since the first request.    Settings related to the Service Discovery.    If Service Discovery is done through API, defines its settings.    This must be specified.     API operation descriptor.     This must be specified.      --resource-override-path=RESOURCE_OVERRIDE_PATH       Contains the URI path fragment where HTTP request is sent.    The configuration for the proxy.
+    /// Configuration for Cloud Logging.     Shorthand Example:       --logging=     JSON Example:       --logging={}     File Example:       --logging=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Logging { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request     ID so that if you must retry your request, the server will know to     ignore the request if it has already been completed. The server will     guarantee that for at least 60 minutes since the first request.    The configuration for the proxy.
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
@@ -86,7 +92,7 @@ public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions
     public string? GroupInfoOutputType { get; set; }
 
     /// <summary>
-    /// The delegated user's information. USER_INFO_OUTPUT_TYPE must be one of:      json       JSON output type.     none       Explicitly disable header output.     protobuf       Protobuf output type.
+    /// The delegated user's information. USER_INFO_OUTPUT_TYPE must be one of:      json       JSON output type.     none       Explicitly disable header output.     protobuf       Protobuf output type.    Set the value of   googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by   using flag [service-discovery] or flags [].    At most one of these can be specified:      Settings related to the Service Discovery.      If Service Discovery is done through API, defines its settings.      API operation descriptor.      --resource-override-path=RESOURCE_OVERRIDE_PATH       Contains the URI path fragment where HTTP request is sent.     --service-discovery=[apiGateway=APIGATEWAY]      Settings related to the Service Discovery.      Shorthand Example:        --service-discovery=apiGateway={resourceOverride={path=string}}      JSON Example:        --service-discovery='{"apiGateway": {"resourceOverride": {"path": "string"}}}'      File Example:        --service-discovery=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--user-info-output-type", Format = OptionFormat.EqualsSeparated)]
     public string? UserInfoOutputType { get; set; }

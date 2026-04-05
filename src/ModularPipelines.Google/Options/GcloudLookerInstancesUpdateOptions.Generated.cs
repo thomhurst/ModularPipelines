@@ -27,10 +27,16 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions
     public IEnumerable<string>? AllowedEmailDomains { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to     complete.    Catalog Integration - Catalog Integration is a feature that allows Looker   to integrate with Universal Dataplex Catalog.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// If specified, catalog integration will be disabled. Use     --no-catalog-integration-opt-out to re-enable it.
+    /// </summary>
+    [CliFlag("--catalog-integration-opt-out")]
+    public bool? CatalogIntegrationOptOut { get; set; }
 
     /// <summary>
     /// The class type of the Looker instance. CLASS_TYPE must be one of: p1,     r1.    Custom Domains - Looker (Google Cloud core) lets you serve your   application through a custom domain. If you use a custom domain, Google   will provide a managed auto-renewing SSL certificate for security.    DNS changes can take up to 24 hours to take effect. Your SSL certificate   will take several minutes to activate. Note that you must get the Type A   DNS Record from the Google Cloud Console and update with your domain   registrar for your custom domain to work properly.

@@ -41,6 +41,12 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public string? DefaultStorageClass { get; set; }
 
     /// <summary>
+    /// Sets the encryption enforcement configuration for the bucket from a     JSON file. This configuration determines restrictions on the types of     encryption (GMEK, CMEK, CSEK) allowed for new objects created in the     bucket.     The JSON file should contain an object with keys among     "gmekEnforcement", "cmekEnforcement", and "csekEnforcement". Each of     these keys, if present, should have a "restrictionMode" key,     determining whether the corresponding encryption type should be allowed     or restricted for new objects.     Valid values for "restrictionMode" are:     ◆ "NotRestricted": The encryption type is allowed for new objects.     ◆ "FullyRestricted": The encryption type is not allowed for new      objects.     Example JSON file content, to enforce only CMEK for new objects:       {        "gmekEnforcement": {         "restrictionMode": "FullyRestricted"        },        "cmekEnforcement": {         "restrictionMode": "NotRestricted"        },        "csekEnforcement": {         "restrictionMode": "FullyRestricted"        }       }     Omitted keys will not be sent in the API request. To clear restrictions     for a specific encryption-type during an update, set its     "restrictionMode" to "NotRestricted". For example, to clear any     restrictions on GMEK: { "gmekEnforcement": { "restrictionMode":     "NotRestricted" } }
+    /// </summary>
+    [CliOption("--encryption-enforcement-file", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionEnforcementFile { get; set; }
+
+    /// <summary>
     /// Locks an unlocked retention policy on the buckets. Caution: A locked     retention policy cannot be removed from a bucket or reduced in     duration. Once locked, deleting the bucket is the only way to "remove"     a retention policy.
     /// </summary>
     [CliFlag("--lock-retention-period")]

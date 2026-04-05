@@ -21,7 +21,9 @@ public class GcloudGemini
     private GcloudGeminiCodeRepositoryIndexes _codeRepositoryIndexes;
     private GcloudGeminiCodeToolsSettings _codeToolsSettings;
     private GcloudGeminiDataSharingWithGoogleSettings _dataSharingWithGoogleSettings;
+    private GcloudGeminiGdaObservabilitySettings _gdaObservabilitySettings;
     private GcloudGeminiGeminiGcpEnablementSettings _geminiGcpEnablementSettings;
+    private GcloudGeminiGibqObservabilitySettings _gibqObservabilitySettings;
     private GcloudGeminiLoggingSettings _loggingSettings;
     private GcloudGeminiOperations _operations;
     private GcloudGeminiReleaseChannelSettings _releaseChannelSettings;
@@ -52,9 +54,19 @@ public class GcloudGemini
     public GcloudGeminiDataSharingWithGoogleSettings DataSharingWithGoogleSettings => _dataSharingWithGoogleSettings ??= new GcloudGeminiDataSharingWithGoogleSettings(_command);
 
     /// <summary>
+    /// gcloud gda-observability-settings sub-commands.
+    /// </summary>
+    public GcloudGeminiGdaObservabilitySettings GdaObservabilitySettings => _gdaObservabilitySettings ??= new GcloudGeminiGdaObservabilitySettings(_command);
+
+    /// <summary>
     /// gcloud gemini-gcp-enablement-settings sub-commands.
     /// </summary>
     public GcloudGeminiGeminiGcpEnablementSettings GeminiGcpEnablementSettings => _geminiGcpEnablementSettings ??= new GcloudGeminiGeminiGcpEnablementSettings(_command);
+
+    /// <summary>
+    /// gcloud gibq-observability-settings sub-commands.
+    /// </summary>
+    public GcloudGeminiGibqObservabilitySettings GibqObservabilitySettings => _gibqObservabilitySettings ??= new GcloudGeminiGibqObservabilitySettings(_command);
 
     /// <summary>
     /// gcloud logging-settings sub-commands.

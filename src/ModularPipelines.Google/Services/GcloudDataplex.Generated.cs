@@ -21,6 +21,7 @@ public class GcloudDataplex
     private GcloudDataplexAspectTypes _aspectTypes;
     private GcloudDataplexAssets _assets;
     private GcloudDataplexContent _content;
+    private GcloudDataplexContext _context;
     private GcloudDataplexDatascans _datascans;
     private GcloudDataplexEncryptionConfig _encryptionConfig;
     private GcloudDataplexEntries _entries;
@@ -57,6 +58,11 @@ public class GcloudDataplex
     /// gcloud content sub-commands.
     /// </summary>
     public GcloudDataplexContent Content => _content ??= new GcloudDataplexContent(_command);
+
+    /// <summary>
+    /// gcloud context sub-commands.
+    /// </summary>
+    public GcloudDataplexContext Context => _context ??= new GcloudDataplexContext(_command);
 
     /// <summary>
     /// gcloud datascans sub-commands.

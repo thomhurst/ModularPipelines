@@ -32,6 +32,12 @@ public record GcloudSourceManagerInstancesCreateOptions : GcloudOptions
     public bool? EnableWorkforceIdentityFederation { get; set; }
 
     /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide     enhanced data residency and reliability by ensuring your request is     handled entirely within the specified Google Cloud region. This differs     from global endpoints, which may process parts of the request outside     the target region. Overrides the default regional/endpoint_mode     property value for this command invocation. ENDPOINT_MODE must be one     of:      global       (Default) Use global rather than regional endpoints.     regional       Only use regional endpoints. An error will be raised if a regional       endpoint is not available for a given command.     regional-preferred       Use regional endpoints when available, otherwise use global       endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
     /// KMS key used to encrypt instance optionally.
     /// </summary>
     [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
@@ -53,9 +59,33 @@ public record GcloudSourceManagerInstancesCreateOptions : GcloudOptions
     public string? CaPool { get; set; }
 
     /// <summary>
-    /// List of additional projects allowed to connect to the instance via     private service connect.
+    /// List of additional projects allowed to connect to the instance via     private service connect.    Custom hostname configuration.
     /// </summary>
     [CliOption("--psc-allowed-projects", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? PscAllowedProjects { get; set; }
+
+    /// <summary>
+    /// Custom hostname for api.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--custom-hostname-api", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomHostnameApi { get; set; }
+
+    /// <summary>
+    /// Custom hostname for git http.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--custom-hostname-git-http", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomHostnameGitHttp { get; set; }
+
+    /// <summary>
+    /// Custom hostname for git ssh.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--custom-hostname-git-ssh", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomHostnameGitSsh { get; set; }
+
+    /// <summary>
+    /// Custom hostname for html.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--custom-hostname-html", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomHostnameHtml { get; set; }
 
 }

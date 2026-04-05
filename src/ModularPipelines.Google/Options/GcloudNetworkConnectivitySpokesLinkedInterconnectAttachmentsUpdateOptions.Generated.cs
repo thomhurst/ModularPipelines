@@ -33,7 +33,25 @@ public record GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsUpdate
     public string? Description { get; set; }
 
     /// <summary>
-    /// IP address range(s) allowed to be imported from hub subnets. Only     ``ALL_IPV4_RANGES`` can be added to the list. If it's empty, the spoke     does not import any subnets from the hub.
+    /// Dynamic routes overlapped/encompassed by exclude export ranges are     excluded during export to hub.
+    /// </summary>
+    [CliOption("--exclude-export-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ExcludeExportRanges { get; set; }
+
+    /// <summary>
+    /// Hub routes overlapped/encompassed by exclude import ranges are excluded     during import from hub.
+    /// </summary>
+    [CliOption("--exclude-import-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ExcludeImportRanges { get; set; }
+
+    /// <summary>
+    /// Dynamic routes fully encompassed by include export ranges are included     during export to hub. If it's empty, the spoke exports all dynamic     routes to the hub.
+    /// </summary>
+    [CliOption("--include-export-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? IncludeExportRanges { get; set; }
+
+    /// <summary>
+    /// Hub routes fully encompassed by include import ranges are included     during import from hub. If it's empty, the spoke does not import any     subnets from the hub. If it's empty and site-to-site-data-transfer is     true, the spoke imports all IPv4 site-to-site dynamic routes from the     hub.
     /// </summary>
     [CliOption("--include-import-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? IncludeImportRanges { get; set; }

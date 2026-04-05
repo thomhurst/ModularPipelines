@@ -238,7 +238,7 @@ public record GcloudSqlInstancesCreateOptions(
     public string? FailoverReplicaName { get; set; }
 
     /// <summary>
-    /// Specifies number of days to retain final backup. The valid range is     between 1 and 365. For instances managed by BackupDR, the valid range     is between 1 day and 99 years. Default value is 30 days.
+    /// Specifies number of days to retain final backup. The valid range is     between 1 and 365. For instances managed by BackupDR, the valid range     is between 1 day and 10 years (3653 days). Default value is 30 days.
     /// </summary>
     [CliOption("--final-backup-retention-days", Format = OptionFormat.EqualsSeparated)]
     public string? FinalBackupRetentionDays { get; set; }
@@ -477,10 +477,22 @@ public record GcloudSqlInstancesCreateOptions(
     public string? DiskEncryptionKeyLocation { get; set; }
 
     /// <summary>
-    /// The Google Cloud project for the key.     To set the kms-project attribute:     ◆ provide the argument --disk-encryption-key on the command line with      a fully specified name;     ◆ provide the argument --disk-encryption-key-project on the command      line;     ◆ set the property core/project.    Options for configuring read pool auto scale.
+    /// The Google Cloud project for the key.     To set the kms-project attribute:     ◆ provide the argument --disk-encryption-key on the command line with      a fully specified name;     ◆ provide the argument --disk-encryption-key-project on the command      line;     ◆ set the property core/project.    Entraid configuration for the SQL Server instance.
     /// </summary>
     [CliOption("--disk-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyProject { get; set; }
+
+    /// <summary>
+    /// Set the Entraid application ID.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--entra-id-application-id", Format = OptionFormat.EqualsSeparated)]
+    public string? EntraIdApplicationId { get; set; }
+
+    /// <summary>
+    /// Set the Entraid tenant ID.     This flag argument must be specified if any of the other arguments in     this group are specified.    Options for configuring read pool auto scale.
+    /// </summary>
+    [CliOption("--entra-id-tenant-id", Format = OptionFormat.EqualsSeparated)]
+    public string? EntraIdTenantId { get; set; }
 
     /// <summary>
     /// The cooldown period for automatic read pool scale-in. Minimum time     between scale-in events. Must be an integer value. For example, if the     value is 60, then a scale-in event will not be triggered within 60     seconds of the last scale-in event.

@@ -18,6 +18,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudRun
 {
     private readonly ICommand _command;
+    private GcloudRunCompose _compose;
     private GcloudRunDomainMappings _domainMappings;
     private GcloudRunJobs _jobs;
     private GcloudRunMultiRegionServices _multiRegionServices;
@@ -34,6 +35,11 @@ public class GcloudRun
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud compose sub-commands.
+    /// </summary>
+    public GcloudRunCompose Compose => _compose ??= new GcloudRunCompose(_command);
 
     /// <summary>
     /// gcloud domain-mappings sub-commands.

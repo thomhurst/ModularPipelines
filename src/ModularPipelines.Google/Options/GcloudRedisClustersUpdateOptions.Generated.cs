@@ -100,6 +100,12 @@ public record GcloudRedisClustersUpdateOptions : GcloudOptions
     public int? ReplicaCount { get; set; }
 
     /// <summary>
+    /// Rotate the server certificates for the cluster. This is allowed only     for clusters using a customer-managed CA.
+    /// </summary>
+    [CliFlag("--rotate-server-certificate")]
+    public bool? RotateServerCertificate { get; set; }
+
+    /// <summary>
     /// The shard count of the cluster.
     /// </summary>
     [CliOption("--shard-count", Format = OptionFormat.EqualsSeparated)]

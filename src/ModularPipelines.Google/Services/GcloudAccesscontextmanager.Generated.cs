@@ -23,6 +23,7 @@ public class GcloudAccesscontextmanager
     private GcloudAccesscontextmanagerLevels _levels;
     private GcloudAccesscontextmanagerPerimeters _perimeters;
     private GcloudAccesscontextmanagerPolicies _policies;
+    private GcloudAccesscontextmanagerSupportedPermissions _supportedPermissions;
     private GcloudAccesscontextmanagerSupportedServices _supportedServices;
 
     /// <summary>
@@ -59,6 +60,11 @@ public class GcloudAccesscontextmanager
     /// gcloud policies sub-commands.
     /// </summary>
     public GcloudAccesscontextmanagerPolicies Policies => _policies ??= new GcloudAccesscontextmanagerPolicies(_command);
+
+    /// <summary>
+    /// gcloud supported-permissions sub-commands.
+    /// </summary>
+    public GcloudAccesscontextmanagerSupportedPermissions SupportedPermissions => _supportedPermissions ??= new GcloudAccesscontextmanagerSupportedPermissions(_command);
 
     /// <summary>
     /// gcloud supported-services sub-commands.

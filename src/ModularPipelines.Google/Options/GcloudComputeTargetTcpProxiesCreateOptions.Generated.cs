@@ -21,4 +21,19 @@ public record GcloudComputeTargetTcpProxiesCreateOptions(
     [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// A backend service that will be used for connections to the target TCP     proxy.
+    /// </summary>
+    [CliOption("--backend-service", Format = OptionFormat.EqualsSeparated)]
+    public string? BackendService { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the target TCP proxy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    [CliOption("--proxy-header", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxyHeader { get; set; }
+
 }

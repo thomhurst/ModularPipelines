@@ -119,6 +119,11 @@ public partial interface IGcloud
     GcloudBeyondcorp Beyondcorp { get; }
 
     /// <summary>
+    /// Gets the biglake sub-domain service.
+    /// </summary>
+    GcloudBiglake Biglake { get; }
+
+    /// <summary>
     /// Gets the bigtable sub-domain service.
     /// </summary>
     GcloudBigtable Bigtable { get; }
@@ -337,11 +342,6 @@ public partial interface IGcloud
     /// Gets the ids sub-domain service.
     /// </summary>
     GcloudIds Ids { get; }
-
-    /// <summary>
-    /// Gets the immersivestream sub-domain service.
-    /// </summary>
-    GcloudImmersivestream Immersivestream { get; }
 
     /// <summary>
     /// Gets the inframanager sub-domain service.
@@ -602,6 +602,11 @@ public partial interface IGcloud
     /// Gets the transfer sub-domain service.
     /// </summary>
     GcloudTransfer Transfer { get; }
+
+    /// <summary>
+    /// Gets the vectorsearch sub-domain service.
+    /// </summary>
+    GcloudVectorsearch Vectorsearch { get; }
 
     /// <summary>
     /// Gets the vmware sub-domain service.

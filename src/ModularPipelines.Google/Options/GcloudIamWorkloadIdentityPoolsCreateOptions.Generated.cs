@@ -39,19 +39,13 @@ public record GcloudIamWorkloadIdentityPoolsCreateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// YAML file with configuration for certificate issuance. Example file     format:      inlineCertificateIssuanceConfig:        caPools:         us-east1: projects/1234/locations/us-east1/caPools/capoolname         us-west1: projects/1234/locations/us-west1/caPools/capoolname        keyAlgorithm: ECDSA_P256        lifetime: 86400s        rotationWindowPercentage: 50
-    /// </summary>
-    [CliOption("--inline-certificate-issuance-config-file", Format = OptionFormat.EqualsSeparated)]
-    public string? InlineCertificateIssuanceConfigFile { get; set; }
-
-    /// <summary>
     /// YAML file with configuration for providing additional trust bundles.     Example file format:      inlineTrustConfig:        additionalTrustBundles:         example.com:          trustAnchors:          - pemCertificate: "-----BEGIN CERTIFICATE-----           &lt;certificate&gt;           -----END CERTIFICATE-----"          - pemCertificate: "-----BEGIN CERTIFICATE-----           &lt;certificate&gt;           -----END CERTIFICATE-----"         myorg.com:          trustAnchors:          - pemCertificate: "-----BEGIN CERTIFICATE-----           &lt;certificate&gt;           -----END CERTIFICATE-----"          - pemCertificate: "-----BEGIN CERTIFICATE-----           &lt;certificate&gt;           -----END CERTIFICATE-----"
     /// </summary>
     [CliOption("--inline-trust-config-file", Format = OptionFormat.EqualsSeparated)]
     public string? InlineTrustConfigFile { get; set; }
 
     /// <summary>
-    /// The mode of the pool. MODE must be one of: federation-only,     mode-unspecified, trust-domain.
+    /// The mode of the pool. MODE must be one of: federation-only,     mode-unspecified, system-trust-domain, trust-domain.    At most one of these can be specified:     --inline-certificate-issuance-config-file=INLINE_CERTIFICATE_ISSUANCE_CONFIG_FILE      YAML file with configuration for certificate issuance. Example file      format:       inlineCertificateIssuanceConfig:         caPools:          us-east1: projects/1234/locations/us-east1/caPools/capoolname          us-west1: projects/1234/locations/us-west1/caPools/capoolname         keyAlgorithm: ECDSA_P256         lifetime: 86400s         rotationWindowPercentage: 50     --[no-]use-default-shared-ca      Use the default shared certificate authorities (CAs) to issue      certificates. If enabled, Google Cloud automatically provisions      certificates from a default shared CA in the same region as the      workload. Enabling this flag clears any existing CA pools      configuration. Use --use-default-shared-ca to enable and      --no-use-default-shared-ca to disable.
     /// </summary>
     [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
     public GcloudMode? Mode { get; set; }

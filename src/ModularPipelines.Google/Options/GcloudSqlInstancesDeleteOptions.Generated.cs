@@ -34,7 +34,7 @@ public record GcloudSqlInstancesDeleteOptions(
     public bool? EnableFinalBackup { get; set; }
 
     /// <summary>
-    /// Provides description for the final backup going to be taken.    At most one of these can be specified:     --final-backup-expiry-time=FINAL_BACKUP_EXPIRY_TIME      Specifies the time at which the final backup will expire. Maximum      time allowed is 365 days. For instances managed by BackupDR, the      maximum time allowed is 99 years. Format: YYYY-MM-DDTHH:MM:SS.     --final-backup-retention-days=FINAL_BACKUP_RETENTION_DAYS      Specifies number of days to retain final backup. The valid range is      between 1 and 365. For instances managed by BackupDR, the valid range      is between 1 day and 99 years. Default value is 30 days.
+    /// Provides description for the final backup going to be taken.    At most one of these can be specified:     --final-backup-expiry-time=FINAL_BACKUP_EXPIRY_TIME      Specifies the time at which the final backup will expire. Maximum      time allowed is 365 days. For instances managed by BackupDR, the      maximum time allowed is 10 years (3653 days). Format:      YYYY-MM-DDTHH:MM:SS.     --final-backup-retention-days=FINAL_BACKUP_RETENTION_DAYS      Specifies number of days to retain final backup. The valid range is      between 1 and 365. For instances managed by BackupDR, the valid range      is between 1 day and 10 years (3653 days). Default value is 30 days.
     /// </summary>
     [CliOption("--final-backup-description", Format = OptionFormat.EqualsSeparated)]
     public string? FinalBackupDescription { get; set; }

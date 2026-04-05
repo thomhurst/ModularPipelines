@@ -25,4 +25,10 @@ public record GcloudObservabilityScopesUpdateOptions : GcloudOptions
     [CliOption("--log-scope", Format = OptionFormat.EqualsSeparated)]
     public string? LogScope { get; set; }
 
+    /// <summary>
+    /// The resource name of the TraceScope. For example:       projects/myproject/locations/global/traceScopes/my-trace-scope
+    /// </summary>
+    [CliOption("--trace-scope", Format = OptionFormat.EqualsSeparated)]
+    public string? TraceScope { get; set; }
+
 }

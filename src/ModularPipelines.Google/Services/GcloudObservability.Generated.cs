@@ -19,6 +19,7 @@ public class GcloudObservability
 {
     private readonly ICommand _command;
     private GcloudObservabilityScopes _scopes;
+    private GcloudObservabilityTraceScopes _traceScopes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudObservability"/> class.
@@ -34,6 +35,11 @@ public class GcloudObservability
     /// gcloud scopes sub-commands.
     /// </summary>
     public GcloudObservabilityScopes Scopes => _scopes ??= new GcloudObservabilityScopes(_command);
+
+    /// <summary>
+    /// gcloud trace-scopes sub-commands.
+    /// </summary>
+    public GcloudObservabilityTraceScopes TraceScopes => _traceScopes ??= new GcloudObservabilityTraceScopes(_command);
 
     #endregion
 

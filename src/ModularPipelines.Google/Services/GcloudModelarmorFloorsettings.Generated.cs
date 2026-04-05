@@ -45,7 +45,7 @@ public class GcloudModelarmorFloorsettings
     }
 
     /// <summary>
-    /// update the FloorSetting resource
+    /// update a Model Armor floor     setting
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
