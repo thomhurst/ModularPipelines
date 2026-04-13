@@ -38,7 +38,8 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
             Sourcy.DotNet.Projects.ModularPipelines_Slack,
             Sourcy.DotNet.Projects.ModularPipelines_TeamCity,
             Sourcy.DotNet.Projects.ModularPipelines_Terraform,
-            Sourcy.DotNet.Projects.ModularPipelines_WinGet
+            Sourcy.DotNet.Projects.ModularPipelines_WinGet,
+            Sourcy.DotNet.Projects.ModularPipelines_Distributed_Redis
         ]);
     }
 }

@@ -32,6 +32,11 @@ using ModularPipelines.Options.Validators;
 using ModularPipelines.Engine.State;
 using ModularPipelines.Validation;
 using ModularPipelines.Console;
+using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Artifacts;
+using ModularPipelines.Distributed.Configuration;
+using ModularPipelines.Distributed.Coordination;
+using ModularPipelines.Distributed.Serialization;
 using Vertical.SpectreLogger;
 using Vertical.SpectreLogger.Options;
 
@@ -54,6 +59,7 @@ internal static class DependencyInjectionSetup
         RegisterAttributeEventServices(services);
         RegisterUtilityServices(services);
         RegisterValidationServices(services);
+        RegisterDistributedServices(services);
     }
 
     /// <summary>
@@ -389,5 +395,29 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineValidator, OptionsValidator>()
             .AddSingleton<IPipelineValidator, DependencyValidator>()
             .AddSingleton<IPipelineValidator, ModuleConfigurationValidator>();
+    }
+
+    /// <summary>
+    /// Registers distributed execution infrastructure with in-memory defaults.
+    /// These are always available; when distributed mode is not enabled, they are harmless no-ops.
+    /// The actual executor replacement happens in <see cref="PipelineBuilder"/> when TotalInstances > 1.
+    /// </summary>
+    private static void RegisterDistributedServices(IServiceCollection services)
+    {
+        // Always-on defaults (TryAdd so user/extension can override)
+        services.Configure<DistributedOptions>(_ => { });
+        services.Configure<ArtifactOptions>(_ => { });
+        services.TryAddSingleton<IDistributedCoordinator, InMemoryDistributedCoordinator>();
+        services.TryAddSingleton<IDistributedArtifactStore, InMemoryDistributedArtifactStore>();
+
+        // Serialization (always available)
+        services.TryAddSingleton<ModuleTypeRegistry>();
+        services.TryAddSingleton(sp => new ModuleResultSerializer(sp.GetRequiredService<ModuleTypeRegistry>()));
+
+        // Artifact lifecycle manager (handles [ProducesArtifact]/[ConsumesArtifact])
+        services.TryAddSingleton<ArtifactLifecycleManager>();
+
+        // Role detection
+        services.TryAddSingleton<RoleDetector>();
     }
 }

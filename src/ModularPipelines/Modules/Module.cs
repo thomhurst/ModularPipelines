@@ -52,6 +52,10 @@ public abstract class Module<T> : IModule, ITaggedModule
     internal TaskCompletionSource<ModuleResult<T?>> CompletionSource { get; } = new();
 
     /// <inheritdoc />
+    Task<IModuleResult> IModule.ResultTask => CompletionSource.Task.ContinueWith(
+        static t => (IModuleResult)t.Result, TaskContinuationOptions.ExecuteSynchronously);
+
+    /// <inheritdoc />
     Type IModule.ResultType => typeof(T);
 
     /// <summary>
@@ -278,6 +282,12 @@ public abstract class Module<T> : IModule, ITaggedModule
         Exception exception,
         CancellationToken cancellationToken)
         => OnFailedAsync(context, exception, cancellationToken);
+
+    /// <inheritdoc />
+    bool IModule.TrySetDistributedResult(IModuleResult result)
+    {
+        return CompletionSource.TrySetResult((ModuleResult<T?>)result);
+    }
 
     /// <summary>
     /// Gets an awaiter for this module's result.
