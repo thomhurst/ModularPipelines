@@ -87,11 +87,13 @@ public static partial class GeneratorUtils
     }
 
     /// <summary>
-    /// Generates a standard auto-generated file header.
+    /// Generates a standard auto-generated file header and enables nullable reference types.
     /// </summary>
     public static void GenerateFileHeaderWithNullable(StringBuilder sb, string? sourceUrl = null)
     {
         GenerateFileHeader(sb, sourceUrl);
+        sb.AppendLine("#nullable enable");
+        sb.AppendLine();
     }
 
     /// <summary>
