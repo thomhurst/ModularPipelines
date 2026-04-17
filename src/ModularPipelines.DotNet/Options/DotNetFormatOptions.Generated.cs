@@ -19,10 +19,10 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetFormatOptions : DotNetOptions
 {
     /// <summary>
-    /// A space separated list of diagnostic ids to ignore when fixing code style or 3rd party issues.
+    /// A list of diagnostic ids to ignore when fixing code style or 3rd party issues.
     /// </summary>
     [CliOption("--exclude-diagnostics")]
-    public string? ExcludeDiagnostics { get; set; }
+    public string[]? ExcludeDiagnostics { get; set; }
 
     /// <summary>
     /// The severity of diagnostics to fix. Allowed values are info, warn, and error.
