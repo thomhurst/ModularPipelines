@@ -173,6 +173,12 @@
         "reason": "Don't display startup banner"
       }
     },
+    "format": {
+      "--exclude-diagnostics": {
+        "type": "stringlist",
+        "reason": "Repeatable option: emit --exclude-diagnostics once per diagnostic ID"
+      }
+    },
     "nuget.push": {
       "--skip-duplicate": {
         "type": "bool",

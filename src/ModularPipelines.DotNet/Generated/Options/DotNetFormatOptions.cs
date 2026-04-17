@@ -30,7 +30,7 @@ public record DotNetFormatOptions : DotNetOptions
     public string? Exclude { get; set; }
 
     [CliOption("--exclude-diagnostics")]
-    public string? ExcludeDiagnostics { get; set; }
+    public string[]? ExcludeDiagnostics { get; set; }
 
     [CliOption("--include")]
     public string? Include { get; set; }
