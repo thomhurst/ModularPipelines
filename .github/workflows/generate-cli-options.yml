@@ -317,7 +317,7 @@ jobs:
 
       - name: Install Gradle
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gradle'
-        uses: gradle/actions/setup-gradle@v5
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Install pnpm
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'pnpm'
