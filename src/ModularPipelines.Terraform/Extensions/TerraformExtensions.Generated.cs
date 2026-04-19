@@ -36,7 +36,6 @@ public static class TerraformExtensions
     {
         services.TryAddScoped<ITerraform, Services.Terraform>();
         services.TryAddScoped<TerraformProviders>();
-        services.TryAddScoped<TerraformStacks>();
         services.TryAddScoped<TerraformState>();
         services.TryAddScoped<TerraformWorkspace>();
         return services;
