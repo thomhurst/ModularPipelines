@@ -14,9 +14,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudEdition
 {
-    [Description("enterprise")]
+    [Description("ENTERPRISE")]
     Enterprise,
 
-    [Description("enterprise-plus")]
+    [Description("ENTERPRISE_PLUS")]
     EnterprisePlus
 }
