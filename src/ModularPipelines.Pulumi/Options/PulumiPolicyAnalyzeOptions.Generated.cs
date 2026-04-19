@@ -13,24 +13,48 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// List all stack tags
+/// Analyze a stack's current state against one or more local policy packs.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("stack", "tag", "ls")]
-public record PulumiStackTagLsOptions : PulumiOptions
+[CliSubCommand("policy", "analyze")]
+public record PulumiPolicyAnalyzeOptions : PulumiOptions
 {
     /// <summary>
-    /// help for ls
+    /// Display policy diagnostics as a rich diff instead of grouped progress output
+    /// </summary>
+    [CliFlag("--diff")]
+    public bool? Diff { get; set; }
+
+    /// <summary>
+    /// help for analyze
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Emit output as JSON
+    /// Serialize policy analysis events as JSON
     /// </summary>
     [CliFlag("--json", ShortForm = "-j")]
     public bool? Json { get; set; }
+
+    /// <summary>
+    /// Path to a policy pack to run during analysis
+    /// </summary>
+    [CliOption("--policy-pack", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? PolicyPack { get; set; }
+
+    /// <summary>
+    /// Path to a JSON config file for the corresponding --policy-pack
+    /// </summary>
+    [CliOption("--policy-pack-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? PolicyPackConfig { get; set; }
+
+    /// <summary>
+    /// The name of the stack to analyze. Defaults to the current stack
+    /// </summary>
+    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Stack { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -97,12 +121,6 @@ public record PulumiStackTagLsOptions : PulumiOptions
     /// </summary>
     [CliOption("--profiling", Format = OptionFormat.EqualsSeparated)]
     public string? Profiling { get; set; }
-
-    /// <summary>
-    /// The name of the stack to operate on. Defaults to the current stack
-    /// </summary>
-    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Stack { get; set; }
 
     /// <summary>
     /// Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file
