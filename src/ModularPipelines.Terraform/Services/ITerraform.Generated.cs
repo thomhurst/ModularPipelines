@@ -26,6 +26,11 @@ public partial interface ITerraform
     TerraformProviders Providers { get; }
 
     /// <summary>
+    /// Gets the stacks sub-domain service.
+    /// </summary>
+    TerraformStacks Stacks { get; }
+
+    /// <summary>
     /// Gets the state sub-domain service.
     /// </summary>
     TerraformState State { get; }
