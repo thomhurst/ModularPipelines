@@ -26,12 +26,14 @@ internal partial class Terraform : ITerraform
     /// </summary>
     public Terraform(
         TerraformProviders providers,
+        TerraformStacks stacks,
         TerraformState state,
         TerraformWorkspace workspace,
         ICommand command
     )
     {
         Providers = providers;
+        Stacks = stacks;
         State = state;
         Workspace = workspace;
         _command = command;
@@ -41,6 +43,9 @@ internal partial class Terraform : ITerraform
 
     /// <inheritdoc />
     public TerraformProviders Providers { get; }
+
+    /// <inheritdoc />
+    public TerraformStacks Stacks { get; }
 
     /// <inheritdoc />
     public TerraformState State { get; }
