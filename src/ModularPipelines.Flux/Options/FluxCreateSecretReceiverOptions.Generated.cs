@@ -14,18 +14,24 @@ using ModularPipelines.Flux.Enums;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The create receiver command generates a Receiver resource.
+/// The create secret receiver command generates a Kubernetes secret with
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("create", "receiver")]
-public record FluxCreateReceiverOptions : FluxOptions
+[CliSubCommand("create", "secret", "receiver")]
+public record FluxCreateSecretReceiverOptions : FluxOptions
 {
     /// <summary>
-    /// also accepts comma-separated values
+    /// custom OIDC token audience for gcr type, defaults to the webhook URL
     /// </summary>
-    [CliOption("--event", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Event { get; set; }
+    [CliOption("--audience-claim", Format = OptionFormat.EqualsSeparated)]
+    public string? AudienceClaim { get; set; }
+
+    /// <summary>
+    /// IAM service account email, required for gcr type
+    /// </summary>
+    [CliOption("--email-claim", Format = OptionFormat.EqualsSeparated)]
+    public string? EmailClaim { get; set; }
 
     /// <summary>
     /// help for receiver
@@ -34,20 +40,23 @@ public record FluxCreateReceiverOptions : FluxOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// also accepts comma-separated values
+    /// hostname for the webhook URL e.g. flux.example.com
     /// </summary>
-    [CliOption("--resource", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Resource { get; set; }
+    [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? Hostname { get; set; }
 
+    /// <summary>
+    /// webhook token used for payload validation and URL computation, auto-generated if not specified
+    /// </summary>
     [SecretValue]
-    [CliOption("--secret-ref", Format = OptionFormat.EqualsSeparated)]
-    public string? SecretRef { get; set; }
+    [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
+    public string? Token { get; set; }
 
     /// <summary>
     /// the receiver type
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
-    public FluxCreateReceiverType? Type { get; set; }
+    public FluxCreateSecretReceiverType? Type { get; set; }
 
     /// <summary>
     /// Username to impersonate for the operation. User could be a regular user or a service account in a namespace.
@@ -180,13 +189,6 @@ public record FluxCreateReceiverOptions : FluxOptions
     /// </summary>
     [CliOption("--tls-server-name", Format = OptionFormat.EqualsSeparated)]
     public string? TlsServerName { get; set; }
-
-    /// <summary>
-    /// Bearer token for authentication to the API server
-    /// </summary>
-    [SecretValue]
-    [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
-    public string? Token { get; set; }
 
     /// <summary>
     /// The name of the kubeconfig user to use
