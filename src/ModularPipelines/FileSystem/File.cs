@@ -391,6 +391,7 @@ public class File : IEquatable<File>
         return new File(fileInfo);
     }
 
+    [return: NotNullIfNotNull(parameterName: "file")]
     public static implicit operator string?(File? file)
     {
         return file?.Path;
