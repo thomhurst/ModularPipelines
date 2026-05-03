@@ -626,6 +626,11 @@ public partial interface IGcloud
     GcloudWorkflows Workflows { get; }
 
     /// <summary>
+    /// Gets the workloadidentity sub-domain service.
+    /// </summary>
+    GcloudWorkloadidentity Workloadidentity { get; }
+
+    /// <summary>
     /// Gets the workspaceaddons sub-domain service.
     /// </summary>
     GcloudWorkspaceaddons Workspaceaddons { get; }

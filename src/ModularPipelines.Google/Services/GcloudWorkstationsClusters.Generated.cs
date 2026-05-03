@@ -91,5 +91,20 @@ public class GcloudWorkstationsClusters
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkstationsClustersListOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// update a workstation cluster
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Update(
+        GcloudWorkstationsClustersUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkstationsClustersUpdateOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

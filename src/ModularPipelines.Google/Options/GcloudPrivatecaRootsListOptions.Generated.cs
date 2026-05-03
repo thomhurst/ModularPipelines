@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPrivatecaRootsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Location of the certificate authorities. If ommitted, root CAs across     all regions will be listed.
+    /// Location of the certificate authorities. If omitted, root CAs across     all regions will be listed.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// ID of the CA Pool where the certificate authorities reside. If     ommitted, root CAs across all CA pools will be listed.
+    /// ID of the CA Pool where the certificate authorities reside. If omitted,     root CAs across all CA pools will be listed.
     /// </summary>
     [CliOption("--pool", Format = OptionFormat.EqualsSeparated)]
     public string? Pool { get; set; }

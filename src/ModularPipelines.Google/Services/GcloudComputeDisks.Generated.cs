@@ -327,7 +327,7 @@ public class GcloudComputeDisks
     }
 
     /// <summary>
-    /// update the KMS key of a persistent     disk
+    /// update the KMS key of a Hyperdisk or     Persistent Disk
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class GcloudComputeDisks
     }
 
     /// <summary>
-    /// update a Compute Engine persistent disk
+    /// update a Compute Engine Hyperdisk or     Persistent Disk
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

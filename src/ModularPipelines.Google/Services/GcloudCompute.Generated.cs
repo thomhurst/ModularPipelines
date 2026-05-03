@@ -26,6 +26,7 @@ public class GcloudCompute
     private GcloudComputeBackendBuckets _backendBuckets;
     private GcloudComputeBackendServices _backendServices;
     private GcloudComputeCommitments _commitments;
+    private GcloudComputeCompositeHealthChecks _compositeHealthChecks;
     private GcloudComputeDiagnose _diagnose;
     private GcloudComputeDisks _disks;
     private GcloudComputeDiskTypes _diskTypes;
@@ -34,13 +35,16 @@ public class GcloudCompute
     private GcloudComputeFirewallRules _firewallRules;
     private GcloudComputeForwardingRules _forwardingRules;
     private GcloudComputeFutureReservations _futureReservations;
+    private GcloudComputeHealthAggregationPolicies _healthAggregationPolicies;
     private GcloudComputeHealthChecks _healthChecks;
+    private GcloudComputeHealthSources _healthSources;
     private GcloudComputeHttpHealthChecks _httpHealthChecks;
     private GcloudComputeHttpsHealthChecks _httpsHealthChecks;
     private GcloudComputeImages _images;
     private GcloudComputeInstanceGroups _instanceGroups;
     private GcloudComputeInstances _instances;
     private GcloudComputeInstanceTemplates _instanceTemplates;
+    private GcloudComputeInstantSnapshotGroups _instantSnapshotGroups;
     private GcloudComputeInstantSnapshots _instantSnapshots;
     private GcloudComputeInterconnects _interconnects;
     private GcloudComputeMachineImages _machineImages;
@@ -65,6 +69,8 @@ public class GcloudCompute
     private GcloudComputeRegions _regions;
     private GcloudComputeReservations _reservations;
     private GcloudComputeResourcePolicies _resourcePolicies;
+    private GcloudComputeRolloutPlans _rolloutPlans;
+    private GcloudComputeRollouts _rollouts;
     private GcloudComputeRouters _routers;
     private GcloudComputeRoutes _routes;
     private GcloudComputeSecurityPolicies _securityPolicies;
@@ -133,6 +139,11 @@ public class GcloudCompute
     public GcloudComputeCommitments Commitments => _commitments ??= new GcloudComputeCommitments(_command);
 
     /// <summary>
+    /// gcloud composite-health-checks sub-commands.
+    /// </summary>
+    public GcloudComputeCompositeHealthChecks CompositeHealthChecks => _compositeHealthChecks ??= new GcloudComputeCompositeHealthChecks(_command);
+
+    /// <summary>
     /// gcloud diagnose sub-commands.
     /// </summary>
     public GcloudComputeDiagnose Diagnose => _diagnose ??= new GcloudComputeDiagnose(_command);
@@ -173,9 +184,19 @@ public class GcloudCompute
     public GcloudComputeFutureReservations FutureReservations => _futureReservations ??= new GcloudComputeFutureReservations(_command);
 
     /// <summary>
+    /// gcloud health-aggregation-policies sub-commands.
+    /// </summary>
+    public GcloudComputeHealthAggregationPolicies HealthAggregationPolicies => _healthAggregationPolicies ??= new GcloudComputeHealthAggregationPolicies(_command);
+
+    /// <summary>
     /// gcloud health-checks sub-commands.
     /// </summary>
     public GcloudComputeHealthChecks HealthChecks => _healthChecks ??= new GcloudComputeHealthChecks(_command);
+
+    /// <summary>
+    /// gcloud health-sources sub-commands.
+    /// </summary>
+    public GcloudComputeHealthSources HealthSources => _healthSources ??= new GcloudComputeHealthSources(_command);
 
     /// <summary>
     /// gcloud http-health-checks sub-commands.
@@ -206,6 +227,11 @@ public class GcloudCompute
     /// gcloud instance-templates sub-commands.
     /// </summary>
     public GcloudComputeInstanceTemplates InstanceTemplates => _instanceTemplates ??= new GcloudComputeInstanceTemplates(_command);
+
+    /// <summary>
+    /// gcloud instant-snapshot-groups sub-commands.
+    /// </summary>
+    public GcloudComputeInstantSnapshotGroups InstantSnapshotGroups => _instantSnapshotGroups ??= new GcloudComputeInstantSnapshotGroups(_command);
 
     /// <summary>
     /// gcloud instant-snapshots sub-commands.
@@ -326,6 +352,16 @@ public class GcloudCompute
     /// gcloud resource-policies sub-commands.
     /// </summary>
     public GcloudComputeResourcePolicies ResourcePolicies => _resourcePolicies ??= new GcloudComputeResourcePolicies(_command);
+
+    /// <summary>
+    /// gcloud rollout-plans sub-commands.
+    /// </summary>
+    public GcloudComputeRolloutPlans RolloutPlans => _rolloutPlans ??= new GcloudComputeRolloutPlans(_command);
+
+    /// <summary>
+    /// gcloud rollouts sub-commands.
+    /// </summary>
+    public GcloudComputeRollouts Rollouts => _rollouts ??= new GcloudComputeRollouts(_command);
 
     /// <summary>
     /// gcloud routers sub-commands.

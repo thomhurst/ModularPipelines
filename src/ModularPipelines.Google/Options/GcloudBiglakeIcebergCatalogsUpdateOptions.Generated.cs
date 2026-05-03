@@ -26,7 +26,7 @@ public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
     public string? CredentialMode { get; set; }
 
     /// <summary>
-    /// Description of the resource being created.
+    /// Description of the resource.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// update the KMS key of a persistent     disk
+/// update the KMS key of a Hyperdisk or     Persistent Disk
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]

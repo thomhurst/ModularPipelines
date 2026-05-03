@@ -156,6 +156,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudVmware>();
         services.TryAddScoped<GcloudWorkbench>();
         services.TryAddScoped<GcloudWorkflows>();
+        services.TryAddScoped<GcloudWorkloadidentity>();
         services.TryAddScoped<GcloudWorkspaceaddons>();
         services.TryAddScoped<GcloudWorkstations>();
         return services;

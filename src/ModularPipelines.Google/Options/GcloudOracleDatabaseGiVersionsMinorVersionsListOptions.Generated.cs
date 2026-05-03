@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// list minorVersions
+/// list minor     versions
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]

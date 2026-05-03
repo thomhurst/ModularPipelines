@@ -32,7 +32,7 @@ public class GcloudOracledatabaseGiVersionsMinorVersions
     #region Commands
 
     /// <summary>
-    /// list minorVersions
+    /// list minor     versions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -40,12 +40,6 @@ public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions
     public IEnumerable<string>? Hubs { get; set; }
 
     /// <summary>
-    /// Configuration for Cloud Logging.     Shorthand Example:       --logging=     JSON Example:       --logging={}     File Example:       --logging=path_to_file.(yaml|json)
-    /// </summary>
-    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Logging { get; set; }
-
-    /// <summary>
     /// An optional request ID to identify requests. Specify a unique request     ID so that if you must retry your request, the server will know to     ignore the request if it has already been completed. The server will     guarantee that for at least 60 minutes since the first request.    The configuration for the proxy.
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]

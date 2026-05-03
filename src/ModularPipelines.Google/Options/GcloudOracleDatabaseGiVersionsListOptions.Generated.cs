@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// list all GiVersions
+/// list Grid Infrastructure versions
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]

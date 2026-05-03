@@ -24,6 +24,12 @@ public record GcloudPreviewComputeInstancesUpdateFromFileOptions(
 ) : GcloudOptions
 {
     /// <summary>
+    /// If specified, all local SSDs data attached to this instance will be     discarded. This is only used with most-disruptive-allowed-action set to     RESTART.
+    /// </summary>
+    [CliFlag("--discard-local-ssd")]
+    public bool? DiscardLocalSsd { get; set; }
+
+    /// <summary>
     /// If specified, this action or higher level action is performed on the     instance irrespective of what action is required for the update to take     effect. If not specified, then Compute Engine acts based on the minimum     action required.
     /// </summary>
     [CliOption("--minimal-action", Format = OptionFormat.EqualsSeparated)]
