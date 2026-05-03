@@ -35,6 +35,12 @@ public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
     public string? Domain { get; set; }
 
     /// <summary>
+    /// Whether HTTP/2 is enabled for the workstation cluster.
+    /// </summary>
+    [CliFlag("--enable-http2")]
+    public bool? EnableHttp2 { get; set; }
+
+    /// <summary>
     /// Default is false. If specified, the cluster will be assigned an     internal IP address to the Cluster Gateway. This isolates the cluster's     workstations from public networks, but requires additional     configuration. Learn more: https://cloud.google.com/workstations/docs.
     /// </summary>
     [CliFlag("--enable-private-endpoint")]

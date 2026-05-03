@@ -32,7 +32,7 @@ public class GcloudPreviewComputeDisksBulk
     #region Commands
 
     /// <summary>
-    /// create multiple Compute Engine     disks
+    /// create multiple Compute Engine     disks or a consistency group of instant snapshots
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

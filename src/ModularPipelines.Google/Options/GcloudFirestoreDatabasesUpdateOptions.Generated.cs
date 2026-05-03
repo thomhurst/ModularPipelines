@@ -23,10 +23,16 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFirestoreDatabasesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.    Database resource - Cloud Firestore database to update. This represents a   Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --database on the command line with a fully     specified name;    ◆ the default value of argument [--database] is (default) with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// Return immediately, without waiting for the operation in progress to     complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// The concurrency control mode to use for this database. CONCURRENCY_MODE     must be one of: optimistic, pessimistic.    Database resource - Cloud Firestore database to update. This represents a   Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --database on the command line with a fully     specified name;    ◆ the default value of argument [--database] is (default) with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--concurrency-mode", Format = OptionFormat.EqualsSeparated)]
+    public GcloudConcurrencyMode? ConcurrencyMode { get; set; }
 
     /// <summary>
     /// ID of the database or fully qualified identifier for the database.     To set the database attribute:     ◆ provide the argument --database on the command line;     ◆ the default value of argument [--database] is (default).

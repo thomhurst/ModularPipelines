@@ -146,6 +146,7 @@ internal partial class Gcloud : IGcloud
         GcloudVmware vmware,
         GcloudWorkbench workbench,
         GcloudWorkflows workflows,
+        GcloudWorkloadidentity workloadidentity,
         GcloudWorkspaceaddons workspaceaddons,
         GcloudWorkstations workstations,
         ICommand command
@@ -272,6 +273,7 @@ internal partial class Gcloud : IGcloud
         Vmware = vmware;
         Workbench = workbench;
         Workflows = workflows;
+        Workloadidentity = workloadidentity;
         Workspaceaddons = workspaceaddons;
         Workstations = workstations;
         _command = command;
@@ -641,6 +643,9 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public GcloudWorkflows Workflows { get; }
+
+    /// <inheritdoc />
+    public GcloudWorkloadidentity Workloadidentity { get; }
 
     /// <inheritdoc />
     public GcloudWorkspaceaddons Workspaceaddons { get; }

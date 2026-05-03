@@ -182,7 +182,7 @@ public class GcloudComputeSnapshots
     }
 
     /// <summary>
-    /// update the KMS key of a Compute     Engine snapshot
+    /// update the KMS key of a Compute     Engine standard or archive snapshot
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

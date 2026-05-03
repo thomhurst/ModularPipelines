@@ -16,7 +16,7 @@ using ModularPipelines.Google.Enums;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// update a Compute Engine persistent disk
+/// update a Compute Engine Hyperdisk or     Persistent Disk
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]

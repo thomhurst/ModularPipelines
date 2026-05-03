@@ -42,7 +42,7 @@ public class GcloudOracledatabaseGiVersions
     #region Commands
 
     /// <summary>
-    /// list all GiVersions
+    /// list Grid Infrastructure versions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

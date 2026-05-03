@@ -267,12 +267,6 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public string? TempBucket { get; set; }
 
     /// <summary>
-    /// Cluster tier. TIER must be one of: premium, standard.
-    /// </summary>
-    [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
-    public GcloudTier? Tier { get; set; }
-
-    /// <summary>
     /// Attaches accelerators, such as GPUs, to the worker instance(s).      type       The specific type of accelerator to attach to the instances, such       as nvidia-tesla-t4 for NVIDIA T4. Use gcloud compute       accelerator-types list to display available accelerator types.      count       The number of accelerators to attach to each instance. The default       value is 1.
     /// </summary>
     [CliOption("--worker-accelerator", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
