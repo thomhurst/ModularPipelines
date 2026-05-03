@@ -13,31 +13,13 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Update remote state from a local state file at PATH.
+/// Prints out a json representation of the schemas for all providers used
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("state", "push")]
-public record TerraformStatePushOptions : TerraformOptions
+[CliSubCommand("providers", "schema")]
+public record TerraformProvidersSchemaOptions : TerraformOptions
 {
-    /// <summary>
-    /// Write the state even if lineages don't match or the remote serial is higher.
-    /// </summary>
-    [CliFlag("-force")]
-    public bool? Force { get; set; }
-
-    /// <summary>
-    /// Don't hold a state lock during the operation. This is dangerous if others might concurrently run commands against the same workspace.
-    /// </summary>
-    [CliFlag("-lock")]
-    public bool? Lock { get; set; }
-
-    /// <summary>
-    /// Duration to retry a state lock.
-    /// </summary>
-    [CliOption("-lock-timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? LockTimeout { get; set; }
-
     /// <summary>
     /// Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.
     /// </summary>

@@ -32,4 +32,10 @@ public record TerraformProvidersMirrorOptions : TerraformOptions
     [CliFlag("-lock-file")]
     public bool? LockFile { get; set; }
 
+    /// <summary>
+    /// Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.
+    /// </summary>
+    [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
+    public string? VarFile { get; set; }
+
 }

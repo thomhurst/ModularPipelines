@@ -39,7 +39,7 @@ public record TerraformTestOptions : TerraformOptions
     public bool? Json { get; set; }
 
     /// <summary>
-    /// Saves a test report in JUnit XML format to the specified file. This is currently incompatible with remote test execution using the the -cloud-run option. The file path must be relative or absolute.
+    /// Saves a test report in JUnit XML format to the specified file. This is currently incompatible with remote test execution using the -cloud-run option. The file path must be relative or absolute.
     /// </summary>
     [CliOption("-junit-xml", Format = OptionFormat.EqualsSeparated)]
     public string? JunitXml { get; set; }
