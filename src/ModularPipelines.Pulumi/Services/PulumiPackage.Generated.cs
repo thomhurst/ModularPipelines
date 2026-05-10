@@ -122,6 +122,21 @@ public class PulumiPackage
     }
 
     /// <summary>
+    /// Create a new Pulumi package from a template.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> New(
+        PulumiPackageNewOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiPackageNewOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Publish a package to the Private Registry.
     /// </summary>
     /// <param name="options">The command options.</param>

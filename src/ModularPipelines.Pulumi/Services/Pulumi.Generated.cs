@@ -25,8 +25,10 @@ internal partial class Pulumi : IPulumi
     /// Initializes a new instance of the <see cref="Pulumi"/> class.
     /// </summary>
     public Pulumi(
+        PulumiCloud cloud,
         PulumiConfig config,
         PulumiEnv env,
+        PulumiLogs logs,
         PulumiOrg org,
         PulumiPackage package,
         PulumiPlugin plugin,
@@ -38,8 +40,10 @@ internal partial class Pulumi : IPulumi
         ICommand command
     )
     {
+        Cloud = cloud;
         Config = config;
         Env = env;
+        Logs = logs;
         Org = org;
         Package = package;
         Plugin = plugin;
@@ -54,10 +58,16 @@ internal partial class Pulumi : IPulumi
     #region Sub-domain Services
 
     /// <inheritdoc />
+    public PulumiCloud Cloud { get; }
+
+    /// <inheritdoc />
     public PulumiConfig Config { get; }
 
     /// <inheritdoc />
     public PulumiEnv Env { get; }
+
+    /// <inheritdoc />
+    public PulumiLogs Logs { get; }
 
     /// <inheritdoc />
     public PulumiOrg Org { get; }
@@ -157,15 +167,6 @@ internal partial class Pulumi : IPulumi
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiLogoutOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> Logs(
-        PulumiLogsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiLogsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
