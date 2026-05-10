@@ -21,6 +21,11 @@ public partial interface IPulumi
     #region Sub-domain Services
 
     /// <summary>
+    /// Gets the cloud sub-domain service.
+    /// </summary>
+    PulumiCloud Cloud { get; }
+
+    /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
     PulumiConfig Config { get; }
@@ -29,6 +34,11 @@ public partial interface IPulumi
     /// Gets the env sub-domain service.
     /// </summary>
     PulumiEnv Env { get; }
+
+    /// <summary>
+    /// Gets the logs sub-domain service.
+    /// </summary>
+    PulumiLogs Logs { get; }
 
     /// <summary>
     /// Gets the org sub-domain service.
@@ -145,15 +155,6 @@ public partial interface IPulumi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     Task<CommandResult> Logout(PulumiLogoutOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// [EXPERIMENTAL] Show aggregated resource logs for a stack
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> Logs(PulumiLogsOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new Pulumi project and stack from a template.
