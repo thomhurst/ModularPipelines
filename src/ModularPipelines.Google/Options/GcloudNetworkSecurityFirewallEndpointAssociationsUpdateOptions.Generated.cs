@@ -27,6 +27,12 @@ public record GcloudNetworkSecurityFirewallEndpointAssociationsUpdateOptions : G
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
+    /// <summary>
+    /// Location of the firewall endpoint association
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
     public string? MaxWait { get; set; }
 

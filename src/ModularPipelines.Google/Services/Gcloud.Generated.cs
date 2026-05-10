@@ -132,6 +132,7 @@ internal partial class Gcloud : IGcloud
         GcloudSecrets secrets,
         GcloudServicedirectory servicedirectory,
         GcloudServiceextensions serviceextensions,
+        GcloudServicehealth servicehealth,
         GcloudServices services,
         GcloudSource source,
         GcloudSourcemanager sourcemanager,
@@ -259,6 +260,7 @@ internal partial class Gcloud : IGcloud
         Secrets = secrets;
         Servicedirectory = servicedirectory;
         Serviceextensions = serviceextensions;
+        Servicehealth = servicehealth;
         Services = services;
         Source = source;
         Sourcemanager = sourcemanager;
@@ -601,6 +603,9 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public GcloudServiceextensions Serviceextensions { get; }
+
+    /// <inheritdoc />
+    public GcloudServicehealth Servicehealth { get; }
 
     /// <inheritdoc />
     public GcloudServices Services { get; }

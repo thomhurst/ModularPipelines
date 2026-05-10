@@ -52,6 +52,12 @@ public record GcloudNetworkSecurityFirewallEndpointsCreateOptions : GcloudOption
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? Labels { get; set; }
 
+    /// <summary>
+    /// Location of the endpoint
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
     public string? MaxWait { get; set; }
 

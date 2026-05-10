@@ -60,10 +60,16 @@ public record GcloudDatabaseMigrationMigrationJobsUpdateOptions : GcloudOptions
     public GcloudDumpType? DumpType { get; set; }
 
     /// <summary>
-    /// Filter the entities based on AIP-160 (https://google.aip.dev/160)     standard. Example: to filter all tables whose name start with     "Employee" and are present under schema "Company", use filter as     "Company.Employee* AND type=TABLE"    Connection profile resource - ID of the source connection profile,   representing the source database. This represents a Cloud resource. (NOTE)   Some attributes are not given arguments in this group but can be set in   other ways.    To set the project attribute:    ◆ provide the argument --source on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the region attribute:    ◆ provide the argument --source on the command line with a fully     specified name;    ◆ provide the argument --region on the command line.
+    /// Filter the entities based on AIP-160 (https://google.aip.dev/160)     standard. Example: to filter all tables whose name start with     "Employee" and are present under schema "Company", use filter as     "Company.Employee* AND type=TABLE"
     /// </summary>
     [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
     public string? Filter { get; set; }
+
+    /// <summary>
+    /// Maximum number of additional subscriptions to use for the PostgreSQL     migration job.    Connection profile resource - ID of the source connection profile,   representing the source database. This represents a Cloud resource. (NOTE)   Some attributes are not given arguments in this group but can be set in   other ways.    To set the project attribute:    ◆ provide the argument --source on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the region attribute:    ◆ provide the argument --source on the command line with a fully     specified name;    ◆ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--postgres-max-additional-subscriptions", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresMaxAdditionalSubscriptions { get; set; }
 
     /// <summary>
     /// ID of the connection_profile or fully qualified identifier for the     connection_profile.     To set the connection_profile attribute:     ◆ provide the argument --source on the command line.

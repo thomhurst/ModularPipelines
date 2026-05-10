@@ -39,6 +39,12 @@ public record GcloudWorkstationsSshOptions : GcloudOptions
     [CliOption("--ssh-flag", Format = OptionFormat.EqualsSeparated)]
     public string? SshFlag { get; set; }
 
+    /// <summary>
+    /// If set, automatically starts the workstation if it is currently     stopped.
+    /// </summary>
+    [CliFlag("--start-workstation")]
+    public bool? StartWorkstation { get; set; }
+
     [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
 

@@ -21,7 +21,4 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "firewall-endpoint-associations", "list")]
 public record GcloudNetworkSecurityFirewallEndpointAssociationsListOptions : GcloudOptions
 {
-    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
-    public string? Zone { get; set; }
-
 }

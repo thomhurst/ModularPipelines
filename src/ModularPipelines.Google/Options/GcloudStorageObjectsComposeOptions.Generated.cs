@@ -29,4 +29,10 @@ public record GcloudStorageObjectsComposeOptions(
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
+    /// <summary>
+    /// If set, the source objects will be deleted after a successful     composition. Note that this deletion bypasses the soft delete policy if     configured on the bucket.
+    /// </summary>
+    [CliFlag("--delete-source-objects")]
+    public bool? DeleteSourceObjects { get; set; }
+
 }

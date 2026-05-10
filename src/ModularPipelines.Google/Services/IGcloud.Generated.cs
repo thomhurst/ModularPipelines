@@ -556,6 +556,11 @@ public partial interface IGcloud
     GcloudServiceextensions Serviceextensions { get; }
 
     /// <summary>
+    /// Gets the servicehealth sub-domain service.
+    /// </summary>
+    GcloudServicehealth Servicehealth { get; }
+
+    /// <summary>
     /// Gets the services sub-domain service.
     /// </summary>
     GcloudServices Services { get; }
