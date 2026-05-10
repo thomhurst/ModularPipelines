@@ -21,6 +21,7 @@ public class AzSig
 {
     private readonly ICommand _command;
     private AzSigGalleryApplication _galleryApplication;
+    private AzSigIdentity _identity;
     private AzSigImageDefinition _imageDefinition;
     private AzSigImageVersion _imageVersion;
     private AzSigInVmAccessControlProfile _inVmAccessControlProfile;
@@ -41,6 +42,11 @@ public class AzSig
     /// az gallery-application sub-commands.
     /// </summary>
     public AzSigGalleryApplication GalleryApplication => _galleryApplication ??= new AzSigGalleryApplication(_command);
+
+    /// <summary>
+    /// az identity sub-commands.
+    /// </summary>
+    public AzSigIdentity Identity => _identity ??= new AzSigIdentity(_command);
 
     /// <summary>
     /// az image-definition sub-commands.
@@ -162,7 +168,7 @@ public class AzSig
     }
 
     /// <summary>
-    /// Update a share image gallery.
+    /// Update a Shared Image Gallery.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

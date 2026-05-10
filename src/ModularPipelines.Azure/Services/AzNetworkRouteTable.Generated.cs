@@ -72,21 +72,6 @@ public class AzNetworkRouteTable
     }
 
     /// <summary>
-    /// List route tables.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        AzNetworkRouteTableListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteTableListOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
     /// Get the details of a route table.
     /// </summary>
     /// <param name="options">The command options.</param>

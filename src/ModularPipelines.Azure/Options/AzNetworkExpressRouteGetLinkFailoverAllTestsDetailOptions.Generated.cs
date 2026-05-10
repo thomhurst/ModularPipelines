@@ -13,12 +13,12 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Update EdgeActionExecutionFilter resource.
+/// This operation retrieves the
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cdn", "edge-action", "execution-filter", "update")]
-public record AzCdnEdgeActionExecutionFilterUpdateOptions : AzOptions
+[CliSubCommand("network", "express-route", "get-link-failover-all-tests-detail")]
+public record AzNetworkExpressRouteGetLinkFailoverAllTestsDetailOptions : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

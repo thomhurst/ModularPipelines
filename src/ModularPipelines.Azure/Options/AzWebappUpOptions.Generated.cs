@@ -51,6 +51,12 @@ public record AzWebappUpOptions : AzOptions
     public bool? EnableKuduWarmup { get; set; }
 
     /// <summary>
+    /// If true, deployment failures will show context-enriched diagnostics with error codes, suggested fixes, and Copilot prompts.  Allowed values: false, true.
+    /// </summary>
+    [CliFlag("--enriched-errors")]
+    public bool? EnrichedErrors { get; set; }
+
+    /// <summary>
     /// Ignore app detection and deploy as an html app.
     /// </summary>
     [CliFlag("--html")]
@@ -75,19 +81,19 @@ public record AzWebappUpOptions : AzOptions
     public bool? Logs { get; set; }
 
     /// <summary>
-    /// Set the OS type for the app to be created.  Allowed values:
+    /// Set the OS type for the app to be created. Defaults to Linux for Python and Node.js runtimes, and to Windows for .NET and ASP.NET runtimes. Use 'linux' explicitly for .NET Linux deployments. Use 'az webapp list-runtimes' to see available runtimes.  Allowed values: Linux, Windows.
     /// </summary>
     [CliFlag("--os-type")]
     public bool? OsType { get; set; }
 
     /// <summary>
-    /// Name of the app service plan associated with the webapp.
+    /// Name of the app service plan associated with the webapp. If not specified, a name is auto-generated.
     /// </summary>
     [CliFlag("--plan", ShortForm = "-p")]
     public bool? Plan { get; set; }
 
     /// <summary>
-    /// Canonicalized web runtime in the format of Framework:Version, e.g. "PHP:7.2".Use `az webapp list-runtimes` for available list.
+    /// Canonicalized web runtime in the format of Framework:Version, e.g. "PYTHON:3.14". Recommended: always specify explicitly for reliable results. Auto-detection from source files may pick the wrong version. Use `az webapp list-runtimes` for available list.
     /// </summary>
     [CliFlag("--runtime", ShortForm = "-r")]
     public bool? Runtime { get; set; }

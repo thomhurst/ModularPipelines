@@ -39,13 +39,13 @@ public record AzWebappCreateOptions : AzOptions
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
-    /// Enable or disable basic auth for both SCM and FTP Basic Auth Publishing Credentials. Defaults to Enabled if not specified. See https://aka.ms/app-service-basic-auth to learn more.  Allowed values: Disabled,
+    /// Enable or disable basic auth for both SCM and FTP Basic Auth Publishing Credentials. Disabled by default for new apps. See https://aka.ms/app-service-basic-auth to learn more.  Allowed values: Disabled,
     /// </summary>
     [CliFlag("--basic-auth")]
     public bool? BasicAuth { get; set; }
 
     /// <summary>
-    /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`).
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if
     /// </summary>
     [CliFlag("--container-image-name", ShortForm = "-c")]
     public bool? ContainerImageName { get; set; }
@@ -141,7 +141,7 @@ public record AzWebappCreateOptions : AzOptions
     public bool? Role { get; set; }
 
     /// <summary>
-    /// Canonicalized web runtime in the format of Framework:Version, e.g. "PHP:7.2".Use `az webapp list-runtimes` for available list.
+    /// Canonicalized web runtime in the format of
     /// </summary>
     [CliFlag("--runtime", ShortForm = "-r")]
     public bool? Runtime { get; set; }
@@ -159,7 +159,7 @@ public record AzWebappCreateOptions : AzOptions
     public bool? SitecontainersApp { get; set; }
 
     /// <summary>
-    /// Linux only. The web's startup file.
+    /// Linux only. The web's startup command or script file. Required for FastAPI and other ASGI frameworks (auto-detection is not supported). Example command: "gunicorn
     /// </summary>
     [CliFlag("--startup-file")]
     public bool? StartupFile { get; set; }

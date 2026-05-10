@@ -69,6 +69,12 @@ public record AzAfdRuleCreateOptions : AzOptions
     public bool? Destination { get; set; }
 
     /// <summary>
+    /// Resource ID of the edge action to invoke.
+    /// </summary>
+    [CliFlag("--edge-action-id")]
+    public bool? EdgeActionId { get; set; }
+
+    /// <summary>
     /// Indicates whether to enable caching on the route.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--enable-caching")]
@@ -103,6 +109,12 @@ public record AzAfdRuleCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--header-value")]
     public bool? HeaderValue { get; set; }
+
+    /// <summary>
+    /// Defines at which point in the request processing pipeline the edge action will be invoked.  Allowed values: ClientRequest,
+    /// </summary>
+    [CliFlag("--invocation-point")]
+    public bool? InvocationPoint { get; set; }
 
     /// <summary>
     /// Match values of the match condition. e.g, space separated values 'GET' 'HTTP'.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

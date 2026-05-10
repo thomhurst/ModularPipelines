@@ -13,23 +13,17 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Delete EdgeActionExecutionFilter resource.
+/// This operation stops an ongoing failover
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cdn", "edge-action", "execution-filter", "delete")]
-public record AzCdnEdgeActionExecutionFilterDeleteOptions : AzOptions
+[CliSubCommand("network", "express-route", "stop-link-failover-test")]
+public record AzNetworkExpressRouteStopLinkFailoverTestOptions : AzOptions
 {
     /// <summary>
-    /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
-
-    /// <summary>
-    /// Do not prompt for confirmation.
-    /// </summary>
-    [CliFlag("--yes", ShortForm = "-y")]
-    public bool? Yes { get; set; }
 
 }

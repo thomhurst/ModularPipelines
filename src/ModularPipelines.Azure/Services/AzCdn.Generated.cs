@@ -21,7 +21,6 @@ public class AzCdn
 {
     private readonly ICommand _command;
     private AzCdnCustomDomain _customDomain;
-    private AzCdnEdgeAction _edgeAction;
     private AzCdnEndpoint _endpoint;
     private AzCdnOrigin _origin;
     private AzCdnOriginGroup _originGroup;
@@ -41,11 +40,6 @@ public class AzCdn
     /// az custom-domain sub-commands.
     /// </summary>
     public AzCdnCustomDomain CustomDomain => _customDomain ??= new AzCdnCustomDomain(_command);
-
-    /// <summary>
-    /// az edge-action sub-commands.
-    /// </summary>
-    public AzCdnEdgeAction EdgeAction => _edgeAction ??= new AzCdnEdgeAction(_command);
 
     /// <summary>
     /// az endpoint sub-commands.

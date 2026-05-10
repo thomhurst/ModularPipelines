@@ -183,7 +183,7 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     public bool? Tier { get; set; }
 
     /// <summary>
-    /// Server major version.  Default: 8.0.21.
+    /// Server major version.
     /// </summary>
     [CliFlag("--version")]
     public bool? Version { get; set; }

@@ -13,17 +13,17 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// List EdgeAction resources by subscription ID.
+/// Disable Gateway API based ingress on App Routing via
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cdn", "edge-action", "list")]
-public record AzCdnEdgeActionListOptions : AzOptions
+[CliSubCommand("aks", "approuting", "gateway", "istio", "disable")]
+public record AzAksApproutingGatewayIstioDisableOptions : AzOptions
 {
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// Do not prompt for confirmation.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
 }

@@ -13,17 +13,17 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Show all usages for Azure Cognitive Services.
+/// This operation retrieves the
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cognitiveservices", "usage", "list")]
-public record AzCognitiveservicesUsageListOptions : AzOptions
+[CliSubCommand("network", "express-route", "get-link-failover-single-test-detail")]
+public record AzNetworkExpressRouteGetLinkFailoverSingleTestDetailOptions : AzOptions
 {
     /// <summary>
-    /// An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names). Default value is None.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliFlag("--no-wait")]
+    public bool? NoWait { get; set; }
 
 }

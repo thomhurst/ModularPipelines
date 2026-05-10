@@ -20,7 +20,6 @@ namespace ModularPipelines.Azure.Services;
 public class AzCognitiveservicesAccount
 {
     private readonly ICommand _command;
-    private AzCognitiveservicesAccountConnection _connection;
     private AzCognitiveservicesAccountDeployment _deployment;
     private AzCognitiveservicesAccountNetworkRule _networkRule;
     private AzCognitiveservicesAccountProject _project;
@@ -34,11 +33,6 @@ public class AzCognitiveservicesAccount
     }
 
     #region Sub-command Groups
-
-    /// <summary>
-    /// az connection sub-commands.
-    /// </summary>
-    public AzCognitiveservicesAccountConnection Connection => _connection ??= new AzCognitiveservicesAccountConnection(_command);
 
     /// <summary>
     /// az deployment sub-commands.

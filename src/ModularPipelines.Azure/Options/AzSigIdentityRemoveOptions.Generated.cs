@@ -13,12 +13,12 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// A long-running operation for deleting an EdgeAction
+/// Remove the user or system managed identities.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cdn", "edge-action", "delete-attachment")]
-public record AzCdnEdgeActionDeleteAttachmentOptions : AzOptions
+[CliSubCommand("sig", "identity", "remove")]
+public record AzSigIdentityRemoveOptions : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

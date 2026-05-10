@@ -27,7 +27,7 @@ public record AzWebappDeploymentSlotCreateOptions : AzOptions
     public bool? ConfigurationSource { get; set; }
 
     /// <summary>
-    /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`).
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if
     /// </summary>
     [CliFlag("--container-image-name", ShortForm = "-c")]
     public bool? ContainerImageName { get; set; }

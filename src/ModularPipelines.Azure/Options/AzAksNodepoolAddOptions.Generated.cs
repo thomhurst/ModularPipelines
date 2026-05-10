@@ -267,7 +267,7 @@ public record AzAksNodepoolAddOptions : AzOptions
     public bool? NodeVmSize { get; set; }
 
     /// <summary>
-    /// The OS SKU of the agent node pool. Ubuntu, Ubuntu2204, Ubuntu2404, AzureLinux or AzureLinux3 for Linux. Windows2019 or Windows2022 for Windows.  Allowed values: AzureLinux, AzureLinux3, CBLMariner, Mariner, Ubuntu, Ubuntu2204, Ubuntu2404, Windows2019, Windows2022.
+    /// The OS SKU of the agent node pool. Ubuntu, Ubuntu2204, Ubuntu2404, AzureLinux, AzureLinux3, or AzureContainerLinux for Linux. Windows2019, Windows2022, or Windows2025 for Windows.  Allowed values: AzureContainerLinux, AzureLinux, AzureLinux3, CBLMariner, Mariner, Ubuntu, Ubuntu2204, Ubuntu2404, Windows2019,
     /// </summary>
     [CliFlag("--os-sku")]
     public bool? OsSku { get; set; }

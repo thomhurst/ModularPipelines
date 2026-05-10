@@ -13,23 +13,17 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Add a network rule.
+/// This operation retrieves the
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("acr", "network-rule", "add")]
-public record AzAcrNetworkRuleAddOptions : AzOptions
+[CliSubCommand("network", "express-route", "gateway", "get-failover-single-test-detail")]
+public record AzNetworkExpressRouteGatewayGetFailoverSingleTestDetailOptions : AzOptions
 {
     /// <summary>
-    /// IPv4/IPv6 address or CIDR range.
+    /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--ip-address")]
-    public bool? IpAddress { get; set; }
-
-    /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
-    /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliFlag("--no-wait")]
+    public bool? NoWait { get; set; }
 
 }

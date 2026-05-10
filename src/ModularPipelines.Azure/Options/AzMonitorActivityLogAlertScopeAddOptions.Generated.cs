@@ -13,23 +13,17 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Delete EdgeAction resource.
+/// Add scopes to this activity log alert rule.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cdn", "edge-action", "delete")]
-public record AzCdnEdgeActionDeleteOptions : AzOptions
+[CliSubCommand("monitor", "activity-log", "alert", "scope", "add")]
+public record AzMonitorActivityLogAlertScopeAddOptions : AzOptions
 {
     /// <summary>
-    /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Remove all the existing action groups before add new conditions.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    /// <summary>
-    /// Do not prompt for confirmation.
-    /// </summary>
-    [CliFlag("--yes", ShortForm = "-y")]
-    public bool? Yes { get; set; }
+    [CliFlag("--reset")]
+    public bool? Reset { get; set; }
 
 }

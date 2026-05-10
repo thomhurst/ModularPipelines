@@ -27,19 +27,19 @@ public record AzNetworkRouteTableCreateOptions : AzOptions
     public bool? DisableBgpRoutePropagation { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
     /// </summary>
     [CliFlag("--location", ShortForm = "-l")]
     public bool? Location { get; set; }
 
     /// <summary>
-    /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }

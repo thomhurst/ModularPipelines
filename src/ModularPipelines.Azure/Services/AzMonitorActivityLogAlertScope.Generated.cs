@@ -14,17 +14,17 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az connection commands.
+/// az scope commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class AzCognitiveservicesAccountConnection
+public class AzMonitorActivityLogAlertScope
 {
     private readonly ICommand _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzCognitiveservicesAccountConnection"/> class.
+    /// Initializes a new instance of the <see cref="AzMonitorActivityLogAlertScope"/> class.
     /// </summary>
-    public AzCognitiveservicesAccountConnection(ICommand command)
+    public AzMonitorActivityLogAlertScope(ICommand command)
     {
         _command = command;
     }
@@ -32,18 +32,18 @@ public class AzCognitiveservicesAccountConnection
     #region Commands
 
     /// <summary>
-    /// List all connections.
+    /// Add scopes to this activity log alert rule.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        AzCognitiveservicesAccountConnectionListOptions options = default,
+    public virtual async Task<CommandResult> Add(
+        AzMonitorActivityLogAlertScopeAddOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountConnectionListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertScopeAddOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

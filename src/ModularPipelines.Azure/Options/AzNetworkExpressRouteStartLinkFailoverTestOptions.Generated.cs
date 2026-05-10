@@ -13,29 +13,17 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Update a route table.
+/// This operation starts failover simulation on
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("network", "route-table", "update")]
-public record AzNetworkRouteTableUpdateOptions : AzOptions
+[CliSubCommand("network", "express-route", "start-link-failover-test")]
+public record AzNetworkExpressRouteStartLinkFailoverTestOptions : AzOptions
 {
-    /// <summary>
-    /// Disable routes learned by BGP.  Allowed values: false, true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
-    /// </summary>
-    [CliFlag("--disable-bgp-route-propagation")]
-    public bool? DisableBgpRoutePropagation { get; set; }
-
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
-
-    /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
-    /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
 
 }

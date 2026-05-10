@@ -39,6 +39,12 @@ public record AzWebappDeployOptions : AzOptions
     public bool? EnableKuduWarmup { get; set; }
 
     /// <summary>
+    /// If true, deployment failures will show context-enriched diagnostics with error codes, suggested fixes, and Copilot prompts.  Allowed values: false, true.
+    /// </summary>
+    [CliFlag("--enriched-errors")]
+    public bool? EnrichedErrors { get; set; }
+
+    /// <summary>
     /// If true, any stack-specific defaults are ignored.  Allowed values: false, true.
     /// </summary>
     [CliFlag("--ignore-stack")]

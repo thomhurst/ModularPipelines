@@ -110,4 +110,10 @@ public record AzStorageFileGenerateSasOptions : AzOptions
     [CliFlag("--user-delegation-oid")]
     public bool? UserDelegationOid { get; set; }
 
+    /// <summary>
+    /// The delegated user tenant id in Azure AD. This parameter can only be specified when using OAuth.
+    /// </summary>
+    [CliFlag("--user-delegation-tid")]
+    public bool? UserDelegationTid { get; set; }
+
 }
