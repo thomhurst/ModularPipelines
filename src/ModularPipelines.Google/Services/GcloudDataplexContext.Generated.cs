@@ -32,7 +32,7 @@ public class GcloudDataplexContext
     #region Commands
 
     /// <summary>
-    /// looks up LLM context for data assets
+    /// looks up metadata that can be used as     context by agents
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

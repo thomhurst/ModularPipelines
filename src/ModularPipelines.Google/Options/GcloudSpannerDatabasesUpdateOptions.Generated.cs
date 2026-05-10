@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSpannerDatabasesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.    At most one of these can be specified:     --[no-]enable-drop-protection      Enable database deletion protection on this database. Use      --enable-drop-protection to enable and --no-enable-drop-protection to      disable.     --kms-keys=KMS_KEY,[KMS_KEY,...]      Update KMS key references for this database. Users should always      provide the full set of required KMS key references.
+    /// Return immediately, without waiting for the operation in progress to     complete.    At most one of these can be specified:     --clear-kms-keys      Removes all KMS key references and reverts the database to      Google-managed encryption.     --[no-]enable-drop-protection      Enable database deletion protection on this database. Use      --enable-drop-protection to enable and --no-enable-drop-protection to      disable.     --kms-keys=KMS_KEY,[KMS_KEY,...]      Update KMS key references for this database. Users should always      provide the full set of required KMS key references.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }

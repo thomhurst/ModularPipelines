@@ -32,6 +32,21 @@ public class GcloudComputeNetworksPeerings
     #region Commands
 
     /// <summary>
+    /// cancel deletion     request of a Compute Engine network peering
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CancelRequestDelete(
+        GcloudComputeNetworksPeeringsCancelRequestDeleteOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a Compute Engine network     peering
     /// </summary>
     /// <param name="options">The command options.</param>

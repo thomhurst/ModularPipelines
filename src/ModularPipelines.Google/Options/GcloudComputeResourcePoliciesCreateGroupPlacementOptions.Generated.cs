@@ -24,6 +24,12 @@ public record GcloudComputeResourcePoliciesCreateGroupPlacementOptions(
 ) : GcloudOptions
 {
     /// <summary>
+    /// Defines the accelerator connection strategy for accelerator machine     types like TPUs. ACCELERATOR_TOPOLOGY_MODE must be one of:      AUTO_CONNECT       This creates a static, pre-formed accelerator topology.     PROVISION_ONLY       The interconnected chips are connected on demand. At the time of VM       creation, the chips are not connected.
+    /// </summary>
+    [CliOption("--accelerator-topology-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? AcceleratorTopologyMode { get; set; }
+
+    /// <summary>
     /// Number of availability domain in the group placement policy.
     /// </summary>
     [CliOption("--availability-domain-count", Format = OptionFormat.EqualsSeparated)]

@@ -104,6 +104,12 @@ public record GcloudContainerClustersCreateAutoOptions(
     public string? ClusterVersion { get; set; }
 
     /// <summary>
+    /// Enable confidential nodes for the cluster. Enabling Confidential Nodes     will create nodes using Confidential VM     https://docs.cloud.google.com/compute/docs/about-confidential-vm.     CONFIDENTIAL_NODE_TYPE must be one of: sev, sev_snp, tdx.
+    /// </summary>
+    [CliOption("--confidential-node-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudConfidentialNodeType? ConfidentialNodeType { get; set; }
+
+    /// <summary>
     /// Path of the YAML file that contains containerd configuration entries     like configuring access to private image registries.     For detailed information on the configuration usage, please refer to     https://cloud.google.com/kubernetes-engine/docs/how-to/customize-containerd-configuration.     Note: Updating the containerd configuration of an existing cluster or     node pool requires recreation of the existing nodes, which might cause     disruptions in running workloads.     Use a full or relative path to a local file containing the value of     containerd_config.
     /// </summary>
     [CliOption("--containerd-config-from-file", Format = OptionFormat.EqualsSeparated)]

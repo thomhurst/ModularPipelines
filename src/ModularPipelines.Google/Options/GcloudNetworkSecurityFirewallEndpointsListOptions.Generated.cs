@@ -22,15 +22,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityFirewallEndpointsListOptions : GcloudOptions
 {
     /// <summary>
-    /// The organization for a list operation
+    /// The organization for a list operation    At most one of these can be specified:     --location=LOCATION      The location for a list operation     --zone=ZONE      The zone for a list operation
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
-
-    /// <summary>
-    /// The zone for a list operation
-    /// </summary>
-    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
-    public string? Zone { get; set; }
 
 }

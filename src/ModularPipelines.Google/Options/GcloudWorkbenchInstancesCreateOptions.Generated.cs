@@ -129,7 +129,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     public int? BootDiskSize { get; set; }
 
     /// <summary>
-    /// Type of boot disk attached to this instance, defaults to standard     persistent disk (PD_STANDARD). BOOT_DISK_TYPE must be one of:     PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.    Key resource - The Cloud KMS (Key Management Service) cryptokey that will   be used to protect the boot_disk. The 'Compute Engine Service Agent'   service account must hold permission 'Cloud KMS CryptoKey   Encrypter/Decrypter'. The arguments in this group can be used to specify   the attributes of this resource.
+    /// Type of boot disk attached to this instance. Defaults to standard     persistent disk (PD_STANDARD) on machine types that support Persistent     Disk, and to HYPERDISK_BALANCED on Hyperdisk-only machine series (e.g.     N4, C4, C4A, M4). BOOT_DISK_TYPE must be one of: PD_STANDARD, PD_SSD,     PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED,     HYPERDISK_BALANCED_HIGH_AVAILABILITY, HYPERDISK_ML.    Key resource - The Cloud KMS (Key Management Service) cryptokey that will   be used to protect the boot_disk. The 'Compute Engine Service Agent'   service account must hold permission 'Cloud KMS CryptoKey   Encrypter/Decrypter'. The arguments in this group can be used to specify   the attributes of this resource.
     /// </summary>
     [CliOption("--boot-disk-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudBootDiskType? BootDiskType { get; set; }
@@ -189,7 +189,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     public int? DataDiskSize { get; set; }
 
     /// <summary>
-    /// Type of data disk attached to this instance, defaults to standard     persistent disk (PD_STANDARD). DATA_DISK_TYPE must be one of:     PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.    Key resource - The Cloud KMS (Key Management Service) cryptokey that will   be used to protect the data_disk. The 'Compute Engine Service Agent'   service account must hold permission 'Cloud KMS CryptoKey   Encrypter/Decrypter'. The arguments in this group can be used to specify   the attributes of this resource.
+    /// Type of data disk attached to this instance. Defaults to standard     persistent disk (PD_STANDARD) on machine types that support Persistent     Disk, and to HYPERDISK_BALANCED on Hyperdisk-only machine series (e.g.     N4, C4, C4A, M4). DATA_DISK_TYPE must be one of: PD_STANDARD, PD_SSD,     PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED,     HYPERDISK_BALANCED_HIGH_AVAILABILITY, HYPERDISK_ML, HYPERDISK_EXTREME,     HYPERDISK_THROUGHPUT.    Key resource - The Cloud KMS (Key Management Service) cryptokey that will   be used to protect the data_disk. The 'Compute Engine Service Agent'   service account must hold permission 'Cloud KMS CryptoKey   Encrypter/Decrypter'. The arguments in this group can be used to specify   the attributes of this resource.
     /// </summary>
     [CliOption("--data-disk-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudDataDiskType? DataDiskType { get; set; }

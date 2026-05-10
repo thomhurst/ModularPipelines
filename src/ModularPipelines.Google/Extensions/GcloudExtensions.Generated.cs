@@ -142,6 +142,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudSecrets>();
         services.TryAddScoped<GcloudServicedirectory>();
         services.TryAddScoped<GcloudServiceextensions>();
+        services.TryAddScoped<GcloudServicehealth>();
         services.TryAddScoped<GcloudServices>();
         services.TryAddScoped<GcloudSource>();
         services.TryAddScoped<GcloudSourcemanager>();

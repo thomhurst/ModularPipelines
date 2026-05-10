@@ -175,7 +175,7 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     public GcloudIpAddressSelectionPolicy? IpAddressSelectionPolicy { get; set; }
 
     /// <summary>
-    /// Only for the Global external Application Load Balancer migration.     The value of this field must be EXTERNAL or EXTERNAL_MANAGED.     LOAD_BALANCING_SCHEME must be one of: EXTERNAL, EXTERNAL_MANAGED.
+    /// Specifies the load balancer type. Choose EXTERNAL for the classic     Application Load Balancers. Choose EXTERNAL_MANAGED for the Envoy-based     global external Application Load Balancers For more information, refer     to this guide:     https://cloud.google.com/load-balancing/docs/choosing-load-balancer.     This field should only be used for migration from the Classic     Application Load Balancer to the global external Application Load     Balancer. The --load-balancing-scheme is immutable for all other use     cases.     The value of this field must be EXTERNAL or EXTERNAL_MANAGED.     LOAD_BALANCING_SCHEME must be one of: EXTERNAL, EXTERNAL_MANAGED.
     /// </summary>
     [CliOption("--load-balancing-scheme", Format = OptionFormat.EqualsSeparated)]
     public GcloudLoadBalancingScheme? LoadBalancingScheme { get; set; }

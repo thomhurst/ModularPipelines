@@ -26,4 +26,10 @@ public record GcloudWorkstationsStartTcpTunnelOptions(
     [CliOption("--local-host-port", Format = OptionFormat.EqualsSeparated)]
     public string? LocalHostPort { get; set; }
 
+    /// <summary>
+    /// If set, automatically starts the workstation if it is currently     stopped.
+    /// </summary>
+    [CliFlag("--start-workstation")]
+    public bool? StartWorkstation { get; set; }
+
 }

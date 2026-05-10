@@ -30,6 +30,7 @@ public class GcloudArtifacts
     private GcloudArtifactsOperations _operations;
     private GcloudArtifactsPackages _packages;
     private GcloudArtifactsPrintSettings _printSettings;
+    private GcloudArtifactsProjects _projects;
     private GcloudArtifactsRepositories _repositories;
     private GcloudArtifactsRules _rules;
     private GcloudArtifactsSbom _sbom;
@@ -99,6 +100,11 @@ public class GcloudArtifacts
     /// gcloud print-settings sub-commands.
     /// </summary>
     public GcloudArtifactsPrintSettings PrintSettings => _printSettings ??= new GcloudArtifactsPrintSettings(_command);
+
+    /// <summary>
+    /// gcloud projects sub-commands.
+    /// </summary>
+    public GcloudArtifactsProjects Projects => _projects ??= new GcloudArtifactsProjects(_command);
 
     /// <summary>
     /// gcloud repositories sub-commands.
