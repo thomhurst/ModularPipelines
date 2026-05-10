@@ -96,21 +96,6 @@ public class AzPostgresFlexibleServer
     #region Commands
 
     /// <summary>
-    /// Create a PostgreSQL flexible server.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        AzPostgresFlexibleServerCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerCreateOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
     /// Delete a flexible server.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -123,21 +108,6 @@ public class AzPostgresFlexibleServer
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerDeleteOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Geo-restore a flexible server from backup.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GeoRestore(
-        AzPostgresFlexibleServerGeoRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerGeoRestoreOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -183,36 +153,6 @@ public class AzPostgresFlexibleServer
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerRestartOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Restore a flexible server from backup.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Restore(
-        AzPostgresFlexibleServerRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerRestoreOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Revive a dropped flexible server from backup.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ReviveDropped(
-        AzPostgresFlexibleServerReviveDroppedOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerReviveDroppedOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

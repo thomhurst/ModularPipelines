@@ -33,7 +33,7 @@ public record AzLoginOptions : AzOptions
     public bool? Certificate { get; set; }
 
     /// <summary>
-    /// Base64-encoded claims challenge requested by a resource API in the
+    /// Base64-encoded claims challenge requested by a resource API in the WWW-Authenticate header.
     /// </summary>
     [CliFlag("--claims-challenge")]
     public bool? ClaimsChallenge { get; set; }
@@ -75,7 +75,7 @@ public record AzLoginOptions : AzOptions
     public bool? UseCertSnIssuer { get; set; }
 
     /// <summary>
-    /// Use device code flow. Azure CLI will also use this if it can't launch a browser, e.g. in remote SSH or Cloud Shell.
+    /// Use device code flow. Azure CLI will also use this if it can't launch a browser, e.g. in remote SSH or
     /// </summary>
     [CliFlag("--use-device-code")]
     public bool? UseDeviceCode { get; set; }

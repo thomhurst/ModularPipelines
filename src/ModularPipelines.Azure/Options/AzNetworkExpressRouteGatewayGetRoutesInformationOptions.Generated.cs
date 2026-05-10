@@ -13,13 +13,19 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Create EdgeActionExecutionFilter resource.
+/// This operation retrieves the route set
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cdn", "edge-action", "execution-filter", "create")]
-public record AzCdnEdgeActionExecutionFilterCreateOptions : AzOptions
+[CliSubCommand("network", "express-route", "gateway", "get-routes-information")]
+public record AzNetworkExpressRouteGatewayGetRoutesInformationOptions : AzOptions
 {
+    /// <summary>
+    /// Attempt to recalculate the Route Sets Information for the gateway. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliFlag("--attempt-refresh")]
+    public bool? AttemptRefresh { get; set; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

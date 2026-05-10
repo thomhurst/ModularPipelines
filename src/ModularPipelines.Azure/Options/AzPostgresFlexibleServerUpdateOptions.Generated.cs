@@ -75,7 +75,7 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? MicrosoftEntraAuth { get; set; }
 
     /// <summary>
-    /// The number of nodes for elastic cluster. Range of 1 to 10.
+    /// The number of nodes for elastic cluster.
     /// </summary>
     [CliFlag("--node-count")]
     public bool? NodeCount { get; set; }
@@ -117,7 +117,7 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? StandbyZone { get; set; }
 
     /// <summary>
-    /// Enable or disable autogrow of the storage. Default value is Enabled.  Allowed values: Disabled, Enabled.
+    /// Enable or disable autogrow of the storage. Default value is Disabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliFlag("--storage-auto-grow")]
     public bool? StorageAutoGrow { get; set; }

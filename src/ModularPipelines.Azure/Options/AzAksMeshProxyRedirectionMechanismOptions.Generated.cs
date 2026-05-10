@@ -13,15 +13,15 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Update EdgeAction resource.
+/// Set the proxy redirection mechanism for Azure Service
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cdn", "edge-action", "update")]
-public record AzCdnEdgeActionUpdateOptions : AzOptions
+[CliSubCommand("aks", "mesh", "proxy-redirection-mechanism")]
+public record AzAksMeshProxyRedirectionMechanismOptions : AzOptions
 {
     /// <summary>
-    /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }

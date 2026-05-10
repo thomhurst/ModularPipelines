@@ -201,6 +201,12 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableAzureKeyvaultKms { get; set; }
 
     /// <summary>
+    /// Disable Azure Monitor Application Monitoring auto-instrumentation for a Kubernetes cluster.
+    /// </summary>
+    [CliFlag("--disable-azure-monitor-app-monitoring")]
+    public bool? DisableAzureMonitorAppMonitoring { get; set; }
+
+    /// <summary>
     /// Disable Azure Monitor Metrics Profile. This will delete all DCRA's associated with the cluster, any linked DCRs with the data stream = prometheus-stream and the recording rule groups created by the addon for this AKS cluster.
     /// </summary>
     [CliFlag("--disable-azure-monitor-metrics")]
@@ -259,6 +265,12 @@ public record AzAksUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--disable-force-upgrade")]
     public bool? DisableForceUpgrade { get; set; }
+
+    /// <summary>
+    /// Disable managed installation of Gateway API
+    /// </summary>
+    [CliFlag("--disable-gateway-api")]
+    public bool? DisableGatewayApi { get; set; }
 
     /// <summary>
     /// Disable HTTP Proxy Configuration on the cluster.
@@ -381,6 +393,12 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableAzureKeyvaultKms { get; set; }
 
     /// <summary>
+    /// Enable Azure Monitor Application Monitoring auto-instrumentation for a Kubernetes cluster.
+    /// </summary>
+    [CliFlag("--enable-azure-monitor-app-monitoring")]
+    public bool? EnableAzureMonitorAppMonitoring { get; set; }
+
+    /// <summary>
     /// Enable a kubernetes cluster with the Azure Monitor managed service for Prometheus integration.
     /// </summary>
     [CliFlag("--enable-azure-monitor-metrics")]
@@ -439,6 +457,12 @@ public record AzAksUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--enable-force-upgrade")]
     public bool? EnableForceUpgrade { get; set; }
+
+    /// <summary>
+    /// Enable managed installation of Gateway API CRDs from the standard release channel.
+    /// </summary>
+    [CliFlag("--enable-gateway-api")]
+    public bool? EnableGatewayApi { get; set; }
 
     /// <summary>
     /// Enable High Log Scale Mode for Container Logs.

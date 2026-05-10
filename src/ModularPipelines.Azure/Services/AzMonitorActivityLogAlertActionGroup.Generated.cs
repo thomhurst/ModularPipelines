@@ -14,17 +14,17 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az connection commands.
+/// az action-group commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class AzCognitiveservicesAccountProjectConnection
+public class AzMonitorActivityLogAlertActionGroup
 {
     private readonly ICommand _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzCognitiveservicesAccountProjectConnection"/> class.
+    /// Initializes a new instance of the <see cref="AzMonitorActivityLogAlertActionGroup"/> class.
     /// </summary>
-    public AzCognitiveservicesAccountProjectConnection(ICommand command)
+    public AzMonitorActivityLogAlertActionGroup(ICommand command)
     {
         _command = command;
     }
@@ -32,18 +32,18 @@ public class AzCognitiveservicesAccountProjectConnection
     #region Commands
 
     /// <summary>
-    /// Lists all the available Cognitive
+    /// Add action groups to this activity log alert
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        AzCognitiveservicesAccountProjectConnectionListOptions options = default,
+    public virtual async Task<CommandResult> Add(
+        AzMonitorActivityLogAlertActionGroupAddOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountProjectConnectionListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertActionGroupAddOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzAcrNetworkRuleRemoveOptions : AzOptions
 {
     /// <summary>
-    /// IPv4 address or CIDR range.
+    /// IPv4/IPv6 address or CIDR range.
     /// </summary>
     [CliFlag("--ip-address")]
     public bool? IpAddress { get; set; }

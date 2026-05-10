@@ -13,7 +13,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Display registry endpoints.
+/// Display registry endpoints including data endpoints and regional
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]

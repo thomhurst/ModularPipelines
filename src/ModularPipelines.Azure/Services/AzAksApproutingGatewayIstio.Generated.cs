@@ -14,17 +14,17 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az usage commands.
+/// az istio commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class AzCognitiveservicesUsage
+public class AzAksApproutingGatewayIstio
 {
     private readonly ICommand _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzCognitiveservicesUsage"/> class.
+    /// Initializes a new instance of the <see cref="AzAksApproutingGatewayIstio"/> class.
     /// </summary>
-    public AzCognitiveservicesUsage(ICommand command)
+    public AzAksApproutingGatewayIstio(ICommand command)
     {
         _command = command;
     }
@@ -32,18 +32,18 @@ public class AzCognitiveservicesUsage
     #region Commands
 
     /// <summary>
-    /// Show all usages for Azure Cognitive Services.
+    /// Disable Gateway API based ingress on App Routing via
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        AzCognitiveservicesUsageListOptions options = default,
+    public virtual async Task<CommandResult> Disable(
+        AzAksApproutingGatewayIstioDisableOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesUsageListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksApproutingGatewayIstioDisableOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

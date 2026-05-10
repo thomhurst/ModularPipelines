@@ -20,6 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzAksApprouting
 {
     private readonly ICommand _command;
+    private AzAksApproutingGateway _gateway;
     private AzAksApproutingZone _zone;
 
     /// <summary>
@@ -31,6 +32,11 @@ public class AzAksApprouting
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// az gateway sub-commands.
+    /// </summary>
+    public AzAksApproutingGateway Gateway => _gateway ??= new AzAksApproutingGateway(_command);
 
     /// <summary>
     /// az zone sub-commands.

@@ -303,6 +303,12 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableAzureKeyvaultKms { get; set; }
 
     /// <summary>
+    /// Enable Azure Monitor Application Monitoring auto-instrumentation for a Kubernetes cluster.
+    /// </summary>
+    [CliFlag("--enable-azure-monitor-app-monitoring")]
+    public bool? EnableAzureMonitorAppMonitoring { get; set; }
+
+    /// <summary>
     /// Enable a kubernetes cluster with the Azure Monitor managed service for Prometheus integration.
     /// </summary>
     [CliFlag("--enable-azure-monitor-metrics")]
@@ -357,10 +363,22 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableFipsImage { get; set; }
 
     /// <summary>
+    /// Enable managed installation of Gateway API CRDs from the standard release channel.
+    /// </summary>
+    [CliFlag("--enable-gateway-api")]
+    public bool? EnableGatewayApi { get; set; }
+
+    /// <summary>
     /// Enable High Log Scale Mode for Container Logs.
     /// </summary>
     [CliFlag("--enable-high-log-scale-mode")]
     public bool? EnableHighLogScaleMode { get; set; }
+
+    /// <summary>
+    /// (Automatic SKU) Explicitly opt in to a Managed System Pool for the Automatic cluster.
+    /// </summary>
+    [CliFlag("--enable-hosted-system")]
+    public bool? EnableHostedSystem { get; set; }
 
     /// <summary>
     /// Enable ImageCleaner Service.
@@ -777,6 +795,12 @@ public record AzAksCreateOptions : AzOptions
     public bool? NodeResourceGroup { get; set; }
 
     /// <summary>
+    /// (Automatic SKU) The ID of a subnet in an existing VNet to be used by user node pools in an Automatic cluster.
+    /// </summary>
+    [CliFlag("--node-subnet-id")]
+    public bool? NodeSubnetId { get; set; }
+
+    /// <summary>
     /// Size of Virtual Machines to create as Kubernetes nodes. If the user does not specify one, server will select a default VM size for her/him.
     /// </summary>
     [CliFlag("--node-vm-size", ShortForm = "-s")]
@@ -825,7 +849,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? NrgLockdownRestrictionLevel { get; set; }
 
     /// <summary>
-    /// The OS SKU of the agent node pool. Ubuntu or AzureLinux.  Allowed values: AzureLinux, AzureLinux3, CBLMariner, Mariner, Ubuntu,
+    /// The OS SKU of the agent node pool. Ubuntu,
     /// </summary>
     [CliFlag("--os-sku")]
     public bool? OsSku { get; set; }
@@ -949,6 +973,12 @@ public record AzAksCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--storage-pool-sku")]
     public bool? StoragePoolSku { get; set; }
+
+    /// <summary>
+    /// (Automatic SKU) The ID of a subnet in an existing VNet to be used by the Managed System Pool in an Automatic cluster.
+    /// </summary>
+    [CliFlag("--system-node-subnet-id")]
+    public bool? SystemNodeSubnetId { get; set; }
 
     /// <summary>
     /// The tags of the managed cluster. The managed cluster instance and all resources managed by the cloud provider will be tagged.

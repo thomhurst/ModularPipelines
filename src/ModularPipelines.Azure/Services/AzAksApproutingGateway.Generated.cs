@@ -14,18 +14,18 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az cognitiveservices commands.
+/// az gateway commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class AzCognitiveservices
+public class AzAksApproutingGateway
 {
     private readonly ICommand _command;
-    private AzCognitiveservicesAccount _account;
+    private AzAksApproutingGatewayIstio _istio;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzCognitiveservices"/> class.
+    /// Initializes a new instance of the <see cref="AzAksApproutingGateway"/> class.
     /// </summary>
-    public AzCognitiveservices(ICommand command)
+    public AzAksApproutingGateway(ICommand command)
     {
         _command = command;
     }
@@ -33,9 +33,9 @@ public class AzCognitiveservices
     #region Sub-command Groups
 
     /// <summary>
-    /// az account sub-commands.
+    /// az istio sub-commands.
     /// </summary>
-    public AzCognitiveservicesAccount Account => _account ??= new AzCognitiveservicesAccount(_command);
+    public AzAksApproutingGatewayIstio Istio => _istio ??= new AzAksApproutingGatewayIstio(_command);
 
     #endregion
 }

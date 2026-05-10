@@ -246,7 +246,7 @@ public class AzAcr
     }
 
     /// <summary>
-    /// Display registry endpoints.
+    /// Display registry endpoints including data endpoints and regional
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -90,6 +90,36 @@ public class AzNetworkExpressRoute
     }
 
     /// <summary>
+    /// This operation retrieves the
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetLinkFailoverAllTestsDetail(
+        AzNetworkExpressRouteGetLinkFailoverAllTestsDetailOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGetLinkFailoverAllTestsDetailOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// This operation retrieves the
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetLinkFailoverSingleTestDetail(
+        AzNetworkExpressRouteGetLinkFailoverSingleTestDetailOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGetLinkFailoverSingleTestDetailOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Show the current Address Resolution Protocol (ARP)
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -117,6 +147,36 @@ public class AzNetworkExpressRoute
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// This operation starts failover simulation on
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StartLinkFailoverTest(
+        AzNetworkExpressRouteStartLinkFailoverTestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteStartLinkFailoverTestOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// This operation stops an ongoing failover
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StopLinkFailoverTest(
+        AzNetworkExpressRouteStopLinkFailoverTestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteStopLinkFailoverTestOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

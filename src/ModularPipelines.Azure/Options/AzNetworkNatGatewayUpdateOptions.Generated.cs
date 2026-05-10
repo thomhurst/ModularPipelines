@@ -33,13 +33,13 @@ public record AzNetworkNatGatewayUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// An array of public ip addresses V6 associated with the nat gateway resource.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of public IPv6 addresses (Names or IDs).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--pip-addresses-v6")]
     public bool? PipAddressesV6 { get; set; }
 
     /// <summary>
-    /// An array of public ip prefixes V6 associated with the nat gateway resource.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of public IPv6 prefixes (Names or IDs).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--pip-prefixes-v6")]
     public bool? PipPrefixesV6 { get; set; }

@@ -14,17 +14,17 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az project commands.
+/// az identity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class AzCognitiveservicesAccountProject
+public class AzSigIdentity
 {
     private readonly ICommand _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzCognitiveservicesAccountProject"/> class.
+    /// Initializes a new instance of the <see cref="AzSigIdentity"/> class.
     /// </summary>
-    public AzCognitiveservicesAccountProject(ICommand command)
+    public AzSigIdentity(ICommand command)
     {
         _command = command;
     }
@@ -32,33 +32,33 @@ public class AzCognitiveservicesAccountProject
     #region Commands
 
     /// <summary>
-    /// Create a project for Azure Cognitive Services
+    /// Assign the user or system managed identities.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        AzCognitiveservicesAccountProjectCreateOptions options = default,
+    public virtual async Task<CommandResult> Assign(
+        AzSigIdentityAssignOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountProjectCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigIdentityAssignOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
-    /// Update a project for Azure Cognitive Services
+    /// Remove the user or system managed identities.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        AzCognitiveservicesAccountProjectUpdateOptions options = default,
+    public virtual async Task<CommandResult> Remove(
+        AzSigIdentityRemoveOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountProjectUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigIdentityRemoveOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

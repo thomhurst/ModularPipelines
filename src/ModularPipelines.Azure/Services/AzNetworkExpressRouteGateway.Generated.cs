@@ -72,6 +72,66 @@ public class AzNetworkExpressRouteGateway
     }
 
     /// <summary>
+    /// This operation retrieves the
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetFailoverAllTestsDetail(
+        AzNetworkExpressRouteGatewayGetFailoverAllTestsDetailOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayGetFailoverAllTestsDetailOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// This operation retrieves the
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetFailoverSingleTestDetail(
+        AzNetworkExpressRouteGatewayGetFailoverSingleTestDetailOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayGetFailoverSingleTestDetailOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// This operation retrieves the
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetResiliencyInformation(
+        AzNetworkExpressRouteGatewayGetResiliencyInformationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayGetResiliencyInformationOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// This operation retrieves the route set
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetRoutesInformation(
+        AzNetworkExpressRouteGatewayGetRoutesInformationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayGetRoutesInformationOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List ExpressRoute gateways.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -84,6 +144,36 @@ public class AzNetworkExpressRouteGateway
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// This operation starts failover
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StartSiteFailoverTest(
+        AzNetworkExpressRouteGatewayStartSiteFailoverTestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayStartSiteFailoverTestOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// This operation stops an ongoing
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StopSiteFailoverTest(
+        AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

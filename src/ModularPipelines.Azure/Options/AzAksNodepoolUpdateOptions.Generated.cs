@@ -171,7 +171,7 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     public bool? NodeTaints { get; set; }
 
     /// <summary>
-    /// The os-sku of the agent node pool.  Allowed values: AzureLinux, AzureLinux3, Ubuntu, Ubuntu2204, Ubuntu2404.
+    /// The os-sku of the agent node pool.  Allowed values: AzureContainerLinux, AzureLinux, AzureLinux3, Ubuntu,
     /// </summary>
     [CliFlag("--os-sku")]
     public bool? OsSku { get; set; }

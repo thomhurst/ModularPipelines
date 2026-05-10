@@ -21,9 +21,21 @@ namespace ModularPipelines.Azure.Options;
 public record AzWebappSitecontainersConvertOptions : AzOptions
 {
     /// <summary>
+    /// For COMPOSE to sitecontainers conversion, specifies which compose service should be the main container. If not provided, the service with a port mapping is auto-detected.
+    /// </summary>
+    [CliFlag("--main-container-name")]
+    public bool? MainContainerName { get; set; }
+
+    /// <summary>
     /// Name of the web app slot. Default to the productions slot if not specified.
     /// </summary>
     [CliFlag("--slot", ShortForm = "-s")]
     public bool? Slot { get; set; }
+
+    /// <summary>
+    /// Do not prompt for confirmation.
+    /// </summary>
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
 }

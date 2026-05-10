@@ -13,15 +13,15 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Create EdgeAction resource.
+/// This operation starts failover
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cdn", "edge-action", "create")]
-public record AzCdnEdgeActionCreateOptions : AzOptions
+[CliSubCommand("network", "express-route", "gateway", "start-site-failover-test")]
+public record AzNetworkExpressRouteGatewayStartSiteFailoverTestOptions : AzOptions
 {
     /// <summary>
-    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }

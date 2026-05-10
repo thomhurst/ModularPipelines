@@ -51,6 +51,12 @@ public record AzAksMeshEnableOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
+    /// Set the proxy redirection mechanism.  Allowed values:
+    /// </summary>
+    [CliFlag("--proxy-redirection-mechanism")]
+    public bool? ProxyRedirectionMechanism { get; set; }
+
+    /// <summary>
     /// Azure Service Mesh revision to install.
     /// </summary>
     [CliFlag("--revision")]
