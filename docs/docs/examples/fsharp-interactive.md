@@ -60,4 +60,9 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
     ```powershell
     dotnet fsi example.fsx
-    ```       
+    ```
+## Additional Notes
+
+- Fsharp Interactive does allow you to have modules and types across different files, for simplicity we have only 1 file in this example.
+- The fsharp compiler does not support generic attributes
+- The fsharp compiler requires code and files to be declared in order, due to the fsharp compiler being sequential. For example, if you have a module that depends on another module, the module it depends on must be declared first.
