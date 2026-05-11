@@ -10,17 +10,22 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 2. **Add ModularPipelines to your script:** You can add ModularPipelines as a package reference in your F# script. At the top of your `example.fsx`, add the following line:
 
     ```fsharp
+
     #r "nuget: ModularPipelines, 3.*"
+
     ```
 
     Alternatively, you can specify a specific version:
 
     ```fsharp
+
     #r "nuget: ModularPipelines, 3.2.8"
+
     ```
 3. **Write your F# code:** Below the package reference, you can write your F# code using ModularPipelines. Here’s a simple example that uses ModularPipelines to check the dotnet version:
 
     ```fsharp
+
     #r "nuget: ModularPipelines.DotNet, 3.*"
     open ModularPipelines.DotNet
     open ModularPipelines.Attributes
@@ -55,11 +60,14 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
     builder.Build().RunAsync()
     |> Async.AwaitTask
     |> Async.RunSynchronously   
+
     ``` 
 4. **Run your F# script:** You can run your F# script using the F# Interactive environment. If you are using Visual Studio, you can simply open the `example.fsx` file and execute it. Alternatively, you can run it from the command line using:
 
     ```powershell
+
     dotnet fsi example.fsx
+    
     ```
 ## Additional Notes
 
