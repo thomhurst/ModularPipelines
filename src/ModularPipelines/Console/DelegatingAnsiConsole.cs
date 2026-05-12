@@ -30,5 +30,7 @@ internal sealed class DelegatingAnsiConsole : IAnsiConsole
 
     public void Clear(bool home) => Console.Clear(home);
 
+    public void WriteAnsi(Action<AnsiWriter> action) => Console.WriteAnsi(action);
+
     public void Write(IRenderable renderable) => Console.Write(renderable);
 }

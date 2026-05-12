@@ -78,7 +78,7 @@
     <PackageReference Include="System.Text.Json" />
     <PackageReference Include="EnumerableAsyncProcessor" />
     <PackageReference Include="Initialization.Microsoft.Extensions.DependencyInjection" />
-    <PackageReference Include="vertical-spectreconsolelogger" />
+    <PackageReference Include="MEL.Spectre" />
     <PackageReference Include="YamlDotNet" />
   </ItemGroup>
   <ItemGroup>
