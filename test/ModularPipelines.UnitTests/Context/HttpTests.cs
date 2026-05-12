@@ -4,7 +4,6 @@ using ModularPipelines.Http;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using NReco.Logging.File;
-using Vertical.SpectreLogger.Options;
 using File = System.IO.File;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
@@ -31,7 +30,6 @@ public class HttpTests : TestBase
         {
             collection.AddLogging(builder =>
             {
-                collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
                 collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
                 builder.AddFile(file);
             });
@@ -61,7 +59,6 @@ public class HttpTests : TestBase
         {
             collection.AddLogging(builder =>
             {
-                collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
                 collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
                 builder.AddFile(file);
             });
@@ -93,7 +90,6 @@ public class HttpTests : TestBase
         {
             collection.AddLogging(builder =>
             {
-                collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
                 collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
                 builder.AddFile(file);
             });

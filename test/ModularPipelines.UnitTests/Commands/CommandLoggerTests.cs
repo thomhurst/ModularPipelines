@@ -5,7 +5,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using NReco.Logging.File;
-using Vertical.SpectreLogger.Options;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ModularPipelines.UnitTests.Commands;
@@ -82,7 +81,6 @@ public class CommandLoggerTests : TestBase
 
         var result = await GetService<ICommand>((_, collection) =>
         {
-            collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => { builder.AddFile(file); });
         });
@@ -208,7 +206,6 @@ public class CommandLoggerTests : TestBase
 
         var result = await GetService<ICommand>((_, collection) =>
         {
-            collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => { builder.AddFile(file); });
         });

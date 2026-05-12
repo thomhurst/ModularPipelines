@@ -1,4 +1,5 @@
 using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
+using MEL.Spectre;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -32,8 +33,7 @@ using ModularPipelines.Options.Validators;
 using ModularPipelines.Engine.State;
 using ModularPipelines.Validation;
 using ModularPipelines.Console;
-using Vertical.SpectreLogger;
-using Vertical.SpectreLogger.Options;
+using Spectre.Console;
 
 namespace ModularPipelines.DependencyInjection;
 
@@ -81,48 +81,15 @@ internal static class DependencyInjectionSetup
                 {
                     // Use delegating console that forwards to current AnsiConsole.Console
                     // This allows ConsoleCoordinator to replace the console instance later
-                    // while SpectreLogger continues to use the correct one
+                    // while MEL.Spectre continues to use the correct one
                     // Note: Console width is configured by ConsoleCoordinator.ConfigureConsoleWidth()
-                    config.UseConsole(DelegatingAnsiConsole.Instance);
+                    config.Console = DelegatingAnsiConsole.Instance;
 
-                    // Configure output templates without timestamps
+                    // Configure output without timestamps
                     // Command logging already includes precise timestamps ([HH:mm:ss.fff])
                     // so we don't need them from the logger as well
-                    config.ConfigureProfile(LogLevel.Trace, profile =>
-                    {
-                        profile.OutputTemplate = "[grey][[Trace]][/] {Message}{NewLine}{Exception}";
-                    });
-                    config.ConfigureProfile(LogLevel.Debug, profile =>
-                    {
-                        profile.OutputTemplate = "[grey][[Debug]][/] {Message}{NewLine}{Exception}";
-                    });
-                    config.ConfigureProfile(LogLevel.Information, profile =>
-                    {
-                        profile.OutputTemplate = "[deepskyblue1][[Info]][/] {Message}{NewLine}{Exception}";
-                    });
-                    config.ConfigureProfile(LogLevel.Warning, profile =>
-                    {
-                        profile.OutputTemplate = "[yellow][[Warn]][/] {Message}{NewLine}{Exception}";
-                    });
-                    config.ConfigureProfile(LogLevel.Error, profile =>
-                    {
-                        profile.OutputTemplate = "[red][[Error]][/] {Message}{NewLine}{Exception}";
-                    });
-                    config.ConfigureProfile(LogLevel.Critical, profile =>
-                    {
-                        profile.OutputTemplate = "[white on red][[Critical]][/] {Message}{NewLine}{Exception}";
-                    });
-
-                    config.ConfigureProfiles(profile =>
-                    {
-                        // Enable Spectre.Console markup rendering in log messages
-                        profile.PreserveMarkupInFormatStrings = true;
-
-                        profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
-                        {
-                            options.MaxStackFrames = int.MaxValue;
-                        });
-                    });
+                    config.Template = "[{Level:u4}] {Message}";
+                    config.ExceptionFormats = ExceptionFormats.Default;
                 });
             })
             .AddHttpClient()

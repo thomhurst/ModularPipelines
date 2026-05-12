@@ -10,7 +10,6 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 using ModularPipelines.Plugins;
 using ModularPipelines.Validation;
-using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines;
 
@@ -89,7 +88,6 @@ public sealed class PipelineBuilder
     /// <returns>The same builder instance for chaining.</returns>
     public PipelineBuilder SetLogLevel(LogLevel logLevel)
     {
-        _services.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = logLevel);
         _services.Configure<LoggerFilterOptions>(options => options.MinLevel = logLevel);
         return this;
     }
