@@ -112,7 +112,7 @@ const config: Config = {
       copyright: `Copyright © ${new Date().getFullYear()} Tom Longhurst. Built with Docusaurus.`,
     },
     prism: {
-      additionalLanguages: ['csharp', 'powershell'],
+      additionalLanguages: ['csharp', 'powershell', 'fsharp'],
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
