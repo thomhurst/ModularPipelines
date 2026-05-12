@@ -80,6 +80,9 @@ public class TrxParsingTests : TestBase
         await Assert.That(testResult.UnitTestResults.Where(x => x.Outcome == TestOutcome.NotExecuted))
             .HasCount().EqualTo(1);
 
+        await Assert.That(testResult.UnitTestResults.Single(x => x.Outcome == TestOutcome.NotExecuted).Output?.DebugTrace)
+            .Contains("Ignoring this test");
+
         await Assert.That(testResult.UnitTestResults.Where(x => x.Outcome == TestOutcome.Passed))
             .HasCount().EqualTo(2);
     }

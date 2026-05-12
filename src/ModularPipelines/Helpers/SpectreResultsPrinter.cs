@@ -125,7 +125,6 @@ internal class SpectreResultsPrinter : IResultsPrinter
         var table = new Table
         {
             Border = TableBorder.Rounded,
-            Expand = true,
         };
 
         // Add columns with alignment
@@ -174,8 +173,6 @@ internal class SpectreResultsPrinter : IResultsPrinter
             AddModuleRow(table, module, timelineLookup);
         }
 
-        // Add separator and total row
-        table.AddEmptyRow();
         AddTotalRow(table, pipelineSummary);
 
         return table;
@@ -248,7 +245,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
             ModuleStatus.TimedOut => "[red]Timeout[/]",
             ModuleStatus.PipelineTerminated => "[red]Terminated[/]",
             ModuleStatus.IgnoredFailure => "[yellow]Ignored[/]",
-            ModuleStatus.Skipped => "[yellow]Skipped[/]",
+            ModuleStatus.Skipped => "[dim]⏭ skipped[/]",
             ModuleStatus.UsedHistory => "[green3]Cached[/]",
             ModuleStatus.Retried => "[yellow]Retried[/]",
             ModuleStatus.Processing => "[blue]Running[/]",
@@ -287,11 +284,17 @@ internal class SpectreResultsPrinter : IResultsPrinter
         System.Console.WriteLine();
 
         // Create a compact metrics display
+        var savedTime = metrics.TotalModuleExecutionTime - metrics.WallClockDuration;
+        if (savedTime < TimeSpan.Zero)
+        {
+            savedTime = TimeSpan.Zero;
+        }
+
         var metricsPanel = new Panel(
             new Markup(
-                $"[dim]Parallelism:[/] [bold]{metrics.ParallelismFactor:F1}x[/]  " +
+                $"[dim]Speedup:[/] [bold]{metrics.ParallelismFactor:F1}x[/]  " +
                 $"[dim]Peak:[/] [bold]{metrics.PeakConcurrency}[/]  " +
-                $"[dim]Saved:[/] [bold]{(metrics.TotalModuleExecutionTime - metrics.WallClockDuration).ToDisplayString()}[/]"))
+                $"[dim]Saved:[/] [bold]{savedTime.ToDisplayString()}[/]"))
         {
             Border = BoxBorder.None,
             Padding = new Padding(0, 0, 0, 0),

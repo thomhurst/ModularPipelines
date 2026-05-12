@@ -196,8 +196,8 @@ public class CommandLoggerTests : TestBase
         // Exit code and duration shown inline
         await Assert.That(logFile).Contains("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsTrue();
-        // Working directory logged separately at Diagnostic level
-        await Assert.That(logFile).Contains("Working Directory:");
+        // Working directory is included in the command line instead of being logged separately.
+        await Assert.That(logFile).DoesNotContain("Working Directory:");
     }
 
     private async Task<string> RunPowershellCommandWithLoggingOptions(string command, CommandLoggingOptions loggingOptions)

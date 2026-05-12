@@ -77,6 +77,7 @@ public class TrxParser : ITrxParser
             Output = new TestOutput
             {
                 StdOut = element.Descendants().FirstOrDefault(x => x.Name.LocalName == "StdOut")?.Value,
+                DebugTrace = element.Descendants().FirstOrDefault(x => x.Name.LocalName == "DebugTrace")?.Value,
                 ErrorInfo = errorInfo == null ? null : new ErrorInfo
                 {
                     Message = errorInfo.Descendants().FirstOrDefault(x => x.Name.LocalName == "Message")?.Value,

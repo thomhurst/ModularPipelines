@@ -89,6 +89,7 @@ internal static class DependencyInjectionSetup
                     // Command logging already includes precise timestamps ([HH:mm:ss.fff])
                     // so we don't need them from the logger as well
                     config.Template = "[{Level:u4}] {Message}";
+                    config.AllowMarkupInMessageTemplate = true;
                     config.ExceptionFormats = ExceptionFormats.Default;
                 });
             })

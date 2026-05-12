@@ -84,7 +84,7 @@
     <PackageVersion Include="TUnit" Version="1.44.0" />
     <PackageVersion Include="TUnit.Assertions" Version="1.44.0" />
     <PackageVersion Include="TUnit.Core" Version="1.44.0" />
-    <PackageVersion Include="MEL.Spectre" Version="0.3.0" />
+    <PackageVersion Include="MEL.Spectre" Version="0.4.0" />
     <PackageVersion Include="YamlDotNet" Version="17.1.0" />
     <PackageVersion Include="AngleSharp" Version="1.4.0" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.59.0" />
