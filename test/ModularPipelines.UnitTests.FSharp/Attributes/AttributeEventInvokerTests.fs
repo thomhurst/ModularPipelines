@@ -1,4 +1,4 @@
-namespace ModularPipelines.UnitTests.Attributes
+namespace ModularPipelines.UnitTests.FSharp.Attributes
 
 open Microsoft.Extensions.Logging
 open ModularPipelines.Attributes.Events
