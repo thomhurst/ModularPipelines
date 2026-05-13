@@ -1368,6 +1368,568 @@ module ScaleTestsModule =
                 return 50
             }
 
+    // Independent modules for fan-in
+    type FanInInd1(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd1")
+                tracker.MarkCompleted("FanInInd1")
+                return 1
+            }
+
+    type FanInInd2(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd2")
+                tracker.MarkCompleted("FanInInd2")
+                return 2
+            }
+
+    type FanInInd3(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd3")
+                tracker.MarkCompleted("FanInInd3")
+                return 3
+            }
+
+    type FanInInd4(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd4")
+                tracker.MarkCompleted("FanInInd4")
+                return 4
+            }
+
+    type FanInInd5(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd5")
+                tracker.MarkCompleted("FanInInd5")
+                return 5
+            }
+
+    type FanInInd6(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd6")
+                tracker.MarkCompleted("FanInInd6")
+                return 6
+            }
+
+    type FanInInd7(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd7")
+                tracker.MarkCompleted("FanInInd7")
+                return 7
+            }
+
+    type FanInInd8(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd8")
+                tracker.MarkCompleted("FanInInd8")
+                return 8
+            }
+
+    type FanInInd9(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd9")
+                tracker.MarkCompleted("FanInInd9")
+                return 9
+            }
+
+    type FanInInd10(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd10")
+                tracker.MarkCompleted("FanInInd10")
+                return 10
+            }
+
+    type FanInInd11(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd11")
+                tracker.MarkCompleted("FanInInd11")
+                return 11
+            }
+
+    type FanInInd12(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd12")
+                tracker.MarkCompleted("FanInInd12")
+                return 12
+            }
+
+    type FanInInd13(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd13")
+                tracker.MarkCompleted("FanInInd13")
+                return 13
+            }
+
+    type FanInInd14(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd14")
+                tracker.MarkCompleted("FanInInd14")
+                return 14
+            }
+
+    type FanInInd15(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd15")
+                tracker.MarkCompleted("FanInInd15")
+                return 15
+            }
+
+    type FanInInd16(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd16")
+                tracker.MarkCompleted("FanInInd16")
+                return 16
+            }
+
+    type FanInInd17(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd17")
+                tracker.MarkCompleted("FanInInd17")
+                return 17
+            }
+
+    type FanInInd18(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd18")
+                tracker.MarkCompleted("FanInInd18")
+                return 18
+            }
+
+    type FanInInd19(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd19")
+                tracker.MarkCompleted("FanInInd19")
+                return 19
+            }
+
+    type FanInInd20(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd20")
+                tracker.MarkCompleted("FanInInd20")
+                return 20
+            }
+
+    type FanInInd21(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd21")
+                tracker.MarkCompleted("FanInInd21")
+                return 21
+            }
+
+    type FanInInd22(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd22")
+                tracker.MarkCompleted("FanInInd22")
+                return 22
+            }
+
+    type FanInInd23(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd23")
+                tracker.MarkCompleted("FanInInd23")
+                return 23
+            }
+
+    type FanInInd24(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd24")
+                tracker.MarkCompleted("FanInInd24")
+                return 24
+            }
+
+    type FanInInd25(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd25")
+                tracker.MarkCompleted("FanInInd25")
+                return 25
+            }
+
+    type FanInInd26(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd26")
+                tracker.MarkCompleted("FanInInd26")
+                return 26
+            }
+
+    type FanInInd27(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd27")
+                tracker.MarkCompleted("FanInInd27")
+                return 27
+            }
+
+    type FanInInd28(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd28")
+                tracker.MarkCompleted("FanInInd28")
+                return 28
+            }
+
+    type FanInInd29(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd29")
+                tracker.MarkCompleted("FanInInd29")
+                return 29
+            }
+
+    type FanInInd30(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd30")
+                tracker.MarkCompleted("FanInInd30")
+                return 30
+            }
+
+    type FanInInd31(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd31")
+                tracker.MarkCompleted("FanInInd31")
+                return 31
+            }
+
+    type FanInInd32(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd32")
+                tracker.MarkCompleted("FanInInd32")
+                return 32
+            }
+
+    type FanInInd33(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd33")
+                tracker.MarkCompleted("FanInInd33")
+                return 33
+            }
+
+    type FanInInd34(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd34")
+                tracker.MarkCompleted("FanInInd34")
+                return 34
+            }
+
+    type FanInInd35(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd35")
+                tracker.MarkCompleted("FanInInd35")
+                return 35
+            }
+
+    type FanInInd36(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd36")
+                tracker.MarkCompleted("FanInInd36")
+                return 36
+            }
+
+    type FanInInd37(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd37")
+                tracker.MarkCompleted("FanInInd37")
+                return 37
+            }
+
+    type FanInInd38(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd38")
+                tracker.MarkCompleted("FanInInd38")
+                return 38
+            }
+
+    type FanInInd39(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd39")
+                tracker.MarkCompleted("FanInInd39")
+                return 39
+            }
+
+    type FanInInd40(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd40")
+                tracker.MarkCompleted("FanInInd40")
+                return 40
+            }
+
+    type FanInInd41(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd41")
+                tracker.MarkCompleted("FanInInd41")
+                return 41
+            }
+
+    type FanInInd42(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd42")
+                tracker.MarkCompleted("FanInInd42")
+                return 42
+            }
+
+    type FanInInd43(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd43")
+                tracker.MarkCompleted("FanInInd43")
+                return 43
+            }
+
+    type FanInInd44(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd44")
+                tracker.MarkCompleted("FanInInd44")
+                return 44
+            }
+
+    type FanInInd45(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd45")
+                tracker.MarkCompleted("FanInInd45")
+                return 45
+            }
+
+    type FanInInd46(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd46")
+                tracker.MarkCompleted("FanInInd46")
+                return 46
+            }
+
+    type FanInInd47(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd47")
+                tracker.MarkCompleted("FanInInd47")
+                return 47
+            }
+
+    type FanInInd48(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd48")
+                tracker.MarkCompleted("FanInInd48")
+                return 48
+            }
+
+    type FanInInd49(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd49")
+                tracker.MarkCompleted("FanInInd49")
+                return 49
+            }
+
+    type FanInInd50(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInInd50")
+                tracker.MarkCompleted("FanInInd50")
+                return 50
+            }
+
+    // Final module that depends on all independent modules
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanInInd1>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd2>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd3>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd4>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd5>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd6>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd7>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd8>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd9>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd10>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd11>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd12>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd13>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd14>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd15>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd16>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd17>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd18>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd19>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd20>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd21>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd22>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd23>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd24>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd25>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd26>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd27>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd28>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd29>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd30>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd31>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd32>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd33>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd34>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd35>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd36>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd37>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd38>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd39>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd40>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd41>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd42>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd43>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd44>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd45>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd46>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd47>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd48>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd49>);
+      ModularPipelines.Attributes.DependsOn(typeof<FanInInd50>)>]
+    type FanInFinalModule(tracker: ExecutionTracker) =
+        inherit Module<bool>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanInFinal")
+                tracker.MarkCompleted("FanInFinal")
+                return true
+            }
+
     /// <summary>
     /// Tests for large-scale pipeline scenarios to validate scalability, performance, and correct behavior with many
     /// modules.
@@ -1552,4 +2114,55 @@ module ScaleTestsModule =
                 for i = 1 to 50 do
                     let dependent = tracker.GetRecord($"FanOutDep{i}")
                     do! check(Assert.That(dependent.IsSome).IsTrue())
+            }
+
+        /// <summary>
+        /// Verifies that a fan-in pattern (50 independent modules + 1 final) executes correctly.
+        /// </summary>
+        /// <remarks>
+        /// This test validates:
+        /// - The final module waits for all 50 independent modules to complete
+        /// - Independent modules can execute in parallel
+        /// - No race conditions with one module depending on many
+        /// </remarks>
+        [<Test>]
+        member _.Pipeline_With50ModulesAndOneFinalModule_CompletesSuccessfully() =
+            async {
+                let tracker = new ExecutionTracker()
+                do! check(Assert.That<bool>(tracker.IsClean).IsTrue())
+                let totalModules = 51
+
+                let builder =
+                    TestPipelineHostBuilder.Create()
+                        .ConfigureServices(fun _ services -> services.AddSingleton(tracker) |> ignore)
+                        .AddModule<FanInInd1>().AddModule<FanInInd2>().AddModule<FanInInd3>()
+                        .AddModule<FanInInd4>().AddModule<FanInInd5>().AddModule<FanInInd6>()
+                        .AddModule<FanInInd7>().AddModule<FanInInd8>().AddModule<FanInInd9>()
+                        .AddModule<FanInInd10>().AddModule<FanInInd11>().AddModule<FanInInd12>()
+                        .AddModule<FanInInd13>().AddModule<FanInInd14>().AddModule<FanInInd15>()
+                        .AddModule<FanInInd16>().AddModule<FanInInd17>().AddModule<FanInInd18>()
+                        .AddModule<FanInInd19>().AddModule<FanInInd20>().AddModule<FanInInd21>()
+                        .AddModule<FanInInd22>().AddModule<FanInInd23>().AddModule<FanInInd24>()
+                        .AddModule<FanInInd25>().AddModule<FanInInd26>().AddModule<FanInInd27>()
+                        .AddModule<FanInInd28>().AddModule<FanInInd29>().AddModule<FanInInd30>()
+                        .AddModule<FanInInd31>().AddModule<FanInInd32>().AddModule<FanInInd33>()
+                        .AddModule<FanInInd34>().AddModule<FanInInd35>().AddModule<FanInInd36>()
+                        .AddModule<FanInInd37>().AddModule<FanInInd38>().AddModule<FanInInd39>()
+                        .AddModule<FanInInd40>().AddModule<FanInInd41>().AddModule<FanInInd42>()
+                        .AddModule<FanInInd43>().AddModule<FanInInd44>().AddModule<FanInInd45>()
+                        .AddModule<FanInInd46>().AddModule<FanInInd47>().AddModule<FanInInd48>()
+                        .AddModule<FanInInd49>().AddModule<FanInInd50>()
+                        .AddModule<FanInFinalModule>()
+
+                let! pipelineSummary = builder.ExecutePipelineAsync() |> Async.AwaitTask
+
+                do! check(Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful))
+                do! check(IntEqualsAssertionExtensions.IsEqualTo(Assert.That(tracker.CompletedCount()), totalModules))
+
+                let finalRecord = tracker.GetRecord("FanInFinal")
+                do! check(Assert.That(finalRecord.IsSome).IsTrue())
+
+                for i = 1 to 50 do
+                    let independent = tracker.GetRecord($"FanInInd{i}")
+                    do! check(Assert.That(independent.IsSome).IsTrue())
             }
