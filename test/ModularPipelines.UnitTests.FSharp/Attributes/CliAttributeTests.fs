@@ -1,10 +1,98 @@
 namespace ModularPipelines.UnitTests.Attributes
+
 open ModularPipelines.Helpers.Internal
 open TUnit.Core
 open ModularPipelines.Attributes
 open TUnit.Assertions
 open TUnit.Assertions.Extensions
 open TUnit.Assertions.FSharp.Operations
+
+[<CLIMutable>]
+type private TestCliOptionsWithFlag =
+    {
+        [<CliFlag("--debug")>]
+        Debug: System.Nullable<bool>
+    }
+
+[<CLIMutable>]
+type private TestCliOptionsWithOption =
+    {
+        [<CliOption("--namespace")>]
+        Namespace: string
+    }
+
+[<CLIMutable>]
+type private TestCliOptionsWithEqualsSeparator =
+    {
+        [<CliOption("--set", Format = OptionFormat.EqualsSeparated)>]
+        Set: string
+    }
+
+[<CLIMutable>]
+type private TestCliOptionsWithMultipleValues =
+    {
+        [<CliOption("--values", AllowMultiple = true)>]
+        Values: string array
+    }
+
+[<CLIMutable>]
+type private TestCliOptionsWithArgumentAfterOptions =
+    {
+        [<CliArgument(0)>]
+        ReleaseName: string
+
+        [<CliFlag("--debug")>]
+        Debug: System.Nullable<bool>
+    }
+
+[<CLIMutable>]
+type private TestCliOptionsWithArgumentBeforeOptions =
+    {
+        [<CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)>]
+        Path: string
+
+        [<CliFlag("--debug")>]
+        Debug: System.Nullable<bool>
+    }
+
+[<CLIMutable>]
+type private TestCliOptionsWithOptionalArgument =
+    {
+        [<CliArgument(0)>]
+        ReleaseName: string
+
+        [<CliFlag("--debug")>]
+        Debug: System.Nullable<bool>
+    }
+
+[<CLIMutable>]
+type private TestCliOptionsWithMultipleArguments =
+    {
+        [<CliArgument(0)>]
+        ReleaseName: string
+
+        [<CliArgument(1)>]
+        ChartReference: string
+    }
+
+[<CLIMutable>]
+type private TestCliOptionsComplete =
+    {
+        [<CliArgument(0)>]
+        ReleaseName: string
+
+        [<CliArgument(1)>]
+        ChartReference: string
+
+        [<CliFlag("--debug")>]
+        Debug: System.Nullable<bool>
+
+        [<CliOption("--namespace")>]
+        Namespace: string
+
+        [<CliOption("--set", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)>]
+        Set: string array
+    }
 
 type CliAttributeTests() =
     member private this.ModelProvider = CommandModelProvider()
