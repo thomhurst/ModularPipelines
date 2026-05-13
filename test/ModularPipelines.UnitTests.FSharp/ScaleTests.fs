@@ -805,6 +805,568 @@ module ScaleTestsModule =
                 tracker.MarkCompleted("Chain50")
                 return 50
             }
+   
+    // Root module for fan-out
+    type FanOutRootModule(tracker: ExecutionTracker) =
+        inherit Module<bool>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutRoot")
+                tracker.MarkCompleted("FanOutRoot")
+                return true
+            }
+
+    // Fan-out dependent modules - all depend on the root
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep1(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep1")
+                tracker.MarkCompleted("FanOutDep1")
+                return 1
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep2(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep2")
+                tracker.MarkCompleted("FanOutDep2")
+                return 2
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep3(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep3")
+                tracker.MarkCompleted("FanOutDep3")
+                return 3
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep4(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep4")
+                tracker.MarkCompleted("FanOutDep4")
+                return 4
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep5(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep5")
+                tracker.MarkCompleted("FanOutDep5")
+                return 5
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep6(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep6")
+                tracker.MarkCompleted("FanOutDep6")
+                return 6
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep7(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep7")
+                tracker.MarkCompleted("FanOutDep7")
+                return 7
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep8(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep8")
+                tracker.MarkCompleted("FanOutDep8")
+                return 8
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep9(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep9")
+                tracker.MarkCompleted("FanOutDep9")
+                return 9
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep10(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep10")
+                tracker.MarkCompleted("FanOutDep10")
+                return 10
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep11(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep11")
+                tracker.MarkCompleted("FanOutDep11")
+                return 11
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep12(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep12")
+                tracker.MarkCompleted("FanOutDep12")
+                return 12
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep13(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep13")
+                tracker.MarkCompleted("FanOutDep13")
+                return 13
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep14(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep14")
+                tracker.MarkCompleted("FanOutDep14")
+                return 14
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep15(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep15")
+                tracker.MarkCompleted("FanOutDep15")
+                return 15
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep16(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep16")
+                tracker.MarkCompleted("FanOutDep16")
+                return 16
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep17(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep17")
+                tracker.MarkCompleted("FanOutDep17")
+                return 17
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep18(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep18")
+                tracker.MarkCompleted("FanOutDep18")
+                return 18
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep19(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep19")
+                tracker.MarkCompleted("FanOutDep19")
+                return 19
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep20(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep20")
+                tracker.MarkCompleted("FanOutDep20")
+                return 20
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep21(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep21")
+                tracker.MarkCompleted("FanOutDep21")
+                return 21
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep22(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep22")
+                tracker.MarkCompleted("FanOutDep22")
+                return 22
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep23(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep23")
+                tracker.MarkCompleted("FanOutDep23")
+                return 23
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep24(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep24")
+                tracker.MarkCompleted("FanOutDep24")
+                return 24
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep25(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep25")
+                tracker.MarkCompleted("FanOutDep25")
+                return 25
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep26(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep26")
+                tracker.MarkCompleted("FanOutDep26")
+                return 26
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep27(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep27")
+                tracker.MarkCompleted("FanOutDep27")
+                return 27
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep28(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep28")
+                tracker.MarkCompleted("FanOutDep28")
+                return 28
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep29(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep29")
+                tracker.MarkCompleted("FanOutDep29")
+                return 29
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep30(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep30")
+                tracker.MarkCompleted("FanOutDep30")
+                return 30
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep31(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep31")
+                tracker.MarkCompleted("FanOutDep31")
+                return 31
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep32(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep32")
+                tracker.MarkCompleted("FanOutDep32")
+                return 32
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep33(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep33")
+                tracker.MarkCompleted("FanOutDep33")
+                return 33
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep34(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep34")
+                tracker.MarkCompleted("FanOutDep34")
+                return 34
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep35(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep35")
+                tracker.MarkCompleted("FanOutDep35")
+                return 35
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep36(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep36")
+                tracker.MarkCompleted("FanOutDep36")
+                return 36
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep37(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep37")
+                tracker.MarkCompleted("FanOutDep37")
+                return 37
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep38(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep38")
+                tracker.MarkCompleted("FanOutDep38")
+                return 38
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep39(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep39")
+                tracker.MarkCompleted("FanOutDep39")
+                return 39
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep40(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep40")
+                tracker.MarkCompleted("FanOutDep40")
+                return 40
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep41(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep41")
+                tracker.MarkCompleted("FanOutDep41")
+                return 41
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep42(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep42")
+                tracker.MarkCompleted("FanOutDep42")
+                return 42
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep43(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep43")
+                tracker.MarkCompleted("FanOutDep43")
+                return 43
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep44(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep44")
+                tracker.MarkCompleted("FanOutDep44")
+                return 44
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep45(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep45")
+                tracker.MarkCompleted("FanOutDep45")
+                return 45
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep46(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep46")
+                tracker.MarkCompleted("FanOutDep46")
+                return 46
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep47(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep47")
+                tracker.MarkCompleted("FanOutDep47")
+                return 47
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep48(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep48")
+                tracker.MarkCompleted("FanOutDep48")
+                return 48
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep49(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep49")
+                tracker.MarkCompleted("FanOutDep49")
+                return 49
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<FanOutRootModule>)>]
+    type FanOutDep50(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("FanOutDep50")
+                tracker.MarkCompleted("FanOutDep50")
+                return 50
+            }
 
     /// <summary>
     /// Tests for large-scale pipeline scenarios to validate scalability, performance, and correct behavior with many
@@ -940,3 +1502,54 @@ module ScaleTestsModule =
                     ).Because($"Module at completion order {i + 1} should be {expectedModuleName} but was {actualRecord.ModuleName}")
                 )
          }
+
+        /// <summary>
+        /// Verifies that a fan-out pattern (1 root with 50 dependents) executes correctly.
+        /// </summary>
+        /// <remarks>
+        /// This test validates:
+        /// - All 50 dependent modules wait for the root to complete
+        /// - Dependent modules can execute in parallel after the root completes
+        /// - No race conditions with many modules depending on one
+        /// </remarks>
+        [<Test>]
+        member _.Pipeline_With1ModuleAnd50Dependents_CompletesSuccessfully() =
+            async {
+                let tracker = new ExecutionTracker()
+                do! check(Assert.That<bool>(tracker.IsClean).IsTrue())
+                let totalModules = 51
+
+                let builder =
+                    TestPipelineHostBuilder.Create()
+                        .ConfigureServices(fun _ services -> services.AddSingleton(tracker) |> ignore)
+                        .AddModule<FanOutRootModule>()
+                        .AddModule<FanOutDep1>().AddModule<FanOutDep2>().AddModule<FanOutDep3>()
+                        .AddModule<FanOutDep4>().AddModule<FanOutDep5>().AddModule<FanOutDep6>()
+                        .AddModule<FanOutDep7>().AddModule<FanOutDep8>().AddModule<FanOutDep9>()
+                        .AddModule<FanOutDep10>().AddModule<FanOutDep11>().AddModule<FanOutDep12>()
+                        .AddModule<FanOutDep13>().AddModule<FanOutDep14>().AddModule<FanOutDep15>()
+                        .AddModule<FanOutDep16>().AddModule<FanOutDep17>().AddModule<FanOutDep18>()
+                        .AddModule<FanOutDep19>().AddModule<FanOutDep20>().AddModule<FanOutDep21>()
+                        .AddModule<FanOutDep22>().AddModule<FanOutDep23>().AddModule<FanOutDep24>()
+                        .AddModule<FanOutDep25>().AddModule<FanOutDep26>().AddModule<FanOutDep27>()
+                        .AddModule<FanOutDep28>().AddModule<FanOutDep29>().AddModule<FanOutDep30>()
+                        .AddModule<FanOutDep31>().AddModule<FanOutDep32>().AddModule<FanOutDep33>()
+                        .AddModule<FanOutDep34>().AddModule<FanOutDep35>().AddModule<FanOutDep36>()
+                        .AddModule<FanOutDep37>().AddModule<FanOutDep38>().AddModule<FanOutDep39>()
+                        .AddModule<FanOutDep40>().AddModule<FanOutDep41>().AddModule<FanOutDep42>()
+                        .AddModule<FanOutDep43>().AddModule<FanOutDep44>().AddModule<FanOutDep45>()
+                        .AddModule<FanOutDep46>().AddModule<FanOutDep47>().AddModule<FanOutDep48>()
+                        .AddModule<FanOutDep49>().AddModule<FanOutDep50>()
+
+                let! pipelineSummary = builder.ExecutePipelineAsync() |> Async.AwaitTask
+
+                do! check(Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful))
+                do! check(IntEqualsAssertionExtensions.IsEqualTo(Assert.That(tracker.CompletedCount()), totalModules))
+
+                let rootRecord = tracker.GetRecord("FanOutRoot")
+                do! check(Assert.That(rootRecord.IsSome).IsTrue())
+
+                for i = 1 to 50 do
+                    let dependent = tracker.GetRecord($"FanOutDep{i}")
+                    do! check(Assert.That(dependent.IsSome).IsTrue())
+            }
