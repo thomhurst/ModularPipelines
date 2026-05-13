@@ -33,7 +33,7 @@
 		<Compile Include="GlobalTestSetup.fs" />
 		<Compile Include="GlobalDummyModule.fs" />
 		<Compile Include="ScaleTests.fs" />
-		<Compile Include="api\**" />
+		<Compile Include="Api\**" />
 		<Compile Include="attributes\**" />
 		<None Include="Tests.fs" />
 		<None Include="Tests2.fs" />
