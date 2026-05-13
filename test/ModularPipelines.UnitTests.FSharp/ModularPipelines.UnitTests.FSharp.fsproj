@@ -28,12 +28,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="api\**" />
 		<Compile Include="TestConstants.fs" />
 		<None Include="Data\**" />
 		<Compile Include="GlobalTestSetup.fs" />
 		<Compile Include="GlobalDummyModule.fs" />
 		<Compile Include="ScaleTests.fs" />
+		<Compile Include="api\**" />
+		<Compile Include="attributes\**" />
 		<None Include="Tests.fs" />
 		<None Include="Tests2.fs" />
 		<None Include="Tests3.fs" />
