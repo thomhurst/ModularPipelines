@@ -205,6 +205,606 @@ module ScaleTestsModule =
                 tracker.MarkCompleted(typeName);
                 return typeName;
             }
+    [<Struct>] type C1 = struct end
+    [<Struct>] type C2 = struct end
+    [<Struct>] type C3 = struct end
+    [<Struct>] type C4 = struct end
+    [<Struct>] type C5 = struct end
+    [<Struct>] type C6 = struct end
+    [<Struct>] type C7 = struct end
+    [<Struct>] type C8 = struct end
+    [<Struct>] type C9 = struct end
+    [<Struct>] type C10 = struct end
+    [<Struct>] type C11 = struct end
+    [<Struct>] type C12 = struct end
+    [<Struct>] type C13 = struct end
+    [<Struct>] type C14 = struct end
+    [<Struct>] type C15 = struct end
+    [<Struct>] type C16 = struct end
+    [<Struct>] type C17 = struct end
+    [<Struct>] type C18 = struct end
+    [<Struct>] type C19 = struct end
+    [<Struct>] type C20 = struct end
+    [<Struct>] type C21 = struct end
+    [<Struct>] type C22 = struct end
+    [<Struct>] type C23 = struct end
+    [<Struct>] type C24 = struct end
+    [<Struct>] type C25 = struct end
+    [<Struct>] type C26 = struct end
+    [<Struct>] type C27 = struct end
+    [<Struct>] type C28 = struct end
+    [<Struct>] type C29 = struct end
+    [<Struct>] type C30 = struct end
+    [<Struct>] type C31 = struct end
+    [<Struct>] type C32 = struct end
+    [<Struct>] type C33 = struct end
+    [<Struct>] type C34 = struct end
+    [<Struct>] type C35 = struct end
+    [<Struct>] type C36 = struct end
+    [<Struct>] type C37 = struct end
+    [<Struct>] type C38 = struct end
+    [<Struct>] type C39 = struct end
+    [<Struct>] type C40 = struct end
+    [<Struct>] type C41 = struct end
+    [<Struct>] type C42 = struct end
+    [<Struct>] type C43 = struct end
+    [<Struct>] type C44 = struct end
+    [<Struct>] type C45 = struct end
+    [<Struct>] type C46 = struct end
+    [<Struct>] type C47 = struct end
+    [<Struct>] type C48 = struct end
+    [<Struct>] type C49 = struct end
+    [<Struct>] type C50 = struct end
+
+    // Chain modules - each depends on the previous one
+    type ChainModule1(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain1")
+                tracker.MarkCompleted("Chain1")
+                return 1
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule1>)>]
+    type ChainModule2(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain2")
+                tracker.MarkCompleted("Chain2")
+                return 2
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule2>)>]
+    type ChainModule3(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain3")
+                tracker.MarkCompleted("Chain3")
+                return 3
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule3>)>]
+    type ChainModule4(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain4")
+                tracker.MarkCompleted("Chain4")
+                return 4
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule4>)>]
+    type ChainModule5(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain5")
+                tracker.MarkCompleted("Chain5")
+                return 5
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule5>)>]
+    type ChainModule6(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain6")
+                tracker.MarkCompleted("Chain6")
+                return 6
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule6>)>]
+    type ChainModule7(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain7")
+                tracker.MarkCompleted("Chain7")
+                return 7
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule7>)>]
+    type ChainModule8(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain8")
+                tracker.MarkCompleted("Chain8")
+                return 8
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule8>)>]
+    type ChainModule9(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain9")
+                tracker.MarkCompleted("Chain9")
+                return 9
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule9>)>]
+    type ChainModule10(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain10")
+                tracker.MarkCompleted("Chain10")
+                return 10
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule10>)>]
+    type ChainModule11(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain11")
+                tracker.MarkCompleted("Chain11")
+                return 11
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule11>)>]
+    type ChainModule12(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain12")
+                tracker.MarkCompleted("Chain12")
+                return 12
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule12>)>]
+    type ChainModule13(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain13")
+                tracker.MarkCompleted("Chain13")
+                return 13
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule13>)>]
+    type ChainModule14(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain14")
+                tracker.MarkCompleted("Chain14")
+                return 14
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule14>)>]
+    type ChainModule15(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain15")
+                tracker.MarkCompleted("Chain15")
+                return 15
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule15>)>]
+    type ChainModule16(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain16")
+                tracker.MarkCompleted("Chain16")
+                return 16
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule16>)>]
+    type ChainModule17(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain17")
+                tracker.MarkCompleted("Chain17")
+                return 17
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule17>)>]
+    type ChainModule18(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain18")
+                tracker.MarkCompleted("Chain18")
+                return 18
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule18>)>]
+    type ChainModule19(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain19")
+                tracker.MarkCompleted("Chain19")
+                return 19
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule19>)>]
+    type ChainModule20(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain20")
+                tracker.MarkCompleted("Chain20")
+                return 20
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule20>)>]
+    type ChainModule21(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain21")
+                tracker.MarkCompleted("Chain21")
+                return 21
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule21>)>]
+    type ChainModule22(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain22")
+                tracker.MarkCompleted("Chain22")
+                return 22
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule22>)>]
+    type ChainModule23(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain23")
+                tracker.MarkCompleted("Chain23")
+                return 23
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule23>)>]
+    type ChainModule24(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain24")
+                tracker.MarkCompleted("Chain24")
+                return 24
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule24>)>]
+    type ChainModule25(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain25")
+                tracker.MarkCompleted("Chain25")
+                return 25
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule25>)>]
+    type ChainModule26(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain26")
+                tracker.MarkCompleted("Chain26")
+                return 26
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule26>)>]
+    type ChainModule27(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain27")
+                tracker.MarkCompleted("Chain27")
+                return 27
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule27>)>]
+    type ChainModule28(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain28")
+                tracker.MarkCompleted("Chain28")
+                return 28
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule28>)>]
+    type ChainModule29(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain29")
+                tracker.MarkCompleted("Chain29")
+                return 29
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule29>)>]
+    type ChainModule30(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain30")
+                tracker.MarkCompleted("Chain30")
+                return 30
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule30>)>]
+    type ChainModule31(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain31")
+                tracker.MarkCompleted("Chain31")
+                return 31
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule31>)>]
+    type ChainModule32(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain32")
+                tracker.MarkCompleted("Chain32")
+                return 32
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule32>)>]
+    type ChainModule33(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain33")
+                tracker.MarkCompleted("Chain33")
+                return 33
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule33>)>]
+    type ChainModule34(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain34")
+                tracker.MarkCompleted("Chain34")
+                return 34
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule34>)>]
+    type ChainModule35(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain35")
+                tracker.MarkCompleted("Chain35")
+                return 35
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule35>)>]
+    type ChainModule36(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain36")
+                tracker.MarkCompleted("Chain36")
+                return 36
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule36>)>]
+    type ChainModule37(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain37")
+                tracker.MarkCompleted("Chain37")
+                return 37
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule37>)>]
+    type ChainModule38(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain38")
+                tracker.MarkCompleted("Chain38")
+                return 38
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule38>)>]
+    type ChainModule39(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain39")
+                tracker.MarkCompleted("Chain39")
+                return 39
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule39>)>]
+    type ChainModule40(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain40")
+                tracker.MarkCompleted("Chain40")
+                return 40
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule40>)>]
+    type ChainModule41(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain41")
+                tracker.MarkCompleted("Chain41")
+                return 41
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule41>)>]
+    type ChainModule42(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain42")
+                tracker.MarkCompleted("Chain42")
+                return 42
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule42>)>]
+    type ChainModule43(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain43")
+                tracker.MarkCompleted("Chain43")
+                return 43
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule43>)>]
+    type ChainModule44(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain44")
+                tracker.MarkCompleted("Chain44")
+                return 44
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule44>)>]
+    type ChainModule45(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain45")
+                tracker.MarkCompleted("Chain45")
+                return 45
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule45>)>]
+    type ChainModule46(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain46")
+                tracker.MarkCompleted("Chain46")
+                return 46
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule46>)>]
+    type ChainModule47(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain47")
+                tracker.MarkCompleted("Chain47")
+                return 47
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule47>)>]
+    type ChainModule48(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain48")
+                tracker.MarkCompleted("Chain48")
+                return 48
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule48>)>]
+    type ChainModule49(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain49")
+                tracker.MarkCompleted("Chain49")
+                return 49
+            }
+
+    [<ModularPipelines.Attributes.DependsOn(typeof<ChainModule49>)>]
+    type ChainModule50(tracker: ExecutionTracker) =
+        inherit Module<int>()
+
+        override _.ExecuteAsync(context: IModuleContext, cancellationToken: CancellationToken) =
+            task {
+                tracker.RecordStart("Chain50")
+                tracker.MarkCompleted("Chain50")
+                return 50
+            }
 
     /// <summary>
     /// Tests for large-scale pipeline scenarios to validate scalability, performance, and correct behavior with many
@@ -275,4 +875,68 @@ module ScaleTestsModule =
                 do! check(Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful))
                 do! check(IntEqualsAssertionExtensions.IsEqualTo(Assert.That(tracker.CompletedCount()), expectedModuleCount))
             }
+       
+        /// <summary>
+        /// Verifies that a pipeline with a 50-module deep dependency chain
+        /// executes modules in the correct order.
+        /// </summary>
+        /// <remarks>
+        /// This test validates:
+        /// - Deep dependency chains are resolved correctly
+        /// - Modules execute in dependency order
+        /// - No deadlocks occur with long chains
+        /// </remarks>
+        [<Test>]
+        member _.Pipeline_With50ModuleDeepChain_CompletesInOrder() =
+         async{
+            let tracker = new ExecutionTracker();
+            do! check(Assert.That<bool>(tracker.IsClean).IsTrue())
+            let chainDepth = 50;
+            let builder =
+                TestPipelineHostBuilder.Create()
+                    .ConfigureServices(fun _ services -> services.AddSingleton(tracker) |> ignore)
+                    .AddModule<ChainModule1>().AddModule<ChainModule2>().AddModule<ChainModule3>()
+                    .AddModule<ChainModule4>().AddModule<ChainModule5>().AddModule<ChainModule6>()
+                    .AddModule<ChainModule7>().AddModule<ChainModule8>().AddModule<ChainModule9>()
+                    .AddModule<ChainModule10>().AddModule<ChainModule11>().AddModule<ChainModule12>()
+                    .AddModule<ChainModule13>().AddModule<ChainModule14>().AddModule<ChainModule15>()
+                    .AddModule<ChainModule16>().AddModule<ChainModule17>().AddModule<ChainModule18>()
+                    .AddModule<ChainModule19>().AddModule<ChainModule20>().AddModule<ChainModule21>()
+                    .AddModule<ChainModule22>().AddModule<ChainModule23>().AddModule<ChainModule24>()
+                    .AddModule<ChainModule25>().AddModule<ChainModule26>().AddModule<ChainModule27>()
+                    .AddModule<ChainModule28>().AddModule<ChainModule29>().AddModule<ChainModule30>()
+                    .AddModule<ChainModule31>().AddModule<ChainModule32>().AddModule<ChainModule33>()
+                    .AddModule<ChainModule34>().AddModule<ChainModule35>().AddModule<ChainModule36>()
+                    .AddModule<ChainModule37>().AddModule<ChainModule38>().AddModule<ChainModule39>()
+                    .AddModule<ChainModule40>().AddModule<ChainModule41>().AddModule<ChainModule42>()
+                    .AddModule<ChainModule43>().AddModule<ChainModule44>().AddModule<ChainModule45>()
+                    .AddModule<ChainModule46>().AddModule<ChainModule47>().AddModule<ChainModule48>()
+                    .AddModule<ChainModule49>().AddModule<ChainModule50>();
+            let! pipelineSummary = builder.ExecutePipelineAsync() |> Async.AwaitTask
+            do! check(Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful))
+            do! check(IntEqualsAssertionExtensions.IsEqualTo(Assert.That(tracker.CompletedCount()), chainDepth))
 
+            // Verify all chain modules executed
+            for i = 1 to chainDepth do
+                let record = tracker.GetRecord($"Chain{i}")
+                do! check(Assert.That(record.IsSome).IsTrue())
+
+            // Verify dependency ordering: each module must complete before its dependent
+            // Chain1 -> Chain2 -> Chain3 -> ... -> Chain50
+            // Get all records sorted by completion order for diagnostics
+            let orderedRecords =
+                [ 1 .. chainDepth ]
+                |> List.choose (fun i -> tracker.GetRecord($"Chain{i}"))
+                |> List.sortBy (fun r -> r.CompletionOrder)
+
+            // Verify the completion order matches the dependency order
+            for i, actualRecord in orderedRecords |> List.indexed do
+                let expectedModuleName = $"Chain{i + 1}"
+
+                do! check(
+                    StringEqualsAssertionExtensions.IsEqualTo(
+                        Assert.That(actualRecord.ModuleName),
+                        expectedModuleName
+                    ).Because($"Module at completion order {i + 1} should be {expectedModuleName} but was {actualRecord.ModuleName}")
+                )
+         }
