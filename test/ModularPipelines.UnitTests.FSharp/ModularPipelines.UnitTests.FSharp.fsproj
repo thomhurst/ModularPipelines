@@ -32,9 +32,15 @@
 		<None Include="Data\**" />
 		<Compile Include="GlobalTestSetup.fs" />
 		<Compile Include="GlobalDummyModule.fs" />
+		<Compile Include="Models\**" />
+		<Compile Include="State\**" />
+		<Compile Include="Validation\**" />
+		<Compile Include="Requirements\**" />
+		<Compile Include="Results\**" />
+		<Compile Include="Modules\**" />
 		<Compile Include="ScaleTests.fs" />
 		<Compile Include="Api\**" />
-		<Compile Include="attributes\**" />
+		<Compile Include="Attributes\**" />
 		<None Include="Tests.fs" />
 		<None Include="Tests2.fs" />
 		<None Include="Tests3.fs" />
