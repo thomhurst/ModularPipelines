@@ -98,8 +98,13 @@ internal class CommandLogger : ICommandLogger
         mainLine.Append("> ");
         mainLine.Append(obfuscatedInput);
 
-        // Add inline output for short, single-line output on successful commands
         var trimmedOutput = standardOutput.Trim();
+        if (execOpts?.OutputLoggingManipulator is not null)
+        {
+            trimmedOutput = execOpts.OutputLoggingManipulator(trimmedOutput).Trim();
+        }
+
+        // Add inline output for short, single-line output on successful commands
         var hasShortOutput = !string.IsNullOrEmpty(trimmedOutput)
             && !trimmedOutput.Contains('\n')
             && trimmedOutput.Length <= 100
@@ -155,10 +160,7 @@ internal class CommandLogger : ICommandLogger
             && options.Verbosity >= CommandLogVerbosity.Normal
             && options.ShowStandardOutput)
         {
-            var outputToLog = execOpts?.OutputLoggingManipulator is not null
-                ? execOpts.OutputLoggingManipulator(trimmedOutput)
-                : trimmedOutput;
-            Logger.LogInformation("  ↳ {Output}", _secretObfuscator.Obfuscate(outputToLog, execOpts));
+            Logger.LogInformation("  ↳ {Output}", _secretObfuscator.Obfuscate(trimmedOutput, execOpts));
         }
 
         // Log errors on separate line
@@ -173,11 +175,8 @@ internal class CommandLogger : ICommandLogger
             Logger.LogWarning("  ✗ {Error}", _secretObfuscator.Obfuscate(errorToLog, execOpts));
         }
 
-        // Log working directory only at Diagnostic level (separate line, indented)
-        if (options.Verbosity >= CommandLogVerbosity.Diagnostic || options.ShowWorkingDirectory)
-        {
-            Logger.LogInformation("  Working Directory: {WorkingDirectory}", workingDirectory);
-        }
+        // The command line already starts with the working directory; keep command output to
+        // one logical log entry whenever stdout can be displayed inline.
     }
 
     private static bool ShouldShowInput(CommandLoggingOptions options)

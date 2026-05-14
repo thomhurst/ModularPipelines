@@ -5,7 +5,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using NReco.Logging.File;
-using Vertical.SpectreLogger.Options;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ModularPipelines.UnitTests.Commands;
@@ -82,7 +81,6 @@ public class CommandLoggerTests : TestBase
 
         var result = await GetService<ICommand>((_, collection) =>
         {
-            collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => { builder.AddFile(file); });
         });
@@ -198,8 +196,8 @@ public class CommandLoggerTests : TestBase
         // Exit code and duration shown inline
         await Assert.That(logFile).Contains("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsTrue();
-        // Working directory logged separately at Diagnostic level
-        await Assert.That(logFile).Contains("Working Directory:");
+        // Working directory is included in the command line instead of being logged separately.
+        await Assert.That(logFile).DoesNotContain("Working Directory:");
     }
 
     private async Task<string> RunPowershellCommandWithLoggingOptions(string command, CommandLoggingOptions loggingOptions)
@@ -208,7 +206,6 @@ public class CommandLoggerTests : TestBase
 
         var result = await GetService<ICommand>((_, collection) =>
         {
-            collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => { builder.AddFile(file); });
         });
