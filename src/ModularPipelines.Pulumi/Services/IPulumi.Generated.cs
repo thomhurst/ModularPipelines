@@ -21,9 +21,9 @@ public partial interface IPulumi
     #region Sub-domain Services
 
     /// <summary>
-    /// Gets the cloud sub-domain service.
+    /// Gets the api sub-domain service.
     /// </summary>
-    PulumiCloud Cloud { get; }
+    PulumiApi Api { get; }
 
     /// <summary>
     /// Gets the config sub-domain service.
@@ -34,6 +34,11 @@ public partial interface IPulumi
     /// Gets the env sub-domain service.
     /// </summary>
     PulumiEnv Env { get; }
+
+    /// <summary>
+    /// Gets the insights sub-domain service.
+    /// </summary>
+    PulumiInsights Insights { get; }
 
     /// <summary>
     /// Gets the logs sub-domain service.

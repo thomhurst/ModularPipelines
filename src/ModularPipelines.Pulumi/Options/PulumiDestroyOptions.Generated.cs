@@ -147,6 +147,12 @@ public record PulumiDestroyOptions : PulumiOptions
     public bool? ShowSames { get; set; }
 
     /// <summary>
+    /// Skip the up-front provider plugin install step; missing plugins are installed lazily by the engine
+    /// </summary>
+    [CliFlag("--skip-plugin-pre-install")]
+    public bool? SkipPluginPreInstall { get; set; }
+
+    /// <summary>
     /// Do not calculate a preview before performing the destroy
     /// </summary>
     [CliFlag("--skip-preview", ShortForm = "-f")]

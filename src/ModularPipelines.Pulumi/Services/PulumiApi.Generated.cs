@@ -14,17 +14,17 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Services;
 
 /// <summary>
-/// pulumi template commands.
+/// pulumi api commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class PulumiTemplate
+public class PulumiApi
 {
     private readonly ICommand _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PulumiTemplate"/> class.
+    /// Initializes a new instance of the <see cref="PulumiApi"/> class.
     /// </summary>
-    public PulumiTemplate(ICommand command)
+    public PulumiApi(ICommand command)
     {
         _command = command;
     }
@@ -32,48 +32,48 @@ public class PulumiTemplate
     #region Commands
 
     /// <summary>
-    /// [EXPERIMENTAL] Work with Pulumi templates.
+    /// [EXPERIMENTAL] Call any Pulumi Cloud API endpoint.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        PulumiTemplateOptions options = default,
+        PulumiApiOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiApiOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
-    /// [EXPERIMENTAL] List templates from the Pulumi Cloud registry.
+    /// Show the parameters, request body, and response schema for a Pulumi Cloud
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Describe(
+        PulumiApiDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiApiDescribeOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List every endpoint exposed by the Pulumi Cloud OpenAPI spec.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PulumiTemplateListOptions options = default,
+        PulumiApiListOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiTemplateListOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Publish a template to the Private Registry.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Publish(
-        PulumiTemplatePublishOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiTemplatePublishOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiApiListOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

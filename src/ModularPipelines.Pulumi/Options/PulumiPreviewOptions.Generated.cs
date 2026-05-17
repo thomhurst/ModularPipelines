@@ -190,6 +190,12 @@ public record PulumiPreviewOptions : PulumiOptions
     public string? ShowSecrets { get; set; }
 
     /// <summary>
+    /// Skip the up-front provider plugin install step; missing plugins are installed lazily by the engine
+    /// </summary>
+    [CliFlag("--skip-plugin-pre-install")]
+    public bool? SkipPluginPreInstall { get; set; }
+
+    /// <summary>
     /// The name of the stack to operate on. Defaults to the current stack
     /// </summary>
     [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]

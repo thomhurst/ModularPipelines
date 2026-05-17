@@ -9,34 +9,83 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Pulumi.Options;
+using ModularPipelines.Pulumi.Enums;
 
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Show the parameters, request body, and response schema for a Pulumi Cloud
+/// [EXPERIMENTAL] Search resources discovered by Pulumi Insights across an
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cloud", "api", "describe")]
-public record PulumiCloudApiDescribeOptions : PulumiOptions
+[CliSubCommand("insights", "resource", "search")]
+public record PulumiInsightsResourceSearchOptions : PulumiOptions
 {
     /// <summary>
-    /// Output format: default is a human-readable schema render; markdown emits a markdown document (piping friendly, renders in IDEs/glow); `json` emits the stable agent envelope
+    /// Sort in ascending order (default: descending)
     /// </summary>
-    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    [CliFlag("--asc")]
+    public bool? Asc { get; set; }
 
     /// <summary>
-    /// help for describe
+    /// Consolidate resources that exist in multiple sources into a single result
+    /// </summary>
+    [CliFlag("--collapse")]
+    public bool? Collapse { get; set; }
+
+    /// <summary>
+    /// Opaque cursor to continue pagination from (Enterprise plans only)
+    /// </summary>
+    [CliOption("--cursor", Format = OptionFormat.EqualsSeparated)]
+    public string? Cursor { get; set; }
+
+    /// <summary>
+    /// help for search
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// HTTP method to look up (a path can map to multiple ops by method) (default "GET")
+    /// Organization to search within (defaults to the current default org)
     /// </summary>
-    [CliOption("--method", ShortForm = "-X", Format = OptionFormat.EqualsSeparated)]
-    public string? Method { get; set; }
+    [CliOption("--org", Format = OptionFormat.EqualsSeparated)]
+    public string? Org { get; set; }
+
+    /// <summary>
+    /// Output format. One of: default, table, json (default "default")
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    public PulumiInsightsResourceSearchOutput? Output { get; set; }
+
+    /// <summary>
+    /// 1-based page of results to return (max 10,000 total results)
+    /// </summary>
+    [CliOption("--page", Format = OptionFormat.EqualsSeparated)]
+    public int? Page { get; set; }
+
+    /// <summary>
+    /// Number of results per page
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// Include resource input/output values (requires a supported subscription)
+    /// </summary>
+    [CliFlag("--properties")]
+    public bool? Properties { get; set; }
+
+    /// <summary>
+    /// Search query in Pulumi query syntax
+    /// </summary>
+    [CliOption("--query", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
+    public string? Query { get; set; }
+
+    /// <summary>
+    /// Field(s) to sort results by; repeat or comma-separate for multiple. Allowed values: category, created, custom, delete, dependencies, id, managed, modified, module, name, package, parentUrn, project, protected, providerUrn, stack, type, urn
+    /// </summary>
+    [CliOption("--sort", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Sort { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -103,12 +152,6 @@ public record PulumiCloudApiDescribeOptions : PulumiOptions
     /// </summary>
     [CliOption("--profiling", Format = OptionFormat.EqualsSeparated)]
     public string? Profiling { get; set; }
-
-    /// <summary>
-    /// Re-fetch the OpenAPI spec from Pulumi Cloud and overwrite the local cache
-    /// </summary>
-    [CliFlag("--refresh-spec")]
-    public bool? RefreshSpec { get; set; }
 
     /// <summary>
     /// Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file

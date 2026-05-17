@@ -47,7 +47,7 @@ public class PulumiPackage
     }
 
     /// <summary>
-    /// Add a package to your Pulumi project or plugin.
+    /// Add a package to your Pulumi project, plugin, or current directory.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

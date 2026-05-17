@@ -14,18 +14,18 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Services;
 
 /// <summary>
-/// pulumi cloud commands.
+/// pulumi insights commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class PulumiCloud
+public class PulumiInsights
 {
     private readonly ICommand _command;
-    private PulumiCloudApi _api;
+    private PulumiInsightsResource _resource;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PulumiCloud"/> class.
+    /// Initializes a new instance of the <see cref="PulumiInsights"/> class.
     /// </summary>
-    public PulumiCloud(ICommand command)
+    public PulumiInsights(ICommand command)
     {
         _command = command;
     }
@@ -33,27 +33,27 @@ public class PulumiCloud
     #region Sub-command Groups
 
     /// <summary>
-    /// pulumi api sub-commands.
+    /// pulumi resource sub-commands.
     /// </summary>
-    public PulumiCloudApi Api => _api ??= new PulumiCloudApi(_command);
+    public PulumiInsightsResource Resource => _resource ??= new PulumiInsightsResource(_command);
 
     #endregion
 
     #region Commands
 
     /// <summary>
-    /// Interact with Pulumi Cloud.
+    /// Manage Pulumi Insights resources and accounts.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        PulumiCloudOptions options = default,
+        PulumiInsightsOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiCloudOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiInsightsOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

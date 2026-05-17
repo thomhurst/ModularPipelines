@@ -13,24 +13,36 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Add a package to your Pulumi project, plugin, or current directory.
+/// List every endpoint exposed by the Pulumi Cloud OpenAPI spec.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("package", "add")]
-public record PulumiPackageAddOptions : PulumiOptions
+[CliSubCommand("api", "list")]
+public record PulumiApiListOptions : PulumiOptions
 {
     /// <summary>
-    /// help for add
+    /// help for list
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Run outside a Pulumi project or plugin: [nodejs|python|go|dotnet|java]
+    /// Include endpoints marked as deprecated
     /// </summary>
-    [CliOption("--language", Format = OptionFormat.EqualsSeparated)]
-    public string? Language { get; set; }
+    [CliFlag("--include-deprecated")]
+    public bool? IncludeDeprecated { get; set; }
+
+    /// <summary>
+    /// Include endpoints marked as preview (default true)
+    /// </summary>
+    [CliFlag("--include-preview")]
+    public bool? IncludePreview { get; set; }
+
+    /// <summary>
+    /// Output format: table (human-readable, default when interactive), `json` (stable agent envelope, default when non-interactive). Use --output=table to keep the table when redirecting.
+    /// </summary>
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -97,6 +109,12 @@ public record PulumiPackageAddOptions : PulumiOptions
     /// </summary>
     [CliOption("--profiling", Format = OptionFormat.EqualsSeparated)]
     public string? Profiling { get; set; }
+
+    /// <summary>
+    /// Re-fetch the OpenAPI spec from Pulumi Cloud and overwrite the local cache
+    /// </summary>
+    [CliFlag("--refresh-spec")]
+    public bool? RefreshSpec { get; set; }
 
     /// <summary>
     /// Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file

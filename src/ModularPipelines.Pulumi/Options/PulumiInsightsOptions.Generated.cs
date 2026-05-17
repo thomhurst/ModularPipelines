@@ -13,15 +13,15 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Interact with Pulumi Cloud.
+/// Manage Pulumi Insights resources and accounts.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cloud")]
-public record PulumiCloudOptions : PulumiOptions
+[CliSubCommand("insights")]
+public record PulumiInsightsOptions : PulumiOptions
 {
     /// <summary>
-    /// help for cloud
+    /// help for insights
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

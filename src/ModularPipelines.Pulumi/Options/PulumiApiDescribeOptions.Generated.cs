@@ -13,36 +13,30 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// List every endpoint exposed by the Pulumi Cloud OpenAPI spec.
+/// Show the parameters, request body, and response schema for a Pulumi Cloud
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cloud", "api", "list")]
-public record PulumiCloudApiListOptions : PulumiOptions
+[CliSubCommand("api", "describe")]
+public record PulumiApiDescribeOptions : PulumiOptions
 {
     /// <summary>
-    /// Output format: table (human-readable, default when interactive), `json` (stable agent envelope, default when non-interactive). Use --format=table to keep the table when redirecting.
-    /// </summary>
-    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
-
-    /// <summary>
-    /// help for list
+    /// help for describe
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Include endpoints marked as deprecated
+    /// HTTP method to look up (a path can map to multiple ops by method) (default "GET")
     /// </summary>
-    [CliFlag("--include-deprecated")]
-    public bool? IncludeDeprecated { get; set; }
+    [CliOption("--method", ShortForm = "-X", Format = OptionFormat.EqualsSeparated)]
+    public string? Method { get; set; }
 
     /// <summary>
-    /// Include endpoints marked as preview (default true)
+    /// Output format: default is a human-readable schema render; markdown emits a markdown document (piping friendly, renders in IDEs/glow); `json` emits the stable agent envelope
     /// </summary>
-    [CliFlag("--include-preview")]
-    public bool? IncludePreview { get; set; }
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

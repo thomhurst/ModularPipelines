@@ -190,6 +190,12 @@ public record PulumiUpOptions : PulumiOptions
     public bool? ShowSecrets { get; set; }
 
     /// <summary>
+    /// Skip the up-front provider plugin install step; missing plugins are installed lazily by the engine. When deploying from a template, also skips installing the project's runtime dependencies.
+    /// </summary>
+    [CliFlag("--skip-plugin-pre-install")]
+    public bool? SkipPluginPreInstall { get; set; }
+
+    /// <summary>
     /// Do not calculate a preview before performing the update
     /// </summary>
     [CliFlag("--skip-preview", ShortForm = "-f")]

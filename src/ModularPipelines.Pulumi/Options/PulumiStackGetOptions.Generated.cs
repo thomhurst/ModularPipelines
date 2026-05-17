@@ -13,24 +13,36 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Add a package to your Pulumi project, plugin, or current directory.
+/// [EXPERIMENTAL] Retrieve detailed information about a stack.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("package", "add")]
-public record PulumiPackageAddOptions : PulumiOptions
+[CliSubCommand("stack", "get")]
+public record PulumiStackGetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for add
+    /// help for get
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Run outside a Pulumi project or plugin: [nodejs|python|go|dotnet|java]
+    /// The output format: default (human-readable) or json (default "default")
     /// </summary>
-    [CliOption("--language", Format = OptionFormat.EqualsSeparated)]
-    public string? Language { get; set; }
+    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
+
+    /// <summary>
+    /// Display stack outputs which are marked as secret in plaintext
+    /// </summary>
+    [CliFlag("--show-secrets")]
+    public bool? ShowSecrets { get; set; }
+
+    /// <summary>
+    /// The name of the stack to operate on. Defaults to the current stack
+    /// </summary>
+    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Stack { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
