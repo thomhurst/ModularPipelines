@@ -10,7 +10,7 @@ public static class FolderExtensions
 
         while (folder != null)
         {
-            if (folder.ListFiles().Any(x => x.Extension == ".csproj"))
+            if (folder.ListFiles().Any(x => x.Extension is ".csproj" or ".fsproj"))
             {
                 return folder;
             }

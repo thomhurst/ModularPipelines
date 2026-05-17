@@ -1,0 +1,91 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<LangVersion>latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<IsPackable>false</IsPackable>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net10.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="FSharp.Core" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+		<PackageReference Include="Microsoft.Testing.Extensions.HangDump" />
+		<PackageReference Include="Moq" />
+		<PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+		<PackageReference Include="NReco.Logging.File" />
+		<PackageReference Include="RichardSzalay.MockHttp" />
+		<PackageReference Include="System.Text.Json" />
+		<PackageReference Include="TestableIO.System.IO.Abstractions" />
+		<PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" />
+		<PackageReference Include="TUnit" />
+		<PackageReference Include="TUnit.Assertions.FSharp" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="TestConstants.fs" />
+		<None Include="Data\**" />
+		<Compile Include="GlobalTestSetup.fs" />
+		<Compile Include="GlobalDummyModule.fs" />
+		<Compile Include="Builders\**" />
+		<Compile Include="Commands\**" />
+		<Compile Include="Configuration\**" />
+		<Compile Include="Console\**" />
+		<Compile Include="Context\**" />
+		<Compile Include="Dependencies\MockDependencyContext.fs" />
+		<Compile Include="Dependencies\**" />
+		<Compile Include="Engine\**" />
+		<Compile Include="Execution\**" />
+		<Compile Include="Extensions\**" />
+		<Compile Include="FileSystem\**" />
+		<Compile Include="Helpers\**" />
+		<Compile Include="Hooks\**" />
+		<Compile Include="Logging\**" />
+		<Compile Include="Models\**" />
+		<Compile Include="Plugins\**" />
+		<Compile Include="Registration\**" />
+		<Compile Include="State\**" />
+		<Compile Include="Validation\**" />
+		<Compile Include="Requirements\**" />
+		<Compile Include="Results\**" />
+		<Compile Include="Modules\**" />
+		<Compile Include="ScaleTests.fs" />
+		<Compile Include="Api\**" />
+		<Compile Include="Attributes\**" />
+		<None Include="Tests.fs" />
+		<None Include="Tests2.fs" />
+		<None Include="Tests3.fs" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\ModularPipelines.Azure.Pipelines\ModularPipelines.Azure.Pipelines.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.Docker\ModularPipelines.Docker.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.Email\ModularPipelines.Email.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.Ftp\ModularPipelines.Ftp.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.GitHub\ModularPipelines.GitHub.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.Git\ModularPipelines.Git.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.Helm\ModularPipelines.Helm.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.Node\ModularPipelines.Node.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.Slack\ModularPipelines.Slack.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.TeamCity\ModularPipelines.TeamCity.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
+		<ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
+		<ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Data\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>
