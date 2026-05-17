@@ -99,4 +99,10 @@ public record PackerBuildOptions : PackerOptions
     [CliFlag("--use-sequential-evaluation")]
     public bool? UseSequentialEvaluation { get; set; }
 
+    /// <summary>
+    /// Skip injection of HCP Packer enforced provisioners.
+    /// </summary>
+    [CliFlag("--skip-enforcement")]
+    public bool? SkipEnforcement { get; set; }
+
 }
