@@ -278,6 +278,12 @@ public record GcloudContainerNodePoolsCreateOptions(
     public KeyValue[]? NetworkPerformanceConfigs { get; set; }
 
     /// <summary>
+    /// Control how architecture taint should be applied to nodes in a new node     pool.       Supported values:        * unspecified: Default behavior, currently the same as `arm`.        * arm: kubernetes.io/arch=arm:NoSchedule taint will be added for ARM nodes.        * none: No architecture taint will be applied.     Examples:       $ gcloud container node-pools create node-pool-1 \         --cluster=example-cluster \         --node-architecture-taint-behavior=none     To read more about node-taints, see     https://cloud.google.com/kubernetes-engine/docs/node-taints.     NODE_ARCHITECTURE_TAINT_BEHAVIOR must be one of: unspecified, arm,     none.
+    /// </summary>
+    [CliOption("--node-architecture-taint-behavior", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNodeArchitectureTaintBehavior? NodeArchitectureTaintBehavior { get; set; }
+
+    /// <summary>
     /// Assign instances of this pool to run on the specified Google Compute     Engine node group. This is useful for running workloads on sole tenant     nodes.     To see available sole tenant node-groups, run:       $ gcloud compute sole-tenancy node-groups list     To create a sole tenant node group, run:       $ gcloud compute sole-tenancy node-groups create [GROUP_NAME]   \         --location [ZONE] --node-template [TEMPLATE_NAME]   \         --target-size [TARGET_SIZE]     See https://cloud.google.com/compute/docs/nodes for more information on     sole tenancy and node groups.
     /// </summary>
     [CliOption("--node-group", Format = OptionFormat.EqualsSeparated)]

@@ -29,10 +29,16 @@ public record GcloudWorkbenchInstancesUpdateOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Labels to apply to this instance. These can be later modified by the     setLabels method.    Gce Setup for the instance
+    /// Labels to apply to this instance. These can be later modified by the     setLabels method.    Gce Setup for the instance    Data disk configurations.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? Labels { get; set; }
+
+    /// <summary>
+    /// Resource policies to apply to the data disk. Format:     projects/{project}/regions/{region}/resourcePolicies/{policy}.
+    /// </summary>
+    [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? DataDiskResourcePolicies { get; set; }
 
     /// <summary>
     /// The Compute Engine machine type     (https://cloud.google.com/sdk/gcloud/reference/compute/machine-types)     of this instance.
