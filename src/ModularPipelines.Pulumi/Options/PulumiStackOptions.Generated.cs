@@ -27,6 +27,12 @@ public record PulumiStackOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
+    /// The output format: default (human-readable) or json (default "default")
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
+
+    /// <summary>
     /// Display each resource's provider-assigned unique ID
     /// </summary>
     [CliFlag("--show-ids", ShortForm = "-i")]

@@ -9,28 +9,41 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Pulumi.Options;
+using ModularPipelines.Pulumi.Enums;
 
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Add a package to your Pulumi project, plugin, or current directory.
+/// [EXPERIMENTAL] Look up a single resource discovered by Pulumi Insights.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("package", "add")]
-public record PulumiPackageAddOptions : PulumiOptions
+[CliSubCommand("insights", "resource", "get")]
+public record PulumiInsightsResourceGetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for add
+    /// Insights account containing the resource
+    /// </summary>
+    [CliOption("--account", Format = OptionFormat.EqualsSeparated)]
+    public string? Account { get; set; }
+
+    /// <summary>
+    /// help for get
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Run outside a Pulumi project or plugin: [nodejs|python|go|dotnet|java]
+    /// Organization that owns the Insights account (defaults to the current default org)
     /// </summary>
-    [CliOption("--language", Format = OptionFormat.EqualsSeparated)]
-    public string? Language { get; set; }
+    [CliOption("--org", Format = OptionFormat.EqualsSeparated)]
+    public string? Org { get; set; }
+
+    /// <summary>
+    /// Output format. One of: default, json (default "default")
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    public PulumiInsightsResourceGetOutput? Output { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

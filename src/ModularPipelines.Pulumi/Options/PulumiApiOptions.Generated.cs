@@ -13,12 +13,12 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Call any Pulumi Cloud API endpoint.
+/// [EXPERIMENTAL] Call any Pulumi Cloud API endpoint.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cloud", "api")]
-public record PulumiCloudApiOptions : PulumiOptions
+[CliSubCommand("api")]
+public record PulumiApiOptions : PulumiOptions
 {
     /// <summary>
     /// Inline request body sent verbatim (default Content-Type: application/json). Mutually exclusive with --input
@@ -45,12 +45,6 @@ public record PulumiCloudApiOptions : PulumiOptions
     public IEnumerable<string>? Field { get; set; }
 
     /// <summary>
-    /// Drive content negotiation and rendering. Default uses the op's primary response content type (usually JSON). json or `markdown` request that format via the Accept header — rejected if the op's spec doesn't declare it. `raw` keeps the op's default Accept and writes the body through unchanged.
-    /// </summary>
-    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
-
-    /// <summary>
     /// help for api
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
@@ -73,6 +67,12 @@ public record PulumiCloudApiOptions : PulumiOptions
     /// </summary>
     [CliOption("--method", ShortForm = "-X", Format = OptionFormat.EqualsSeparated)]
     public string? Method { get; set; }
+
+    /// <summary>
+    /// Drive content negotiation and rendering. Default uses the op's primary response content type (usually JSON). json or `markdown` request that format via the Accept header — rejected if the op's spec doesn't declare it. `raw` keeps the op's default Accept and writes the body through unchanged.
+    /// </summary>
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Follow pagination cursors and emit the combined result

@@ -9,28 +9,47 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Pulumi.Options;
+using ModularPipelines.Pulumi.Enums;
 
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Add a package to your Pulumi project, plugin, or current directory.
+/// [EXPERIMENTAL] List templates from the Pulumi Cloud registry.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("package", "add")]
-public record PulumiPackageAddOptions : PulumiOptions
+[CliSubCommand("template", "list")]
+public record PulumiTemplateListOptions : PulumiOptions
 {
     /// <summary>
-    /// help for add
+    /// help for list
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Run outside a Pulumi project or plugin: [nodejs|python|go|dotnet|java]
+    /// Filter to templates whose name matches the given value
     /// </summary>
-    [CliOption("--language", Format = OptionFormat.EqualsSeparated)]
-    public string? Language { get; set; }
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Filter to templates owned by the given organization
+    /// </summary>
+    [CliOption("--org", Format = OptionFormat.EqualsSeparated)]
+    public string? Org { get; set; }
+
+    /// <summary>
+    /// Output format. One of: default, json (default "default")
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    public PulumiTemplateListOutput? Output { get; set; }
+
+    /// <summary>
+    /// Free-text search across name, display name, description, metadata values, and runtime
+    /// </summary>
+    [CliOption("--search", Format = OptionFormat.EqualsSeparated)]
+    public string? Search { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

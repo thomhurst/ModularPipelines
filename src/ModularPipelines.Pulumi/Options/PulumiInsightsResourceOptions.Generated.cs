@@ -13,24 +13,18 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Add a package to your Pulumi project, plugin, or current directory.
+/// Inspect resources discovered by Pulumi Insights
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("package", "add")]
-public record PulumiPackageAddOptions : PulumiOptions
+[CliSubCommand("insights", "resource")]
+public record PulumiInsightsResourceOptions : PulumiOptions
 {
     /// <summary>
-    /// help for add
+    /// help for resource
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    /// <summary>
-    /// Run outside a Pulumi project or plugin: [nodejs|python|go|dotnet|java]
-    /// </summary>
-    [CliOption("--language", Format = OptionFormat.EqualsSeparated)]
-    public string? Language { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

@@ -25,9 +25,10 @@ internal partial class Pulumi : IPulumi
     /// Initializes a new instance of the <see cref="Pulumi"/> class.
     /// </summary>
     public Pulumi(
-        PulumiCloud cloud,
+        PulumiApi api,
         PulumiConfig config,
         PulumiEnv env,
+        PulumiInsights insights,
         PulumiLogs logs,
         PulumiOrg org,
         PulumiPackage package,
@@ -40,9 +41,10 @@ internal partial class Pulumi : IPulumi
         ICommand command
     )
     {
-        Cloud = cloud;
+        Api = api;
         Config = config;
         Env = env;
+        Insights = insights;
         Logs = logs;
         Org = org;
         Package = package;
@@ -58,13 +60,16 @@ internal partial class Pulumi : IPulumi
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public PulumiCloud Cloud { get; }
+    public PulumiApi Api { get; }
 
     /// <inheritdoc />
     public PulumiConfig Config { get; }
 
     /// <inheritdoc />
     public PulumiEnv Env { get; }
+
+    /// <inheritdoc />
+    public PulumiInsights Insights { get; }
 
     /// <inheritdoc />
     public PulumiLogs Logs { get; }

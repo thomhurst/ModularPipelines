@@ -14,17 +14,17 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Services;
 
 /// <summary>
-/// pulumi api commands.
+/// pulumi resource commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class PulumiCloudApi
+public class PulumiInsightsResource
 {
     private readonly ICommand _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PulumiCloudApi"/> class.
+    /// Initializes a new instance of the <see cref="PulumiInsightsResource"/> class.
     /// </summary>
-    public PulumiCloudApi(ICommand command)
+    public PulumiInsightsResource(ICommand command)
     {
         _command = command;
     }
@@ -32,33 +32,33 @@ public class PulumiCloudApi
     #region Commands
 
     /// <summary>
-    /// Show the parameters, request body, and response schema for a Pulumi Cloud
+    /// [EXPERIMENTAL] Look up a single resource discovered by Pulumi Insights.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        PulumiCloudApiDescribeOptions options = default,
+    public virtual async Task<CommandResult> Get(
+        PulumiInsightsResourceGetOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiCloudApiDescribeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiInsightsResourceGetOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
-    /// List every endpoint exposed by the Pulumi Cloud OpenAPI spec.
+    /// [EXPERIMENTAL] Search resources discovered by Pulumi Insights across an
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        PulumiCloudApiListOptions options = default,
+    public virtual async Task<CommandResult> Search(
+        PulumiInsightsResourceSearchOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiCloudApiListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiInsightsResourceSearchOptions(), executionOptions, cancellationToken);
     }
 
     #endregion
