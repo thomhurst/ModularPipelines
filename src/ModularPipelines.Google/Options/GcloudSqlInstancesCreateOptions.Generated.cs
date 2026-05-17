@@ -334,6 +334,12 @@ public record GcloudSqlInstancesCreateOptions(
     public string? PasswordPolicyReuseInterval { get; set; }
 
     /// <summary>
+    /// A comma-separated list of performance capture settings to add to the     MySQL instance. The input should be in a format of key=value. Available     case-sensitive keys are: enabled (boolean), probing-interval-seconds     (integer), probe-threshold (integer), running-threads-threshold     (integer), seconds-behind-source-threshold (integer),     transaction-duration-threshold (integer),     cpu-utilization-threshold-percent (integer),     memory-usage-threshold-percent (integer),     transaction-lock-wait-threshold-count (integer),     semaphore-wait-threshold-count (integer),     history-list-length-threshold-count (integer),     transaction-kill-threshold-seconds (integer), transaction-kill-type     (string), transaction-kill-excluded-user-hosts (string,     semicolon-separated list) Example: --performance-capture-config     enabled=true,probe-threshold=5, cpu-utilization-threshold-percent=80,     transaction-kill-excluded-user-hosts=user1@host1;user2@%,     transaction-kill-type=READ_ONLY_TRANSACTIONS
+    /// </summary>
+    [CliOption("--performance-capture-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? PerformanceCaptureConfig { get; set; }
+
+    /// <summary>
     /// A comma-separated list of networks or network-project pairs. Each     project is represented by a project number (numeric) or by a project ID     (alphanumeric). This allows Private Service Connect connections to be     created automatically for the specified networks. For example, this     connection uses "the form     psc-auto-connections=network=projects/testproject1/global/networks/testnetwork1"     or "the form     psc-auto-connections=project=testproject1,network=projects/testproject1/global/networks/testnetwork1".     Sets psc_auto_connections value.      network       Required, sets network value.      project       Sets project value.     Shorthand Example:       --psc-auto-connections=network=string,project=string     JSON Example:       --psc-auto-connections='{"network": "string", "project": "string"}'     File Example:       --psc-auto-connections=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--psc-auto-connections", Format = OptionFormat.EqualsSeparated)]

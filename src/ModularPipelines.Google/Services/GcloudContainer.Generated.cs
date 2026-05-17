@@ -34,6 +34,7 @@ public class GcloudContainer
     private GcloudContainerOperations _operations;
     private GcloudContainerSubnets _subnets;
     private GcloudContainerVmware _vmware;
+    private GcloudContainerWorkload _workload;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainer"/> class.
@@ -114,6 +115,11 @@ public class GcloudContainer
     /// gcloud vmware sub-commands.
     /// </summary>
     public GcloudContainerVmware Vmware => _vmware ??= new GcloudContainerVmware(_command);
+
+    /// <summary>
+    /// gcloud workload sub-commands.
+    /// </summary>
+    public GcloudContainerWorkload Workload => _workload ??= new GcloudContainerWorkload(_command);
 
     #endregion
 

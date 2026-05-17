@@ -35,6 +35,7 @@ public class GcloudCompute
     private GcloudComputeFirewallRules _firewallRules;
     private GcloudComputeForwardingRules _forwardingRules;
     private GcloudComputeFutureReservations _futureReservations;
+    private GcloudComputeGlobalVmExtensionPolicies _globalVmExtensionPolicies;
     private GcloudComputeHealthAggregationPolicies _healthAggregationPolicies;
     private GcloudComputeHealthChecks _healthChecks;
     private GcloudComputeHealthSources _healthSources;
@@ -182,6 +183,11 @@ public class GcloudCompute
     /// gcloud future-reservations sub-commands.
     /// </summary>
     public GcloudComputeFutureReservations FutureReservations => _futureReservations ??= new GcloudComputeFutureReservations(_command);
+
+    /// <summary>
+    /// gcloud global-vm-extension-policies sub-commands.
+    /// </summary>
+    public GcloudComputeGlobalVmExtensionPolicies GlobalVmExtensionPolicies => _globalVmExtensionPolicies ??= new GcloudComputeGlobalVmExtensionPolicies(_command);
 
     /// <summary>
     /// gcloud health-aggregation-policies sub-commands.

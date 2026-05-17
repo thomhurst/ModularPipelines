@@ -596,6 +596,12 @@ public record GcloudContainerClustersCreateOptions(
     public IEnumerable<string>? NetworkPerformanceConfigs { get; set; }
 
     /// <summary>
+    /// Control how architecture taint should be applied to nodes in default     node pool(s) in new cluster.       Supported values:        * unspecified: Default behavior, currently the same as `arm`.        * arm: kubernetes.io/arch=arm:NoSchedule taint will be added for ARM nodes.        * none: No architecture taint will be applied.     Examples:       $ gcloud container clusters create example-cluster \         --node-architecture-taint-behavior=none     To read more about node-taints, see     https://cloud.google.com/kubernetes-engine/docs/node-taints.     NODE_ARCHITECTURE_TAINT_BEHAVIOR must be one of: unspecified, arm,     none.
+    /// </summary>
+    [CliOption("--node-architecture-taint-behavior", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNodeArchitectureTaintBehavior? NodeArchitectureTaintBehavior { get; set; }
+
+    /// <summary>
     /// Applies the given Kubernetes labels on all nodes in the new node pool.     Examples:       $ gcloud container clusters create example-cluster \         --node-labels=label-a=value1,label-2=value2     Updating the node pool's --node-labels flag applies the labels to the     Kubernetes Node objects for existing nodes in-place; it does not     re-create or replace nodes. New nodes, including ones created by     resizing or re-creating nodes, will have these labels on the Kubernetes     API Node object. The labels can be used in the nodeSelector field. See     https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/     for examples.     Note that Kubernetes labels, intended to associate cluster components     and resources with one another and manage resource lifecycles, are     different from Google Kubernetes Engine labels that are used for the     purpose of tracking billing and usage information.
     /// </summary>
     [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
