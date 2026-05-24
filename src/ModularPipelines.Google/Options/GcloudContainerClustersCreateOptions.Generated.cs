@@ -602,6 +602,12 @@ public record GcloudContainerClustersCreateOptions(
     public GcloudNodeArchitectureTaintBehavior? NodeArchitectureTaintBehavior { get; set; }
 
     /// <summary>
+    /// Configures node creation mode for the cluster, either via kubelet or     via control plane. NODE_CREATION_MODE must be one of:      CONTROL_PLANE       registers nodes via control plane; kubelet registration will be       rejected. This selection will not take effect if you turn off       Shielded Nodes.     KUBELET       registers nodes via kubelet.
+    /// </summary>
+    [CliOption("--node-creation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeCreationMode { get; set; }
+
+    /// <summary>
     /// Applies the given Kubernetes labels on all nodes in the new node pool.     Examples:       $ gcloud container clusters create example-cluster \         --node-labels=label-a=value1,label-2=value2     Updating the node pool's --node-labels flag applies the labels to the     Kubernetes Node objects for existing nodes in-place; it does not     re-create or replace nodes. New nodes, including ones created by     resizing or re-creating nodes, will have these labels on the Kubernetes     API Node object. The labels can be used in the nodeSelector field. See     https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/     for examples.     Note that Kubernetes labels, intended to associate cluster components     and resources with one another and manage resource lifecycles, are     different from Google Kubernetes Engine labels that are used for the     purpose of tracking billing and usage information.
     /// </summary>
     [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
@@ -983,11 +989,30 @@ public record GcloudContainerClustersCreateOptions(
     public bool? EnableSecretManagerRotation { get; set; }
 
     /// <summary>
-    /// Set the rotation period for secrets in the Secret Manager CSI driver     provider component. If you don't specify a time interval for the     rotation, it will default to a rotation period of two minutes.    At most one of these can be specified:     --ephemeral-storage-local-ssd[=[count=COUNT]]      Parameters for the ephemeral storage filesystem. If unspecified,      ephemeral storage is backed by the boot disk.      Examples:        $ gcloud container clusters create example_cluster \          --ephemeral-storage-local-ssd count=2      'count' specifies the number of local SSDs to use to back ephemeral      storage. Local SDDs use NVMe interfaces. For first- and      second-generation machine types, a nonzero count field is required      for local ssd to be configured. For third-generation machine types,      the count field is optional because the count is inferred from the      machine type.      See https://cloud.google.com/compute/docs/disks/local-ssd for more      information.     --local-nvme-ssd-block[=[count=COUNT]]      Adds the requested local SSDs on all nodes in default node pool(s) in      the new cluster.      Examples:        $ gcloud container clusters create example_cluster \          --local-nvme-ssd-block count=2      'count' must be between 1-8      New nodes, including ones created by resize or recreate, will have      these local SSDs.      For first- and second-generation machine types, a nonzero count field      is required for local ssd to be configured. For third-generation      machine types, the count field is optional because the count is      inferred from the machine type.      See https://cloud.google.com/compute/docs/disks/local-ssd for more      information.     --local-ssd-count=LOCAL_SSD_COUNT      The number of local SSD disks to provision on each node, formatted      and mounted in the filesystem.      Local SSDs have a fixed 375 GB capacity per device. The number of      disks that can be attached to an instance is limited by the maximum      number of disks available on a machine, which differs by compute      zone. See https://cloud.google.com/compute/docs/disks/local-ssd for      more information.    At most one of these can be specified:     --location=LOCATION      Compute zone or region (e.g. us-central1-a or us-central1) for the      cluster. Overrides the default compute/region or compute/zone value      for this command invocation. Prefer using this flag over the --region      or --zone flags.     --region=REGION      Compute region (e.g. us-central1) for a regional cluster. Overrides      the default compute/region property value for this command      invocation.     --zone=ZONE, -z ZONE      Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the      default compute/zone property value for this command invocation.    Flags for cluster disruption budget configuration:
+    /// Set the rotation period for secrets in the Secret Manager CSI driver     provider component. If you don't specify a time interval for the     rotation, it will default to a rotation period of two minutes.    Flags for Secret Sync configuration:
     /// </summary>
     [SecretValue]
     [CliOption("--secret-manager-rotation-interval", Format = OptionFormat.EqualsSeparated)]
     public string? SecretManagerRotationInterval { get; set; }
+
+    /// <summary>
+    /// Enables the Secret Sync component. For details, see Synchronize secrets     to Kubernetes Secrets     (https://docs.cloud.google.com/secret-manager/docs/sync-k8-secrets).
+    /// </summary>
+    [CliFlag("--enable-secret-sync")]
+    public bool? EnableSecretSync { get; set; }
+
+    /// <summary>
+    /// Enables the rotation of secrets in the Secret Sync component.
+    /// </summary>
+    [CliFlag("--enable-secret-sync-rotation")]
+    public bool? EnableSecretSyncRotation { get; set; }
+
+    /// <summary>
+    /// Set the rotation period for secrets in the Secret Sync component.    At most one of these can be specified:     --ephemeral-storage-local-ssd[=[count=COUNT]]      Parameters for the ephemeral storage filesystem. If unspecified,      ephemeral storage is backed by the boot disk.      Examples:        $ gcloud container clusters create example_cluster \          --ephemeral-storage-local-ssd count=2      'count' specifies the number of local SSDs to use to back ephemeral      storage. Local SDDs use NVMe interfaces. For first- and      second-generation machine types, a nonzero count field is required      for local ssd to be configured. For third-generation machine types,      the count field is optional because the count is inferred from the      machine type.      See https://cloud.google.com/compute/docs/disks/local-ssd for more      information.     --local-nvme-ssd-block[=[count=COUNT]]      Adds the requested local SSDs on all nodes in default node pool(s) in      the new cluster.      Examples:        $ gcloud container clusters create example_cluster \          --local-nvme-ssd-block count=2      'count' must be between 1-8      New nodes, including ones created by resize or recreate, will have      these local SSDs.      For first- and second-generation machine types, a nonzero count field      is required for local ssd to be configured. For third-generation      machine types, the count field is optional because the count is      inferred from the machine type.      See https://cloud.google.com/compute/docs/disks/local-ssd for more      information.     --local-ssd-count=LOCAL_SSD_COUNT      The number of local SSD disks to provision on each node, formatted      and mounted in the filesystem.      Local SSDs have a fixed 375 GB capacity per device. The number of      disks that can be attached to an instance is limited by the maximum      number of disks available on a machine, which differs by compute      zone. See https://cloud.google.com/compute/docs/disks/local-ssd for      more information.    At most one of these can be specified:     --location=LOCATION      Compute zone or region (e.g. us-central1-a or us-central1) for the      cluster. Overrides the default compute/region or compute/zone value      for this command invocation. Prefer using this flag over the --region      or --zone flags.     --region=REGION      Compute region (e.g. us-central1) for a regional cluster. Overrides      the default compute/region property value for this command      invocation.     --zone=ZONE, -z ZONE      Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the      default compute/zone property value for this command invocation.    Flags for cluster disruption budget configuration:
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret-sync-rotation-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? SecretSyncRotationInterval { get; set; }
 
     /// <summary>
     /// Set the minimum interval of time between minor version cluster     upgrades.

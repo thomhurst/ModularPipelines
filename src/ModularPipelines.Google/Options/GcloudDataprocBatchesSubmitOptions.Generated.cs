@@ -83,6 +83,12 @@ public record GcloudDataprocBatchesSubmitOptions : GcloudOptions
     public string? RequestId { get; set; }
 
     /// <summary>
+    /// Resource Manager Tags to be associated with the compute resources     created for the workload. Only one key-value pair can be specified per     flag. Repeat the flag to specify multiple tags.
+    /// </summary>
+    [CliOption("--resource-manager-tag", Format = OptionFormat.EqualsSeparated)]
+    public KeyValue[]? ResourceManagerTag { get; set; }
+
+    /// <summary>
     /// The IAM service account to be used for a batch/session job.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]

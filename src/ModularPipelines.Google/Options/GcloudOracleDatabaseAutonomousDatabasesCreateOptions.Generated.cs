@@ -22,11 +22,18 @@ namespace ModularPipelines.Google.Options;
 public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// The password for the default ADMIN user.
+    /// The password for the default ADMIN user. Note: Only one of     admin_password_secret_version or admin_password can be populated.
     /// </summary>
     [SecretValue]
     [CliOption("--admin-password", Format = OptionFormat.EqualsSeparated)]
     public string? AdminPassword { get; set; }
+
+    /// <summary>
+    /// The resource name of a secret version in Secret Manager which contains     the database admin user's password. Format:     projects/{project}/secrets/{secret}/versions/{version}. Note: Only one     of admin_password_secret_version or admin_password can be populated.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--admin-password-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminPasswordSecretVersion { get; set; }
 
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to     complete.

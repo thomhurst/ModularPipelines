@@ -34,6 +34,18 @@ public record GcloudGeminiGibqObservabilitySettingsCreateOptions : GcloudOptions
     public string? RequestId { get; set; }
 
     /// <summary>
+    /// Whether to enable feedback.
+    /// </summary>
+    [CliFlag("--conversational-analytics-setting-feedback-enabled")]
+    public bool? ConversationalAnalyticsSettingFeedbackEnabled { get; set; }
+
+    /// <summary>
+    /// Whether to enable logging.
+    /// </summary>
+    [CliFlag("--conversational-analytics-setting-logging-enabled")]
+    public bool? ConversationalAnalyticsSettingLoggingEnabled { get; set; }
+
+    /// <summary>
     /// Whether to enable metrics.
     /// </summary>
     [CliFlag("--conversational-analytics-setting-metrics-enabled")]
