@@ -20,7 +20,12 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiEnv
 {
     private readonly ICommand _command;
+    private PulumiEnvProvider _provider;
+    private PulumiEnvReferrer _referrer;
+    private PulumiEnvSchedule _schedule;
+    private PulumiEnvSettings _settings;
     private PulumiEnvTag _tag;
+    private PulumiEnvWebhook _webhook;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiEnv"/> class.
@@ -33,9 +38,34 @@ public class PulumiEnv
     #region Sub-command Groups
 
     /// <summary>
+    /// pulumi provider sub-commands.
+    /// </summary>
+    public PulumiEnvProvider Provider => _provider ??= new PulumiEnvProvider(_command);
+
+    /// <summary>
+    /// pulumi referrer sub-commands.
+    /// </summary>
+    public PulumiEnvReferrer Referrer => _referrer ??= new PulumiEnvReferrer(_command);
+
+    /// <summary>
+    /// pulumi schedule sub-commands.
+    /// </summary>
+    public PulumiEnvSchedule Schedule => _schedule ??= new PulumiEnvSchedule(_command);
+
+    /// <summary>
+    /// pulumi settings sub-commands.
+    /// </summary>
+    public PulumiEnvSettings Settings => _settings ??= new PulumiEnvSettings(_command);
+
+    /// <summary>
     /// pulumi tag sub-commands.
     /// </summary>
     public PulumiEnvTag Tag => _tag ??= new PulumiEnvTag(_command);
+
+    /// <summary>
+    /// pulumi webhook sub-commands.
+    /// </summary>
+    public PulumiEnvWebhook Webhook => _webhook ??= new PulumiEnvWebhook(_command);
 
     #endregion
 

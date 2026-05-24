@@ -13,30 +13,18 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// List plugins
+/// [EXPERIMENTAL] Send a test delivery to an environment webhook
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("plugin", "ls")]
-public record PulumiPluginLsOptions : PulumiOptions
+[CliSubCommand("env", "webhook", "ping")]
+public record PulumiEnvWebhookPingOptions : PulumiOptions
 {
     /// <summary>
-    /// help for ls
+    /// help for ping
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    /// <summary>
-    /// Emit output as JSON
-    /// </summary>
-    [CliFlag("--json", ShortForm = "-j")]
-    public bool? Json { get; set; }
-
-    /// <summary>
-    /// List only the plugins used by the current project
-    /// </summary>
-    [CliFlag("--project", ShortForm = "-p")]
-    public bool? Project { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -61,6 +49,12 @@ public record PulumiPluginLsOptions : PulumiOptions
     /// </summary>
     [CliFlag("--emoji", ShortForm = "-e")]
     public bool? Emoji { get; set; }
+
+    /// <summary>
+    /// The name of the environment to operate on.
+    /// </summary>
+    [CliOption("--env", Format = OptionFormat.EqualsSeparated)]
+    public string? Env { get; set; }
 
     /// <summary>
     /// Show fully-qualified stack names

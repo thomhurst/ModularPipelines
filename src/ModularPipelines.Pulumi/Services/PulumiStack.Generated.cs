@@ -20,7 +20,11 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiStack
 {
     private readonly ICommand _command;
+    private PulumiStackDrift _drift;
+    private PulumiStackHistory _history;
+    private PulumiStackSchedule _schedule;
     private PulumiStackTag _tag;
+    private PulumiStackWebhook _webhook;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiStack"/> class.
@@ -33,9 +37,29 @@ public class PulumiStack
     #region Sub-command Groups
 
     /// <summary>
+    /// pulumi drift sub-commands.
+    /// </summary>
+    public PulumiStackDrift Drift => _drift ??= new PulumiStackDrift(_command);
+
+    /// <summary>
+    /// pulumi history sub-commands.
+    /// </summary>
+    public PulumiStackHistory History => _history ??= new PulumiStackHistory(_command);
+
+    /// <summary>
+    /// pulumi schedule sub-commands.
+    /// </summary>
+    public PulumiStackSchedule Schedule => _schedule ??= new PulumiStackSchedule(_command);
+
+    /// <summary>
     /// pulumi tag sub-commands.
     /// </summary>
     public PulumiStackTag Tag => _tag ??= new PulumiStackTag(_command);
+
+    /// <summary>
+    /// pulumi webhook sub-commands.
+    /// </summary>
+    public PulumiStackWebhook Webhook => _webhook ??= new PulumiStackWebhook(_command);
 
     #endregion
 
@@ -99,21 +123,6 @@ public class PulumiStack
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackGraphOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Display history for a stack
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> History(
-        PulumiStackHistoryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiStackHistoryOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

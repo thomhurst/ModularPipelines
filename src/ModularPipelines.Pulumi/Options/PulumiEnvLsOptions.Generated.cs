@@ -33,6 +33,12 @@ public record PulumiEnvLsOptions : PulumiOptions
     public string? Organization { get; set; }
 
     /// <summary>
+    /// output format: "text" (default) or "json" (default "text")
+    /// </summary>
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
+
+    /// <summary>
     /// Filter returned environments to those in a specific project
     /// </summary>
     [CliOption("--project", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]

@@ -20,7 +20,9 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiPolicy
 {
     private readonly ICommand _command;
+    private PulumiPolicyCompliance _compliance;
     private PulumiPolicyGroup _group;
+    private PulumiPolicyIssue _issue;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiPolicy"/> class.
@@ -33,9 +35,19 @@ public class PulumiPolicy
     #region Sub-command Groups
 
     /// <summary>
+    /// pulumi compliance sub-commands.
+    /// </summary>
+    public PulumiPolicyCompliance Compliance => _compliance ??= new PulumiPolicyCompliance(_command);
+
+    /// <summary>
     /// pulumi group sub-commands.
     /// </summary>
     public PulumiPolicyGroup Group => _group ??= new PulumiPolicyGroup(_command);
+
+    /// <summary>
+    /// pulumi issue sub-commands.
+    /// </summary>
+    public PulumiPolicyIssue Issue => _issue ??= new PulumiPolicyIssue(_command);
 
     #endregion
 

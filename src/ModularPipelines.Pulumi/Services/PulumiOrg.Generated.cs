@@ -20,7 +20,12 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiOrg
 {
     private readonly ICommand _command;
+    private PulumiOrgAuditLog _auditLog;
+    private PulumiOrgMember _member;
+    private PulumiOrgRole _role;
     private PulumiOrgSearch _search;
+    private PulumiOrgUsage _usage;
+    private PulumiOrgWebhook _webhook;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiOrg"/> class.
@@ -33,9 +38,34 @@ public class PulumiOrg
     #region Sub-command Groups
 
     /// <summary>
+    /// pulumi audit-log sub-commands.
+    /// </summary>
+    public PulumiOrgAuditLog AuditLog => _auditLog ??= new PulumiOrgAuditLog(_command);
+
+    /// <summary>
+    /// pulumi member sub-commands.
+    /// </summary>
+    public PulumiOrgMember Member => _member ??= new PulumiOrgMember(_command);
+
+    /// <summary>
+    /// pulumi role sub-commands.
+    /// </summary>
+    public PulumiOrgRole Role => _role ??= new PulumiOrgRole(_command);
+
+    /// <summary>
     /// pulumi search sub-commands.
     /// </summary>
     public PulumiOrgSearch Search => _search ??= new PulumiOrgSearch(_command);
+
+    /// <summary>
+    /// pulumi usage sub-commands.
+    /// </summary>
+    public PulumiOrgUsage Usage => _usage ??= new PulumiOrgUsage(_command);
+
+    /// <summary>
+    /// pulumi webhook sub-commands.
+    /// </summary>
+    public PulumiOrgWebhook Webhook => _webhook ??= new PulumiOrgWebhook(_command);
 
     #endregion
 

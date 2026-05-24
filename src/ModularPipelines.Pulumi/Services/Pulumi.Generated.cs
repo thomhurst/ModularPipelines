@@ -27,6 +27,7 @@ internal partial class Pulumi : IPulumi
     public Pulumi(
         PulumiApi api,
         PulumiConfig config,
+        PulumiDeployment deployment,
         PulumiEnv env,
         PulumiInsights insights,
         PulumiLogs logs,
@@ -43,6 +44,7 @@ internal partial class Pulumi : IPulumi
     {
         Api = api;
         Config = config;
+        Deployment = deployment;
         Env = env;
         Insights = insights;
         Logs = logs;
@@ -64,6 +66,9 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public PulumiConfig Config { get; }
+
+    /// <inheritdoc />
+    public PulumiDeployment Deployment { get; }
 
     /// <inheritdoc />
     public PulumiEnv Env { get; }
@@ -172,6 +177,15 @@ internal partial class Pulumi : IPulumi
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiLogoutOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> Neo(
+        PulumiNeoOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiNeoOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

@@ -21,6 +21,12 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiApiOptions : PulumiOptions
 {
     /// <summary>
+    /// Follow pagination cursors and emit the combined result
+    /// </summary>
+    [CliFlag("--all")]
+    public bool? All { get; set; }
+
+    /// <summary>
     /// Inline request body sent verbatim (default Content-Type: application/json). Mutually exclusive with --input
     /// </summary>
     [CliOption("--body", Format = OptionFormat.EqualsSeparated)]
@@ -73,12 +79,6 @@ public record PulumiApiOptions : PulumiOptions
     /// </summary>
     [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
-
-    /// <summary>
-    /// Follow pagination cursors and emit the combined result
-    /// </summary>
-    [CliFlag("--paginate")]
-    public bool? Paginate { get; set; }
 
     /// <summary>
     /// String key=value with no type coercion. Sent as query params on GET/HEAD, JSON body fields otherwise

@@ -13,30 +13,30 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Remove one or more plugins from the download cache.
+/// [EXPERIMENTAL] Show the current drift detection status for a stack.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("plugin", "rm")]
-public record PulumiPluginRmOptions : PulumiOptions
+[CliSubCommand("stack", "drift", "status")]
+public record PulumiStackDriftStatusOptions : PulumiOptions
 {
     /// <summary>
-    /// Remove all plugins
-    /// </summary>
-    [CliFlag("--all", ShortForm = "-a")]
-    public bool? All { get; set; }
-
-    /// <summary>
-    /// help for rm
+    /// help for status
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Skip confirmation prompts, and proceed with removal anyway
+    /// Output format. Supported values are: default and json (default "default")
     /// </summary>
-    [CliFlag("--yes", ShortForm = "-y")]
-    public bool? Yes { get; set; }
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
+
+    /// <summary>
+    /// The name of the stack to operate on. Defaults to the current stack
+    /// </summary>
+    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Stack { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

@@ -27,6 +27,12 @@ public record PulumiEnvTagGetOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
+    /// output format: "text" (default) or "json" (default "text")
+    /// </summary>
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
+
+    /// <summary>
     /// display times in UTC
     /// </summary>
     [CliFlag("--utc")]

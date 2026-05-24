@@ -29,7 +29,7 @@ public record PulumiStackOptions : PulumiOptions
     /// <summary>
     /// The output format: default (human-readable) or json (default "default")
     /// </summary>
-    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
 
     /// <summary>
