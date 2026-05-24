@@ -81,6 +81,12 @@ public record DockerBuilderBakeOptions : DockerOptions
     public bool? NoCache { get; set; }
 
     /// <summary>
+    /// Global policy evaluation options (format: "[disabled=true|false][,strict=true|false][,log-level=level]")
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Policy { get; set; }
+
+    /// <summary>
     /// Print the options without building
     /// </summary>
     [CliFlag("--print")]
