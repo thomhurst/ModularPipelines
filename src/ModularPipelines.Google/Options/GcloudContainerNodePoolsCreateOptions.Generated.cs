@@ -32,10 +32,16 @@ public record GcloudContainerNodePoolsCreateOptions(
     public IEnumerable<string>? Accelerator { get; set; }
 
     /// <summary>
-    /// Accelerator Network Profile that will be used by the node pool.     Currently only the auto value is supported. A compatible Accelerator     machine type needs to be specified with the --machine-type flag. An     Accelerator Network Profile will be created if it does not exist.
+    /// Accelerator Network Profile that will be used by the node pool.     Currently only the auto value is supported. A compatible Accelerator     machine type needs to be specified with the --machine-type flag. An     Accelerator Network Profile will be created if it does not exist.    Node pool maintenance exclusions
     /// </summary>
     [CliOption("--accelerator-network-profile", Format = OptionFormat.EqualsSeparated)]
     public string? AcceleratorNetworkProfile { get; set; }
+
+    /// <summary>
+    /// Add node pool maintenance exclusion until the end of support.
+    /// </summary>
+    [CliFlag("--add-maintenance-exclusion-until-end-of-support")]
+    public bool? AddMaintenanceExclusionUntilEndOfSupport { get; set; }
 
     /// <summary>
     /// Attach an additional network interface to each node in the pool. This     parameter can be specified up to 7 times.     e.g. --additional-node-network network=dataplane,subnetwork=subnet-dp      network       (Required) The network to attach the new interface to.      subnetwork       (Required) The subnetwork to attach the new interface to.

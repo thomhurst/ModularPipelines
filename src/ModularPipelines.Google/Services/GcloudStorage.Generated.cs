@@ -26,6 +26,7 @@ public class GcloudStorage
     private GcloudStorageHmac _hmac;
     private GcloudStorageInsights _insights;
     private GcloudStorageIntelligenceConfigs _intelligenceConfigs;
+    private GcloudStorageIntelligenceFindings _intelligenceFindings;
     private GcloudStorageManagedFolders _managedFolders;
     private GcloudStorageObjects _objects;
     private GcloudStorageOperations _operations;
@@ -69,6 +70,11 @@ public class GcloudStorage
     /// gcloud intelligence-configs sub-commands.
     /// </summary>
     public GcloudStorageIntelligenceConfigs IntelligenceConfigs => _intelligenceConfigs ??= new GcloudStorageIntelligenceConfigs(_command);
+
+    /// <summary>
+    /// gcloud intelligence-findings sub-commands.
+    /// </summary>
+    public GcloudStorageIntelligenceFindings IntelligenceFindings => _intelligenceFindings ??= new GcloudStorageIntelligenceFindings(_command);
 
     /// <summary>
     /// gcloud managed-folders sub-commands.

@@ -51,7 +51,7 @@ public record GcloudSqlExportSqlOptions(
     public bool? Offload { get; set; }
 
     /// <summary>
-    /// Perform a parallel export. This flag is only applicable to MySQL and     Postgres.
+    /// Perform a parallel export. This flag is only applicable to MySQL and     Postgres. When this flag is used, the URI specifies a folder in the     Cloud Storage bucket. After the parallel export completes, you will     have multiple files in that folder.
     /// </summary>
     [CliFlag("--parallel")]
     public bool? Parallel { get; set; }
