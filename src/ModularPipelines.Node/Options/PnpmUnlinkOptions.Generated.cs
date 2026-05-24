@@ -68,4 +68,10 @@ public record PnpmUnlinkOptions : PnpmOptions
     [CliOption("--workspace-root", ShortForm = "-w")]
     public string? WorkspaceRoot { get; set; }
 
+    /// <summary>
+    /// Automatically answer yes to prompts and run non-interactively. Will abort if an undesirable situation occurs and user input is strictly necessary.
+    /// </summary>
+    [CliOption("--yes", ShortForm = "-y")]
+    public string? Yes { get; set; }
+
 }

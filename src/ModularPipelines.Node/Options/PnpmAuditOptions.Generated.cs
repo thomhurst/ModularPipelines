@@ -21,7 +21,7 @@ namespace ModularPipelines.Node.Options;
 public record PnpmAuditOptions : PnpmOptions
 {
     /// <summary>
-    /// Only print advisories with severity greater than or equal to one of the following: low|moderate|high|critical. Default: low
+    /// Only print advisories with severity greater than or equal to one of the following: info|low|moderate|high|critical. Default: low
     /// </summary>
     [CliOption("--audit-level")]
     public string? AuditLevel { get; set; }
@@ -33,13 +33,13 @@ public record PnpmAuditOptions : PnpmOptions
     public string? Dev { get; set; }
 
     /// <summary>
-    /// Add overrides to the package.json file in order to force non-vulnerable versions of the dependencies
+    /// Fix the audited vulnerabilities using the specified method: "override" or "update". "override" adds overrides to the package.json file in order to force non-vulnerable versions of the dependencies. "update" attempts to update the vulnerable packages in the lockfile to non-vulnerable versions. If no method is specified, "override" is used by default.
     /// </summary>
     [CliOption("--fix")]
     public string? Fix { get; set; }
 
     /// <summary>
-    /// Ignore a vulnerability by CVE
+    /// Ignore a vulnerability by its GitHub advisory ID (e.g. GHSA-xxxx-xxxx-xxxx)
     /// </summary>
     [CliOption("--ignore")]
     public string? Ignore { get; set; }
@@ -51,10 +51,16 @@ public record PnpmAuditOptions : PnpmOptions
     public string? IgnoreRegistryErrors { get; set; }
 
     /// <summary>
-    /// Ignore all CVEs with no resolution
+    /// Ignore all vulnerabilities for which no fix exists
     /// </summary>
     [CliOption("--ignore-unfixable")]
     public string? IgnoreUnfixable { get; set; }
+
+    /// <summary>
+    /// Show vulnerabilities and select which ones to fix interactively
+    /// </summary>
+    [CliOption("--interactive", ShortForm = "-i")]
+    public string? Interactive { get; set; }
 
     /// <summary>
     /// Output audit report in JSON format
