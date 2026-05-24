@@ -93,6 +93,12 @@ public record PnpmAddOptions : PnpmOptions
     public bool? Recursive { get; set; }
 
     /// <summary>
+    /// The registry to use for the installation
+    /// </summary>
+    [CliOption("--registry")]
+    public string? Registry { get; set; }
+
+    /// <summary>
     /// Save package to the default catalog
     /// </summary>
     [CliOption("--save-catalog")]
@@ -101,13 +107,13 @@ public record PnpmAddOptions : PnpmOptions
     /// <summary>
     /// Save package to your `devDependencies`
     /// </summary>
-    [CliFlag("--save-dev", ShortForm = "-D")]
+    [CliFlag("--save-dev", ShortForm = "-d")]
     public bool? SaveDev { get; set; }
 
     /// <summary>
     /// Save package to your `optionalDependencies`
     /// </summary>
-    [CliFlag("--save-optional", ShortForm = "-O")]
+    [CliFlag("--save-optional", ShortForm = "-o")]
     public bool? SaveOptional { get; set; }
 
     /// <summary>
@@ -119,7 +125,7 @@ public record PnpmAddOptions : PnpmOptions
     /// <summary>
     /// Save package to your `dependencies`. The default behavior
     /// </summary>
-    [CliOption("--save-prod", ShortForm = "-P")]
+    [CliOption("--save-prod", ShortForm = "-p")]
     public string? SaveProd { get; set; }
 
     /// <summary>
@@ -157,6 +163,12 @@ public record PnpmAddOptions : PnpmOptions
     /// </summary>
     [CliOption("--workspace-root", ShortForm = "-w")]
     public string? WorkspaceRoot { get; set; }
+
+    /// <summary>
+    /// Automatically answer yes to prompts and run non-interactively. Will abort if an undesirable situation occurs and user input is strictly necessary.
+    /// </summary>
+    [CliOption("--yes", ShortForm = "-y")]
+    public string? Yes { get; set; }
 
     /// <summary>
     /// Defines files to ignore when filtering for changed projects since the specified

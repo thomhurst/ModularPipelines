@@ -27,7 +27,7 @@ public record PnpmInitOptions : PnpmOptions
     public string? Bare { get; set; }
 
     /// <summary>
-    /// Pin the project to the current pnpm version by adding a "packageManager" field to package.json
+    /// Declare a pnpm version range via "devEngines.packageManager" in package.json and auto-download pnpm when it is missing
     /// </summary>
     [CliOption("--init-package-manager")]
     public string? InitPackageManager { get; set; }
