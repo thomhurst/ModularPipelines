@@ -42,7 +42,7 @@ public record PulumiTemplateListOptions : PulumiOptions
     /// <summary>
     /// Output format. One of: default, json (default "default")
     /// </summary>
-    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
     public PulumiTemplateListOutput? Output { get; set; }
 
     /// <summary>

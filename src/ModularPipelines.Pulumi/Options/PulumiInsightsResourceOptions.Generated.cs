@@ -13,7 +13,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Inspect resources discovered by Pulumi Insights
+/// [EXPERIMENTAL] Inspect resources discovered by Pulumi Insights
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]

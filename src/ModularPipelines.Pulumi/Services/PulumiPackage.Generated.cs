@@ -122,7 +122,7 @@ public class PulumiPackage
     }
 
     /// <summary>
-    /// Create a new Pulumi package from a template.
+    /// [EXPERIMENTAL] Create a new Pulumi package from a template.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

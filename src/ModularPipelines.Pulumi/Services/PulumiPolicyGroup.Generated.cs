@@ -32,6 +32,36 @@ public class PulumiPolicyGroup
     #region Commands
 
     /// <summary>
+    /// [EXPERIMENTAL] Update a Policy Group's configuration.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Edit(
+        PulumiPolicyGroupEditOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiPolicyGroupEditOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// [EXPERIMENTAL] Get the details of a Policy Group.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Get(
+        PulumiPolicyGroupGetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiPolicyGroupGetOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List all Policy Groups for a Pulumi organization
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -44,6 +74,36 @@ public class PulumiPolicyGroup
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiPolicyGroupLsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// [EXPERIMENTAL] Create a new Policy Group.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> New(
+        PulumiPolicyGroupNewOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiPolicyGroupNewOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// [EXPERIMENTAL] Delete a Policy Group.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Remove(
+        PulumiPolicyGroupRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiPolicyGroupRemoveOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -20,6 +20,7 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiInsights
 {
     private readonly ICommand _command;
+    private PulumiInsightsAccount _account;
     private PulumiInsightsResource _resource;
 
     /// <summary>
@@ -33,6 +34,11 @@ public class PulumiInsights
     #region Sub-command Groups
 
     /// <summary>
+    /// pulumi account sub-commands.
+    /// </summary>
+    public PulumiInsightsAccount Account => _account ??= new PulumiInsightsAccount(_command);
+
+    /// <summary>
     /// pulumi resource sub-commands.
     /// </summary>
     public PulumiInsightsResource Resource => _resource ??= new PulumiInsightsResource(_command);
@@ -42,7 +48,7 @@ public class PulumiInsights
     #region Commands
 
     /// <summary>
-    /// Manage Pulumi Insights resources and accounts.
+    /// [EXPERIMENTAL] Manage Pulumi Insights resources and accounts.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

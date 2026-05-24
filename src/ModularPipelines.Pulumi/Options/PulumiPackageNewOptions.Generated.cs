@@ -13,7 +13,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Create a new Pulumi package from a template.
+/// [EXPERIMENTAL] Create a new Pulumi package from a template.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]

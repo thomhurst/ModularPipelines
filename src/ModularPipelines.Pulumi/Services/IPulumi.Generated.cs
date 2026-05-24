@@ -31,6 +31,11 @@ public partial interface IPulumi
     PulumiConfig Config { get; }
 
     /// <summary>
+    /// Gets the deployment sub-domain service.
+    /// </summary>
+    PulumiDeployment Deployment { get; }
+
+    /// <summary>
     /// Gets the env sub-domain service.
     /// </summary>
     PulumiEnv Env { get; }
@@ -160,6 +165,15 @@ public partial interface IPulumi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     Task<CommandResult> Logout(PulumiLogoutOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Creates a Pulumi Neo agent task in CLI tool execution mode and runs the local tool loop. Filesystem and shell tool calls from the agent run on this machine, in the working directory you select, instead of in the cloud agent container. If no prompt is provided, the TUI starts and waits for your first message.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> Neo(PulumiNeoOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new Pulumi project and stack from a template.

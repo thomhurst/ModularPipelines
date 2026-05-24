@@ -54,7 +54,7 @@ public record PulumiInsightsResourceSearchOptions : PulumiOptions
     /// <summary>
     /// Output format. One of: default, table, json (default "default")
     /// </summary>
-    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
     public PulumiInsightsResourceSearchOutput? Output { get; set; }
 
     /// <summary>

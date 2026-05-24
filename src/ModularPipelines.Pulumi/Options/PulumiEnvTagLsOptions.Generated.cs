@@ -27,6 +27,12 @@ public record PulumiEnvTagLsOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
+    /// output format: "text" (default) or "json" (default "text")
+    /// </summary>
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
+
+    /// <summary>
     /// the command to use to page through the environment's version tags
     /// </summary>
     [CliOption("--pager", Format = OptionFormat.EqualsSeparated)]
