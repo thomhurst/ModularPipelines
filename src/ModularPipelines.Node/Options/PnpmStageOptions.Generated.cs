@@ -13,81 +13,51 @@ using ModularPipelines.Node.Options;
 namespace ModularPipelines.Node.Options;
 
 /// <summary>
-/// Publishes a package to the npm registry.
+/// Stage packages for publishing, deferring proof-of-presence (2FA) to a later point in time.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("publish")]
-public record PnpmPublishOptions : PnpmOptions
+[CliSubCommand("stage")]
+public record PnpmStageOptions : PnpmOptions
 {
     /// <summary>
-    /// Tells the registry whether this package should be published as public or restricted
+    /// Tells the registry whether the staged package should be public or restricted.
     /// </summary>
     [CliOption("--access")]
     public string? Access { get; set; }
 
     /// <summary>
-    /// Does everything a publish would do except actually publishing to the registry
+    /// Does everything stage publish would do except uploading to the registry.
     /// </summary>
     [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
     /// <summary>
-    /// Packages are proceeded to be published even if their current version is already in the registry. This is useful when a "prepublishOnly" script bumps the version of the package before it is published
-    /// </summary>
-    [CliOption("--force")]
-    public string? Force { get; set; }
-
-    /// <summary>
-    /// Ignores any publish related lifecycle scripts (prepublishOnly, postpublish, and the like)
-    /// </summary>
-    [CliFlag("--ignore-scripts")]
-    public bool? IgnoreScripts { get; set; }
-
-    /// <summary>
-    /// Show information in JSON format
+    /// Show information in JSON format for list, view, publish, and download.
     /// </summary>
     [CliOption("--json")]
     public string? Json { get; set; }
 
     /// <summary>
-    /// Don't check if current branch is your publish branch, clean, and up to date
-    /// </summary>
-    [CliFlag("--no-git-checks")]
-    public bool? NoGitChecks { get; set; }
-
-    /// <summary>
-    /// When publishing packages that require two-factor authentication, this option can specify a one-time password
+    /// One-time password for approve and reject.
     /// </summary>
     [CliOption("--otp")]
     public string? Otp { get; set; }
 
     /// <summary>
-    /// Sets branch name to publish. Default is master
-    /// </summary>
-    [CliOption("--publish-branch")]
-    public string? PublishBranch { get; set; }
-
-    /// <summary>
-    /// Publish all packages from the workspace
+    /// Stage all publishable packages from the workspace.
     /// </summary>
     [CliFlag("--recursive", ShortForm = "-r")]
     public bool? Recursive { get; set; }
 
     /// <summary>
-    /// Save the list of the newly published packages to "pnpm-publish-summary.json". Useful when some other tooling is used to report the list of published packages.
+    /// The base URL of the npm registry.
     /// </summary>
-    [CliOption("--report-summary")]
-    public string? ReportSummary { get; set; }
+    [CliOption("--registry")]
+    public string? Registry { get; set; }
 
     /// <summary>
-    /// Skip pnpm's manifest obfuscation: keep the original `packageManager` field and publish lifecycle scripts in the published manifest instead of stripping them. The pnpm-specific `pnpm` field is still omitted.
-    /// </summary>
-    [CliOption("--skip-manifest-obfuscation")]
-    public string? SkipManifestObfuscation { get; set; }
-
-    /// <summary>
-    /// Registers the published package with the given tag. By default, the "latest" tag is used.
+    /// Registers the staged package with the given tag. By default, the "latest" tag is used.
     /// </summary>
     [CliOption("--tag")]
     public string? Tag { get; set; }
