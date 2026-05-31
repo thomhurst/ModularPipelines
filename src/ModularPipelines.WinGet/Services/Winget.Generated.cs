@@ -131,6 +131,15 @@ internal partial class Winget : IWinget
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> Search(
+        WingetSearchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new WingetSearchOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> Settings(
         WingetSettingsOptions options = default,
         CommandExecutionOptions executionOptions = null,
