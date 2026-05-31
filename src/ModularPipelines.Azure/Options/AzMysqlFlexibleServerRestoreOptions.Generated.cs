@@ -75,7 +75,7 @@ public record AzMysqlFlexibleServerRestoreOptions : AzOptions
     public bool? PublicAccess { get; set; }
 
     /// <summary>
-    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2017-04-26T02:10:00+00:00The default value is set to current time.  Default: 2026-05-24T03:30:11+00:00.
+    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2017-04-26T02:10:00+00:00The default value is set to current time.  Default: 2026-05-31T03:29:04+00:00.
     /// </summary>
     [CliFlag("--restore-time")]
     public bool? RestoreTime { get; set; }
