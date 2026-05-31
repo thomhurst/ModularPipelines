@@ -14,7 +14,7 @@ using ModularPipelines.Kind.Enums;
 namespace ModularPipelines.Kind.Options;
 
 /// <summary>
-/// Build the node image which contains Kubernetes build artifacts and other kind requirements
+/// Build the node image which contains Kubernetes build artifacts and other kind requirements.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
@@ -28,7 +28,7 @@ public record KindBuildNodeImageOptions : KindOptions
     public string? Arch { get; set; }
 
     /// <summary>
-    /// name:tag of the base image to use for the build (default "docker.io/kindest/base:v20260214-ea8e5717")
+    /// name:tag of the base image to use for the build (default "docker.io/kindest/base:v20260521-9fb22683")
     /// </summary>
     [CliOption("--base-image", Format = OptionFormat.EqualsSeparated)]
     public string? BaseImage { get; set; }
@@ -46,7 +46,7 @@ public record KindBuildNodeImageOptions : KindOptions
     public string? Image { get; set; }
 
     /// <summary>
-    /// optionally specify one of 'url', 'file', 'release' or 'source' as the type of build
+    /// optionally specify one of 'url', 'file', 'release', 'ci' or 'source' as the type of build
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public KindBuildNodeImageType? Type { get; set; }

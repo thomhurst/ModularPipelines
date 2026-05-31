@@ -47,7 +47,7 @@ public class KindBuild
     }
 
     /// <summary>
-    /// Build the node image which contains Kubernetes build artifacts and other kind requirements
+    /// Build the node image which contains Kubernetes build artifacts and other kind requirements.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
