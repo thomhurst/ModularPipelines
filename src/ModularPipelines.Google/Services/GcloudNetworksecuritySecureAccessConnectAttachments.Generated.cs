@@ -14,17 +14,17 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud autokey-config commands.
+/// gcloud attachments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class GcloudKmsAutokeyConfig
+public class GcloudNetworksecuritySecureAccessConnectAttachments
 {
     private readonly ICommand _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudKmsAutokeyConfig"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecureAccessConnectAttachments"/> class.
     /// </summary>
-    public GcloudKmsAutokeyConfig(ICommand command)
+    public GcloudNetworksecuritySecureAccessConnectAttachments(ICommand command)
     {
         _command = command;
     }
@@ -32,48 +32,63 @@ public class GcloudKmsAutokeyConfig
     #region Commands
 
     /// <summary>
-    /// describe the AutokeyConfig of a folder     or project
+    /// create a     SAC attachment
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Create(
+        GcloudNetworkSecuritySecureAccessConnectAttachmentsCreateOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// delete a     SAC attachment
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Delete(
+        GcloudNetworkSecuritySecureAccessConnectAttachmentsDeleteOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// describe a SAC attachment
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudKmsAutokeyConfigDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsAutokeyConfigDescribeOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// gets the effective Cloud     KMS AutokeyConfig for a given project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ShowEffectiveConfig(
-        GcloudKmsAutokeyConfigShowEffectiveConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsAutokeyConfigShowEffectiveConfigOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// update the AutokeyConfig for a folder or     project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudKmsAutokeyConfigUpdateOptions options,
+        GcloudNetworkSecuritySecureAccessConnectAttachmentsDescribeOptions options,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// list SAC     attachments
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> List(
+        GcloudNetworkSecuritySecureAccessConnectAttachmentsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecureAccessConnectAttachmentsListOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

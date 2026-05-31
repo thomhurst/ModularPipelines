@@ -21,6 +21,7 @@ public class GcloudNetworkmanagement
 {
     private readonly ICommand _command;
     private GcloudNetworkmanagementConnectivityTests _connectivityTests;
+    private GcloudNetworkmanagementNetworkMonitoringProviders _networkMonitoringProviders;
     private GcloudNetworkmanagementOperations _operations;
     private GcloudNetworkmanagementVpcFlowLogsConfigs _vpcFlowLogsConfigs;
 
@@ -38,6 +39,11 @@ public class GcloudNetworkmanagement
     /// gcloud connectivity-tests sub-commands.
     /// </summary>
     public GcloudNetworkmanagementConnectivityTests ConnectivityTests => _connectivityTests ??= new GcloudNetworkmanagementConnectivityTests(_command);
+
+    /// <summary>
+    /// gcloud network-monitoring-providers sub-commands.
+    /// </summary>
+    public GcloudNetworkmanagementNetworkMonitoringProviders NetworkMonitoringProviders => _networkMonitoringProviders ??= new GcloudNetworkmanagementNetworkMonitoringProviders(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.

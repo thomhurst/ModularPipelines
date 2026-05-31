@@ -70,4 +70,16 @@ public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? Tags { get; set; }
 
+    /// <summary>
+    /// The redirect URL for unauthorized requests. Redirects to this endpoint     send a base64 encoded 'state' query param with the workstation name and     original request hostname.
+    /// </summary>
+    [CliOption("--workstation-authorization-url", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkstationAuthorizationUrl { get; set; }
+
+    /// <summary>
+    /// The launch URL for workstations. Requests sent to unstarted     workstations will be redirected to this URL with 'workstation' and     'project' query params.
+    /// </summary>
+    [CliOption("--workstation-launch-url", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkstationLaunchUrl { get; set; }
+
 }

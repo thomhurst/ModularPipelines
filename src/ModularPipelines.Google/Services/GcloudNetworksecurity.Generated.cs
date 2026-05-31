@@ -38,6 +38,7 @@ public class GcloudNetworksecurity
     private GcloudNetworksecurityMirroringEndpointGroupAssociations _mirroringEndpointGroupAssociations;
     private GcloudNetworksecurityMirroringEndpointGroups _mirroringEndpointGroups;
     private GcloudNetworksecurityOrgAddressGroups _orgAddressGroups;
+    private GcloudNetworksecuritySecureAccessConnect _secureAccessConnect;
     private GcloudNetworksecuritySecurityProfileGroups _securityProfileGroups;
     private GcloudNetworksecuritySecurityProfiles _securityProfiles;
     private GcloudNetworksecurityServerTlsPolicies _serverTlsPolicies;
@@ -143,6 +144,11 @@ public class GcloudNetworksecurity
     /// gcloud org-address-groups sub-commands.
     /// </summary>
     public GcloudNetworksecurityOrgAddressGroups OrgAddressGroups => _orgAddressGroups ??= new GcloudNetworksecurityOrgAddressGroups(_command);
+
+    /// <summary>
+    /// gcloud secure-access-connect sub-commands.
+    /// </summary>
+    public GcloudNetworksecuritySecureAccessConnect SecureAccessConnect => _secureAccessConnect ??= new GcloudNetworksecuritySecureAccessConnect(_command);
 
     /// <summary>
     /// gcloud security-profile-groups sub-commands.

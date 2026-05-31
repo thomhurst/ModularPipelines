@@ -212,6 +212,12 @@ public record GcloudContainerClustersCreateOptions(
     public GcloudDiskType? DiskType { get; set; }
 
     /// <summary>
+    /// Enable the Agent Sandbox feature on the cluster. Use     --no-enable-agent-sandbox to disable.
+    /// </summary>
+    [CliFlag("--enable-agent-sandbox")]
+    public bool? EnableAgentSandbox { get; set; }
+
+    /// <summary>
     /// Enable enforcement of --master-authorized-networks CIDR ranges for     traffic reaching cluster's control plane via private IP.
     /// </summary>
     [CliFlag("--enable-authorized-networks-on-private-endpoint")]
