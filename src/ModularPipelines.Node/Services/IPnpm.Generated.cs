@@ -84,6 +84,15 @@ public partial interface IPnpm
     Task<CommandResult> Run(PnpmRunOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Stage packages for publishing, deferring proof-of-presence (2FA) to a later point in time.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> Stage(PnpmStageOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Alias: dislink
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -95,6 +95,15 @@ internal partial class Pnpm : IPnpm
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> Stage(
+        PnpmStageOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PnpmStageOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> Unlink(
         PnpmUnlinkOptions options = default,
         CommandExecutionOptions executionOptions = null,
