@@ -23,6 +23,9 @@ public enum KindBuildNodeImageType
     [Description("release")]
     Release,
 
+    [Description("ci")]
+    Ci,
+
     [Description("source' as the type of build")]
     SourceAsTheTypeOfBuild
 }
