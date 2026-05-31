@@ -20,6 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworkconnectivitySpokes
 {
     private readonly ICommand _command;
+    private GcloudNetworkconnectivitySpokesGateways _gateways;
     private GcloudNetworkconnectivitySpokesLinkedInterconnectAttachments _linkedInterconnectAttachments;
     private GcloudNetworkconnectivitySpokesLinkedProducerVpcNetwork _linkedProducerVpcNetwork;
     private GcloudNetworkconnectivitySpokesLinkedRouterAppliances _linkedRouterAppliances;
@@ -35,6 +36,11 @@ public class GcloudNetworkconnectivitySpokes
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud gateways sub-commands.
+    /// </summary>
+    public GcloudNetworkconnectivitySpokesGateways Gateways => _gateways ??= new GcloudNetworkconnectivitySpokesGateways(_command);
 
     /// <summary>
     /// gcloud linked-interconnect-attachments sub-commands.

@@ -36,6 +36,12 @@ public record GcloudComputeSslPoliciesUpdateOptions(
     public string? MinTlsVersion { get; set; }
 
     /// <summary>
+    /// Whether to use post-quantum key exchange. POST_QUANTUM_KEY_EXCHANGE     must be one of:      DEFAULT       Post-quantum key exchange is disabled until it becomes enabled by       default on load balancers.     DEFERRED       Post-quantum key exchange with clients is temporarily disabled.     ENABLED       Post-quantum key exchange is enabled.
+    /// </summary>
+    [CliOption("--post-quantum-key-exchange", Format = OptionFormat.EqualsSeparated)]
+    public string? PostQuantumKeyExchange { get; set; }
+
+    /// <summary>
     /// SSL policy profile. Changing profile from CUSTOM to     COMPATIBLE|MODERN|RESTRICTED|FIPS_202205 will clear the custom-features     field. PROFILE must be one of:      COMPATIBLE       Compatible profile. Allows the broadest set of clients, even those       which support only out-of-date SSL features, to negotiate SSL with       the load balancer.     CUSTOM       Custom profile. Allows customization by selecting only the features       which are required. The list of all available features can be       obtained using:         gcloud compute ssl-policies list-available-features      FIPS_202205       FIPS_202205 profile. Supports a reduced set of SSL features,       intended to meet stricter compliance requirements.     MODERN       Modern profile. Supports a wide set of SSL features, allowing       modern clients to negotiate SSL.     RESTRICTED       Restricted profile. Supports a reduced set of SSL features,       intended to meet stricter compliance requirements.    At most one of these can be specified:     --global      If set, the SSL policy is global.     --region=REGION      Region of the SSL policy to patch. Overrides the default      compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]

@@ -77,6 +77,12 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     public bool? DisablePublicIpAddresses { get; set; }
 
     /// <summary>
+    /// Number of seconds to wait after initially creating or subsequently     shutting down the workstation before converting its disk into a     snapshot to save costs. A value of 0 indicates that the disk will never     be archived.
+    /// </summary>
+    [CliOption("--disk-archive-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? DiskArchiveTimeout { get; set; }
+
+    /// <summary>
     /// Whether to enable Linux auditd logging on the workstation. When     enabled, a service account must also be specified that has     logging.buckets.write permission on the project.
     /// </summary>
     [CliFlag("--enable-audit-agent")]
