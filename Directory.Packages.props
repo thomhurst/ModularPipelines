@@ -11,12 +11,12 @@
     <PackageVersion Include="Azure.ResourceManager" Version="1.14.0" />
     <PackageVersion Include="Azure.ResourceManager.AlertsManagement" Version="1.1.2" />
     <PackageVersion Include="Azure.ResourceManager.AppConfiguration" Version="1.4.1" />
-    <PackageVersion Include="Azure.ResourceManager.ApplicationInsights" Version="1.0.1" />
-    <PackageVersion Include="Azure.ResourceManager.AppService" Version="1.4.1" />
-    <PackageVersion Include="Azure.ResourceManager.Authorization" Version="1.1.6" />
+    <PackageVersion Include="Azure.ResourceManager.ApplicationInsights" Version="1.1.0" />
+    <PackageVersion Include="Azure.ResourceManager.AppService" Version="1.5.0" />
+    <PackageVersion Include="Azure.ResourceManager.Authorization" Version="1.1.7" />
     <PackageVersion Include="Azure.ResourceManager.Compute" Version="1.14.0" />
     <PackageVersion Include="Azure.ResourceManager.ContainerRegistry" Version="1.4.0" />
-    <PackageVersion Include="Azure.ResourceManager.CosmosDB" Version="1.4.0" />
+    <PackageVersion Include="Azure.ResourceManager.CosmosDB" Version="1.4.1" />
     <PackageVersion Include="Azure.ResourceManager.DataLakeStore" Version="1.1.2" />
     <PackageVersion Include="Azure.ResourceManager.KeyVault" Version="1.4.0" />
     <PackageVersion Include="Azure.ResourceManager.Kubernetes" Version="1.0.0-beta.6" />
