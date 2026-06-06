@@ -86,7 +86,7 @@
     <PackageVersion Include="TUnit.Core" Version="1.50.0" />
     <PackageVersion Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20241201.35" />
     <PackageVersion Include="YamlDotNet" Version="18.0.0" />
-    <PackageVersion Include="AngleSharp" Version="1.4.0" />
+    <PackageVersion Include="AngleSharp" Version="1.5.0" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.60.0" />
     <PackageVersion Include="System.CommandLine" Version="2.0.8" />
     <PackageVersion Include="Verify.Xunit" Version="31.12.5" />
