@@ -88,6 +88,12 @@ public record YqEvalOptions : YqOptions
     public int? Indent { get; set; }
 
     /// <summary>
+    /// preserve surrounding quotes on INI values during round-trip
+    /// </summary>
+    [CliFlag("--ini-preserve-quotes")]
+    public bool? IniPreserveQuotes { get; set; }
+
+    /// <summary>
     /// update the file in place of first file given.
     /// </summary>
     [CliFlag("--inplace", ShortForm = "-i")]
