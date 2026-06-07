@@ -21,4 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("datastream", "objects", "start-backfill")]
 public record GcloudDatastreamObjectsStartBackfillOptions : GcloudOptions
 {
+    /// <summary>
+    /// A SQL-query WHERE clause selecting which data should be included, not     including the "WHERE" keyword itself. e.g., t.key1 = 'value1' AND     t.key2 = 'value2'. Only supported for SQL sources.
+    /// </summary>
+    [CliOption("--sql-where-clause", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlWhereClause { get; set; }
+
 }

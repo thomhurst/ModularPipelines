@@ -28,7 +28,7 @@ public record GcloudNetworkSecuritySecurityProfilesCustomInterceptListOptions : 
     public string? Location { get; set; }
 
     /// <summary>
-    /// Organization ID of the location.     To set the organization attribute:     ◆ provide the argument --location on the command line with a fully      specified name;     ◆ provide the argument --organization on the command line.
+    /// Organization ID of the location.     To set the organization attribute:     ◆ provide the argument --location on the command line with a fully      specified name;     ◆ provide the argument --organization on the command line. Must be      specified for resource of type      [networksecurity.organizations.locations].
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
