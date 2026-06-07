@@ -141,21 +141,6 @@ public class PulumiStack
     }
 
     /// <summary>
-    /// Create an empty stack with the given name, ready for updates
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Init(
-        PulumiStackInitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiStackInitOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
     /// List stacks
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -168,6 +153,21 @@ public class PulumiStack
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackLsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Create an empty stack with the given name, ready for updates
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> New(
+        PulumiStackNewOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiStackNewOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
