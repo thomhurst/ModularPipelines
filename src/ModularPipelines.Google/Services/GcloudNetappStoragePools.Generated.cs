@@ -92,6 +92,21 @@ public class GcloudNetappStoragePools
     }
 
     /// <summary>
+    /// list backup     configurations for all volumes in an ONTAP-mode Storage Pool
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListBackupConfigs(
+        GcloudNetappStoragePoolsListBackupConfigsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsListBackupConfigsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list Cloud NetApp Storage Pools
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -107,6 +122,21 @@ public class GcloudNetappStoragePools
     }
 
     /// <summary>
+    /// restore a backup to a volume     in a specified ONTAP-mode Storage Pool
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RestoreVolume(
+        GcloudNetappStoragePoolsRestoreVolumeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsRestoreVolumeOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// switch a Regional Cloud NetApp Flex     Storage Pool zone
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -119,6 +149,21 @@ public class GcloudNetappStoragePools
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsSwitchOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// update backup config of     a volume in an ONTAP-mode Storage Pool
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateBackupConfig(
+        GcloudNetappStoragePoolsUpdateBackupConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsUpdateBackupConfigOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -14,24 +14,24 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudUpdateRedisConfig
 {
-    [Description("friday")]
-    Friday,
-
-    [Description("monday")]
-    Monday,
-
-    [Description("saturday")]
-    Saturday,
-
-    [Description("sunday")]
+    [Description("SUNDAY")]
     Sunday,
 
-    [Description("thursday")]
-    Thursday,
+    [Description("MONDAY")]
+    Monday,
 
-    [Description("tuesday")]
+    [Description("TUESDAY")]
     Tuesday,
 
-    [Description("wednesday")]
-    Wednesday
+    [Description("WEDNESDAY")]
+    Wednesday,
+
+    [Description("THURSDAY")]
+    Thursday,
+
+    [Description("FRIDAY")]
+    Friday,
+
+    [Description("SATURDAY")]
+    Saturday
 }
