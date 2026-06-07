@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzPostgresFlexibleServerPrivateEndpointConnectionShowOptions : AzOptions
 {
     /// <summary>
-    /// The ID of the private endpoint connection associated with the Server. If specified --server-name/-s and --name/-n, this should be omitted.
+    /// The identifier of the private endpoint connection associated with the Server. If specified --server-name/-s and --name/-n, this should be omitted.
     /// </summary>
     [CliFlag("--id")]
     public bool? Id { get; set; }

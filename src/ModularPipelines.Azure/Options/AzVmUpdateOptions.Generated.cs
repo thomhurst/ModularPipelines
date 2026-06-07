@@ -134,4 +134,16 @@ public record AzVmUpdateOptions : AzOptions
     [CliFlag("--write-accelerator")]
     public bool? WriteAccelerator { get; set; }
 
+    /// <summary>
+    /// Availability zone into which to provision the resource.
+    /// </summary>
+    [CliFlag("--zone", ShortForm = "-z")]
+    public bool? Zone { get; set; }
+
+    /// <summary>
+    /// Indicates if zone movement is enabled. By default isEnabled is set to false i.e VM can't be moved from one zone to another.
+    /// </summary>
+    [CliFlag("--zone-movement")]
+    public bool? ZoneMovement { get; set; }
+
 }

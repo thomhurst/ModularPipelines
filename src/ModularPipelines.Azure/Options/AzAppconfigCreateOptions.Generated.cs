@@ -27,13 +27,13 @@ public record AzAppconfigCreateOptions : AzOptions
     public bool? AppinsightsResource { get; set; }
 
     /// <summary>
-    /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled. Allowed values: local, pass-through.
+    /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled.  Allowed values: local, pass- through.
     /// </summary>
     [CliFlag("--arm-auth-mode")]
     public bool? ArmAuthMode { get; set; }
 
     /// <summary>
-    /// Space-separated list of managed identities to be assigned. Use "[system]" to refer to system-assigned managed identity or a resource ID to refer to user- assigned managed identity. If this argument is provided without any value, system-assigned managed identity will be assigned by default. If this argument is not provided, no managed identities will be assigned to this App
+    /// Space-separated list of managed identities to be assigned. Use "[system]" to refer to system-assigned managed identity or a resource ID to refer to user- assigned managed identity. If this argument is provided without any value, system-assigned managed identity will be assigned by default. If this argument is not provided, no managed identities will be assigned to this App Configuration store.
     /// </summary>
     [CliFlag("--assign-identity")]
     public bool? AssignIdentity { get; set; }
@@ -45,19 +45,13 @@ public record AzAppconfigCreateOptions : AzOptions
     public bool? DisableLocalAuth { get; set; }
 
     /// <summary>
-    /// Enable access to the App Configuration store via ARM Private Link if resource is restricted to private network access. Requires Pass-through ARM authentication mode. Allowed values: false, true.
+    /// Enable access to the App Configuration store via ARM Private Link if resource is restricted to private network access. Requires Pass-through ARM authentication mode.  Allowed values: false, true.
     /// </summary>
     [CliFlag("--enable-arm-private-network-access")]
     public bool? EnableArmPrivateNetworkAccess { get; set; }
 
     /// <summary>
-    /// When true, requests coming from public networks have permission to access this store while private endpoint is enabled. When false, only requests made through Private Links can reach this store.  Allowed values: false, true.
-    /// </summary>
-    [CliFlag("--enable-public-network", ShortForm = "-e")]
-    public bool? EnablePublicNetwork { get; set; }
-
-    /// <summary>
-    /// Property specifying whether protection against purge is enabled for this App Configuration store. Setting this property to true activates protection against purge for this App Configuration store and its contents. Enabling this functionality is irreversible.  Allowed values: false, true.
+    /// Property specifying whether protection against purge is enabled for this App Configuration store. Setting this property to true activates protection against purge for this App Configuration store and its contents. Enabling this functionality is irreversible. Allowed values: false, true.
     /// </summary>
     [CliFlag("--enable-purge-protection", ShortForm = "-p")]
     public bool? EnablePurgeProtection { get; set; }
@@ -69,10 +63,16 @@ public record AzAppconfigCreateOptions : AzOptions
     public bool? KvRevisionRetentionPeriod { get; set; }
 
     /// <summary>
-    /// Proceed without replica creation for premium tier store. Allowed values: false, true.
+    /// Proceed without replica creation for premium tier store.  Allowed values: false, true.
     /// </summary>
     [CliFlag("--no-replica")]
     public bool? NoReplica { get; set; }
+
+    /// <summary>
+    /// Control permission for data plane traffic coming from public networks.  Allowed values: Disabled, Enabled,
+    /// </summary>
+    [CliFlag("--public-network-access")]
+    public bool? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// The location of the replica of the App Configuration store.
@@ -93,7 +93,7 @@ public record AzAppconfigCreateOptions : AzOptions
     public bool? RetentionDays { get; set; }
 
     /// <summary>
-    /// The sku of the App Configuration store.  Allowed values: Developer, Free, Premium, Standard.  Default: Standard.
+    /// The sku of the App Configuration store.  Allowed values: Developer, Free, Premium, Standard.  Default:
     /// </summary>
     [CliFlag("--sku")]
     public bool? Sku { get; set; }

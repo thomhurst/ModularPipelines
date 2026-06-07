@@ -27,7 +27,7 @@ public record AzAppconfigKvListOptions : AzOptions
     public bool? All { get; set; }
 
     /// <summary>
-    /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app- configuration/concept-enable-rbac.  Allowed values: anonymous, key, login.
+    /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app- configuration/concept-enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>
     [CliFlag("--auth-mode")]
     public bool? AuthMode { get; set; }
@@ -45,7 +45,7 @@ public record AzAppconfigKvListOptions : AzOptions
     public bool? Datetime { get; set; }
 
     /// <summary>
-    /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure
+    /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
     /// </summary>
     [CliFlag("--endpoint")]
     public bool? Endpoint { get; set; }
@@ -75,10 +75,16 @@ public record AzAppconfigKvListOptions : AzOptions
     public bool? Name { get; set; }
 
     /// <summary>
-    /// Resolve the content of key vault reference. This argument should NOT be specified along with --fields. Instead use --query for customized query. Allowed values: false, true.
+    /// Resolve the content of key vault reference. This argument should NOT be specified along with --fields. Instead use --query for customized query.  Allowed values: false, true.
     /// </summary>
     [CliFlag("--resolve-keyvault")]
     public bool? ResolveKeyvault { get; set; }
+
+    /// <summary>
+    /// Resolve snapshot references and return the referenced snapshots' key-values.  Allowed values: false, true.
+    /// </summary>
+    [CliFlag("--resolve-snapshot-references")]
+    public bool? ResolveSnapshotReferences { get; set; }
 
     /// <summary>
     /// List all keys in a given snapshot of the App Configuration store. If no snapshot is specified, the keys currently in the store are listed.
@@ -93,7 +99,7 @@ public record AzAppconfigKvListOptions : AzOptions
     public bool? Tags { get; set; }
 
     /// <summary>
-    /// Maximum number of items to return. Must be a positive integer. Default to 100.
+    /// Maximum number of items to return. Must be a positive integer.
     /// </summary>
     [CliFlag("--top", ShortForm = "-t")]
     public bool? Top { get; set; }

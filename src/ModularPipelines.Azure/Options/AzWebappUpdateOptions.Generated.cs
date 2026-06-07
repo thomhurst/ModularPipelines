@@ -63,6 +63,12 @@ public record AzWebappUpdateOptions : AzOptions
     public bool? PrewarmedInstanceCount { get; set; }
 
     /// <summary>
+    /// Enable or disable site-scoped certificates. Allowed values: false, true.
+    /// </summary>
+    [CliFlag("--site-scoped-certs")]
+    public bool? SiteScopedCerts { get; set; }
+
+    /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliFlag("--slot", ShortForm = "-s")]

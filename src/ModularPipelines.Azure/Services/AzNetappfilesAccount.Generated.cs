@@ -23,6 +23,7 @@ public class AzNetappfilesAccount
     private AzNetappfilesAccountAd _ad;
     private AzNetappfilesAccountBackupPolicy _backupPolicy;
     private AzNetappfilesAccountBackupVault _backupVault;
+    private AzNetappfilesAccountIdentity _identity;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetappfilesAccount"/> class.
@@ -48,6 +49,11 @@ public class AzNetappfilesAccount
     /// az backup-vault sub-commands.
     /// </summary>
     public AzNetappfilesAccountBackupVault BackupVault => _backupVault ??= new AzNetappfilesAccountBackupVault(_command);
+
+    /// <summary>
+    /// az identity sub-commands.
+    /// </summary>
+    public AzNetappfilesAccountIdentity Identity => _identity ??= new AzNetappfilesAccountIdentity(_command);
 
     #endregion
 

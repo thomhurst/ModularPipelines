@@ -62,4 +62,10 @@ public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
     [CliFlag("--source-account", ShortForm = "-s")]
     public bool? SourceAccount { get; set; }
 
+    /// <summary>
+    /// Indicates whether object replication tags replication feature is enabled for the policy.  Allowed values: false, true.
+    /// </summary>
+    [CliFlag("--tags-replication")]
+    public bool? TagsReplication { get; set; }
+
 }

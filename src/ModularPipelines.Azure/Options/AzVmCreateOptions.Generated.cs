@@ -231,6 +231,12 @@ public record AzVmCreateOptions : AzOptions
     public bool? SecurityType { get; set; }
 
     /// <summary>
+    /// The VM size to be
+    /// </summary>
+    [CliFlag("--size")]
+    public bool? Size { get; set; }
+
+    /// <summary>
     /// Use it as public key in virtual machine. It should be an existing SSH key resource in
     /// </summary>
     [CliFlag("--ssh-key-name")]
@@ -283,6 +289,12 @@ public record AzVmCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
+
+    /// <summary>
+    /// Indicates if zone movement is enabled. By default isEnabled is set to false i.e VM can't be moved from one zone to another.
+    /// </summary>
+    [CliFlag("--zone-movement")]
+    public bool? ZoneMovement { get; set; }
 
     /// <summary>
     /// Specify the policy for virtual machine's placement in availability zone.  Allowed values: Any.

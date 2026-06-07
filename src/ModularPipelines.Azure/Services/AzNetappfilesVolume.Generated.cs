@@ -20,6 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetappfilesVolume
 {
     private readonly ICommand _command;
+    private AzNetappfilesVolumeBucket _bucket;
     private AzNetappfilesVolumeExportPolicy _exportPolicy;
     private AzNetappfilesVolumeQuotaRule _quotaRule;
     private AzNetappfilesVolumeRansomwareReport _ransomwareReport;
@@ -34,6 +35,11 @@ public class AzNetappfilesVolume
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// az bucket sub-commands.
+    /// </summary>
+    public AzNetappfilesVolumeBucket Bucket => _bucket ??= new AzNetappfilesVolumeBucket(_command);
 
     /// <summary>
     /// az export-policy sub-commands.

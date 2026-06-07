@@ -153,6 +153,12 @@ public record AzWebappCreateOptions : AzOptions
     public bool? Scope { get; set; }
 
     /// <summary>
+    /// Enable or disable site-scoped certificates. Allowed values: false, true.
+    /// </summary>
+    [CliFlag("--site-scoped-certs")]
+    public bool? SiteScopedCerts { get; set; }
+
+    /// <summary>
     /// If true, a webapp which supports sitecontainers will be created.  Allowed values: false, true.
     /// </summary>
     [CliFlag("--sitecontainers-app")]

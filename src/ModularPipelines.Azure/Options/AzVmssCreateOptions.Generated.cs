@@ -387,6 +387,12 @@ public record AzVmssCreateOptions : AzOptions
     public bool? Validate { get; set; }
 
     /// <summary>
+    /// Size of VMs in the scale set. Default to "Standard_D2s_v5".
+    /// </summary>
+    [CliFlag("--vm-sku")]
+    public bool? VmSku { get; set; }
+
+    /// <summary>
     /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit,
     /// </summary>
     [CliFlag("--wire-server-mode")]

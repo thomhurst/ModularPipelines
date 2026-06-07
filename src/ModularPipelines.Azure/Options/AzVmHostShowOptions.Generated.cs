@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzVmHostShowOptions : AzOptions
 {
     /// <summary>
-    /// The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated host. 'UserData' is not supported for dedicated host.  Allowed values: instanceView, userData.
+    /// The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated host. 'UserData' is not supported for dedicated host.  Allowed values: instanceView, resiliencyView, userData.
     /// </summary>
     [CliFlag("--expand")]
     public bool? Expand { get; set; }
