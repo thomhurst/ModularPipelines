@@ -17,8 +17,8 @@ namespace ModularPipelines.Pulumi.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("stack", "init")]
-public record PulumiStackInitOptions : PulumiOptions
+[CliSubCommand("stack", "new")]
+public record PulumiStackNewOptions : PulumiOptions
 {
     /// <summary>
     /// The name of the stack to copy existing config from
@@ -27,7 +27,7 @@ public record PulumiStackInitOptions : PulumiOptions
     public string? CopyConfigFrom { get; set; }
 
     /// <summary>
-    /// help for init
+    /// help for new
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
@@ -56,6 +56,12 @@ public record PulumiStackInitOptions : PulumiOptions
     /// </summary>
     [CliOption("--teams", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Teams { get; set; }
+
+    /// <summary>
+    /// Skip interactive prompts; fail if required information is missing
+    /// </summary>
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
