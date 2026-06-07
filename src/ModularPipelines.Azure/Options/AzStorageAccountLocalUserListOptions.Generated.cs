@@ -21,13 +21,13 @@ namespace ModularPipelines.Azure.Options;
 public record AzStorageAccountLocalUserListOptions : AzOptions
 {
     /// <summary>
-    /// Optional. When specified, only local user names starting with the filter will be listed. Default value is None.
+    /// When specified, only local user names starting with the filter will be listed. Default value is None.
     /// </summary>
     [CliFlag("--filter")]
     public bool? Filter { get; set; }
 
     /// <summary>
-    /// Optional, when specified, will list local users enabled for the specific protocol. Lists all users by default. "nfsv3" Default value is None.
+    /// When specified, will list local users enabled for the specific protocol. Lists all users by default. Default value is None.
     /// </summary>
     [CliFlag("--include")]
     public bool? Include { get; set; }

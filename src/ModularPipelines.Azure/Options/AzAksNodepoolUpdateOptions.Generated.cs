@@ -39,6 +39,12 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     public bool? AsgIds { get; set; }
 
     /// <summary>
+    /// Disable artifact streaming for VirtualMachineScaleSets managed by a Linux node pool.
+    /// </summary>
+    [CliFlag("--disable-artifact-streaming")]
+    public bool? DisableArtifactStreaming { get; set; }
+
+    /// <summary>
     /// Disable cluster autoscaler.
     /// </summary>
     [CliFlag("--disable-cluster-autoscaler", ShortForm = "-d")]
@@ -67,6 +73,12 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--drain-timeout")]
     public bool? DrainTimeout { get; set; }
+
+    /// <summary>
+    /// Enable artifact streaming for VirtualMachineScaleSets managed by a Linux node pool, to speed up the cold-start of containers on a node through on-demand image loading. To use this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false.
+    /// </summary>
+    [CliFlag("--enable-artifact-streaming")]
+    public bool? EnableArtifactStreaming { get; set; }
 
     /// <summary>
     /// Enable cluster autoscaler.

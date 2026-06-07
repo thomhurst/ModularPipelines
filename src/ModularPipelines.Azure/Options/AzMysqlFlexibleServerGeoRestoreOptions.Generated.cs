@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
 {
     /// <summary>
-    /// Enable or disable accelerated logs. Only support for Business Critical tier. Default value is Enabled.  Allowed values: Disabled, Enabled.
+    /// Enable or disable accelerated logs. Only support for Business Critical tier. Default value is Enabled.  Allowed values: Disabled,
     /// </summary>
     [CliFlag("--accelerated-logs")]
     public bool? AcceleratedLogs { get; set; }
@@ -39,7 +39,7 @@ public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
     public bool? BackupRetention { get; set; }
 
     /// <summary>
-    /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.
+    /// Whether or not geo redundant backup is enabled.  Allowed values:
     /// </summary>
     [CliFlag("--geo-redundant-backup")]
     public bool? GeoRedundantBackup { get; set; }
@@ -57,7 +57,7 @@ public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
     public bool? PrivateDnsZone { get; set; }
 
     /// <summary>
-    /// Determines the public access.  Allowed values: Disabled,
+    /// Determines the public access.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliFlag("--public-access")]
     public bool? PublicAccess { get; set; }
@@ -75,13 +75,13 @@ public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
     public bool? StorageAutoGrow { get; set; }
 
     /// <summary>
-    /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
+    /// The storage capacity of the server. Minimum is 32 GiB and max is 16
     /// </summary>
     [CliFlag("--storage-size")]
     public bool? StorageSize { get; set; }
 
     /// <summary>
-    /// Name or resource ID of a new or existing subnet. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a subnet from different resource group or subscription, please provide resource ID instead of name. Please note that the subnet will be delegated to flexibleServers. After delegation, this subnet cannot be used for any other type of
+    /// Name or resource ID of a new or existing subnet. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a subnet from different resource group or subscription, please provide resource ID instead of name. Please note that the subnet will be delegated to flexibleServers. After delegation, this subnet cannot be used for any other type of Azure resources.
     /// </summary>
     [CliFlag("--subnet")]
     public bool? Subnet { get; set; }

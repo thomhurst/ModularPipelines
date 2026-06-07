@@ -21,6 +21,7 @@ public class AzNetappfiles
 {
     private readonly ICommand _command;
     private AzNetappfilesAccount _account;
+    private AzNetappfilesCache _cache;
     private AzNetappfilesPool _pool;
     private AzNetappfilesSnapshot _snapshot;
     private AzNetappfilesSubvolume _subvolume;
@@ -41,6 +42,11 @@ public class AzNetappfiles
     /// az account sub-commands.
     /// </summary>
     public AzNetappfilesAccount Account => _account ??= new AzNetappfilesAccount(_command);
+
+    /// <summary>
+    /// az cache sub-commands.
+    /// </summary>
+    public AzNetappfilesCache Cache => _cache ??= new AzNetappfilesCache(_command);
 
     /// <summary>
     /// az pool sub-commands.

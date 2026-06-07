@@ -27,13 +27,13 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? AllowSameZone { get; set; }
 
     /// <summary>
-    /// The name or resource ID of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
+    /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
     /// </summary>
     [CliFlag("--backup-identity")]
     public bool? BackupIdentity { get; set; }
 
     /// <summary>
-    /// The resource ID of the geo backup keyvault key for data encryption. The key needs to be in the same region as the backup region.
+    /// The resource identifier of the geo backup keyvault key for data encryption. The key needs to be in the same region as the backup region.
     /// </summary>
     [CliFlag("--backup-key")]
     public bool? BackupKey { get; set; }
@@ -45,19 +45,19 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? BackupRetention { get; set; }
 
     /// <summary>
-    /// The name or resource ID of the user assigned identity for data encryption.
+    /// The name or resource identifier of the user assigned identity for data encryption.
     /// </summary>
     [CliFlag("--identity")]
     public bool? Identity { get; set; }
 
     /// <summary>
-    /// Value of IOPS in (operations/sec) to be allocated for this server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
+    /// Value of IOPS in (operations/sec) to be allocated for this server. This value can only be updated if flexible server is using Premium SSD v2
     /// </summary>
     [CliFlag("--iops")]
     public bool? Iops { get; set; }
 
     /// <summary>
-    /// The resource ID of the primary keyvault key for data encryption.
+    /// The resource identifier of the primary keyvault key for data encryption.
     /// </summary>
     [CliFlag("--key")]
     public bool? Key { get; set; }
@@ -69,7 +69,7 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? MaintenanceWindow { get; set; }
 
     /// <summary>
-    /// Whether Microsoft Entra authentication is enabled.  Allowed values: Disabled, Enabled.
+    /// Whether Microsoft Entra authentication is enabled.  Allowed values:
     /// </summary>
     [CliFlag("--microsoft-entra-auth")]
     public bool? MicrosoftEntraAuth { get; set; }
@@ -81,7 +81,7 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? NodeCount { get; set; }
 
     /// <summary>
-    /// Whether password authentication is enabled.  Allowed values:
+    /// Whether password authentication is enabled.  Allowed values: Disabled,
     /// </summary>
     [CliFlag("--password-auth")]
     public bool? PasswordAuth { get; set; }
@@ -93,19 +93,19 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? PerformanceTier { get; set; }
 
     /// <summary>
-    /// This parameter only applies for a server with private access. The name or id of new or existing private dns zone. You can use the private dns zone from same resource group, different resource group, or different subscription. If you want to use a zone from different resource group or subscription, please provide resource Id. CLI creates a new private dns zone within the same resource group as virtual network if not provided by users.
+    /// This parameter only applies for a server with private access and is required when using --vnet or --subnet. The name or resource identifier of an existing private DNS zone. You can use a private DNS zone from the same resource group, a different resource group, or a different subscription. If you want to use a zone from a different resource group or subscription, please provide its resource identifier.
     /// </summary>
     [CliFlag("--private-dns-zone")]
     public bool? PrivateDnsZone { get; set; }
 
     /// <summary>
-    /// Enable or disable the public access on a server.  Allowed values: Disabled, Enabled.
+    /// Enable or disable the public access on a server.  Allowed values:
     /// </summary>
     [CliFlag("--public-access")]
     public bool? PublicAccess { get; set; }
 
     /// <summary>
-    /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
+    /// The name of the compute SKU. Follows the convention Standard_{VM name}.
     /// </summary>
     [CliFlag("--sku-name")]
     public bool? SkuName { get; set; }
@@ -117,13 +117,13 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? StandbyZone { get; set; }
 
     /// <summary>
-    /// Enable or disable autogrow of the storage. Default value is Disabled.  Allowed values: Disabled, Enabled.
+    /// Enable or disable autogrow of the storage. Default value is Disabled. Allowed values: Disabled, Enabled.
     /// </summary>
     [CliFlag("--storage-auto-grow")]
     public bool? StorageAutoGrow { get; set; }
 
     /// <summary>
-    /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
+    /// The storage capacity of the server. Minimum is 32 GiB and max is 16
     /// </summary>
     [CliFlag("--storage-size")]
     public bool? StorageSize { get; set; }
@@ -135,13 +135,13 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? Tags { get; set; }
 
     /// <summary>
-    /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2
+    /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
     /// </summary>
     [CliFlag("--throughput")]
     public bool? Throughput { get; set; }
 
     /// <summary>
-    /// Compute tier of the server. Accepted values: Burstable,
+    /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose,
     /// </summary>
     [CliFlag("--tier")]
     public bool? Tier { get; set; }
@@ -153,7 +153,7 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Enable or disable high availability feature.  Allowed values:
+    /// Enable or disable high availability feature.  Allowed values: Disabled,
     /// </summary>
     [CliFlag("--zonal-resiliency")]
     public bool? ZonalResiliency { get; set; }

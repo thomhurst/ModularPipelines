@@ -27,7 +27,7 @@ public record AzAppconfigUpdateOptions : AzOptions
     public bool? AppinsightsResource { get; set; }
 
     /// <summary>
-    /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled. Allowed values: local, pass-through.
+    /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled.  Allowed values: local, pass- through.
     /// </summary>
     [CliFlag("--arm-auth-mode")]
     public bool? ArmAuthMode { get; set; }
@@ -39,19 +39,13 @@ public record AzAppconfigUpdateOptions : AzOptions
     public bool? DisableLocalAuth { get; set; }
 
     /// <summary>
-    /// Enable access to the App Configuration store via ARM Private Link if resource is restricted to private network access. Requires Pass-through ARM authentication mode. Allowed values: false, true.
+    /// Enable access to the App Configuration store via ARM Private Link if resource is restricted to private network access. Requires Pass-through ARM authentication mode.  Allowed values: false, true.
     /// </summary>
     [CliFlag("--enable-arm-private-network-access")]
     public bool? EnableArmPrivateNetworkAccess { get; set; }
 
     /// <summary>
-    /// When true, requests coming from public networks have permission to access this store while private endpoint is enabled. When false, only requests made through Private Links can reach this store.  Allowed values: false, true.
-    /// </summary>
-    [CliFlag("--enable-public-network", ShortForm = "-e")]
-    public bool? EnablePublicNetwork { get; set; }
-
-    /// <summary>
-    /// Property specifying whether protection against purge is enabled for this App Configuration store. Setting this property to true activates protection against purge for this App Configuration store and its contents. Enabling this functionality is irreversible.  Allowed values: false, true.
+    /// Property specifying whether protection against purge is enabled for this App Configuration store. Setting this property to true activates protection against purge for this App Configuration store and its contents. Enabling this functionality is irreversible. Allowed values: false, true.
     /// </summary>
     [CliFlag("--enable-purge-protection", ShortForm = "-p")]
     public bool? EnablePurgeProtection { get; set; }
@@ -61,6 +55,12 @@ public record AzAppconfigUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--kv-revision-retention-period")]
     public bool? KvRevisionRetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Control permission for data plane traffic coming from public networks.  Allowed values: Disabled, Enabled,
+    /// </summary>
+    [CliFlag("--public-network-access")]
+    public bool? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

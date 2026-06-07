@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzAcrReplicationCreateOptions : AzOptions
 {
     /// <summary>
-    /// Allow routing to this replication via the registry global endpoint. If disabled, requests to the global endpoint will not be routed to the replica. Data syncing to the replica will continue regardless of the global endpoint routing status. Default: true.  Allowed values: false, true.
+    /// Allow routing to this replication via the registry global endpoint. If disabled, requests to the global endpoint will not be routed to the replica. Data syncing to the replica will continue regardless of the global endpoint routing status. Default: true. Allowed values: false, true.
     /// </summary>
     [CliFlag("--global-endpoint-routing")]
     public bool? GlobalEndpointRouting { get; set; }

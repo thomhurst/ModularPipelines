@@ -207,6 +207,21 @@ public class AzWebapp
     }
 
     /// <summary>
+    /// List available built-in stacks which can be used for web apps.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRuntimes(
+        AzWebappListRuntimesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappListRuntimesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Restart a web app.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -279,21 +294,6 @@ public class AzWebapp
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappUpdateOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Create a webapp and deploy code from a local workspace to the app. The command is
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Up(
-        AzWebappUpOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappUpOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

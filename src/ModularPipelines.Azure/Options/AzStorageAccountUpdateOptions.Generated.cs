@@ -45,6 +45,12 @@ public record AzStorageAccountUpdateOptions : AzOptions
     public bool? AllowSharedKeyAccess { get; set; }
 
     /// <summary>
+    /// Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet. Allowed values: AAD, All,
+    /// </summary>
+    [CliFlag("--allowed-copy-scope")]
+    public bool? AllowedCopyScope { get; set; }
+
+    /// <summary>
     /// Generate and assign a new Storage Account Identity for this storage account for use with key management services like Azure KeyVault.
     /// </summary>
     [CliFlag("--assign-identity")]

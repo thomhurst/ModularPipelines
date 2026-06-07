@@ -62,21 +62,6 @@ public class AzNetworkVirtualNetworkAppliance
     }
 
     /// <summary>
-    /// List all virtual network appliances in a
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        AzNetworkVirtualNetworkApplianceListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualNetworkApplianceListOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
     /// Update a virtual network appliance.
     /// </summary>
     /// <param name="options">The command options.</param>

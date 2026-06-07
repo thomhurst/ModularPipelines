@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzVmDeallocateOptions : AzOptions
 {
     /// <summary>
-    /// Optional parameter to hibernate a virtual machine. (Feature in Preview).  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Optional parameter to hibernate a virtual machine.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--hibernate")]
     public bool? Hibernate { get; set; }
