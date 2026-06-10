@@ -72,7 +72,7 @@
     <PackageVersion Include="NUnit.Analyzers" Version="4.14.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="6.2.0" />
     <PackageVersion Include="Octokit" Version="14.0.0" />
-    <PackageVersion Include="Polly" Version="8.6.6" />
+    <PackageVersion Include="Polly" Version="8.7.0" />
     <PackageVersion Include="RichardSzalay.MockHttp" Version="7.0.0" />
     <PackageVersion Include="Slack.Webhooks" Version="1.1.6" />
     <PackageVersion Include="Sourcy.DotNet" Version="1.1.1" />
