@@ -84,7 +84,7 @@ public record GcloudBuildsSubmitOptions : GcloudOptions
     public string? IgnoreFile { get; set; }
 
     /// <summary>
-    /// Machine type used to run the build. MACHINE_TYPE must be one of:     e2-highcpu-32, e2-highcpu-8, e2-medium, n1-highcpu-32, n1-highcpu-8.
+    /// Machine type used to run the build. MACHINE_TYPE must be one of:     e2-highcpu-32, e2-highcpu-8, e2-medium, e2-standard-2, n1-highcpu-32,     n1-highcpu-8.
     /// </summary>
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudMachineType? MachineType { get; set; }

@@ -27,4 +27,10 @@ public record GcloudWorkbenchInstancesUpgradeOptions : GcloudOptions
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
+    /// <summary>
+    /// The full Compute Engine image family resource name to upgrade to.     Format: projects/{project_id}/global/images/family/{image_family}. If     specified, the instance will be upgraded to the latest image in the     specified image family, allowing upgrades across image families. If not     specified, the instance will be upgraded to the latest image in its     current image family.
+    /// </summary>
+    [CliOption("--image-family", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageFamily { get; set; }
+
 }

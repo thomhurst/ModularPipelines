@@ -21,4 +21,43 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "cloud-bindings", "create")]
 public record GcloudAccessContextManagerCloudBindingsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Path to the file that contains a Google Cloud Platform user access     binding.     This file contains a YAML-compliant object representing a     GcpUserAccessBinding (as described in the API reference:     https://docs.cloud.google.com/access-context-manager/docs/apply-policies-to-user-groups#define_configurations_for_specific_applications)     containing ScopedAccessSettings only. No other binding fields are     allowed. For bindings tied to all workforce identities in a given org,     the ScopedAccessSettings must only contain sessionSettings within the     activeSettings list. No other fields are allowed.
+    /// </summary>
+    [CliOption("--binding-file", Format = OptionFormat.EqualsSeparated)]
+    public string? BindingFile { get; set; }
+
+    /// <summary>
+    /// The dry run access level that binds to the given group. The dry run     access level will be evaluated but won't be enforced. Denial on dry run     access level will be logged. The input must be the full identifier of     an access level, such as accessPolicies/123/accessLevels/new-def.
+    /// </summary>
+    [CliOption("--dry-run-level", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? DryRunLevel { get; set; }
+
+    /// <summary>
+    /// Google Group ID whose members are subject to the restrictions of this     binding.
+    /// </summary>
+    [CliOption("--group-key", Format = OptionFormat.EqualsSeparated)]
+    public string? GroupKey { get; set; }
+
+    /// <summary>
+    /// The access level that binds to the given group. The input must be the     full identifier of an access level, such as     accessPolicies/123/accessLevels/abc.
+    /// </summary>
+    [CliOption("--level", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Level { get; set; }
+
+    /// <summary>
+    /// Parent organization for this binding.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// The maximum lifetime of a user session provided as an ISO 8601 duration     string. Must be at least one hour or zero seconds, and no more than     twenty-four hours. Granularity is limited to seconds.     When --session-length=0 then users in the group attached to this     binding will have infinite session length, effectively disabling the     session settings.     A session begins when a user signs in successfully. If a user signs out     before the end of the session lifetime, a new login creates a new     session with a fresh lifetime. When a session expires, the user is     asked to re-authenticate in accordance with session-method.     Setting --session-reauth-method when --session-length is empty raises     an error.
+    /// </summary>
+    [CliOption("--session-length", Format = OptionFormat.EqualsSeparated)]
+    public string? SessionLength { get; set; }
+
+    [CliOption("--session-reauth-method", Format = OptionFormat.EqualsSeparated)]
+    public string? SessionReauthMethod { get; set; }
+
 }
