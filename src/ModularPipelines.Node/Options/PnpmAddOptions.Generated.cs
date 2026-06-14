@@ -129,7 +129,7 @@ public record PnpmAddOptions : PnpmOptions
     public string? SaveProd { get; set; }
 
     /// <summary>
-    /// The directory in which all the packages are saved on the disk
+    /// The directory in which all packages are saved on disk. Use a shared store only with trusted users and jobs
     /// </summary>
     [CliOption("--store-dir")]
     public string? StoreDir { get; set; }
