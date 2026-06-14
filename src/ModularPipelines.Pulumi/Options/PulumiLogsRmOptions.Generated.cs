@@ -13,24 +13,36 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Decrypt and display the contents of an automatic log file.
+/// Remove automatic log files.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("logs", "decrypt")]
-public record PulumiLogsDecryptOptions : PulumiOptions
+[CliSubCommand("logs", "rm")]
+public record PulumiLogsRmOptions : PulumiOptions
 {
     /// <summary>
-    /// help for decrypt
+    /// Remove all log files
+    /// </summary>
+    [CliFlag("--all")]
+    public bool? All { get; set; }
+
+    /// <summary>
+    /// Remove logs created before this date or duration (e.g. '24h', '2026-01-01')
+    /// </summary>
+    [CliOption("--before", Format = OptionFormat.EqualsSeparated)]
+    public string? Before { get; set; }
+
+    /// <summary>
+    /// help for rm
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Decrypt the most recent log file without prompting
+    /// Skip confirmation prompts
     /// </summary>
-    [CliFlag("--latest")]
-    public bool? Latest { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

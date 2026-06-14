@@ -13,24 +13,24 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Decrypt and display the contents of an automatic log file.
+/// List automatic log files
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("logs", "decrypt")]
-public record PulumiLogsDecryptOptions : PulumiOptions
+[CliSubCommand("logs", "ls")]
+public record PulumiLogsLsOptions : PulumiOptions
 {
     /// <summary>
-    /// help for decrypt
+    /// help for ls
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Decrypt the most recent log file without prompting
+    /// Output format. Supported values are: default and json (default "default")
     /// </summary>
-    [CliFlag("--latest")]
-    public bool? Latest { get; set; }
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

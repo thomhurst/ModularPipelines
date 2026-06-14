@@ -61,5 +61,35 @@ public class PulumiLogs
         return await _command.ExecuteCommandLineTool(options ?? new PulumiLogsDecryptOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// List automatic log files
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Ls(
+        PulumiLogsLsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiLogsLsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Remove automatic log files.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Rm(
+        PulumiLogsRmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiLogsRmOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }
