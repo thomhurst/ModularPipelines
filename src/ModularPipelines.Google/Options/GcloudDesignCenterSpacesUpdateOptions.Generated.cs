@@ -34,7 +34,7 @@ public record GcloudDesignCenterSpacesUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// An existing Google Cloud Storage bucket that you want to use instead of     creating a new bucket during ADC setup. If not provided, a default     bucket is created during setup. The bucket must exist in the same     project as the space. If the bucket name does not exist in the same     project as the space, the request fails with an INVALID_ARGUMENT error.     If you do not have access to the bucket, the request fails with a     PERMISSION_DENIED error. Format: {$bucket_name} For example, if the     Cloud Storage bucket URI is gs:\/\/{$bucket_name}, the format is     {$bucket_name}.
+    /// An existing Google Cloud Storage bucket that you want to use instead of     creating a new bucket during Application Design Center setup. If not     provided, a default bucket is created during setup. The bucket must     exist in the same project as the space. If the bucket name does not     exist in the same project as the space, the request fails with an     INVALID_ARGUMENT error. If you do not have access to the bucket, the     request fails with a PERMISSION_DENIED error. Format: {$bucket_name}     For example, if the Cloud Storage bucket URI is gs:\/\/{$bucket_name},     the format is {$bucket_name}.
     /// </summary>
     [CliOption("--gcs-bucket", Format = OptionFormat.EqualsSeparated)]
     public string? GcsBucket { get; set; }

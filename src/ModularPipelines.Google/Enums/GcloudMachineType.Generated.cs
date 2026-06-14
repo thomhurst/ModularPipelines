@@ -23,6 +23,9 @@ public enum GcloudMachineType
     [Description("e2-medium")]
     E2Medium,
 
+    [Description("e2-standard-2")]
+    E2Standard_2,
+
     [Description("n1-highcpu-32")]
     N1Highcpu_32,
 

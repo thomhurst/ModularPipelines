@@ -65,7 +65,7 @@ public record GcloudWorkbenchInstancesUpdateOptions : GcloudOptions
     public int? AcceleratorCoreCount { get; set; }
 
     /// <summary>
-    /// Type of this accelerator. ACCELERATOR_TYPE must be one of:     NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100,     NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB,     NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS,     NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB, NVIDIA_H200_141GB,     NVIDIA_B200.    Container image configurations.
+    /// Type of this accelerator. ACCELERATOR_TYPE must be one of:     NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100,     NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB,     NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS,     NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB, NVIDIA_H200_141GB,     NVIDIA_B200, NVIDIA_RTX6000.    Container image configurations.
     /// </summary>
     [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
     public string? AcceleratorType { get; set; }

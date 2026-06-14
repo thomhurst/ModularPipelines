@@ -24,22 +24,10 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions : GcloudOptions
 {
     /// <summary>
-    /// If the destination is an AlloyDB cluster, use this field to provide the     AlloyDB cluster ID.
-    /// </summary>
-    [CliOption("--alloydb-cluster", Format = OptionFormat.EqualsSeparated)]
-    public string? AlloydbCluster { get; set; }
-
-    /// <summary>
     /// Waits for the operation in progress to complete before returning.
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
-
-    /// <summary>
-    /// If the source or destination is a Cloud SQL database, then use this     field to provide the respective Cloud SQL instance ID.
-    /// </summary>
-    [CliOption("--cloudsql-instance", Format = OptionFormat.EqualsSeparated)]
-    public string? CloudsqlInstance { get; set; }
 
     /// <summary>
     /// A user-friendly name for the connection profile. The display name can     include letters, numbers, spaces, and hyphens, and must start with a     letter.
@@ -60,6 +48,36 @@ public record GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions :
     public GcloudRole? Role { get; set; }
 
     /// <summary>
+    /// If the destination is an AlloyDB cluster, use this field to provide the     AlloyDB cluster ID.
+    /// </summary>
+    [CliOption("--alloydb-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? AlloydbCluster { get; set; }
+
+    /// <summary>
+    /// If the source or destination is a Cloud SQL database, then use this     field to provide the respective Cloud SQL instance ID.
+    /// </summary>
+    [CliOption("--cloudsql-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudsqlInstance { get; set; }
+
+    /// <summary>
+    /// The name of the specific database within the host. For Native Logical     Postgres migrations, one of the replicating databases must be     specified.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// IP or hostname of the database.       For PostgreSQL destination profiles with Cloud SQL or AlloyDB, this flag is       optional if the instance or cluster is provided.       When `--psc-service-attachment` is also specified, this field value       should be:       1. For Cloud SQL PSC enabled instance - the dns_name field        (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.).       2. For Cloud SQL PSA instance (vpc peering) - the private ip of the        instance.       3. For AlloyDB PSC enabled cluster - the dns_name field of the primary        instance (e.g &lt;uid&gt;.&lt;region&gt;.alloydb-psc.goog.).       4. For AlloyDB PSA cluster - the private ip of the primary instance.
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// Network port of the database.       For PostgreSQL destination profiles with Cloud SQL or AlloyDB, this flag is       optional if the instance or cluster is provided.    Authentication method.    At most one of these can be specified:     --enable-iam-authentication      Use IAM database authentication to connect to the database. The      username will be overridden by the DMS service agent principal. This      flag is only supported for PostgreSQL Destinations.     Or at least one of these can be specified:      --username=USERNAME       Username that Database Migration Service uses to connect to the       database. Database Migration Service encrypts the value when       storing it.       This flag argument must be specified if any of the other arguments       in this group are specified.      Exactly one of these must be specified:       --password=PASSWORD        Password for the user that Database Migration Service uses to        connect to the database. Database Migration Service encrypts the        value when storing it, and the field is not returned on request.       --prompt-for-password        Prompt for the password used to connect to the database.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
+    /// <summary>
     /// x509 PEM-encoded certificate of the CA that signed the database     server's certificate. The value for this flag needs to be the content     of the certificate file, not the path to the file. For example, on a     Linux machine you can use command substitution:     &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;.     Database Migration Service will use this certificate to verify it's     connecting to the correct host. Database Migration Service encrypts the     value when storing it.
     /// </summary>
     [CliOption("--ca-certificate", Format = OptionFormat.EqualsSeparated)]
@@ -78,28 +96,10 @@ public record GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions :
     public string? ClientCertificate { get; set; }
 
     /// <summary>
-    /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with     the Client Certificate. The value for this flag needs to be the content     of the certificate file, not the path to the file. For example, on a     Linux machine you can use command substitution:     &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;.     Database Migration Service encrypts the value when storing it.
+    /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with     the Client Certificate. The value for this flag needs to be the content     of the certificate file, not the path to the file. For example, on a     Linux machine you can use command substitution:     &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;.     Database Migration Service encrypts the value when storing it.    At most one of these can be specified:      Private connection resource - Resource ID of the private connection.     This represents a Cloud resource. (NOTE) Some attributes are not given     arguments in this group but can be set in other ways.      To set the project attribute:     ▸ provide the argument --private-connection on the command line with      a fully specified name;     ▸ provide the argument --project on the command line;     ▸ set the property core/project.     To set the region attribute:     ▸ provide the argument --private-connection on the command line with      a fully specified name;     ▸ provide the argument --region on the command line.      --private-connection=PRIVATE_CONNECTION       ID of the private_connection or fully qualified identifier for the       private_connection.       To set the private_connection attribute:     ▸ provide the argument --private-connection on the command line.     Or at least one of these can be specified:      Service attachment resource - Resource ID of the service attachment.     This represents a Cloud resource. (NOTE) Some attributes are not given     arguments in this group but can be set in other ways.      To set the project attribute:     ▸ provide the argument --psc-service-attachment on the command line      with a fully specified name;     ▸ provide the argument --project on the command line;     ▸ set the property core/project.     To set the region attribute:     ▸ provide the argument --psc-service-attachment on the command line      with a fully specified name;     ▸ provide the argument --region on the command line.      --psc-service-attachment=PSC_SERVICE_ATTACHMENT       ID of the service_attachment or fully qualified identifier for the       service_attachment.       To set the service_attachment attribute:     ▸ provide the argument --psc-service-attachment on the command line.     --static-ip-connectivity      use static ip connectivity     Or at least one of these can be specified:      --forward-ssh-hostname=FORWARD_SSH_HOSTNAME       Hostname for the SSH tunnel.       This flag argument must be specified if any of the other arguments       in this group are specified.      --forward-ssh-username=FORWARD_SSH_USERNAME       Username for the SSH tunnel.       This flag argument must be specified if any of the other arguments       in this group are specified.      --forward-ssh-port=FORWARD_SSH_PORT; default=22       Port for the SSH tunnel, default value is 22.      Exactly one of these must be specified:       --forward-ssh-password=FORWARD_SSH_PASSWORD        SSH password.       --forward-ssh-private-key=FORWARD_SSH_PRIVATE_KEY        SSH private key..
     /// </summary>
     [SecretValue]
     [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKey { get; set; }
-
-    /// <summary>
-    /// IP or hostname of the database. When --psc-service-attachment is also     specified, this field value should be:     1. For Cloud SQL PSC enabled instance - the dns_name field (e.g     &lt;uid&gt;.&lt;region&gt;.sql.goog.).     2. For Cloud SQL PSA instance (vpc peering) - the private ip of the     instance.     3. For AlloyDB PSC enabled cluster - the dns_name field of the primary     instance (e.g &lt;uid&gt;.&lt;region&gt;.alloydb-psc.goog.).     4. For AlloyDB PSA cluster - the private ip of the primary instance.
-    /// </summary>
-    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
-    public string? Host { get; set; }
-
-    /// <summary>
-    /// Network port of the database.
-    /// </summary>
-    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
-    public string? Port { get; set; }
-
-    /// <summary>
-    /// The name of the specific database within the host. For Native Logical     Postgres migrations, one of the replicating databases must be     specified.    Authentication method.    At most one of these can be specified:     --enable-iam-authentication      Use IAM database authentication to connect to the database. The      username will be overridden by the DMS service agent principal. This      flag is only supported for PostgreSQL Destinations.     Or at least one of these can be specified:      --username=USERNAME       Username that Database Migration Service uses to connect to the       database. Database Migration Service encrypts the value when       storing it.       This flag argument must be specified if any of the other arguments       in this group are specified.      Exactly one of these must be specified:       --password=PASSWORD        Password for the user that Database Migration Service uses to        connect to the database. Database Migration Service encrypts the        value when storing it, and the field is not returned on request.       --prompt-for-password        Prompt for the password used to connect to the database.    At most one of these can be specified:      Private connection resource - Resource ID of the private connection.     This represents a Cloud resource. (NOTE) Some attributes are not given     arguments in this group but can be set in other ways.      To set the project attribute:     ▸ provide the argument --private-connection on the command line with      a fully specified name;     ▸ provide the argument --project on the command line;     ▸ set the property core/project.     To set the region attribute:     ▸ provide the argument --private-connection on the command line with      a fully specified name;     ▸ provide the argument --region on the command line.      --private-connection=PRIVATE_CONNECTION       ID of the private_connection or fully qualified identifier for the       private_connection.       To set the private_connection attribute:     ▸ provide the argument --private-connection on the command line.     Or at least one of these can be specified:      Service attachment resource - Resource ID of the service attachment.     This represents a Cloud resource. (NOTE) Some attributes are not given     arguments in this group but can be set in other ways.      To set the project attribute:     ▸ provide the argument --psc-service-attachment on the command line      with a fully specified name;     ▸ provide the argument --project on the command line;     ▸ set the property core/project.     To set the region attribute:     ▸ provide the argument --psc-service-attachment on the command line      with a fully specified name;     ▸ provide the argument --region on the command line.      --psc-service-attachment=PSC_SERVICE_ATTACHMENT       ID of the service_attachment or fully qualified identifier for the       service_attachment.       To set the service_attachment attribute:     ▸ provide the argument --psc-service-attachment on the command line.     --static-ip-connectivity      use static ip connectivity     Or at least one of these can be specified:      --forward-ssh-hostname=FORWARD_SSH_HOSTNAME       Hostname for the SSH tunnel.       This flag argument must be specified if any of the other arguments       in this group are specified.      --forward-ssh-username=FORWARD_SSH_USERNAME       Username for the SSH tunnel.       This flag argument must be specified if any of the other arguments       in this group are specified.      --forward-ssh-port=FORWARD_SSH_PORT; default=22       Port for the SSH tunnel, default value is 22.      Exactly one of these must be specified:       --forward-ssh-password=FORWARD_SSH_PASSWORD        SSH password.       --forward-ssh-private-key=FORWARD_SSH_PRIVATE_KEY        SSH private key..
-    /// </summary>
-    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
-    public string? Database { get; set; }
 
 }

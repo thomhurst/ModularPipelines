@@ -20,6 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworkconnectivitySpokesGateways
 {
     private readonly ICommand _command;
+    private GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes _advertisedRoutes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkconnectivitySpokesGateways"/> class.
@@ -28,6 +29,15 @@ public class GcloudNetworkconnectivitySpokesGateways
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud advertised-routes sub-commands.
+    /// </summary>
+    public GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes AdvertisedRoutes => _advertisedRoutes ??= new GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes(_command);
+
+    #endregion
 
     #region Commands
 

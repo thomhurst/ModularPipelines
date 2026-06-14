@@ -176,4 +176,23 @@ public class GcloudNetworksecurity
     public GcloudNetworksecurityUrlLists UrlLists => _urlLists ??= new GcloudNetworksecurityUrlLists(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// manage Mirroring Endpoint     resources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> MirroringEndpoints(
+        GcloudNetworkSecurityMirroringEndpointsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointsOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

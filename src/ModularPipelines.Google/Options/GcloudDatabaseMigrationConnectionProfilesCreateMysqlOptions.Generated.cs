@@ -85,7 +85,7 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions : Gclo
     public string? PrivateKey { get; set; }
 
     /// <summary>
-    /// IP or hostname of the database. When --psc-service-attachment is also     specified, this field value should be:     1. For Cloud SQL PSC enabled instance - the dns_name field (e.g     &lt;uid&gt;.&lt;region&gt;.sql.goog.).     2. For Cloud SQL PSA instance (vpc peering) - the private ip of the     instance.     3. For AlloyDB PSC enabled cluster - the dns_name field of the primary     instance (e.g &lt;uid&gt;.&lt;region&gt;.alloydb-psc.goog.).     4. For AlloyDB PSA cluster - the private ip of the primary instance.
+    /// IP or hostname of the database.       When `--psc-service-attachment` is also specified, this field value       should be:       1. For Cloud SQL PSC enabled instance - the dns_name field        (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.).       2. For Cloud SQL PSA instance (vpc peering) - the private ip of the        instance.
     /// </summary>
     [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
     public string? Host { get; set; }

@@ -22,9 +22,15 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityFirewallEndpointsListOptions : GcloudOptions
 {
     /// <summary>
-    /// The organization for a list operation    At most one of these can be specified:     --location=LOCATION      The location for a list operation     --zone=ZONE      The zone for a list operation
+    /// The organization for a list operation
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
+
+    /// <summary>
+    /// The project for a list operation     The Google Cloud project ID to use for this invocation. If omitted,     then the current project is assumed; the current project can be listed     using gcloud config list --format='text(core.project)' and can be set     using gcloud config set project PROJECTID.     --project and its fallback core/project property play two roles in the     invocation. It specifies the project of the resource to operate on. It     also specifies the project for API enablement check, quota, and     billing. To specify a different project for quota and billing, use     --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
 
 }
