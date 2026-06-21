@@ -13,42 +13,24 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Removes an environment from a stack's import list.
+/// Remove a stack tag
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("config", "env", "rm")]
-public record PulumiConfigEnvRmOptions : PulumiOptions
+[CliSubCommand("stack", "tag", "remove")]
+public record PulumiStackTagRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for rm
+    /// help for remove
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    /// <summary>
-    /// Show secret values in plaintext instead of ciphertext
-    /// </summary>
-    [CliFlag("--show-secrets")]
-    public bool? ShowSecrets { get; set; }
-
-    /// <summary>
-    /// True to save changes without prompting
-    /// </summary>
-    [CliFlag("--yes", ShortForm = "-y")]
-    public bool? Yes { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
     /// </summary>
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
     public string? Color { get; set; }
-
-    /// <summary>
-    /// Use the configuration values in the specified file rather than detecting the file name
-    /// </summary>
-    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
-    public string? ConfigFile { get; set; }
 
     /// <summary>
     /// Run pulumi as if it had been started in another directory

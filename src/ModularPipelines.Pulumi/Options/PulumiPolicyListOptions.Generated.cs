@@ -13,21 +13,15 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// List stacks
+/// List all Policy Packs for a Pulumi organization
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("stack", "ls")]
-public record PulumiStackLsOptions : PulumiOptions
+[CliSubCommand("policy", "list")]
+public record PulumiPolicyListOptions : PulumiOptions
 {
     /// <summary>
-    /// List all stacks instead of just stacks for the current project
-    /// </summary>
-    [CliFlag("--all", ShortForm = "-a")]
-    public bool? All { get; set; }
-
-    /// <summary>
-    /// help for ls
+    /// help for list
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
@@ -37,24 +31,6 @@ public record PulumiStackLsOptions : PulumiOptions
     /// </summary>
     [CliFlag("--json", ShortForm = "-j")]
     public bool? Json { get; set; }
-
-    /// <summary>
-    /// Filter returned stacks to those in a specific organization
-    /// </summary>
-    [CliOption("--organization", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? Organization { get; set; }
-
-    /// <summary>
-    /// Filter returned stacks to those with a specific project name
-    /// </summary>
-    [CliOption("--project", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
-
-    /// <summary>
-    /// Filter returned stacks to those in a specific tag (tag-name or tag-name=tag-value)
-    /// </summary>
-    [CliOption("--tag", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Tag { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -121,12 +97,6 @@ public record PulumiStackLsOptions : PulumiOptions
     /// </summary>
     [CliOption("--profiling", Format = OptionFormat.EqualsSeparated)]
     public string? Profiling { get; set; }
-
-    /// <summary>
-    /// The name of the stack to operate on. Defaults to the current stack
-    /// </summary>
-    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Stack { get; set; }
 
     /// <summary>
     /// Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file

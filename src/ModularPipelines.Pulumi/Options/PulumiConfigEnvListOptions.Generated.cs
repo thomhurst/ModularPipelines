@@ -13,30 +13,24 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Copies the config from the current stack to the destination stack. If `key` is omitted,
+/// Lists the environments imported into a stack's configuration.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("config", "cp")]
-public record PulumiConfigCpOptions : PulumiOptions
+[CliSubCommand("config", "env", "list")]
+public record PulumiConfigEnvListOptions : PulumiOptions
 {
     /// <summary>
-    /// The name of the new stack to copy the config to
-    /// </summary>
-    [CliOption("--dest", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Dest { get; set; }
-
-    /// <summary>
-    /// help for cp
+    /// help for list
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// The key contains a path to a property in a map or list to set
+    /// Emit output as JSON
     /// </summary>
-    [CliFlag("--path")]
-    public bool? Path { get; set; }
+    [CliFlag("--json", ShortForm = "-j")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

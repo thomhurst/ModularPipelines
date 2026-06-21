@@ -13,30 +13,48 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// List all Policy Groups for a Pulumi organization
+/// Remove automatic log files.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("policy", "group", "ls")]
-public record PulumiPolicyGroupLsOptions : PulumiOptions
+[CliSubCommand("logs", "remove")]
+public record PulumiLogsRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for ls
+    /// Remove all log files
+    /// </summary>
+    [CliFlag("--all")]
+    public bool? All { get; set; }
+
+    /// <summary>
+    /// Remove logs created before this date or duration (e.g. '24h', '2026-01-01')
+    /// </summary>
+    [CliOption("--before", Format = OptionFormat.EqualsSeparated)]
+    public string? Before { get; set; }
+
+    /// <summary>
+    /// help for remove
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Emit output as JSON
+    /// Skip confirmation prompts
     /// </summary>
-    [CliFlag("--json", ShortForm = "-j")]
-    public bool? Json { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
     /// </summary>
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
     public string? Color { get; set; }
+
+    /// <summary>
+    /// Use the configuration values in the specified file rather than detecting the file name
+    /// </summary>
+    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFile { get; set; }
 
     /// <summary>
     /// Run pulumi as if it had been started in another directory
@@ -57,10 +75,22 @@ public record PulumiPolicyGroupLsOptions : PulumiOptions
     public bool? Emoji { get; set; }
 
     /// <summary>
+    /// Follow the log stream in real time (like tail -f)
+    /// </summary>
+    [CliFlag("--follow", ShortForm = "-f")]
+    public bool? Follow { get; set; }
+
+    /// <summary>
     /// Show fully-qualified stack names
     /// </summary>
     [CliFlag("--fully-qualify-stack-names", ShortForm = "-Q")]
     public bool? FullyQualifyStackNames { get; set; }
+
+    /// <summary>
+    /// Emit output as JSON
+    /// </summary>
+    [CliFlag("--json", ShortForm = "-j")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// Flow log settings to child processes (like plugins)
@@ -97,6 +127,24 @@ public record PulumiPolicyGroupLsOptions : PulumiOptions
     /// </summary>
     [CliOption("--profiling", Format = OptionFormat.EqualsSeparated)]
     public string? Profiling { get; set; }
+
+    /// <summary>
+    /// Only return logs for the requested resource ('name', 'type::name' or full URN).  Defaults to returning all logs.
+    /// </summary>
+    [CliOption("--resource", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
+    public string? Resource { get; set; }
+
+    /// <summary>
+    /// Only return logs newer than a relative duration ('5s', '2m', '3h') or absolute timestamp.  Defaults to returning the last 1 hour of logs. (default "1h")
+    /// </summary>
+    [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
+    public string? Since { get; set; }
+
+    /// <summary>
+    /// The name of the stack to operate on. Defaults to the current stack
+    /// </summary>
+    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Stack { get; set; }
 
     /// <summary>
     /// Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file

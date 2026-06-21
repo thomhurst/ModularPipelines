@@ -39,6 +39,12 @@ public record PulumiConfigSetOptions : PulumiOptions
     public bool? Plaintext { get; set; }
 
     /// <summary>
+    /// When setting the value through stdin, do not trim trailing newlines from the value
+    /// </summary>
+    [CliFlag("--raw")]
+    public bool? Raw { get; set; }
+
+    /// <summary>
     /// Encrypt the value instead of storing it in plaintext
     /// </summary>
     [CliFlag("--secret")]

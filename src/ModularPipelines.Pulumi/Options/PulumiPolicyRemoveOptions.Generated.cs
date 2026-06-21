@@ -13,36 +13,30 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Remove multiple configuration values.
+/// Removes a Policy Pack from a Pulumi organization. The Policy Pack must be disabled from all Policy Groups before it can be removed.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("config", "rm-all")]
-public record PulumiConfigRmAllOptions : PulumiOptions
+[CliSubCommand("policy", "remove")]
+public record PulumiPolicyRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for rm-all
+    /// help for remove
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Parse the keys as paths in a map or list rather than raw strings
+    /// Skip confirmation prompts, and proceed with removal anyway
     /// </summary>
-    [CliFlag("--path")]
-    public bool? Path { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
     /// </summary>
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
     public string? Color { get; set; }
-
-    /// <summary>
-    /// Use the configuration values in the specified file rather than detecting the file name
-    /// </summary>
-    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
-    public string? ConfigFile { get; set; }
 
     /// <summary>
     /// Run pulumi as if it had been started in another directory
@@ -103,12 +97,6 @@ public record PulumiConfigRmAllOptions : PulumiOptions
     /// </summary>
     [CliOption("--profiling", Format = OptionFormat.EqualsSeparated)]
     public string? Profiling { get; set; }
-
-    /// <summary>
-    /// The name of the stack to operate on. Defaults to the current stack
-    /// </summary>
-    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Stack { get; set; }
 
     /// <summary>
     /// Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file

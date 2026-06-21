@@ -13,36 +13,24 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Remove automatic log files.
+/// Remove configuration value.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("logs", "rm")]
-public record PulumiLogsRmOptions : PulumiOptions
+[CliSubCommand("config", "remove")]
+public record PulumiConfigRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// Remove all log files
-    /// </summary>
-    [CliFlag("--all")]
-    public bool? All { get; set; }
-
-    /// <summary>
-    /// Remove logs created before this date or duration (e.g. '24h', '2026-01-01')
-    /// </summary>
-    [CliOption("--before", Format = OptionFormat.EqualsSeparated)]
-    public string? Before { get; set; }
-
-    /// <summary>
-    /// help for rm
+    /// help for remove
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Skip confirmation prompts
+    /// The key contains a path to a property in a map or list to remove
     /// </summary>
-    [CliFlag("--yes", ShortForm = "-y")]
-    public bool? Yes { get; set; }
+    [CliFlag("--path")]
+    public bool? Path { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -75,22 +63,10 @@ public record PulumiLogsRmOptions : PulumiOptions
     public bool? Emoji { get; set; }
 
     /// <summary>
-    /// Follow the log stream in real time (like tail -f)
-    /// </summary>
-    [CliFlag("--follow", ShortForm = "-f")]
-    public bool? Follow { get; set; }
-
-    /// <summary>
     /// Show fully-qualified stack names
     /// </summary>
     [CliFlag("--fully-qualify-stack-names", ShortForm = "-Q")]
     public bool? FullyQualifyStackNames { get; set; }
-
-    /// <summary>
-    /// Emit output as JSON
-    /// </summary>
-    [CliFlag("--json", ShortForm = "-j")]
-    public bool? Json { get; set; }
 
     /// <summary>
     /// Flow log settings to child processes (like plugins)
@@ -127,18 +103,6 @@ public record PulumiLogsRmOptions : PulumiOptions
     /// </summary>
     [CliOption("--profiling", Format = OptionFormat.EqualsSeparated)]
     public string? Profiling { get; set; }
-
-    /// <summary>
-    /// Only return logs for the requested resource ('name', 'type::name' or full URN).  Defaults to returning all logs.
-    /// </summary>
-    [CliOption("--resource", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
-    public string? Resource { get; set; }
-
-    /// <summary>
-    /// Only return logs newer than a relative duration ('5s', '2m', '3h') or absolute timestamp.  Defaults to returning the last 1 hour of logs. (default "1h")
-    /// </summary>
-    [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
-    public string? Since { get; set; }
 
     /// <summary>
     /// The name of the stack to operate on. Defaults to the current stack

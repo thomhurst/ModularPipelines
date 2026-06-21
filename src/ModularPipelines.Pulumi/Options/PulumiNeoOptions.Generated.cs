@@ -33,6 +33,12 @@ public record PulumiNeoOptions : PulumiOptions
     public string? Cwd { get; set; }
 
     /// <summary>
+    /// Run the Neo task with no integration credentials, ignoring any org-enabled integrations.
+    /// </summary>
+    [CliFlag("--disable-integrations")]
+    public bool? DisableIntegrations { get; set; }
+
+    /// <summary>
     /// help for neo
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]

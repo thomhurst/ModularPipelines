@@ -13,36 +13,30 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Remove configuration value.
+/// List all stack tags
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("config", "rm")]
-public record PulumiConfigRmOptions : PulumiOptions
+[CliSubCommand("stack", "tag", "list")]
+public record PulumiStackTagListOptions : PulumiOptions
 {
     /// <summary>
-    /// help for rm
+    /// help for list
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// The key contains a path to a property in a map or list to remove
+    /// Emit output as JSON
     /// </summary>
-    [CliFlag("--path")]
-    public bool? Path { get; set; }
+    [CliFlag("--json", ShortForm = "-j")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
     /// </summary>
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
     public string? Color { get; set; }
-
-    /// <summary>
-    /// Use the configuration values in the specified file rather than detecting the file name
-    /// </summary>
-    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
-    public string? ConfigFile { get; set; }
 
     /// <summary>
     /// Run pulumi as if it had been started in another directory

@@ -147,12 +147,12 @@ public class PulumiStack
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Ls(
-        PulumiStackLsOptions options = default,
+    public virtual async Task<CommandResult> List(
+        PulumiStackListOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiStackLsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiStackListOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -186,6 +186,21 @@ public class PulumiStack
     }
 
     /// <summary>
+    /// Remove a stack and its configuration
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Remove(
+        PulumiStackRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiStackRemoveOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Rename an existing stack.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -198,21 +213,6 @@ public class PulumiStack
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackRenameOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Remove a stack and its configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rm(
-        PulumiStackRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiStackRmOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
