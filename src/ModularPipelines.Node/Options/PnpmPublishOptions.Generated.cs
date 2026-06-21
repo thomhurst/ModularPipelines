@@ -27,6 +27,12 @@ public record PnpmPublishOptions : PnpmOptions
     public string? Access { get; set; }
 
     /// <summary>
+    /// Send all packages to the registry in a single request instead of one request per package. Requires --recursive and a registry that implements the "/-/pnpm/v1/publish" endpoint (for example, pnpr)
+    /// </summary>
+    [CliOption("--batch")]
+    public string? Batch { get; set; }
+
+    /// <summary>
     /// Does everything a publish would do except actually publishing to the registry
     /// </summary>
     [CliOption("--dry-run")]

@@ -51,7 +51,7 @@ public record PnpmRunOptions : PnpmOptions
     public string? Loglevel { get; set; }
 
     /// <summary>
-    /// The command will exit with a 0 exit code even if the script fails
+    /// Continue running the remaining scripts even if one of them fails, instead of aborting on the first failure. The command still exits with a non-zero exit code if any script failed
     /// </summary>
     [CliFlag("--no-bail")]
     public bool? NoBail { get; set; }
