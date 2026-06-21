@@ -29,13 +29,6 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     public string? AdminPassword { get; set; }
 
     /// <summary>
-    /// The resource name of a secret version in Secret Manager which contains     the database admin user's password. Format:     projects/{project}/secrets/{secret}/versions/{version}. Note: Only one     of admin_password_secret_version or admin_password can be populated.
-    /// </summary>
-    [SecretValue]
-    [CliOption("--admin-password-secret-version", Format = OptionFormat.EqualsSeparated)]
-    public string? AdminPasswordSecretVersion { get; set; }
-
-    /// <summary>
     /// Return immediately, without waiting for the operation in progress to     complete.
     /// </summary>
     [CliFlag("--async")]
@@ -90,10 +83,24 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     public string? OdbSubnet { get; set; }
 
     /// <summary>
-    /// An optional ID to identify the request. This value is used to identify     duplicate requests. If you make a request with the same request ID and     the original request is still in progress or completed, the server     ignores the second request. This prevents clients from accidentally     creating duplicate commitments.     The request ID must be a valid UUID with the exception that zero UUID     is not supported (00000000-0000-0000-0000-000000000000).    The properties of an Autonomous Database.
+    /// An optional ID to identify the request. This value is used to identify     duplicate requests. If you make a request with the same request ID and     the original request is still in progress or completed, the server     ignores the second request. This prevents clients from accidentally     creating duplicate commitments.     The request ID must be a valid UUID with the exception that zero UUID     is not supported (00000000-0000-0000-0000-000000000000).    SecretVersion resource - The resource name of a secret version in Secret   Manager which contains the database admin user's password. Format:   projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of   admin_password_secret_version or admin_password can be populated. The   arguments in this group can be used to specify the attributes of this   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --admin-password-secret-version on the command     line with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// ID of the secretVersion or fully qualified identifier for the     secretVersion.     To set the secret-version attribute:     ◆ provide the argument --admin-password-secret-version on the command      line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--admin-password-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminPasswordSecretVersion { get; set; }
+
+    /// <summary>
+    /// The secret id of the secretVersion resource.     To set the secret attribute:     ◆ provide the argument --admin-password-secret-version on the command      line with a fully specified name;     ◆ provide the argument --secret on the command line.    The properties of an Autonomous Database.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
+    public string? Secret { get; set; }
 
     /// <summary>
     /// The workload type of the Autonomous Database. PROPERTIES_DB_WORKLOAD     must be one of:      ajd       Autonomous JSON Database.     apex       Autonomous Database with the Oracle APEX Application Development       workload type.     dw       Autonomous Data Warehouse database.     oltp       Autonomous Transaction Processing database.     This flag argument must be specified if any of the other arguments in     this group are specified.

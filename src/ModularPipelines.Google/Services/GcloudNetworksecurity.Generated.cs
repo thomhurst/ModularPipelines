@@ -37,6 +37,7 @@ public class GcloudNetworksecurity
     private GcloudNetworksecurityMirroringDeployments _mirroringDeployments;
     private GcloudNetworksecurityMirroringEndpointGroupAssociations _mirroringEndpointGroupAssociations;
     private GcloudNetworksecurityMirroringEndpointGroups _mirroringEndpointGroups;
+    private GcloudNetworksecurityOperations _operations;
     private GcloudNetworksecurityOrgAddressGroups _orgAddressGroups;
     private GcloudNetworksecuritySecureAccessConnect _secureAccessConnect;
     private GcloudNetworksecuritySecurityProfileGroups _securityProfileGroups;
@@ -139,6 +140,11 @@ public class GcloudNetworksecurity
     /// gcloud mirroring-endpoint-groups sub-commands.
     /// </summary>
     public GcloudNetworksecurityMirroringEndpointGroups MirroringEndpointGroups => _mirroringEndpointGroups ??= new GcloudNetworksecurityMirroringEndpointGroups(_command);
+
+    /// <summary>
+    /// gcloud operations sub-commands.
+    /// </summary>
+    public GcloudNetworksecurityOperations Operations => _operations ??= new GcloudNetworksecurityOperations(_command);
 
     /// <summary>
     /// gcloud org-address-groups sub-commands.

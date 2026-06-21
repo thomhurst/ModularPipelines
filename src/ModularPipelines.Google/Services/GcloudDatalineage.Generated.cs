@@ -14,36 +14,46 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud goldengate-deployment-versions commands.
+/// gcloud datalineage commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class GcloudOracledatabaseGoldengateDeploymentVersions
+public class GcloudDatalineage
 {
     private readonly ICommand _command;
+    private GcloudDatalineageConfig _config;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseGoldengateDeploymentVersions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDatalineage"/> class.
     /// </summary>
-    public GcloudOracledatabaseGoldengateDeploymentVersions(ICommand command)
+    public GcloudDatalineage(ICommand command)
     {
         _command = command;
     }
 
+    #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud config sub-commands.
+    /// </summary>
+    public GcloudDatalineageConfig Config => _config ??= new GcloudDatalineageConfig(_command);
+
+    #endregion
+
     #region Commands
 
     /// <summary>
-    /// list all     Goldengate deployment versions
+    /// manage Google Cloud Data Lineage resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseGoldengateDeploymentVersionsListOptions options = default,
+    public virtual async Task<CommandResult> Execute(
+        GcloudDatalineageOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseGoldengateDeploymentVersionsListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatalineageOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -26,6 +26,7 @@ public class GcloudArtifacts
     private GcloudArtifactsFiles _files;
     private GcloudArtifactsGeneric _generic;
     private GcloudArtifactsGo _go;
+    private GcloudArtifactsImageStreamingCache _imageStreamingCache;
     private GcloudArtifactsLocations _locations;
     private GcloudArtifactsOperations _operations;
     private GcloudArtifactsPackages _packages;
@@ -80,6 +81,11 @@ public class GcloudArtifacts
     /// gcloud go sub-commands.
     /// </summary>
     public GcloudArtifactsGo Go => _go ??= new GcloudArtifactsGo(_command);
+
+    /// <summary>
+    /// gcloud image-streaming-cache sub-commands.
+    /// </summary>
+    public GcloudArtifactsImageStreamingCache ImageStreamingCache => _imageStreamingCache ??= new GcloudArtifactsImageStreamingCache(_command);
 
     /// <summary>
     /// gcloud locations sub-commands.

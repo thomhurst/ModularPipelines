@@ -216,6 +216,11 @@ public partial interface IGcloud
     GcloudDataflow Dataflow { get; }
 
     /// <summary>
+    /// Gets the datalineage sub-domain service.
+    /// </summary>
+    GcloudDatalineage Datalineage { get; }
+
+    /// <summary>
     /// Gets the dataplex sub-domain service.
     /// </summary>
     GcloudDataplex Dataplex { get; }

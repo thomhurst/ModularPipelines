@@ -64,6 +64,7 @@ internal partial class Gcloud : IGcloud
         GcloudDatabasemigration databasemigration,
         GcloudDatacatalog datacatalog,
         GcloudDataflow dataflow,
+        GcloudDatalineage datalineage,
         GcloudDataplex dataplex,
         GcloudDataproc dataproc,
         GcloudDatastore datastore,
@@ -192,6 +193,7 @@ internal partial class Gcloud : IGcloud
         Databasemigration = databasemigration;
         Datacatalog = datacatalog;
         Dataflow = dataflow;
+        Datalineage = datalineage;
         Dataplex = dataplex;
         Dataproc = dataproc;
         Datastore = datastore;
@@ -399,6 +401,9 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public GcloudDataflow Dataflow { get; }
+
+    /// <inheritdoc />
+    public GcloudDatalineage Datalineage { get; }
 
     /// <inheritdoc />
     public GcloudDataplex Dataplex { get; }

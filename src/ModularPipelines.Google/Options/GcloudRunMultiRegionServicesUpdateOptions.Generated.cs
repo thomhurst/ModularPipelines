@@ -236,6 +236,12 @@ public record GcloudRunMultiRegionServicesUpdateOptions : GcloudOptions
     public string? Port { get; set; }
 
     /// <summary>
+    /// Comma separated settings for readiness probe in the form KEY=VALUE.     Each key stands for a field of the probe described in     https://cloud.google.com/run/docs/reference/rest/v1/Container#Probe.     Currently supported keys are: timeoutSeconds, periodSeconds,     failureThreshold, successThreshold, httpGet.port, httpGet.path,     grpc.port, grpc.service.     For example, to set a probe with 10s timeout and HTTP probe requests     sent to 8080 port of the container:       $ --readiness-probe=timeoutSeconds=10,httpGet.port=8080     To remove existing probe:       $ --readiness-probe=""
+    /// </summary>
+    [CliOption("--readiness-probe", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? ReadinessProbe { get; set; }
+
+    /// <summary>
     /// Removes the volume mounted at the specified path from the current     container.
     /// </summary>
     [CliOption("--remove-volume-mount", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]

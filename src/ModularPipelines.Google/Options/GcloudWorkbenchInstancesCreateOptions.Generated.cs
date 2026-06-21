@@ -77,6 +77,9 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     [CliFlag("--enable-ip-forwarding")]
     public bool? EnableIpForwarding { get; set; }
 
+    /// <summary>
+    /// The Compute Engine machine type     (https://cloud.google.com/sdk/gcloud/reference/compute/machine-types)     of this instance.
+    /// </summary>
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? MachineType { get; set; }
 
