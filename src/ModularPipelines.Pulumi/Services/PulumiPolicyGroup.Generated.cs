@@ -68,12 +68,12 @@ public class PulumiPolicyGroup
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Ls(
-        PulumiPolicyGroupLsOptions options = default,
+    public virtual async Task<CommandResult> List(
+        PulumiPolicyGroupListOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiPolicyGroupLsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiPolicyGroupListOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

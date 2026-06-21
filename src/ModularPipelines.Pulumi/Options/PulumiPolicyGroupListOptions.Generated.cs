@@ -13,48 +13,24 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Install packages and plugins for the current program or policy pack.
+/// List all Policy Groups for a Pulumi organization
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("install")]
-public record PulumiInstallOptions : PulumiOptions
+[CliSubCommand("policy", "group", "list")]
+public record PulumiPolicyGroupListOptions : PulumiOptions
 {
     /// <summary>
-    /// help for install
+    /// help for list
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Skip installing dependencies
+    /// Emit output as JSON
     /// </summary>
-    [CliFlag("--no-dependencies")]
-    public bool? NoDependencies { get; set; }
-
-    /// <summary>
-    /// Skip installing plugins
-    /// </summary>
-    [CliFlag("--no-plugins")]
-    public bool? NoPlugins { get; set; }
-
-    /// <summary>
-    /// The max number of concurrent installs to perform. Parallelism of less than 1 implies unbounded parallelism (default 4)
-    /// </summary>
-    [CliOption("--parallel", Format = OptionFormat.EqualsSeparated)]
-    public int? Parallel { get; set; }
-
-    /// <summary>
-    /// Reinstall a plugin even if it already exists
-    /// </summary>
-    [CliFlag("--reinstall")]
-    public bool? Reinstall { get; set; }
-
-    /// <summary>
-    /// Use language version tools to set up and install the language runtime
-    /// </summary>
-    [CliFlag("--use-language-version-tools")]
-    public bool? UseLanguageVersionTools { get; set; }
+    [CliFlag("--json", ShortForm = "-j")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

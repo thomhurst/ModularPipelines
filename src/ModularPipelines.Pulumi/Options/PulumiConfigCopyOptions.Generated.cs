@@ -13,54 +13,42 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Remove a stack and its configuration
+/// Copies the config from the current stack to the destination stack. If `key` is omitted,
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("stack", "rm")]
-public record PulumiStackRmOptions : PulumiOptions
+[CliSubCommand("config", "copy")]
+public record PulumiConfigCopyOptions : PulumiOptions
 {
     /// <summary>
-    /// Forces deletion of the stack, leaving behind any resources managed by the stack
+    /// The name of the new stack to copy the config to
     /// </summary>
-    [CliFlag("--force", ShortForm = "-f")]
-    public bool? Force { get; set; }
+    [CliOption("--dest", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
+    public string? Dest { get; set; }
 
     /// <summary>
-    /// help for rm
+    /// help for copy
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Do not delete the corresponding Pulumi.&lt;stack-name&gt;.yaml configuration file for the stack
+    /// The key contains a path to a property in a map or list to set
     /// </summary>
-    [CliFlag("--preserve-config")]
-    public bool? PreserveConfig { get; set; }
-
-    /// <summary>
-    /// Additionally remove backups of the stack, if using the DIY backend
-    /// </summary>
-    [CliFlag("--remove-backups")]
-    public bool? RemoveBackups { get; set; }
-
-    /// <summary>
-    /// The name of the stack to operate on. Defaults to the current stack
-    /// </summary>
-    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Stack { get; set; }
-
-    /// <summary>
-    /// Skip confirmation prompts, and proceed with removal anyway
-    /// </summary>
-    [CliFlag("--yes", ShortForm = "-y")]
-    public bool? Yes { get; set; }
+    [CliFlag("--path")]
+    public bool? Path { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
     /// </summary>
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
     public string? Color { get; set; }
+
+    /// <summary>
+    /// Use the configuration values in the specified file rather than detecting the file name
+    /// </summary>
+    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFile { get; set; }
 
     /// <summary>
     /// Run pulumi as if it had been started in another directory
@@ -121,6 +109,12 @@ public record PulumiStackRmOptions : PulumiOptions
     /// </summary>
     [CliOption("--profiling", Format = OptionFormat.EqualsSeparated)]
     public string? Profiling { get; set; }
+
+    /// <summary>
+    /// The name of the stack to operate on. Defaults to the current stack
+    /// </summary>
+    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Stack { get; set; }
 
     /// <summary>
     /// Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file

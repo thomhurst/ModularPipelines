@@ -131,6 +131,15 @@ public partial interface IPulumi
     Task<CommandResult> Destroy(PulumiDestroyOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// [EXPERIMENTAL] Interact with any cloud
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> Do(PulumiDoOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Import resources into an existing stack.
     /// </summary>
     /// <param name="options">The command options.</param>

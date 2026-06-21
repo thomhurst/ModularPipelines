@@ -13,30 +13,36 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// List all Policy Packs for a Pulumi organization
+/// List automatic log files
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("policy", "ls")]
-public record PulumiPolicyLsOptions : PulumiOptions
+[CliSubCommand("logs", "list")]
+public record PulumiLogsListOptions : PulumiOptions
 {
     /// <summary>
-    /// help for ls
+    /// help for list
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Emit output as JSON
+    /// Output format. Supported values are: default and json (default "default")
     /// </summary>
-    [CliFlag("--json", ShortForm = "-j")]
-    public bool? Json { get; set; }
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
     /// </summary>
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
     public string? Color { get; set; }
+
+    /// <summary>
+    /// Use the configuration values in the specified file rather than detecting the file name
+    /// </summary>
+    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFile { get; set; }
 
     /// <summary>
     /// Run pulumi as if it had been started in another directory
@@ -57,10 +63,22 @@ public record PulumiPolicyLsOptions : PulumiOptions
     public bool? Emoji { get; set; }
 
     /// <summary>
+    /// Follow the log stream in real time (like tail -f)
+    /// </summary>
+    [CliFlag("--follow", ShortForm = "-f")]
+    public bool? Follow { get; set; }
+
+    /// <summary>
     /// Show fully-qualified stack names
     /// </summary>
     [CliFlag("--fully-qualify-stack-names", ShortForm = "-Q")]
     public bool? FullyQualifyStackNames { get; set; }
+
+    /// <summary>
+    /// Emit output as JSON
+    /// </summary>
+    [CliFlag("--json", ShortForm = "-j")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// Flow log settings to child processes (like plugins)
@@ -97,6 +115,24 @@ public record PulumiPolicyLsOptions : PulumiOptions
     /// </summary>
     [CliOption("--profiling", Format = OptionFormat.EqualsSeparated)]
     public string? Profiling { get; set; }
+
+    /// <summary>
+    /// Only return logs for the requested resource ('name', 'type::name' or full URN).  Defaults to returning all logs.
+    /// </summary>
+    [CliOption("--resource", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
+    public string? Resource { get; set; }
+
+    /// <summary>
+    /// Only return logs newer than a relative duration ('5s', '2m', '3h') or absolute timestamp.  Defaults to returning the last 1 hour of logs. (default "1h")
+    /// </summary>
+    [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
+    public string? Since { get; set; }
+
+    /// <summary>
+    /// The name of the stack to operate on. Defaults to the current stack
+    /// </summary>
+    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Stack { get; set; }
 
     /// <summary>
     /// Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file

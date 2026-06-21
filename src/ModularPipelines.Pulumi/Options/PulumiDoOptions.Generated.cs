@@ -13,36 +13,48 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Lists the environments imported into a stack's configuration.
+/// [EXPERIMENTAL] Interact with any cloud
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("config", "env", "ls")]
-public record PulumiConfigEnvLsOptions : PulumiOptions
+[CliSubCommand("do")]
+public record PulumiDoOptions : PulumiOptions
 {
     /// <summary>
-    /// help for ls
+    /// Run the operation in preview mode
+    /// </summary>
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// help for do
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Emit output as JSON
+    /// The package to load, in the form 'name@version' or a path to a plugin binary or folder. If the package supports parameterization, additional space-separated parameters can be included after the package name, e.g. --package "name@version param1 \"multi word param\""
     /// </summary>
-    [CliFlag("--json", ShortForm = "-j")]
-    public bool? Json { get; set; }
+    [CliOption("--package", Format = OptionFormat.EqualsSeparated)]
+    public string? Package { get; set; }
+
+    /// <summary>
+    /// Show secret values in output
+    /// </summary>
+    [CliFlag("--show-secrets")]
+    public bool? ShowSecrets { get; set; }
+
+    /// <summary>
+    /// Run create/patch/delete directly against the provider without persisting state. Required for now: the stateful (engine-driven) implementation is still in development, so create/patch/delete error out unless --stateless is set.
+    /// </summary>
+    [CliFlag("--stateless")]
+    public bool? Stateless { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
     /// </summary>
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
     public string? Color { get; set; }
-
-    /// <summary>
-    /// Use the configuration values in the specified file rather than detecting the file name
-    /// </summary>
-    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
-    public string? ConfigFile { get; set; }
 
     /// <summary>
     /// Run pulumi as if it had been started in another directory
@@ -103,12 +115,6 @@ public record PulumiConfigEnvLsOptions : PulumiOptions
     /// </summary>
     [CliOption("--profiling", Format = OptionFormat.EqualsSeparated)]
     public string? Profiling { get; set; }
-
-    /// <summary>
-    /// The name of the stack to operate on. Defaults to the current stack
-    /// </summary>
-    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Stack { get; set; }
 
     /// <summary>
     /// Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file

@@ -135,12 +135,12 @@ public class PulumiPolicy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Ls(
-        PulumiPolicyLsOptions options = default,
+    public virtual async Task<CommandResult> List(
+        PulumiPolicyListOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiPolicyLsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiPolicyListOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -180,12 +180,12 @@ public class PulumiPolicy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rm(
-        PulumiPolicyRmOptions options = default,
+    public virtual async Task<CommandResult> Remove(
+        PulumiPolicyRemoveOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiPolicyRmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiPolicyRemoveOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

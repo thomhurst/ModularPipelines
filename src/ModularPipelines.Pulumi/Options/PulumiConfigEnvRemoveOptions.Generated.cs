@@ -13,21 +13,27 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Removes a Policy Pack from a Pulumi organization. The Policy Pack must be disabled from all Policy Groups before it can be removed.
+/// Removes an environment from a stack's import list.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("policy", "rm")]
-public record PulumiPolicyRmOptions : PulumiOptions
+[CliSubCommand("config", "env", "remove")]
+public record PulumiConfigEnvRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for rm
+    /// help for remove
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Skip confirmation prompts, and proceed with removal anyway
+    /// Show secret values in plaintext instead of ciphertext
+    /// </summary>
+    [CliFlag("--show-secrets")]
+    public bool? ShowSecrets { get; set; }
+
+    /// <summary>
+    /// True to save changes without prompting
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
@@ -37,6 +43,12 @@ public record PulumiPolicyRmOptions : PulumiOptions
     /// </summary>
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
     public string? Color { get; set; }
+
+    /// <summary>
+    /// Use the configuration values in the specified file rather than detecting the file name
+    /// </summary>
+    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFile { get; set; }
 
     /// <summary>
     /// Run pulumi as if it had been started in another directory
@@ -97,6 +109,12 @@ public record PulumiPolicyRmOptions : PulumiOptions
     /// </summary>
     [CliOption("--profiling", Format = OptionFormat.EqualsSeparated)]
     public string? Profiling { get; set; }
+
+    /// <summary>
+    /// The name of the stack to operate on. Defaults to the current stack
+    /// </summary>
+    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Stack { get; set; }
 
     /// <summary>
     /// Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file

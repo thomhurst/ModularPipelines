@@ -144,6 +144,15 @@ internal partial class Pulumi : IPulumi
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> Do(
+        PulumiDoOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiDoOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> Import(
         PulumiImportOptions options = default,
         CommandExecutionOptions executionOptions = null,

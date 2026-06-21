@@ -13,30 +13,48 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// List your Pulumi projects.
+/// Remove a stack and its configuration
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("project", "ls")]
-public record PulumiProjectLsOptions : PulumiOptions
+[CliSubCommand("stack", "remove")]
+public record PulumiStackRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for ls
+    /// Forces deletion of the stack, leaving behind any resources managed by the stack
+    /// </summary>
+    [CliFlag("--force", ShortForm = "-f")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// help for remove
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Emit output as JSON
+    /// Do not delete the corresponding Pulumi.&lt;stack-name&gt;.yaml configuration file for the stack
     /// </summary>
-    [CliFlag("--json", ShortForm = "-j")]
-    public bool? Json { get; set; }
+    [CliFlag("--preserve-config")]
+    public bool? PreserveConfig { get; set; }
 
     /// <summary>
-    /// The organization whose projects to list
+    /// Additionally remove backups of the stack, if using the DIY backend
     /// </summary>
-    [CliOption("--organization", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? Organization { get; set; }
+    [CliFlag("--remove-backups")]
+    public bool? RemoveBackups { get; set; }
+
+    /// <summary>
+    /// The name of the stack to operate on. Defaults to the current stack
+    /// </summary>
+    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Stack { get; set; }
+
+    /// <summary>
+    /// Skip confirmation prompts, and proceed with removal anyway
+    /// </summary>
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
