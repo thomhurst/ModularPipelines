@@ -34,7 +34,13 @@ public record GcloudAccessContextManagerCloudBindingsCreateOptions : GcloudOptio
     public IEnumerable<string>? DryRunLevel { get; set; }
 
     /// <summary>
-    /// Google Group ID whose members are subject to the restrictions of this     binding.
+    /// IAM federated principal that this binding applies to. Can be a single     principal or a principal set. Used to assign policies to third-party     workforce or workload identities. At most one of --group-key or     --federated-principal may be specified.
+    /// </summary>
+    [CliOption("--federated-principal", Format = OptionFormat.EqualsSeparated)]
+    public string? FederatedPrincipal { get; set; }
+
+    /// <summary>
+    /// Google Group ID whose members are subject to the restrictions of this     binding. At most one of --group-key or --federated-principal may be     specified.
     /// </summary>
     [CliOption("--group-key", Format = OptionFormat.EqualsSeparated)]
     public string? GroupKey { get; set; }

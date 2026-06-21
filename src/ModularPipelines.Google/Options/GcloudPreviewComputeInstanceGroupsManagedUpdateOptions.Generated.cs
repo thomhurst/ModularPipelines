@@ -24,7 +24,13 @@ public record GcloudPreviewComputeInstanceGroupsManagedUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Specifies the action that a MIG performs on a failed or an unhealthy     VM. A VM is marked as unhealthy when the application running on that VM     fails a health check. By default, the value of the flag is set to     repair. ACTION_ON_VM_FAILURE must be one of:      do-nothing       MIG does not repair a failed or an unhealthy VM.     repair       MIG automatically repairs a failed or an unhealthy VM.
+    /// Specifies the action that a MIG performs on an unhealthy VM. A VM is     marked as unhealthy when the application running on that VM fails a     health check. By default, the value of the flag is set to     default-action. ACTION_ON_FAILED_HEALTH_CHECK must be one of:      default-action       (Default) MIG uses the same action configured for the       defaultActionOnFailure field.     do-nothing       MIG does not repair an unhealthy VM.     repair       MIG automatically repairs an unhealthy VM by recreating it.
+    /// </summary>
+    [CliOption("--action-on-vm-failed-health-check", Format = OptionFormat.EqualsSeparated)]
+    public string? ActionOnVmFailedHealthCheck { get; set; }
+
+    /// <summary>
+    /// Specifies the action that a MIG performs on a failed VM. If the value     of the onFailedHealthCheck field is DEFAULT_ACTION, then the same     action also applies to the VMs on which your application fails a health     check. By default, the value of the flag is set to repair.     ACTION_ON_VM_FAILURE must be one of:      repair       (Default) MIG automatically repairs a failed VM by recreating it.     do-nothing       MIG does not repair a failed VM.
     /// </summary>
     [CliOption("--default-action-on-vm-failure", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultActionOnVmFailure { get; set; }

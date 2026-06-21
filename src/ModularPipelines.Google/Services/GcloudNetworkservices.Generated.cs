@@ -20,6 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworkservices
 {
     private readonly ICommand _command;
+    private GcloudNetworkservicesAgentGateways _agentGateways;
     private GcloudNetworkservicesEndpointPolicies _endpointPolicies;
     private GcloudNetworkservicesGateways _gateways;
     private GcloudNetworkservicesGrpcRoutes _grpcRoutes;
@@ -50,6 +51,11 @@ public class GcloudNetworkservices
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud agent-gateways sub-commands.
+    /// </summary>
+    public GcloudNetworkservicesAgentGateways AgentGateways => _agentGateways ??= new GcloudNetworkservicesAgentGateways(_command);
 
     /// <summary>
     /// gcloud endpoint-policies sub-commands.

@@ -21,6 +21,12 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("biglake", "iceberg", "catalogs", "update")]
 public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Catalog type to update the catalog with. Currently only updating to a     BigLake catalog type is supported. CATALOG_TYPE must be (only one value     is supported):      biglake       BigLake Iceberg catalog. Catalog type which allows namespaces and       tables within a catalog to be mapped to locations beyond the       catalog's designated default.
+    /// </summary>
+    [CliOption("--catalog-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CatalogType { get; set; }
+
     [SecretValue]
     [CliOption("--credential-mode", Format = OptionFormat.EqualsSeparated)]
     public string? CredentialMode { get; set; }
@@ -30,5 +36,11 @@ public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// Additional Google Cloud Storage buckets and locations (e.g.,     gs://my-other-bucket/...) that are permitted for use by resources     within a catalog. This field is currently only used for BigLake     catalogs.If restricted_locations is empty and unrestricted catalog     creation is enabled, all accessible locations are allowed. Otherwise,     only default_location and locations in this list are allowed.
+    /// </summary>
+    [CliOption("--restricted-locations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? RestrictedLocations { get; set; }
 
 }

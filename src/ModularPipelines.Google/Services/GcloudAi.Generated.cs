@@ -31,6 +31,7 @@ public class GcloudAi
     private GcloudAiOperations _operations;
     private GcloudAiPersistentResources _persistentResources;
     private GcloudAiTensorboards _tensorboards;
+    private GcloudAiTuningJobs _tuningJobs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAi"/> class.
@@ -96,6 +97,11 @@ public class GcloudAi
     /// gcloud tensorboards sub-commands.
     /// </summary>
     public GcloudAiTensorboards Tensorboards => _tensorboards ??= new GcloudAiTensorboards(_command);
+
+    /// <summary>
+    /// gcloud tuning-jobs sub-commands.
+    /// </summary>
+    public GcloudAiTuningJobs TuningJobs => _tuningJobs ??= new GcloudAiTuningJobs(_command);
 
     #endregion
 

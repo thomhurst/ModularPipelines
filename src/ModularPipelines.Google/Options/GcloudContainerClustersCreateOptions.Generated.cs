@@ -176,6 +176,12 @@ public record GcloudContainerClustersCreateOptions(
     public string? DatabaseEncryptionKey { get; set; }
 
     /// <summary>
+    /// Select scalability mode for dataplane v2. DATAPLANE_OPTIMIZATION_MODE     must be one of:      DISABLED       Selects standard mode for the dataplane v2.     SCALE_OPTIMIZED       Selects scaled optimized mode for the dataplane v2.
+    /// </summary>
+    [CliOption("--dataplane-optimization-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? DataplaneOptimizationMode { get; set; }
+
+    /// <summary>
     /// The default max number of pods per node for node pools in the cluster.     This flag sets the default max-pods-per-node for node pools in the     cluster. If --max-pods-per-node is not specified explicitly for a node     pool, this flag value will be used.     Must be used in conjunction with '--enable-ip-alias'.
     /// </summary>
     [CliOption("--default-max-pods-per-node", Format = OptionFormat.EqualsSeparated)]

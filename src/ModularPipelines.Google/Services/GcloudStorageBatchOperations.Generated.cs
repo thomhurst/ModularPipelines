@@ -20,6 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudStorageBatchOperations
 {
     private readonly ICommand _command;
+    private GcloudStorageBatchOperationsBucketOperations _bucketOperations;
     private GcloudStorageBatchOperationsJobs _jobs;
 
     /// <summary>
@@ -31,6 +32,11 @@ public class GcloudStorageBatchOperations
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud bucket-operations sub-commands.
+    /// </summary>
+    public GcloudStorageBatchOperationsBucketOperations BucketOperations => _bucketOperations ??= new GcloudStorageBatchOperationsBucketOperations(_command);
 
     /// <summary>
     /// gcloud jobs sub-commands.

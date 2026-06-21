@@ -74,6 +74,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudDatabasemigration>();
         services.TryAddScoped<GcloudDatacatalog>();
         services.TryAddScoped<GcloudDataflow>();
+        services.TryAddScoped<GcloudDatalineage>();
         services.TryAddScoped<GcloudDataplex>();
         services.TryAddScoped<GcloudDataproc>();
         services.TryAddScoped<GcloudDatastore>();
