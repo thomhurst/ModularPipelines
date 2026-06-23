@@ -130,7 +130,7 @@ jobs:
 
       - name: Cache NuGet
         if: steps.should-run.outputs.run == 'true'
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -637,7 +637,7 @@ jobs:
 
       - name: Cache NuGet
         if: steps.should-run.outputs.run == 'true'
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
