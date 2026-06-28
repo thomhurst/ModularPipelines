@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Pulumi.Options;
-using ModularPipelines.Pulumi.Enums;
 
 namespace ModularPipelines.Pulumi.Options;
 
@@ -40,10 +39,10 @@ public record PulumiInsightsResourceGetOptions : PulumiOptions
     public string? Org { get; set; }
 
     /// <summary>
-    /// Output format. One of: default, json (default "default")
+    /// Output format. Supported values are: default and json (default "default")
     /// </summary>
     [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
-    public PulumiInsightsResourceGetOutput? Output { get; set; }
+    public string? Output { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

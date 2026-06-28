@@ -27,7 +27,7 @@ public record PulumiStackOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// The output format: default (human-readable) or json (default "default")
+    /// Output format. Supported values are: default and json (default "default")
     /// </summary>
     [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
