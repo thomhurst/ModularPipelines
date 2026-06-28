@@ -27,7 +27,7 @@ public record DockerImageBuildOptions : DockerOptions
     public IEnumerable<string>? AddHost { get; set; }
 
     /// <summary>
-    /// Allow extra privileged entitlement (e.g., "network.host", "security.insecure", "device")
+    /// Allow extra privileged entitlement (e.g., "network.host", "security.insecure", "device", "buildx.local.delete")
     /// </summary>
     [CliOption("--allow", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Allow { get; set; }
@@ -193,6 +193,12 @@ public record DockerImageBuildOptions : DockerOptions
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// Resource limits for build containers (format: "memory=2g", "cpu-quota=50000")
+    /// </summary>
+    [CliOption("--resource", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Resource { get; set; }
 
     /// <summary>
     /// Shorthand for "--attest=type=sbom"
