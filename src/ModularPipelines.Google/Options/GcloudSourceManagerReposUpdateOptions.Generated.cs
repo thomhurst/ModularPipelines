@@ -34,6 +34,12 @@ public record GcloudSourceManagerReposUpdateOptions : GcloudOptions
     public string? EndpointMode { get; set; }
 
     /// <summary>
+    /// The service account to attach to the repository.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public int? ServiceAccount { get; set; }
+
+    /// <summary>
     /// If set to true, the request is validated and the user is provided with     an expected result, but no actual change is made.
     /// </summary>
     [CliFlag("--validate-only")]

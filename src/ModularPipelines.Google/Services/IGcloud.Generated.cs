@@ -36,6 +36,11 @@ public partial interface IGcloud
     GcloudActivedirectory Activedirectory { get; }
 
     /// <summary>
+    /// Gets the agentregistry sub-domain service.
+    /// </summary>
+    GcloudAgentregistry Agentregistry { get; }
+
+    /// <summary>
     /// Gets the ai sub-domain service.
     /// </summary>
     GcloudAi Ai { get; }

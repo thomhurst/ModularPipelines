@@ -180,9 +180,15 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     public string? Zone { get; set; }
 
     /// <summary>
-    /// Determines how the cluster nodes are distributed across zones.     ZONE_DISTRIBUTION_MODE must be one of:      multi-zone       Allocate cluster nodes across multiple zones.      single-zone       Allocate cluster nodes in a single zone.    At most one of these can be specified:     --import-gcs-object-uris=[IMPORT_GCS_OBJECT_URIS,...]      URIs of Google Cloud Storage objects to import from. For example,      gs://bucket/folder/file1.rdb,gs://bucket/folder/file2.rdb.     --import-managed-backup=IMPORT_MANAGED_BACKUP      Managed backup to import from. For example,      projects/PROJECT_ID/locations/REGION/backupCollections/BACKUP_COLLECTION_ID/backups/BACKUP_ID.
+    /// Determines how the cluster nodes are distributed across zones.     ZONE_DISTRIBUTION_MODE must be one of:      multi-zone       Allocate cluster nodes across multiple zones.      single-zone       Allocate cluster nodes in a single zone.
     /// </summary>
     [CliOption("--zone-distribution-mode", Format = OptionFormat.EqualsSeparated)]
     public string? ZoneDistributionMode { get; set; }
+
+    /// <summary>
+    /// Specify the zones of a multi-zone cluster where Memorystore for Redis     Cluster allocates resources. This flag isn't applicable for single-zone     clusters.    At most one of these can be specified:     --import-gcs-object-uris=[IMPORT_GCS_OBJECT_URIS,...]      URIs of Google Cloud Storage objects to import from. For example,      gs://bucket/folder/file1.rdb,gs://bucket/folder/file2.rdb.     --import-managed-backup=IMPORT_MANAGED_BACKUP      Managed backup to import from. For example,      projects/PROJECT_ID/locations/REGION/backupCollections/BACKUP_COLLECTION_ID/backups/BACKUP_ID.
+    /// </summary>
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Zones { get; set; }
 
 }

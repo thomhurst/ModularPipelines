@@ -72,6 +72,12 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     public string? DisplayName { get; set; }
 
     /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide     enhanced data residency and reliability by ensuring your request is     handled entirely within the specified Google Cloud region. This differs     from global endpoints, which may process parts of the request outside     the target region. Overrides the default regional/endpoint_mode     property value for this command invocation. ENDPOINT_MODE must be one     of:      global       (Default) Use global rather than regional endpoints.     regional       Only use regional endpoints. An error will be raised if a regional       endpoint is not available for a given command.     regional-preferred       Use regional endpoints when available, otherwise use global       endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
     /// IP or hostname of the database.       For PostgreSQL destination profiles with Cloud SQL or AlloyDB, this flag is       optional if the instance or cluster is provided.       When `--psc-service-attachment` is also specified, this field value       should be:       1. For Cloud SQL PSC enabled instance - the dns_name field        (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.).       2. For Cloud SQL PSA instance (vpc peering) - the private ip of the        instance.       3. For AlloyDB PSC enabled cluster - the dns_name field of the primary        instance (e.g &lt;uid&gt;.&lt;region&gt;.alloydb-psc.goog.).       4. For AlloyDB PSA cluster - the private ip of the primary instance.
     /// </summary>
     [CliOption("--host", Format = OptionFormat.EqualsSeparated)]

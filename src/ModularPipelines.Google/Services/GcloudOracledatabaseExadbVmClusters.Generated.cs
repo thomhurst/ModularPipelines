@@ -32,7 +32,7 @@ public class GcloudOracledatabaseExadbVmClusters
     #region Commands
 
     /// <summary>
-    /// create exadbVmClusters
+    /// create a new     ExadbVmCluster
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class GcloudOracledatabaseExadbVmClusters
     }
 
     /// <summary>
-    /// delete exadbVmClusters
+    /// delete an ExadbVmCluster
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class GcloudOracledatabaseExadbVmClusters
     }
 
     /// <summary>
-    /// describe     exadbVmClusters
+    /// get details of a     ExadbVmCluster
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class GcloudOracledatabaseExadbVmClusters
     }
 
     /// <summary>
-    /// list exadbVmClusters
+    /// list all ExadbVmClusters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class GcloudOracledatabaseExadbVmClusters
     }
 
     /// <summary>
-    /// remove     exadbVmClusters
+    /// remove     virtual machines from an ExadbVmCluster
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class GcloudOracledatabaseExadbVmClusters
     }
 
     /// <summary>
-    /// update exadbVmClusters
+    /// update an ExadbVmCluster
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
