@@ -32,7 +32,7 @@ public class GcloudOracledatabaseExascaleDbStorageVaults
     #region Commands
 
     /// <summary>
-    /// create     exascaleDbStorageVaults
+    /// create a new     ExascaleDbStorageVault
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class GcloudOracledatabaseExascaleDbStorageVaults
     }
 
     /// <summary>
-    /// delete     exascaleDbStorageVaults
+    /// delete an     ExascaleDbStorageVault
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class GcloudOracledatabaseExascaleDbStorageVaults
     }
 
     /// <summary>
-    /// describe     exascaleDbStorageVaults
+    /// get details of     a ExascaleDbStorageVault
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class GcloudOracledatabaseExascaleDbStorageVaults
     }
 
     /// <summary>
-    /// list     exascaleDbStorageVaults
+    /// list all     ExascaleDbStorageVaults
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

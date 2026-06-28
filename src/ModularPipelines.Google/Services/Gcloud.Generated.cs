@@ -28,6 +28,7 @@ internal partial class Gcloud : IGcloud
         GcloudAccessapproval accessapproval,
         GcloudAccesscontextmanager accesscontextmanager,
         GcloudActivedirectory activedirectory,
+        GcloudAgentregistry agentregistry,
         GcloudAi ai,
         GcloudAiplatform aiplatform,
         GcloudAlloydb alloydb,
@@ -157,6 +158,7 @@ internal partial class Gcloud : IGcloud
         Accessapproval = accessapproval;
         Accesscontextmanager = accesscontextmanager;
         Activedirectory = activedirectory;
+        Agentregistry = agentregistry;
         Ai = ai;
         Aiplatform = aiplatform;
         Alloydb = alloydb;
@@ -293,6 +295,9 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public GcloudActivedirectory Activedirectory { get; }
+
+    /// <inheritdoc />
+    public GcloudAgentregistry Agentregistry { get; }
 
     /// <inheritdoc />
     public GcloudAi Ai { get; }

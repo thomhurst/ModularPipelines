@@ -22,6 +22,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatabaseMigrationConnectionProfilesListOptions : GcloudOptions
 {
     /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide     enhanced data residency and reliability by ensuring your request is     handled entirely within the specified Google Cloud region. This differs     from global endpoints, which may process parts of the request outside     the target region. Overrides the default regional/endpoint_mode     property value for this command invocation. ENDPOINT_MODE must be one     of:      global       (Default) Use global rather than regional endpoints.     regional       Only use regional endpoints. An error will be raised if a regional       endpoint is not available for a given command.     regional-preferred       Use regional endpoints when available, otherwise use global       endpoints. Recommended for most users.    Region resource - The location you want to list the connection profiles   for. This represents a Cloud resource. (NOTE) Some attributes are not   given arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --region on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
     /// ID of the region or fully qualified identifier for the region.     To set the region attribute:     ◆ provide the argument --region on the command line.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]

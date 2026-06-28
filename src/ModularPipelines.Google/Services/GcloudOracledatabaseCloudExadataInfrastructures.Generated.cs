@@ -42,6 +42,21 @@ public class GcloudOracledatabaseCloudExadataInfrastructures
     #region Commands
 
     /// <summary>
+    /// configure Exascale Storage for a Cloud Exadata Infrastructure
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ConfigureExascale(
+        GcloudOracleDatabaseCloudExadataInfrastructuresConfigureExascaleOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresConfigureExascaleOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// create a new     ExadataInfrastructure
     /// </summary>
     /// <param name="options">The command options.</param>

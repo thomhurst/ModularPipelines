@@ -38,6 +38,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudAccessapproval>();
         services.TryAddScoped<GcloudAccesscontextmanager>();
         services.TryAddScoped<GcloudActivedirectory>();
+        services.TryAddScoped<GcloudAgentregistry>();
         services.TryAddScoped<GcloudAi>();
         services.TryAddScoped<GcloudAiplatform>();
         services.TryAddScoped<GcloudAlloydb>();

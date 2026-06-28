@@ -237,4 +237,10 @@ public record GcloudMemorystoreInstancesCreateOptions : GcloudOptions
     [CliOption("--zone-distribution-config-mode", Format = OptionFormat.EqualsSeparated)]
     public string? ZoneDistributionConfigMode { get; set; }
 
+    /// <summary>
+    /// Specify the zones of a multi-zone instance where Memorystore instance     allocates resources. This flag isn't applicable for single-zone     instances.
+    /// </summary>
+    [CliOption("--zone-distribution-config-zones", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ZoneDistributionConfigZones { get; set; }
+
 }

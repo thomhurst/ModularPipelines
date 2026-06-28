@@ -44,6 +44,8 @@ public class GcloudNetworksecurity
     private GcloudNetworksecuritySecurityProfiles _securityProfiles;
     private GcloudNetworksecurityServerTlsPolicies _serverTlsPolicies;
     private GcloudNetworksecurityTlsInspectionPolicies _tlsInspectionPolicies;
+    private GcloudNetworksecurityUllMirroringCollectors _ullMirroringCollectors;
+    private GcloudNetworksecurityUllMirroringEngines _ullMirroringEngines;
     private GcloudNetworksecurityUrlLists _urlLists;
 
     /// <summary>
@@ -175,6 +177,16 @@ public class GcloudNetworksecurity
     /// gcloud tls-inspection-policies sub-commands.
     /// </summary>
     public GcloudNetworksecurityTlsInspectionPolicies TlsInspectionPolicies => _tlsInspectionPolicies ??= new GcloudNetworksecurityTlsInspectionPolicies(_command);
+
+    /// <summary>
+    /// gcloud ull-mirroring-collectors sub-commands.
+    /// </summary>
+    public GcloudNetworksecurityUllMirroringCollectors UllMirroringCollectors => _ullMirroringCollectors ??= new GcloudNetworksecurityUllMirroringCollectors(_command);
+
+    /// <summary>
+    /// gcloud ull-mirroring-engines sub-commands.
+    /// </summary>
+    public GcloudNetworksecurityUllMirroringEngines UllMirroringEngines => _ullMirroringEngines ??= new GcloudNetworksecurityUllMirroringEngines(_command);
 
     /// <summary>
     /// gcloud url-lists sub-commands.
