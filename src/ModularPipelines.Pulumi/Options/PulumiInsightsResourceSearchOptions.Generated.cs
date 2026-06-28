@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Pulumi.Options;
-using ModularPipelines.Pulumi.Enums;
 
 namespace ModularPipelines.Pulumi.Options;
 
@@ -52,10 +51,10 @@ public record PulumiInsightsResourceSearchOptions : PulumiOptions
     public string? Org { get; set; }
 
     /// <summary>
-    /// Output format. One of: default, table, json (default "default")
+    /// Output format. Supported values are: default and json (default "default")
     /// </summary>
     [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
-    public PulumiInsightsResourceSearchOutput? Output { get; set; }
+    public string? Output { get; set; }
 
     /// <summary>
     /// 1-based page of results to return (max 10,000 total results)

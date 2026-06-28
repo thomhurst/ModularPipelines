@@ -27,9 +27,9 @@ public record PulumiStackWebhookDeliveryRedeliverOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// The output format: default (human-readable text) or json (default "default")
+    /// Output format. Supported values are: default and json (default "default")
     /// </summary>
-    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
 
     /// <summary>

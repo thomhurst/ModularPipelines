@@ -27,16 +27,34 @@ public record PulumiStackGetOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// The output format: default (human-readable) or json (default "default")
+    /// Output format. Supported values are: default and json (default "default")
     /// </summary>
     [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
+
+    /// <summary>
+    /// Display each resource's provider-assigned unique ID
+    /// </summary>
+    [CliFlag("--show-ids", ShortForm = "-i")]
+    public bool? ShowIds { get; set; }
+
+    /// <summary>
+    /// Display only the stack name
+    /// </summary>
+    [CliFlag("--show-name")]
+    public bool? ShowName { get; set; }
 
     /// <summary>
     /// Display stack outputs which are marked as secret in plaintext
     /// </summary>
     [CliFlag("--show-secrets")]
     public bool? ShowSecrets { get; set; }
+
+    /// <summary>
+    /// Display each resource's Pulumi-assigned globally unique URN
+    /// </summary>
+    [CliFlag("--show-urns", ShortForm = "-u")]
+    public bool? ShowUrns { get; set; }
 
     /// <summary>
     /// The name of the stack to operate on. Defaults to the current stack

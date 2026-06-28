@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Pulumi.Options;
-using ModularPipelines.Pulumi.Enums;
 
 namespace ModularPipelines.Pulumi.Options;
 
@@ -46,10 +45,10 @@ public record PulumiDeploymentListOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Output format. One of: default, json (default "default")
+    /// Output format. Supported values are: default and json (default "default")
     /// </summary>
     [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
-    public PulumiDeploymentListOutput? Output { get; set; }
+    public string? Output { get; set; }
 
     /// <summary>
     /// The field to sort results by
