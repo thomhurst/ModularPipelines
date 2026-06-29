@@ -14,6 +14,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudNodeType
 {
+    [Description("redis-highcpu-medium")]
+    RedisHighcpuMedium,
+
+    [Description("redis-highmem-2xlarge")]
+    RedisHighmem_2xlarge,
+
     [Description("redis-highmem-medium")]
     RedisHighmemMedium,
 
@@ -22,6 +28,9 @@ public enum GcloudNodeType
 
     [Description("redis-shared-core-nano")]
     RedisSharedCoreNano,
+
+    [Description("redis-standard-large")]
+    RedisStandardLarge,
 
     [Description("redis-standard-small")]
     RedisStandardSmall

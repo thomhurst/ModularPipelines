@@ -31,8 +31,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
     {
         var sb = new StringBuilder();
 
-        // File header
-        GeneratorUtils.GenerateFileHeader(sb);
+        GeneratorUtils.GenerateFileHeaderWithNullable(sb);
 
         sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using ModularPipelines.Context;");

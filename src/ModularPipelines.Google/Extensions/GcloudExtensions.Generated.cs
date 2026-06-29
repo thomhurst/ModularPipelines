@@ -38,6 +38,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudAccessapproval>();
         services.TryAddScoped<GcloudAccesscontextmanager>();
         services.TryAddScoped<GcloudActivedirectory>();
+        services.TryAddScoped<GcloudAgentregistry>();
         services.TryAddScoped<GcloudAi>();
         services.TryAddScoped<GcloudAiplatform>();
         services.TryAddScoped<GcloudAlloydb>();
@@ -55,6 +56,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudBackupdr>();
         services.TryAddScoped<GcloudBatch>();
         services.TryAddScoped<GcloudBeyondcorp>();
+        services.TryAddScoped<GcloudBiglake>();
         services.TryAddScoped<GcloudBigtable>();
         services.TryAddScoped<GcloudBilling>();
         services.TryAddScoped<GcloudBms>();
@@ -73,6 +75,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudDatabasemigration>();
         services.TryAddScoped<GcloudDatacatalog>();
         services.TryAddScoped<GcloudDataflow>();
+        services.TryAddScoped<GcloudDatalineage>();
         services.TryAddScoped<GcloudDataplex>();
         services.TryAddScoped<GcloudDataproc>();
         services.TryAddScoped<GcloudDatastore>();
@@ -99,7 +102,6 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudIap>();
         services.TryAddScoped<GcloudIdentity>();
         services.TryAddScoped<GcloudIds>();
-        services.TryAddScoped<GcloudImmersivestream>();
         services.TryAddScoped<GcloudInframanager>();
         services.TryAddScoped<GcloudKms>();
         services.TryAddScoped<GcloudLogging>();
@@ -142,6 +144,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudSecrets>();
         services.TryAddScoped<GcloudServicedirectory>();
         services.TryAddScoped<GcloudServiceextensions>();
+        services.TryAddScoped<GcloudServicehealth>();
         services.TryAddScoped<GcloudServices>();
         services.TryAddScoped<GcloudSource>();
         services.TryAddScoped<GcloudSourcemanager>();
@@ -152,9 +155,11 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudTelcoautomation>();
         services.TryAddScoped<GcloudTranscoder>();
         services.TryAddScoped<GcloudTransfer>();
+        services.TryAddScoped<GcloudVectorsearch>();
         services.TryAddScoped<GcloudVmware>();
         services.TryAddScoped<GcloudWorkbench>();
         services.TryAddScoped<GcloudWorkflows>();
+        services.TryAddScoped<GcloudWorkloadidentity>();
         services.TryAddScoped<GcloudWorkspaceaddons>();
         services.TryAddScoped<GcloudWorkstations>();
         return services;

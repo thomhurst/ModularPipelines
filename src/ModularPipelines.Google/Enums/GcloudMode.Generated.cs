@@ -20,6 +20,9 @@ public enum GcloudMode
     [Description("mode-unspecified")]
     ModeUnspecified,
 
+    [Description("system-trust-domain")]
+    SystemTrustDomain,
+
     [Description("trust-domain")]
     TrustDomain
 }

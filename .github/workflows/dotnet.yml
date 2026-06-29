@@ -37,7 +37,7 @@ jobs:
           echo "::add-mask::${{ secrets.NuGet__ApiKey }}"
           echo "::add-mask::${{ secrets.ADMIN_TOKEN }}"
           echo "::add-mask::${{ secrets.CODACY_APIKEY }}"
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7.0.0
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -51,7 +51,7 @@ jobs:
         with:
           dotnet-version: 10.0.x
       - name: Cache NuGet
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ${{ matrix.os == 'windows-latest' && format('{0}\{1}', env.DEV_DRIVE, 'nuget') || '~/.nuget/packages' }}
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -86,7 +86,7 @@ jobs:
 
       - name: Upload Hang Dumps
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: hang-dumps-${{ matrix.os }}
           path: |

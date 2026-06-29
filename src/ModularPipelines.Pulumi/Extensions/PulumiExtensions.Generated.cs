@@ -35,8 +35,12 @@ public static class PulumiExtensions
     public static IServiceCollection RegisterPulumiContext(this IServiceCollection services)
     {
         services.TryAddScoped<IPulumi, Services.Pulumi>();
+        services.TryAddScoped<PulumiApi>();
         services.TryAddScoped<PulumiConfig>();
+        services.TryAddScoped<PulumiDeployment>();
         services.TryAddScoped<PulumiEnv>();
+        services.TryAddScoped<PulumiInsights>();
+        services.TryAddScoped<PulumiLogs>();
         services.TryAddScoped<PulumiOrg>();
         services.TryAddScoped<PulumiPackage>();
         services.TryAddScoped<PulumiPlugin>();
