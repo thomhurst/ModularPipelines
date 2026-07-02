@@ -553,6 +553,7 @@ public class Folder : IEquatable<Folder>
         return new Folder(directoryInfo);
     }
 
+    [return: NotNullIfNotNull(parameterName: "folder")]
     public static implicit operator string?(Folder? folder)
     {
         return folder?.Path;
