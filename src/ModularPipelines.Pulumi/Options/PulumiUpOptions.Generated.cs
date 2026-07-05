@@ -190,6 +190,12 @@ public record PulumiUpOptions : PulumiOptions
     public bool? ShowSecrets { get; set; }
 
     /// <summary>
+    /// Skip validation of stack config values against the project config schema
+    /// </summary>
+    [CliFlag("--skip-config-validation")]
+    public bool? SkipConfigValidation { get; set; }
+
+    /// <summary>
     /// Skip the up-front provider plugin install step; missing plugins are installed lazily by the engine. When deploying from a template, also skips installing the project's runtime dependencies.
     /// </summary>
     [CliFlag("--skip-plugin-pre-install")]

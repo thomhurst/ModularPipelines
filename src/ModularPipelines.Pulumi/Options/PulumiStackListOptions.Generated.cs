@@ -33,16 +33,16 @@ public record PulumiStackListOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Emit output as JSON
-    /// </summary>
-    [CliFlag("--json", ShortForm = "-j")]
-    public bool? Json { get; set; }
-
-    /// <summary>
     /// Filter returned stacks to those in a specific organization
     /// </summary>
     [CliOption("--organization", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
+
+    /// <summary>
+    /// Output format. Supported values are: default and json (default "default")
+    /// </summary>
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Filter returned stacks to those with a specific project name

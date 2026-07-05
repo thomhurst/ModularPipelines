@@ -135,6 +135,12 @@ public record PulumiRefreshOptions : PulumiOptions
     public bool? ShowSames { get; set; }
 
     /// <summary>
+    /// Skip validation of stack config values against the project config schema. Config validation is skipped automatically when --run-program is not set.
+    /// </summary>
+    [CliFlag("--skip-config-validation")]
+    public bool? SkipConfigValidation { get; set; }
+
+    /// <summary>
     /// Skip importing pending creates in interactive mode
     /// </summary>
     [CliFlag("--skip-pending-creates")]

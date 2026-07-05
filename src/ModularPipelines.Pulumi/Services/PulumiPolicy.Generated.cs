@@ -69,7 +69,7 @@ public class PulumiPolicy
     }
 
     /// <summary>
-    /// Analyze a stack's current state against one or more local policy packs.
+    /// Analyze existing resource state against one or more local policy packs.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
