@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instance-groups", "managed", "resize-requests", "describe")]
 public record GcloudPreviewComputeInstanceGroupsManagedResizeRequestsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string InstanceGroupManager
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
 ) : GcloudOptions
 {
 }

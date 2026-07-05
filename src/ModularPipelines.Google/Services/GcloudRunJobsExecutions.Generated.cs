@@ -72,6 +72,21 @@ public class GcloudRunJobsExecutions
     }
 
     /// <summary>
+    /// obtain details about the     latest execution of a job
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeLatest(
+        GcloudRunJobsExecutionsDescribeLatestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsExecutionsDescribeLatestOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// obtain details about executions
     /// </summary>
     /// <param name="options">The command options.</param>

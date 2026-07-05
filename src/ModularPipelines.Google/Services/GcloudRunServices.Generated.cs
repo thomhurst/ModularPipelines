@@ -154,11 +154,11 @@ public class GcloudRunServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Replace(
-        GcloudRunServicesReplaceOptions options,
+        GcloudRunServicesReplaceOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunServicesReplaceOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

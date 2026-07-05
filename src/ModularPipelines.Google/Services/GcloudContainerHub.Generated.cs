@@ -35,6 +35,8 @@ public class GcloudContainerHub
     private GcloudContainerHubPackages _packages;
     private GcloudContainerHubPolicycontroller _policycontroller;
     private GcloudContainerHubRbacrolebindingactuation _rbacrolebindingactuation;
+    private GcloudContainerHubRollouts _rollouts;
+    private GcloudContainerHubRolloutsequences _rolloutsequences;
     private GcloudContainerHubScopes _scopes;
     private GcloudContainerHubWorkloadIdentity _workloadIdentity;
 
@@ -122,6 +124,16 @@ public class GcloudContainerHub
     /// gcloud rbacrolebindingactuation sub-commands.
     /// </summary>
     public GcloudContainerHubRbacrolebindingactuation Rbacrolebindingactuation => _rbacrolebindingactuation ??= new GcloudContainerHubRbacrolebindingactuation(_command);
+
+    /// <summary>
+    /// gcloud rollouts sub-commands.
+    /// </summary>
+    public GcloudContainerHubRollouts Rollouts => _rollouts ??= new GcloudContainerHubRollouts(_command);
+
+    /// <summary>
+    /// gcloud rolloutsequences sub-commands.
+    /// </summary>
+    public GcloudContainerHubRolloutsequences Rolloutsequences => _rolloutsequences ??= new GcloudContainerHubRolloutsequences(_command);
 
     /// <summary>
     /// gcloud scopes sub-commands.

@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunComposeUpOptions : GcloudOptions
 {
     /// <summary>
-    /// If set to true, only validates the configuration. The configuration     will not be applied.
+    /// If set to true, only validates the configuration. The configuration is     not applied.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }

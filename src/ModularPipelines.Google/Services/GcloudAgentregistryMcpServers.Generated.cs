@@ -32,7 +32,7 @@ public class GcloudAgentregistryMcpServers
     #region Commands
 
     /// <summary>
-    /// describe mcpServers
+    /// get details of an MCP server
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class GcloudAgentregistryMcpServers
     }
 
     /// <summary>
-    /// list mcpServers
+    /// list registered MCP servers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class GcloudAgentregistryMcpServers
     }
 
     /// <summary>
-    /// search mcpServers
+    /// search MCP servers matching     criteria
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

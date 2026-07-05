@@ -92,6 +92,21 @@ public class GcloudMemorystoreInstances
     }
 
     /// <summary>
+    /// finish migration for a     Memorystore instance
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> FinishMigration(
+        GcloudMemorystoreInstancesFinishMigrationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesFinishMigrationOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// get certificate     authority details of a Memorystore instance
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -149,6 +164,21 @@ public class GcloudMemorystoreInstances
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesRescheduleMaintenanceOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// start migration for a     Memorystore instance
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StartMigration(
+        GcloudMemorystoreInstancesStartMigrationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesStartMigrationOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

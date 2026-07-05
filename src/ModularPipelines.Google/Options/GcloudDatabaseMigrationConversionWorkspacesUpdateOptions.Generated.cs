@@ -45,4 +45,10 @@ public record GcloudDatabaseMigrationConversionWorkspacesUpdateOptions : GcloudO
     [CliOption("--global-filter", Format = OptionFormat.EqualsSeparated)]
     public string? GlobalFilter { get; set; }
 
+    /// <summary>
+    /// The database name to use when seeding from a connection profile. If not     specified, the database name from the connection profile is used.     Currently only supported for SQL Server source seeding.
+    /// </summary>
+    [CliOption("--source-database-name-override", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDatabaseNameOverride { get; set; }
+
 }

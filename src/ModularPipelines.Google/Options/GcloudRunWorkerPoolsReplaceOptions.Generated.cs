@@ -19,9 +19,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "worker-pools", "replace")]
-public record GcloudRunWorkerPoolsReplaceOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string File
-) : GcloudOptions
+public record GcloudRunWorkerPoolsReplaceOptions : GcloudOptions
 {
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to     complete.
@@ -30,7 +28,7 @@ public record GcloudRunWorkerPoolsReplaceOptions(
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If set to true, only validates the configuration. The configuration     will not be applied.
+    /// If set to true, only validates the configuration. The configuration is     not applied.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }

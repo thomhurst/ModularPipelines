@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "resize-requests", "delete")]
 public record GcloudComputeInstanceGroupsManagedResizeRequestsDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string InstanceGroupManager
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
 ) : GcloudOptions
 {
 }

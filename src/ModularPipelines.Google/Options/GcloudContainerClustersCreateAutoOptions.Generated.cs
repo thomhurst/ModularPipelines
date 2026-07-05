@@ -290,6 +290,24 @@ public record GcloudContainerClustersCreateAutoOptions(
     public string? HpaProfile { get; set; }
 
     /// <summary>
+    /// The Operating System image for the node pool. This is a private     feature, please contact your Google account team for allowlisting this     feature.
+    /// </summary>
+    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
+    public string? Image { get; set; }
+
+    /// <summary>
+    /// The Google Cloud project storing the Operating System image for the     node pool. This is a private feature, please contact your Google     account team for allowlisting this feature.
+    /// </summary>
+    [CliOption("--image-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageProject { get; set; }
+
+    /// <summary>
+    /// The image type to use for the cluster. Defaults to server-specified.     Image Type specifies the base OS that the nodes in the cluster will run     on. If an image type is specified, that will be assigned to the cluster     and all future upgrades will use the specified image type. If it is not     specified the server will pick the default image type.     The default image type and the list of valid image types are available     using the following command.       $ gcloud container get-server-config
+    /// </summary>
+    [CliOption("--image-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageType { get; set; }
+
+    /// <summary>
     /// Labels to apply to the Google Cloud resources in use by the Kubernetes     Engine cluster. These are unrelated to Kubernetes labels.     Examples:       $ gcloud container clusters create-auto example-cluster \         --labels=label_a=value1,label_b=,label_c=value3
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]

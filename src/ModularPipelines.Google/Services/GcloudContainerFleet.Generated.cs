@@ -35,6 +35,8 @@ public class GcloudContainerFleet
     private GcloudContainerFleetPackages _packages;
     private GcloudContainerFleetPolicycontroller _policycontroller;
     private GcloudContainerFleetRbacrolebindingactuation _rbacrolebindingactuation;
+    private GcloudContainerFleetRollouts _rollouts;
+    private GcloudContainerFleetRolloutsequences _rolloutsequences;
     private GcloudContainerFleetScopes _scopes;
     private GcloudContainerFleetWorkloadIdentity _workloadIdentity;
 
@@ -122,6 +124,16 @@ public class GcloudContainerFleet
     /// gcloud rbacrolebindingactuation sub-commands.
     /// </summary>
     public GcloudContainerFleetRbacrolebindingactuation Rbacrolebindingactuation => _rbacrolebindingactuation ??= new GcloudContainerFleetRbacrolebindingactuation(_command);
+
+    /// <summary>
+    /// gcloud rollouts sub-commands.
+    /// </summary>
+    public GcloudContainerFleetRollouts Rollouts => _rollouts ??= new GcloudContainerFleetRollouts(_command);
+
+    /// <summary>
+    /// gcloud rolloutsequences sub-commands.
+    /// </summary>
+    public GcloudContainerFleetRolloutsequences Rolloutsequences => _rolloutsequences ??= new GcloudContainerFleetRolloutsequences(_command);
 
     /// <summary>
     /// gcloud scopes sub-commands.

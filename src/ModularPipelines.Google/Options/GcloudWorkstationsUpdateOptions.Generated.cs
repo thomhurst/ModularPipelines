@@ -22,9 +22,15 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkstationsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to     complete.    Persistent directory settings.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Specifies the desired size in GB of the persistent directory mounted at     /home.
+    /// </summary>
+    [CliOption("--pd-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PdDiskSize { get; set; }
 
 }

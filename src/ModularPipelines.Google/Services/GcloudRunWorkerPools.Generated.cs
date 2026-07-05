@@ -160,11 +160,11 @@ public class GcloudRunWorkerPools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Replace(
-        GcloudRunWorkerPoolsReplaceOptions options,
+        GcloudRunWorkerPoolsReplaceOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunWorkerPoolsReplaceOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

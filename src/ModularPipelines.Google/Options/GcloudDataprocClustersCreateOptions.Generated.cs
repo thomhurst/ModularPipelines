@@ -183,12 +183,6 @@ public record GcloudDataprocClustersCreateOptions : GcloudOptions
     public string? MasterLocalSsdInterface { get; set; }
 
     /// <summary>
-    /// The type of machine to use for the master. Defaults to     server-specified.
-    /// </summary>
-    [CliOption("--master-machine-type", Format = OptionFormat.EqualsSeparated)]
-    public string? MasterMachineType { get; set; }
-
-    /// <summary>
     /// When specified, the VM is scheduled on the host with a specified CPU     architecture or a more recent CPU platform that's available in that     zone. To list available CPU platforms in a zone, run:       $ gcloud compute zones describe ZONE     CPU platform selection may not be available in a zone. Zones that     support CPU platform selection provide an availableCpuPlatforms field,     which contains the list of available CPU platforms in the zone (see     Availability of CPU platforms for more information).
     /// </summary>
     [CliOption("--master-min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
@@ -423,7 +417,7 @@ public record GcloudDataprocClustersCreateOptions : GcloudOptions
     public string? KmsLocation { get; set; }
 
     /// <summary>
-    /// The Google Cloud project for the key.     To set the kms-project attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-project on the command line;     ◆ set the property core/project.    Compute Engine options for Dataproc clusters.
+    /// The Google Cloud project for the key.     To set the kms-project attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-project on the command line;     ◆ set the property core/project.    At most one of these can be specified:     --master-machine-type=MASTER_MACHINE_TYPE      The type of machine to use for the master. Defaults to      server-specified.     --master-machine-types=type=MACHINE_TYPE[,type=MACHINE_TYPE...][,rank=RANK]      Types of machines with optional rank for master nodes to use.      Defaults to server-specified.eg.      --master-machine-types="type=e2-standard-8,type=t2d-standard-8,rank=0"    Compute Engine options for Dataproc clusters.
     /// </summary>
     [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
     public string? KmsProject { get; set; }

@@ -92,6 +92,21 @@ public class GcloudPreviewComputeNetworkAttachments
     }
 
     /// <summary>
+    /// set the IAM     policy for a Compute Engine network attachment
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetIamPolicy(
+        GcloudPreviewComputeNetworkAttachmentsSetIamPolicyOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// update a Google Compute     Engine network attachment
     /// </summary>
     /// <param name="options">The command options.</param>

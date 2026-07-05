@@ -76,5 +76,20 @@ public class GcloudComputeReservationsBlocks
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// set the IAM policy for     a Compute Engine reservation block
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetIamPolicy(
+        GcloudComputeReservationsBlocksSetIamPolicyOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
     #endregion
 }

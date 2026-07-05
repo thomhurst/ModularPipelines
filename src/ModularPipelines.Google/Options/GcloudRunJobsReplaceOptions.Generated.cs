@@ -19,9 +19,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "jobs", "replace")]
-public record GcloudRunJobsReplaceOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string File
-) : GcloudOptions
+public record GcloudRunJobsReplaceOptions : GcloudOptions
 {
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to     complete.
