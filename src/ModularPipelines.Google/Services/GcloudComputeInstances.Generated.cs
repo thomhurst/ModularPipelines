@@ -375,6 +375,21 @@ public class GcloudComputeInstances
     }
 
     /// <summary>
+    /// list referrers to a Compute     Engine virtual machine instance
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListReferrers(
+        GcloudComputeInstancesListReferrersOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// perform maintenance of     Google Compute Engine instance
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -548,6 +563,21 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudComputeInstancesSetIamPolicyOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// set machine resources for     a Compute Engine virtual machine instance
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetMachineResources(
+        GcloudComputeInstancesSetMachineResourcesOptions options,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {

@@ -32,7 +32,7 @@ public class GcloudAgentregistryServices
     #region Commands
 
     /// <summary>
-    /// create services
+    /// register a new service
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class GcloudAgentregistryServices
     }
 
     /// <summary>
-    /// delete services
+    /// remove a registered service
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class GcloudAgentregistryServices
     }
 
     /// <summary>
-    /// describe services
+    /// get details of a registered     service
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class GcloudAgentregistryServices
     }
 
     /// <summary>
-    /// list services
+    /// list registered services
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class GcloudAgentregistryServices
     }
 
     /// <summary>
-    /// update services
+    /// modify service parameters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

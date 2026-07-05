@@ -130,6 +130,15 @@ public class GcloudPreviewComputeInterconnectsAttachmentsGroups
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> TestIamPermissions(
+        GcloudPreviewComputeInterconnectsAttachmentsGroupsTestIamPermissionsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeInterconnectsAttachmentsGroupsTestIamPermissionsOptions(), executionOptions, cancellationToken);
+    }
+
     /// <summary>
     /// update a     Compute Engine interconnect attachment group
     /// </summary>

@@ -137,6 +137,21 @@ public class GcloudPreviewComputeStoragePools
     }
 
     /// <summary>
+    /// test IAM     permissions for a storage pool
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissions(
+        GcloudPreviewComputeStoragePoolsTestIamPermissionsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeStoragePoolsTestIamPermissionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// update a storage pool
     /// </summary>
     /// <param name="options">The command options.</param>

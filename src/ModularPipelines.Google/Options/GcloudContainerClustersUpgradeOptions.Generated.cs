@@ -36,6 +36,18 @@ public record GcloudContainerClustersUpgradeOptions(
     public string? ClusterVersion { get; set; }
 
     /// <summary>
+    /// The Operating System image for the node pool. This is a private     feature, please contact your Google account team for allowlisting this     feature.
+    /// </summary>
+    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
+    public string? Image { get; set; }
+
+    /// <summary>
+    /// The Google Cloud project storing the Operating System image for the     node pool. This is a private feature, please contact your Google     account team for allowlisting this feature.
+    /// </summary>
+    [CliOption("--image-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageProject { get; set; }
+
+    /// <summary>
     /// The image type to use for the cluster/node pool. Defaults to     server-specified.     Image Type specifies the base OS that the nodes in the cluster/node     pool will run on. If an image type is specified, that will be assigned     to the cluster/node pool and all future upgrades will use the specified     image type. If it is not specified the server will pick the default     image type.     The default image type and the list of valid image types are available     using the following command.       $ gcloud container get-server-config
     /// </summary>
     [CliOption("--image-type", Format = OptionFormat.EqualsSeparated)]

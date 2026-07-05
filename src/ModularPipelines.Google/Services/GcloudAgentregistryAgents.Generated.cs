@@ -32,7 +32,7 @@ public class GcloudAgentregistryAgents
     #region Commands
 
     /// <summary>
-    /// describe agents
+    /// get details of an agent
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class GcloudAgentregistryAgents
     }
 
     /// <summary>
-    /// list agents
+    /// list accessible agents
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class GcloudAgentregistryAgents
     }
 
     /// <summary>
-    /// search agents
+    /// search for agents matching a query
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

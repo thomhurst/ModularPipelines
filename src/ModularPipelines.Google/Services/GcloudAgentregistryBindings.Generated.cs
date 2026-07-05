@@ -32,7 +32,7 @@ public class GcloudAgentregistryBindings
     #region Commands
 
     /// <summary>
-    /// create bindings
+    /// create a new binding
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class GcloudAgentregistryBindings
     }
 
     /// <summary>
-    /// delete bindings
+    /// delete a binding connection
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class GcloudAgentregistryBindings
     }
 
     /// <summary>
-    /// describe bindings
+    /// retrieve binding details
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class GcloudAgentregistryBindings
     }
 
     /// <summary>
-    /// update bindings
+    /// modify binding parameters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -34,13 +34,13 @@ public record GcloudAccessContextManagerCloudBindingsCreateOptions : GcloudOptio
     public IEnumerable<string>? DryRunLevel { get; set; }
 
     /// <summary>
-    /// IAM federated principal that this binding applies to. Can be a single     principal or a principal set. Used to assign policies to third-party     workforce or workload identities. At most one of --group-key or     --federated-principal may be specified.
+    /// IAM federated principal that this binding applies to. Can be a single     principal or a principal set. Used to assign policies to third-party     workforce or workload identities. At most one of --group-key or     --federated-principal can be specified.
     /// </summary>
     [CliOption("--federated-principal", Format = OptionFormat.EqualsSeparated)]
     public string? FederatedPrincipal { get; set; }
 
     /// <summary>
-    /// Google Group ID whose members are subject to the restrictions of this     binding. At most one of --group-key or --federated-principal may be     specified.
+    /// Google Group ID whose members are subject to the restrictions of this     binding. At most one of --group-key or --federated-principal can be     specified.
     /// </summary>
     [CliOption("--group-key", Format = OptionFormat.EqualsSeparated)]
     public string? GroupKey { get; set; }
@@ -56,6 +56,18 @@ public record GcloudAccessContextManagerCloudBindingsCreateOptions : GcloudOptio
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
+
+    /// <summary>
+    /// Service account email that this binding applies to. Used to assign     policies to a single first-party service account. At most one of     --group-key, --federated-principal, --service-account, or     --service-account-project-number can be specified.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public int? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Project number of the project that contains the service accounts that     are subject to the restrictions of this binding. Used to assign     policies to all service accounts in a Google Cloud project. At most one     of --group-key, --federated-principal, --service-account, or     --service-account-project-number can be specified.
+    /// </summary>
+    [CliOption("--service-account-project-number", Format = OptionFormat.EqualsSeparated)]
+    public int? ServiceAccountProjectNumber { get; set; }
 
     /// <summary>
     /// The maximum lifetime of a user session provided as an ISO 8601 duration     string. Must be at least one hour or zero seconds, and no more than     twenty-four hours. Granularity is limited to seconds.     When --session-length=0 then users in the group attached to this     binding will have infinite session length, effectively disabling the     session settings.     A session begins when a user signs in successfully. If a user signs out     before the end of the session lifetime, a new login creates a new     session with a fresh lifetime. When a session expires, the user is     asked to re-authenticate in accordance with session-method.     Setting --session-reauth-method when --session-length is empty raises     an error.

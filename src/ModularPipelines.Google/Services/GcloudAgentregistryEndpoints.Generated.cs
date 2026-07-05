@@ -32,7 +32,7 @@ public class GcloudAgentregistryEndpoints
     #region Commands
 
     /// <summary>
-    /// describe endpoints
+    /// retrieve endpoint details
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class GcloudAgentregistryEndpoints
     }
 
     /// <summary>
-    /// list endpoints
+    /// enumerate service endpoints
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
