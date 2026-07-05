@@ -34,6 +34,7 @@ internal partial class Flux : IFlux
         FluxExport export,
         FluxGet get,
         FluxList list,
+        FluxPlugin plugin,
         FluxPull pull,
         FluxPush push,
         FluxReconcile reconcile,
@@ -41,6 +42,7 @@ internal partial class Flux : IFlux
         FluxSuspend suspend,
         FluxTag tag,
         FluxTree tree,
+        FluxTrigger trigger,
         ICommand command
     )
     {
@@ -53,6 +55,7 @@ internal partial class Flux : IFlux
         Export = export;
         Get = get;
         List = list;
+        Plugin = plugin;
         Pull = pull;
         Push = push;
         Reconcile = reconcile;
@@ -60,6 +63,7 @@ internal partial class Flux : IFlux
         Suspend = suspend;
         Tag = tag;
         Tree = tree;
+        Trigger = trigger;
         _command = command;
     }
 
@@ -93,6 +97,9 @@ internal partial class Flux : IFlux
     public FluxList List { get; }
 
     /// <inheritdoc />
+    public FluxPlugin Plugin { get; }
+
+    /// <inheritdoc />
     public FluxPull Pull { get; }
 
     /// <inheritdoc />
@@ -112,6 +119,9 @@ internal partial class Flux : IFlux
 
     /// <inheritdoc />
     public FluxTree Tree { get; }
+
+    /// <inheritdoc />
+    public FluxTrigger Trigger { get; }
 
     #endregion
 

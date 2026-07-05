@@ -27,6 +27,12 @@ public record FluxGetHelmreleasesOptions : FluxOptions
     public bool? Help { get; set; }
 
     /// <summary>
+    /// show the source reference for each helmrelease
+    /// </summary>
+    [CliFlag("--show-source")]
+    public bool? ShowSource { get; set; }
+
+    /// <summary>
     /// list the requested object(s) across all namespaces
     /// </summary>
     [CliFlag("--all-namespaces", ShortForm = "-A")]
@@ -141,13 +147,19 @@ public record FluxGetHelmreleasesOptions : FluxOptions
     public bool? NoHeader { get; set; }
 
     /// <summary>
+    /// use the namespace from the kubeconfig context instead of the default flux-system namespace, can also be set via FLUX_NS_FOLLOWS_KUBE_CONTEXT env var
+    /// </summary>
+    [CliFlag("--ns-follows-kube-context")]
+    public bool? NsFollowsKubeContext { get; set; }
+
+    /// <summary>
     /// The address and port of the Kubernetes API server
     /// </summary>
     [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
     public string? Server { get; set; }
 
     /// <summary>
-    /// specify the status condition name and the desired state to filter the get result, e.g. ready=false
+    /// specify the status condition name and the desired state to filter the get result, e.g. ready=false or ready!=true
     /// </summary>
     [CliOption("--status-selector", Format = OptionFormat.EqualsSeparated)]
     public string? StatusSelector { get; set; }

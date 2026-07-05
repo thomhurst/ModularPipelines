@@ -151,6 +151,12 @@ public record FluxBootstrapOptions : FluxOptions
     public string? SecretName { get; set; }
 
     /// <summary>
+    /// list of directories to be included in the GitRepository sparse checkout, the configured --path must be one of them, accepts comma-separated values
+    /// </summary>
+    [CliOption("--sparse-checkout", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public FluxBootstrapSparseCheckout? SparseCheckout { get; set; }
+
+    /// <summary>
     /// SSH ECDSA public key curve (default p384)
     /// </summary>
     [CliOption("--ssh-ecdsa-curve", Format = OptionFormat.EqualsSeparated)]
@@ -179,6 +185,25 @@ public record FluxBootstrapOptions : FluxOptions
     /// </summary>
     [CliOption("--ssh-rsa-bits", Format = OptionFormat.EqualsSeparated)]
     public string? SshRsaBits { get; set; }
+
+    /// <summary>
+    /// path to an SSH private key file used for signing commits
+    /// </summary>
+    [CliOption("--ssh-signing-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SshSigningKeyFile { get; set; }
+
+    /// <summary>
+    /// passphrase for decrypting SSH signing key
+    /// </summary>
+    [SecretValue]
+    [CliOption("--ssh-signing-password", Format = OptionFormat.EqualsSeparated)]
+    public string? SshSigningPassword { get; set; }
+
+    /// <summary>
+    /// use the SSH transport key (--private-key-file) to sign commits
+    /// </summary>
+    [CliFlag("--ssh-signing-reuse-private-key")]
+    public bool? SshSigningReusePrivateKey { get; set; }
 
     /// <summary>
     /// when enabled, the personal access token will be used instead of the SSH deploy key
@@ -299,6 +324,12 @@ public record FluxBootstrapOptions : FluxOptions
     /// </summary>
     [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Namespace { get; set; }
+
+    /// <summary>
+    /// use the namespace from the kubeconfig context instead of the default flux-system namespace, can also be set via FLUX_NS_FOLLOWS_KUBE_CONTEXT env var
+    /// </summary>
+    [CliFlag("--ns-follows-kube-context")]
+    public bool? NsFollowsKubeContext { get; set; }
 
     /// <summary>
     /// The address and port of the Kubernetes API server

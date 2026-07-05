@@ -129,6 +129,12 @@ public record FluxExportArtifactOptions : FluxOptions
     public string? Namespace { get; set; }
 
     /// <summary>
+    /// use the namespace from the kubeconfig context instead of the default flux-system namespace, can also be set via FLUX_NS_FOLLOWS_KUBE_CONTEXT env var
+    /// </summary>
+    [CliFlag("--ns-follows-kube-context")]
+    public bool? NsFollowsKubeContext { get; set; }
+
+    /// <summary>
     /// The address and port of the Kubernetes API server
     /// </summary>
     [CliOption("--server", Format = OptionFormat.EqualsSeparated)]

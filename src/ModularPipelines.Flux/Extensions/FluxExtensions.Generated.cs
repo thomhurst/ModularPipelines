@@ -44,6 +44,7 @@ public static class FluxExtensions
         services.TryAddScoped<FluxExport>();
         services.TryAddScoped<FluxGet>();
         services.TryAddScoped<FluxList>();
+        services.TryAddScoped<FluxPlugin>();
         services.TryAddScoped<FluxPull>();
         services.TryAddScoped<FluxPush>();
         services.TryAddScoped<FluxReconcile>();
@@ -51,6 +52,7 @@ public static class FluxExtensions
         services.TryAddScoped<FluxSuspend>();
         services.TryAddScoped<FluxTag>();
         services.TryAddScoped<FluxTree>();
+        services.TryAddScoped<FluxTrigger>();
         return services;
     }
 
