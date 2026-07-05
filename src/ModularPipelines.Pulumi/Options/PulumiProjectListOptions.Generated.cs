@@ -27,16 +27,16 @@ public record PulumiProjectListOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Emit output as JSON
-    /// </summary>
-    [CliFlag("--json", ShortForm = "-j")]
-    public bool? Json { get; set; }
-
-    /// <summary>
     /// The organization whose projects to list
     /// </summary>
     [CliOption("--organization", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
+
+    /// <summary>
+    /// Output format. Supported values are: default and json (default "default")
+    /// </summary>
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

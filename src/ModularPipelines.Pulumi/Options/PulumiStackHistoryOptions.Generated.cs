@@ -33,10 +33,10 @@ public record PulumiStackHistoryOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Emit output as JSON
+    /// Output format. Supported values are: default and json (default "default")
     /// </summary>
-    [CliFlag("--json", ShortForm = "-j")]
-    public bool? Json { get; set; }
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Used with 'page-size' to paginate results (default 1)

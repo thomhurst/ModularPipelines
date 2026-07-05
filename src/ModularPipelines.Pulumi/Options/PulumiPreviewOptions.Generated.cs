@@ -190,6 +190,12 @@ public record PulumiPreviewOptions : PulumiOptions
     public string? ShowSecrets { get; set; }
 
     /// <summary>
+    /// Skip validation of stack config values against the project config schema
+    /// </summary>
+    [CliFlag("--skip-config-validation")]
+    public bool? SkipConfigValidation { get; set; }
+
+    /// <summary>
     /// Skip the up-front provider plugin install step; missing plugins are installed lazily by the engine
     /// </summary>
     [CliFlag("--skip-plugin-pre-install")]
