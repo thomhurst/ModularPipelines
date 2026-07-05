@@ -281,6 +281,12 @@ public record FluxBootstrapGitlabOptions : FluxOptions
     public bool? NetworkPolicy { get; set; }
 
     /// <summary>
+    /// use the namespace from the kubeconfig context instead of the default flux-system namespace, can also be set via FLUX_NS_FOLLOWS_KUBE_CONTEXT env var
+    /// </summary>
+    [CliFlag("--ns-follows-kube-context")]
+    public bool? NsFollowsKubeContext { get; set; }
+
+    /// <summary>
     /// path to a private key file used for authenticating to the Git SSH server
     /// </summary>
     [SecretValue]
@@ -319,6 +325,12 @@ public record FluxBootstrapGitlabOptions : FluxOptions
     public string? Server { get; set; }
 
     /// <summary>
+    /// list of directories to be included in the GitRepository sparse checkout, the configured --path must be one of them, accepts comma-separated values
+    /// </summary>
+    [CliOption("--sparse-checkout", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public FluxBootstrapGitlabSparseCheckout? SparseCheckout { get; set; }
+
+    /// <summary>
     /// SSH ECDSA public key curve (default p384)
     /// </summary>
     [CliOption("--ssh-ecdsa-curve", Format = OptionFormat.EqualsSeparated)]
@@ -347,6 +359,25 @@ public record FluxBootstrapGitlabOptions : FluxOptions
     /// </summary>
     [CliOption("--ssh-rsa-bits", Format = OptionFormat.EqualsSeparated)]
     public string? SshRsaBits { get; set; }
+
+    /// <summary>
+    /// path to an SSH private key file used for signing commits
+    /// </summary>
+    [CliOption("--ssh-signing-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SshSigningKeyFile { get; set; }
+
+    /// <summary>
+    /// passphrase for decrypting SSH signing key
+    /// </summary>
+    [SecretValue]
+    [CliOption("--ssh-signing-password", Format = OptionFormat.EqualsSeparated)]
+    public string? SshSigningPassword { get; set; }
+
+    /// <summary>
+    /// use the SSH transport key (--private-key-file) to sign commits
+    /// </summary>
+    [CliFlag("--ssh-signing-reuse-private-key")]
+    public bool? SshSigningReusePrivateKey { get; set; }
 
     /// <summary>
     /// timeout for this operation (default 5m0s)

@@ -75,6 +75,19 @@ public record FluxCreateImageUpdateOptions : FluxOptions
     public string? PushBranch { get; set; }
 
     /// <summary>
+    /// name of the Secret containing the signing key referenced in spec.git.commit.signingKey
+    /// </summary>
+    [SecretValue]
+    [CliOption("--signing-key-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? SigningKeySecret { get; set; }
+
+    /// <summary>
+    /// signing-key format: gpg or ssh (defaults to gpg when --signing-key-secret is set)
+    /// </summary>
+    [CliOption("--signing-key-type", Format = OptionFormat.EqualsSeparated)]
+    public string? SigningKeyType { get; set; }
+
+    /// <summary>
     /// Username to impersonate for the operation. User could be a regular user or a service account in a namespace.
     /// </summary>
     [CliOption("--as", Format = OptionFormat.EqualsSeparated)]
@@ -187,6 +200,12 @@ public record FluxCreateImageUpdateOptions : FluxOptions
     /// </summary>
     [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Namespace { get; set; }
+
+    /// <summary>
+    /// use the namespace from the kubeconfig context instead of the default flux-system namespace, can also be set via FLUX_NS_FOLLOWS_KUBE_CONTEXT env var
+    /// </summary>
+    [CliFlag("--ns-follows-kube-context")]
+    public bool? NsFollowsKubeContext { get; set; }
 
     /// <summary>
     /// The address and port of the Kubernetes API server

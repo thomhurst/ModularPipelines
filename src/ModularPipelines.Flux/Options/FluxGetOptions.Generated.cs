@@ -45,7 +45,7 @@ public record FluxGetOptions : FluxOptions
     public bool? NoHeader { get; set; }
 
     /// <summary>
-    /// specify the status condition name and the desired state to filter the get result, e.g. ready=false
+    /// specify the status condition name and the desired state to filter the get result, e.g. ready=false or ready!=true
     /// </summary>
     [CliOption("--status-selector", Format = OptionFormat.EqualsSeparated)]
     public string? StatusSelector { get; set; }
@@ -151,6 +151,12 @@ public record FluxGetOptions : FluxOptions
     /// </summary>
     [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Namespace { get; set; }
+
+    /// <summary>
+    /// use the namespace from the kubeconfig context instead of the default flux-system namespace, can also be set via FLUX_NS_FOLLOWS_KUBE_CONTEXT env var
+    /// </summary>
+    [CliFlag("--ns-follows-kube-context")]
+    public bool? NsFollowsKubeContext { get; set; }
 
     /// <summary>
     /// The address and port of the Kubernetes API server

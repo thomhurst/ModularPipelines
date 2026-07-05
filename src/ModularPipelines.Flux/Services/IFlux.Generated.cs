@@ -66,6 +66,11 @@ public partial interface IFlux
     FluxList List { get; }
 
     /// <summary>
+    /// Gets the plugin sub-domain service.
+    /// </summary>
+    FluxPlugin Plugin { get; }
+
+    /// <summary>
     /// Gets the pull sub-domain service.
     /// </summary>
     FluxPull Pull { get; }
@@ -99,6 +104,11 @@ public partial interface IFlux
     /// Gets the tree sub-domain service.
     /// </summary>
     FluxTree Tree { get; }
+
+    /// <summary>
+    /// Gets the trigger sub-domain service.
+    /// </summary>
+    FluxTrigger Trigger { get; }
 
     #endregion
 

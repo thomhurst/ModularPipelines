@@ -52,6 +52,12 @@ public record FluxCreateSourceOciOptions : FluxOptions
     public bool? Insecure { get; set; }
 
     /// <summary>
+    /// the OCI artifact layer selector in the format '&lt;media-type&gt;:&lt;operation&gt;'
+    /// </summary>
+    [CliOption("--layer-selector", Format = OptionFormat.EqualsSeparated)]
+    public string? LayerSelector { get; set; }
+
+    /// <summary>
     /// the OCI provider name (default generic)
     /// </summary>
     [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
@@ -239,6 +245,12 @@ public record FluxCreateSourceOciOptions : FluxOptions
     /// </summary>
     [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Namespace { get; set; }
+
+    /// <summary>
+    /// use the namespace from the kubeconfig context instead of the default flux-system namespace, can also be set via FLUX_NS_FOLLOWS_KUBE_CONTEXT env var
+    /// </summary>
+    [CliFlag("--ns-follows-kube-context")]
+    public bool? NsFollowsKubeContext { get; set; }
 
     /// <summary>
     /// The address and port of the Kubernetes API server

@@ -17,9 +17,12 @@ public enum FluxCreateSourceGitProvider
     [Description("generic")]
     Generic,
 
-    [Description("azure")]
-    Azure,
-
     [Description("github")]
-    Github
+    Github,
+
+    [Description("aws")]
+    Aws,
+
+    [Description("azure")]
+    Azure
 }

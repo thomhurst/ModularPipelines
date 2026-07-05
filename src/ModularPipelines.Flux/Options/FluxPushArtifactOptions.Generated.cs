@@ -82,6 +82,12 @@ public record FluxPushArtifactOptions : FluxOptions
     public bool? Reproducible { get; set; }
 
     /// <summary>
+    /// resolve symlinks by copying their targets into the artifact
+    /// </summary>
+    [CliFlag("--resolve-symlinks")]
+    public bool? ResolveSymlinks { get; set; }
+
+    /// <summary>
     /// the source revision in the format '&lt;branch|tag&gt;@sha1:&lt;commit-sha&gt;'
     /// </summary>
     [CliOption("--revision", Format = OptionFormat.EqualsSeparated)]
@@ -188,6 +194,12 @@ public record FluxPushArtifactOptions : FluxOptions
     /// </summary>
     [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Namespace { get; set; }
+
+    /// <summary>
+    /// use the namespace from the kubeconfig context instead of the default flux-system namespace, can also be set via FLUX_NS_FOLLOWS_KUBE_CONTEXT env var
+    /// </summary>
+    [CliFlag("--ns-follows-kube-context")]
+    public bool? NsFollowsKubeContext { get; set; }
 
     /// <summary>
     /// The address and port of the Kubernetes API server
