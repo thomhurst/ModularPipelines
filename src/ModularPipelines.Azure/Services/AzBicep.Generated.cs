@@ -181,5 +181,20 @@ public class AzBicep
         return await _command.ExecuteCommandLineTool(options ?? new AzBicepRestoreOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// Capture or validate a snapshot of the resources predicted to be deployed by
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Snapshot(
+        AzBicepSnapshotOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzBicepSnapshotOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

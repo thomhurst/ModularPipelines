@@ -111,7 +111,7 @@ public record AzAroCreateOptions : AzOptions
     public bool? ServiceCidr { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Tags to be assigned to the openShiftCluster resource. space- separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
@@ -147,7 +147,7 @@ public record AzAroCreateOptions : AzOptions
     public bool? WorkerVmDiskSizeGb { get; set; }
 
     /// <summary>
-    /// Size of worker VMs. [Default:
+    /// Size of worker VMs.  Default:
     /// </summary>
     [CliFlag("--worker-vm-size")]
     public bool? WorkerVmSize { get; set; }

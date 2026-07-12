@@ -42,22 +42,7 @@ public class AzIdentity
     #region Commands
 
     /// <summary>
-    /// Create Identities.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        AzIdentityCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIdentityCreateOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// List Managed Identities.
+    /// List all the userAssignedIdentities available under the subscription or
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -69,21 +54,6 @@ public class AzIdentity
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIdentityListOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Update an identity.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        AzIdentityUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIdentityUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -22,6 +22,7 @@ public class AzRole
     private readonly ICommand _command;
     private AzRoleAssignment _assignment;
     private AzRoleDefinition _definition;
+    private AzRoleDenyAssignment _denyAssignment;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRole"/> class.
@@ -42,6 +43,11 @@ public class AzRole
     /// az definition sub-commands.
     /// </summary>
     public AzRoleDefinition Definition => _definition ??= new AzRoleDefinition(_command);
+
+    /// <summary>
+    /// az deny-assignment sub-commands.
+    /// </summary>
+    public AzRoleDenyAssignment DenyAssignment => _denyAssignment ??= new AzRoleDenyAssignment(_command);
 
     #endregion
 }

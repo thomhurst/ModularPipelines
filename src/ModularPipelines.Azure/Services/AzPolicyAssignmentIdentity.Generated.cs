@@ -32,6 +32,36 @@ public class AzPolicyAssignmentIdentity
     #region Commands
 
     /// <summary>
+    /// Assign a managed identity.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Assign(
+        AzPolicyAssignmentIdentityAssignOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentIdentityAssignOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Remove the managed identity.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Remove(
+        AzPolicyAssignmentIdentityRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentIdentityRemoveOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Retrieve the managed identity.
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -225,7 +225,7 @@ public record AzVmCreateOptions : AzOptions
     public bool? Secrets { get; set; }
 
     /// <summary>
-    /// Specify the security type of the virtual machine. The value
+    /// Specify the security type of the virtual machine.  Allowed
     /// </summary>
     [CliFlag("--security-type")]
     public bool? SecurityType { get; set; }

@@ -26,4 +26,16 @@ public record AzFunctionappConfigSslImportOptions : AzOptions
     [CliFlag("--certificate-name")]
     public bool? CertificateName { get; set; }
 
+    /// <summary>
+    /// For Flex Consumption apps only. Enable Key Vault access using Managed Service Identity. When set to true, the app will use its managed identity to access Key Vault instead of service principal.  Allowed values: false, true.
+    /// </summary>
+    [CliFlag("--enable-using-msi")]
+    public bool? EnableUsingMsi { get; set; }
+
+    /// <summary>
+    /// For Flex Consumption apps only. When set to true, the certificate is accessible to app code.  Allowed values: false, true.
+    /// </summary>
+    [CliFlag("--load-to-code")]
+    public bool? LoadToCode { get; set; }
+
 }

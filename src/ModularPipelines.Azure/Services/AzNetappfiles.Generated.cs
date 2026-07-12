@@ -24,7 +24,6 @@ public class AzNetappfiles
     private AzNetappfilesCache _cache;
     private AzNetappfilesPool _pool;
     private AzNetappfilesSnapshot _snapshot;
-    private AzNetappfilesSubvolume _subvolume;
     private AzNetappfilesVolume _volume;
     private AzNetappfilesVolumeGroup _volumeGroup;
 
@@ -57,11 +56,6 @@ public class AzNetappfiles
     /// az snapshot sub-commands.
     /// </summary>
     public AzNetappfilesSnapshot Snapshot => _snapshot ??= new AzNetappfilesSnapshot(_command);
-
-    /// <summary>
-    /// az subvolume sub-commands.
-    /// </summary>
-    public AzNetappfilesSubvolume Subvolume => _subvolume ??= new AzNetappfilesSubvolume(_command);
 
     /// <summary>
     /// az volume sub-commands.

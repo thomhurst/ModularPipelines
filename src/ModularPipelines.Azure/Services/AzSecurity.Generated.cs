@@ -34,7 +34,6 @@ public class AzSecurity
     private AzSecurityPricing _pricing;
     private AzSecuritySubAssessment _subAssessment;
     private AzSecurityTask _task;
-    private AzSecurityVa _va;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSecurity"/> class.
@@ -115,11 +114,6 @@ public class AzSecurity
     /// az task sub-commands.
     /// </summary>
     public AzSecurityTask Task => _task ??= new AzSecurityTask(_command);
-
-    /// <summary>
-    /// az va sub-commands.
-    /// </summary>
-    public AzSecurityVa Va => _va ??= new AzSecurityVa(_command);
 
     #endregion
 }

@@ -45,7 +45,7 @@ public record AzPolicyAssignmentListOptions : AzOptions
     public bool? ManagementGroup { get; set; }
 
     /// <summary>
-    /// The resource group.
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliFlag("--resource-group", ShortForm = "-g")]
     public bool? ResourceGroup { get; set; }

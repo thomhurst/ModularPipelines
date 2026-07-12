@@ -33,7 +33,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     public bool? AdminObjectId { get; set; }
 
     /// <summary>
-    /// Type of the Microsoft Entra administrator.  Allowed values: Group,
+    /// Type of the Microsoft Entra administrator.  Allowed values: Group, ServicePrincipal, Unknown, User.
     /// </summary>
     [CliFlag("--admin-type", ShortForm = "-t")]
     public bool? AdminType { get; set; }
@@ -43,6 +43,12 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--allow-same-zone")]
     public bool? AllowSameZone { get; set; }
+
+    /// <summary>
+    /// The client ID of the geo backup federated identity.
+    /// </summary>
+    [CliFlag("--backup-federated-client-id", ShortForm = "-f")]
+    public bool? BackupFederatedClientId { get; set; }
 
     /// <summary>
     /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
@@ -63,10 +69,16 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     public bool? BackupRetention { get; set; }
 
     /// <summary>
-    /// The default database name for an elastic cluster. Only applicable when
+    /// The default database name for an elastic cluster. Only applicable when --node-count is present.
     /// </summary>
     [CliFlag("--database-name", ShortForm = "-d")]
     public bool? DatabaseName { get; set; }
+
+    /// <summary>
+    /// The client ID of the federated identity.
+    /// </summary>
+    [CliFlag("--federated-client-id")]
+    public bool? FederatedClientId { get; set; }
 
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
@@ -159,7 +171,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     public bool? StandbyZone { get; set; }
 
     /// <summary>
-    /// Enable or disable autogrow of the storage. Default value is Disabled. Allowed values: Disabled, Enabled.  Default: Disabled.
+    /// Enable or disable autogrow of the storage. Default value is Disabled.  Allowed values: Disabled, Enabled.  Default:
     /// </summary>
     [CliFlag("--storage-auto-grow")]
     public bool? StorageAutoGrow { get; set; }
@@ -171,7 +183,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     public bool? StorageSize { get; set; }
 
     /// <summary>
-    /// Storage type for the server. Allowed values are Premium_LRS and PremiumV2_LRS. Default value is Premium_LRS. Must set --iops and
+    /// Storage type for the server. Allowed values are Premium_LRS and PremiumV2_LRS. Default value is Premium_LRS. Must set
     /// </summary>
     [CliFlag("--storage-type")]
     public bool? StorageType { get; set; }
@@ -189,7 +201,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     public bool? Tags { get; set; }
 
     /// <summary>
-    /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
+    /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2
     /// </summary>
     [CliFlag("--throughput")]
     public bool? Throughput { get; set; }

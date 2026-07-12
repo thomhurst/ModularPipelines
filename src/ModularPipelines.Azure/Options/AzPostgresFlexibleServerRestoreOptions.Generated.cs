@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzPostgresFlexibleServerRestoreOptions : AzOptions
 {
     /// <summary>
+    /// The client ID of the geo backup federated identity.
+    /// </summary>
+    [CliFlag("--backup-federated-client-id", ShortForm = "-f")]
+    public bool? BackupFederatedClientId { get; set; }
+
+    /// <summary>
     /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
     /// </summary>
     [CliFlag("--backup-identity")]
@@ -31,6 +37,12 @@ public record AzPostgresFlexibleServerRestoreOptions : AzOptions
     /// </summary>
     [CliFlag("--backup-key")]
     public bool? BackupKey { get; set; }
+
+    /// <summary>
+    /// The client ID of the federated identity.
+    /// </summary>
+    [CliFlag("--federated-client-id")]
+    public bool? FederatedClientId { get; set; }
 
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
@@ -63,7 +75,7 @@ public record AzPostgresFlexibleServerRestoreOptions : AzOptions
     public bool? PrivateDnsZone { get; set; }
 
     /// <summary>
-    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2026-03-22T18:20:22+00:00 The default value is set to current time.
+    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2026-03-22T18:20:22+00:00 The default value is set to current time.  Default: 2026-07-12T03:23:46+00:00.
     /// </summary>
     [CliFlag("--restore-time")]
     public bool? RestoreTime { get; set; }

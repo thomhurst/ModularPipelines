@@ -41,11 +41,6 @@ public partial interface IAz
     AzAdvisor Advisor { get; }
 
     /// <summary>
-    /// Gets the afd sub-domain service.
-    /// </summary>
-    AzAfd Afd { get; }
-
-    /// <summary>
     /// Gets the aks sub-domain service.
     /// </summary>
     AzAks Aks { get; }
@@ -76,11 +71,6 @@ public partial interface IAz
     AzAro Aro { get; }
 
     /// <summary>
-    /// Gets the artifacts sub-domain service.
-    /// </summary>
-    AzArtifacts Artifacts { get; }
-
-    /// <summary>
     /// Gets the backup sub-domain service.
     /// </summary>
     AzBackup Backup { get; }
@@ -101,11 +91,6 @@ public partial interface IAz
     AzBilling Billing { get; }
 
     /// <summary>
-    /// Gets the boards sub-domain service.
-    /// </summary>
-    AzBoards Boards { get; }
-
-    /// <summary>
     /// Gets the bot sub-domain service.
     /// </summary>
     AzBot Bot { get; }
@@ -116,11 +101,6 @@ public partial interface IAz
     AzCapacity Capacity { get; }
 
     /// <summary>
-    /// Gets the cdn sub-domain service.
-    /// </summary>
-    AzCdn Cdn { get; }
-
-    /// <summary>
     /// Gets the cloud sub-domain service.
     /// </summary>
     AzCloud Cloud { get; }
@@ -129,6 +109,11 @@ public partial interface IAz
     /// Gets the cognitiveservices sub-domain service.
     /// </summary>
     AzCognitiveservices Cognitiveservices { get; }
+
+    /// <summary>
+    /// Gets the computefleet sub-domain service.
+    /// </summary>
+    AzComputefleet Computefleet { get; }
 
     /// <summary>
     /// Gets the connection sub-domain service.
@@ -164,11 +149,6 @@ public partial interface IAz
     /// Gets the deploymentscripts sub-domain service.
     /// </summary>
     AzDeploymentscripts Deploymentscripts { get; }
-
-    /// <summary>
-    /// Gets the devops sub-domain service.
-    /// </summary>
-    AzDevops Devops { get; }
 
     /// <summary>
     /// Gets the disk sub-domain service.
@@ -301,11 +281,6 @@ public partial interface IAz
     AzNetwork Network { get; }
 
     /// <summary>
-    /// Gets the pipelines sub-domain service.
-    /// </summary>
-    AzPipelines Pipelines { get; }
-
-    /// <summary>
     /// Gets the policy sub-domain service.
     /// </summary>
     AzPolicy Policy { get; }
@@ -339,11 +314,6 @@ public partial interface IAz
     /// Gets the relay sub-domain service.
     /// </summary>
     AzRelay Relay { get; }
-
-    /// <summary>
-    /// Gets the repos sub-domain service.
-    /// </summary>
-    AzRepos Repos { get; }
 
     /// <summary>
     /// Gets the resource sub-domain service.

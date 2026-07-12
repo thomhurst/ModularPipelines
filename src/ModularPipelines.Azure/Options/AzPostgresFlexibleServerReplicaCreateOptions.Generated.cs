@@ -21,6 +21,18 @@ namespace ModularPipelines.Azure.Options;
 public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
 {
     /// <summary>
+    /// The client ID of the geo backup federated identity.
+    /// </summary>
+    [CliFlag("--backup-federated-client-id", ShortForm = "-f")]
+    public bool? BackupFederatedClientId { get; set; }
+
+    /// <summary>
+    /// The client ID of the federated identity.
+    /// </summary>
+    [CliFlag("--federated-client-id")]
+    public bool? FederatedClientId { get; set; }
+
+    /// <summary>
     /// The name or resource identifier of the user assigned identity for data encryption.
     /// </summary>
     [CliFlag("--identity")]
@@ -69,7 +81,7 @@ public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
     public bool? StorageSize { get; set; }
 
     /// <summary>
-    /// Storage type for the read replica. Allowed value is PremiumV2_LRS. Default is for the read replica to match storage type of the primary server.  Allowed values: PremiumV2_LRS.
+    /// Storage type for the read replica. Allowed value is PremiumV2_LRS. Default is for the read replica to match storage type of the primary server.  Allowed values:
     /// </summary>
     [CliFlag("--storage-type")]
     public bool? StorageType { get; set; }
