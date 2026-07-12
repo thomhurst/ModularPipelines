@@ -39,7 +39,7 @@ public record AzWebappDeployOptions : AzOptions
     public bool? EnableKuduWarmup { get; set; }
 
     /// <summary>
-    /// If true, deployment failures will show context-enriched diagnostics with error codes, suggested fixes, and Copilot prompts.  Allowed values: false, true.
+    /// If true, deployment failures will show context-enriched diagnostics with error codes, suggested fixes, and Copilot prompts. Enabled by default; use --enriched-errors false to disable.  Allowed values: false, true.  Default: True.
     /// </summary>
     [CliFlag("--enriched-errors")]
     public bool? EnrichedErrors { get; set; }

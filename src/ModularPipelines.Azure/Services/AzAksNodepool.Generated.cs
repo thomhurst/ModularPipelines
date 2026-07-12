@@ -108,6 +108,21 @@ public class AzAksNodepool
     }
 
     /// <summary>
+    /// Rollback an agent pool to the most recently used configuration (N-1).
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Rollback(
+        AzAksNodepoolRollbackOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolRollbackOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Scale the node pool in a managed Kubernetes cluster.
     /// </summary>
     /// <param name="options">The command options.</param>

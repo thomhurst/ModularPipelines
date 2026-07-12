@@ -27,6 +27,7 @@ public class AzPostgresFlexibleServer
     private AzPostgresFlexibleServerFabricMirroring _fabricMirroring;
     private AzPostgresFlexibleServerFirewallRule _firewallRule;
     private AzPostgresFlexibleServerIdentity _identity;
+    private AzPostgresFlexibleServerMaintenanceEvent _maintenanceEvent;
     private AzPostgresFlexibleServerMicrosoftEntraAdmin _microsoftEntraAdmin;
     private AzPostgresFlexibleServerMigration _migration;
     private AzPostgresFlexibleServerParameter _parameter;
@@ -79,6 +80,11 @@ public class AzPostgresFlexibleServer
     /// az identity sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerIdentity Identity => _identity ??= new AzPostgresFlexibleServerIdentity(_command);
+
+    /// <summary>
+    /// az maintenance-event sub-commands.
+    /// </summary>
+    public AzPostgresFlexibleServerMaintenanceEvent MaintenanceEvent => _maintenanceEvent ??= new AzPostgresFlexibleServerMaintenanceEvent(_command);
 
     /// <summary>
     /// az microsoft-entra-admin sub-commands.

@@ -13,7 +13,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// List Managed Identities.
+/// List all the userAssignedIdentities available under the subscription or
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]

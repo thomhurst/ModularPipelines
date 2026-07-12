@@ -99,10 +99,22 @@ public record AzVmssUpdateOptions : AzOptions
     public bool? EphemeralOsDisk { get; set; }
 
     /// <summary>
+    /// Specify a list of availability zones that must be excluded from placement when
+    /// </summary>
+    [CliFlag("--exclude-zones")]
+    public bool? ExcludeZones { get; set; }
+
+    /// <summary>
     /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit,
     /// </summary>
     [CliFlag("--imds-mode")]
     public bool? ImdsMode { get; set; }
+
+    /// <summary>
+    /// Specify a list of availability zones that must be considered for placement when
+    /// </summary>
+    [CliFlag("--include-zones")]
+    public bool? IncludeZones { get; set; }
 
     /// <summary>
     /// Specifies that the
@@ -171,7 +183,7 @@ public record AzVmssUpdateOptions : AzOptions
     public bool? ScaleInPolicy { get; set; }
 
     /// <summary>
-    /// Specify the security type of the virtual machine scale set. The value Standard can be used if subscription has feature flag UseSta ndardSecurityType registered under
+    /// Specify the security type of the virtual machine scale set.  Allowed
     /// </summary>
     [CliFlag("--security-type")]
     public bool? SecurityType { get; set; }
@@ -241,6 +253,12 @@ public record AzVmssUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--zone-balance")]
     public bool? ZoneBalance { get; set; }
+
+    /// <summary>
+    /// Specify the policy for availability zone placement of the virtual machine scale set. When set to Auto, the platform automatically selects the availability zones.
+    /// </summary>
+    [CliFlag("--zone-placement-policy")]
+    public bool? ZonePlacementPolicy { get; set; }
 
     /// <summary>
     /// Space-separated list of availability zones into which to provision the resource.

@@ -33,13 +33,19 @@ public record AzAppservicePlanCreateOptions : AzOptions
     public bool? AsyncScalingEnabled { get; set; }
 
     /// <summary>
+    /// If true, Linux App Service plan creation failures will show context-enriched diagnostics with error codes, suggested fixes, and Copilot prompts. This flag only applies to Linux plans and has no effect on Windows or Hyper-V plans.  Allowed values: false, true.
+    /// </summary>
+    [CliFlag("--enriched-errors")]
+    public bool? EnrichedErrors { get; set; }
+
+    /// <summary>
     /// Host Windows Container Web App on Hyper-V worker.
     /// </summary>
     [CliFlag("--hyper-v")]
     public bool? HyperV { get; set; }
 
     /// <summary>
-    /// Host web app on Linux worker.
+    /// Host web app on Linux worker. Defaults to true unless
     /// </summary>
     [CliFlag("--is-linux")]
     public bool? IsLinux { get; set; }

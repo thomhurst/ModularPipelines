@@ -23,6 +23,7 @@ public class AzPolicy
     private AzPolicyAssignment _assignment;
     private AzPolicyAttestation _attestation;
     private AzPolicyDefinition _definition;
+    private AzPolicyEnrollment _enrollment;
     private AzPolicyExemption _exemption;
     private AzPolicyMetadata _metadata;
     private AzPolicyRemediation _remediation;
@@ -53,6 +54,11 @@ public class AzPolicy
     /// az definition sub-commands.
     /// </summary>
     public AzPolicyDefinition Definition => _definition ??= new AzPolicyDefinition(_command);
+
+    /// <summary>
+    /// az enrollment sub-commands.
+    /// </summary>
+    public AzPolicyEnrollment Enrollment => _enrollment ??= new AzPolicyEnrollment(_command);
 
     /// <summary>
     /// az exemption sub-commands.

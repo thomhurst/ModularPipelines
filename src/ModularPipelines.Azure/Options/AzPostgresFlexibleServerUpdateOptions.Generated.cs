@@ -27,6 +27,12 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? AllowSameZone { get; set; }
 
     /// <summary>
+    /// The client ID of the geo backup federated identity.
+    /// </summary>
+    [CliFlag("--backup-federated-client-id", ShortForm = "-f")]
+    public bool? BackupFederatedClientId { get; set; }
+
+    /// <summary>
     /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
     /// </summary>
     [CliFlag("--backup-identity")]
@@ -45,13 +51,19 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? BackupRetention { get; set; }
 
     /// <summary>
+    /// The client ID of the federated identity.
+    /// </summary>
+    [CliFlag("--federated-client-id")]
+    public bool? FederatedClientId { get; set; }
+
+    /// <summary>
     /// The name or resource identifier of the user assigned identity for data encryption.
     /// </summary>
     [CliFlag("--identity")]
     public bool? Identity { get; set; }
 
     /// <summary>
-    /// Value of IOPS in (operations/sec) to be allocated for this server. This value can only be updated if flexible server is using Premium SSD v2
+    /// Value of IOPS in (operations/sec) to be allocated for this server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
     /// </summary>
     [CliFlag("--iops")]
     public bool? Iops { get; set; }
@@ -69,7 +81,7 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? MaintenanceWindow { get; set; }
 
     /// <summary>
-    /// Whether Microsoft Entra authentication is enabled.  Allowed values:
+    /// Whether Microsoft Entra authentication is enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliFlag("--microsoft-entra-auth")]
     public bool? MicrosoftEntraAuth { get; set; }
@@ -81,7 +93,7 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? NodeCount { get; set; }
 
     /// <summary>
-    /// Whether password authentication is enabled.  Allowed values: Disabled,
+    /// Whether password authentication is enabled.  Allowed values:
     /// </summary>
     [CliFlag("--password-auth")]
     public bool? PasswordAuth { get; set; }
@@ -99,13 +111,13 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? PrivateDnsZone { get; set; }
 
     /// <summary>
-    /// Enable or disable the public access on a server.  Allowed values:
+    /// Enable or disable the public access on a server.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliFlag("--public-access")]
     public bool? PublicAccess { get; set; }
 
     /// <summary>
-    /// The name of the compute SKU. Follows the convention Standard_{VM name}.
+    /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
     /// </summary>
     [CliFlag("--sku-name")]
     public bool? SkuName { get; set; }
@@ -117,13 +129,13 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? StandbyZone { get; set; }
 
     /// <summary>
-    /// Enable or disable autogrow of the storage. Default value is Disabled. Allowed values: Disabled, Enabled.
+    /// Enable or disable autogrow of the storage. Default value is Disabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliFlag("--storage-auto-grow")]
     public bool? StorageAutoGrow { get; set; }
 
     /// <summary>
-    /// The storage capacity of the server. Minimum is 32 GiB and max is 16
+    /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
     /// </summary>
     [CliFlag("--storage-size")]
     public bool? StorageSize { get; set; }
@@ -135,13 +147,13 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? Tags { get; set; }
 
     /// <summary>
-    /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
+    /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2
     /// </summary>
     [CliFlag("--throughput")]
     public bool? Throughput { get; set; }
 
     /// <summary>
-    /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose,
+    /// Compute tier of the server. Accepted values: Burstable,
     /// </summary>
     [CliFlag("--tier")]
     public bool? Tier { get; set; }
@@ -153,7 +165,7 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Enable or disable high availability feature.  Allowed values: Disabled,
+    /// Enable or disable high availability feature.  Allowed values:
     /// </summary>
     [CliFlag("--zonal-resiliency")]
     public bool? ZonalResiliency { get; set; }

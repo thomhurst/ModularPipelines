@@ -315,7 +315,7 @@ public record AzVmssCreateOptions : AzOptions
     public bool? Secrets { get; set; }
 
     /// <summary>
-    /// Specify the security type of the virtual machine scale set. The value Standard can be used if subscription has feature flag UseSta ndardSecurityType registered under
+    /// Specify the security type of the virtual machine scale set.  Allowed
     /// </summary>
     [CliFlag("--security-type")]
     public bool? SecurityType { get; set; }

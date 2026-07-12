@@ -29,24 +29,21 @@ internal partial class Az : IAz
         AzAcr acr,
         AzAd ad,
         AzAdvisor advisor,
-        AzAfd afd,
         AzAks aks,
         AzAms ams,
         AzApim apim,
         AzAppconfig appconfig,
         AzAppservice appservice,
         AzAro aro,
-        AzArtifacts artifacts,
         AzBackup backup,
         AzBatch batch,
         AzBicep bicep,
         AzBilling billing,
-        AzBoards boards,
         AzBot bot,
         AzCapacity capacity,
-        AzCdn cdn,
         AzCloud cloud,
         AzCognitiveservices cognitiveservices,
+        AzComputefleet computefleet,
         AzConnection connection,
         AzContainer container,
         AzContainerapp containerapp,
@@ -54,7 +51,6 @@ internal partial class Az : IAz
         AzDataboxedge databoxedge,
         AzDeployment deployment,
         AzDeploymentscripts deploymentscripts,
-        AzDevops devops,
         AzDisk disk,
         AzDiskaccess diskaccess,
         AzDiskencryptionset diskencryptionset,
@@ -81,7 +77,6 @@ internal partial class Az : IAz
         AzMysql mysql,
         AzNetappfiles netappfiles,
         AzNetwork network,
-        AzPipelines pipelines,
         AzPolicy policy,
         AzPostgres postgres,
         AzPpg ppg,
@@ -89,7 +84,6 @@ internal partial class Az : IAz
         AzProvider provider,
         AzRedis redis,
         AzRelay relay,
-        AzRepos repos,
         AzResource resource,
         AzResourcemanagement resourcemanagement,
         AzRestorepoint restorepoint,
@@ -119,24 +113,21 @@ internal partial class Az : IAz
         Acr = acr;
         Ad = ad;
         Advisor = advisor;
-        Afd = afd;
         Aks = aks;
         Ams = ams;
         Apim = apim;
         Appconfig = appconfig;
         Appservice = appservice;
         Aro = aro;
-        Artifacts = artifacts;
         Backup = backup;
         Batch = batch;
         Bicep = bicep;
         Billing = billing;
-        Boards = boards;
         Bot = bot;
         Capacity = capacity;
-        Cdn = cdn;
         Cloud = cloud;
         Cognitiveservices = cognitiveservices;
+        Computefleet = computefleet;
         Connection = connection;
         Container = container;
         Containerapp = containerapp;
@@ -144,7 +135,6 @@ internal partial class Az : IAz
         Databoxedge = databoxedge;
         Deployment = deployment;
         Deploymentscripts = deploymentscripts;
-        Devops = devops;
         Disk = disk;
         Diskaccess = diskaccess;
         Diskencryptionset = diskencryptionset;
@@ -171,7 +161,6 @@ internal partial class Az : IAz
         Mysql = mysql;
         Netappfiles = netappfiles;
         Network = network;
-        Pipelines = pipelines;
         Policy = policy;
         Postgres = postgres;
         Ppg = ppg;
@@ -179,7 +168,6 @@ internal partial class Az : IAz
         Provider = provider;
         Redis = redis;
         Relay = relay;
-        Repos = repos;
         Resource = resource;
         Resourcemanagement = resourcemanagement;
         Restorepoint = restorepoint;
@@ -220,9 +208,6 @@ internal partial class Az : IAz
     public AzAdvisor Advisor { get; }
 
     /// <inheritdoc />
-    public AzAfd Afd { get; }
-
-    /// <inheritdoc />
     public AzAks Aks { get; }
 
     /// <inheritdoc />
@@ -241,9 +226,6 @@ internal partial class Az : IAz
     public AzAro Aro { get; }
 
     /// <inheritdoc />
-    public AzArtifacts Artifacts { get; }
-
-    /// <inheritdoc />
     public AzBackup Backup { get; }
 
     /// <inheritdoc />
@@ -256,22 +238,19 @@ internal partial class Az : IAz
     public AzBilling Billing { get; }
 
     /// <inheritdoc />
-    public AzBoards Boards { get; }
-
-    /// <inheritdoc />
     public AzBot Bot { get; }
 
     /// <inheritdoc />
     public AzCapacity Capacity { get; }
 
     /// <inheritdoc />
-    public AzCdn Cdn { get; }
-
-    /// <inheritdoc />
     public AzCloud Cloud { get; }
 
     /// <inheritdoc />
     public AzCognitiveservices Cognitiveservices { get; }
+
+    /// <inheritdoc />
+    public AzComputefleet Computefleet { get; }
 
     /// <inheritdoc />
     public AzConnection Connection { get; }
@@ -293,9 +272,6 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public AzDeploymentscripts Deploymentscripts { get; }
-
-    /// <inheritdoc />
-    public AzDevops Devops { get; }
 
     /// <inheritdoc />
     public AzDisk Disk { get; }
@@ -376,9 +352,6 @@ internal partial class Az : IAz
     public AzNetwork Network { get; }
 
     /// <inheritdoc />
-    public AzPipelines Pipelines { get; }
-
-    /// <inheritdoc />
     public AzPolicy Policy { get; }
 
     /// <inheritdoc />
@@ -398,9 +371,6 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public AzRelay Relay { get; }
-
-    /// <inheritdoc />
-    public AzRepos Repos { get; }
 
     /// <inheritdoc />
     public AzResource Resource { get; }

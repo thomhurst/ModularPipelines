@@ -39,7 +39,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? AciSubnetName { get; set; }
 
     /// <summary>
-    /// Enable advanced network policies (None, FQDN or L7) on a cluster when enabling advanced networking features with "--enable-acns". Allowed values: FQDN, L7, None.
+    /// Enable advanced network policies (None, FQDN or L7) on a cluster when enabling advanced networking features with "-- enable-acns".  Allowed values: FQDN, L7,
     /// </summary>
     [CliFlag("--acns-advanced-networkpolicies")]
     public bool? AcnsAdvancedNetworkpolicies { get; set; }
@@ -51,7 +51,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? AcnsDatapathAccelerationMode { get; set; }
 
     /// <summary>
-    /// Set transit encryption type for ACNS security. Allowed values: None, WireGuard.
+    /// Set transit encryption type for ACNS security.  Allowed values: None, WireGuard.
     /// </summary>
     [CliFlag("--acns-transit-encryption-type")]
     public bool? AcnsTransitEncryptionType { get; set; }
@@ -105,7 +105,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? AttachAcr { get; set; }
 
     /// <summary>
-    /// Specify the upgrade channel for autoupgrade. Allowed values: node-image, none, patch, rapid, stable.
+    /// Specify the upgrade channel for autoupgrade.  Allowed values: node-image, none, patch, rapid, stable.
     /// </summary>
     [CliFlag("--auto-upgrade-channel")]
     public bool? AutoUpgradeChannel { get; set; }
@@ -135,7 +135,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? AzureMonitorWorkspaceResourceId { get; set; }
 
     /// <summary>
-    /// Configure artifact source when bootstraping the cluster.  Allowed values: Cache, Direct.
+    /// Configure artifact source when bootstraping the cluster.  Allowed values: Cache, Direct.  Default: Direct.
     /// </summary>
     [CliFlag("--bootstrap-artifact-source")]
     public bool? BootstrapArtifactSource { get; set; }
@@ -147,7 +147,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? BootstrapContainerRegistryResourceId { get; set; }
 
     /// <summary>
-    /// Secret associated with the service principal. This argument is required if `--service- principal` is specified.
+    /// Secret associated with the service principal. This argument is required if `--service-principal` is specified.
     /// </summary>
     [CliFlag("--client-secret")]
     public bool? ClientSecret { get; set; }
@@ -159,7 +159,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? ContainerStorageVersion { get; set; }
 
     /// <summary>
-    /// The crg id used to associate the new cluster with the existed Capacity Reservation Group resource.
+    /// The crg id used to associate the new cluster with the existed Capacity
     /// </summary>
     [CliFlag("--crg-id")]
     public bool? CrgId { get; set; }
@@ -171,13 +171,13 @@ public record AzAksCreateOptions : AzOptions
     public bool? DataCollectionSettings { get; set; }
 
     /// <summary>
-    /// Path to JSON file containing Microsoft Defender profile configurations.
+    /// Path to JSON file containing Microsoft
     /// </summary>
     [CliFlag("--defender-config")]
     public bool? DefenderConfig { get; set; }
 
     /// <summary>
-    /// Used to disable advanced networking observability features on a clusters when enabling advanced networking features with "-- enable-acns".
+    /// Used to disable advanced networking observability features on a clusters when enabling advanced networking features with "--enable-acns".
     /// </summary>
     [CliFlag("--disable-acns-observability")]
     public bool? DisableAcnsObservability { get; set; }
@@ -213,7 +213,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? DisablePublicFqdn { get; set; }
 
     /// <summary>
-    /// Disable Kubernetes Role-Based Access Control.
+    /// Disable Kubernetes Role-Based Access
     /// </summary>
     [CliFlag("--disable-rbac")]
     public bool? DisableRbac { get; set; }
@@ -237,7 +237,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? DnsNamePrefix { get; set; }
 
     /// <summary>
-    /// An IP address assigned to the Kubernetes DNS service.
+    /// An IP address assigned to the Kubernetes
     /// </summary>
     [CliFlag("--dns-service-ip")]
     public bool? DnsServiceIp { get; set; }
@@ -267,7 +267,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableAddons { get; set; }
 
     /// <summary>
-    /// Enable Azure Hybrid User Benefits (AHUB) for
+    /// Enable Azure Hybrid User Benefits (AHUB) for Windows VMs.
     /// </summary>
     [CliFlag("--enable-ahub")]
     public bool? EnableAhub { get; set; }
@@ -297,7 +297,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableAzureContainerStorage { get; set; }
 
     /// <summary>
-    /// Enable Azure KeyVault Key Management Service.
+    /// Enable Azure KeyVault Key Management
     /// </summary>
     [CliFlag("--enable-azure-keyvault-kms")]
     public bool? EnableAzureKeyvaultKms { get; set; }
@@ -339,7 +339,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableContainerNetworkLogs { get; set; }
 
     /// <summary>
-    /// Enable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. For more information see aka.ms/aks/docs/cost-analysis.
+    /// Enable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. For more information see aka.ms/aks/docs/cost- analysis.
     /// </summary>
     [CliFlag("--enable-cost-analysis")]
     public bool? EnableCostAnalysis { get; set; }
@@ -369,7 +369,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableGatewayApi { get; set; }
 
     /// <summary>
-    /// Enable High Log Scale Mode for Container Logs.
+    /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container- network-logs is specified.  Allowed values: false, true.
     /// </summary>
     [CliFlag("--enable-high-log-scale-mode")]
     public bool? EnableHighLogScaleMode { get; set; }
@@ -393,13 +393,13 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableKeda { get; set; }
 
     /// <summary>
-    /// Using a system assigned managed identity to manage cluster resource group. You can explicitly specify "--service-principal" and "
+    /// Using a system assigned managed identity to manage cluster resource group. You can explicitly specify "--service-principal" and "--client-secret" to disable managed identity, otherwise it will be enabled.
     /// </summary>
     [CliFlag("--enable-managed-identity")]
     public bool? EnableManagedIdentity { get; set; }
 
     /// <summary>
-    /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true.  Default:
+    /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true.
     /// </summary>
     [CliFlag("--enable-msi-auth-for-monitoring")]
     public bool? EnableMsiAuthForMonitoring { get; set; }
@@ -573,19 +573,19 @@ public record AzAksCreateOptions : AzOptions
     public bool? IpFamilies { get; set; }
 
     /// <summary>
-    /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs.  Allowed values: AKSLongTermSupport, KubernetesOfficial.
+    /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs.  Allowed values:
     /// </summary>
     [CliFlag("--k8s-support-plan")]
     public bool? K8sSupportPlan { get; set; }
 
     /// <summary>
-    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g.'=na mespaces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
+    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g.'=namespa ces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
     [CliFlag("--ksm-metric-annotations-allow-list")]
     public bool? KsmMetricAnnotationsAllowList { get; set; }
 
     /// <summary>
-    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=n amespaces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
+    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=namesp aces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
     [CliFlag("--ksm-metric-labels-allow-list")]
     public bool? KsmMetricLabelsAllowList { get; set; }
@@ -633,7 +633,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? LoadBalancerManagedOutboundIpv6Count { get; set; }
 
     /// <summary>
-    /// Load balancer outbound IP prefix resource IDs.
+    /// Load balancer outbound IP prefix resource
     /// </summary>
     [CliFlag("--load-balancer-outbound-ip-prefixes")]
     public bool? LoadBalancerOutboundIpPrefixes { get; set; }
@@ -663,7 +663,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? Location { get; set; }
 
     /// <summary>
-    /// Maximum nodes count used for autoscaler, when "
+    /// Maximum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [1, 1000].
     /// </summary>
     [CliFlag("--max-count")]
     public bool? MaxCount { get; set; }
@@ -681,7 +681,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? MessageOfTheDay { get; set; }
 
     /// <summary>
-    /// Minimum nodes count used for autoscaler, when "
+    /// Minimum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [1, 1000].
     /// </summary>
     [CliFlag("--min-count")]
     public bool? MinCount { get; set; }
@@ -705,7 +705,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? NetworkDataplane { get; set; }
 
     /// <summary>
-    /// The Kubernetes network plugin to use.  Allowed values: azure, kubenet, none.
+    /// The Kubernetes network plugin to use. Allowed values: azure, kubenet, none.
     /// </summary>
     [CliFlag("--network-plugin")]
     public bool? NetworkPlugin { get; set; }
@@ -735,13 +735,13 @@ public record AzAksCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Number of nodes in the Kubernetes node pool. After creating a cluster, you can change the size of its node pool with `az aks scale`.
+    /// Number of nodes in the Kubernetes node pool. After creating a cluster, you can change the size of its node pool with `az aks scale`.  Default: 3.
     /// </summary>
     [CliFlag("--node-count", ShortForm = "-c")]
     public bool? NodeCount { get; set; }
 
     /// <summary>
-    /// Manner in which the OS on your nodes is updated. It could be NodeImage, None, SecurityPatch or Unmanaged.  Allowed values: NodeImage, None, SecurityPatch, Unmanaged.
+    /// Manner in which the OS on your nodes is updated. It could be NodeImage, None, SecurityPatch or Unmanaged.  Allowed values: NodeImage, None, SecurityPatch,
     /// </summary>
     [CliFlag("--node-os-upgrade-channel")]
     public bool? NodeOsUpgradeChannel { get; set; }
@@ -759,19 +759,19 @@ public record AzAksCreateOptions : AzOptions
     public bool? NodeOsdiskSize { get; set; }
 
     /// <summary>
-    /// OS disk type to be used for machines in a given agent pool: Ephemeral or Managed. Defaults to 'Ephemeral' when possible in conjunction with VM size and OS disk size. May not be changed for this pool after creation.  Allowed values:
+    /// OS disk type to be used for machines in a given agent pool: Ephemeral or Managed. Defaults to 'Ephemeral' when possible in conjunction with VM size and OS disk size. May not be changed for this pool after creation.  Allowed values: Ephemeral,
     /// </summary>
     [CliFlag("--node-osdisk-type")]
     public bool? NodeOsdiskType { get; set; }
 
     /// <summary>
-    /// The set of default Karpenter NodePools configured for node provisioning. Valid values are "Auto" and "None".  Allowed values: Auto,
+    /// The set of default Karpenter NodePools configured for node provisioning. Valid values are "Auto" and "None".  Allowed values: Auto, None.
     /// </summary>
     [CliFlag("--node-provisioning-default-pools")]
     public bool? NodeProvisioningDefaultPools { get; set; }
 
     /// <summary>
-    /// Set the node provisioning mode of the cluster. Valid values are "Auto" and "Manual". For more information on "Auto" mode see aka.ms/aks/nap. Allowed values: Auto, Manual.
+    /// Set the node provisioning mode of the cluster. Valid values are "Auto" and "Manual". For more information on "Auto" mode see aka.ms/aks/nap.  Allowed values:
     /// </summary>
     [CliFlag("--node-provisioning-mode")]
     public bool? NodeProvisioningMode { get; set; }
@@ -807,7 +807,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? NodeVmSize { get; set; }
 
     /// <summary>
-    /// Expose host ports on the node pool. When specified, format should be a space-separated list of ranges with protocol, eg. `80/TCP 443/TCP 4000-5000/TCP`.
+    /// Expose host ports on the node pool. When specified, format should be a space- separated list of ranges with protocol, eg. `80/TCP 443/TCP 4000-5000/TCP`.
     /// </summary>
     [CliFlag("--nodepool-allowed-host-ports")]
     public bool? NodepoolAllowedHostPorts { get; set; }
@@ -843,7 +843,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? NodepoolTaints { get; set; }
 
     /// <summary>
-    /// Restriction level on the managed node resource group.  Allowed values: ReadOnly, Unrestricted.
+    /// Restriction level on the managed node resource group.  Allowed values: ReadOnly,
     /// </summary>
     [CliFlag("--nrg-lockdown-restriction-level")]
     public bool? NrgLockdownRestrictionLevel { get; set; }
@@ -873,7 +873,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? PodCidrs { get; set; }
 
     /// <summary>
-    /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock".  Allowed values:
+    /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock".
     /// </summary>
     [CliFlag("--pod-ip-allocation-mode")]
     public bool? PodIpAllocationMode { get; set; }
@@ -903,7 +903,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? Revision { get; set; }
 
     /// <summary>
-    /// Set interval of rotation poll. Use with azure- keyvault-secrets-provider addon.
+    /// Set interval of rotation poll. Use with azure-keyvault-secrets-provider addon.
     /// </summary>
     [CliFlag("--rotation-poll-interval")]
     public bool? RotationPollInterval { get; set; }
@@ -921,7 +921,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? ServiceCidrs { get; set; }
 
     /// <summary>
-    /// Service principal used for authentication to
+    /// Service principal used for authentication to Azure APIs.
     /// </summary>
     [CliFlag("--service-principal")]
     public bool? ServicePrincipal { get; set; }
@@ -933,7 +933,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? SkipSubnetRoleAssignment { get; set; }
 
     /// <summary>
-    /// Specify SKU name for managed clusters. Use '-- sku base' enables a base managed cluster. Use '
+    /// Specify SKU name for managed clusters. Use '--sku base' enables a base managed cluster. Use '--sku automatic' enables an automatic managed cluster.  Allowed values: automatic, base.
     /// </summary>
     [CliFlag("--sku")]
     public bool? Sku { get; set; }
@@ -945,7 +945,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? SnapshotId { get; set; }
 
     /// <summary>
-    /// Public key path or key contents to install on node VMs for SSH access. For example, 'ssh-rsa
+    /// Public key path or key contents to install on node VMs for SSH access. For example, 'ssh-rsa AAAAB...snip...UcyupgH
     /// </summary>
     [CliFlag("--ssh-key-value")]
     public bool? SshKeyValue { get; set; }
@@ -957,7 +957,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? StoragePoolName { get; set; }
 
     /// <summary>
-    /// Set ephemeral disk storage pool option for azure container storage.  Allowed values: NVMe,
+    /// Set ephemeral disk storage pool option for azure container storage.  Allowed values:
     /// </summary>
     [CliFlag("--storage-pool-option")]
     public bool? StoragePoolOption { get; set; }
@@ -987,19 +987,19 @@ public record AzAksCreateOptions : AzOptions
     public bool? Tags { get; set; }
 
     /// <summary>
-    /// Specify SKU tier for managed clusters. '--tier standard' enables a standard managed cluster service with a financially backed SLA. '--tier free' does not have a financially backed SLA. Allowed values: free, premium, standard.
+    /// Specify SKU tier for managed clusters. '-- tier standard' enables a standard managed cluster service with a financially backed SLA. '--tier free' does not have a financially backed SLA.  Allowed values: free, premium, standard.
     /// </summary>
     [CliFlag("--tier")]
     public bool? Tier { get; set; }
 
     /// <summary>
-    /// Agent pool vm set type. VirtualMachineScaleSets or AvailabilitySet or VirtualMachines. Defaults to 'VirtualMachineScaleSets'.
+    /// Agent pool vm set type.
     /// </summary>
     [CliFlag("--vm-set-type")]
     public bool? VmSetType { get; set; }
 
     /// <summary>
-    /// Comma-separated list of VM sizes. Valid for VirtualMachines node pool only. If `--vm-sizes` not specified but `--node-vm-size` specified, value of `--node-vm-size` will be used. If neither of them specified, defaults to Standard_DS2_v2 for Linux or Standard_D2s_v3 for Windows.
+    /// Comma-separated list of VM sizes. Valid for VirtualMachines node pool only. If `--vm- sizes` not specified but `--node-vm-size` specified, value of `--node-vm-size` will be used. If neither of them specified, defaults to Standard_DS2_v2 for Linux or
     /// </summary>
     [CliFlag("--vm-sizes")]
     public bool? VmSizes { get; set; }
@@ -1011,7 +1011,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? VnetSubnetId { get; set; }
 
     /// <summary>
-    /// User account password to use on windows node
+    /// User account password to use on windows node VMs.
     /// </summary>
     [CliFlag("--windows-admin-password")]
     public bool? WindowsAdminPassword { get; set; }
@@ -1041,7 +1041,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Availability zones where agent nodes will be placed. Also, to install agent nodes to more than one zones you need to pass zone numbers (1,2 or 3) separated by blanks.  For example - To have all 3 zones, you are expected to enter `--zones 1 2 3`.
+    /// Availability zones where agent nodes will be placed. Also, to install agent nodes to more than one zones you need to pass zone numbers (1,2 or 3) separated by blanks. For example -  To have all 3 zones, you are expected to enter `--zones 1 2 3`.
     /// </summary>
     [CliFlag("--zones", ShortForm = "-z")]
     public bool? Zones { get; set; }

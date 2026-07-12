@@ -87,7 +87,7 @@ public class AzRestorepoint
     }
 
     /// <summary>
-    /// Place the CLI in a waiting state until a condition of the restore-point
+    /// Place the CLI in a waiting state until a condition is met.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

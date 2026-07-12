@@ -47,7 +47,7 @@ public class AzNetworkTrafficManagerProfile
     }
 
     /// <summary>
-    /// List traffic manager profiles.
+    /// List all Traffic Manager profiles within a resource
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

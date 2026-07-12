@@ -27,6 +27,12 @@ public record AzNetworkTrafficManagerProfileCreateOptions : AzOptions
     public bool? MaxReturn { get; set; }
 
     /// <summary>
+    /// When record type is set, a traffic manager profile will allow only endpoints that match this type.  Allowed values: A, AAAA,
+    /// </summary>
+    [CliFlag("--record-type")]
+    public bool? RecordType { get; set; }
+
+    /// <summary>
     /// Status of the Traffic Manager profile.  Allowed values: Disabled, Enabled.  Default: Enabled.
     /// </summary>
     [CliFlag("--status")]

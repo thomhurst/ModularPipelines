@@ -13,7 +13,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Place the CLI in a waiting state until a condition of the restore-point
+/// Place the CLI in a waiting state until a condition is met.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzRestorePointWaitOptions : AzOptions
 {
     /// <summary>
-    /// The expand expression to apply on the operation. 'InstanceView' retrieves information about the run- time state of a restore point. 'instanceView' Default value is None.
+    /// The expand expression to apply on the operation. 'InstanceView' retrieves information about the run-time state of a restore point.  Allowed values: instanceView.
     /// </summary>
     [CliFlag("--expand")]
     public bool? Expand { get; set; }
