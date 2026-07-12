@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiDeploymentOptions : PulumiOptions
 {
     /// <summary>
-    /// Override the file name where the deployment settings are specified. Default is Pulumi.[stack].deploy.yaml
-    /// </summary>
-    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
-    public string? ConfigFile { get; set; }
-
-    /// <summary>
     /// help for deployment
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]

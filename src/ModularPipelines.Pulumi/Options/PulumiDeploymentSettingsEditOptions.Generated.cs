@@ -264,12 +264,6 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     public string? Color { get; set; }
 
     /// <summary>
-    /// Override the file name where the deployment settings are specified. Default is Pulumi.[stack].deploy.yaml
-    /// </summary>
-    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
-    public string? ConfigFile { get; set; }
-
-    /// <summary>
     /// Run pulumi as if it had been started in another directory
     /// </summary>
     [CliOption("--cwd", ShortForm = "-C", Format = OptionFormat.EqualsSeparated)]
