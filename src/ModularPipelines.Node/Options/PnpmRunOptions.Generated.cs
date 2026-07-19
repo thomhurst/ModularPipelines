@@ -89,7 +89,7 @@ public record PnpmRunOptions : PnpmOptions
     /// <summary>
     /// Run the specified scripts one by one
     /// </summary>
-    [CliOption("--sequential")]
+    [CliOption("--sequential", ShortForm = "-s")]
     public string? Sequential { get; set; }
 
     /// <summary>
