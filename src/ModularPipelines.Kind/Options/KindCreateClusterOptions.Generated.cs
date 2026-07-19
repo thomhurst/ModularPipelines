@@ -57,7 +57,7 @@ public record KindCreateClusterOptions : KindOptions
     public bool? Retain { get; set; }
 
     /// <summary>
-    /// wait for control plane node to be ready (default 0s)
+    /// The length of time to wait for control plane node to be ready (default 0s). Non-zero values should contain a corresponding time unit (e.g. 1s, 2m, 3h).
     /// </summary>
     [CliOption("--wait", Format = OptionFormat.EqualsSeparated)]
     public string? Wait { get; set; }
