@@ -46,5 +46,20 @@ public class GcloudComputeDisksBulk
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksBulkCreateOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// add or remove labels on multiple     Compute Engine disks
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetLabels(
+        GcloudComputeDisksBulkSetLabelsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksBulkSetLabelsOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

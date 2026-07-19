@@ -122,6 +122,21 @@ public class GcloudKmsKeysVersions
     }
 
     /// <summary>
+    /// export a trusted key     wrapped CryptoKeyVersion
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExportTrustedKeyWrapped(
+        GcloudKmsKeysVersionsExportTrustedKeyWrappedOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// get a certificate chain     for a given version
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -164,6 +179,21 @@ public class GcloudKmsKeysVersions
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsImportOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// import a trusted key     wrapped CryptoKeyVersion
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ImportTrustedKeyWrapped(
+        GcloudKmsKeysVersionsImportTrustedKeyWrappedOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsImportTrustedKeyWrappedOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

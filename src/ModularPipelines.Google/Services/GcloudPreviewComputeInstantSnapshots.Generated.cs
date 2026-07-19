@@ -106,5 +106,35 @@ public class GcloudPreviewComputeInstantSnapshots
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeInstantSnapshotsListOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// set the IAM     policy binding for a Compute Engine instant snapshot
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetIamPolicy(
+        GcloudPreviewComputeInstantSnapshotsSetIamPolicyOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine instant snapshot
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissions(
+        GcloudPreviewComputeInstantSnapshotsTestIamPermissionsOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
     #endregion
 }

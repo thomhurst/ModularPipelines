@@ -14,12 +14,18 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudState
 {
-    [Description("active")]
-    Active,
+    [Description("aborted")]
+    Aborted,
 
-    [Description("inactive")]
-    Inactive,
+    [Description("completed")]
+    Completed,
 
-    [Description("state-unspecified")]
-    StateUnspecified
+    [Description("failed")]
+    Failed,
+
+    [Description("started")]
+    Started,
+
+    [Description("unknown")]
+    Unknown
 }

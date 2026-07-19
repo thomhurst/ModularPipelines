@@ -23,4 +23,10 @@ public record GcloudComputeInstanceGroupsManagedDeleteOptions(
     [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Names
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to     complete.    At most one of these can be specified:     --region=REGION      Region of the managed instance groups to delete. If not specified,      you might be prompted to select a region (interactive mode only).      A list of regions can be fetched by running:        $ gcloud compute regions list      Overrides the default compute/region property value for this command      invocation.     --zone=ZONE      Zone of the managed instance groups to delete. If not specified, you      might be prompted to select a zone (interactive mode only).      A list of zones can be fetched by running:        $ gcloud compute zones list      Overrides the default compute/zone property value for this command      invocation.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

@@ -23,6 +23,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudLookerInstancesUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// If specified, accelerated security patch will be enabled. Use     --no-accelerated-security-patch-enabled to disable it.    Email Domain Allowlist for Scheduled Content - Define the email domains to   which your users can deliver Looker (Google Cloud core) content.
+    /// </summary>
+    [CliFlag("--accelerated-security-patch-enabled")]
+    public bool? AcceleratedSecurityPatchEnabled { get; set; }
+
+    /// <summary>
     /// This specifies the entire allowed email domain list.
     /// </summary>
     [CliOption("--allowed-email-domains", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
@@ -59,10 +65,16 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions
     public int? LinkedLspProjectNumber { get; set; }
 
     /// <summary>
-    /// This specifies whether public IP is enabled on the Looker instance.    User Allocations - There are ten Standard and two Developer users included   in the cost of the product. You can allocate additional Standard, Viewer,   and Developer users for this instance. It is an optional step and can be   modified later.    With the Standard edition of Looker (Google Cloud core), you can provision   up to 50 total users, distributed across Viewer, Standard, and Developer.
+    /// This specifies whether public IP is enabled on the Looker instance.    Release Channel - Looker (Google Cloud core) releases updates to your   instance through release channels.
     /// </summary>
     [CliFlag("--public-ip-enabled")]
     public bool? PublicIpEnabled { get; set; }
+
+    /// <summary>
+    /// The selected release channel for the instance. For more details on     release channels, review     https://cloud.google.com/looker/docs/looker-core-release-process#release_channels.     RELEASE_CHANNEL must be one of:      no-channel       Maintains existing monthly update cadence and features. This       channel will remain available for a limited period to prevent       immediate deployment disruptions.      rapid       Access new features as soon as they are released. Use the Rapid       channel to thoroughly test upcoming versions in your development or       non-production environments before they roll out to production.       Note: This channel is excluded from the Looker SLA.      regular       Maintain a reliable balance between feature availability and       platform stability. Versions in the Regular channel are qualified       over a longer period and are recommended for critical production       workloads.      stable       Versions in the Stable channel prioritize stability and are ideal       for production workloads that require the most conservative update       schedule.    User Allocations - There are ten Standard and two Developer users included   in the cost of the product. You can allocate additional Standard, Viewer,   and Developer users for this instance. It is an optional step and can be   modified later.    With the Standard edition of Looker (Google Cloud core), you can provision   up to 50 total users, distributed across Viewer, Standard, and Developer.
+    /// </summary>
+    [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
+    public string? ReleaseChannel { get; set; }
 
     /// <summary>
     /// Number of additional Developer Users to allocate to the Looker     Instance.

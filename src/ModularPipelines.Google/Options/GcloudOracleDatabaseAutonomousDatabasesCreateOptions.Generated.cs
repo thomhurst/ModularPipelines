@@ -59,7 +59,7 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// For resources [autonomous_database, encryption-key-kms, odb-network,     odb-subnet, source-config-autonomous-database], provides fallback value     for resource location attribute. When the resource's full URI path is     not provided, location will fallback to this flag value.    Network resource - The name of the VPC network used by the Autonomous   Database in the following format:   projects/{project}/global/networks/{network} This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --network on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// For resources [autonomous_database, encryption-key-kms, odb-network,     odb-subnet, source-config-autonomous-database,     source-config-autonomous-database-backup], provides fallback value for     resource location attribute. When the resource's full URI path is not     provided, location will fallback to this flag value.    Network resource - The name of the VPC network used by the Autonomous   Database in the following format:   projects/{project}/global/networks/{network} This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --network on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
@@ -223,10 +223,16 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     public string? PropertiesPrivateEndpointIp { get; set; }
 
     /// <summary>
-    /// The private endpoint label for the Autonomous Database.
+    /// The private endpoint label for the Autonomous Database.    Arguments for the refreshable clone.
     /// </summary>
     [CliOption("--properties-private-endpoint-label", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesPrivateEndpointLabel { get; set; }
+
+    /// <summary>
+    /// Indicates if the Autonomous Database is a refreshable clone. This field     is used in update flow to connect / disconnect a refreshable clone from     its source database.
+    /// </summary>
+    [CliFlag("--properties-refreshable-clone")]
+    public bool? PropertiesRefreshableClone { get; set; }
 
     /// <summary>
     /// The ID of the Oracle Cloud Infrastructure vault secret.
@@ -260,15 +266,69 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     public string? KeyRing { get; set; }
 
     /// <summary>
+    /// The frequency in seconds a refreshable clone is refreshed after     auto-refresh is enabled.    Arguments for the auto refresh point lag seconds.
+    /// </summary>
+    [CliOption("--source-config-auto-refresh-frequency-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? SourceConfigAutoRefreshFrequencySeconds { get; set; }
+
+    /// <summary>
+    /// The time, in seconds, the data of the automatic refreshable clone lags     the primary database at the point of refresh.
+    /// </summary>
+    [CliOption("--source-config-auto-refresh-point-lag-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? SourceConfigAutoRefreshPointLagSeconds { get; set; }
+
+    /// <summary>
+    /// The date and time that auto-refreshing will begin for an Autonomous     Database refreshable clone. This value controls only the start time for     the first refresh operation.
+    /// </summary>
+    [CliOption("--source-config-auto-refresh-start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceConfigAutoRefreshStartTime { get; set; }
+
+    /// <summary>
     /// This field specifies if the replication of automatic backups is enabled     when creating a Data Guard.    AutonomousDatabase resource - The name of the primary Autonomous Database   that is used to create a Peer Autonomous Database from a source. This   represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --source-config-autonomous-database on the     command line with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --source-config-autonomous-database on the     command line with a fully specified name;    ◆ provide the argument --location on the command line.
     /// </summary>
     [CliFlag("--source-config-automatic-backups-replication-enabled")]
     public bool? SourceConfigAutomaticBackupsReplicationEnabled { get; set; }
 
     /// <summary>
-    /// ID of the autonomousDatabase or fully qualified identifier for the     autonomousDatabase.     To set the autonomous-database attribute:     ◆ provide the argument --source-config-autonomous-database on the      command line.
+    /// ID of the autonomousDatabase or fully qualified identifier for the     autonomousDatabase.     To set the autonomous-database attribute:     ◆ provide the argument --source-config-autonomous-database on the      command line.    AutonomousDatabaseBackup resource - The name of the Autonomous Database   Backup resource with the format:   projects/{project}/locations/{region}/autonomousDatabaseBackups/{autonomous_database_backup}   Required when source_type is BACKUP_FROM_ID. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --source-config-autonomous-database-backup on     the command line with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --source-config-autonomous-database-backup on     the command line with a fully specified name;    ◆ provide the argument --location on the command line.
     /// </summary>
     [CliOption("--source-config-autonomous-database", Format = OptionFormat.EqualsSeparated)]
     public string? SourceConfigAutonomousDatabase { get; set; }
+
+    /// <summary>
+    /// ID of the autonomousDatabaseBackup or fully qualified identifier for     the autonomousDatabaseBackup.     To set the autonomous-database-backup attribute:     ◆ provide the argument --source-config-autonomous-database-backup on      the command line.
+    /// </summary>
+    [CliOption("--source-config-autonomous-database-backup", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceConfigAutonomousDatabaseBackup { get; set; }
+
+    /// <summary>
+    /// The timestamp specified for the point-in-time clone of the source     Autonomous Database. This field is only applicable in case of     BACKUP_FROM_TIMESTAMP source type and when use_latest_available_backup     is false.
+    /// </summary>
+    [CliOption("--source-config-backup-time", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceConfigBackupTime { get; set; }
+
+    /// <summary>
+    /// The clone type of the Autonomous Database. This field is only     applicable in case of cloning. SOURCE_CONFIG_CLONE_TYPE must be one of:      full       Creates a new database with the source database's data and       metadata.     metadata       Creates a new database that includes all the source database schema       metadata, but none of the source database data.
+    /// </summary>
+    [CliOption("--source-config-clone-type", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceConfigCloneType { get; set; }
+
+    /// <summary>
+    /// The refresh mode of the clone. SOURCE_CONFIG_REFRESHABLE_MODE must be     one of:      automatic       Automatic refresh.     manual       Manual refresh.
+    /// </summary>
+    [CliOption("--source-config-refreshable-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceConfigRefreshableMode { get; set; }
+
+    /// <summary>
+    /// The source type of the Autonomous Database. SOURCE_CONFIG_TYPE must be     one of:      backup-from-id       Create clone from the backup resource.     backup-from-timestamp       Create clone from backup specified by backup_time field, or use       latest available backup if use_latest_available_backup is true. The       autonomous_database field must specify the source database to clone       from.     clone-database       Clone database from an existing database specified in       autonomous_database field.     clone-to-refreshable       Create a refreshable clone from an existing database specified in       autonomous_database field.     cross-region-disaster-recovery       Create a cross-region disaster recovery peer adb from an existing       adb.
+    /// </summary>
+    [CliOption("--source-config-type", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceConfigType { get; set; }
+
+    /// <summary>
+    /// Clone from latest available backup timestamp. This field is only     applicable in case of BACKUP_FROM_TIMESTAMP source type.
+    /// </summary>
+    [CliFlag("--source-config-use-latest-available-backup")]
+    public bool? SourceConfigUseLatestAvailableBackup { get; set; }
 
 }

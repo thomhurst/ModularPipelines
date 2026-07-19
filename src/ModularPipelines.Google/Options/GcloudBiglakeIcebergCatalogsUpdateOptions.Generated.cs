@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Catalog type to update the catalog with. Currently only updating to a     BigLake catalog type is supported. CATALOG_TYPE must be (only one value     is supported):      biglake       BigLake Iceberg catalog. Catalog type which allows namespaces and       tables within a catalog to be mapped to locations beyond the       catalog's designated default.
+    /// Catalog type to update the catalog with. Currently only updating to a     BigLake or Lakehouse catalog type is supported. CATALOG_TYPE must be     one of:      biglake       BigLake Iceberg catalog. Catalog type which allows namespaces and       tables within a catalog to be mapped to locations beyond the       catalog's designated default. Note: biglake and lakehouse catalog       types are the same.     lakehouse       BigLake Iceberg catalog. Catalog type which allows namespaces and       tables within a catalog to be mapped to locations beyond the       catalog's designated default. Note: biglake and lakehouse catalog       types are the same.
     /// </summary>
     [CliOption("--catalog-type", Format = OptionFormat.EqualsSeparated)]
     public string? CatalogType { get; set; }

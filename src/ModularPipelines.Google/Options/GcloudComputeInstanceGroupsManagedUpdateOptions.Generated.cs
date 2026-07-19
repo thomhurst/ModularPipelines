@@ -42,12 +42,6 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies the type of the instance redistribution policy. An instance     redistribution type lets you enable or disable automatic instance     redistribution across zones to meet the group's target distribution     shape.     An instance redistribution type can be specified only for a     non-autoscaled regional managed instance group. By default it is set to     proactive.     TYPE must be one of:      none       The managed instance group does not redistribute instances across       zones.     proactive       The managed instance group proactively redistributes instances to       meet its target distribution.
-    /// </summary>
-    [CliOption("--instance-redistribution-type", Format = OptionFormat.EqualsSeparated)]
-    public string? InstanceRedistributionType { get; set; }
-
-    /// <summary>
     /// Named selection of machine types with an optional rank. For example,     --instance-selection="name=instance-selection-1,machine-type=e2-standard-8,machine-type=t2d-standard-8,rank=0"
     /// </summary>
     [CliOption("--instance-selection", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
@@ -66,6 +60,12 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     public string? ListManagedInstancesResults { get; set; }
 
     /// <summary>
+    /// Specifies whether the MIG can change a VM's zone during a repair.     ON_REPAIR_ALLOW_CHANGING_ZONE must be one of:      no       (Default) MIG cannot change a VM's zone during a repair.     yes       MIG can select a different zone for the VM during a repair.
+    /// </summary>
+    [CliOption("--on-repair-allow-changing-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? OnRepairAllowChangingZone { get; set; }
+
+    /// <summary>
     /// Remove specific instance selections from the instance flexibility     policy.
     /// </summary>
     [CliOption("--remove-instance-selections", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
@@ -76,6 +76,42 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     /// </summary>
     [CliFlag("--remove-instance-selections-all")]
     public bool? RemoveInstanceSelectionsAll { get; set; }
+
+    /// <summary>
+    /// Target number of running instances in managed instance group.
+    /// </summary>
+    [CliOption("--size", Format = OptionFormat.EqualsSeparated)]
+    public int? Size { get; set; }
+
+    /// <summary>
+    /// Specifies the target size of stopped VMs in the group.
+    /// </summary>
+    [CliOption("--stopped-size", Format = OptionFormat.EqualsSeparated)]
+    public int? StoppedSize { get; set; }
+
+    /// <summary>
+    /// Specifies the target size of suspended VMs in the group.
+    /// </summary>
+    [CliOption("--suspended-size", Format = OptionFormat.EqualsSeparated)]
+    public int? SuspendedSize { get; set; }
+
+    /// <summary>
+    /// Specifies the instance template that will replace the existing template     used by the MIG. The MIG then uses this new template to create     instances. Specifying the new template overrides any template versions     that you've set for the MIG. Specify either a global or a regional     instance template.    At most one of these can be specified:     --clear-autohealing      Clears all autohealing policy fields for the managed instance group.     Or at least one of these can be specified:      --initial-delay=INITIAL_DELAY       Specifies the number of seconds that a new VM takes to initialize       and run its startup script. During a VM's initial delay period, the       MIG ignores unsuccessful health checks because the VM might be in       the startup process. This prevents the MIG from prematurely       recreating a VM. If the health check receives a healthy response       during the initial delay, it indicates that the startup process is       complete and the VM is ready. The value of initial delay must be       between 0 and 3600 seconds. The default value is 0. See $ gcloud       topic datetimes for information on duration formats.      At most one of these can be specified:       --health-check=HEALTH_CHECK        Name of the health check to operate on.       --http-health-check=HTTP_HEALTH_CHECK        (DEPRECATED) HTTP health check object used for autohealing        instances in this group.        HttpHealthCheck is deprecated. Use --health-check instead.       --https-health-check=HTTPS_HEALTH_CHECK        (DEPRECATED) HTTPS health check object used for autohealing        instances in this group.        HttpsHealthCheck is deprecated. Use --health-check instead.    Parameters for setting distribution policy.
+    /// </summary>
+    [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
+    public string? Template { get; set; }
+
+    /// <summary>
+    /// Specifies the type of the instance redistribution policy. An instance     redistribution type lets you enable or disable automatic instance     redistribution across zones to meet the group's target distribution     shape.     An instance redistribution type can be specified only for a     non-autoscaled regional managed instance group. By default it is set to     proactive.     TYPE must be one of:      none       The managed instance group does not redistribute instances across       zones.     proactive       The managed instance group proactively redistributes instances to       meet its target distribution.
+    /// </summary>
+    [CliOption("--instance-redistribution-type", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceRedistributionType { get; set; }
+
+    /// <summary>
+    /// Specifies how a regional managed instance group distributes its     instances across zones within the region. The default shape is even.     SHAPE must be one of:      any       The group picks zones for creating VM instances to fulfill the       requested number of VMs within present resource constraints and to       maximize utilization of unused zonal reservations. Recommended for       batch workloads that do not require high availability.     any-single-zone       The group schedules all instances within a single zone. The zone is       chosen based on hardware support, current resources availability,       and matching reservations. The group might not be able to create       the requested number of VMs in case of zonal resource availability       constraints. Recommended for workloads requiring extensive       communication between VMs.     balanced       The group prioritizes acquisition of resources, scheduling VMs in       zones where resources are available while distributing VMs as       evenly as possible across selected zones to minimize the impact of       zonal failure. Recommended for highly available serving or batch       workloads that do not require autoscaling.     even       The group schedules VM instance creation and deletion to achieve       and maintain an even number of managed instances across the       selected zones. The distribution is even when the number of managed       instances does not differ by more than 1 between any two zones.       Recommended for highly available serving workloads.    At most one of these can be specified:     --region=REGION      Region of the managed instance group to update. If not specified, you      might be prompted to select a region (interactive mode only).      A list of regions can be fetched by running:        $ gcloud compute regions list      Overrides the default compute/region property value for this command      invocation.     --zone=ZONE      Zone of the managed instance group to update. If not specified, you      might be prompted to select a zone (interactive mode only).      A list of zones can be fetched by running:        $ gcloud compute zones list      Overrides the default compute/zone property value for this command      invocation.    Stateful policy settings for the managed instance group.
+    /// </summary>
+    [CliOption("--target-distribution-shape", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetDistributionShape { get; set; }
 
     /// <summary>
     /// Remove stateful configuration for the specified disks.
@@ -96,24 +132,6 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     public IEnumerable<string>? RemoveStatefulInternalIps { get; set; }
 
     /// <summary>
-    /// Target number of running instances in managed instance group.
-    /// </summary>
-    [CliOption("--size", Format = OptionFormat.EqualsSeparated)]
-    public int? Size { get; set; }
-
-    /// <summary>
-    /// Specifies the number of seconds that the MIG should wait before     suspending or stopping a VM. The initial delay gives the initialization     script the time to prepare your VM for a quick scale out.
-    /// </summary>
-    [CliOption("--standby-policy-initial-delay", Format = OptionFormat.EqualsSeparated)]
-    public string? StandbyPolicyInitialDelay { get; set; }
-
-    /// <summary>
-    /// Defines how a MIG resumes or starts VMs from a standby pool when the     group scales out. The default mode is manual. STANDBY_POLICY_MODE must     be one of:      manual       MIG does not automatically resume or start VMs in the standby pool       when the group scales out.     scale-out-pool       MIG automatically resumes or starts VMs in the standby pool when       the group scales out, and replenishes the standby pool afterwards.
-    /// </summary>
-    [CliOption("--standby-policy-mode", Format = OptionFormat.EqualsSeparated)]
-    public string? StandbyPolicyMode { get; set; }
-
-    /// <summary>
     /// Disks considered stateful by the instance group. Managed instance     groups preserve and reattach stateful disks on VM autohealing, update,     and recreate events.     Use this argument multiple times to update more disks.     If a stateful disk with the given device name already exists in the     current instance configuration, its properties will be replaced by the     newly provided ones. Otherwise, a new stateful disk definition will be     added to the instance configuration.      device-name       (Required) Device name of the disk to mark stateful.      auto-delete       (Optional) Specifies the auto deletion policy of the stateful disk.       The following options are available:       ▸ never: (Default) Never delete this disk. Instead, detach the        disk when its instance is deleted.       ▸ on-permanent-instance-deletion: Delete the stateful disk when        the instance that it's attached to is permanently deleted from        the group; for example, when the instance is deleted manually or        when the group size is decreased.
     /// </summary>
     [CliOption("--stateful-disk", Format = OptionFormat.EqualsSeparated)]
@@ -126,34 +144,22 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     public string? StatefulExternalIp { get; set; }
 
     /// <summary>
-    /// Managed instance groups preserve stateful IPs on VM autohealing,     update, and recreate events.     Use this argument multiple times to update more IPs.     If a stateful internal IP with the given interface name already exists     in the current instance configuration, its properties are replaced by     the newly provided ones. Otherwise, a new stateful internal IP     definition is added to the instance configuration.     At least one of the following is required:      enabled       Marks the IP address as stateful. The network interface named nic0       is assumed by default when interface-name is not specified. This       flag can be omitted when interface-name is provided explicitly.      interface-name       Marks the IP address from this network interface as stateful. This       flag can be omitted when enabled is provided.       Additional arguments:      auto-delete       (Optional) Prescribes what should happen to an associated static       Address resource when a VM instance is permanently deleted.       Regardless of the value of the delete rule, stateful IP addresses       are always preserved on instance autohealing, update, and       recreation operations. The following options are available:       ▸ never: (Default) Never delete the static IP address. Instead,        unassign the address when its instance is permanently deleted and        keep the address reserved.       ▸ on-permanent-instance-deletion: Delete the static IP address        reservation when the instance that it's assigned to is        permanently deleted from the instance group; for example, when        the instance is deleted manually or when the group size is        decreased.
+    /// Managed instance groups preserve stateful IPs on VM autohealing,     update, and recreate events.     Use this argument multiple times to update more IPs.     If a stateful internal IP with the given interface name already exists     in the current instance configuration, its properties are replaced by     the newly provided ones. Otherwise, a new stateful internal IP     definition is added to the instance configuration.     At least one of the following is required:      enabled       Marks the IP address as stateful. The network interface named nic0       is assumed by default when interface-name is not specified. This       flag can be omitted when interface-name is provided explicitly.      interface-name       Marks the IP address from this network interface as stateful. This       flag can be omitted when enabled is provided.       Additional arguments:      auto-delete       (Optional) Prescribes what should happen to an associated static       Address resource when a VM instance is permanently deleted.       Regardless of the value of the delete rule, stateful IP addresses       are always preserved on instance autohealing, update, and       recreation operations. The following options are available:       ▸ never: (Default) Never delete the static IP address. Instead,        unassign the address when its instance is permanently deleted and        keep the address reserved.       ▸ on-permanent-instance-deletion: Delete the static IP address        reservation when the instance that it's assigned to is        permanently deleted from the instance group; for example, when        the instance is deleted manually or when the group size is        decreased.    At most one of these can be specified:     --remove-workload-policy      Detaches the workload policy from the managed instance group.     --workload-policy=WORKLOAD_POLICY      Specifies the workload policy for the managed instance group. It can      be a full or partial URL to a resource policy containing the workload      policy.    Parameters for setting standby policy.
     /// </summary>
     [CliOption("--stateful-internal-ip", Format = OptionFormat.EqualsSeparated)]
     public string? StatefulInternalIp { get; set; }
 
     /// <summary>
-    /// Specifies the target size of stopped VMs in the group.
+    /// Specifies the number of seconds that the MIG should wait before     suspending or stopping a VM. The initial delay gives the initialization     script the time to prepare your VM for a quick scale out.
     /// </summary>
-    [CliOption("--stopped-size", Format = OptionFormat.EqualsSeparated)]
-    public int? StoppedSize { get; set; }
+    [CliOption("--standby-policy-initial-delay", Format = OptionFormat.EqualsSeparated)]
+    public string? StandbyPolicyInitialDelay { get; set; }
 
     /// <summary>
-    /// Specifies the target size of suspended VMs in the group.
+    /// Defines how a MIG resumes or starts VMs from a standby pool when the     group scales out. The default mode is manual. STANDBY_POLICY_MODE must     be one of:      manual       MIG does not automatically resume or start VMs in the standby pool       when the group scales out.     scale-out-pool       MIG automatically resumes or starts VMs in the standby pool when       the group scales out, and replenishes the standby pool afterwards.    Parameters for setting update policy for this managed instance group.
     /// </summary>
-    [CliOption("--suspended-size", Format = OptionFormat.EqualsSeparated)]
-    public int? SuspendedSize { get; set; }
-
-    /// <summary>
-    /// Specifies how a regional managed instance group distributes its     instances across zones within the region. The default shape is even.     SHAPE must be one of:      any       The group picks zones for creating VM instances to fulfill the       requested number of VMs within present resource constraints and to       maximize utilization of unused zonal reservations. Recommended for       batch workloads that do not require high availability.     any-single-zone       The group schedules all instances within a single zone. The zone is       chosen based on hardware support, current resources availability,       and matching reservations. The group might not be able to create       the requested number of VMs in case of zonal resource availability       constraints. Recommended for workloads requiring extensive       communication between VMs.     balanced       The group prioritizes acquisition of resources, scheduling VMs in       zones where resources are available while distributing VMs as       evenly as possible across selected zones to minimize the impact of       zonal failure. Recommended for highly available serving or batch       workloads that do not require autoscaling.     even       The group schedules VM instance creation and deletion to achieve       and maintain an even number of managed instances across the       selected zones. The distribution is even when the number of managed       instances does not differ by more than 1 between any two zones.       Recommended for highly available serving workloads.
-    /// </summary>
-    [CliOption("--target-distribution-shape", Format = OptionFormat.EqualsSeparated)]
-    public string? TargetDistributionShape { get; set; }
-
-    /// <summary>
-    /// Specifies the instance template that will replace the existing template     used by the MIG. The MIG then uses this new template to create     instances. Specifying the new template overrides any template versions     that you've set for the MIG. Specify either a global or a regional     instance template.    At most one of these can be specified:     --clear-autohealing      Clears all autohealing policy fields for the managed instance group.     Or at least one of these can be specified:      --initial-delay=INITIAL_DELAY       Specifies the number of seconds that a new VM takes to initialize       and run its startup script. During a VM's initial delay period, the       MIG ignores unsuccessful health checks because the VM might be in       the startup process. This prevents the MIG from prematurely       recreating a VM. If the health check receives a healthy response       during the initial delay, it indicates that the startup process is       complete and the VM is ready. The value of initial delay must be       between 0 and 3600 seconds. The default value is 0. See $ gcloud       topic datetimes for information on duration formats.      At most one of these can be specified:       --health-check=HEALTH_CHECK        Name of the health check to operate on.       --http-health-check=HTTP_HEALTH_CHECK        (DEPRECATED) HTTP health check object used for autohealing        instances in this group.        HttpHealthCheck is deprecated. Use --health-check instead.       --https-health-check=HTTPS_HEALTH_CHECK        (DEPRECATED) HTTPS health check object used for autohealing        instances in this group.        HttpsHealthCheck is deprecated. Use --health-check instead.    At most one of these can be specified:     --region=REGION      Region of the managed instance group to update. If not specified, you      might be prompted to select a region (interactive mode only).      A list of regions can be fetched by running:        $ gcloud compute regions list      Overrides the default compute/region property value for this command      invocation.     --zone=ZONE      Zone of the managed instance group to update. If not specified, you      might be prompted to select a zone (interactive mode only).      A list of zones can be fetched by running:        $ gcloud compute zones list      Overrides the default compute/zone property value for this command      invocation.    At most one of these can be specified:     --remove-workload-policy      Detaches the workload policy from the managed instance group.     --workload-policy=WORKLOAD_POLICY      Specifies the workload policy for the managed instance group. It can      be a full or partial URL to a resource policy containing the workload      policy.    Parameters for setting update policy for this managed instance group.
-    /// </summary>
-    [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
-    public string? Template { get; set; }
+    [CliOption("--standby-policy-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? StandbyPolicyMode { get; set; }
 
     /// <summary>
     /// Maximum additional number of VMs that can be created during the update     process. This can be a fixed number (e.g. 5) or a percentage of size to     the managed instance group (e.g. 10%).

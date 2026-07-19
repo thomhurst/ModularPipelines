@@ -29,7 +29,7 @@ public record GcloudIapWebGetIamPolicyOptions : GcloudOptions
     public string? Region { get; set; }
 
     /// <summary>
-    /// Resource type of the IAP resource. RESOURCE_TYPE must be one of:     app-engine, backend-services, forwarding-rule, cloud-run.
+    /// Resource type of the IAP resource. RESOURCE_TYPE must be one of:     app-engine, backend-services, forwarding-rule, cloud-run,     agent-registry.
     /// </summary>
     [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudResourceType? ResourceType { get; set; }
@@ -41,7 +41,7 @@ public record GcloudIapWebGetIamPolicyOptions : GcloudOptions
     public string? Service { get; set; }
 
     /// <summary>
-    /// Service version. Should only be specified with     --resource-type=app-engine.
+    /// Service version. Should only be specified with     --resource-type=app-engine.    At most one of these can be specified:     --agent=AGENT      Agent ID for the agent-registry resource type.     --endpoint=ENDPOINT      Endpoint ID for the agent-registry resource type.     --mcp-server=MCP_SERVER      MCP server ID for the agent-registry resource type.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }

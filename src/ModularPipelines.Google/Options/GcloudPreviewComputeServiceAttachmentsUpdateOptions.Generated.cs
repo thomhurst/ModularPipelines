@@ -48,6 +48,12 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
+    /// The number of NAT IP addresses to be allocated per connected endpoint.
+    /// </summary>
+    [CliOption("--nat-ips-per-endpoint", Format = OptionFormat.EqualsSeparated)]
+    public string? NatIpsPerEndpoint { get; set; }
+
+    /// <summary>
     /// The subnetworks provided by service producer to use for NAT
     /// </summary>
     [CliOption("--nat-subnets", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]

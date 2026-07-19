@@ -144,6 +144,21 @@ public class GcloudComputeNetworkFirewallPolicies
     }
 
     /// <summary>
+    /// get the IAM     policy for a Compute Engine network firewall policy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetIamPolicy(
+        GcloudComputeNetworkFirewallPoliciesGetIamPolicyOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// import a Compute     Engine network firewall policy rules
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -171,6 +186,21 @@ public class GcloudComputeNetworkFirewallPolicies
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// set the IAM     policy binding for a Compute Engine network firewall policy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetIamPolicy(
+        GcloudComputeNetworkFirewallPoliciesSetIamPolicyOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
