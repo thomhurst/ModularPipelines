@@ -13,24 +13,18 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Move an environment tag
+/// [EXPERIMENTAL] Remove an environment webhook
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("env", "tag", "mv")]
-public record PulumiEnvTagMvOptions : PulumiOptions
+[CliSubCommand("env", "webhook", "remove")]
+public record PulumiEnvWebhookRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for mv
+    /// help for remove
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    /// <summary>
-    /// display times in UTC
-    /// </summary>
-    [CliFlag("--utc")]
-    public bool? Utc { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

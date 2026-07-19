@@ -123,12 +123,12 @@ public class PulumiEnvWebhook
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rm(
-        PulumiEnvWebhookRmOptions options = default,
+    public virtual async Task<CommandResult> Remove(
+        PulumiEnvWebhookRemoveOptions options = default,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvWebhookRmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvWebhookRemoveOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

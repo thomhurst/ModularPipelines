@@ -6,4 +6,4 @@
 using System.Reflection;
 
 [assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Tool", "pulumi")]
-[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.GeneratedAt", "2026-07-12T03:14:09.2232636Z")]
+[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.GeneratedAt", "2026-07-19T03:13:20.3767021Z")]
