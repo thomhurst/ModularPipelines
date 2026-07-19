@@ -13,36 +13,18 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// List environment tags
+/// Remove an environment tag
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("env", "tag", "ls")]
-public record PulumiEnvTagLsOptions : PulumiOptions
+[CliSubCommand("env", "tag", "remove")]
+public record PulumiEnvTagRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for ls
+    /// help for remove
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    /// <summary>
-    /// output format: "text" (default) or "json" (default "text")
-    /// </summary>
-    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
-
-    /// <summary>
-    /// the command to use to page through the environment's version tags
-    /// </summary>
-    [CliOption("--pager", Format = OptionFormat.EqualsSeparated)]
-    public string? Pager { get; set; }
-
-    /// <summary>
-    /// display times in UTC
-    /// </summary>
-    [CliFlag("--utc")]
-    public bool? Utc { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

@@ -13,18 +13,24 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Remove an environment tag
+/// Remove an environment or a value from an environment
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("env", "tag", "rm")]
-public record PulumiEnvTagRmOptions : PulumiOptions
+[CliSubCommand("env", "remove")]
+public record PulumiEnvRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for rm
+    /// help for remove
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Skip confirmation prompts, and proceed with removal anyway
+    /// </summary>
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

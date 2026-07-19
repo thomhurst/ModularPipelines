@@ -17,11 +17,11 @@ namespace ModularPipelines.Pulumi.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("env", "ls")]
-public record PulumiEnvLsOptions : PulumiOptions
+[CliSubCommand("env", "list")]
+public record PulumiEnvListOptions : PulumiOptions
 {
     /// <summary>
-    /// help for ls
+    /// help for list
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

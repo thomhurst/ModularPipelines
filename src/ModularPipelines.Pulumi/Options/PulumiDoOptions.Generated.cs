@@ -33,6 +33,12 @@ public record PulumiDoOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
+    /// Output format for resource operation results (supported: default, json)
+    /// </summary>
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
+
+    /// <summary>
     /// The package to load, in the form 'name@version' or a path to a plugin binary or folder. If the package supports parameterization, additional space-separated parameters can be included after the package name, e.g. --package "name@version param1 \"multi word param\""
     /// </summary>
     [CliOption("--package", Format = OptionFormat.EqualsSeparated)]
