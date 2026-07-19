@@ -29,7 +29,7 @@ public record SyftAttestOptions(
     public string? BasePath { get; set; }
 
     /// <summary>
-    /// enable package data enrichment from local and online sources (options: all, golang, java, javascript, python)
+    /// enable package data enrichment from local and online sources (options: all, golang, java, javascript, python, vcpkg)
     /// </summary>
     [CliOption("--enrich", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Enrich { get; set; }
