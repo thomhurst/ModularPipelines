@@ -364,6 +364,12 @@ public record GcloudSqlInstancesPatchOptions(
     public string? SslMode { get; set; }
 
     /// <summary>
+    /// Allows you to set a maximum storage capacity, in GB. Automatic     increases to your capacity will stop once this limit has been reached.     Default capacity is unlimited.
+    /// </summary>
+    [CliOption("--storage-auto-increase-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? StorageAutoIncreaseLimit { get; set; }
+
+    /// <summary>
     /// Indicates how many IOPS to provision for the data disk. This sets the     number of I/O operations per second that the disk can handle.
     /// </summary>
     [CliOption("--storage-provisioned-iops", Format = OptionFormat.EqualsSeparated)]

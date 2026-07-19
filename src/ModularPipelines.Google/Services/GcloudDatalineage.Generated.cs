@@ -21,7 +21,9 @@ public class GcloudDatalineage
 {
     private readonly ICommand _command;
     private GcloudDatalineageConfig _config;
+    private GcloudDatalineageLineageEvents _lineageEvents;
     private GcloudDatalineageProcesses _processes;
+    private GcloudDatalineageRuns _runs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatalineage"/> class.
@@ -39,9 +41,19 @@ public class GcloudDatalineage
     public GcloudDatalineageConfig Config => _config ??= new GcloudDatalineageConfig(_command);
 
     /// <summary>
+    /// gcloud lineage-events sub-commands.
+    /// </summary>
+    public GcloudDatalineageLineageEvents LineageEvents => _lineageEvents ??= new GcloudDatalineageLineageEvents(_command);
+
+    /// <summary>
     /// gcloud processes sub-commands.
     /// </summary>
     public GcloudDatalineageProcesses Processes => _processes ??= new GcloudDatalineageProcesses(_command);
+
+    /// <summary>
+    /// gcloud runs sub-commands.
+    /// </summary>
+    public GcloudDatalineageRuns Runs => _runs ??= new GcloudDatalineageRuns(_command);
 
     #endregion
 

@@ -107,6 +107,21 @@ public class GcloudOracledatabaseAutonomousDatabases
     }
 
     /// <summary>
+    /// get     refreshable clones for an AutonomousDatabase
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetRefreshableClones(
+        GcloudOracleDatabaseAutonomousDatabasesGetRefreshableClonesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesGetRefreshableClonesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list all     AutonomousDatabases
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -119,6 +134,21 @@ public class GcloudOracledatabaseAutonomousDatabases
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// refresh an     AutonomousDatabase clone
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Refresh(
+        GcloudOracleDatabaseAutonomousDatabasesRefreshOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesRefreshOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

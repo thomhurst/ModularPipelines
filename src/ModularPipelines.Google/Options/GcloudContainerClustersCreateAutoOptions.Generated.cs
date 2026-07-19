@@ -314,10 +314,16 @@ public record GcloudContainerClustersCreateAutoOptions(
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
-    /// Set the components that have logging enabled. Valid component values     are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER,     KCP_HPA     The default is SYSTEM,WORKLOAD. If this flag is set, then SYSTEM must     be included.     For more information, see     https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs     Examples:       $ gcloud container clusters create-auto --logging=SYSTEM       $ gcloud container clusters create-auto --logging=SYSTEM,WORKLOAD       $ gcloud container clusters create-auto \         --logging=SYSTEM,WORKLOAD,API_SERVER,CONTROLLER_MANAGER,\       SCHEDULER,KCP_HPA
+    /// Set the components that have logging enabled. Valid component values     are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER,     KCP_HPA, KCP_VPA     The default is SYSTEM,WORKLOAD. If this flag is set, then SYSTEM must     be included.     For more information, see     https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs     Examples:       $ gcloud container clusters create-auto --logging=SYSTEM       $ gcloud container clusters create-auto --logging=SYSTEM,WORKLOAD       $ gcloud container clusters create-auto \         --logging=SYSTEM,WORKLOAD,API_SERVER,CONTROLLER_MANAGER,\       SCHEDULER,KCP_HPA,KCP_VPA
     /// </summary>
     [CliOption("--logging", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Logging { get; set; }
+
+    /// <summary>
+    /// Specifies the scope of Managed OpenTelemetry within the cluster.     COLLECTION_AND_INSTRUMENTATION_COMPONENTS: Enables GKE Managed     OpenTelemetry Collector and other Instrumentations components like     Instrumentation CRD within the cluster. NONE: Disables the GKE Managed     OpenTelemetry.     MANAGED_OTEL_SCOPE must be one of:     COLLECTION_AND_INSTRUMENTATION_COMPONENTS, NONE.
+    /// </summary>
+    [CliOption("--managed-otel-scope", Format = OptionFormat.EqualsSeparated)]
+    public string? ManagedOtelScope { get; set; }
 
     /// <summary>
     /// Specify a membership type for the cluster's fleet membership. Example:     $ gcloud container clusters create-auto \     --membership-type=LIGHTWEIGHT. MEMBERSHIP_TYPE must be (only \ one     value is supported):      LIGHTWEIGHT       Fleet membership representing this cluster will be lightweight.

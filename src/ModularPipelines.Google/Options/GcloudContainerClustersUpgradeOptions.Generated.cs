@@ -36,6 +36,12 @@ public record GcloudContainerClustersUpgradeOptions(
     public string? ClusterVersion { get; set; }
 
     /// <summary>
+    /// The soak duration for the rollback-able control plane upgrade. It only     applies to minor version upgrades. Setting this flag will trigger a     control plane upgrade with emulated version. The cluster is     rollback-able during the soak period. The soak period can be set     between 6 hours and 7 days.
+    /// </summary>
+    [CliOption("--control-plane-soak-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneSoakDuration { get; set; }
+
+    /// <summary>
     /// The Operating System image for the node pool. This is a private     feature, please contact your Google account team for allowlisting this     feature.
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]

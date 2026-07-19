@@ -57,6 +57,12 @@ public record GcloudStorageRsyncOptions(
     public bool? DeleteUnmatchedDestinationObjects { get; set; }
 
     /// <summary>
+    /// Do not automatically decompress downloaded gzip files.
+    /// </summary>
+    [CliFlag("--do-not-decompress")]
+    public bool? DoNotDecompress { get; set; }
+
+    /// <summary>
     /// Print what operations rsync would perform without actually executing     them.
     /// </summary>
     [CliFlag("--dry-run")]

@@ -35,6 +35,12 @@ public record GcloudPreviewComputeTargetTcpProxiesCreateOptions(
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
+    /// <summary>
+    /// Specifies the load balancing scheme for the target TCP proxy.     LOAD_BALANCING_SCHEME must be one of:      EXTERNAL       Classic Proxy Network Load Balancers.     EXTERNAL_MANAGED       Envoy-based global and regional external Proxy Network Load       Balancer.     INTERNAL_MANAGED       Envoy-based cross-region and regional internal Proxy Network Load       Balancer.
+    /// </summary>
+    [CliOption("--load-balancing-scheme", Format = OptionFormat.EqualsSeparated)]
+    public string? LoadBalancingScheme { get; set; }
+
     [CliOption("--proxy-header", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyHeader { get; set; }
 

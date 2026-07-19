@@ -182,6 +182,21 @@ public class GcloudPreviewComputeBackendBuckets
     }
 
     /// <summary>
+    /// test IAM     permissions for a Compute Engine backend bucket
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissions(
+        GcloudPreviewComputeBackendBucketsTestIamPermissionsOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// update a backend bucket
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -20,6 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDeveloperconnectInsightsConfigs
 {
     private readonly ICommand _command;
+    private GcloudDeveloperconnectInsightsConfigsDeploymentEvents _deploymentEvents;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDeveloperconnectInsightsConfigs"/> class.
@@ -28,6 +29,15 @@ public class GcloudDeveloperconnectInsightsConfigs
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud deployment-events sub-commands.
+    /// </summary>
+    public GcloudDeveloperconnectInsightsConfigsDeploymentEvents DeploymentEvents => _deploymentEvents ??= new GcloudDeveloperconnectInsightsConfigsDeploymentEvents(_command);
+
+    #endregion
 
     #region Commands
 

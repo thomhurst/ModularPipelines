@@ -36,6 +36,12 @@ public record GcloudPreviewComputeInterconnectsUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
+    /// The location for the interconnect. The locations can be listed by using     the gcloud preview compute interconnects locations list command to find     the appropriate location to use when creating an interconnect.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Email address to contact the customer NOC for operations and     maintenance notifications regarding this interconnect.
     /// </summary>
     [CliOption("--noc-contact-email", Format = OptionFormat.EqualsSeparated)]

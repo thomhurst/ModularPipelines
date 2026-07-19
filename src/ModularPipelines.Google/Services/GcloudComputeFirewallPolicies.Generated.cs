@@ -123,6 +123,21 @@ public class GcloudComputeFirewallPolicies
     }
 
     /// <summary>
+    /// get the IAM policy for a     Compute Engine organization firewall policy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetIamPolicy(
+        GcloudComputeFirewallPoliciesGetIamPolicyOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// import Compute Engine     organization firewall policy rules
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -176,6 +191,21 @@ public class GcloudComputeFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Move(
         GcloudComputeFirewallPoliciesMoveOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// set the IAM policy for a     Compute Engine organization firewall policy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetIamPolicy(
+        GcloudComputeFirewallPoliciesSetIamPolicyOptions options,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {

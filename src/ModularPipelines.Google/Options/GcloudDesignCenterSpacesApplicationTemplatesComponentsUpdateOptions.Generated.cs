@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The component display name.    This captures the apphub application details associated with the   component.
+    /// The component display name.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }

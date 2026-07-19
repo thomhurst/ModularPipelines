@@ -63,10 +63,4 @@ public record GcloudTransferAgentsInstallOptions : GcloudOptions
     [CliOption("--proxy", Format = OptionFormat.EqualsSeparated)]
     public string? Proxy { get; set; }
 
-    /// <summary>
-    /// Allow the agent to work with S3-compatible sources. This flag blocks     the agent's ability to work with other source types (e.g., file     systems).     When using this flag, you must provide source credentials either as     environment variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY or as     default credentials in your system's configuration files.     To provide credentials as environment variables, run:       AWS_ACCESS_KEY_ID="id" AWS_SECRET_ACCESS_KEY="secret" gcloud transfer agents install --s3-compatible-mode
-    /// </summary>
-    [CliFlag("--s3-compatible-mode")]
-    public bool? S3CompatibleMode { get; set; }
-
 }

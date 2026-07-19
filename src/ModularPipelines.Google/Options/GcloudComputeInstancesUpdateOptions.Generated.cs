@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -25,10 +26,22 @@ public record GcloudComputeInstancesUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
+    /// The workload identity to use for the instance.
+    /// </summary>
+    [CliOption("--identity", Format = OptionFormat.EqualsSeparated)]
+    public string? Identity { get; set; }
+
+    /// <summary>
     /// When specified, the VM will be scheduled on host with specified CPU     architecture or a newer one. To list available CPU platforms in given     zone, run:       $ gcloud compute zones describe ZONE \        --format="value(availableCpuPlatforms)"     Default setting is "AUTOMATIC".     CPU platform selection is available only in selected zones.     You can find more information on-line:     https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform
     /// </summary>
     [CliOption("--min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
     public string? MinCpuPlatform { get; set; }
+
+    /// <summary>
+    /// If specified, Compute Engine returns an error if the update requires a     higher action to be applied to the instance. If not specified, the     default will be REFRESH. MOST_DISRUPTIVE_ALLOWED_ACTION must be one of:     NO_EFFECT, REFRESH, RESTART.
+    /// </summary>
+    [CliOption("--most-disruptive-allowed-action", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMostDisruptiveAllowedAction? MostDisruptiveAllowedAction { get; set; }
 
     /// <summary>
     /// Causes the instance to re-learn the integrity policy baseline using the     current instance configuration. Use this flag after any planned     boot-specific changes in the instance configuration, like kernel     updates or kernel driver installation.
