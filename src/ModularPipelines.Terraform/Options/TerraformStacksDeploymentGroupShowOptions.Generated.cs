@@ -13,42 +13,42 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Create a Terraform Stack.
+/// Show the details of a single deployment group, including its deployment runs.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("stacks", "create")]
-public record TerraformStacksCreateOptions : TerraformOptions
+[CliSubCommand("stacks", "deployment-group", "show")]
+public record TerraformStacksDeploymentGroupShowOptions : TerraformOptions
 {
     /// <summary>
-    /// The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided. (required)
+    /// The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided.
     /// </summary>
     [CliFlag("-organization-name")]
     public bool? OrganizationName { get; set; }
 
     /// <summary>
-    /// The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided. (required)
+    /// The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided.
     /// </summary>
     [CliFlag("-project-name")]
     public bool? ProjectName { get; set; }
 
     /// <summary>
-    /// The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided. (required)
+    /// The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided.
     /// </summary>
     [CliFlag("-stack-name")]
     public bool? StackName { get; set; }
 
     /// <summary>
-    /// The directory within the configuration that contains the stack to be deployed. Defaults to the root of the configuration.
+    /// The name of the deployment group to show within the latest configuration of the stack specified in -stack-name. Requires the args -organization-name, -project-name, and -stack-name to be provided.
     /// </summary>
-    [CliFlag("-working-directory")]
-    public bool? WorkingDirectory { get; set; }
+    [CliFlag("-deployment-group-name")]
+    public bool? DeploymentGroupName { get; set; }
 
     /// <summary>
-    /// Generate boilerplate configuration
+    /// The ID of the deployment group to show. Has precedence over -deployment-group-name.
     /// </summary>
-    [CliFlag("-with-template")]
-    public bool? WithTemplate { get; set; }
+    [CliFlag("-deployment-group-id")]
+    public bool? DeploymentGroupId { get; set; }
 
     /// <summary>
     /// Output results in JSON format instead of the default human-readable text format.
