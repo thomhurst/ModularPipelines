@@ -117,7 +117,7 @@ jobs:
 
       - name: Checkout
         if: steps.should-run.outputs.run == 'true'
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -624,7 +624,7 @@ jobs:
 
       - name: Checkout
         if: steps.should-run.outputs.run == 'true'
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
