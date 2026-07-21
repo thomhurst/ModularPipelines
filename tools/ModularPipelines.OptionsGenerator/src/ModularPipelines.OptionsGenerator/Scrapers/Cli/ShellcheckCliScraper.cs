@@ -72,22 +72,12 @@ public partial class ShellcheckCliScraper : CliScraperBase
             [
                 new CliPositionalArgument
                 {
-                    PropertyName = "File",
-                    PlaceholderName = "FILE",
-                    CSharpType = "string",
-                    IsRequired = true,
-                    PositionIndex = 0,
-                    Description = "Shell script file to check",
-                    Placement = PositionalArgumentPosition.AfterOptions
-                },
-                new CliPositionalArgument
-                {
-                    PropertyName = "AdditionalFiles",
+                    PropertyName = "Files",
                     PlaceholderName = "FILES...",
                     CSharpType = "IEnumerable<string>?",
                     IsRequired = false,
-                    PositionIndex = 1,
-                    Description = "Additional shell script files to check",
+                    PositionIndex = 0,
+                    Description = "Shell script files to check",
                     Placement = PositionalArgumentPosition.AfterOptions
                 }
             ],

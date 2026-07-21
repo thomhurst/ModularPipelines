@@ -19,9 +19,7 @@ namespace ModularPipelines.Shellcheck.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-public record ShellcheckExecuteOptions(
-    [property: CliArgument(0)] string File
-) : ShellcheckOptions
+public record ShellcheckExecuteOptions : ShellcheckOptions
 {
     /// <summary>
     /// Include warnings from sourced files
@@ -126,9 +124,9 @@ public record ShellcheckExecuteOptions(
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Additional shell script files to check
+    /// Shell script files to check
     /// </summary>
-    [CliArgument(1)]
-    public IEnumerable<string>? AdditionalFiles { get; set; }
+    [CliArgument(0)]
+    public IEnumerable<string>? Files { get; set; }
 
 }
