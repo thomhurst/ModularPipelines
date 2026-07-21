@@ -433,10 +433,11 @@ jobs:
       - name: Install Liquibase
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'liquibase'
         run: |
-          # Use latest version - the tarball may extract directly or into a versioned directory
-          LIQUIBASE_VERSION="4.30.0"
+          LIQUIBASE_VERSION="5.0.3"
           mkdir -p /tmp/liquibase
-          wget -qO- "https://github.com/liquibase/liquibase/releases/download/v${LIQUIBASE_VERSION}/liquibase-${LIQUIBASE_VERSION}.tar.gz" | tar xvz -C /tmp/liquibase
+          wget -q "https://github.com/liquibase/liquibase/releases/download/v${LIQUIBASE_VERSION}/liquibase-${LIQUIBASE_VERSION}.tar.gz" -O /tmp/liquibase.tar.gz
+          echo "865aab391be9cbe3fee22461392d5d29aa76652596598b14700a3f5f05c9e2b7  /tmp/liquibase.tar.gz" | sha256sum --check
+          tar xzf /tmp/liquibase.tar.gz -C /tmp/liquibase
           # Find the liquibase executable (could be directly in /tmp/liquibase or in a subdirectory)
           LIQUIBASE_BIN=$(find /tmp/liquibase -name "liquibase" -type f -executable 2>/dev/null | head -1)
           if [ -z "$LIQUIBASE_BIN" ]; then

@@ -28,9 +28,39 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class LiquibaseCliScraper : CliScraperBase
 {
+    private static readonly HashSet<string> NumericOptions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--changelog-lock-poll-rate",
+        "--changelog-lock-wait-time-in-minutes",
+        "--count",
+        "--db-port",
+        "--ddl-lock-timeout",
+        "--max-rows",
+        "--mssql-bytes-per-char",
+        "--port",
+        "--web-port"
+    };
+
+    private static readonly IReadOnlyDictionary<string, string[]> EnumValues =
+        new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--changelog-parse-mode"] = ["strict", "lax"],
+            ["--duplicate-file-mode"] = ["silent", "debug", "info", "warn", "error"],
+            ["--log-format"] = ["text", "json", "json_pretty"],
+            ["--log-level"] = ["off", "severe", "warning", "info", "fine"],
+            ["--missing-property-mode"] = ["preserve", "empty", "error"],
+            ["--on-missing-include-changelog"] = ["warn", "fail"],
+            ["--show-summary"] = ["off", "summary", "verbose"],
+            ["--show-summary-output"] = ["log", "console", "all"],
+            ["--supports-method-validation-level"] = ["off", "warn", "fail"],
+            ["--tag-version"] = ["oldest", "newest"],
+            ["--ui-service"] = ["console", "logger"]
+        };
+
     public LiquibaseCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<LiquibaseCliScraper> logger)
         : base(executor, helpCache, logger)
     {
+        ExecutablePath = ResolveExecutablePath();
     }
 
     public override string ToolName => "liquibase";
@@ -41,12 +71,14 @@ public partial class LiquibaseCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Liquibase";
 
+    protected override string ExecutablePath { get; }
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "version"
+        "--help", "-h", "--version", "help", "version", "lpm"
     };
 
     /// <summary>
@@ -57,7 +89,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Find "Commands:" section
+        // Find "Commands" section
         var commandsSectionMatch = CommandsSectionPattern().Match(helpText);
         if (commandsSectionMatch.Success)
         {
@@ -109,6 +141,10 @@ public partial class LiquibaseCliScraper : CliScraperBase
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
+        var enums = options
+            .Where(x => x.EnumDefinition is not null)
+            .Select(x => x.EnumDefinition!)
+            .ToList();
 
         var className = GenerateClassName(commandPath);
 
@@ -124,7 +160,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
             Options = options,
             PositionalArguments = [],
             SubDomainGroup = null,
-            Enums = []
+            Enums = enums
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
@@ -135,34 +171,13 @@ public partial class LiquibaseCliScraper : CliScraperBase
     /// </summary>
     private static string? ExtractDescription(string helpText)
     {
-        var lines = helpText.Split('\n');
+        var usageIndex = helpText.IndexOf("Usage:", StringComparison.OrdinalIgnoreCase);
+        var preamble = usageIndex < 0 ? helpText : helpText[..usageIndex];
+        var description = string.Join(
+            " ",
+            preamble.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
 
-        foreach (var line in lines)
-        {
-            var trimmed = line.Trim();
-
-            if (string.IsNullOrWhiteSpace(trimmed))
-            {
-                continue;
-            }
-
-            if (trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
-            {
-                continue;
-            }
-
-            if (trimmed.EndsWith(':'))
-            {
-                continue;
-            }
-
-            if (trimmed.Length > 10 && !trimmed.Contains("--") && !trimmed.StartsWith('-'))
-            {
-                return trimmed;
-            }
-        }
-
-        return null;
+        return string.IsNullOrWhiteSpace(description) ? null : description;
     }
 
     /// <summary>
@@ -170,36 +185,45 @@ public partial class LiquibaseCliScraper : CliScraperBase
     /// Format: --changeLogFile=PARAM          The root changelog file
     ///         --url=PARAM                    The database URL
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    protected List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         var lines = helpText.Split('\n');
 
-        foreach (var line in lines)
+        for (var i = 0; i < lines.Length; i++)
         {
+            var line = lines[i];
+            var defineMatch = LiquibaseDefinePattern().Match(line);
+            if (defineMatch.Success)
+            {
+                if (seenOptions.Add("-D"))
+                {
+                    var defineDescription = defineMatch.Groups["desc"].Value.Trim();
+                    i = AccumulateMultiLineDescription(lines, i, ref defineDescription);
+                    options.Add(CreateDefineOption(CleanDescription(defineDescription)));
+                }
+
+                continue;
+            }
+
             var match = LiquibaseOptionPattern().Match(line);
             if (!match.Success)
             {
                 continue;
             }
 
+            var shortForm = match.Groups["short"].Value.Trim();
             var longForm = match.Groups["long"].Value.Trim();
             var valueHint = match.Groups["value"].Value.Trim();
             var description = match.Groups["desc"].Value.Trim();
+            i = AccumulateMultiLineDescription(lines, i, ref description);
 
-            if (string.IsNullOrEmpty(longForm))
+            if (!seenOptions.Add(longForm))
             {
                 continue;
             }
-
-            if (seenOptions.Contains(longForm))
-            {
-                continue;
-            }
-
-            seenOptions.Add(longForm);
 
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
@@ -208,27 +232,149 @@ public partial class LiquibaseCliScraper : CliScraperBase
             }
 
             var isFlag = string.IsNullOrEmpty(valueHint);
-            var csharpType = isFlag ? "bool?" : "string?";
+            var isBoolean = !isFlag && BooleanDefaultPattern().IsMatch(description);
+            var isNumeric = !isFlag && NumericOptions.Contains(longForm);
+            var enumDefinition = TryCreateEnumDefinition(longForm, propertyName);
+            var csharpType = DetermineCSharpType(isFlag, isBoolean, isNumeric, enumDefinition);
+            var isRequired = description.Contains("[REQUIRED]", StringComparison.OrdinalIgnoreCase);
 
             options.Add(new CliOptionDefinition
             {
                 SwitchName = longForm,
-                ShortForm = null,
+                ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
                 PropertyName = propertyName,
                 CSharpType = csharpType,
-                Description = description,
+                Description = CleanDescription(description),
                 IsFlag = isFlag,
-                IsRequired = false,
+                IsRequired = isRequired,
                 AcceptsMultipleValues = false,
                 IsKeyValue = false,
-                IsNumeric = false,
+                IsNumeric = isNumeric,
                 ValueSeparator = "=",
-                EnumDefinition = null,
+                EnumDefinition = enumDefinition,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
 
         return options;
+    }
+
+    private static CliOptionDefinition CreateDefineOption(string? description)
+    {
+        const string propertyName = "ChangelogProperty";
+        return new CliOptionDefinition
+        {
+            SwitchName = "-D",
+            PropertyName = propertyName,
+            CSharpType = "IEnumerable<KeyValue>?",
+            Description = description,
+            IsFlag = false,
+            IsRequired = false,
+            AcceptsMultipleValues = true,
+            IsKeyValue = true,
+            IsNumeric = false,
+            ValueSeparator = string.Empty,
+            EnumDefinition = null,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag: false)
+        };
+    }
+
+    private static string DetermineCSharpType(
+        bool isFlag,
+        bool isBoolean,
+        bool isNumeric,
+        CliEnumDefinition? enumDefinition)
+    {
+        if (isFlag || isBoolean)
+        {
+            return "bool?";
+        }
+
+        if (enumDefinition is not null)
+        {
+            return $"{enumDefinition.EnumName}?";
+        }
+
+        return isNumeric ? "int?" : "string?";
+    }
+
+    private static CliEnumDefinition? TryCreateEnumDefinition(string longForm, string propertyName)
+    {
+        if (!EnumValues.TryGetValue(longForm, out var values))
+        {
+            return null;
+        }
+
+        return new CliEnumDefinition
+        {
+            EnumName = $"Liquibase{propertyName}",
+            Description = $"Allowed values for {longForm}.",
+            Values = values.Select(value => new CliEnumValue
+            {
+                MemberName = ToPascalCase(value),
+                CliValue = value
+            }).ToList()
+        };
+    }
+
+    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
+    {
+        var descriptionParts = new List<string> { description };
+        var nextIndex = currentIndex + 1;
+
+        while (nextIndex < lines.Length)
+        {
+            var nextLine = lines[nextIndex];
+            if (string.IsNullOrWhiteSpace(nextLine) ||
+                LiquibaseOptionPattern().IsMatch(nextLine) ||
+                LiquibaseDefinePattern().IsMatch(nextLine))
+            {
+                break;
+            }
+
+            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
+            if (leadingSpaces < 20)
+            {
+                break;
+            }
+
+            descriptionParts.Add(nextLine.Trim());
+            nextIndex++;
+        }
+
+        description = string.Join(" ", descriptionParts.Where(x => !string.IsNullOrWhiteSpace(x)));
+        return nextIndex - 1;
+    }
+
+    private static string? CleanDescription(string description)
+    {
+        var cleaned = DefaultsMetadataPattern().Replace(description, string.Empty)
+            .Replace("[REQUIRED]", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Trim();
+        return string.IsNullOrEmpty(cleaned) ? null : cleaned;
+    }
+
+    private static string ResolveExecutablePath()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return "liquibase";
+        }
+
+        var pathDirectories = Environment.GetEnvironmentVariable("PATH")?
+            .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            ?? [];
+
+        foreach (var pathDirectory in pathDirectories)
+        {
+            var candidate = Path.Combine(pathDirectory.Trim('"'), "liquibase.bat");
+            if (File.Exists(candidate))
+            {
+                return Path.GetFullPath(candidate);
+            }
+        }
+
+        return "liquibase.bat";
     }
 
     /// <summary>
@@ -244,19 +390,19 @@ public partial class LiquibaseCliScraper : CliScraperBase
     /// <summary>
     /// Matches "Commands:" section.
     /// </summary>
-    [GeneratedRegex(@"Commands:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^Commands:?\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex CommandsSectionPattern();
 
     /// <summary>
     /// Matches command lines: "  update                         Deploy any changes"
     /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)\s{2,}", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)(?:,\s*[\w-]+)?\s{2,}", RegexOptions.Multiline)]
     private static partial Regex CommandLinePattern();
 
     /// <summary>
     /// Matches next section header.
     /// </summary>
-    [GeneratedRegex(@"\n[A-Z][\w\s]+:\s*\n")]
+    [GeneratedRegex(@"^(?:Each argument|Available configuration|Full documentation)", RegexOptions.Multiline)]
     private static partial Regex NextSectionPattern();
 
     /// <summary>
@@ -264,8 +410,17 @@ public partial class LiquibaseCliScraper : CliScraperBase
     ///   --changeLogFile=PARAM          The root changelog file
     ///   --verbose                      Enable verbose output
     /// </summary>
-    [GeneratedRegex(@"^\s+(?<long>--[\w-]+)(?:=(?<value>\w+))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?:(?<short>-[A-Za-z]),\s*)?(?<long>--[\w-]+)(?:\[?=(?<value>PARAM)\]?)?\s+(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex LiquibaseOptionPattern();
+
+    [GeneratedRegex(@"^\s+-D=PARAM\s+(?<desc>.*)$", RegexOptions.Multiline)]
+    private static partial Regex LiquibaseDefinePattern();
+
+    [GeneratedRegex(@"DEFAULT:\s*(?:true|false)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex BooleanDefaultPattern();
+
+    [GeneratedRegex(@"\s*\(defaults file:.*$", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    private static partial Regex DefaultsMetadataPattern();
 
     #endregion
 }
