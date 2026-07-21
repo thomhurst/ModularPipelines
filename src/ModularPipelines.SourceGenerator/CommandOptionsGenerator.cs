@@ -145,14 +145,17 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     && m.DeclaredAccessibility is Accessibility.Public or Accessibility.Protected or Accessibility.ProtectedOrInternal);
             if (existing is not null)
             {
-                // Override only a live slot with the matching return type; anything else
-                // (non-virtual, sealed override, different return type) must be hidden with
-                // "new" to keep the consuming project compiling. The hidden method opens a
-                // fresh virtual slot so generated descendants can still emit "override".
+                // Override only a public live slot with the matching return type — the
+                // generated method is always public, and an override cannot change the
+                // inherited accessibility. Anything else (non-virtual, sealed override,
+                // protected, different return type) must be hidden with "new" to keep the
+                // consuming project compiling. The hidden method opens a fresh virtual slot
+                // so generated descendants can still emit "override".
                 var returnsCommandLine = commandLineType is not null
                     && SymbolEqualityComparer.Default.Equals(existing.ReturnType, commandLineType);
                 var overridable = (existing.IsVirtual || existing.IsAbstract || existing.IsOverride)
-                    && !existing.IsSealed;
+                    && !existing.IsSealed
+                    && existing.DeclaredAccessibility == Accessibility.Public;
                 if (returnsCommandLine && overridable)
                 {
                     return "override ";
