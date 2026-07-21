@@ -483,6 +483,966 @@ AlwaysRun modules ignore pipeline cancellation but still respect their own timeo
 
 ---
 
+## Architecture
+
+# Distributed Architecture
+
+This page describes the internal architecture of distributed mode for contributors and advanced users.
+
+## Execution Flow
+
+### Master Startup
+
+1. The `DistributedPipelinePlugin` detects role based on `InstanceIndex` and registers master services.
+2. The default `IModuleExecutor` is replaced with `DistributedModuleExecutor`.
+3. All module types are registered in the `ModuleTypeRegistry` for serialization.
+4. The coordinator is initialized (via `IDistributedCoordinatorFactory.CreateAsync()` or directly).
+5. The `WorkerHealthMonitor` background service starts monitoring worker heartbeats.
+
+### Worker Startup
+
+1. The plugin detects the worker role and registers worker services.
+2. The default `IModuleExecutor` is replaced with `WorkerModuleExecutor`.
+3. The worker builds its capability set (configured capabilities + auto-detected OS).
+4. The worker registers with the coordinator via `RegisterWorkerAsync`.
+5. Two background services start: `WorkerHeartbeatService` (periodic heartbeats) and `WorkerCancellationMonitor` (polls for cancellation).
+
+### Module Execution (Master Side)
+
+```
+Build dependency graph
+        │
+        ├──► Start master worker loop (concurrent)
+        │         │
+        │    Dequeue from queue
+        │    Execute locally
+        │    Publish result
+        │         │
+        │         └──► (loop)
+        │
+        ▼
+For each ready module:
+        │
+        ▼
+Create ModuleAssignment
+        │
+        ▼
+Enqueue to coordinator
+        │
+        ▼
+Wait for result (from any worker, including master)
+        │
+        ▼
+Deserialize result
+Mark module complete/failed
+Schedule dependents
+```
+
+The master runs a concurrent worker loop that competes with external workers for assignments. All modules go through the work queue — routing is purely capability-based.
+
+### Module Execution (Worker Side)
+
+```
+Register with coordinator
+        │
+        ▼
+   ┌──► Dequeue assignment ◄─────┐
+   │         │                   │
+   │    ┌────┴────┐              │
+   │    │ Match?  │              │
+   │    ▼ Yes     ▼ No          │
+   │  Execute   Re-enqueue      │
+   │    │         │              │
+   │    ▼         └──────────────┘
+   │  Serialize result
+   │    │
+   │    ▼
+   │  Publish to coordinator
+   │    │
+   └────┘ (loop)
+```
+
+Workers loop until the queue is empty and no more work is expected, or until cancellation is requested.
+
+## Coordinator Interface
+
+The `IDistributedCoordinator` interface defines nine methods across four concerns:
+
+### Work Queue
+
+| Method | Direction | Description |
+|--------|-----------|-------------|
+| `EnqueueModuleAsync` | Master → Queue | Pushes a module assignment onto the work queue. |
+| `DequeueModuleAsync` | Queue → Worker | Pops an assignment from the queue, checking capability match. Re-enqueues if the worker can't handle it. |
+
+### Results
+
+| Method | Direction | Description |
+|--------|-----------|-------------|
+| `PublishResultAsync` | Worker → Coordinator | Stores the serialized result and notifies waiters. |
+| `WaitForResultAsync` | Master ← Coordinator | Blocks until a specific module's result is available. Uses Pub/Sub to avoid polling. |
+
+### Worker Management
+
+| Method | Direction | Description |
+|--------|-----------|-------------|
+| `RegisterWorkerAsync` | Worker → Coordinator | Registers a worker with its capabilities and status. |
+| `SendHeartbeatAsync` | Worker → Coordinator | Updates the heartbeat timestamp. Transitions status from Connected to Active. |
+| `GetRegisteredWorkersAsync` | Master ← Coordinator | Returns all registered workers (for health monitoring). |
+
+### Cancellation
+
+| Method | Direction | Description |
+|--------|-----------|-------------|
+| `BroadcastCancellationAsync` | Any → All | Stores a cancellation signal and notifies all instances. |
+| `IsCancellationRequestedAsync` | Any ← Coordinator | Checks whether cancellation has been requested. |
+
+## Redis Implementation Details
+
+The `RedisDistributedCoordinator` maps each method to Redis operations:
+
+| Method | Redis Operations |
+|--------|-----------------|
+| `EnqueueModuleAsync` | `LPUSH` to work queue list + `EXPIRE` |
+| `DequeueModuleAsync` | `RPOP` from work queue (FIFO via LPUSH/RPOP), poll loop with configurable delay |
+| `PublishResultAsync` | `HSET` on results hash + `PUBLISH` on result channel |
+| `WaitForResultAsync` | `HGET` results hash (check first), then `SUBSCRIBE` result channel, then `HGET` again (close race window), await message |
+| `RegisterWorkerAsync` | `HSET` on workers hash + `EXPIRE` |
+| `SendHeartbeatAsync` | `HSET` on heartbeats hash + update worker status in workers hash |
+| `GetRegisteredWorkersAsync` | `HGETALL` on workers hash |
+| `BroadcastCancellationAsync` | `SET` cancellation key with TTL + `PUBLISH` cancellation channel |
+| `IsCancellationRequestedAsync` | `GET` cancellation key |
+
+### WaitForResultAsync Race Condition Handling
+
+The `WaitForResultAsync` method uses a check-subscribe-recheck pattern to avoid a race where a result is published between the initial check and the subscription:
+
+1. `HGET` the results hash — if the result already exists, return immediately.
+2. `SUBSCRIBE` to the result channel.
+3. `HGET` again — if the result arrived between step 1 and 2, return it.
+4. Await the Pub/Sub message.
+
+This guarantees no result is missed regardless of timing.
+
+## Serialization
+
+Module results are serialized via `ModuleResultSerializer` using `System.Text.Json`. The `ModuleTypeRegistry` maintains a mapping from module type names to their concrete .NET types, so results can be deserialized back to the correct `ModuleResult<T>`.
+
+The `ReadOnlySetJsonConverter` handles `IReadOnlySet<string>` fields (used in `ModuleAssignment.RequiredCapabilities` and `WorkerRegistration.Capabilities`), which `System.Text.Json` cannot deserialize by default.
+
+## Implementing a Custom Coordinator
+
+To implement a different transport (HTTP, shared filesystem, message queue, etc.), implement `IDistributedCoordinator` and optionally `IDistributedCoordinatorFactory`:
+
+```csharp
+public class MyCustomCoordinator : IDistributedCoordinator
+{
+    public Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken ct) { ... }
+    public Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> capabilities, CancellationToken ct) { ... }
+    public Task PublishResultAsync(SerializedModuleResult result, CancellationToken ct) { ... }
+    public Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken ct) { ... }
+    public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken ct) { ... }
+    public Task SendHeartbeatAsync(int workerIndex, CancellationToken ct) { ... }
+    public Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken ct) { ... }
+    public Task BroadcastCancellationAsync(string reason, CancellationToken ct) { ... }
+    public Task<CancellationSignal?> IsCancellationRequestedAsync(CancellationToken ct) { ... }
+}
+```
+
+Register it directly:
+
+```csharp
+builder.AddDistributedCoordinator<MyCustomCoordinator>();
+```
+
+Or via a factory for async initialization:
+
+```csharp
+public class MyCoordinatorFactory : IDistributedCoordinatorFactory
+{
+    public async Task<IDistributedCoordinator> CreateAsync(CancellationToken ct)
+    {
+        // Connect to your backend...
+        return new MyCustomCoordinator(connection);
+    }
+}
+
+builder.AddDistributedCoordinatorFactory<MyCoordinatorFactory>();
+```
+
+## Health Monitoring
+
+The master runs a `WorkerHealthMonitor` background service that periodically checks worker heartbeats via `GetRegisteredWorkersAsync`. If a worker hasn't sent a heartbeat within `HeartbeatTimeoutSeconds`, the master considers it unresponsive.
+
+Workers send heartbeats via the `WorkerHeartbeatService` at the interval configured in `HeartbeatIntervalSeconds`. The first heartbeat transitions a worker's status from `Connected` to `Active`.
+
+## Cancellation
+
+Either the master or a worker can broadcast a cancellation signal. The `WorkerCancellationMonitor` background service polls `IsCancellationRequestedAsync` every 2 seconds on each worker. When a signal is detected, it triggers the pipeline's `CancellationToken`, causing all in-progress modules to receive cancellation.
+
+---
+
+## Capabilities and Routing
+
+
+Not every worker can execute every module. Some modules need Docker, others need a specific OS. The capability system controls how modules are routed to the right worker.
+
+## Worker Capabilities
+
+Workers advertise their capabilities when they register with the coordinator. Capabilities are simple strings that describe what the worker can do.
+
+```csharp
+builder.AddDistributedMode(o =>
+{
+    o.InstanceIndex = 1;
+    o.TotalInstances = 4;
+    o.Capabilities = new List<string> { "docker", "gpu" };
+});
+```
+
+### Auto-Detected OS Capability
+
+By default, `AutoDetectOsCapability` is `true`, which automatically adds the current operating system as a capability:
+
+- Windows runners advertise `"windows"`
+- Linux runners advertise `"linux"`
+- macOS runners advertise `"macos"`
+
+This means modules with `[RequiresCapability("linux")]` will only run on Linux workers without any extra configuration.
+
+### Auto-Detected OS from RunOn*Only Attributes
+
+When a module has a `[RunOnLinuxOnly]`, `[RunOnWindowsOnly]`, or `[RunOnMacOSOnly]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunOnLinuxOnly]` and `[RequiresCapability("linux")]` to the same module.
+
+```csharp
+// The "linux" capability is auto-detected — no [RequiresCapability] needed
+[RunOnLinuxOnly]
+public class LinuxBuildModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Only executes on workers that have the "linux" capability
+        return "built on linux";
+    }
+}
+```
+
+## RequiresCapability Attribute
+
+Mark a module with `[RequiresCapability]` to restrict which workers can execute it. The module will only be assigned to workers that have **all** required capabilities.
+
+```csharp
+[RequiresCapability("docker")]
+public class DockerBuildModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Only executes on workers that advertise "docker"
+        await context.Docker().Build(new());
+        return "built";
+    }
+}
+```
+
+### Multiple Capabilities
+
+You can stack multiple attributes. The module will only run on a worker that has **all** of them:
+
+```csharp
+[RequiresCapability("linux")]
+[RequiresCapability("docker")]
+public class LinuxDockerModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Only runs on Linux workers that also have Docker
+        return "done";
+    }
+}
+```
+
+### No Capabilities
+
+Modules without `[RequiresCapability]` can run on any worker. They have no routing restrictions.
+
+## MatrixTarget Attribute
+
+The `[MatrixTarget]` attribute is designed for modules that need to run once per target value — for example, building for multiple operating systems or configurations.
+
+```csharp
+[MatrixTarget("windows", "linux", "macos")]
+public class PlatformBuildModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        return "built";
+    }
+}
+```
+
+When the master encounters a matrix module, it expands it into one assignment per target. Each expanded instance gets a capability requirement matching its target value, so `"windows"` is sent to a worker with the `"windows"` capability, `"linux"` to a Linux worker, and so on.
+
+## Capability Matching Rules
+
+The matching logic is straightforward:
+
+1. If a module has **no** required capabilities, it can run on **any** worker.
+2. If a module has required capabilities, **all** of them must be present in the worker's capability set.
+3. Capability matching is **case-insensitive**.
+4. If no worker with the required capabilities is available, the module waits in the queue until one becomes available (up to `CapabilityTimeoutSeconds`).
+
+## Example: Mixed Pipeline
+
+```csharp
+// Runs on any worker (including the master)
+public class RestoreModule : Module<string> { ... }
+
+// Only on Linux workers (auto-detected from [RunOnLinuxOnly])
+[RunOnLinuxOnly]
+[DependsOn<RestoreModule>]
+public class LinuxBuildModule : Module<string> { ... }
+
+// Only on Windows workers
+[RequiresCapability("windows")]
+[DependsOn<RestoreModule>]
+public class WindowsBuildModule : Module<string> { ... }
+
+// Aggregates results — runs on any available worker
+[DependsOn<LinuxBuildModule>]
+[DependsOn<WindowsBuildModule>]
+public class PublishModule : Module<string> { ... }
+```
+
+In this pipeline:
+1. `RestoreModule` is enqueued and any available worker (including the master) picks it up.
+2. Once restore completes, `LinuxBuildModule` is enqueued for a Linux worker and `WindowsBuildModule` for a Windows worker. These run in parallel on different machines.
+3. Once both builds complete, `PublishModule` is enqueued and any available worker picks it up.
+
+---
+
+## Configuration
+
+
+Distributed mode has two layers of configuration: the core `DistributedOptions` (shared across all coordinator implementations) and coordinator-specific options like `RedisDistributedOptions`.
+
+## DistributedOptions
+
+Passed to `AddDistributedMode()`. Controls the fundamental behavior of the master/worker system.
+
+```csharp
+builder.AddDistributedMode(o =>
+{
+    o.InstanceIndex = 0;
+    o.TotalInstances = 4;
+    o.Capabilities = new List<string> { "docker", "gpu" };
+    o.HeartbeatIntervalSeconds = 10;
+    o.HeartbeatTimeoutSeconds = 30;
+    o.AutoDetectOsCapability = true;
+});
+```
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `InstanceIndex` | `int` | `0` | This instance's index. `0` = master, `> 0` = worker. Can be overridden by the `MODULAR_PIPELINES_INSTANCE` environment variable. |
+| `TotalInstances` | `int` | `1` | Total number of instances (master + workers). |
+| `Capabilities` | `IList<string>` | `[]` | Capabilities this worker advertises. Modules with `[RequiresCapability]` will only be assigned to workers that have matching capabilities. |
+| `HeartbeatIntervalSeconds` | `int` | `10` | How often workers send heartbeat signals (seconds). |
+| `HeartbeatTimeoutSeconds` | `int` | `30` | How long before the master considers a worker unresponsive (seconds). |
+| `CapabilityTimeoutSeconds` | `int` | `300` | Maximum time to wait for a capable worker to become available before failing a module (seconds). |
+| `AutoDetectOsCapability` | `bool` | `true` | Automatically add the current OS as a capability (`"windows"`, `"linux"`, or `"macos"`). |
+
+### Configuration from appsettings.json
+
+You can also bind from configuration:
+
+```json
+{
+  "Distributed": {
+    "InstanceIndex": 0,
+    "TotalInstances": 4,
+    "Capabilities": ["docker"],
+    "HeartbeatIntervalSeconds": 15
+  }
+}
+```
+
+```csharp
+builder.AddDistributedMode(builder.Configuration.GetSection("Distributed"));
+```
+
+## RedisDistributedOptions
+
+Passed to `AddRedisDistributedCoordinator()`. Controls how the Redis coordinator connects and manages keys.
+
+```csharp
+builder.AddRedisDistributedCoordinator(o =>
+{
+    o.ConnectionString = "redis-host:6379,password=secret";
+    o.RunIdentifier = null;          // auto-detect
+    o.KeyPrefix = "modpipe";
+    o.KeyExpirationSeconds = 3600;
+});
+```
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `ConnectionString` | `string` | `""` | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required.** |
+| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline run. Used to isolate Redis keys so concurrent runs don't collide. If `null`, auto-detected (see below). |
+| `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
+| `KeyExpirationSeconds` | `int` | `3600` | TTL in seconds for all Redis keys. Keys are automatically cleaned up after this duration. |
+
+## Run Identifier Resolution
+
+When `RunIdentifier` is not set explicitly, it is resolved automatically in this order:
+
+| Priority | Source | Environment |
+|----------|--------|-------------|
+| 1 | `RedisDistributedOptions.RunIdentifier` | Explicit configuration |
+| 2 | `GITHUB_SHA` env var | GitHub Actions |
+| 3 | `BUILD_SOURCEVERSION` env var | Azure DevOps |
+| 4 | `CI_COMMIT_SHA` env var | GitLab CI |
+| 5 | `git rev-parse HEAD` | Any git repository |
+| 6 | `Guid.NewGuid()` | Fallback |
+
+This means in most CI environments, the run identifier is the commit SHA, which naturally isolates concurrent runs on the same Redis instance.
+
+## Redis Key Schema
+
+All keys follow the pattern `{KeyPrefix}:{RunIdentifier}:{purpose}`. With the defaults, keys look like:
+
+| Key | Redis Type | Purpose |
+|-----|-----------|---------|
+| `modpipe:{sha}:work:queue` | List | FIFO work queue for module assignments |
+| `modpipe:{sha}:results` | Hash | Completed module results (field = module type name) |
+| `modpipe:{sha}:workers` | Hash | Registered worker information (field = worker index) |
+| `modpipe:{sha}:heartbeats` | Hash | Worker heartbeat timestamps (field = worker index) |
+| `modpipe:{sha}:cancellation` | String | Cancellation signal (set when cancellation is broadcast) |
+
+Pub/Sub channels (no TTL, ephemeral):
+
+| Channel | Purpose |
+|---------|---------|
+| `modpipe:{sha}:results:{ModuleTypeName}` | Notifies the master when a specific module's result is ready |
+| `modpipe:{sha}:cancellation:signal` | Notifies all instances of a cancellation request |
+
+All storage keys have the configured TTL applied, so they are automatically cleaned up even if the pipeline crashes.
+
+## Connection String Examples
+
+**Local Redis:**
+```
+localhost:6379
+```
+
+**Redis with password:**
+```
+redis-host:6379,password=mysecret
+```
+
+**Redis with TLS (e.g., Upstash, Redis Cloud):**
+```
+redis-host:6380,password=mysecret,ssl=True,abortConnect=False
+```
+
+**Multiple endpoints (Redis Cluster):**
+```
+host1:6379,host2:6379,password=mysecret
+```
+
+See the [StackExchange.Redis configuration docs](https://stackexchange.github.io/StackExchange.Redis/Configuration.html) for all connection string options.
+
+---
+
+## Getting Started
+
+# Getting Started with Distributed Mode
+
+This guide walks you through adding distributed execution to an existing ModularPipelines project using Redis as the coordinator.
+
+## Prerequisites
+
+- A working ModularPipelines pipeline.
+- A Redis instance accessible to all pipeline instances. Options include:
+  - [Upstash](https://upstash.com/) — free serverless Redis, great for CI.
+  - [Redis Cloud](https://redis.com/cloud/) — managed Redis with a free tier.
+  - Local Redis via Docker: `docker run -d -p 6379:6379 redis`
+
+## 1. Install the Package
+
+Add the `ModularPipelines.Distributed.Redis` NuGet package to your pipeline project:
+
+```bash
+dotnet add package ModularPipelines.Distributed.Redis
+```
+
+This brings in `ModularPipelines.Distributed` (core distributed abstractions) and `StackExchange.Redis` automatically.
+
+## 2. Configure the Pipeline
+
+In your `Program.cs`, enable distributed mode and register the Redis coordinator:
+
+```csharp
+using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed.Redis.Extensions;
+
+var builder = Pipeline.CreateBuilder(args);
+
+// Parse instance info from arguments or environment
+var instanceIndex = int.Parse(
+    Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
+var totalInstances = int.Parse(
+    Environment.GetEnvironmentVariable("TOTAL_INSTANCES") ?? "1");
+
+// Enable distributed mode
+builder.AddDistributedMode(o =>
+{
+    o.InstanceIndex = instanceIndex;
+    o.TotalInstances = totalInstances;
+});
+
+// Register the Redis coordinator
+builder.AddRedisDistributedCoordinator(o =>
+{
+    o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")
+        ?? "localhost:6379";
+});
+
+// Register your modules as normal
+builder.Services.AddModule<BuildModule>();
+builder.Services.AddModule<TestModule>();
+builder.Services.AddModule<PublishModule>();
+
+await builder.Build().RunAsync();
+```
+
+That's it. When `InstanceIndex` is `0`, the process runs as the master. All other instances run as workers.
+
+## 3. Run Locally
+
+Test with two terminal windows:
+
+**Terminal 1 (Master):**
+```bash
+INSTANCE_INDEX=0 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
+```
+
+**Terminal 2 (Worker):**
+```bash
+INSTANCE_INDEX=1 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
+```
+
+The master will enqueue modules, the worker will pick them up and execute them, and results flow back to the master.
+
+## 4. Run in CI
+
+In GitHub Actions, use a matrix strategy to launch multiple instances. See the [GitHub Actions Example](./github-actions) for a complete workflow.
+
+## How Run Isolation Works
+
+Every Redis key is prefixed with a run identifier so concurrent pipeline runs on the same Redis instance don't collide. By default, the run identifier is auto-detected from CI environment variables:
+
+1. `GITHUB_SHA` (GitHub Actions)
+2. `BUILD_SOURCEVERSION` (Azure DevOps)
+3. `CI_COMMIT_SHA` (GitLab CI)
+4. `git rev-parse HEAD` (local git)
+5. A random GUID as fallback
+
+You can override this with an explicit value:
+
+```csharp
+builder.AddRedisDistributedCoordinator(o =>
+{
+    o.ConnectionString = "your-redis-url";
+    o.RunIdentifier = "my-custom-run-id";
+});
+```
+
+## Minimal Complete Example
+
+Here is a self-contained pipeline with three modules:
+
+```csharp
+using ModularPipelines;
+using ModularPipelines.Attributes;
+using ModularPipelines.Context;
+using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Modules;
+using Microsoft.Extensions.DependencyInjection;
+
+var builder = Pipeline.CreateBuilder(args);
+
+var instanceIndex = int.Parse(
+    Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
+
+builder.AddDistributedMode(o =>
+{
+    o.InstanceIndex = instanceIndex;
+    o.TotalInstances = int.Parse(
+        Environment.GetEnvironmentVariable("TOTAL_INSTANCES") ?? "1");
+});
+
+builder.AddRedisDistributedCoordinator(o =>
+{
+    o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")
+        ?? "localhost:6379";
+});
+
+builder.Services.AddModule<RestoreModule>();
+builder.Services.AddModule<BuildModule>();
+builder.Services.AddModule<TestModule>();
+
+await builder.Build().RunAsync();
+
+public class RestoreModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        await context.DotNet().Restore(new());
+        return "restored";
+    }
+}
+
+[DependsOn<RestoreModule>]
+public class BuildModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        await context.DotNet().Build(new());
+        return "built";
+    }
+}
+
+[DependsOn<BuildModule>]
+public class TestModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        await context.DotNet().Test(new());
+        return "tested";
+    }
+}
+```
+
+---
+
+## CI Example: GitHub Actions
+
+
+This is a complete example of running a distributed pipeline across GitHub Actions matrix runners using Redis for coordination.
+
+## Workflow File
+
+```yaml
+name: Distributed Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pipeline:
+    strategy:
+      fail-fast: false
+      matrix:
+        instance: [0, 1, 2, 3]
+        include:
+          - instance: 0
+            os: ubuntu-latest    # Master
+          - instance: 1
+            os: ubuntu-latest    # Linux worker
+          - instance: 2
+            os: windows-latest   # Windows worker
+          - instance: 3
+            os: macos-latest     # macOS worker
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Run Pipeline
+        env:
+          INSTANCE_INDEX: ${{ matrix.instance }}
+          TOTAL_INSTANCES: 4
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: dotnet run --project src/MyPipeline -c Release
+```
+
+## Redis Setup for CI
+
+You need a Redis instance that all runners can reach. Since GitHub Actions runners don't share a network, you need an externally hosted Redis.
+
+### Option 1: Upstash (Recommended for CI)
+
+[Upstash](https://upstash.com/) provides free serverless Redis with a REST API. The free tier includes 10,000 commands/day, which is sufficient for most pipeline runs.
+
+1. Create a free Upstash database.
+2. Copy the connection string (looks like `your-endpoint.upstash.io:6379,password=your-password,ssl=True`).
+3. Add it as a GitHub Actions secret named `REDIS_URL`.
+
+### Option 2: Redis Cloud
+
+[Redis Cloud](https://redis.com/cloud/) offers a free 30MB plan. Create a database, note the public endpoint and password, and add the connection string as a secret.
+
+### Option 3: Self-Hosted Redis
+
+If you have a Redis instance accessible from the internet (or via a VPN), use its connection string directly.
+
+## Pipeline Code
+
+```csharp
+using ModularPipelines;
+using ModularPipelines.Attributes;
+using ModularPipelines.Context;
+using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Modules;
+using Microsoft.Extensions.DependencyInjection;
+
+var builder = Pipeline.CreateBuilder(args);
+
+var instanceIndex = int.Parse(
+    Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
+var totalInstances = int.Parse(
+    Environment.GetEnvironmentVariable("TOTAL_INSTANCES") ?? "1");
+
+builder.AddDistributedMode(o =>
+{
+    o.InstanceIndex = instanceIndex;
+    o.TotalInstances = totalInstances;
+});
+
+builder.AddRedisDistributedCoordinator(o =>
+{
+    o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")!;
+    // RunIdentifier auto-detected from GITHUB_SHA
+});
+
+builder.Services.AddModule<RestoreModule>();
+builder.Services.AddModule<LinuxBuildModule>();
+builder.Services.AddModule<WindowsBuildModule>();
+builder.Services.AddModule<MacBuildModule>();
+builder.Services.AddModule<AggregateResultsModule>();
+
+await builder.Build().RunAsync();
+
+public class RestoreModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        await context.DotNet().Restore(new());
+        return "restored";
+    }
+}
+
+[RequiresCapability("linux")]
+[DependsOn<RestoreModule>]
+public class LinuxBuildModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        await context.DotNet().Build(new());
+        await context.DotNet().Test(new());
+        return "linux-ok";
+    }
+}
+
+[RequiresCapability("windows")]
+[DependsOn<RestoreModule>]
+public class WindowsBuildModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        await context.DotNet().Build(new());
+        await context.DotNet().Test(new());
+        return "windows-ok";
+    }
+}
+
+[RequiresCapability("macos")]
+[DependsOn<RestoreModule>]
+public class MacBuildModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        await context.DotNet().Build(new());
+        await context.DotNet().Test(new());
+        return "macos-ok";
+    }
+}
+
+[DependsOn<LinuxBuildModule>]
+[DependsOn<WindowsBuildModule>]
+[DependsOn<MacBuildModule>]
+public class AggregateResultsModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        var linux = await context.GetModule<LinuxBuildModule>();
+        var windows = await context.GetModule<WindowsBuildModule>();
+        var mac = await context.GetModule<MacBuildModule>();
+
+        return $"All platforms passed: {linux.ValueOrDefault}, "
+             + $"{windows.ValueOrDefault}, {mac.ValueOrDefault}";
+    }
+}
+```
+
+## How It Works
+
+1. GitHub Actions starts 4 matrix jobs in parallel (instances 0-3).
+2. Instance 0 (master) builds the dependency graph and enqueues `RestoreModule`.
+3. Any available worker picks up `RestoreModule`, executes it, and publishes the result.
+4. The master sees the restore result and enqueues the three platform-specific build modules.
+5. Each build module is routed to the worker with the matching OS capability.
+6. All three builds run in parallel on different runners.
+7. Once all builds complete, `AggregateResultsModule` is enqueued and any available worker picks it up.
+8. The master produces the pipeline summary and exits.
+
+## Important Notes
+
+- **Matrix jobs don't start simultaneously.** GitHub Actions may stagger runner provisioning. Workers that start before the master will wait for work to appear in the queue.
+- **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `KeyExpirationSeconds` accordingly if you have very long pipelines.
+- **fail-fast: false** is important — you don't want GitHub to cancel workers if the master reports an error in one module.
+- **Secrets** — store your Redis connection string as a repository or organization secret, not in code.
+
+## Azure DevOps
+
+The same pattern works in Azure DevOps with a matrix strategy. The run identifier auto-detects from `BUILD_SOURCEVERSION`:
+
+```yaml
+strategy:
+  matrix:
+    master:
+      INSTANCE_INDEX: 0
+      vmImage: "ubuntu-latest"
+    worker-linux:
+      INSTANCE_INDEX: 1
+      vmImage: "ubuntu-latest"
+    worker-windows:
+      INSTANCE_INDEX: 2
+      vmImage: "windows-latest"
+```
+
+## GitLab CI
+
+For GitLab CI, the run identifier auto-detects from `CI_COMMIT_SHA`. Use parallel jobs or a matrix to spawn instances:
+
+```yaml
+pipeline:
+  parallel:
+    matrix:
+      - INSTANCE_INDEX: [0, 1, 2]
+  script:
+    - dotnet run --project src/MyPipeline -c Release
+  variables:
+    TOTAL_INSTANCES: 3
+    REDIS_URL: $REDIS_URL
+```
+
+---
+
+## Overview
+
+# Distributed Mode
+
+Distributed mode lets you split a ModularPipelines pipeline across multiple processes or machines. Instead of running every module in a single process, work is divided between a **master** that orchestrates and one or more **workers** that execute modules.
+
+## Why Distributed?
+
+Some pipelines have modules that must run on different operating systems, require specialized hardware, or simply take too long to run sequentially on a single machine. Distributed mode solves this by fanning work out across CI matrix runners, multiple containers, or separate machines, while keeping the same module code and dependency graph.
+
+## Key Concepts
+
+### Roles
+
+Every pipeline instance runs in one of two roles:
+
+| Role | Determined by | Responsibility |
+|------|--------------|----------------|
+| **Master** | `InstanceIndex == 0` | Builds the dependency graph, enqueues modules to the work queue, collects results, and produces the final pipeline summary. Also participates as a worker, dequeuing and executing modules from the same queue. |
+| **Worker** | `InstanceIndex > 0` | Registers with the coordinator, dequeues modules that match its capabilities, executes them, and publishes results back. |
+
+The role is detected automatically from `DistributedOptions.InstanceIndex`. You can also override it with the `MODULAR_PIPELINES_INSTANCE` environment variable.
+
+### Coordinator
+
+The coordinator is the shared communication layer between master and workers. It handles work queuing, result publication, worker registration, heartbeats, and cancellation signals. ModularPipelines ships with two coordinator implementations:
+
+- **InMemoryDistributedCoordinator** — for single-process testing only.
+- **RedisDistributedCoordinator** — production-ready, uses Redis for cross-process coordination. Provided by the `ModularPipelines.Distributed.Redis` package.
+
+### Capabilities
+
+Workers advertise what they can do (e.g. `"linux"`, `"docker"`, `"gpu"`). Modules declare what they need via `[RequiresCapability]` attributes. The coordinator only assigns a module to a worker that has all required capabilities.
+
+If `AutoDetectOsCapability` is enabled (the default), workers automatically advertise their operating system (`"windows"`, `"linux"`, or `"macos"`).
+
+## Architecture Diagram
+
+```
+┌─────────────────────────────────────────────────────┐
+│                      Redis                          │
+│  ┌──────────┐  ┌──────────┐  ┌───────────────────┐  │
+│  │Work Queue│  │ Results  │  │ Workers/Heartbeats│  │
+│  └────▲─────┘  └────┬─────┘  └───────────────────┘  │
+│       │              │                               │
+└───────┼──────────────┼───────────────────────────────┘
+        │              │
+   ┌────┴──────────────┴────┐
+   │         Master         │
+   │  enqueue ─── collect   │
+   │  dequeue ─── execute   │
+   └────────────────────────┘
+
+   ┌─────────┐    ┌─────────┐    ┌─────────┐
+   │Worker 1 │    │Worker 2 │    │Worker 3 │
+   │ dequeue │    │ dequeue │    │ dequeue │
+   │ execute │    │ execute │    │ execute │
+   │ publish │    │ publish │    │ publish │
+   └─────────┘    └─────────┘    └─────────┘
+```
+
+1. The **master** builds the module graph, then enqueues each module as a `ModuleAssignment` into the work queue.
+2. **All instances** (master and workers) poll the queue, pick up assignments that match their capabilities, execute the module, and publish the serialized result. The master participates as a worker alongside external workers.
+3. The **master** waits for each result, deserializes it, and feeds it back into the dependency graph so downstream modules can proceed.
+4. Workers send periodic **heartbeats** so the master can detect failures.
+5. Either side can broadcast a **cancellation signal** to stop all instances.
+
+## Packages
+
+| Package | Purpose |
+|---------|---------|
+| `ModularPipelines.Distributed` | Core distributed abstractions, master/worker executors, capability system. Referenced automatically by the main `ModularPipelines` package. |
+| `ModularPipelines.Distributed.Redis` | Redis-based coordinator implementation. Add this to your pipeline project. |
+
+## Next Steps
+
+- [Getting Started](./getting-started) — set up a distributed pipeline with Redis in minutes.
+- [Configuration](./configuration) — all options for distributed mode and the Redis coordinator.
+- [Capabilities and Routing](./capabilities) — control which workers execute which modules.
+- [CI Example: GitHub Actions](./github-actions) — a complete matrix runner example.
+
+---
+
 ## Azure Resource Provisioning Example
 
 
