@@ -54,13 +54,13 @@ public class CommandTreeNode
         string subDomain,
         IReadOnlyList<CliCommandDefinition> commands)
     {
-        var pascalSubDomain = ToPascalCase(subDomain);
-        var rootClassName = $"{toolPrefix}{pascalSubDomain}";
+        // The caller resolves legacy casing or an explicit scraper override.
+        var rootClassName = $"{toolPrefix}{subDomain}";
 
         var root = new CommandTreeNode
         {
             Segment = subDomain,
-            PascalSegment = pascalSubDomain,
+            PascalSegment = subDomain,
             ClassName = rootClassName,
             Depth = 0
         };

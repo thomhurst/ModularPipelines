@@ -47,7 +47,9 @@ public class SubDomainClassGenerator : ICodeGenerator
         // Duplicate definitions of the same command are a scraper bug; picking an
         // arbitrary survivor would silently generate Execute() from the wrong options.
         var duplicateParentNames = singlePartRootCommands
-            .GroupBy(c => c.CommandParts[0], StringComparer.OrdinalIgnoreCase)
+            .GroupBy(
+                c => c.CommandGroupIdentifierOverride ?? c.CommandParts[0],
+                StringComparer.OrdinalIgnoreCase)
             .Where(g => g.Count() > 1)
             .Select(g => g.Key)
             .ToList();
@@ -60,18 +62,23 @@ public class SubDomainClassGenerator : ICodeGenerator
         }
 
         var parentCommands = singlePartRootCommands
-            .ToDictionary(c => c.CommandParts[0], StringComparer.OrdinalIgnoreCase);
+            .ToDictionary(
+                c => c.CommandGroupIdentifierOverride ?? c.CommandParts[0],
+                StringComparer.OrdinalIgnoreCase);
 
-        foreach (var subDomain in tool.SubDomainGroups)
+        foreach (var subDomainGroup in tool.SubDomainGroups)
         {
-            var commands = tool.Commands.Where(c => c.SubDomainGroup == subDomain).ToList();
+            var commands = tool.Commands
+                .Where(c => string.Equals(c.SubDomainGroup, subDomainGroup, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+            var subDomainIdentifier = GeneratorUtils.GetSubDomainIdentifier(tool, subDomainGroup);
 
             // Build tree structure for this sub-domain
-            var tree = CommandTreeNode.BuildTree(tool.NamespacePrefix, subDomain, commands);
+            var tree = CommandTreeNode.BuildTree(tool.NamespacePrefix, subDomainIdentifier, commands);
 
             // Check if there's a parent command for this sub-domain
             CliCommandDefinition? parentCommand = null;
-            if (parentCommands.TryGetValue(subDomain, out var cmd))
+            if (parentCommands.TryGetValue(subDomainIdentifier, out var cmd))
             {
                 parentCommand = cmd;
             }

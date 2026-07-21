@@ -519,34 +519,36 @@ public static partial class GeneratorUtils
     }
 
     /// <summary>
-    /// Renames command options classes that share their name with the parent (base) options
-    /// class. Single-command tools (ansible, jq, shellcheck, ...) scrape their root command
-    /// into a class named "{Prefix}Options" — the same name the abstract global-options base
-    /// class uses — so both generators wrote the same file and the abstract base won,
-    /// producing services that instantiate an abstract type (CS0144).
+    /// Renames command options classes that share their name with the parent global-options
+    /// class. The allocated fallback is guaranteed not to collide with another command class.
     /// </summary>
     public static IReadOnlyList<CliCommandDefinition> NormalizeCommandClassNames(IReadOnlyList<CliCommandDefinition> commands)
     {
         ArgumentNullException.ThrowIfNull(commands);
 
-        if (!commands.Any(c => string.Equals(c.ClassName, c.ParentClassName, StringComparison.OrdinalIgnoreCase)))
+        if (!commands.Any(command => NeedsClassNameNormalization(command)))
         {
             return commands;
         }
 
-        return commands.Select(command =>
+        var occupiedClassNames = commands
+            .Select(command => command.ClassName)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var normalizedCommands = new List<CliCommandDefinition>(commands.Count);
+
+        foreach (var command in commands)
         {
-            if (!string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase))
+            if (!NeedsClassNameNormalization(command))
             {
-                return command;
+                normalizedCommands.Add(command);
+                continue;
             }
 
-            var baseName = command.ParentClassName.EndsWith("Options", StringComparison.Ordinal)
-                ? command.ParentClassName[..^"Options".Length]
-                : command.ParentClassName;
+            var className = AllocateExecuteClassName(command, occupiedClassNames);
+            normalizedCommands.Add(command with { ClassName = className });
+        }
 
-            return command with { ClassName = $"{baseName}ExecuteOptions" };
-        }).ToList();
+        return normalizedCommands;
     }
 
     /// <summary>
@@ -561,12 +563,12 @@ public static partial class GeneratorUtils
         ArgumentNullException.ThrowIfNull(tool);
 
         var subDomainNames = new HashSet<string>(
-            tool.SubDomainGroups.Select(ToPascalCase),
+            tool.SubDomainGroups.Select(group => GetSubDomainIdentifier(tool, group)),
             StringComparer.OrdinalIgnoreCase);
 
         var rootCommands = tool.Commands
             .Where(c => c.SubDomainGroup is null)
-            .Where(c => !subDomainNames.Contains(GenerateMethodNameFromCommandParts(c.CommandParts)))
+            .Where(c => !subDomainNames.Contains(GetCommandGroupIdentifier(c)))
             .ToList();
 
         // Distinct commands can normalize to the same method name (e.g. "build-server"
@@ -586,5 +588,60 @@ public static partial class GeneratorUtils
         }
 
         return rootCommands;
+    }
+
+    /// <summary>
+    /// Gets the generated identifier for a sub-domain while preserving legacy casing unless
+    /// the scraper supplied an explicit tool-specific override.
+    /// </summary>
+    public static string GetSubDomainIdentifier(CliToolDefinition tool, string subDomainGroup)
+    {
+        ArgumentNullException.ThrowIfNull(tool);
+        ArgumentException.ThrowIfNullOrWhiteSpace(subDomainGroup);
+
+        var overrides = tool.Commands
+            .Where(command => string.Equals(
+                command.SubDomainGroup,
+                subDomainGroup,
+                StringComparison.OrdinalIgnoreCase))
+            .Select(command => command.CommandGroupIdentifierOverride)
+            .Where(identifier => identifier is not null)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        return overrides.Count switch
+        {
+            0 => ToPascalCase(subDomainGroup),
+            1 => overrides[0]!,
+            _ => throw new InvalidOperationException(
+                $"The {tool.ToolName} scraper produced conflicting identifiers for sub-domain " +
+                $"'{subDomainGroup}': {string.Join(", ", overrides)}.")
+        };
+    }
+
+    private static string GetCommandGroupIdentifier(CliCommandDefinition command) =>
+        command.CommandGroupIdentifierOverride
+        ?? GenerateMethodNameFromCommandParts(command.CommandParts);
+
+    private static bool NeedsClassNameNormalization(CliCommandDefinition command) =>
+        string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase);
+
+    private static string AllocateExecuteClassName(
+        CliCommandDefinition command,
+        ISet<string> occupiedClassNames)
+    {
+        var baseName = command.ParentClassName.EndsWith("Options", StringComparison.Ordinal)
+            ? command.ParentClassName[..^"Options".Length]
+            : command.ParentClassName;
+        var suffix = "Execute";
+        var candidate = $"{baseName}{suffix}Options";
+
+        while (!occupiedClassNames.Add(candidate))
+        {
+            suffix += "Execute";
+            candidate = $"{baseName}{suffix}Options";
+        }
+
+        return candidate;
     }
 }
