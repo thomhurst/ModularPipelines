@@ -203,6 +203,21 @@ public class ArgoCdCliScraperTests
     }
 
     [Test]
+    public async Task Admin_Cluster_Kubeconfig_Uses_Optional_Operands()
+    {
+        var scraper = new TestArgoCdCliScraper();
+        var parsedArguments = scraper.ParseArguments(
+            "Usage:\n  argocd admin cluster kubeconfig CLUSTER_URL OUTPUT_PATH [flags]");
+
+        var arguments = scraper.ApplyFix(["admin", "cluster", "kubeconfig"], parsedArguments);
+
+        await Assert.That(arguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["ClusterUrl", "OutputPath"]);
+        await Assert.That(arguments.All(argument => argument.CSharpType == "string?")).IsTrue();
+        await Assert.That(arguments.All(argument => !argument.IsRequired)).IsTrue();
+    }
+
+    [Test]
     [Arguments("cluster", "get", "Usage:\n  argocd cluster get SERVER/NAME [flags]", "ServerOrName", null)]
     [Arguments("cluster", "rm", "Usage:\n  argocd cluster rm SERVER/NAME [flags]", "ServerOrName", null)]
     [Arguments("cluster", "rotate-auth", "Usage:\n  argocd cluster rotate-auth SERVER/NAME [flags]", "ServerOrName", null)]

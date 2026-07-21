@@ -19,10 +19,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "cluster", "kubeconfig")]
-public record ArgoCdAdminClusterKubeconfigOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ClusterUrl,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string OutputPath
-) : ArgoCdOptions
+public record ArgoCdAdminClusterKubeconfigOptions : ArgoCdOptions
 {
     /// <summary>
     /// Username to impersonate for the operation
@@ -302,5 +299,11 @@ public record ArgoCdAdminClusterKubeconfigOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? ClusterUrl { get; set; }
+
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? OutputPath { get; set; }
 
 }

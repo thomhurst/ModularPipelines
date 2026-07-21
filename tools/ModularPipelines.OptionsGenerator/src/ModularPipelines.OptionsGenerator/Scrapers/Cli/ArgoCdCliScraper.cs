@@ -138,6 +138,13 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             ["context"] => positionalArguments
                 .Select(argument => argument with { PropertyName = "ContextName" })
                 .ToList(),
+            ["admin", "cluster", "kubeconfig"] => positionalArguments
+                .Select(argument => argument with
+                {
+                    CSharpType = "string?",
+                    IsRequired = false,
+                })
+                .ToList(),
             ["app", "delete"] or ["app", "sync"] or ["app", "wait"] => [ApplicationNamesArgument()],
             ["repo", "rm"] =>
             [

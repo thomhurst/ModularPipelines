@@ -237,6 +237,26 @@ public class ArgoCdOptionsTests
     }
 
     [Test]
+    public async Task AdminClusterKubeconfig_Renders_Optional_Operands()
+    {
+        var listArguments = BuildArguments(new ArgoCdAdminClusterKubeconfigOptions());
+        var generateArguments = BuildArguments(new ArgoCdAdminClusterKubeconfigOptions
+        {
+            ClusterUrl = "production",
+            OutputPath = "cluster.yaml",
+            InsecureSkipTlsVerify = true,
+        });
+
+        await Assert.That(listArguments).IsEmpty();
+        await Assert.That(generateArguments).IsEquivalentTo(
+        [
+            "production",
+            "cluster.yaml",
+            "--insecure-skip-tls-verify",
+        ]);
+    }
+
+    [Test]
     public async Task ProjRemoveDestination_Preserves_Server_Option()
     {
         var arguments = BuildArguments(new ArgoCdProjRemoveDestinationOptions(
