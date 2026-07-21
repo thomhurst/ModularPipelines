@@ -72,19 +72,10 @@ public class ServiceInterfaceGenerator : ICodeGenerator
             sb.AppendLine();
         }
 
-        // Root-level commands (commands without a sub-domain)
-        // Skip commands that would collide with sub-domain property names
-        var subDomainNames = new HashSet<string>(
-            subDomains.Select(GeneratorUtils.ToPascalCase),
-            StringComparer.OrdinalIgnoreCase);
-
-        var rootCommands = tool.Commands
-            .Where(c => c.SubDomainGroup is null)
-            .ToList();
-
-        var nonCollidingRootCommands = rootCommands
-            .Where(c => !subDomainNames.Contains(GeneratorUtils.GenerateMethodNameFromCommandParts(c.CommandParts)))
-            .ToList();
+        // Root-level commands (commands without a sub-domain). The collision filter is
+        // shared with ServiceImplementationGenerator so interface and implementation
+        // always agree.
+        var nonCollidingRootCommands = GeneratorUtils.GetNonCollidingRootCommands(tool);
 
         if (nonCollidingRootCommands.Count > 0)
         {
@@ -127,8 +118,8 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         // Interface signature must match implementation
         var optionsParam = hasRequiredParams
             ? $"{command.ClassName} options"
-            : $"{command.ClassName} options = default";
+            : $"{command.ClassName}? options = null";
 
-        sb.AppendLine($"    Task<CommandResult> {methodName}({optionsParam}, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);");
+        sb.AppendLine($"    Task<CommandResult> {methodName}({optionsParam}, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);");
     }
 }

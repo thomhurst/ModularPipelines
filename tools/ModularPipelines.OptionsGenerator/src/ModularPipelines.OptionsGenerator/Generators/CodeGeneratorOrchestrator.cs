@@ -78,76 +78,17 @@ public class CodeGeneratorOrchestrator
                 processedTools.Add(htmlScraper.ToolName);
                 result.ToolsProcessed.Add(htmlScraper.ToolName);
 
-                // Try CLI scraper first if enabled (streaming)
+                // Try CLI scraper first if enabled
                 if (useCliFirst && cliScrapersByTool.TryGetValue(htmlScraper.ToolName, out var cliScraper))
                 {
-                    if (await cliScraper.IsAvailableAsync(cancellationToken))
+                    if (await TryGenerateFromCliAsync(cliScraper, outputDirectory, result, hasHtmlFallback: true, cancellationToken))
                     {
-                        _logger.LogInformation("Using CLI scraper for {Tool}", htmlScraper.ToolName);
-
-                        var toolDefinition = cliScraper.CreateToolDefinition();
-
-                        // Clean up old generated files before generating new ones
-                        CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory, toolDefinition.NamespacePrefix);
-                        var allCommands = new List<CliCommandDefinition>();
-
-                        // Collect all commands first
-                        await foreach (var command in cliScraper.ScrapeAsync(cancellationToken))
-                        {
-                            allCommands.Add(command);
-                        }
-
-                        _logger.LogInformation("Scraped {Count} commands for {Tool}", allCommands.Count, htmlScraper.ToolName);
-
-                        // If no commands found, fall through to HTML scraper
-                        if (allCommands.Count == 0)
-                        {
-                            _logger.LogWarning("CLI scraper for {Tool} returned no commands, falling back to HTML scraper", htmlScraper.ToolName);
-                        }
-                        else
-                        {
-                        // Create complete tool definition
-                        var completeToolDefinition = new CliToolDefinition
-                        {
-                            ToolName = toolDefinition.ToolName,
-                            NamespacePrefix = toolDefinition.NamespacePrefix,
-                            TargetNamespace = toolDefinition.TargetNamespace,
-                            OutputDirectory = toolDefinition.OutputDirectory,
-                            Commands = allCommands,
-                            Errors = []
-                        };
-
-                        // Run all generators with complete tool definition
-                        foreach (var generator in _generators)
-                        {
-                            var files = await generator.GenerateAsync(completeToolDefinition, cancellationToken);
-
-                            foreach (var file in files)
-                            {
-                                var fullPath = Path.Combine(outputDirectory, file.RelativePath);
-                                await WriteFileAsync(fullPath, file.Content, cancellationToken);
-                                result.FilesGenerated.Add(file.RelativePath);
-                            }
-                        }
-
-                        // Generate AssemblyInfo with generation metadata
-                        await WriteAssemblyInfoAsync(outputDirectory, completeToolDefinition, cancellationToken);
-                        result.FilesGenerated.Add(Path.Combine(completeToolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
-
-                        _logger.LogInformation("Generated files for {Tool} ({Count} commands, {SubDomainCount} sub-domains)",
-                            htmlScraper.ToolName, allCommands.Count, completeToolDefinition.SubDomainGroups.Count);
                         continue;
-                        }
                     }
-
-                    _logger.LogWarning("{Tool} CLI not available, falling back to HTML scraper", htmlScraper.ToolName);
                 }
 
                 // Fall back to HTML scraper (batch mode)
                 _logger.LogInformation("Using HTML scraper for {Tool}", htmlScraper.ToolName);
-
-                // Clean up old generated files before generating new ones
-                CleanupGeneratedFiles(outputDirectory, htmlScraper.OutputDirectory, htmlScraper.NamespacePrefix);
 
                 var htmlToolDefinition = await htmlScraper.ScrapeAsync(cancellationToken);
 
@@ -176,22 +117,7 @@ public class CodeGeneratorOrchestrator
                     }
                 }
 
-                // Generate code using all generators
-                foreach (var generator in _generators)
-                {
-                    var files = await generator.GenerateAsync(htmlToolDefinition, cancellationToken);
-
-                    foreach (var file in files)
-                    {
-                        var fullPath = Path.Combine(outputDirectory, file.RelativePath);
-                        await WriteFileAsync(fullPath, file.Content, cancellationToken);
-                        result.FilesGenerated.Add(file.RelativePath);
-                    }
-                }
-
-                // Generate AssemblyInfo with generation metadata
-                await WriteAssemblyInfoAsync(outputDirectory, htmlToolDefinition, cancellationToken);
-                result.FilesGenerated.Add(Path.Combine(htmlToolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
+                await GenerateForToolAsync(htmlToolDefinition, outputDirectory, result, cancellationToken);
 
                 _logger.LogInformation("Generated files for {Tool}", htmlScraper.ToolName);
             }
@@ -227,68 +153,10 @@ public class CodeGeneratorOrchestrator
 
                 try
                 {
-                    if (!await cliScraper.IsAvailableAsync(cancellationToken))
-                    {
-                        _logger.LogWarning("{Tool} CLI not available, skipping", cliScraper.ToolName);
-                        continue;
-                    }
-
-                    var toolDefinition = cliScraper.CreateToolDefinition();
-
-                    // Clean up old generated files before generating new ones
-                    CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory, toolDefinition.NamespacePrefix);
-
-                    var allCommands = new List<CliCommandDefinition>();
-
                     processedTools.Add(cliScraper.ToolName);
                     result.ToolsProcessed.Add(cliScraper.ToolName);
 
-                    // Collect all commands first
-                    await foreach (var command in cliScraper.ScrapeAsync(cancellationToken))
-                    {
-                        allCommands.Add(command);
-                    }
-
-                    _logger.LogInformation("Scraped {Count} commands for {Tool}", allCommands.Count, cliScraper.ToolName);
-
-                    // Throw error if no commands were found - CLI-only tools have no fallback
-                    if (allCommands.Count == 0)
-                    {
-                        var errorMessage = $"No commands found for {cliScraper.ToolName}. This is a CLI-only tool with no HTML fallback. Ensure the CLI tool is installed and accessible.";
-                        _logger.LogError(errorMessage);
-                        throw new InvalidOperationException(errorMessage);
-                    }
-
-                    // Create complete tool definition
-                    var completeToolDefinition = new CliToolDefinition
-                    {
-                        ToolName = toolDefinition.ToolName,
-                        NamespacePrefix = toolDefinition.NamespacePrefix,
-                        TargetNamespace = toolDefinition.TargetNamespace,
-                        OutputDirectory = toolDefinition.OutputDirectory,
-                        Commands = allCommands,
-                        Errors = []
-                    };
-
-                    // Run all generators with complete tool definition
-                    foreach (var generator in _generators)
-                    {
-                        var files = await generator.GenerateAsync(completeToolDefinition, cancellationToken);
-
-                        foreach (var file in files)
-                        {
-                            var fullPath = Path.Combine(outputDirectory, file.RelativePath);
-                            await WriteFileAsync(fullPath, file.Content, cancellationToken);
-                            result.FilesGenerated.Add(file.RelativePath);
-                        }
-                    }
-
-                    // Generate AssemblyInfo with generation metadata
-                    await WriteAssemblyInfoAsync(outputDirectory, completeToolDefinition, cancellationToken);
-                    result.FilesGenerated.Add(Path.Combine(completeToolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
-
-                    _logger.LogInformation("Generated files for {Tool} ({Count} commands, {SubDomainCount} sub-domains)",
-                        cliScraper.ToolName, allCommands.Count, completeToolDefinition.SubDomainGroups.Count);
+                    await TryGenerateFromCliAsync(cliScraper, outputDirectory, result, hasHtmlFallback: false, cancellationToken);
                 }
                 catch (Exception ex)
                 {
@@ -304,6 +172,119 @@ public class CodeGeneratorOrchestrator
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Scrapes a tool via its CLI scraper and generates code for it.
+    /// Returns true when generation completed, false when the caller should fall back to
+    /// the HTML scraper. Tools without an HTML fallback throw instead of returning false
+    /// so the failure is loud.
+    /// </summary>
+    private async Task<bool> TryGenerateFromCliAsync(
+        ICliScraper cliScraper,
+        string outputDirectory,
+        GenerationResult result,
+        bool hasHtmlFallback,
+        CancellationToken cancellationToken)
+    {
+        if (!await cliScraper.IsAvailableAsync(cancellationToken))
+        {
+            var unavailableMessage = $"The {cliScraper.ToolName} CLI is not available on PATH.";
+            if (!hasHtmlFallback)
+            {
+                throw new InvalidOperationException(
+                    $"{unavailableMessage} This is a CLI-only tool with no HTML fallback - check the tool's install step.");
+            }
+
+            _logger.LogWarning("{Tool} CLI not available, falling back to HTML scraper", cliScraper.ToolName);
+            return false;
+        }
+
+        _logger.LogInformation("Using CLI scraper for {Tool}", cliScraper.ToolName);
+
+        var toolDefinition = cliScraper.CreateToolDefinition();
+        var allCommands = new List<CliCommandDefinition>();
+
+        await foreach (var command in cliScraper.ScrapeAsync(cancellationToken))
+        {
+            allCommands.Add(command);
+        }
+
+        _logger.LogInformation("Scraped {Count} commands for {Tool}", allCommands.Count, cliScraper.ToolName);
+
+        if (allCommands.Count == 0)
+        {
+            // The CLI is present (IsAvailableAsync passed), so "not installed" is not the
+            // problem - the scraper failed to parse anything out of the help output.
+            var zeroCommandsMessage =
+                $"The {cliScraper.ToolName} CLI reported itself available but help scraping produced no commands. " +
+                "Check the scraper's help-text parsing against the currently installed CLI version.";
+
+            if (!hasHtmlFallback)
+            {
+                throw new InvalidOperationException(zeroCommandsMessage);
+            }
+
+            _logger.LogWarning("{Message} Falling back to HTML scraper.", zeroCommandsMessage);
+            return false;
+        }
+
+        var completeToolDefinition = new CliToolDefinition
+        {
+            ToolName = toolDefinition.ToolName,
+            NamespacePrefix = toolDefinition.NamespacePrefix,
+            TargetNamespace = toolDefinition.TargetNamespace,
+            OutputDirectory = toolDefinition.OutputDirectory,
+            Commands = allCommands,
+            Errors = []
+        };
+
+        await GenerateForToolAsync(completeToolDefinition, outputDirectory, result, cancellationToken);
+
+        _logger.LogInformation("Generated files for {Tool} ({Count} commands, {SubDomainCount} sub-domains)",
+            cliScraper.ToolName, allCommands.Count, completeToolDefinition.SubDomainGroups.Count);
+
+        return true;
+    }
+
+    /// <summary>
+    /// Runs all generators for a tool and writes the results to disk.
+    /// All files are generated in memory and validated for path collisions before anything
+    /// on disk is touched, so a scraping or generation failure can never leave a package
+    /// half-cleaned or partially written.
+    /// </summary>
+    private async Task GenerateForToolAsync(
+        CliToolDefinition tool,
+        string outputDirectory,
+        GenerationResult result,
+        CancellationToken cancellationToken)
+    {
+        var toolDefinition = tool with
+        {
+            Commands = GeneratorUtils.NormalizeCommandClassNames(tool.Commands),
+        };
+
+        var generatedFiles = new List<GeneratedFile>();
+
+        foreach (var generator in _generators)
+        {
+            generatedFiles.AddRange(await generator.GenerateAsync(toolDefinition, cancellationToken));
+        }
+
+        GeneratorUtils.EnsureNoDuplicateFilePaths(generatedFiles);
+
+        // Only now that generation fully succeeded is it safe to remove the old output.
+        CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory, toolDefinition.NamespacePrefix);
+
+        foreach (var file in generatedFiles)
+        {
+            var fullPath = Path.Combine(outputDirectory, file.RelativePath);
+            await WriteFileAsync(fullPath, file.Content, cancellationToken);
+            result.FilesGenerated.Add(file.RelativePath);
+        }
+
+        await WriteAssemblyInfoAsync(outputDirectory, toolDefinition, cancellationToken);
+        result.FilesGenerated.Add(Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
     }
 
     private static List<string> ParseToolList(string tools)
@@ -341,8 +322,8 @@ public class CodeGeneratorOrchestrator
 
     /// <summary>
     /// Generates and writes AssemblyInfo.Generated.cs with generation metadata.
-    /// This centralizes the generation timestamp in one file per assembly rather than in every generated file,
-    /// reducing unnecessary diffs when regenerating unchanged files.
+    /// This centralizes generation metadata in one file per assembly rather than in every
+    /// generated file, reducing unnecessary diffs when regenerating unchanged files.
     /// </summary>
     private static async Task WriteAssemblyInfoAsync(
         string outputDirectory,
@@ -358,7 +339,7 @@ public class CodeGeneratorOrchestrator
     /// Cleans up old generated files before regenerating.
     /// Only deletes files that match the namespace prefix to avoid removing files from other tools
     /// that share the same output directory (e.g., kubectl and kustomize in ModularPipelines.Kubernetes).
-    /// Hand-written files (without auto-generated header) are preserved unless they match the prefix.
+    /// Files without the auto-generated header are never deleted - they are hand-written.
     /// </summary>
     private void CleanupGeneratedFiles(string outputDirectory, string toolOutputDirectory, string namespacePrefix)
     {
@@ -391,8 +372,9 @@ public class CodeGeneratorOrchestrator
                 }
             }
 
-            // Also clean up legacy files that will be replaced by generated files
-            // This handles transition from hand-written to generated files
+            // Also clean up legacy files that were auto-generated before the .Generated.cs
+            // naming convention. The auto-generated header marker is required - files
+            // without it are hand-written and must never be deleted by the generator.
             var allCsFiles = Directory.GetFiles(subDirPath, "*.cs", SearchOption.TopDirectoryOnly);
             foreach (var file in allCsFiles)
             {
@@ -403,19 +385,8 @@ public class CodeGeneratorOrchestrator
 
                 var fileName = Path.GetFileName(file);
 
-                // Delete if it's a legacy auto-generated file that matches the prefix
                 if (FileMatchesNamespacePrefix(fileName, namespacePrefix) && IsAutoGeneratedFile(file))
                 {
-                    DeleteFileIfExists(file);
-                    continue;
-                }
-
-                // Also delete hand-written extension files that will be replaced
-                // (e.g., DockerExtensions.cs will be replaced by DockerExtensions.Generated.cs)
-                var expectedExtensionsFile = $"{namespacePrefix}Extensions.cs";
-                if (fileName.Equals(expectedExtensionsFile, StringComparison.OrdinalIgnoreCase))
-                {
-                    _logger.LogInformation("Removing hand-written {File} - will be replaced by generated version", fileName);
                     DeleteFileIfExists(file);
                 }
             }

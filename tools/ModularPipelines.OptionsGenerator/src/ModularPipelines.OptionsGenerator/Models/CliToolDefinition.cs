@@ -47,10 +47,13 @@ public record CliToolDefinition
 
     /// <summary>
     /// All enums that need to be generated for this tool.
+    /// Deduplicated case-insensitively: names differing only by case would generate
+    /// files that collide on case-insensitive filesystems and produce duplicate
+    /// compile items.
     /// </summary>
     public IReadOnlyList<CliEnumDefinition> AllEnums => Commands
         .SelectMany(c => c.Enums)
-        .DistinctBy(e => e.EnumName)
+        .DistinctBy(e => e.EnumName, StringComparer.OrdinalIgnoreCase)
         .ToList();
 
     /// <summary>

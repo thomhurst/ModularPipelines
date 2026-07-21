@@ -84,14 +84,28 @@ public class OptionsClassGenerator : ICodeGenerator
 
         sb.AppendLine("{");
 
-        // Collect existing property names to avoid duplicates
+        // Collect existing property names to avoid duplicates. Seed with the required
+        // members already emitted as primary-constructor parameters so a name scraped as
+        // both required and optional can't produce two members (CS0102).
         var existingPropertyNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var required in command.RequiredOptions)
+        {
+            existingPropertyNames.Add(required.PropertyName);
+        }
+
+        foreach (var requiredPositional in command.PositionalArguments.Where(p => p.IsRequired))
+        {
+            existingPropertyNames.Add(requiredPositional.PropertyName);
+        }
 
         // Properties for non-required options
         foreach (var option in command.Options.Where(o => !o.IsRequired))
         {
+            if (!existingPropertyNames.Add(option.PropertyName))
+            {
+                continue; // Skip duplicates
+            }
             GenerateProperty(sb, option);
-            existingPropertyNames.Add(option.PropertyName);
             sb.AppendLine();
         }
 
