@@ -39,6 +39,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
             Sourcy.DotNet.Projects.ModularPipelines_Helm,
             Sourcy.DotNet.Projects.ModularPipelines_Kubernetes,
             Sourcy.DotNet.Projects.ModularPipelines_MicrosoftTeams,
+            Sourcy.DotNet.Projects.ModularPipelines_Shellcheck,
             Sourcy.DotNet.Projects.ModularPipelines_Slack,
             Sourcy.DotNet.Projects.ModularPipelines_TeamCity,
             Sourcy.DotNet.Projects.ModularPipelines_Terraform,

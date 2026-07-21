@@ -20,7 +20,7 @@ namespace ModularPipelines.Shellcheck.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 public record ShellcheckExecuteOptions(
-    [property: CliArgument(0)] IEnumerable<string> Files
+    [property: CliArgument(0)] string File
 ) : ShellcheckOptions
 {
     /// <summary>
@@ -124,5 +124,11 @@ public record ShellcheckExecuteOptions(
     /// </summary>
     [CliFlag("--help")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Additional shell script files to check
+    /// </summary>
+    [CliArgument(1)]
+    public IEnumerable<string>? AdditionalFiles { get; set; }
 
 }

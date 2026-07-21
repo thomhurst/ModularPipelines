@@ -12,7 +12,7 @@ public class ShellcheckOptionsTests : TestBase
     [Test]
     public async Task Minimal_Options_Parse_As_Expected()
     {
-        var result = await GetResult(new ShellcheckExecuteOptions(["script.sh"]));
+        var result = await GetResult(new ShellcheckExecuteOptions("script.sh"));
 
         await Assert.That(result.CommandInput).IsEqualTo("shellcheck script.sh");
     }
@@ -20,8 +20,9 @@ public class ShellcheckOptionsTests : TestBase
     [Test]
     public async Task Typed_Options_Parse_As_Expected()
     {
-        var result = await GetResult(new ShellcheckExecuteOptions(["script.sh", "lib.sh"])
+        var result = await GetResult(new ShellcheckExecuteOptions("script.sh")
         {
+            AdditionalFiles = ["lib.sh"],
             CheckSourced = true,
             Color = ShellcheckColor.Always,
             Include = "SC1000,SC1001",

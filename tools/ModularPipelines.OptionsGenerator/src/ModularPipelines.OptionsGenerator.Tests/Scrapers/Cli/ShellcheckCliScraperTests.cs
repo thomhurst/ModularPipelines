@@ -53,9 +53,17 @@ public class ShellcheckCliScraperTests
         await Assert.That(shell).IsNotNull();
         await Assert.That(shell!.Values.Select(x => x.CliValue)).Contains("busybox");
 
-        var files = command.PositionalArguments.Single();
-        await Assert.That(files.IsRequired).IsTrue();
-        await Assert.That(files.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(command.PositionalArguments).Count().IsEqualTo(2);
+
+        var file = command.PositionalArguments.Single(x => x.PropertyName == "File");
+        await Assert.That(file.CSharpType).IsEqualTo("string");
+        await Assert.That(file.IsRequired).IsTrue();
+        await Assert.That(file.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+
+        var additionalFiles = command.PositionalArguments.Single(x => x.PropertyName == "AdditionalFiles");
+        await Assert.That(additionalFiles.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(additionalFiles.IsRequired).IsFalse();
+        await Assert.That(additionalFiles.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
     }
 
     private const string HelpText = """
