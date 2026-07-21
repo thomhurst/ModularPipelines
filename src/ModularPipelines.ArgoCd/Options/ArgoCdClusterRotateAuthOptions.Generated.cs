@@ -20,8 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster", "rotate-auth")]
 public record ArgoCdClusterRotateAuthOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Server,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ServerOrName
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -168,6 +167,12 @@ public record ArgoCdClusterRotateAuthOptions(
     /// </summary>
     [CliOption("--repo-server-name", Format = OptionFormat.EqualsSeparated)]
     public string? RepoServerName { get; set; }
+
+    /// <summary>
+    /// Argo CD server address
+    /// </summary>
+    [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
+    public string? Server { get; set; }
 
     /// <summary>
     /// Server certificate file

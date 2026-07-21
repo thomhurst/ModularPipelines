@@ -21,7 +21,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [CliSubCommand("proj", "add-destination-service-account")]
 public record ArgoCdProjAddDestinationServiceAccountOptions(
     [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Project,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Server,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string DestinationServer,
     [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string Namespace,
     [property: CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)] string ServiceAccount
 ) : ArgoCdOptions
@@ -176,6 +176,12 @@ public record ArgoCdProjAddDestinationServiceAccountOptions(
     /// </summary>
     [CliOption("--repo-server-name", Format = OptionFormat.EqualsSeparated)]
     public string? RepoServerName { get; set; }
+
+    /// <summary>
+    /// Argo CD server address
+    /// </summary>
+    [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
+    public string? Server { get; set; }
 
     /// <summary>
     /// Server certificate file
