@@ -130,15 +130,29 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     /// </summary>
     private static string GetBuildMethodModifier(INamedTypeSymbol type, Compilation compilation)
     {
+        var commandLineType = compilation.GetTypeByMetadataName("ModularPipelines.Models.CommandLine");
+
         for (var current = type.BaseType; current is not null; current = current.BaseType)
         {
             // Ancestor compiled in another assembly: its generated method is visible as metadata.
+            // Only methods a derived type in another assembly can actually hide or override matter:
+            // instance, parameterless, non-generic, and at least protected.
             var existing = current.GetMembers("BuildCommandLine")
                 .OfType<IMethodSymbol>()
-                .FirstOrDefault(m => m.Parameters.IsEmpty && !m.IsStatic);
+                .FirstOrDefault(m => m.Parameters.IsEmpty
+                    && !m.IsStatic
+                    && !m.IsGenericMethod
+                    && m.DeclaredAccessibility is Accessibility.Public or Accessibility.Protected or Accessibility.ProtectedOrInternal);
             if (existing is not null)
             {
-                return existing.IsVirtual || existing.IsOverride ? "override " : "new ";
+                // Override only a live slot with the matching return type; anything else
+                // (non-virtual, sealed override, different return type) must be hidden with
+                // "new" to keep the consuming project compiling.
+                var returnsCommandLine = commandLineType is not null
+                    && SymbolEqualityComparer.Default.Equals(existing.ReturnType, commandLineType);
+                var overridable = (existing.IsVirtual || existing.IsAbstract || existing.IsOverride)
+                    && !existing.IsSealed;
+                return returnsCommandLine && overridable ? "override " : "new ";
             }
 
             // Ancestor in the current compilation: its generated method is not visible to us,
