@@ -274,118 +274,105 @@ internal class DistributedModuleExecutor(
 
         try
         {
-            // Download consumed artifacts before execution
-            if (_artifactLifecycleManager is not null)
-            {
-                await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(module.GetType(), cancellationToken);
-            }
-
-            var moduleState = new ModuleState(module, module.GetType());
-            await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
-
-            var result = await module.ResultTask;
-
-            // Upload produced artifacts before publishing result
-            IReadOnlyList<ArtifactReference>? artifactRefs = null;
-            if (_artifactLifecycleManager is not null)
-            {
-                try
-                {
-                    artifactRefs = await _artifactLifecycleManager.UploadProducedArtifactsAsync(module.GetType(), cancellationToken);
-                    if (artifactRefs.Count == 0)
-                    {
-                        artifactRefs = null;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Failed to upload artifacts for {Module}", assignment.ModuleTypeName);
-                }
-            }
-
-            if (result is not null)
-            {
-                var serialized = _serializer.Serialize(result, assignment.ModuleTypeName, assignment.ResultTypeName, _options.Value.InstanceIndex);
-                if (artifactRefs is not null)
-                {
-                    serialized = serialized with { Artifacts = artifactRefs };
-                }
-
-                await _coordinator.PublishResultAsync(serialized, cancellationToken);
-            }
+            await ExecuteAndPublishAsync(assignment, module, workerScheduler, cancellationToken);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Module {Module} execution failed on master", assignment.ModuleTypeName);
+            await PublishFailureAsync(assignment, resolved.Value.ResultType, module, ex, cancellationToken);
+        }
+    }
 
-            // Publish failure result so the collector doesn't deadlock
-            try
-            {
-                var failureResult = ModuleResultFactory.CreateException(
-                    resolved.Value.ResultType,
-                    ex,
-                    new ModuleExecutionContext(module, module.GetType()));
-                var serialized = _serializer.Serialize(failureResult, assignment.ModuleTypeName, assignment.ResultTypeName, _options.Value.InstanceIndex);
-                await _coordinator.PublishResultAsync(serialized, cancellationToken);
-            }
-            catch (Exception publishEx)
-            {
-                _logger.LogCritical(publishEx, "Failed to publish failure result for {Module}", assignment.ModuleTypeName);
-            }
+    private async Task ExecuteAndPublishAsync(
+        ModuleAssignment assignment,
+        IModule module,
+        WorkerModuleScheduler workerScheduler,
+        CancellationToken cancellationToken)
+    {
+        if (_artifactLifecycleManager is not null)
+        {
+            await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(module.GetType(), cancellationToken);
+        }
+
+        var moduleState = new ModuleState(module, module.GetType());
+        await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
+
+        var result = await module.ResultTask;
+        var artifactReferences = await TryUploadArtifactsAsync(module, assignment.ModuleTypeName, cancellationToken);
+        if (result is null)
+        {
+            return;
+        }
+
+        var serialized = _serializer.Serialize(
+            result,
+            assignment.ModuleTypeName,
+            assignment.ResultTypeName,
+            _options.Value.InstanceIndex);
+        if (artifactReferences is not null)
+        {
+            serialized = serialized with { Artifacts = artifactReferences };
+        }
+
+        await _coordinator.PublishResultAsync(serialized, cancellationToken);
+    }
+
+    private async Task<IReadOnlyList<ArtifactReference>?> TryUploadArtifactsAsync(
+        IModule module,
+        string moduleTypeName,
+        CancellationToken cancellationToken)
+    {
+        if (_artifactLifecycleManager is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            var artifactReferences = await _artifactLifecycleManager.UploadProducedArtifactsAsync(module.GetType(), cancellationToken);
+            return artifactReferences.Count == 0 ? null : artifactReferences;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to upload artifacts for {Module}", moduleTypeName);
+            return null;
+        }
+    }
+
+    private async Task PublishFailureAsync(
+        ModuleAssignment assignment,
+        Type resultType,
+        IModule module,
+        Exception exception,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var failureResult = ModuleResultFactory.CreateException(
+                resultType,
+                exception,
+                new ModuleExecutionContext(module, module.GetType()));
+            var serialized = _serializer.Serialize(
+                failureResult,
+                assignment.ModuleTypeName,
+                assignment.ResultTypeName,
+                _options.Value.InstanceIndex);
+            await _coordinator.PublishResultAsync(serialized, cancellationToken);
+        }
+        catch (Exception publishException)
+        {
+            _logger.LogCritical(publishException, "Failed to publish failure result for {Module}", assignment.ModuleTypeName);
         }
     }
 
     private async Task CollectDistributedResultAsync(IModule module, Type moduleType, IModuleScheduler scheduler, CancellationTokenSource cts)
     {
+        using var timeoutCts = CreateResultTimeoutSource(module.Configuration.Timeout, cts.Token);
+
         try
         {
             scheduler.MarkModuleStarted(moduleType);
-
-            // Determine timeout: module-specific > global default > none
-            var timeout = module.Configuration.Timeout;
-            if (timeout is null)
-            {
-                var globalTimeout = _options.Value.ModuleResultTimeoutSeconds;
-                if (globalTimeout > 0)
-                {
-                    timeout = TimeSpan.FromSeconds(globalTimeout);
-                }
-            }
-
-            CancellationTokenSource? timeoutCts = null;
-            var token = cts.Token;
-            if (timeout is not null)
-            {
-                timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token);
-                timeoutCts.CancelAfter(timeout.Value);
-                token = timeoutCts.Token;
-            }
-
-            try
-            {
-                var result = await _resultCollector.WaitForResultAsync(moduleType.FullName!, token);
-                var success = result is not null && !result.IsFailure;
-
-                // Apply the deserialized result to the module's CompletionSource so that
-                // DependsOn<T> result access works across the master/worker boundary
-                if (result is not null)
-                {
-                    ModuleCompletionSourceApplicator.TryApply(module, result);
-                    _resultRegistry.RegisterResult(moduleType, result);
-                }
-
-                scheduler.MarkModuleCompleted(moduleType, success);
-
-                if (!success)
-                {
-                    _logger.LogError("Distributed module {Module} failed on worker — cancelling pipeline", moduleType.Name);
-                    await cts.CancelAsync();
-                }
-            }
-            finally
-            {
-                timeoutCts?.Dispose();
-            }
+            await CollectResultAsync(module, moduleType, scheduler, cts, timeoutCts?.Token ?? cts.Token);
         }
         catch (OperationCanceledException) when (!cts.IsCancellationRequested)
         {
@@ -410,6 +397,48 @@ internal class DistributedModuleExecutor(
         }
     }
 
+    private CancellationTokenSource? CreateResultTimeoutSource(TimeSpan? moduleTimeout, CancellationToken cancellationToken)
+    {
+        var timeout = moduleTimeout;
+        if (timeout is null && _options.Value.ModuleResultTimeoutSeconds > 0)
+        {
+            timeout = TimeSpan.FromSeconds(_options.Value.ModuleResultTimeoutSeconds);
+        }
+
+        if (timeout is null)
+        {
+            return null;
+        }
+
+        var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeoutCts.CancelAfter(timeout.Value);
+        return timeoutCts;
+    }
+
+    private async Task CollectResultAsync(
+        IModule module,
+        Type moduleType,
+        IModuleScheduler scheduler,
+        CancellationTokenSource pipelineCts,
+        CancellationToken cancellationToken)
+    {
+        var result = await _resultCollector.WaitForResultAsync(moduleType.FullName!, cancellationToken);
+        var success = result is not null && !result.IsFailure;
+
+        if (result is not null)
+        {
+            ModuleCompletionSourceApplicator.TryApply(module, result);
+            _resultRegistry.RegisterResult(moduleType, result);
+        }
+
+        scheduler.MarkModuleCompleted(moduleType, success);
+        if (!success)
+        {
+            _logger.LogError("Distributed module {Module} failed on worker — cancelling pipeline", moduleType.Name);
+            await pipelineCts.CancelAsync();
+        }
+    }
+
     private void RegisterFailureResult(IModule module, Type moduleType, Exception exception)
     {
         try
@@ -425,5 +454,4 @@ internal class DistributedModuleExecutor(
             _logger.LogWarning(ex, "Failed to register failure result for module {Module}", moduleType.Name);
         }
     }
-
 }

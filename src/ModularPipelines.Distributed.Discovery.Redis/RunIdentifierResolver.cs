@@ -1,5 +1,4 @@
-using System.Security.Cryptography;
-using System.Text;
+using System.Diagnostics;
 
 namespace ModularPipelines.Distributed.Discovery.Redis;
 
@@ -8,6 +7,13 @@ namespace ModularPipelines.Distributed.Discovery.Redis;
 /// </summary>
 internal static class RunIdentifierResolver
 {
+    private static readonly string[] CiEnvironmentVariables =
+    [
+        "GITHUB_SHA",
+        "BUILD_SOURCEVERSION",
+        "CI_COMMIT_SHA",
+    ];
+
     public static string Resolve(string? configured)
     {
         if (!string.IsNullOrWhiteSpace(configured))
@@ -15,9 +21,46 @@ internal static class RunIdentifierResolver
             return configured;
         }
 
-        // Fall back to a hash of the current working directory
-        var cwd = Environment.CurrentDirectory;
-        var hash = SHA256.HashData(Encoding.UTF8.GetBytes(cwd));
-        return Convert.ToHexString(hash)[..12].ToLowerInvariant();
+        foreach (var environmentVariable in CiEnvironmentVariables)
+        {
+            var value = Environment.GetEnvironmentVariable(environmentVariable);
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                return value;
+            }
+        }
+
+        return TryGetGitSha() ?? Guid.NewGuid().ToString("N");
+    }
+
+    private static string? TryGetGitSha()
+    {
+        try
+        {
+            using var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "git",
+                    Arguments = "rev-parse HEAD",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                },
+            };
+
+            process.Start();
+            var output = process.StandardOutput.ReadToEnd().Trim();
+            process.WaitForExit(5000);
+
+            return process.ExitCode == 0 && !string.IsNullOrWhiteSpace(output)
+                ? output
+                : null;
+        }
+        catch
+        {
+            return null;
+        }
     }
 }

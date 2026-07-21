@@ -36,40 +36,18 @@ internal class WorkerModuleExecutor(
         var options = _options.Value;
         var cancellationToken = _lifetime.ApplicationStopping;
 
-        // Register all module types for deserialization
         foreach (var module in modules)
         {
             _typeRegistry.Register(module.GetType());
         }
 
-        // Build O(1) lookup for module resolution
         var moduleLookup = DependencyResultApplicator.BuildModuleLookup(modules);
-
-        // Build capabilities
-        var capabilities = new HashSet<string>(options.Capabilities, StringComparer.OrdinalIgnoreCase);
-        if (options.AutoDetectOsCapability)
-        {
-            var osCapability = OsCapabilityDetector.Detect();
-            if (osCapability is not null)
-            {
-                capabilities.Add(osCapability);
-            }
-        }
-
-        // Register with coordinator
-        var registration = new WorkerRegistration(
-            WorkerIndex: options.InstanceIndex,
-            Capabilities: capabilities,
-            RegisteredAt: DateTimeOffset.UtcNow
-        );
-        await _coordinator.RegisterWorkerAsync(registration, cancellationToken);
-        _logger.LogInformation("Worker {Index} registered with capabilities: {Capabilities}",
-            options.InstanceIndex, string.Join(", ", capabilities));
+        var capabilities = BuildCapabilities(options);
+        await RegisterWorkerAsync(options.InstanceIndex, capabilities, cancellationToken);
 
         var executedModules = new List<IModule>();
         using var workerScheduler = new WorkerModuleScheduler();
 
-        // Worker execution loop
         while (!cancellationToken.IsCancellationRequested)
         {
             try
@@ -83,106 +61,13 @@ internal class WorkerModuleExecutor(
 
                 _logger.LogInformation("Worker {Index} executing module {Module}",
                     options.InstanceIndex, assignment.ModuleTypeName);
-
-                var resolved = _typeRegistry.Resolve(assignment.ModuleTypeName);
-                if (resolved is null)
-                {
-                    _logger.LogError("Cannot resolve module type: {ModuleTypeName}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
-                    await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, options.InstanceIndex, _coordinator, _logger, cancellationToken);
-                    continue;
-                }
-
-                // Find the module instance from the registered modules
-                if (!moduleLookup.TryGetValue(assignment.ModuleTypeName, out var module))
-                {
-                    _logger.LogError("Module instance not found: {ModuleTypeName}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
-                    await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, options.InstanceIndex, _coordinator, _logger, cancellationToken);
-                    continue;
-                }
-
-                // Apply dependency results so that GetModule<T>() works cross-process
-                if (assignment.DependencyResults is { Count: > 0 })
-                {
-                    DependencyResultApplicator.Apply(assignment.DependencyResults, moduleLookup, _serializer, _logger);
-                }
-
-                // Execute the module through the framework's execution pipeline
-                try
-                {
-                    // Download consumed artifacts before execution
-                    if (_artifactLifecycleManager is not null)
-                    {
-                        await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(module.GetType(), cancellationToken);
-                    }
-
-                    var moduleState = new ModuleState(module, module.GetType());
-                    await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
-
-                    // CompletionSource is set by ModuleExecutionPipeline — get the result
-                    var result = await module.ResultTask;
-
-                    // Upload produced artifacts before publishing result
-                    IReadOnlyList<ArtifactReference>? artifactRefs = null;
-                    if (_artifactLifecycleManager is not null)
-                    {
-                        try
-                        {
-                            artifactRefs = await _artifactLifecycleManager.UploadProducedArtifactsAsync(module.GetType(), cancellationToken);
-                            if (artifactRefs.Count == 0)
-                            {
-                                artifactRefs = null;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError(ex, "Failed to upload artifacts for module {Module}", assignment.ModuleTypeName);
-                        }
-                    }
-
-                    if (result is not null)
-                    {
-                        var serialized = _serializer.Serialize(
-                            result,
-                            assignment.ModuleTypeName,
-                            assignment.ResultTypeName,
-                            options.InstanceIndex);
-
-                        if (artifactRefs is not null)
-                        {
-                            serialized = serialized with { Artifacts = artifactRefs };
-                        }
-
-                        await _coordinator.PublishResultAsync(serialized, cancellationToken);
-                    }
-
-                    executedModules.Add(module);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Module {Module} execution failed on worker {Index}",
-                        assignment.ModuleTypeName, options.InstanceIndex);
-
-                    // Publish failure result — wrapped in try/catch to prevent master deadlock
-                    try
-                    {
-                        var failureResult = ModuleResultFactory.CreateException(
-                            resolved.Value.ResultType,
-                            ex,
-                            new ModuleExecutionContext(module, module.GetType()));
-                        var serialized = _serializer.Serialize(
-                            failureResult,
-                            assignment.ModuleTypeName,
-                            assignment.ResultTypeName,
-                            options.InstanceIndex);
-                        await _coordinator.PublishResultAsync(serialized, cancellationToken);
-                    }
-                    catch (Exception publishEx)
-                    {
-                        _logger.LogCritical(publishEx,
-                            "Failed to publish failure result for module {Module} — master may hang waiting for this result",
-                            assignment.ModuleTypeName);
-                    }
-                }
+                await ExecuteAssignmentAsync(
+                    assignment,
+                    moduleLookup,
+                    workerScheduler,
+                    executedModules,
+                    options.InstanceIndex,
+                    cancellationToken);
             }
             catch (OperationCanceledException)
             {
@@ -198,4 +83,152 @@ internal class WorkerModuleExecutor(
         return executedModules;
     }
 
+    private static HashSet<string> BuildCapabilities(DistributedOptions options)
+    {
+        var capabilities = new HashSet<string>(options.Capabilities, StringComparer.OrdinalIgnoreCase);
+        if (options.AutoDetectOsCapability && OsCapabilityDetector.Detect() is { } osCapability)
+        {
+            capabilities.Add(osCapability);
+        }
+
+        return capabilities;
+    }
+
+    private async Task RegisterWorkerAsync(int instanceIndex, HashSet<string> capabilities, CancellationToken cancellationToken)
+    {
+        var registration = new WorkerRegistration(
+            WorkerIndex: instanceIndex,
+            Capabilities: capabilities,
+            RegisteredAt: DateTimeOffset.UtcNow);
+        await _coordinator.RegisterWorkerAsync(registration, cancellationToken);
+        _logger.LogInformation("Worker {Index} registered with capabilities: {Capabilities}",
+            instanceIndex, string.Join(", ", capabilities));
+    }
+
+    private async Task ExecuteAssignmentAsync(
+        ModuleAssignment assignment,
+        Dictionary<string, IModule> moduleLookup,
+        WorkerModuleScheduler workerScheduler,
+        List<IModule> executedModules,
+        int instanceIndex,
+        CancellationToken cancellationToken)
+    {
+        var resolved = _typeRegistry.Resolve(assignment.ModuleTypeName);
+        if (resolved is null)
+        {
+            _logger.LogError("Cannot resolve module type: {ModuleTypeName}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
+            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, instanceIndex, _coordinator, _logger, cancellationToken);
+            return;
+        }
+
+        if (!moduleLookup.TryGetValue(assignment.ModuleTypeName, out var module))
+        {
+            _logger.LogError("Module instance not found: {ModuleTypeName}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
+            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, instanceIndex, _coordinator, _logger, cancellationToken);
+            return;
+        }
+
+        if (assignment.DependencyResults is { Count: > 0 })
+        {
+            DependencyResultApplicator.Apply(assignment.DependencyResults, moduleLookup, _serializer, _logger);
+        }
+
+        try
+        {
+            await ExecuteAndPublishAsync(assignment, module, workerScheduler, instanceIndex, cancellationToken);
+            executedModules.Add(module);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Module {Module} execution failed on worker {Index}",
+                assignment.ModuleTypeName, instanceIndex);
+            await PublishFailureAsync(assignment, resolved.Value.ResultType, module, ex, instanceIndex, cancellationToken);
+        }
+    }
+
+    private async Task ExecuteAndPublishAsync(
+        ModuleAssignment assignment,
+        IModule module,
+        WorkerModuleScheduler workerScheduler,
+        int instanceIndex,
+        CancellationToken cancellationToken)
+    {
+        if (_artifactLifecycleManager is not null)
+        {
+            await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(module.GetType(), cancellationToken);
+        }
+
+        var moduleState = new ModuleState(module, module.GetType());
+        await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
+
+        var result = await module.ResultTask;
+        var artifactReferences = await TryUploadArtifactsAsync(module, assignment.ModuleTypeName, cancellationToken);
+        if (result is null)
+        {
+            return;
+        }
+
+        var serialized = _serializer.Serialize(
+            result,
+            assignment.ModuleTypeName,
+            assignment.ResultTypeName,
+            instanceIndex);
+        if (artifactReferences is not null)
+        {
+            serialized = serialized with { Artifacts = artifactReferences };
+        }
+
+        await _coordinator.PublishResultAsync(serialized, cancellationToken);
+    }
+
+    private async Task<IReadOnlyList<ArtifactReference>?> TryUploadArtifactsAsync(
+        IModule module,
+        string moduleTypeName,
+        CancellationToken cancellationToken)
+    {
+        if (_artifactLifecycleManager is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            var artifactReferences = await _artifactLifecycleManager.UploadProducedArtifactsAsync(module.GetType(), cancellationToken);
+            return artifactReferences.Count == 0 ? null : artifactReferences;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to upload artifacts for module {Module}", moduleTypeName);
+            return null;
+        }
+    }
+
+    private async Task PublishFailureAsync(
+        ModuleAssignment assignment,
+        Type resultType,
+        IModule module,
+        Exception exception,
+        int instanceIndex,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var failureResult = ModuleResultFactory.CreateException(
+                resultType,
+                exception,
+                new ModuleExecutionContext(module, module.GetType()));
+            var serialized = _serializer.Serialize(
+                failureResult,
+                assignment.ModuleTypeName,
+                assignment.ResultTypeName,
+                instanceIndex);
+            await _coordinator.PublishResultAsync(serialized, cancellationToken);
+        }
+        catch (Exception publishException)
+        {
+            _logger.LogCritical(publishException,
+                "Failed to publish failure result for module {Module} — master may hang waiting for this result",
+                assignment.ModuleTypeName);
+        }
+    }
 }

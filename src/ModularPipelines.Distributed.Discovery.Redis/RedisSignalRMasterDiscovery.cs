@@ -10,7 +10,7 @@ namespace ModularPipelines.Distributed.Discovery.Redis;
 /// </summary>
 internal class RedisSignalRMasterDiscovery : ISignalRMasterDiscovery
 {
-    private readonly IConnectionMultiplexer _connection;
+    private readonly IRedisDiscoveryStore _store;
     private readonly RedisDiscoveryOptions _options;
     private readonly ILogger<RedisSignalRMasterDiscovery> _logger;
     private readonly string _masterUrlKey;
@@ -19,8 +19,16 @@ internal class RedisSignalRMasterDiscovery : ISignalRMasterDiscovery
         IConnectionMultiplexer connection,
         RedisDiscoveryOptions options,
         ILogger<RedisSignalRMasterDiscovery> logger)
+        : this(new StackExchangeRedisDiscoveryStore(connection), options, logger)
     {
-        _connection = connection;
+    }
+
+    internal RedisSignalRMasterDiscovery(
+        IRedisDiscoveryStore store,
+        RedisDiscoveryOptions options,
+        ILogger<RedisSignalRMasterDiscovery> logger)
+    {
+        _store = store;
         _options = options;
         _logger = logger;
 
@@ -30,18 +38,15 @@ internal class RedisSignalRMasterDiscovery : ISignalRMasterDiscovery
 
     public async Task AdvertiseMasterUrlAsync(string masterUrl, CancellationToken cancellationToken)
     {
-        var db = _connection.GetDatabase();
         var ttl = TimeSpan.FromSeconds(_options.TtlSeconds);
 
-        await db.StringSetAsync(_masterUrlKey, masterUrl, ttl);
+        await _store.SetAsync(_masterUrlKey, masterUrl, ttl, cancellationToken);
         _logger.LogInformation("Advertised master URL '{Url}' to Redis key '{Key}' (TTL: {Ttl}s)",
             masterUrl, _masterUrlKey, _options.TtlSeconds);
     }
 
     public async Task<string> DiscoverMasterUrlAsync(CancellationToken cancellationToken)
     {
-        var db = _connection.GetDatabase();
-
         using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeoutCts.CancelAfter(TimeSpan.FromSeconds(_options.DiscoveryTimeoutSeconds));
 
@@ -49,10 +54,9 @@ internal class RedisSignalRMasterDiscovery : ISignalRMasterDiscovery
 
         while (!timeoutCts.IsCancellationRequested)
         {
-            var value = await db.StringGetAsync(_masterUrlKey);
-            if (value.HasValue)
+            var masterUrl = await _store.GetAsync(_masterUrlKey, timeoutCts.Token);
+            if (masterUrl is not null)
             {
-                var masterUrl = value.ToString();
                 _logger.LogInformation("Discovered master URL: {Url}", masterUrl);
                 return masterUrl;
             }

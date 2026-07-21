@@ -51,7 +51,7 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
                 return;
             }
 
-            logger.LogDebug("[cloudflared] {Line}", e.Data);
+            logger.LogDebug("Cloudflared: {Line}", e.Data);
 
             // cloudflared quick tunnels output the URL in a box like:
             // |  https://random-words.trycloudflare.com  |
@@ -66,7 +66,7 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
         {
             if (e.Data is not null)
             {
-                logger.LogDebug("[cloudflared] {Line}", e.Data);
+                logger.LogDebug("Cloudflared: {Line}", e.Data);
             }
         };
 

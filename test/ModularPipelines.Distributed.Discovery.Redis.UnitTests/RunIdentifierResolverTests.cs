@@ -2,48 +2,77 @@ using ModularPipelines.Distributed.Discovery.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis.UnitTests;
 
+[TUnit.Core.NotInParallel]
 public class RunIdentifierResolverTests
 {
+    private static readonly string[] CiEnvironmentVariables =
+    [
+        "GITHUB_SHA",
+        "BUILD_SOURCEVERSION",
+        "CI_COMMIT_SHA",
+    ];
+
     [Test]
     public async Task Returns_Configured_Value_When_Provided()
     {
         var result = RunIdentifierResolver.Resolve("my-run-id");
+
         await Assert.That(result).IsEqualTo("my-run-id");
     }
 
     [Test]
-    public async Task Returns_Hash_When_Null()
+    public async Task Returns_First_Available_CI_Commit()
     {
-        var result = RunIdentifierResolver.Resolve(null);
+        await WithEnvironmentAsync(
+            new Dictionary<string, string?>
+            {
+                ["GITHUB_SHA"] = "github-sha",
+                ["BUILD_SOURCEVERSION"] = "azure-sha",
+                ["CI_COMMIT_SHA"] = "gitlab-sha",
+            },
+            async () =>
+            {
+                var result = RunIdentifierResolver.Resolve(null);
 
-        await Assert.That(result).IsNotNull();
-        await Assert.That(result.Length).IsEqualTo(12);
+                await Assert.That(result).IsEqualTo("github-sha");
+            });
     }
 
     [Test]
-    public async Task Returns_Hash_When_Empty()
+    public async Task Falls_Back_When_No_Value_Is_Configured()
     {
-        var result = RunIdentifierResolver.Resolve("");
+        await WithEnvironmentAsync(
+            CiEnvironmentVariables.ToDictionary(name => name, _ => (string?) null),
+            async () =>
+            {
+                var result = RunIdentifierResolver.Resolve(null);
 
-        await Assert.That(result).IsNotNull();
-        await Assert.That(result.Length).IsEqualTo(12);
+                await Assert.That(result).IsNotNull();
+                await Assert.That(result).IsNotEqualTo(string.Empty);
+            });
     }
 
-    [Test]
-    public async Task Returns_Hash_When_Whitespace()
+    private static async Task WithEnvironmentAsync(
+        IReadOnlyDictionary<string, string?> values,
+        Func<Task> assertion)
     {
-        var result = RunIdentifierResolver.Resolve("   ");
+        var originals = values.Keys.ToDictionary(name => name, Environment.GetEnvironmentVariable);
 
-        await Assert.That(result).IsNotNull();
-        await Assert.That(result.Length).IsEqualTo(12);
-    }
+        try
+        {
+            foreach (var (name, value) in values)
+            {
+                Environment.SetEnvironmentVariable(name, value);
+            }
 
-    [Test]
-    public async Task Same_Directory_Produces_Same_Hash()
-    {
-        var result1 = RunIdentifierResolver.Resolve(null);
-        var result2 = RunIdentifierResolver.Resolve(null);
-
-        await Assert.That(result1).IsEqualTo(result2);
+            await assertion();
+        }
+        finally
+        {
+            foreach (var (name, value) in originals)
+            {
+                Environment.SetEnvironmentVariable(name, value);
+            }
+        }
     }
 }

@@ -281,5 +281,4 @@ public static class PipelineBuilderExtensions
         builder.Services.AddSingleton(requirement);
         return builder;
     }
-
 }
