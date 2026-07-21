@@ -30,6 +30,7 @@
     <ProjectReference Include="..\..\src\ModularPipelines.Ftp\ModularPipelines.Ftp.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.GitHub\ModularPipelines.GitHub.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Git\ModularPipelines.Git.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Hadolint\ModularPipelines.Hadolint.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Helm\ModularPipelines.Helm.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj" />

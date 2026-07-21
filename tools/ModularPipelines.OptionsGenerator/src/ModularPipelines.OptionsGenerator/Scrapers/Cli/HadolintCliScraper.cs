@@ -66,7 +66,7 @@ public partial class HadolintCliScraper : CliScraperBase
                 new CliEnumValue { MemberName = "Json", CliValue = "json" },
                 new CliEnumValue { MemberName = "Checkstyle", CliValue = "checkstyle" },
                 new CliEnumValue { MemberName = "Codeclimate", CliValue = "codeclimate" },
-                new CliEnumValue { MemberName = "Gitlab_codeclimate", CliValue = "gitlab_codeclimate" },
+                new CliEnumValue { MemberName = "GitlabCodeclimate", CliValue = "gitlab_codeclimate" },
                 new CliEnumValue { MemberName = "Gnu", CliValue = "gnu" },
                 new CliEnumValue { MemberName = "Codacy", CliValue = "codacy" },
                 new CliEnumValue { MemberName = "Sonarqube", CliValue = "sonarqube" },
@@ -152,9 +152,9 @@ public partial class HadolintCliScraper : CliScraperBase
 
         var lines = section.Split('\n');
 
-        foreach (var line in lines)
+        for (var lineIndex = 0; lineIndex < lines.Length; lineIndex++)
         {
-            var match = HadolintOptionPattern().Match(line);
+            var match = HadolintOptionPattern().Match(lines[lineIndex]);
             if (!match.Success)
             {
                 continue;
@@ -163,7 +163,26 @@ public partial class HadolintCliScraper : CliScraperBase
             var shortForm = match.Groups["short"].Value.Trim();
             var longForm = match.Groups["long"].Value.Trim();
             var valueHint = match.Groups["value"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
+            var descriptionParts = new List<string>();
+            var inlineDescription = match.Groups["desc"].Value.Trim();
+            if (!string.IsNullOrEmpty(inlineDescription))
+            {
+                descriptionParts.Add(inlineDescription);
+            }
+
+            while (lineIndex + 1 < lines.Length)
+            {
+                var continuation = lines[lineIndex + 1].Trim();
+                if (string.IsNullOrEmpty(continuation) || continuation.StartsWith('-'))
+                {
+                    break;
+                }
+
+                descriptionParts.Add(continuation);
+                lineIndex++;
+            }
+
+            var description = string.Join(' ', descriptionParts);
 
             if (string.IsNullOrEmpty(longForm))
             {
@@ -200,7 +219,9 @@ public partial class HadolintCliScraper : CliScraperBase
             }
 
             // Check for array-type options
-            var isArray = longForm == "--ignore" || longForm == "--trusted-registry";
+            var isArray = longForm is
+                "--error" or "--warning" or "--info" or "--style" or "--ignore" or
+                "--trusted-registry" or "--require-label";
             if (isArray)
             {
                 csharpType = "IEnumerable<string>?";
@@ -249,7 +270,7 @@ public partial class HadolintCliScraper : CliScraperBase
     ///   -c,--config FILENAME     Use FILENAME as configuration file
     ///   --no-fail                Don't exit with failure code
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),)?(?<long>--[\w-]+)(?:\s+(?<value>[A-Z]+))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:\s+(?<value>[A-Z]+)(?:\s+\([^)]+\))?)?(?:[ \t]{2,}(?<desc>.*))?[ \t]*\r?$", RegexOptions.Multiline)]
     private static partial Regex HadolintOptionPattern();
 
     #endregion
