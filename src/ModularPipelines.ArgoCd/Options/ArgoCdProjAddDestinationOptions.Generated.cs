@@ -21,9 +21,8 @@ namespace ModularPipelines.ArgoCd.Options;
 [CliSubCommand("proj", "add-destination")]
 public record ArgoCdProjAddDestinationOptions(
     [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Project,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Server,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string Name,
-    [property: CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)] string Namespace
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string ServerOrName,
+    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string Namespace
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -31,6 +30,12 @@ public record ArgoCdProjAddDestinationOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Use name as destination instead server
+    /// </summary>
+    [CliFlag("--name")]
+    public bool? Name { get; set; }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -58,7 +63,7 @@ public record ArgoCdProjAddDestinationOptions(
     public string? ClientCrtKey { get; set; }
 
     /// <summary>
-    /// Path to Argo CD config (default "C:\\Users\\thomh/.config/argocd/config")
+    /// Path to Argo CD config (default "&lt;home&gt;/.config/argocd/config")
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }
@@ -144,7 +149,7 @@ public record ArgoCdProjAddDestinationOptions(
     /// <summary>
     /// Force optional interactive prompts to be enabled or disabled, overriding local configuration. If not specified, the local configuration value will be used, which is false by default.
     /// </summary>
-    [CliFlag("--prompts-enabled")]
+    [CliOption("--prompts-enabled", Format = OptionFormat.EqualsSeparated)]
     public bool? PromptsEnabled { get; set; }
 
     /// <summary>
@@ -170,6 +175,12 @@ public record ArgoCdProjAddDestinationOptions(
     /// </summary>
     [CliOption("--repo-server-name", Format = OptionFormat.EqualsSeparated)]
     public string? RepoServerName { get; set; }
+
+    /// <summary>
+    /// Argo CD server address
+    /// </summary>
+    [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
+    public string? Server { get; set; }
 
     /// <summary>
     /// Server certificate file

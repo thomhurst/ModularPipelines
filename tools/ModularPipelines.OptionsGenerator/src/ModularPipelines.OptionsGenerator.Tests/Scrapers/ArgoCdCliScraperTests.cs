@@ -99,6 +99,68 @@ public class ArgoCdCliScraperTests
     }
 
     [Test]
+    [Arguments("sync")]
+    [Arguments("wait")]
+    public async Task App_Commands_Parse_Optional_Application_Name_Alternatives(string command)
+    {
+        var scraper = new TestArgoCdCliScraper();
+        var parsedArguments = scraper.ParseArguments(
+            $"Usage:\n  argocd app {command} [APPNAME... | -l selector] [flags]");
+
+        var arguments = scraper.ApplyFix(["app", command], parsedArguments);
+
+        await Assert.That(arguments).Count().IsEqualTo(1);
+        await Assert.That(arguments[0].PropertyName).IsEqualTo("ApplicationNames");
+        await Assert.That(arguments[0].CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(arguments[0].IsRequired).IsFalse();
+    }
+
+    [Test]
+    [Arguments("cluster", "get", "Usage:\n  argocd cluster get SERVER/NAME [flags]", "ServerOrName", null)]
+    [Arguments("cluster", "rm", "Usage:\n  argocd cluster rm SERVER/NAME [flags]", "ServerOrName", null)]
+    [Arguments("proj", "add-destination", "Usage:\n  argocd proj add-destination PROJECT SERVER/NAME NAMESPACE [flags]", "Project", "Namespace")]
+    public async Task Server_Name_Alternatives_Are_One_Operand(
+        string parentCommand,
+        string command,
+        string helpText,
+        string firstProperty,
+        string? lastProperty)
+    {
+        var scraper = new TestArgoCdCliScraper();
+        var parsedArguments = scraper.ParseArguments(helpText);
+
+        var arguments = scraper.ApplyFix([parentCommand, command], parsedArguments);
+
+        await Assert.That(arguments.Select(argument => argument.PropertyName)).Contains(firstProperty);
+        await Assert.That(arguments.Select(argument => argument.PropertyName)).Contains("ServerOrName");
+        if (lastProperty is not null)
+        {
+            await Assert.That(arguments.Select(argument => argument.PropertyName)).Contains(lastProperty);
+        }
+
+        await Assert.That(arguments.Select(argument => argument.PropertyName)).DoesNotContain("Server");
+        await Assert.That(arguments.Select(argument => argument.PropertyName)).DoesNotContain("Name");
+    }
+
+    [Test]
+    [Arguments("repo", "add", "REPOURL", "RepositoryUrl")]
+    [Arguments("repocreds", "rm", "CREDSURL", "CredentialsUrl")]
+    public async Task Url_Placeholders_Use_Public_Api_Casing(
+        string parentCommand,
+        string command,
+        string placeholder,
+        string propertyName)
+    {
+        var scraper = new TestArgoCdCliScraper();
+        var parsedArguments = scraper.ParseArguments(
+            $"Usage:\n  argocd {parentCommand} {command} {placeholder} [flags]");
+
+        var arguments = scraper.ApplyFix([parentCommand, command], parsedArguments);
+
+        await Assert.That(arguments.Single().PropertyName).IsEqualTo(propertyName);
+    }
+
+    [Test]
     public async Task Default_True_Boolean_Is_Value_Option()
     {
         const string helpText = """
@@ -119,6 +181,48 @@ public class ArgoCdCliScraperTests
         await Assert.That(option.CSharpType).IsEqualTo("bool?");
         await Assert.That(option.IsFlag).IsFalse();
         await Assert.That(option.ValueSeparator).IsEqualTo("=");
+    }
+
+    [Test]
+    public async Task Prompts_Enabled_Is_Value_Option()
+    {
+        const string helpText = """
+            Update global configuration.
+
+            Usage:
+              argocd configure [flags]
+
+            Flags:
+                  --prompts-enabled   Enable (or disable) optional interactive prompts
+            """;
+
+        var command = await new TestArgoCdCliScraper().Parse(["argocd", "configure"], helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--prompts-enabled");
+
+        await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.ValueSeparator).IsEqualTo("=");
+    }
+
+    [Test]
+    [Arguments(@"C:\Users\alice/.config/argocd/config")]
+    [Arguments("/home/alice/.config/argocd/config")]
+    public async Task Home_Directory_Is_Redacted_From_Config_Description(string configPath)
+    {
+        var helpText = $$"""
+            Get an application.
+
+            Usage:
+              argocd app get APPNAME [flags]
+
+            Flags:
+                  --config string   Path to Argo CD config (default "{{configPath}}")
+            """;
+
+        var command = await new TestArgoCdCliScraper().Parse(["argocd", "app", "get"], helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--config");
+
+        await Assert.That(option.Description).IsEqualTo("Path to Argo CD config (default \"<home>/.config/argocd/config\")");
     }
 
     private sealed class TestArgoCdCliScraper : ArgoCdCliScraper

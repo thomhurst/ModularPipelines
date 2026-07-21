@@ -127,6 +127,74 @@ public class ArgoCdOptionsTests
         ]);
     }
 
+    [Test]
+    [Arguments("sync")]
+    [Arguments("wait")]
+    public async Task App_Targets_Render_Before_Options(string command)
+    {
+        var options = command == "sync"
+            ? (object) new ArgoCdAppSyncOptions
+            {
+                ApplicationNames = ["first", "second"],
+                DryRun = true,
+            }
+            : new ArgoCdAppWaitOptions
+            {
+                ApplicationNames = ["first", "second"],
+                Health = true,
+            };
+
+        var arguments = BuildArguments(options);
+        string[] expectedArguments = command == "sync"
+            ? ["first", "second", "--dry-run"]
+            : ["first", "second", "--health"];
+
+        await Assert.That(arguments).IsEquivalentTo(expectedArguments);
+    }
+
+    [Test]
+    public async Task Configure_Renders_Explicit_False_For_Prompts_Enabled()
+    {
+        var arguments = BuildArguments(new ArgoCdConfigureOptions
+        {
+            PromptsEnabled = false,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["--prompts-enabled=false"]);
+    }
+
+    [Test]
+    [Arguments("get")]
+    [Arguments("rm")]
+    public async Task Cluster_Server_Or_Name_Renders_As_One_Operand(string command)
+    {
+        var options = command == "get"
+            ? (object) new ArgoCdClusterGetOptions("production")
+            : new ArgoCdClusterRmOptions("production");
+
+        await Assert.That(BuildArguments(options)).IsEquivalentTo(["production"]);
+    }
+
+    [Test]
+    public async Task ProjAddDestination_Preserves_Name_Flag()
+    {
+        var arguments = BuildArguments(new ArgoCdProjAddDestinationOptions(
+            "platform",
+            "production",
+            "apps")
+        {
+            Name = true,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "platform",
+            "production",
+            "apps",
+            "--name",
+        ]);
+    }
+
     private List<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());
