@@ -11,26 +11,31 @@ public class GradleCliScraperTests
         USAGE: gradle [option...] [task...]
 
         Help:
-          --help, -?, -h                     Shows this help message.
+        -?, -h, --help                     Shows this help message.
+          --show-version, -V                 Prints version information and continues.
 
         Performance:
-          --max-workers                      Configures the maximum number of concurrent workers Gradle is allowed to use.
-          --console                          Specifies which type of console output to generate. Supported values are 'plain',
-                                             'auto' (default), or 'rich'.
-          --project-prop, -P                 Sets a project property for the build script (for example, -Pmyprop=myvalue).
-          --watch-fs                         Enables file system watching.
+        --max-workers                      Configures the maximum number of concurrent workers Gradle is allowed to use.
+        --console                          Specifies which type of console output to generate. Supported values are 'plain',
+                                           'auto' (default), or 'rich'.
+        -P, --project-prop                 Sets a project property for the build script (for example, -Pmyprop=myvalue).
+        --watch-fs                         Enables file system watching.
         """;
 
     [Test]
-    public async Task Parses_Long_First_Aliases_And_Explicit_Value_Types()
+    public async Task Parses_Actual_Gradle_Help_Format_And_Explicit_Value_Types()
     {
         var command = await new TestGradleCliScraper().Parse(HelpText);
 
-        await Assert.That(command.Options).Count().IsEqualTo(5);
+        await Assert.That(command.Options).Count().IsEqualTo(6);
 
         var help = command.Options.Single(x => x.PropertyName == "Help");
         await Assert.That(help.ShortForm).IsEqualTo("-h");
         await Assert.That(help.IsFlag).IsTrue();
+
+        var showVersion = command.Options.Single(x => x.PropertyName == "ShowVersion");
+        await Assert.That(showVersion.ShortForm).IsEqualTo("-V");
+        await Assert.That(showVersion.IsFlag).IsTrue();
 
         var maxWorkers = command.Options.Single(x => x.PropertyName == "MaxWorkers");
         await Assert.That(maxWorkers.CSharpType).IsEqualTo("int?");

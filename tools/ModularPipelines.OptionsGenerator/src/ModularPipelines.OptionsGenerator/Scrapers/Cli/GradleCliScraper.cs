@@ -337,11 +337,11 @@ public partial class GradleCliScraper : CliScraperBase
 
     /// <summary>
     /// Matches Gradle-style option lines:
-    /// --no-rebuild, -a                   Do not rebuild project dependencies.
-    /// --help, -?, -h                     Shows this help message.
+    /// -a, --no-rebuild                   Do not rebuild project dependencies.
+    /// -?, -h, --help                     Shows this help message.
     /// --build-cache                      Enables the Gradle build cache.
     /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<long>--[\w-]+)(?<shorts>(?:,\s*-[^\s,]+)*)\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<long>--[\w-]+)(?<shorts>(?:,\s*-[^,\s]+)*)|(?<shorts>(?:-[^,\s]+,\s*)+)(?<long>--[\w-]+))\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex GradleOptionPattern();
 
     [GeneratedRegex(@"'(?<value>[^']+)'")]
