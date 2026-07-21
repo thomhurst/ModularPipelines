@@ -27,6 +27,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
             Sourcy.DotNet.Projects.ModularPipelines_Cosign,
             Sourcy.DotNet.Projects.ModularPipelines_Docker,
             Sourcy.DotNet.Projects.ModularPipelines_DotNet,
+            Sourcy.DotNet.Projects.ModularPipelines_Eksctl,
             Sourcy.DotNet.Projects.ModularPipelines_Email,
             Sourcy.DotNet.Projects.ModularPipelines_Ftp,
             Sourcy.DotNet.Projects.ModularPipelines_Yarn,
