@@ -132,19 +132,17 @@ public static partial class GeneratorUtils
             return "Unknown";
         }
 
-        // Handle numeric values
-        if (char.IsDigit(cliValue[0]))
+        var normalizedValue = InvalidIdentifierCharacterPattern().Replace(cliValue, " ");
+        var pascalCase = ToPascalCase(normalizedValue);
+        if (string.IsNullOrEmpty(pascalCase))
         {
-            return $"Value{cliValue}";
+            return "Unknown";
         }
-
-        // Convert to PascalCase
-        var pascalCase = ToPascalCase(cliValue);
 
         // Ensure it starts with a letter
         if (!char.IsLetter(pascalCase[0]))
         {
-            pascalCase = $"Value{pascalCase}";
+            pascalCase = $"Value{pascalCase.TrimStart('_')}";
         }
 
         return pascalCase;
@@ -195,6 +193,9 @@ public static partial class GeneratorUtils
 
     [GeneratedRegex(@"[-_\s]+")]
     private static partial Regex SeparatorPattern();
+
+    [GeneratedRegex(@"[^\p{L}\p{Nd}_]")]
+    private static partial Regex InvalidIdentifierCharacterPattern();
 
     [GeneratedRegex(@"(?:/home/runner|/Users/runner(?:admin)?|[A-Za-z]:\\Users\\runneradmin)(?=[/\\])")]
     private static partial Regex RunnerHomePathPattern();
