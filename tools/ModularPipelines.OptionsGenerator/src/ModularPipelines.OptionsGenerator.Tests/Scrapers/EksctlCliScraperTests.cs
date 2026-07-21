@@ -52,6 +52,28 @@ public class EksctlCliScraperTests
         await Assert.That(option.AcceptsMultipleValues).IsTrue();
     }
 
+    [Test]
+    public async Task Models_Default_True_Booleans_As_Value_Options()
+    {
+        const string helpText = """
+            Create a cluster
+
+            Usage: eksctl create cluster [flags]
+
+            Flags:
+                  --managed   Create EKS-managed nodegroup (default true)
+            """;
+
+        var command = await new TestEksctlCliScraper().Parse(
+            ["eksctl", "create", "cluster"],
+            helpText);
+        var option = command!.Options.Single(x => x.SwitchName == "--managed");
+
+        await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.ValueSeparator).IsEqualTo("=");
+    }
+
     private sealed class TestEksctlCliScraper : EksctlCliScraper
     {
         public TestEksctlCliScraper()

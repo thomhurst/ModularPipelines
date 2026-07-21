@@ -28,8 +28,19 @@ public class EksctlOptionsTests
             "--zones=eu-west-2a",
             "--zones=eu-west-2b",
             "--nodes=3",
-            "--managed",
+            "--managed=true",
         ]);
+    }
+
+    [Test]
+    public async Task CreateCluster_Renders_Explicit_False_For_Default_True_Options()
+    {
+        var arguments = BuildArguments(new EksctlCreateClusterOptions
+        {
+            Managed = false,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["--managed=false"]);
     }
 
     [Test]

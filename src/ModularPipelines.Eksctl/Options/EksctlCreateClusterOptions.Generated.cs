@@ -216,7 +216,7 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// <summary>
     /// Create EKS-managed nodegroup (default true)
     /// </summary>
-    [CliFlag("--managed")]
+    [CliOption("--managed", Format = OptionFormat.EqualsSeparated)]
     public bool? Managed { get; set; }
 
     /// <summary>
@@ -300,13 +300,13 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// <summary>
     /// install Neuron plugin for Inferentia and Trainium nodes (default true)
     /// </summary>
-    [CliFlag("--install-neuron-plugin")]
+    [CliOption("--install-neuron-plugin", Format = OptionFormat.EqualsSeparated)]
     public bool? InstallNeuronPlugin { get; set; }
 
     /// <summary>
     /// install Nvidia plugin for GPU nodes (default true)
     /// </summary>
-    [CliFlag("--install-nvidia-plugin")]
+    [CliOption("--install-nvidia-plugin", Format = OptionFormat.EqualsSeparated)]
     public bool? InstallNvidiaPlugin { get; set; }
 
     /// <summary>
@@ -414,7 +414,7 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// <summary>
     /// if true then current-context will be set in kubeconfig; if a context is already set then it will be overwritten (default true)
     /// </summary>
-    [CliFlag("--set-kubeconfig-context")]
+    [CliOption("--set-kubeconfig-context", Format = OptionFormat.EqualsSeparated)]
     public bool? SetKubeconfigContext { get; set; }
 
     /// <summary>
@@ -426,7 +426,7 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// <summary>
     /// toggle writing of kubeconfig (default true)
     /// </summary>
-    [CliFlag("--write-kubeconfig")]
+    [CliOption("--write-kubeconfig", Format = OptionFormat.EqualsSeparated)]
     public bool? WriteKubeconfig { get; set; }
 
     /// <summary>

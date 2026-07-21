@@ -53,7 +53,7 @@ public record EksctlUpgradeNodegroupOptions : EksctlOptions
     /// <summary>
     /// nodegroup upgrade to complete (default true)
     /// </summary>
-    [CliFlag("--wait")]
+    [CliOption("--wait", Format = OptionFormat.EqualsSeparated)]
     public bool? Wait { get; set; }
 
     /// <summary>

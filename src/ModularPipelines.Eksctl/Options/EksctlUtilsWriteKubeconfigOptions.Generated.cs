@@ -59,7 +59,7 @@ public record EksctlUtilsWriteKubeconfigOptions : EksctlOptions
     /// <summary>
     /// if true then current-context will be set in kubeconfig; if a context is already set then it will be overwritten (default true)
     /// </summary>
-    [CliFlag("--set-kubeconfig-context")]
+    [CliOption("--set-kubeconfig-context", Format = OptionFormat.EqualsSeparated)]
     public bool? SetKubeconfigContext { get; set; }
 
     /// <summary>

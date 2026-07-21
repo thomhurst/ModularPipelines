@@ -71,13 +71,13 @@ public record EksctlDeleteNodegroupOptions : EksctlOptions
     /// <summary>
     /// Remove nodegroup IAM role from aws-auth configmap (default true)
     /// </summary>
-    [CliFlag("--update-auth-configmap")]
+    [CliOption("--update-auth-configmap", Format = OptionFormat.EqualsSeparated)]
     public bool? UpdateAuthConfigmap { get; set; }
 
     /// <summary>
     /// Drain and cordon all nodes in the nodegroup before deletion (default true)
     /// </summary>
-    [CliFlag("--drain")]
+    [CliOption("--drain", Format = OptionFormat.EqualsSeparated)]
     public bool? Drain { get; set; }
 
     /// <summary>

@@ -66,7 +66,7 @@ public record EksctlCreateNodegroupOptions : EksctlOptions
     /// <summary>
     /// Add nodegroup IAM role to aws-auth configmap (default true)
     /// </summary>
-    [CliFlag("--update-auth-configmap")]
+    [CliOption("--update-auth-configmap", Format = OptionFormat.EqualsSeparated)]
     public bool? UpdateAuthConfigmap { get; set; }
 
     /// <summary>
@@ -216,7 +216,7 @@ public record EksctlCreateNodegroupOptions : EksctlOptions
     /// <summary>
     /// Create EKS-managed nodegroup (default true)
     /// </summary>
-    [CliFlag("--managed")]
+    [CliOption("--managed", Format = OptionFormat.EqualsSeparated)]
     public bool? Managed { get; set; }
 
     /// <summary>
@@ -300,13 +300,13 @@ public record EksctlCreateNodegroupOptions : EksctlOptions
     /// <summary>
     /// install Neuron plugin for Inferentia and Trainium nodes (default true)
     /// </summary>
-    [CliFlag("--install-neuron-plugin")]
+    [CliOption("--install-neuron-plugin", Format = OptionFormat.EqualsSeparated)]
     public bool? InstallNeuronPlugin { get; set; }
 
     /// <summary>
     /// install Nvidia plugin for GPU nodes (default true)
     /// </summary>
-    [CliFlag("--install-nvidia-plugin")]
+    [CliOption("--install-nvidia-plugin", Format = OptionFormat.EqualsSeparated)]
     public bool? InstallNvidiaPlugin { get; set; }
 
     /// <summary>

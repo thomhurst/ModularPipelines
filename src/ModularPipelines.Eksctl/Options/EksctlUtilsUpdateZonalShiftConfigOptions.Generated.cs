@@ -47,7 +47,7 @@ public record EksctlUtilsUpdateZonalShiftConfigOptions : EksctlOptions
     /// <summary>
     /// Enable zonal shift on a cluster (default true)
     /// </summary>
-    [CliFlag("--enable-zonal-shift")]
+    [CliOption("--enable-zonal-shift", Format = OptionFormat.EqualsSeparated)]
     public bool? EnableZonalShift { get; set; }
 
     /// <summary>

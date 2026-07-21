@@ -65,7 +65,7 @@ public record EksctlUtilsEnableSecretsEncryptionOptions : EksctlOptions
     /// <summary>
     /// Encrypt all existing secrets with the new KMS key (default true)
     /// </summary>
-    [CliFlag("--encrypt-existing-secrets")]
+    [CliOption("--encrypt-existing-secrets", Format = OptionFormat.EqualsSeparated)]
     public bool? EncryptExistingSecrets { get; set; }
 
     /// <summary>
