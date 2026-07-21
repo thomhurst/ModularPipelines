@@ -21,11 +21,12 @@ public class LiquibaseOptionsTests : TestBase
                 new KeyValue("region", "eu"),
             ],
             Password = "secret",
+            SearchPath = "changelogs",
             ShowSummary = LiquibaseShowSummary.Verbose,
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
-            "liquibase update --changelog-file=changelog.xml --url=jdbc:h2:mem:test -Dtenant=alpha -Dregion=eu --password=secret --show-summary=verbose");
+            "liquibase --search-path=changelogs update --changelog-file=changelog.xml --url=jdbc:h2:mem:test -Dtenant=alpha -Dregion=eu --password=secret --show-summary=verbose");
     }
 
     [Test]

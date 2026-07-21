@@ -40,12 +40,6 @@ public record LiquibaseInitStartH2Options : LiquibaseOptions
     public bool? Detached { get; set; }
 
     /// <summary>
-    /// Show this help message and exit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Whether to open a browser to the database's web interface DEFAULT: true
     /// </summary>
     [CliOption("--launch-browser", Format = OptionFormat.EqualsSeparated)]

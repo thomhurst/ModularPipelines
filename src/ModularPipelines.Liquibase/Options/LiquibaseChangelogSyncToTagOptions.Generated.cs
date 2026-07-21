@@ -51,24 +51,6 @@ public record LiquibaseChangelogSyncToTagOptions(
     public string? DefaultSchemaName { get; set; }
 
     /// <summary>
-    /// The JDBC driver class
-    /// </summary>
-    [CliOption("--driver", Format = OptionFormat.EqualsSeparated)]
-    public string? Driver { get; set; }
-
-    /// <summary>
-    /// The JDBC driver properties file
-    /// </summary>
-    [CliOption("--driver-properties-file", Format = OptionFormat.EqualsSeparated)]
-    public string? DriverPropertiesFile { get; set; }
-
-    /// <summary>
-    /// Show this help message and exit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Label expression to use for filtering
     /// </summary>
     [CliOption("--label-filter", Format = OptionFormat.EqualsSeparated)]

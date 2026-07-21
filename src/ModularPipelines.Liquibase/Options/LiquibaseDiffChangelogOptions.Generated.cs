@@ -69,28 +69,10 @@ public record LiquibaseDiffChangelogOptions(
     public string? DiffTypes { get; set; }
 
     /// <summary>
-    /// The JDBC driver class
-    /// </summary>
-    [CliOption("--driver", Format = OptionFormat.EqualsSeparated)]
-    public string? Driver { get; set; }
-
-    /// <summary>
-    /// The JDBC driver properties file
-    /// </summary>
-    [CliOption("--driver-properties-file", Format = OptionFormat.EqualsSeparated)]
-    public string? DriverPropertiesFile { get; set; }
-
-    /// <summary>
     /// Objects to exclude from diff. Supports regular expressions. Defaults to null.
     /// </summary>
     [CliOption("--exclude-objects", Format = OptionFormat.EqualsSeparated)]
     public string? ExcludeObjects { get; set; }
-
-    /// <summary>
-    /// Show this help message and exit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// If true, diff operations will ignore referenced objects which are not found in a snapshot. DEFAULT: false

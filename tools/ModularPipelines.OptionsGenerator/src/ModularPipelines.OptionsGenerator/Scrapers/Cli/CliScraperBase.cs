@@ -18,6 +18,12 @@ public abstract partial class CliScraperBase : ICliScraper
     protected readonly IHelpTextCache HelpCache;
     protected readonly ILogger Logger;
 
+    /// <summary>
+    /// Global options parsed from the root help text. These are emitted on the generated
+    /// base options class and placed before subcommands at execution time.
+    /// </summary>
+    protected IReadOnlyList<CliOptionDefinition> GlobalOptions { get; private set; } = [];
+
     #region Abstract Properties - Must Implement
 
     /// <summary>
@@ -285,6 +291,11 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
+        if (path.Length == 1)
+        {
+            GlobalOptions = ParseGlobalOptions(helpText);
+        }
+
         // Check if this command should be skipped based on help text content
         if (ShouldSkipBasedOnHelpText(helpText))
         {
@@ -353,6 +364,7 @@ public abstract partial class CliScraperBase : ICliScraper
             TargetNamespace = TargetNamespace,
             OutputDirectory = OutputDirectory,
             Commands = [],
+            GlobalOptions = GlobalOptions,
             Errors = []
         };
     }
@@ -420,6 +432,11 @@ public abstract partial class CliScraperBase : ICliScraper
     #endregion
 
     #region Virtual Hooks - Can Override
+
+    /// <summary>
+    /// Parses options from root help that must appear before a subcommand.
+    /// </summary>
+    protected virtual IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) => [];
 
     /// <summary>
     /// Checks if help text indicates the command has options/flags.

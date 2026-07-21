@@ -137,6 +137,21 @@ public class CommandLineBuilderTests : TestBase
         await Assert.That(result.Arguments).Contains("status");
     }
 
+    [Test]
+    public async Task Build_Places_Global_Options_Before_Subcommands()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestGlobalCommandOptions
+        {
+            SearchPath = "changelogs",
+            ChangelogFile = "main.xml"
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo(
+            "liquibase --search-path=changelogs update --changelog-file=main.xml");
+    }
+
     [CliTool("mytool")]
     [CliCommand("mytool", "sub", "command")]
     private record TestAttributeOptions : CommandLineToolOptions
@@ -157,5 +172,20 @@ public class CommandLineBuilderTests : TestBase
 
         [CliArgument(1, Placement = ArgumentPlacement.AfterOptions)]
         public string? ConfigPath { get; set; }
+    }
+
+    [CliTool("liquibase")]
+    [CliGlobalOptions]
+    private abstract record TestGlobalOptions : CommandLineToolOptions
+    {
+        [CliOption("--search-path", Format = OptionFormat.EqualsSeparated)]
+        public string? SearchPath { get; set; }
+    }
+
+    [CliSubCommand("update")]
+    private sealed record TestGlobalCommandOptions : TestGlobalOptions
+    {
+        [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
+        public string? ChangelogFile { get; set; }
     }
 }

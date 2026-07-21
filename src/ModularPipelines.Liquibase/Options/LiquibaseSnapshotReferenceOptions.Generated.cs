@@ -21,12 +21,6 @@ namespace ModularPipelines.Liquibase.Options;
 [CliSubCommand("snapshot-reference")]
 public record LiquibaseSnapshotReferenceOptions : LiquibaseOptions
 {
-    /// <summary>
-    /// Show this help message and exit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
     [CliOption("--reference-default-catalog-name", Format = OptionFormat.EqualsSeparated)]
     public string? ReferenceDefaultCatalogName { get; set; }
 

@@ -21,10 +21,4 @@ namespace ModularPipelines.Liquibase.Options;
 [CliSubCommand("init")]
 public record LiquibaseInitOptions : LiquibaseOptions
 {
-    /// <summary>
-    /// Show this help message and exit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

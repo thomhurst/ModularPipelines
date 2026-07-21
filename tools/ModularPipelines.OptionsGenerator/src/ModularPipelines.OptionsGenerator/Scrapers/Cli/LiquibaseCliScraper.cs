@@ -140,7 +140,10 @@ public partial class LiquibaseCliScraper : CliScraperBase
         }
 
         var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText);
+        var globalSwitches = GlobalOptions.Select(option => option.SwitchName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var options = ParseOptions(helpText)
+            .Where(option => !globalSwitches.Contains(option.SwitchName))
+            .ToList();
         var enums = options
             .Where(x => x.EnumDefinition is not null)
             .Select(x => x.EnumDefinition!)
@@ -258,6 +261,9 @@ public partial class LiquibaseCliScraper : CliScraperBase
 
         return options;
     }
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) => ParseOptions(helpText);
 
     private static CliOptionDefinition CreateDefineOption(string? description)
     {

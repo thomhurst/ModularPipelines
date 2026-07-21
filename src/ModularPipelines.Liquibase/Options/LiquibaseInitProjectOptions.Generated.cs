@@ -41,12 +41,6 @@ public record LiquibaseInitProjectOptions : LiquibaseOptions
     public string? Format { get; set; }
 
     /// <summary>
-    /// Show this help message and exit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// For remote project locations, do not delete temporary project files DEFAULT: false
     /// </summary>
     [CliOption("--keep-temp-files", Format = OptionFormat.EqualsSeparated)]

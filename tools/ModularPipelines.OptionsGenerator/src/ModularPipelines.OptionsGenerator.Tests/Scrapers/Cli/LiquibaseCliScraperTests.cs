@@ -83,8 +83,43 @@ public class LiquibaseCliScraperTests
             "Outputs a description of differences. If you have a Liquibase License Key, you can output the differences as JSON using the --format=JSON option");
     }
 
-    private sealed class TestLiquibaseCliScraper()
-        : LiquibaseCliScraper(new StubExecutor(), new StubHelpTextCache(), NullLogger<LiquibaseCliScraper>.Instance)
+    [Test]
+    public async Task Scrape_Separates_Global_Options_From_Command_Options()
+    {
+        const string rootHelp = """
+            Usage: liquibase [OPTIONS] [COMMAND]
+
+            Commands
+              update                Deploy changes
+
+            Global Options:
+                  --search-path=PARAM   Paths to search for changelogs
+                  --log-level=PARAM     Logging level
+            """;
+        const string updateHelp = """
+            Usage: liquibase update [OPTIONS]
+
+                  --search-path=PARAM      Paths to search for changelogs
+                  --changelog-file=PARAM  Changelog path [REQUIRED]
+            """;
+        var scraper = new TestLiquibaseCliScraper(new StubExecutor(rootHelp, updateHelp));
+
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var tool = scraper.CreateToolDefinition();
+        await Assert.That(tool.GlobalOptions.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--search-path", "--log-level"]);
+        await Assert.That(commands.Count).IsEqualTo(1);
+        await Assert.That(commands[0].Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--changelog-file"]);
+    }
+
+    private sealed class TestLiquibaseCliScraper(ICliCommandExecutor? executor = null)
+        : LiquibaseCliScraper(executor ?? new StubExecutor(), new StubHelpTextCache(), NullLogger<LiquibaseCliScraper>.Instance)
     {
         public IEnumerable<string> ParseSubcommands(string helpText) => ExtractSubcommands(helpText);
 
@@ -94,16 +129,21 @@ public class LiquibaseCliScraperTests
             ParseCommandAsync(commandPath, helpText, CancellationToken.None);
     }
 
-    private sealed class StubExecutor : ICliCommandExecutor
+    private sealed class StubExecutor(string? rootHelp = null, string? updateHelp = null) : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
             CancellationToken cancellationToken = default,
-            string? workingDirectory = null) => throw new NotSupportedException();
+            string? workingDirectory = null) => Task.FromResult(new CliCommandResult
+            {
+                StandardOutput = arguments == "--help" ? rootHelp ?? string.Empty : updateHelp ?? string.Empty,
+                StandardError = string.Empty,
+                ExitCode = rootHelp is null ? -1 : 0,
+            });
 
         public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
-            Task.FromResult(false);
+            Task.FromResult(rootHelp is not null);
     }
 
     private sealed class StubHelpTextCache : IHelpTextCache

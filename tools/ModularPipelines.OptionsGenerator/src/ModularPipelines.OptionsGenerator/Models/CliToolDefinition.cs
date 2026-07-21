@@ -55,6 +55,9 @@ public record CliToolDefinition
     /// </summary>
     public IReadOnlyList<CliEnumDefinition> AllEnums => Commands
         .SelectMany(c => c.Enums)
+        .Concat(GlobalOptions
+            .Where(option => option.EnumDefinition is not null)
+            .Select(option => option.EnumDefinition!))
         .DistinctBy(e => e.EnumName)
         .ToList();
 
