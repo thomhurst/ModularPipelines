@@ -18,7 +18,7 @@ public class GitTests : TestBase
             return await context.Git().Commands.Git(new GitBaseOptions
             {
                 Version = true,
-            }, token: cancellationToken);
+            }, cancellationToken: cancellationToken);
         }
     }
 

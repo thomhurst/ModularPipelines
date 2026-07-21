@@ -39,7 +39,7 @@ namespace ModularPipelines.Exceptions;
 /// <code>
 /// public class MyModule : Module&lt;string&gt;
 /// {
-///     protected override async Task&lt;string&gt; ExecuteAsync(IModuleContext context, CancellationToken token)
+///     protected override async Task&lt;string&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 ///     {
 ///         return "result";
 ///     }

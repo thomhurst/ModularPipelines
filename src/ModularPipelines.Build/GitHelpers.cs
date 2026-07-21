@@ -27,7 +27,7 @@ public static class GitHelpers
             {
                 "user.name", settings.GitUserName,
             },
-        }, token: cancellationToken);
+        }, cancellationToken: cancellationToken);
     }
 
     public static async Task SetEmail(IModuleContext context, CancellationToken cancellationToken)
@@ -41,7 +41,7 @@ public static class GitHelpers
             {
                 "user.email", settings.GitUserEmail,
             },
-        }, token: cancellationToken);
+        }, cancellationToken: cancellationToken);
     }
 
     public static async Task CheckoutBranch(IModuleContext context, string branchName, CancellationToken cancellationToken)
@@ -58,10 +58,10 @@ public static class GitHelpers
             ],
         }, null, cancellationToken);
 
-        await context.Git().Commands.Fetch(new GitFetchOptions(), token: cancellationToken);
+        await context.Git().Commands.Fetch(new GitFetchOptions(), cancellationToken: cancellationToken);
 
         await context.Git().Commands
-            .Checkout(new GitCheckoutOptions(branchName), token: cancellationToken);
+            .Checkout(new GitCheckoutOptions(branchName), cancellationToken: cancellationToken);
     }
 
     public static async Task CommitAndPush(IModuleContext context, string? branchToPushTo, string message, string token,
@@ -69,17 +69,17 @@ public static class GitHelpers
     {
         var settings = GetGitHubSettings(context);
 
-        await context.Git().Commands.Pull(token: cancellationToken);
+        await context.Git().Commands.Pull(cancellationToken: cancellationToken);
 
         await context.Git().Commands.Add(new GitAddOptions
         {
             All = true,
-        }, token: cancellationToken);
+        }, cancellationToken: cancellationToken);
 
         await context.Git().Commands.Commit(new GitCommitOptions
         {
             Message = message,
-        }, token: cancellationToken);
+        }, cancellationToken: cancellationToken);
 
         var author = context.GitHub().EnvironmentVariables.Actor ?? settings.RepositoryOwner;
 
@@ -93,7 +93,7 @@ public static class GitHelpers
         await context.Git().Commands.Push(new GitPushOptions
         {
             Arguments = arguments,
-        }, token: cancellationToken);
+        }, cancellationToken: cancellationToken);
     }
 
     public static async Task<bool> HasUncommittedChanges(IModuleContext context)
