@@ -1,4 +1,5 @@
 using System.Collections.Frozen;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.OptionsGenerator.TypeDetection;
@@ -7,7 +8,7 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 /// Fallback detector that uses heuristics based on option names and descriptions.
 /// This is the lowest priority detector, used when all others fail.
 /// </summary>
-public class HeuristicTypeDetector : IOptionTypeDetector
+public partial class HeuristicTypeDetector : IOptionTypeDetector
 {
     #region Pattern Constants
 
@@ -59,13 +60,31 @@ public class HeuristicTypeDetector : IOptionTypeDetector
 
     /// <summary>
     /// Option name patterns that indicate numeric/integer values.
-    /// These patterns suggest counts, limits, sizes, or other numerical quantities.
+    /// These patterns suggest counts, limits, or other numerical quantities.
     /// Note: "level" is intentionally excluded as it often refers to verbosity levels which are enums/strings.
     /// </summary>
     private static readonly string[] NumericNamePatterns =
     [
-        "count", "limit", "max", "min", "size", "length", "depth",
-        "retries", "timeout", "interval", "port", "number"
+        "count", "limit", "max", "min", "length", "depth",
+        "retries", "port", "number"
+    ];
+
+    /// <summary>
+    /// Option name patterns whose values commonly include units.
+    /// These remain strings unless stronger evidence, such as a numeric default, proves otherwise.
+    /// </summary>
+    private static readonly string[] UnitBearingNamePatterns =
+    [
+        "timeout", "duration", "interval", "size"
+    ];
+
+    /// <summary>
+    /// Description patterns that explicitly require a bare integer.
+    /// These provide stronger evidence than a potentially unit-bearing option name.
+    /// </summary>
+    private static readonly string[] NumericDescriptionPatterns =
+    [
+        "integer", "whole number", "number of seconds", "number of milliseconds", "number of bytes"
     ];
 
     /// <summary>
@@ -208,6 +227,23 @@ public class HeuristicTypeDetector : IOptionTypeDetector
             {
                 return CreateResult(CliOptionType.Bool, "Accepted values indicate boolean");
             }
+
+            var enumResult = TryCreateEnumResult(context.AcceptedValues!, "Accepted values");
+            if (enumResult is not null)
+            {
+                return enumResult;
+            }
+        }
+
+        var descriptionEnumResult = TryDetectEnumFromDescription(context.Description);
+        if (descriptionEnumResult is not null)
+        {
+            return descriptionEnumResult;
+        }
+
+        if (NumericDescriptionPatterns.Any(pattern => description.Contains(pattern)))
+        {
+            return CreateResult(CliOptionType.Int, "Description explicitly indicates an integer value", 85);
         }
 
         // Check for strong value-indicating patterns FIRST (before boolean checks)
@@ -239,6 +275,13 @@ public class HeuristicTypeDetector : IOptionTypeDetector
         if (BooleanDescriptionPatterns.Any(p => description.Contains(p)))
         {
             return CreateResult(CliOptionType.Bool, "Description suggests boolean flag");
+        }
+
+        // Durations and sizes frequently include units (for example, 5m0s or 10Gi).
+        // A numeric default was already handled above and remains stronger evidence.
+        if (UnitBearingNamePatterns.Any(p => optionName.Contains(p, StringComparison.OrdinalIgnoreCase)))
+        {
+            return CreateResult(CliOptionType.String, $"Option name may accept a unit-bearing value: {optionName}", 70);
         }
 
         // Check for numeric patterns
@@ -279,7 +322,80 @@ public class HeuristicTypeDetector : IOptionTypeDetector
 
     private static bool IsBooleanAcceptedValues(string acceptedValues)
     {
-        var count = BooleanLiteralValues.Count(v => acceptedValues.Contains(v));
+        var values = EnumValueSeparatorPattern()
+            .Split(acceptedValues)
+            .Select(value => value.Trim(' ', '"', '\'', '`'))
+            .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
+        var count = BooleanLiteralValues.Count(values.Contains);
         return count >= 2; // At least 2 boolean-like values
     }
+
+    private OptionTypeDetectionResult? TryDetectEnumFromDescription(string? description)
+    {
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            return null;
+        }
+
+        var explicitValuesMatch = ExplicitValuesPattern().Match(description);
+        if (explicitValuesMatch.Success)
+        {
+            return TryCreateEnumResult(explicitValuesMatch.Groups["values"].Value, "Explicit allowed values");
+        }
+
+        var parenthesizedValuesMatch = ParenthesizedValuesPattern().Match(description);
+        return parenthesizedValuesMatch.Success
+            ? TryCreateEnumResult(parenthesizedValuesMatch.Groups["values"].Value, "Parenthesized allowed values", 85)
+            : null;
+    }
+
+    private OptionTypeDetectionResult? TryCreateEnumResult(string valuesText, string reason, int confidence = 95)
+    {
+        var values = ParseEnumValues(valuesText);
+        if (values.Length < 2 || values.Length > 20)
+        {
+            return null;
+        }
+
+        _logger.LogDebug(
+            "Heuristic detection: Enum - {Reason}: {Values} (confidence: {Confidence})",
+            reason,
+            string.Join(", ", values),
+            confidence);
+
+        return new OptionTypeDetectionResult
+        {
+            Type = CliOptionType.Enum,
+            Confidence = confidence,
+            Source = Name,
+            Notes = $"{reason}: {string.Join(", ", values)}",
+            EnumValues = values
+        };
+    }
+
+    private static string[] ParseEnumValues(string valuesText)
+    {
+        return EnumValueSeparatorPattern()
+            .Split(valuesText)
+            .Select(value => LeadingConjunctionPattern().Replace(value.Trim(), ""))
+            .Select(value => value.Trim('"', '\'', '`'))
+            .Where(value => EnumValuePattern().IsMatch(value) && value.Any(char.IsLetter))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+    }
+
+    [GeneratedRegex("""(?:one of|valid values|allowed values|possible values|accepted values)(?:\s+are)?\s*:?\s*(?<values>[\w.+/\-'`"]+(?:\s*(?:\||,)\s*(?:or\s+|and\s+)?[\w.+/\-'`"]+)+)""", RegexOptions.IgnoreCase)]
+    private static partial Regex ExplicitValuesPattern();
+
+    [GeneratedRegex("""\((?<values>[\w.+/\-'`"]+(?:\s*(?:\||,)\s*(?:or\s+|and\s+)?[\w.+/\-'`"]+)+)\)""")]
+    private static partial Regex ParenthesizedValuesPattern();
+
+    [GeneratedRegex(@"\s*(?:\||,)\s*")]
+    private static partial Regex EnumValueSeparatorPattern();
+
+    [GeneratedRegex(@"^(?:or|and)\s+", RegexOptions.IgnoreCase)]
+    private static partial Regex LeadingConjunctionPattern();
+
+    [GeneratedRegex(@"^[A-Za-z0-9][\w.+/\-]{0,28}$")]
+    private static partial Regex EnumValuePattern();
 }

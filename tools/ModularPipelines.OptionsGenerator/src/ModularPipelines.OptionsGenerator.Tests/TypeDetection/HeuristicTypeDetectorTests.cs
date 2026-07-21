@@ -229,17 +229,49 @@ public class HeuristicTypeDetectorTests
     [Arguments("--limit")]
     [Arguments("--max-retries")]
     [Arguments("--min-value")]
-    [Arguments("--size")]
     [Arguments("--length")]
     [Arguments("--depth")]
     [Arguments("--retries")]
-    [Arguments("--timeout")]
-    [Arguments("--interval")]
     [Arguments("--port")]
     [Arguments("--number")]
     public async Task DetectType_Returns_Int_For_Numeric_Names(string optionName)
     {
         var context = CreateContext(optionName);
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.Int);
+    }
+
+    [Test]
+    [Arguments("--timeout")]
+    [Arguments("--request-duration")]
+    [Arguments("--poll-interval")]
+    [Arguments("--size")]
+    [Arguments("--max-image-size")]
+    public async Task DetectType_Returns_String_For_Potentially_UnitBearing_Names(string optionName)
+    {
+        var context = CreateContext(optionName);
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.String);
+    }
+
+    [Test]
+    public async Task DetectType_Returns_Int_For_UnitBearing_Name_With_Numeric_Default()
+    {
+        var context = CreateContext("--timeout", defaultValue: "30");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.Int);
+    }
+
+    [Test]
+    public async Task DetectType_Returns_Int_When_Description_Confirms_Bare_Number()
+    {
+        var context = CreateContext("--timeout", description: "Timeout as an integer number of seconds");
 
         var result = await _detector.DetectTypeAsync(context);
 
@@ -369,11 +401,6 @@ public class HeuristicTypeDetectorTests
     [Arguments("Set to \"json\" for JSON output")]
     [Arguments("Defaults to 'yaml' format")]
     [Arguments("Defaults to \"text\" output")]
-    [Arguments("One of: debug, info, warn, error")]
-    [Arguments("Valid values: json, yaml, xml")]
-    [Arguments("Allowed values: true, false, auto")]
-    [Arguments("Possible values: always, never, auto")]
-    [Arguments("Accepted values: low, medium, high")]
     public async Task DetectType_Returns_String_For_HighConfidence_Value_Description_Patterns(string description)
     {
         var context = CreateContext("--config-type", description: description);
@@ -382,6 +409,57 @@ public class HeuristicTypeDetectorTests
 
         await Assert.That(result.Type).IsEqualTo(CliOptionType.String);
         await Assert.That(result.Confidence).IsEqualTo(85);
+    }
+
+    [Test]
+    [Arguments("One of: debug, info, warn, error")]
+    [Arguments("Valid values: json, yaml, xml")]
+    [Arguments("Allowed values: true, false, auto")]
+    [Arguments("Possible values: always, never, auto")]
+    [Arguments("Accepted values: low, medium, high")]
+    [Arguments("Output format (table, json, yaml)")]
+    public async Task DetectType_Returns_Enum_For_Allowed_Values_In_Description(string description)
+    {
+        var context = CreateContext("--format", description: description);
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.Enum);
+        await Assert.That(result.EnumValues).IsNotNull();
+        await Assert.That(result.EnumValues!.Length).IsGreaterThanOrEqualTo(3);
+    }
+
+    [Test]
+    public async Task DetectType_Returns_Enum_For_Structured_Accepted_Values()
+    {
+        var context = CreateContext("--format", acceptedValues: "table|json|yaml");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.Enum);
+        await Assert.That(result.EnumValues).IsEquivalentTo(new[] { "table", "json", "yaml" });
+    }
+
+    [Test]
+    public async Task DetectType_Does_Not_Match_Boolean_Substrings_In_Accepted_Values()
+    {
+        var context = CreateContext("--mode", acceptedValues: "none, falsehood");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.Enum);
+        await Assert.That(result.EnumValues).IsEquivalentTo(new[] { "none", "falsehood" });
+    }
+
+    [Test]
+    public async Task DetectType_Does_Not_Create_Numeric_Enums()
+    {
+        var context = CreateContext("--level", description: "Allowed values: 1, 2, 3");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.String);
+        await Assert.That(result.EnumValues).IsNull();
     }
 
     #endregion
