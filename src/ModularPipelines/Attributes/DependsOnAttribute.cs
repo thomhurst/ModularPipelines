@@ -25,7 +25,7 @@ namespace ModularPipelines.Attributes;
 /// [DependsOn&lt;Module1&gt;(Optional = true)]
 /// public class Module3 : Module&lt;string&gt;
 /// {
-///     protected override async Task&lt;string?&gt; ExecuteAsync(IModuleContext context, CancellationToken ct)
+///     protected override async Task&lt;string?&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 ///     {
 ///         // Use GetModuleIfRegistered for optional dependencies
 ///         var module1 = context.GetModuleIfRegistered&lt;Module1&gt;();

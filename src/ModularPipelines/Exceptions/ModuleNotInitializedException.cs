@@ -31,7 +31,7 @@ namespace ModularPipelines.Exceptions;
 ///     }
 ///
 ///     // All work should happen here
-///     protected override async Task&lt;string&gt; ExecuteAsync(IModuleContext context, CancellationToken token)
+///     protected override async Task&lt;string&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 ///     {
 ///         return await _service.DoWorkAsync();
 ///     }

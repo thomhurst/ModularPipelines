@@ -37,7 +37,7 @@ namespace ModularPipelines.Context;
 /// <b>Example - Safe Concurrent Access:</b>
 /// </para>
 /// <code>
-/// protected override async Task&lt;MyResult&gt; ExecuteAsync(IModuleContext context, CancellationToken token)
+/// protected override async Task&lt;MyResult&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 /// {
 ///     // Safe: Multiple parallel tasks accessing the same context
 ///     var tasks = files.Select(async file =&gt;
