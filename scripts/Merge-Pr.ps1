@@ -35,6 +35,15 @@ $repoArgs = @(); if ($Repo) { $repoArgs = @('--repo', $Repo) }
 
 function Fail([string]$msg) { [Console]::Error.WriteLine("MERGE ABORTED #${Pr} -- $msg"); exit 1 }
 
+function Find-WorktreeForBranch([string]$RepoPath, [string]$Branch) {
+    $current = $null
+    foreach ($line in (git -C $RepoPath worktree list --porcelain)) {
+        if ($line -like 'worktree *') { $current = $line.Substring(9) }
+        elseif ($line -eq "branch refs/heads/$Branch") { return $current }
+    }
+    return $null
+}
+
 # --- 1. Gate: the pure predicate decides. No merge unless it exits 0. -----------
 & pwsh (Join-Path $PSScriptRoot 'Assert-PrGreen.ps1') -Pr $Pr @repoArgs
 if ($LASTEXITCODE -ne 0) { Fail "Assert-PrGreen denied (exit $LASTEXITCODE). Not merging." }
@@ -52,16 +61,11 @@ $mainRepo = ((git worktree list --porcelain) | Where-Object { $_ -like 'worktree
 # Resolve cleanup before merging. If another process checked the PR branch out in the
 # primary checkout, abort while the PR is still open instead of risking that checkout.
 if (-not $Worktree) {
-    $wt = $null; $cur = $null
-    foreach ($line in (git -C $mainRepo worktree list --porcelain)) {
-        if ($line -like 'worktree *') { $cur = $line.Substring(9) }
-        elseif ($line -eq "branch refs/heads/$headRef") { $wt = $cur; break }
-    }
-    $Worktree = $wt
+    $Worktree = Find-WorktreeForBranch -RepoPath $mainRepo -Branch $headRef
 }
 if ($Worktree) {
-    if (Test-SameWorktreePath -Left $mainRepo -Right $Worktree) {
-        Fail "PR branch '$headRef' is checked out in the primary checkout '$mainRepo'. Move it to an isolated worktree first."
+    if (-not (Test-IsLinkedWorktree -Path $Worktree)) {
+        Fail "PR branch '$headRef' is not in an isolated linked worktree. Move it out of the primary checkout first."
     }
 }
 
@@ -71,6 +75,9 @@ if ($LASTEXITCODE -ne 0) { Fail "gh pr merge failed (exit $LASTEXITCODE). Worktr
 Write-Host "Merged #${Pr} ($headRef)."
 
 # --- 3. Remove the PR's worktree. ----------------------------------------------
+# Re-resolve after the merge so a worktree reused while GitHub was processing the
+# merge cannot be deleted based on stale pre-merge state.
+$Worktree = Find-WorktreeForBranch -RepoPath $mainRepo -Branch $headRef
 if (-not $Worktree) {
     Write-Host "No isolated worktree found for branch '$headRef' (nothing to remove)."
     git -C $mainRepo worktree prune

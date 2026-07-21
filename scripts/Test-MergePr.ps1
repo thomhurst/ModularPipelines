@@ -12,7 +12,7 @@ if ($mergeMatch.Value -match '--delete-branch') {
     throw 'gh pr merge must not delete a branch before its worktree is removed.'
 }
 
-$primaryGuardIndex = $script.IndexOf("is checked out in the primary checkout")
+$primaryGuardIndex = $script.IndexOf("is not in an isolated linked worktree")
 if ($primaryGuardIndex -lt 0 -or $primaryGuardIndex -gt $mergeMatch.Index) {
     throw 'Primary-checkout cleanup guard must run before gh pr merge.'
 }
@@ -36,6 +36,11 @@ if ($cleanupIndex -gt $remoteDeleteIndex -or $cleanupIndex -gt $localDeleteIndex
 $mergedConfirmationIndex = $script.IndexOf('Write-Host "Merged', $mergeMatch.Index)
 if ($mergedConfirmationIndex -lt 0) {
     throw 'Successful merge confirmation is missing.'
+}
+
+$postMergeResolutionIndex = $script.IndexOf('# Re-resolve after the merge', $mergedConfirmationIndex)
+if ($postMergeResolutionIndex -lt 0 -or $postMergeResolutionIndex -gt $cleanupIndex) {
+    throw 'PR worktree must be re-resolved after the merge and before cleanup.'
 }
 
 $postMergeScript = $script.Substring($mergedConfirmationIndex)

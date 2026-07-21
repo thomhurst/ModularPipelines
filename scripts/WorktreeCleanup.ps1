@@ -10,16 +10,17 @@
 #     system-wide; the `\\?\` extended-length Remove-Item is kept as a fallback for
 #     environments where that config is missing.
 
-function Test-SameWorktreePath {
-    param(
-        [Parameter(Mandatory)][string]$Left,
-        [Parameter(Mandatory)][string]$Right
-    )
+function Test-IsLinkedWorktree {
+    param([Parameter(Mandatory)][string]$Path)
 
-    $trimChars = [char[]]@([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar)
-    $leftPath = [IO.Path]::GetFullPath($Left).TrimEnd($trimChars)
-    $rightPath = [IO.Path]::GetFullPath($Right).TrimEnd($trimChars)
-    return $leftPath.Equals($rightPath, [System.StringComparison]::OrdinalIgnoreCase)
+    # A primary checkout has a .git directory. A linked worktree has a .git file,
+    # including when reached through a symlink or junction. Requiring that marker
+    # avoids path-text comparisons and refuses arbitrary directories fail-closed.
+    $marker = Join-Path $Path '.git'
+    if (-not (Test-Path -LiteralPath $marker -PathType Leaf)) { return $false }
+
+    $firstLine = Get-Content -LiteralPath $marker -TotalCount 1 -ErrorAction SilentlyContinue
+    return $firstLine -match '^gitdir:\s*\S+'
 }
 
 function Remove-MergedWorktree {
@@ -35,11 +36,10 @@ function Remove-MergedWorktree {
         return
     }
 
-    # Never remove the checkout used to administer worktrees. Besides being invalid
-    # for `git worktree remove`, allowing this to reach the recursive fallback would
-    # delete the primary checkout and any untracked user files in it.
-    if (Test-SameWorktreePath -Left $Repo -Right $Worktree) {
-        Write-Host "WARNING: refusing to remove primary checkout $Label : $Worktree"
+    # Only linked worktrees are valid deletion targets. This rejects the primary
+    # checkout even through a filesystem alias before any git or recursive delete.
+    if (-not (Test-IsLinkedWorktree -Path $Worktree)) {
+        Write-Host "WARNING: refusing to remove primary checkout or non-linked worktree $Label : $Worktree"
         return
     }
 
