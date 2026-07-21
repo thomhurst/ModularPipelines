@@ -41,6 +41,21 @@ public class SnykCliScraperTests
     }
 
     [Test]
+    public async Task Sbom_Help_Exposes_Test_Subcommand()
+    {
+        const string helpText = """
+            SBOM
+
+            Usage
+              snyk sbom --format=<FORMAT>
+            """;
+
+        var commands = new TestSnykCliScraper().Extract(helpText);
+
+        await Assert.That(commands).IsEquivalentTo(["test"]);
+    }
+
+    [Test]
     public async Task Command_Help_Does_Not_Treat_Examples_As_Subcommands()
     {
         const string helpText = """
@@ -129,13 +144,22 @@ public class SnykCliScraperTests
                   Specify an API token.
               --tfc-endpoint
                   Specify the Terraform Enterprise endpoint.
+              --fetch-tfstate-headers
+                  Use HTTP authorization headers when fetching Terraform state.
               --repo
                   Specify the repository URL.
             """;
 
         var command = await new TestSnykCliScraper().Parse(["snyk", "iac", "describe"], helpText);
 
-        foreach (var switchName in new[] { "--packages-folder", "--tfc-token", "--tfc-endpoint", "--repo" })
+        foreach (var switchName in new[]
+                 {
+                     "--packages-folder",
+                     "--tfc-token",
+                     "--tfc-endpoint",
+                     "--fetch-tfstate-headers",
+                     "--repo",
+                 })
         {
             var option = command!.Options.Single(x => x.SwitchName == switchName);
             await Assert.That(option.CSharpType).IsEqualTo("string?");
@@ -143,6 +167,71 @@ public class SnykCliScraperTests
         }
 
         await Assert.That(command!.Options.Single(x => x.SwitchName == "--tfc-token").IsSecret).IsTrue();
+        await Assert.That(command.Options.Single(x => x.SwitchName == "--fetch-tfstate-headers").IsSecret).IsTrue();
+    }
+
+    [Test]
+    public async Task Sbom_Parses_Bracketed_Options_And_Adds_Documented_Flag()
+    {
+        const string helpText = """
+            SBOM
+            Usage: snyk sbom [<OPTIONS>]
+
+            Options
+              [--org=<ORG_ID>]
+                Select an organization.
+              [--dev]
+                Include development dependencies.
+              [--exclude=<NAME>]
+                Exclude files or directories.
+              [--detection-depth=<DEPTH>]
+                Limit directory traversal.
+              [--prune-repeated-subdependencies|-p]
+                Prune repeated dependencies.
+              [--json-file-output]
+                Save JSON output to a file.
+            """;
+
+        var command = await new TestSnykCliScraper().Parse(["snyk", "sbom"], helpText);
+
+        await Assert.That(command!.Options.Select(x => x.SwitchName)).Contains("--org");
+        await Assert.That(command.Options.Single(x => x.SwitchName == "--dev").IsFlag).IsTrue();
+        await Assert.That(command.Options.Single(x => x.SwitchName == "--detection-depth").CSharpType).IsEqualTo("int?");
+        await Assert.That(command.Options.Single(x => x.SwitchName == "--json-file-output").CSharpType).IsEqualTo("string?");
+        await Assert.That(command.Options.Single(x => x.SwitchName == "--allow-incomplete-sbom").IsFlag).IsTrue();
+    }
+
+    [Test]
+    public async Task Container_Sbom_Adds_Documented_Options_Missing_From_Older_Help()
+    {
+        var command = await new TestSnykCliScraper().Parse(
+            ["snyk", "container", "sbom"],
+            "Usage: snyk container sbom --format=<FORMAT> <IMAGE>");
+
+        await Assert.That(command!.Options.Single(x => x.SwitchName == "--nested-jars-depth").CSharpType)
+            .IsEqualTo("int?");
+        await Assert.That(command.Options.Single(x => x.SwitchName == "--exclude-node-modules").IsFlag).IsTrue();
+        await Assert.That(command.Options.Single(x => x.SwitchName == "--password").IsSecret).IsTrue();
+    }
+
+    [Test]
+    public async Task Sbom_Test_Parses_Required_File_Option()
+    {
+        const string helpText = """
+            SBOM test
+            Usage: snyk sbom test --file=<FILE_PATH> [<OPTIONS>]
+
+            Options
+              --file=<FILE_PATH>
+                Required. Specify the SBOM document.
+              --json
+                Print JSON output.
+            """;
+
+        var command = await new TestSnykCliScraper().Parse(["snyk", "sbom", "test"], helpText);
+
+        await Assert.That(command!.FullCommand).IsEqualTo("snyk sbom test");
+        await Assert.That(command.Options.Single(x => x.SwitchName == "--file").IsRequired).IsTrue();
     }
 
     [Test]

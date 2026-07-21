@@ -165,6 +165,15 @@ public partial interface ISnyk
     Task<CommandResult> Sbom(SnykSbomOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Feature availability: This feature is available to customers on Snyk Enterprise plans.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SbomTest(SnykSbomTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// The snyk test command checks projects for open-source vulnerabilities and license issues. The test
     /// </summary>
     /// <param name="options">The command options.</param>

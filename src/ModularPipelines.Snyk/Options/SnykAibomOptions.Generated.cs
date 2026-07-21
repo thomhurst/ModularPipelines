@@ -40,6 +40,12 @@ public record SnykAibomOptions : SnykOptions
     public bool? Html { get; set; }
 
     /// <summary>
+    /// Optional. Save the AIBOM output as a JSON data structure directly to the specified file.
+    /// </summary>
+    [CliOption("--json-file-output", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonFileOutput { get; set; }
+
+    /// <summary>
     /// Optional. Persist the AIBOM into your Snyk Organization. This flag requires the --repo flag. It enables you to view your AI-BOM for the repository in the Evo web interface.
     /// </summary>
     [CliFlag("--upload")]

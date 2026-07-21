@@ -176,6 +176,15 @@ internal partial class Snyk : ISnyk
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> SbomTest(
+        SnykSbomTestOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> Test(
         SnykTestOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

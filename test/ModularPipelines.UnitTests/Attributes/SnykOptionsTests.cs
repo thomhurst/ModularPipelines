@@ -115,6 +115,72 @@ public class SnykOptionsTests
         await Assert.That(tfcToken!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
     }
 
+    [Test]
+    public async Task Sbom_Commands_Render_Documented_Options()
+    {
+        var sbomArguments = BuildArguments(new SnykSbomOptions(SnykFormat.Cyclonedx16Json)
+        {
+            Org = "security",
+            Dev = true,
+            Exclude = "fixtures",
+            DetectionDepth = 3,
+            PruneRepeatedSubdependencies = true,
+            AllowIncompleteSbom = true,
+            JsonFileOutput = "bom.json",
+        });
+        var testArguments = BuildArguments(new SnykSbomTestOptions("bom.json")
+        {
+            Json = true,
+        });
+        var containerArguments = BuildArguments(new SnykContainerSbomOptions(
+            SnykFormat.Spdx23Json,
+            "registry.example.com/app:latest")
+        {
+            Org = "security",
+            ExcludeAppVulns = true,
+            ExcludeNodeModules = true,
+            NestedJarsDepth = 2,
+            Username = "registry-user",
+            Password = "registry-password",
+        });
+
+        await Assert.That(sbomArguments).IsEquivalentTo(
+        [
+            "--format=cyclonedx1.6+json",
+            "--org=security",
+            "--dev",
+            "--exclude=fixtures",
+            "--detection-depth=3",
+            "--prune-repeated-subdependencies",
+            "--allow-incomplete-sbom",
+            "--json-file-output=bom.json",
+        ]);
+        await Assert.That(testArguments).IsEquivalentTo(["--file=bom.json", "--json"]);
+        await Assert.That(containerArguments).IsEquivalentTo(
+        [
+            "--format=spdx2.3+json",
+            "registry.example.com/app:latest",
+            "--org=security",
+            "--exclude-app-vulns",
+            "--exclude-node-modules",
+            "--nested-jars-depth=2",
+            "--username=registry-user",
+            "--password=registry-password",
+        ]);
+    }
+
+    [Test]
+    public async Task Terraform_Headers_And_Container_Password_Are_Secrets()
+    {
+        var headers = typeof(SnykIacDescribeOptions)
+            .GetProperty(nameof(SnykIacDescribeOptions.FetchTfstateHeaders));
+        var password = typeof(SnykContainerSbomOptions)
+            .GetProperty(nameof(SnykContainerSbomOptions.Password));
+
+        await Assert.That(headers!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
+        await Assert.That(password!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
+    }
+
     private List<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());

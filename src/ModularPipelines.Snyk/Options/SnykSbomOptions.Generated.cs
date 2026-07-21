@@ -25,10 +25,82 @@ public record SnykSbomOptions(
 ) : SnykOptions
 {
     /// <summary>
-    /// otherwise prevent generating an SBOM for the rest of the workspace.
+    /// Specify the &lt;ORG_ID&gt; (name or UUID) to run Snyk commands tied to a specific Snyk Organization. The &lt;ORG_ID&gt; influences some features availability and private test limits.
+    /// </summary>
+    [CliOption("--org", Format = OptionFormat.EqualsSeparated)]
+    public string? Org { get; set; }
+
+    /// <summary>
+    /// Specify the desired manifest file on which the SBOM will be based.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// Specify the desired manifest file on which the SBOM will be based.
+    /// </summary>
+    [CliOption("--f", Format = OptionFormat.EqualsSeparated)]
+    public string? F { get; set; }
+
+    /// <summary>
+    /// Generate an SBOM for unmanaged software projects.
     /// </summary>
     [CliFlag("--unmanaged")]
     public bool? Unmanaged { get; set; }
+
+    /// <summary>
+    /// Include development-only dependencies in the SBOM output.
+    /// </summary>
+    [CliFlag("--dev")]
+    public bool? Dev { get; set; }
+
+    /// <summary>
+    /// Optional. Use for monorepos and directories with multiple projects or manifest files.
+    /// </summary>
+    [CliFlag("--all-projects")]
+    public bool? AllProjects { get; set; }
+
+    /// <summary>
+    /// Use in combination with --all-projects to provide the name of the software which the SBOM describes. If not specified, this defaults to the name of the current working directory.
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Use in combination with --all-projects to provide the version of the software that the SBOM describes. This is omitted if not set explicitly.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
+    /// <summary>
+    /// Can be used with --all-projects to indicate directory names and file names to exclude. Must be comma-separated.
+    /// </summary>
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
+    public string? Exclude { get; set; }
+
+    /// <summary>
+    /// Use with --all-projects to indicate how many subdirectories to search. DEPTH must be a number, 1 or greater; zero (0) is the current directory.
+    /// </summary>
+    [CliOption("--detection-depth", Format = OptionFormat.EqualsSeparated)]
+    public int? DetectionDepth { get; set; }
+
+    /// <summary>
+    /// Prune dependency trees, removing duplicate sub-dependencies.
+    /// </summary>
+    [CliFlag("--prune-repeated-subdependencies")]
+    public bool? PruneRepeatedSubdependencies { get; set; }
+
+    /// <summary>
+    /// Continue generating an SBOM when one or more detected projects fail to resolve, instead of aborting on the first failure.
+    /// </summary>
+    [CliFlag("--allow-incomplete-sbom")]
+    public bool? AllowIncompleteSbom { get; set; }
+
+    /// <summary>
+    /// Optional. Save the SBOM output as a JSON data structure directly to the specified file. This requires the SBOM --format to include +json.
+    /// </summary>
+    [CliOption("--json-file-output", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonFileOutput { get; set; }
 
     /// <summary>
     /// Use --maven-aggregate-project instead of --all-projects when scanning Maven aggregate projects, that is, ones that use modules and inheritance.
@@ -47,9 +119,6 @@ public record SnykSbomOptions(
     /// </summary>
     [CliFlag("--scan-unmanaged")]
     public bool? ScanUnmanaged { get; set; }
-
-    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
-    public string? File { get; set; }
 
     /// <summary>
     /// Auto-detect Maven, JAR, WAR, and AAR files recursively from the current folder.
@@ -80,12 +149,6 @@ public record SnykSbomOptions(
     /// </summary>
     [CliFlag("--all-sub-projects")]
     public bool? AllSubProjects { get; set; }
-
-    /// <summary>
-    /// See also the --all-projects option information in the Options section of this help.
-    /// </summary>
-    [CliFlag("--all-projects")]
-    public bool? AllProjects { get; set; }
 
     /// <summary>
     /// Resolve dependencies using only configuration(s) that match the specified Java regular expression.

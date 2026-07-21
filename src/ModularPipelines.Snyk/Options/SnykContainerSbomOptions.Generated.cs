@@ -26,10 +26,47 @@ public record SnykContainerSbomOptions(
 ) : SnykOptions
 {
     /// <summary>
+    /// Specify the &lt;ORG_ID&gt; (name or UUID) to run Snyk commands tied to a specific Snyk Organization. The &lt;ORG_ID&gt; influences some features availability and private test limits.
+    /// </summary>
+    [CliOption("--org", Format = OptionFormat.EqualsSeparated)]
+    public string? Org { get; set; }
+
+    /// <summary>
     /// For multi-architecture images, specify the platform for the container image.
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }
+
+    /// <summary>
+    /// Snyk scans and generates an SBOM for operating system dependencies and application dependencies in your image by default.
+    /// </summary>
+    [CliFlag("--exclude-app-vulns")]
+    public bool? ExcludeAppVulns { get; set; }
+
+    /// <summary>
+    /// Allow disabling the scan of node_modules directories inside node.js container images.
+    /// </summary>
+    [CliFlag("--exclude-node-modules")]
+    public bool? ExcludeNodeModules { get; set; }
+
+    /// <summary>
+    /// When app-vulns is enabled, use the --nested-jars-depth=n option to set how many levels of nested jars Snyk is to unpack. Depth must be a number.
+    /// </summary>
+    [CliOption("--nested-jars-depth", Format = OptionFormat.EqualsSeparated)]
+    public int? NestedJarsDepth { get; set; }
+
+    /// <summary>
+    /// Specify a username to use when connecting to a container registry. This is ignored in favor of local Docker binary credentials when Docker is present.
+    /// </summary>
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
+    public string? Username { get; set; }
+
+    /// <summary>
+    /// Specify a password to use when connecting to a container registry. This is ignored in favor of local Docker binary credentials when Docker is present.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
 
     /// <summary>
     /// Output debug logs.

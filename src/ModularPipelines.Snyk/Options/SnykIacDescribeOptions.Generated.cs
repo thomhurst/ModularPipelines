@@ -54,6 +54,7 @@ public record SnykIacDescribeOptions : SnykOptions
     /// <summary>
     /// Use a specific HTTP header or headers for the HTTP backend when fetching Terraform state.
     /// </summary>
+    [SecretValue]
     [CliOption("--fetch-tfstate-headers", Format = OptionFormat.EqualsSeparated)]
     public string? FetchTfstateHeaders { get; set; }
 

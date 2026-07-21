@@ -36,6 +36,7 @@ public partial class SnykCliScraper : CliScraperBase
         "--config-dir",
         "--dotnet-target-framework",
         "--fetch-tfstate-headers",
+        "--json-file-output",
         "--packages-folder",
         "--repo",
         "--tf-lockfile",
@@ -98,6 +99,10 @@ public partial class SnykCliScraper : CliScraperBase
             {
                 AddMatches(AibomCommandPattern().Matches(normalizedText).Cast<Match>());
             }
+            else if (SbomOverviewPattern().IsMatch(normalizedText))
+            {
+                subcommands.Add("test");
+            }
         }
 
         Logger.LogInformation("[snyk] Extracted {Count} subcommands", subcommands.Count);
@@ -134,6 +139,7 @@ public partial class SnykCliScraper : CliScraperBase
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
+        AddDocumentedOptions(commandParts, options);
         var positionalArguments = GetPositionalArguments(commandParts);
         var enums = options
             .Where(x => x.EnumDefinition is not null)
@@ -246,7 +252,7 @@ public partial class SnykCliScraper : CliScraperBase
         {
             var line = lines[i];
 
-            if (!line.TrimStart().StartsWith('-'))
+            if (!line.TrimStart().TrimStart('[').StartsWith('-'))
             {
                 continue;
             }
@@ -312,9 +318,82 @@ public partial class SnykCliScraper : CliScraperBase
                     ValueSeparator = isFlag ? " " : "=",
                     EnumDefinition = enumDef,
                     IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                        || longForm.Equals("--fetch-tfstate-headers", StringComparison.OrdinalIgnoreCase)
                 });
             }
         }
+    }
+
+    private static void AddDocumentedOptions(
+        string[] commandParts,
+        List<CliOptionDefinition> options)
+    {
+        switch (string.Join(' ', commandParts))
+        {
+            case "sbom":
+                AddOptionIfMissing(
+                    options,
+                    "--allow-incomplete-sbom",
+                    "AllowIncompleteSbom",
+                    "bool?",
+                    "Continue generating an SBOM when some projects fail to resolve",
+                    isFlag: true);
+                break;
+            case "container sbom":
+                AddOptionIfMissing(options, "--org", "Org", "string?", "Snyk Organization ID");
+                AddOptionIfMissing(
+                    options,
+                    "--exclude-app-vulns",
+                    "ExcludeAppVulns",
+                    "bool?",
+                    "Exclude application vulnerabilities",
+                    isFlag: true);
+                AddOptionIfMissing(
+                    options,
+                    "--exclude-node-modules",
+                    "ExcludeNodeModules",
+                    "bool?",
+                    "Exclude node_modules scanning",
+                    isFlag: true);
+                AddOptionIfMissing(
+                    options,
+                    "--nested-jars-depth",
+                    "NestedJarsDepth",
+                    "int?",
+                    "Maximum nested JAR extraction depth",
+                    isNumeric: true);
+                AddOptionIfMissing(options, "--username", "Username", "string?", "Container registry username");
+                AddOptionIfMissing(options, "--password", "Password", "string?", "Container registry password", isSecret: true);
+                break;
+        }
+    }
+
+    private static void AddOptionIfMissing(
+        List<CliOptionDefinition> options,
+        string switchName,
+        string propertyName,
+        string csharpType,
+        string description,
+        bool isFlag = false,
+        bool isNumeric = false,
+        bool isSecret = false)
+    {
+        if (options.Any(x => x.SwitchName.Equals(switchName, StringComparison.OrdinalIgnoreCase)))
+        {
+            return;
+        }
+
+        options.Add(new CliOptionDefinition
+        {
+            SwitchName = switchName,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            Description = description,
+            IsFlag = isFlag,
+            IsNumeric = isNumeric,
+            ValueSeparator = isFlag ? " " : "=",
+            IsSecret = isSecret,
+        });
     }
 
     private static bool IsBooleanValueHint(string valueHint)
@@ -443,11 +522,14 @@ public partial class SnykCliScraper : CliScraperBase
     [GeneratedRegex(@"^\s+snyk\s+(?<command>[\w-]+)\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex RootCommandPattern();
 
-    [GeneratedRegex(@"^snyk\s+(?<group>container|iac|code)\s+commands?\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    [GeneratedRegex(@"^snyk\s+(?<group>container|iac|code|sbom)\s+commands?\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex GroupOverviewPattern();
 
-    [GeneratedRegex(@"^\s*(?:-\s+)?(?<group>container|iac|code)\s+(?<command>[\w-]+)\s*[,;]", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:-\s+)?(?<group>container|iac|code|sbom)\s+(?<command>[\w-]+)\s*[,;]", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex GroupCommandPattern();
+
+    [GeneratedRegex(@"^SBOM\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex SbomOverviewPattern();
 
     [GeneratedRegex(@"^AI-BOM\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex AibomOverviewPattern();
