@@ -14,10 +14,10 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// Usage: eksctl [command] [flags]
 ///
 /// Commands:
-///   associate         Associate resources with a cluster
-///   completion        Generates shell completion scripts
-///   create            Create resource(s)
-///   delete            Delete resource(s)
+///   eksctl associate         Associate resources with a cluster
+///   eksctl completion        Generates shell completion scripts
+///   eksctl create            Create resource(s)
+///   eksctl delete            Delete resource(s)
 ///   ...
 /// </summary>
 public partial class EksctlCliScraper : CobraCliScraper
