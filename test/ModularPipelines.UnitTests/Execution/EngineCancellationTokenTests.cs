@@ -3,6 +3,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -178,5 +179,26 @@ public class EngineCancellationTokenTests : TestBase
         await Assert.That(completingModuleResult!.ModuleStatus).IsEqualTo(Status.Successful);
         await Assert.That(pendingModuleResult).IsNotNull();
         await Assert.That(pendingModuleResult!.ModuleStatus).IsEqualTo(Status.Successful);
+    }
+
+    [Test]
+    public async Task WaitForAllModules_Preserves_Original_Failure()
+    {
+        PeerModuleStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var builder = TestPipelineHostBuilder.Create()
+            .ConfigurePipelineOptions((_, options) =>
+            {
+                options.ExecutionMode = ExecutionMode.WaitForAllModules;
+                options.ThrowOnPipelineFailure = true;
+            })
+            .AddModule<WaitForAllFailingModule>()
+            .AddModule<WaitForAllCompletingModule>();
+
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(
+            async () => await builder.ExecutePipelineAsync());
+
+        await Assert.That(exception.InnerException).IsTypeOf<InvalidOperationException>();
+        await Assert.That(exception.InnerException!).HasMessageEqualTo("Expected test failure");
     }
 }

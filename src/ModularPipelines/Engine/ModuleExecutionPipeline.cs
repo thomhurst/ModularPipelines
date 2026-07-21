@@ -75,7 +75,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         var beforeHooksExecuted = false;
 
         // Get configuration once at the start
-        var config = ((IModule)module).Configuration;
+        var config = ((IModule) module).Configuration;
 
         try
         {
@@ -441,7 +441,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         Exception exception,
         IModuleLogger logger)
     {
-        ((IInternalModuleLogger)logger).SetException(exception);
+        ((IInternalModuleLogger) logger).SetException(exception);
 
         var moduleFailedException = new ModuleFailedException(executionContext.ModuleType, exception);
 
@@ -453,6 +453,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         else
         {
             logger.LogDebug("Module failed. Waiting for all modules to complete");
+            _engineCancellationToken.RecordException(moduleFailedException);
         }
 
         executionContext.SetException(moduleFailedException);

@@ -68,11 +68,16 @@ internal class EngineCancellationToken : IDisposable
 
     public void CancelWithException(Exception exception, string? reason = null)
     {
-        _primaryExceptionContainer.SetException(exception);
+        RecordException(exception);
 
         Reason = reason ?? exception.Message;
         _isCancelled = true;
         Cancel();
+    }
+
+    public void RecordException(Exception exception)
+    {
+        _primaryExceptionContainer.SetException(exception);
     }
 
     /// <summary>

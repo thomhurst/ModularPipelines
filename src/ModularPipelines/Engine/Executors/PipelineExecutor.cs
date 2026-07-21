@@ -1,8 +1,11 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine.Executors;
 
@@ -16,6 +19,7 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly IModuleResultRegistry _resultRegistry;
     private readonly IMetricsCollector _metricsCollector;
     private readonly IParallelLimitProvider _parallelLimitProvider;
+    private readonly IOptions<PipelineOptions> _options;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
@@ -25,7 +29,8 @@ internal class PipelineExecutor : IPipelineExecutor
         ISecondaryExceptionContainer secondaryExceptionContainer,
         IModuleResultRegistry resultRegistry,
         IMetricsCollector metricsCollector,
-        IParallelLimitProvider parallelLimitProvider)
+        IParallelLimitProvider parallelLimitProvider,
+        IOptions<PipelineOptions> options)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleExecutor = moduleExecutor;
@@ -35,6 +40,7 @@ internal class PipelineExecutor : IPipelineExecutor
         _resultRegistry = resultRegistry;
         _metricsCollector = metricsCollector;
         _parallelLimitProvider = parallelLimitProvider;
+        _options = options;
     }
 
     public async Task<PipelineSummary> ExecuteAsync(List<IModule> runnableModules,
@@ -58,8 +64,13 @@ internal class PipelineExecutor : IPipelineExecutor
             await _pipelineSetupExecutor.OnPipelineEndAsync(pipelineSummary).ConfigureAwait(false);
         }
 
-        // Check for original exception first with preserved stack trace
-        _exceptionRethrowService.ThrowOriginalExceptionIfPresent();
+        // Wait-for-all may return a failed summary when configured not to throw.
+        // Fail-fast retains its existing behavior and always surfaces the original.
+        if (_options.Value.ExecutionMode == ExecutionMode.StopOnFirstException
+            || _options.Value.ThrowOnPipelineFailure)
+        {
+            _exceptionRethrowService.ThrowOriginalExceptionIfPresent();
+        }
 
         _secondaryExceptionContainer.ThrowExceptions();
 
