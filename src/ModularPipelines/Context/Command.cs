@@ -4,6 +4,7 @@ using System.Text;
 using CliWrap;
 using CliWrap.Exceptions;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Logging;
@@ -24,6 +25,8 @@ internal sealed class Command : ICommand, ICommandContext
     private readonly IPlaceholderHandler _placeholderHandler;
     private readonly ICommandPartsProvider _commandPartsProvider;
     private readonly IToolResolver _toolResolver;
+    private readonly ISecretProvider _secretProvider;
+    private readonly ISecretRegistry _secretRegistry;
 
     public Command(
         ICommandLogger commandLogger,
@@ -31,7 +34,9 @@ internal sealed class Command : ICommand, ICommandContext
         ICommandArgumentBuilder commandArgumentBuilder,
         IPlaceholderHandler placeholderHandler,
         ICommandPartsProvider commandPartsProvider,
-        IToolResolver toolResolver)
+        IToolResolver toolResolver,
+        ISecretProvider secretProvider,
+        ISecretRegistry secretRegistry)
     {
         _commandLogger = commandLogger;
         _commandModelProvider = commandModelProvider;
@@ -39,6 +44,8 @@ internal sealed class Command : ICommand, ICommandContext
         _placeholderHandler = placeholderHandler;
         _commandPartsProvider = commandPartsProvider;
         _toolResolver = toolResolver;
+        _secretProvider = secretProvider;
+        _secretRegistry = secretRegistry;
     }
 
     public async Task<CommandResult> ExecuteCommandLineTool(
@@ -49,6 +56,7 @@ internal sealed class Command : ICommand, ICommandContext
         var execOpts = executionOptions ?? new CommandExecutionOptions();
 
         var optionsObject = GetOptionsObject(options);
+        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(optionsObject));
 
         // Get subcommand parts and handle placeholder replacement
         var rawCommandParts = _commandPartsProvider.GetRawCommandParts(optionsObject);

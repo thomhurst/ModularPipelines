@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
@@ -12,6 +13,28 @@ namespace ModularPipelines.UnitTests.Commands;
 
 public class CommandLoggerTests : TestBase
 {
+    [Test]
+    public async Task Masks_Secret_Values_From_Command_Options()
+    {
+        const string secret = "command-option-secret";
+        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var result = await GetService<ICommand>((_, collection) =>
+        {
+            collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
+            collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddFile(file));
+        });
+
+        await result.T.ExecuteCommandLineTool(
+            new SecretCommandOptions { Secret = secret },
+            new CommandExecutionOptions { ThrowOnNonZeroExitCode = false });
+        await result.Host.DisposeAsync();
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).DoesNotContain(secret);
+        await Assert.That(logFile).Contains("********");
+    }
+
     [Test]
     [MatrixDataSource]
     public async Task Logs_As_Expected_With_Options(
@@ -224,5 +247,13 @@ public class CommandLoggerTests : TestBase
         await result.Host.DisposeAsync();
 
         return file;
+    }
+
+    [CliTool("pwsh")]
+    private record SecretCommandOptions : CommandLineToolOptions
+    {
+        [CliOption("-Command")]
+        [SecretValue]
+        public string? Secret { get; init; }
     }
 }
