@@ -122,7 +122,7 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
     /// </summary>
     private static readonly string[] BooleanLiteralValues =
     [
-        "true", "false", "yes", "no", "0", "1"
+        "true", "false", "yes", "no", "on", "off", "0", "1"
     ];
 
     /// <summary>
@@ -322,7 +322,7 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
 
     private static bool IsBooleanAcceptedValues(string acceptedValues)
     {
-        var values = EnumValueSeparatorPattern()
+        var values = BooleanValueSeparatorPattern()
             .Split(acceptedValues)
             .Select(value => value.Trim(' ', '"', '\'', '`'))
             .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
@@ -387,15 +387,18 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
     [GeneratedRegex("""(?:one of|valid values|allowed values|possible values|accepted values)(?:\s+are)?\s*:?\s*(?<values>[\w.+/\-'`"]+(?:\s*(?:\||,)\s*(?:or\s+|and\s+)?[\w.+/\-'`"]+)+)""", RegexOptions.IgnoreCase)]
     private static partial Regex ExplicitValuesPattern();
 
-    [GeneratedRegex("""\((?<values>[\w.+/\-'`"]+(?:\s*(?:\||,)\s*(?:or\s+|and\s+)?[\w.+/\-'`"]+)+)\)""")]
+    [GeneratedRegex("""(?:format|type|mode)\s*\((?<values>[\w.+/\-'`"]+(?:\s*(?:\||,)\s*(?:or\s+|and\s+)?[\w.+/\-'`"]+)+)\)""", RegexOptions.IgnoreCase)]
     private static partial Regex ParenthesizedValuesPattern();
 
     [GeneratedRegex(@"\s*(?:\||,)\s*")]
     private static partial Regex EnumValueSeparatorPattern();
 
+    [GeneratedRegex(@"\s*(?:\||,|/)\s*")]
+    private static partial Regex BooleanValueSeparatorPattern();
+
     [GeneratedRegex(@"^(?:or|and)\s+", RegexOptions.IgnoreCase)]
     private static partial Regex LeadingConjunctionPattern();
 
-    [GeneratedRegex(@"^[A-Za-z0-9][\w.+/\-]{0,28}$")]
+    [GeneratedRegex(@"^[A-Za-z0-9][A-Za-z0-9_-]{0,28}$")]
     private static partial Regex EnumValuePattern();
 }

@@ -109,6 +109,19 @@ public class HeuristicTypeDetectorTests
         await Assert.That(result.Type).IsEqualTo(CliOptionType.Bool);
     }
 
+    [Test]
+    [Arguments("true/false")]
+    [Arguments("yes/no")]
+    [Arguments("on/off")]
+    public async Task DetectType_Returns_Bool_For_Slash_Separated_AcceptedValues(string acceptedValues)
+    {
+        var context = CreateContext("--option", acceptedValues: acceptedValues);
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.Bool);
+    }
+
     #endregion
 
     #region Boolean Detection Tests - Option Name Prefixes
@@ -455,6 +468,28 @@ public class HeuristicTypeDetectorTests
     public async Task DetectType_Does_Not_Create_Numeric_Enums()
     {
         var context = CreateContext("--level", description: "Allowed values: 1, 2, 3");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.String);
+        await Assert.That(result.EnumValues).IsNull();
+    }
+
+    [Test]
+    public async Task DetectType_Does_Not_Create_Enums_From_Explanatory_Lists()
+    {
+        var context = CreateContext("--size", description: "Size (bytes, kilobytes, or megabytes)");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.String);
+        await Assert.That(result.EnumValues).IsNull();
+    }
+
+    [Test]
+    public async Task DetectType_Does_Not_Create_Enums_With_Unsafe_Identifiers()
+    {
+        var context = CreateContext("--platform", description: "Allowed values: linux/amd64, windows/amd64");
 
         var result = await _detector.DetectTypeAsync(context);
 
