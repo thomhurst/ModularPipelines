@@ -150,6 +150,7 @@ public class ArgoCdCliScraperTests
     [Test]
     [Arguments("cluster", "get", "Usage:\n  argocd cluster get SERVER/NAME [flags]", "ServerOrName", null)]
     [Arguments("cluster", "rm", "Usage:\n  argocd cluster rm SERVER/NAME [flags]", "ServerOrName", null)]
+    [Arguments("cluster", "rotate-auth", "Usage:\n  argocd cluster rotate-auth SERVER/NAME [flags]", "ServerOrName", null)]
     [Arguments("proj", "add-destination", "Usage:\n  argocd proj add-destination PROJECT SERVER/NAME NAMESPACE [flags]", "Project", "Namespace")]
     public async Task Server_Name_Alternatives_Are_One_Operand(
         string parentCommand,
@@ -172,6 +173,24 @@ public class ArgoCdCliScraperTests
 
         await Assert.That(arguments.Select(argument => argument.PropertyName)).DoesNotContain("Server");
         await Assert.That(arguments.Select(argument => argument.PropertyName)).DoesNotContain("Name");
+    }
+
+    [Test]
+    [Arguments("remove-destination", "NAMESPACE")]
+    [Arguments("add-destination-service-account", "NAMESPACE SERVICE_ACCOUNT")]
+    [Arguments("remove-destination-service-account", "NAMESPACE SERVICE_ACCOUNT")]
+    public async Task Destination_Server_Operand_Does_Not_Hide_Server_Option(
+        string command,
+        string trailingOperands)
+    {
+        var scraper = new TestArgoCdCliScraper();
+        var parsedArguments = scraper.ParseArguments(
+            $"Usage:\n  argocd proj {command} PROJECT SERVER {trailingOperands} [flags]");
+
+        var arguments = scraper.ApplyFix(["proj", command], parsedArguments);
+
+        await Assert.That(arguments.Select(argument => argument.PropertyName)).Contains("DestinationServer");
+        await Assert.That(arguments.Select(argument => argument.PropertyName)).DoesNotContain("Server");
     }
 
     [Test]

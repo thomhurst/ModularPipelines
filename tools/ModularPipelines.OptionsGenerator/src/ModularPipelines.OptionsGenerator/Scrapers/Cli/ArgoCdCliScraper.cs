@@ -121,7 +121,7 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             ];
         }
 
-        if (commandParts is ["cluster", "get"] or ["cluster", "rm"])
+        if (commandParts is ["cluster", "get"] or ["cluster", "rm"] or ["cluster", "rotate-auth"])
         {
             return
             [
@@ -131,6 +131,20 @@ public partial class ArgoCdCliScraper : CobraCliScraper
                     "string",
                     "Cluster server address or configured name."),
             ];
+        }
+
+        if (commandParts is ["proj", "remove-destination"]
+            or ["proj", "add-destination-service-account"]
+            or ["proj", "remove-destination-service-account"])
+        {
+            return positionalArguments
+                .Select(argument => argument with
+                {
+                    PropertyName = argument.PropertyName == "Server"
+                        ? "DestinationServer"
+                        : NormalizePositionalArgumentName(argument.PropertyName),
+                })
+                .ToList();
         }
 
         if (commandParts is ["proj", "add-destination"])
