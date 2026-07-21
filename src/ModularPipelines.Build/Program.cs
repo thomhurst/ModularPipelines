@@ -34,6 +34,8 @@ builder.Services.Configure<CodeCovSettings>(builder.Configuration.GetSection("Co
 
 builder.Services
     .AddModule<BuildSolutionsModule>()
+    .AddModule<BuildSolutionOnWindowsModule>()
+    .AddModule<BuildSolutionOnMacOSModule>()
     .AddModule<RunCoreUnitTestsModule>()
     .AddModule<RunAzureUnitTestsModule>()
     .AddModule<RunAnalyzersUnitTestsModule>()
@@ -77,29 +79,8 @@ builder.Services.AddSingleton<IGitHubClient>(sp =>
         new InMemoryCredentialStore(new Credentials(githubToken)));
 });
 
-// Local NuGet modules should only run in local development, not CI
-// IsDevelopment() returns true for both local dev AND PR builds in CI (DOTNET_ENVIRONMENT=Development)
-// Check common CI environment variables to distinguish local dev from CI
-var isRunningInCI = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI"))
-    || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_ACTIONS"))
-    || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TF_BUILD"))
-    || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITLAB_CI"));
-var isLocalDevelopment = builder.Environment.IsDevelopment() && !isRunningInCI;
+BuildPipelineConfiguration.ConfigureEnvironmentSpecificModules(builder);
 
-if (isLocalDevelopment)
-{
-    builder.Services.AddModule<CreateLocalNugetFolderModule>()
-        .AddModule<AddLocalNugetSourceModule>()
-        .AddModule<UploadPackagesToLocalNuGetModule>();
-}
-else if (!builder.Environment.IsDevelopment())
-{
-    // Production environment (main branch CI)
-    builder.Services.AddModule<UploadPackagesToNugetModule>()
-        .AddModule<CreateReleaseModule>();
-}
-
-// else: CI Development mode (PR builds) - don't register local NuGet or production upload modules
 var pipelineSettings = builder.Configuration.GetSection("Pipeline").Get<PipelineSettings>() ?? new PipelineSettings();
 builder.Options.DefaultRetryCount = pipelineSettings.DefaultRetryCount;
 
@@ -117,6 +98,27 @@ await pipeline.RunAsync();
 
 file static class BuildPipelineConfiguration
 {
+    public static void ConfigureEnvironmentSpecificModules(PipelineBuilder builder)
+    {
+        // IsDevelopment() returns true for both local development and pull request builds.
+        var isRunningInCI = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI"))
+            || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_ACTIONS"))
+            || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TF_BUILD"))
+            || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITLAB_CI"));
+
+        if (builder.Environment.IsDevelopment() && !isRunningInCI)
+        {
+            builder.Services.AddModule<CreateLocalNugetFolderModule>()
+                .AddModule<AddLocalNugetSourceModule>()
+                .AddModule<UploadPackagesToLocalNuGetModule>();
+        }
+        else if (!builder.Environment.IsDevelopment())
+        {
+            builder.Services.AddModule<UploadPackagesToNugetModule>()
+                .AddModule<CreateReleaseModule>();
+        }
+    }
+
     public static async Task<bool> ConfigureDistributedModeAsync(PipelineBuilder builder)
     {
         var redisRestUrl = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_URL");
@@ -164,11 +166,11 @@ file static class BuildPipelineConfiguration
     {
         if (instanceIndex == 0)
         {
-            System.Diagnostics.Trace.TraceWarning($"{reason}; primary instance running standalone.");
+            WriteWarning($"{reason}; primary instance running standalone.");
             return true;
         }
 
-        System.Diagnostics.Trace.TraceWarning($"{reason}; secondary instance {instanceIndex} exiting.");
+        WriteWarning($"{reason}; secondary instance {instanceIndex} exiting without running pipeline work.");
         return false;
     }
 
@@ -185,16 +187,28 @@ file static class BuildPipelineConfiguration
                 return true;
             }
 
-            System.Diagnostics.Trace.TraceWarning(
+            WriteWarning(
                 $"Redis discovery preflight returned HTTP {(int) response.StatusCode}; distributed mode disabled.");
         }
         catch (Exception exception)
         {
-            System.Diagnostics.Trace.TraceWarning(
+            WriteWarning(
                 $"Redis discovery preflight failed ({exception.GetType().Name}); distributed mode disabled.");
         }
 
         return false;
+    }
+
+    private static void WriteWarning(string message)
+    {
+#pragma warning disable ConsoleUse // Logging is not configured until after distributed startup succeeds.
+        Console.Error.WriteLine($"WARNING: {message}");
+
+        if (string.Equals(Environment.GetEnvironmentVariable("GITHUB_ACTIONS"), "true", StringComparison.OrdinalIgnoreCase))
+        {
+            Console.WriteLine($"::warning title=Distributed pipeline degraded::{message}");
+        }
+#pragma warning restore ConsoleUse
     }
 
     private static void ConfigureArtifactStore(PipelineBuilder builder)
