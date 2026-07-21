@@ -47,6 +47,45 @@ public class ZeroOutputScraperTests
     }
 
     [Test]
+    public async Task Gh_Parses_Inline_Usage_And_Indented_Flags_Sections()
+    {
+        const string helpText = """
+            Create an issue.
+
+            Usage: gh issue create [flags]
+
+              Flags:
+                -t, --title string   Supply a title
+            """;
+
+        var command = await new TestGhCliScraper().Parse(["gh", "issue", "create"], helpText);
+
+        await Assert.That(command).IsNotNull();
+        await Assert.That(command!.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--title"]);
+    }
+
+    [Test]
+    public async Task Gh_Parses_Indented_Usage_Heading()
+    {
+        const string helpText = """
+            Create an issue.
+
+              Usage:
+                gh issue create [flags]
+
+            Flags:
+              -t, --title string   Supply a title
+            """;
+
+        var command = await new TestGhCliScraper().Parse(["gh", "issue", "create"], helpText);
+
+        await Assert.That(command).IsNotNull();
+        await Assert.That(command!.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--title"]);
+    }
+
+    [Test]
     public async Task Yarn_Extracts_Classic_Bulleted_Command_List()
     {
         const string helpText = """
