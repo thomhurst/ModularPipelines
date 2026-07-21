@@ -658,7 +658,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// <summary>
     /// Parses positional arguments from usage line.
     /// </summary>
-    private static List<CliPositionalArgument> ParsePositionalArguments(string helpText)
+    protected static List<CliPositionalArgument> ParsePositionalArguments(string helpText)
     {
         var args = new List<CliPositionalArgument>();
 
@@ -678,8 +678,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
         foreach (Match match in argMatches)
         {
             var argName = match.Groups["name"].Value;
-            var isRequired = match.Value.StartsWith('<'); // <NAME> is required, [NAME] is optional
-            var isMultiple = match.Value.EndsWith("...");
+            var isRequired = !match.Value.StartsWith('['); // Bare NAME and <NAME> are required
+            var isMultiple = match.Groups["multiple"].Success;
 
             var propertyName = NormalizePropertyName(argName);
             if (propertyName is null)
@@ -890,9 +890,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
     private static partial Regex UsageLinePattern();
 
     /// <summary>
-    /// Matches positional arguments in usage: [NAME] or <NAME> or [NAME...].
+    /// Matches positional arguments in usage: NAME, NAME..., [NAME], or &lt;NAME&gt;.
     /// </summary>
-    [GeneratedRegex(@"[\[<](?<name>[A-Z_-]+)(?:\.\.\.)?[\]>]")]
+    [GeneratedRegex(@"(?<![\w-])(?:<(?<name>[A-Z][A-Z0-9_-]*)(?<multiple>\.\.\.)?>|\[(?<name>[A-Z][A-Z0-9_-]*)(?<multiple>\.\.\.)?\]|(?<name>[A-Z][A-Z0-9_-]*)(?<multiple>\.\.\.)?)(?![\w-])")]
     private static partial Regex PositionalArgPattern();
 
     /// <summary>
