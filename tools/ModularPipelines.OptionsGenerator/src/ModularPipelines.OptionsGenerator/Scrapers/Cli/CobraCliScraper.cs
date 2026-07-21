@@ -303,7 +303,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 var isDefaultTrueBoolean = isBoolean &&
                     ((hasDefaultValue && typeHint.Equals("true", StringComparison.OrdinalIgnoreCase)) ||
                      description.Contains("(default true)", StringComparison.OrdinalIgnoreCase));
-                var isFlag = isBoolean && !isDefaultTrueBoolean;
+                var isFlag = isBoolean
+                             && !isDefaultTrueBoolean
+                             && !IsBooleanValueOption(commandParts, longForm, description);
                 var isInteger = IsKnownIntegerType(actualType);
                 var isFloat = IsKnownFloatType(actualType);
                 var isDuration = IsKnownDurationType(actualType);
@@ -732,6 +734,21 @@ public abstract partial class CobraCliScraper : CliScraperBase
     protected virtual IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments) => positionalArguments;
+
+    /// <summary>
+    /// Determines whether a Boolean must be emitted with an explicit value instead of
+    /// as a presence-only flag.
+    /// </summary>
+    protected virtual bool IsBooleanValueOption(
+        string[] commandParts,
+        string switchName,
+        string description) =>
+        description.Contains("(default true)", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Applies tool-specific normalization before option descriptions are generated.
+    /// </summary>
+    protected virtual string NormalizeOptionDescription(string description) => description;
 
     #region Type Detection - HashSet-based for extensibility
 

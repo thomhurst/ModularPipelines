@@ -98,6 +98,49 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
+        if (commandParts is ["app", "sync"] or ["app", "wait"])
+        {
+            return
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "ApplicationNames",
+                    PlaceholderName = "APPNAME...",
+                    CSharpType = "IEnumerable<string>?",
+                    IsRequired = false,
+                    PositionIndex = 0,
+                    Description = "Optional application names to target.",
+                },
+            ];
+        }
+
+        if (commandParts is ["cluster", "get"] or ["cluster", "rm"])
+        {
+            return
+            [
+                RequiredArgument(
+                    "ServerOrName",
+                    "SERVER/NAME",
+                    "string",
+                    "Cluster server address or configured name."),
+            ];
+        }
+
+        if (commandParts is ["proj", "add-destination"])
+        {
+            return
+            [
+                RequiredArgument("Project", "PROJECT", "string", "Project name.", 0),
+                RequiredArgument(
+                    "ServerOrName",
+                    "SERVER/NAME",
+                    "string",
+                    "Destination server address or configured name.",
+                    1),
+                RequiredArgument("Namespace", "NAMESPACE", "string", "Destination namespace.", 2),
+            ];
+        }
+
         if (commandParts is ["admin", "settings", "rbac", "can"])
         {
             return
@@ -144,6 +187,18 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             .ToList();
     }
 
+    protected override bool IsBooleanValueOption(
+        string[] commandParts,
+        string switchName,
+        string description) =>
+        switchName == "--prompts-enabled"
+        || base.IsBooleanValueOption(commandParts, switchName, description);
+
+    protected override string NormalizeOptionDescription(string description) =>
+        UnixHomeDirectoryPattern().Replace(
+            WindowsHomeDirectoryPattern().Replace(description, "<home>"),
+            "<home>");
+
     private static CliPositionalArgument RequiredArgument(
         string propertyName,
         string placeholderName,
@@ -165,7 +220,9 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         "Appsetname" => "ApplicationSetName",
         "Keyid" => "KeyId",
         "Policyfile" => "PolicyFile",
+        "Repourl" => "RepositoryUrl",
         "Reposerver" => "RepositoryServer",
+        "Credsurl" => "CredentialsUrl",
         "Servername" => "ServerName",
         _ => propertyName,
     };
@@ -180,4 +237,10 @@ public partial class ArgoCdCliScraper : CobraCliScraper
 
     [GeneratedRegex(@"(?<![\w<\[])(?:<(?<name>[A-Z][A-Z0-9_-]*)(?<multiple>\.\.\.)?>|\[(?<name>[A-Z][A-Z0-9_-]*)(?<multiple>\.\.\.)?\]|(?<name>[A-Z][A-Z0-9_-]*)(?<multiple>\.\.\.)?)(?![\w>\]])")]
     private static partial Regex ArgoCdPositionalArgumentPattern();
+
+    [GeneratedRegex(@"(?i)[A-Z]:[\\/]+Users[\\/]+[^\\/\s\""')]+(?=[\\/]\.config[\\/]argocd[\\/]config)")]
+    private static partial Regex WindowsHomeDirectoryPattern();
+
+    [GeneratedRegex(@"/(?:home|Users)/[^/\s\""')]+(?=/\.config/argocd/config)")]
+    private static partial Regex UnixHomeDirectoryPattern();
 }
