@@ -113,10 +113,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
                 // Configure Spectre.Console to use the REAL console directly
                 // This bypasses our interception for progress rendering
-                AnsiConsole.Console = AnsiConsole.Create(new AnsiConsoleSettings
-                {
-                    Out = new AnsiConsoleOutput(_originalConsoleOut)
-                });
+                AnsiConsole.Console = AnsiConsole.Create(
+                    CreateAnsiConsoleSettings(_originalConsoleOut, _buildSystemDetector.IsKnownBuildAgent));
 
                 // Configure console width for CI environments
                 // Spectre.Console defaults to 80 characters when it can't detect terminal width,
@@ -432,6 +430,23 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         }
 
         // Otherwise, leave Spectre.Console's auto-detected width (works well for local terminals)
+    }
+
+    internal static AnsiConsoleSettings CreateAnsiConsoleSettings(TextWriter output, bool isKnownBuildAgent)
+    {
+        var settings = new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(output)
+        };
+
+        if (isKnownBuildAgent)
+        {
+            settings.Ansi = AnsiSupport.Yes;
+            settings.ColorSystem = ColorSystemSupport.Standard;
+            settings.Interactive = InteractionSupport.No;
+        }
+
+        return settings;
     }
 
     #region IProgressDisplay Implementation
