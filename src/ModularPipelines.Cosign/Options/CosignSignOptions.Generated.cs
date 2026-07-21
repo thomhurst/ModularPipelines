@@ -228,7 +228,7 @@ public record CosignSignOptions(
     /// <summary>
     /// whether to upload the signature
     /// </summary>
-    [CliFlag("--upload")]
+    [CliOption("--upload", Format = OptionFormat.EqualsSeparated)]
     public bool? Upload { get; set; }
 
     /// <summary>

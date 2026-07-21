@@ -27,7 +27,22 @@ public class CosignOptionsTests
             "--annotations=team=platform",
             "--annotations=environment=production",
             "--slot=card-authentication",
-            "--upload",
+            "--upload=true",
+        ]);
+    }
+
+    [Test]
+    public async Task Sign_Renders_Explicit_False_For_Default_True_Options()
+    {
+        var arguments = BuildArguments(new CosignSignOptions(["registry.example/app:v1"])
+        {
+            Upload = false,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "registry.example/app:v1",
+            "--upload=false",
         ]);
     }
 

@@ -151,7 +151,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
         var options = ParseOptions(helpText, commandParts);
 
         // Parse positional arguments from usage line
-        var positionalArgs = ParsePositionalArguments(helpText);
+        var positionalArgs = ApplyPositionalArgumentFixes(commandParts, ParsePositionalArguments(helpText));
 
         // Extract enums from options
         var enums = options
@@ -296,7 +296,10 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
                 var actualType = NormalizeTypeHint(typeHint, hasDefaultValue);
 
-                var isFlag = string.IsNullOrEmpty(actualType) || IsKnownBooleanType(actualType);
+                var isBoolean = string.IsNullOrEmpty(actualType) || IsKnownBooleanType(actualType);
+                var isDefaultTrueBoolean = isBoolean && hasDefaultValue &&
+                    typeHint.Equals("true", StringComparison.OrdinalIgnoreCase);
+                var isFlag = isBoolean && !isDefaultTrueBoolean;
                 var isInteger = IsKnownIntegerType(actualType);
                 var isFloat = IsKnownFloatType(actualType);
                 var isDuration = IsKnownDurationType(actualType);
@@ -306,7 +309,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 // Try to detect enum values
                 var enumDef = TryDetectEnumFromDescription(propertyName, className, actualType, description);
 
-                var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isInteger, isFloat, isDuration, enumDef);
+                var csharpType = DetermineCSharpType(isBoolean, isArray, isKeyValue, isInteger, isFloat, isDuration, enumDef);
                 var separator = isFlag ? " " : "=";
 
                 options.Add(new CliOptionDefinition
@@ -697,6 +700,14 @@ public abstract partial class CobraCliScraper : CliScraperBase
         return args;
     }
 
+    /// <summary>
+    /// Applies tool-specific corrections when Cobra's usage line omits or misrepresents
+    /// positional arguments.
+    /// </summary>
+    protected virtual IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) => positionalArguments;
+
     #region Type Detection - HashSet-based for extensibility
 
     /// <summary>
@@ -780,7 +791,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     #endregion
 
     private static string DetermineCSharpType(
-        bool isFlag,
+        bool isBoolean,
         bool isArray,
         bool isKeyValue,
         bool isInteger,
@@ -788,7 +799,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
         bool isDuration,
         CliEnumDefinition? enumDef)
     {
-        if (isFlag) return "bool?";
+        if (isBoolean) return "bool?";
         if (enumDef is not null) return $"{enumDef.EnumName}?";
         if (isKeyValue) return "KeyValue[]?";
         if (isArray) return "IEnumerable<string>?";

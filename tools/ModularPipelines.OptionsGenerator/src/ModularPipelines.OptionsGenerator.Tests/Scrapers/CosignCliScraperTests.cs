@@ -62,7 +62,9 @@ public class CosignCliScraperTests
         await Assert.That(GetOption(command, "--annotations").AcceptsMultipleValues).IsTrue();
         await Assert.That(GetOption(command, "--help").IsFlag).IsTrue();
         await Assert.That(GetOption(command, "--registry-referrers-mode").IsFlag).IsFalse();
-        await Assert.That(GetOption(command, "--upload").IsFlag).IsTrue();
+        await Assert.That(GetOption(command, "--upload").CSharpType).IsEqualTo("bool?");
+        await Assert.That(GetOption(command, "--upload").IsFlag).IsFalse();
+        await Assert.That(GetOption(command, "--upload").ValueSeparator).IsEqualTo("=");
     }
 
     [Test]
