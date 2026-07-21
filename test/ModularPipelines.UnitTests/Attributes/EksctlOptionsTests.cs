@@ -1,0 +1,119 @@
+using ModularPipelines.Attributes;
+using ModularPipelines.Eksctl.Enums;
+using ModularPipelines.Eksctl.Options;
+using ModularPipelines.Helpers.Internal;
+
+namespace ModularPipelines.UnitTests.Attributes;
+
+public class EksctlOptionsTests
+{
+    private readonly CommandModelProvider _modelProvider = new();
+    private readonly CommandArgumentBuilder _argumentBuilder = new();
+
+    [Test]
+    public async Task CreateCluster_Renders_Scalar_Collections_And_Flags()
+    {
+        var arguments = BuildArguments(new EksctlCreateClusterOptions
+        {
+            Name = "production",
+            Region = "eu-west-2",
+            Zones = ["eu-west-2a", "eu-west-2b"],
+            Nodes = 3,
+            Managed = true,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "--name=production",
+            "--region=eu-west-2",
+            "--zones=eu-west-2a",
+            "--zones=eu-west-2b",
+            "--nodes=3",
+            "--managed=true",
+        ]);
+    }
+
+    [Test]
+    public async Task CreateCluster_Renders_Explicit_False_For_Default_True_Options()
+    {
+        var arguments = BuildArguments(new EksctlCreateClusterOptions
+        {
+            Managed = false,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["--managed=false"]);
+    }
+
+    [Test]
+    public async Task CreateCapability_Renders_Enum_Wire_Value()
+    {
+        var arguments = BuildArguments(new EksctlCreateCapabilityOptions
+        {
+            Name = "gitops",
+            Type = EksctlCreateCapabilityType.Argocd,
+            Cluster = "production",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "--name=gitops",
+            "--type=ARGOCD",
+            "--cluster=production",
+        ]);
+    }
+
+    [Test]
+    public async Task CreatePodIdentityAssociation_Renders_Well_Known_Policies_Value()
+    {
+        var arguments = BuildArguments(new EksctlCreatePodidentityassociationOptions
+        {
+            WellKnownPolicies = "autoScaler,externalDNS",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            ["--well-known-policies=autoScaler,externalDNS"]);
+    }
+
+    [Test]
+    public async Task UpdateClusterLogging_Renders_Repeated_Enum_Values()
+    {
+        var arguments = BuildArguments(new EksctlUtilsUpdateClusterLoggingOptions
+        {
+            Cluster = "production",
+            Approve = true,
+            EnableTypes =
+            [
+                EksctlUtilsUpdateClusterLoggingEnableTypes.Api,
+                EksctlUtilsUpdateClusterLoggingEnableTypes.Controllermanager,
+            ],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "--cluster=production",
+            "--approve",
+            "--enable-types=api",
+            "--enable-types=controllerManager",
+        ]);
+    }
+
+    [Test]
+    public async Task EncryptExistingSecrets_Is_A_Boolean_Not_A_Secret()
+    {
+        var arguments = BuildArguments(new EksctlUtilsEnableSecretsEncryptionOptions
+        {
+            EncryptExistingSecrets = false,
+        });
+        var property = typeof(EksctlUtilsEnableSecretsEncryptionOptions)
+            .GetProperty(nameof(EksctlUtilsEnableSecretsEncryptionOptions.EncryptExistingSecrets));
+
+        await Assert.That(arguments).IsEquivalentTo(["--encrypt-existing-secrets=false"]);
+        await Assert.That(property!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsFalse();
+    }
+
+    private List<string> BuildArguments(object options)
+    {
+        var model = _modelProvider.GetCommandModel(options.GetType());
+        return _argumentBuilder.BuildArguments(model, options);
+    }
+}

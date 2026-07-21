@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -13,10 +14,10 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// Usage: eksctl [command] [flags]
 ///
 /// Commands:
-///   associate         Associate resources with a cluster
-///   completion        Generates shell completion scripts
-///   create            Create resource(s)
-///   delete            Delete resource(s)
+///   eksctl associate         Associate resources with a cluster
+///   eksctl completion        Generates shell completion scripts
+///   eksctl create            Create resource(s)
+///   eksctl delete            Delete resource(s)
 ///   ...
 /// </summary>
 public partial class EksctlCliScraper : CobraCliScraper
@@ -35,10 +36,53 @@ public partial class EksctlCliScraper : CobraCliScraper
     public override string OutputDirectory => "src/ModularPipelines.Eksctl";
 
     /// <summary>
+    /// Eksctl prints the complete command path on every command line. Return only
+    /// the final segment so the shared recursive discovery can append it once.
+    /// </summary>
+    protected override IEnumerable<string> ExtractSubcommands(string helpText)
+    {
+        foreach (Match match in EksctlCommandLinePattern().Matches(helpText))
+        {
+            var commandPath = match.Groups["path"].Value;
+            yield return commandPath[(commandPath.LastIndexOf(' ') + 1)..];
+        }
+    }
+
+    protected override string NormalizeOptionTypeHint(
+        string[] commandParts,
+        string switchName,
+        string typeHint,
+        string description) =>
+        commandParts is ["create", "podidentityassociation"]
+        && switchName == "--well-known-policies"
+            ? "string"
+            : base.NormalizeOptionTypeHint(commandParts, switchName, typeHint, description);
+
+    protected override string NormalizeOptionDescription(string description)
+    {
+        var normalized = VolatileGeneratedExamplePattern()
+            .Replace(description, " (generated if unspecified)");
+        normalized = VolatilePathExamplePattern().Replace(normalized, string.Empty);
+        return VolatileDefaultHomePathPattern().Replace(normalized, string.Empty);
+    }
+
+    /// <summary>
     /// Skip utility commands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
         "--help", "-h", "--version", "help", "completion", "version", "info"
     };
+
+    [GeneratedRegex(@"^\s*eksctl (?<path>[\w-]+(?: [\w-]+)*) {2,}", RegexOptions.Multiline)]
+    private static partial Regex EksctlCommandLinePattern();
+
+    [GeneratedRegex(@" \(generated if unspecified, e\.g\. ""[^""]+""\)")]
+    private static partial Regex VolatileGeneratedExamplePattern();
+
+    [GeneratedRegex(@", e\.g\. ""[^""]+""$")]
+    private static partial Regex VolatilePathExamplePattern();
+
+    [GeneratedRegex(@" \(default ""(?:[A-Za-z]:\\|/(?:home|Users)/|~[/\\])[^""]+""\)$", RegexOptions.IgnoreCase)]
+    private static partial Regex VolatileDefaultHomePathPattern();
 }
