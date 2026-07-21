@@ -39,8 +39,8 @@ public class GcloudContainerAttachedClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerAttachedClustersDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAttachedClustersDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerAttachedClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerAttachedClustersDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAttachedClustersDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerAttachedClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateInstallManifest(
-        GcloudContainerAttachedClustersGenerateInstallManifestOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAttachedClustersGenerateInstallManifestOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersGenerateInstallManifestOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudContainerAttachedClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCredentials(
-        GcloudContainerAttachedClustersGetCredentialsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAttachedClustersGetCredentialsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersGetCredentialsOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudContainerAttachedClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudContainerAttachedClustersImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAttachedClustersImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersImportOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudContainerAttachedClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerAttachedClustersListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAttachedClustersListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudContainerAttachedClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Register(
-        GcloudContainerAttachedClustersRegisterOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAttachedClustersRegisterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersRegisterOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudContainerAttachedClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerAttachedClustersUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAttachedClustersUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersUpdateOptions(), executionOptions, cancellationToken);

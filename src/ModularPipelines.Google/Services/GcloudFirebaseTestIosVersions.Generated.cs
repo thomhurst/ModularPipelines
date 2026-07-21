@@ -40,7 +40,7 @@ public class GcloudFirebaseTestIosVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudFirebaseTestIosVersionsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudFirebaseTestIosVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFirebaseTestIosVersionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirebaseTestIosVersionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosVersionsListOptions(), executionOptions, cancellationToken);

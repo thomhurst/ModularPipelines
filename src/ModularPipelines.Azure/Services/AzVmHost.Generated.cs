@@ -49,8 +49,8 @@ public class AzVmHost
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzVmHostCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmHostCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmHostCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzVmHost
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzVmHostDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmHostDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmHostDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzVmHost
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Redeploy(
-        AzVmHostRedeployOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmHostRedeployOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmHostRedeployOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzVmHost
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resize(
-        AzVmHostResizeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmHostResizeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmHostResizeOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class AzVmHost
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        AzVmHostRestartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmHostRestartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmHostRestartOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class AzVmHost
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzVmHostShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmHostShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmHostShowOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class AzVmHost
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzVmHostWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmHostWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmHostWaitOptions(), executionOptions, cancellationToken);

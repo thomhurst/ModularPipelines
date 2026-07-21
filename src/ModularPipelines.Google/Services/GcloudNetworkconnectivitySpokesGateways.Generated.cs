@@ -49,8 +49,8 @@ public class GcloudNetworkconnectivitySpokesGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkConnectivitySpokesGatewaysCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivitySpokesGatewaysCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesGatewaysCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudNetworkconnectivitySpokesGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkConnectivitySpokesGatewaysUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivitySpokesGatewaysUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesGatewaysUpdateOptions(), executionOptions, cancellationToken);

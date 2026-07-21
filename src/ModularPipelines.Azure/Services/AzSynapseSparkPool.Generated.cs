@@ -39,8 +39,8 @@ public class AzSynapseSparkPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseSparkPoolCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSparkPoolCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkPoolCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapseSparkPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseSparkPoolDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSparkPoolDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkPoolDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSynapseSparkPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseSparkPoolUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSparkPoolUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkPoolUpdateOptions(), executionOptions, cancellationToken);

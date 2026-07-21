@@ -55,8 +55,8 @@ public class AzNetworkNicIpConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkNicIpConfigCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNicIpConfigCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicIpConfigCreateOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzNetworkNicIpConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkNicIpConfigDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNicIpConfigDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicIpConfigDeleteOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class AzNetworkNicIpConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkNicIpConfigUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNicIpConfigUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicIpConfigUpdateOptions(), executionOptions, cancellationToken);

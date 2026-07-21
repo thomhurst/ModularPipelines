@@ -39,8 +39,8 @@ public class AzNetappfilesAccountIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzNetappfilesAccountIdentityAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesAccountIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetappfilesAccountIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetappfilesAccountIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesAccountIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountIdentityRemoveOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzNetworkVpnConnectionSharedKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzNetworkVpnConnectionSharedKeyResetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVpnConnectionSharedKeyResetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionSharedKeyResetOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkVpnConnectionSharedKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkVpnConnectionSharedKeyUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVpnConnectionSharedKeyUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionSharedKeyUpdateOptions(), executionOptions, cancellationToken);

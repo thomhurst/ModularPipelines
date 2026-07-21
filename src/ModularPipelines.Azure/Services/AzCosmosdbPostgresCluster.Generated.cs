@@ -39,8 +39,8 @@ public class AzCosmosdbPostgresCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbPostgresClusterCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbPostgresClusterCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzCosmosdbPostgresCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbPostgresClusterDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbPostgresClusterDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzCosmosdbPostgresCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzCosmosdbPostgresClusterListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbPostgresClusterListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzCosmosdbPostgresCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Promote(
-        AzCosmosdbPostgresClusterPromoteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbPostgresClusterPromoteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterPromoteOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzCosmosdbPostgresCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        AzCosmosdbPostgresClusterRestartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbPostgresClusterRestartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterRestartOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzCosmosdbPostgresCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzCosmosdbPostgresClusterStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbPostgresClusterStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterStartOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class AzCosmosdbPostgresCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzCosmosdbPostgresClusterStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbPostgresClusterStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterStopOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class AzCosmosdbPostgresCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbPostgresClusterUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbPostgresClusterUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudHealthcareHl7v2StoresImport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Gcs(
-        GcloudHealthcareHl7v2StoresImportGcsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareHl7v2StoresImportGcsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresImportGcsOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudBiglakeDeltaSharingCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBiglakeDeltaSharingCatalogsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeDeltaSharingCatalogsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeDeltaSharingCatalogsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBiglakeDeltaSharingCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBiglakeDeltaSharingCatalogsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeDeltaSharingCatalogsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeDeltaSharingCatalogsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudBiglakeDeltaSharingCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBiglakeDeltaSharingCatalogsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeDeltaSharingCatalogsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeDeltaSharingCatalogsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudBiglakeDeltaSharingCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBiglakeDeltaSharingCatalogsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeDeltaSharingCatalogsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeDeltaSharingCatalogsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudBiglakeDeltaSharingCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBiglakeDeltaSharingCatalogsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeDeltaSharingCatalogsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeDeltaSharingCatalogsUpdateOptions(), executionOptions, cancellationToken);

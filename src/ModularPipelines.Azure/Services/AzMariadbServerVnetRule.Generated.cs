@@ -39,8 +39,8 @@ public class AzMariadbServerVnetRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMariadbServerVnetRuleCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMariadbServerVnetRuleCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerVnetRuleCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzMariadbServerVnetRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMariadbServerVnetRuleUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMariadbServerVnetRuleUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerVnetRuleUpdateOptions(), executionOptions, cancellationToken);

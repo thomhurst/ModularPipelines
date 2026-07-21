@@ -39,8 +39,8 @@ public class AzFunctionappFunctionKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzFunctionappFunctionKeysDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappFunctionKeysDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappFunctionKeysDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzFunctionappFunctionKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzFunctionappFunctionKeysListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappFunctionKeysListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappFunctionKeysListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzFunctionappFunctionKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzFunctionappFunctionKeysSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappFunctionKeysSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappFunctionKeysSetOptions(), executionOptions, cancellationToken);

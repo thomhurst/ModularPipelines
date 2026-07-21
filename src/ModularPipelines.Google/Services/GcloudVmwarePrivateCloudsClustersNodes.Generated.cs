@@ -39,8 +39,8 @@ public class GcloudVmwarePrivateCloudsClustersNodes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateCloudsClustersNodesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwarePrivateCloudsClustersNodesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsClustersNodesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudVmwarePrivateCloudsClustersNodes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudVmwarePrivateCloudsClustersNodesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwarePrivateCloudsClustersNodesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsClustersNodesListOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzRoleDenyAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzRoleDenyAssignmentCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRoleDenyAssignmentCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRoleDenyAssignmentCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzRoleDenyAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzRoleDenyAssignmentDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRoleDenyAssignmentDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRoleDenyAssignmentDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzRoleDenyAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzRoleDenyAssignmentListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRoleDenyAssignmentListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRoleDenyAssignmentListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzRoleDenyAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzRoleDenyAssignmentShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRoleDenyAssignmentShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRoleDenyAssignmentShowOptions(), executionOptions, cancellationToken);

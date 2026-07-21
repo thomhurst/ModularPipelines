@@ -56,7 +56,7 @@ public class GcloudPreviewComputeHealthChecks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeHealthChecksDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -71,7 +71,7 @@ public class GcloudPreviewComputeHealthChecks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeHealthChecksDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class GcloudPreviewComputeHealthChecks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeHealthChecksListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeHealthChecksListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeHealthChecksListOptions(), executionOptions, cancellationToken);

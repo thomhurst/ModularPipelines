@@ -39,8 +39,8 @@ public class GcloudGeminiOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudGeminiOperationsCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiOperationsCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiOperationsCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudGeminiOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudGeminiOperationsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiOperationsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiOperationsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudGeminiOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudGeminiOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudGeminiOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudGeminiOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiOperationsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudGeminiOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudGeminiOperationsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiOperationsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiOperationsWaitOptions(), executionOptions, cancellationToken);

@@ -61,8 +61,8 @@ public class GcloudPreviewComputeReservations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudPreviewComputeReservationsAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeReservationsAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeReservationsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -77,7 +77,7 @@ public class GcloudPreviewComputeReservations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeReservationsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -91,8 +91,8 @@ public class GcloudPreviewComputeReservations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudPreviewComputeReservationsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeReservationsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeReservationsDeleteOptions(), executionOptions, cancellationToken);
@@ -106,8 +106,8 @@ public class GcloudPreviewComputeReservations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudPreviewComputeReservationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeReservationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeReservationsDescribeOptions(), executionOptions, cancellationToken);
@@ -121,8 +121,8 @@ public class GcloudPreviewComputeReservations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudPreviewComputeReservationsGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeReservationsGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeReservationsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -136,8 +136,8 @@ public class GcloudPreviewComputeReservations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeReservationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeReservationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeReservationsListOptions(), executionOptions, cancellationToken);
@@ -152,7 +152,7 @@ public class GcloudPreviewComputeReservations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PerformMaintenance(
         GcloudPreviewComputeReservationsPerformMaintenanceOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -166,8 +166,8 @@ public class GcloudPreviewComputeReservations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudPreviewComputeReservationsRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeReservationsRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeReservationsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -182,7 +182,7 @@ public class GcloudPreviewComputeReservations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudPreviewComputeReservationsSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -196,8 +196,8 @@ public class GcloudPreviewComputeReservations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TestIamPermissions(
-        GcloudPreviewComputeReservationsTestIamPermissionsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeReservationsTestIamPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeReservationsTestIamPermissionsOptions(), executionOptions, cancellationToken);
@@ -212,7 +212,7 @@ public class GcloudPreviewComputeReservations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPreviewComputeReservationsUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

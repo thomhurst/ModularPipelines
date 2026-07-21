@@ -103,8 +103,8 @@ public class GcloudStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudStorageOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageOptions(), executionOptions, cancellationToken);
@@ -119,7 +119,7 @@ public class GcloudStorage
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cat(
         GcloudStorageCatOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -134,7 +134,7 @@ public class GcloudStorage
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cp(
         GcloudStorageCpOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -149,7 +149,7 @@ public class GcloudStorage
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Diagnose(
         GcloudStorageDiagnoseOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -163,8 +163,8 @@ public class GcloudStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Du(
-        GcloudStorageDuOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageDuOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageDuOptions(), executionOptions, cancellationToken);
@@ -179,7 +179,7 @@ public class GcloudStorage
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Hash(
         GcloudStorageHashOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -193,8 +193,8 @@ public class GcloudStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        GcloudStorageLsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageLsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageLsOptions(), executionOptions, cancellationToken);
@@ -209,7 +209,7 @@ public class GcloudStorage
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Mv(
         GcloudStorageMvOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -223,8 +223,8 @@ public class GcloudStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        GcloudStorageRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageRestoreOptions(), executionOptions, cancellationToken);
@@ -238,8 +238,8 @@ public class GcloudStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        GcloudStorageRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageRmOptions(), executionOptions, cancellationToken);
@@ -254,7 +254,7 @@ public class GcloudStorage
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rsync(
         GcloudStorageRsyncOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -268,8 +268,8 @@ public class GcloudStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ServiceAgent(
-        GcloudStorageServiceAgentOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageServiceAgentOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageServiceAgentOptions(), executionOptions, cancellationToken);
@@ -284,7 +284,7 @@ public class GcloudStorage
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SignUrl(
         GcloudStorageSignUrlOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

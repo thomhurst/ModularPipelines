@@ -39,8 +39,8 @@ public class AzBatchAccountNetworkProfileNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzBatchAccountNetworkProfileNetworkRuleAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchAccountNetworkProfileNetworkRuleAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchAccountNetworkProfileNetworkRuleAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzBatchAccountNetworkProfileNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBatchAccountNetworkProfileNetworkRuleDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchAccountNetworkProfileNetworkRuleDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchAccountNetworkProfileNetworkRuleDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzBatchAccountNetworkProfileNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBatchAccountNetworkProfileNetworkRuleListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchAccountNetworkProfileNetworkRuleListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchAccountNetworkProfileNetworkRuleListOptions(), executionOptions, cancellationToken);

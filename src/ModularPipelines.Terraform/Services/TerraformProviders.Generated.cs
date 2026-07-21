@@ -39,8 +39,8 @@ public class TerraformProviders
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        TerraformProvidersOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformProvidersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformProvidersOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class TerraformProviders
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lock(
-        TerraformProvidersLockOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformProvidersLockOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformProvidersLockOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class TerraformProviders
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Mirror(
-        TerraformProvidersMirrorOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformProvidersMirrorOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformProvidersMirrorOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class TerraformProviders
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Schema(
-        TerraformProvidersSchemaOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformProvidersSchemaOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformProvidersSchemaOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudBmsOsImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBmsOsImagesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsOsImagesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsOsImagesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBmsOsImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBmsOsImagesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsOsImagesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsOsImagesListOptions(), executionOptions, cancellationToken);

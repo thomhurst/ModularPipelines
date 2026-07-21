@@ -39,8 +39,8 @@ public class AzApimGraphqlResolverPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzApimGraphqlResolverPolicyCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimGraphqlResolverPolicyCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimGraphqlResolverPolicyCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzApimGraphqlResolverPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzApimGraphqlResolverPolicyDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimGraphqlResolverPolicyDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimGraphqlResolverPolicyDeleteOptions(), executionOptions, cancellationToken);

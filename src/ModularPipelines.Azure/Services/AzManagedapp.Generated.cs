@@ -49,8 +49,8 @@ public class AzManagedapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzManagedappCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzManagedappCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedappCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzManagedapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzManagedappListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzManagedappListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedappListOptions(), executionOptions, cancellationToken);

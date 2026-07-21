@@ -39,8 +39,8 @@ public class GcloudApphubDiscoveredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApphubDiscoveredWorkloadsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubDiscoveredWorkloadsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredWorkloadsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudApphubDiscoveredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApphubDiscoveredWorkloadsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubDiscoveredWorkloadsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredWorkloadsListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudApphubDiscoveredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lookup(
-        GcloudApphubDiscoveredWorkloadsLookupOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubDiscoveredWorkloadsLookupOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredWorkloadsLookupOptions(), executionOptions, cancellationToken);

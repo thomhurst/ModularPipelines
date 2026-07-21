@@ -39,8 +39,8 @@ public class GcloudInframanagerRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudInfraManagerRevisionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudInfraManagerRevisionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerRevisionsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudInframanagerRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportStatefile(
-        GcloudInfraManagerRevisionsExportStatefileOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudInfraManagerRevisionsExportStatefileOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerRevisionsExportStatefileOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudInframanagerRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudInfraManagerRevisionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudInfraManagerRevisionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerRevisionsListOptions(), executionOptions, cancellationToken);

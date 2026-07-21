@@ -49,8 +49,8 @@ public class AzNetworkExpressRoutePeeringConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkExpressRoutePeeringConnectionCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkExpressRoutePeeringConnectionCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzNetworkExpressRoutePeeringConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkExpressRoutePeeringConnectionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkExpressRoutePeeringConnectionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionDeleteOptions(), executionOptions, cancellationToken);

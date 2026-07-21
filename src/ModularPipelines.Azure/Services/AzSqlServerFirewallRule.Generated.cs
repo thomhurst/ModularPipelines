@@ -39,8 +39,8 @@ public class AzSqlServerFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlServerFirewallRuleCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlServerFirewallRuleCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerFirewallRuleCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSqlServerFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlServerFirewallRuleUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlServerFirewallRuleUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerFirewallRuleUpdateOptions(), executionOptions, cancellationToken);

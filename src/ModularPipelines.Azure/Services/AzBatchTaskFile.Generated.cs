@@ -39,8 +39,8 @@ public class AzBatchTaskFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBatchTaskFileDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchTaskFileDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchTaskFileDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzBatchTaskFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBatchTaskFileListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchTaskFileListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchTaskFileListOptions(), executionOptions, cancellationToken);

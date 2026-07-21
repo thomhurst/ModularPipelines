@@ -39,8 +39,8 @@ public class AzStorageFileSymbolicLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageFileSymbolicLinkCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageFileSymbolicLinkCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileSymbolicLinkCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageFileSymbolicLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageFileSymbolicLinkShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageFileSymbolicLinkShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileSymbolicLinkShowOptions(), executionOptions, cancellationToken);

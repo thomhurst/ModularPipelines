@@ -40,7 +40,7 @@ public class GcloudPubsubSnapshots
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPubsubSnapshotsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPubsubSnapshots
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPubsubSnapshotsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPubsubSnapshots
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPubsubSnapshotsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudPubsubSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPubsubSnapshotsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSnapshotsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSnapshotsListOptions(), executionOptions, cancellationToken);

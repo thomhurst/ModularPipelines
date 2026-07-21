@@ -39,8 +39,8 @@ public class GcloudAccessapprovalSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAccessApprovalSettingsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAccessApprovalSettingsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalSettingsDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudAccessapprovalSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        GcloudAccessApprovalSettingsGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAccessApprovalSettingsGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalSettingsGetOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudAccessapprovalSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAccessApprovalSettingsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAccessApprovalSettingsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalSettingsUpdateOptions(), executionOptions, cancellationToken);

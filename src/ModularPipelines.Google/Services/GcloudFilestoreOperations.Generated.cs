@@ -39,8 +39,8 @@ public class GcloudFilestoreOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudFilestoreOperationsCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFilestoreOperationsCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreOperationsCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudFilestoreOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudFilestoreOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFilestoreOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudFilestoreOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFilestoreOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFilestoreOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreOperationsListOptions(), executionOptions, cancellationToken);

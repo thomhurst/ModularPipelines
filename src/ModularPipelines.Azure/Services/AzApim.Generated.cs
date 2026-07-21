@@ -73,8 +73,8 @@ public class AzApim
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ApplyNetworkUpdates(
-        AzApimApplyNetworkUpdatesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApplyNetworkUpdatesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApplyNetworkUpdatesOptions(), executionOptions, cancellationToken);
@@ -88,8 +88,8 @@ public class AzApim
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Backup(
-        AzApimBackupOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimBackupOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimBackupOptions(), executionOptions, cancellationToken);
@@ -103,8 +103,8 @@ public class AzApim
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzApimCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimCreateOptions(), executionOptions, cancellationToken);
@@ -118,8 +118,8 @@ public class AzApim
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzApimDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimDeleteOptions(), executionOptions, cancellationToken);
@@ -133,8 +133,8 @@ public class AzApim
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzApimListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimListOptions(), executionOptions, cancellationToken);
@@ -148,8 +148,8 @@ public class AzApim
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzApimRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimRestoreOptions(), executionOptions, cancellationToken);
@@ -163,8 +163,8 @@ public class AzApim
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzApimUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimUpdateOptions(), executionOptions, cancellationToken);

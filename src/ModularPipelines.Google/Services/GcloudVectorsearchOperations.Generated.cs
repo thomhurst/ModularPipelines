@@ -39,8 +39,8 @@ public class GcloudVectorsearchOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudVectorSearchOperationsCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVectorSearchOperationsCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVectorSearchOperationsCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudVectorsearchOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudVectorSearchOperationsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVectorSearchOperationsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVectorSearchOperationsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudVectorsearchOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVectorSearchOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVectorSearchOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVectorSearchOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudVectorsearchOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudVectorSearchOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVectorSearchOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVectorSearchOperationsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudVectorsearchOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudVectorSearchOperationsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVectorSearchOperationsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVectorSearchOperationsWaitOptions(), executionOptions, cancellationToken);

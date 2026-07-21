@@ -39,8 +39,8 @@ public class GcloudContainerBareMetalNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerBareMetalNodePoolsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalNodePoolsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalNodePoolsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerBareMetalNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerBareMetalNodePoolsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalNodePoolsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalNodePoolsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerBareMetalNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerBareMetalNodePoolsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalNodePoolsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalNodePoolsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudContainerBareMetalNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enroll(
-        GcloudContainerBareMetalNodePoolsEnrollOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalNodePoolsEnrollOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalNodePoolsEnrollOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudContainerBareMetalNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerBareMetalNodePoolsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalNodePoolsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalNodePoolsListOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudContainerBareMetalNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerBareMetalNodePoolsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalNodePoolsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalNodePoolsUpdateOptions(), executionOptions, cancellationToken);

@@ -27,7 +27,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Apikey(ChocoApikeyOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Apikey(ChocoApikeyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -36,7 +36,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Cache(ChocoCacheOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Cache(ChocoCacheOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -45,7 +45,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Config(ChocoConfigOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Config(ChocoConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -54,7 +54,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Export(ChocoExportOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Export(ChocoExportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -63,7 +63,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Feature(ChocoFeatureOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Feature(ChocoFeatureOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -72,7 +72,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Features(ChocoFeaturesOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Features(ChocoFeaturesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -81,7 +81,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Find(ChocoFindOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Find(ChocoFindOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -90,7 +90,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Info(ChocoInfoOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Info(ChocoInfoOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: Any package name ending with .config is considered a
@@ -99,7 +99,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Install(ChocoInstallOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Install(ChocoInstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -108,7 +108,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> License(ChocoLicenseOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> License(ChocoLicenseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -117,7 +117,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> List(ChocoListOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> List(ChocoListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// packageversion
@@ -126,7 +126,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> New(ChocoNewOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> New(ChocoNewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// If you use `--source=https://somewhere/out/there`, it is
@@ -135,7 +135,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Outdated(ChocoOutdatedOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Outdated(ChocoOutdatedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -144,7 +144,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Pack(ChocoPackOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Pack(ChocoPackOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -153,7 +153,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Pin(ChocoPinOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Pin(ChocoPinOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: If there is more than one nupkg file in the folder, the command
@@ -162,7 +162,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Push(ChocoPushOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Push(ChocoPushOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -171,7 +171,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Rule(ChocoRuleOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Rule(ChocoRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -180,7 +180,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Search(ChocoSearchOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Search(ChocoSearchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// For source location, this can be a folder/file share or an
@@ -189,7 +189,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Setapikey(ChocoSetapikeyOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Setapikey(ChocoSetapikeyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// When it comes to the source location, this can be a folder/file share or an http
@@ -198,7 +198,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Source(ChocoSourceOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Source(ChocoSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// When it comes to the source location, this can be a folder/file share or an http
@@ -207,18 +207,9 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Sources(ChocoSourcesOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Sources(ChocoSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Support(ChocoSupportOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> Template(ChocoTemplateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Support(ChocoSupportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: See scripting in the command reference (`choco --help`) for how to
@@ -227,7 +218,16 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Templates(ChocoTemplatesOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Template(ChocoTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> Templates(ChocoTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: `all` is a special package keyword that will allow you to
@@ -236,9 +236,9 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Uninstall(ChocoUninstallOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Uninstall(ChocoUninstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Unpackself(ChocoUnpackselfOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Unpackself(ChocoUnpackselfOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: `all` is a special package keyword that will allow you to upgrade
@@ -247,7 +247,7 @@ public partial interface IChoco
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Upgrade(ChocoUpgradeOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Upgrade(ChocoUpgradeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

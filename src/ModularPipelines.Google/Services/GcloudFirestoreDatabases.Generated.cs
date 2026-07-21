@@ -39,8 +39,8 @@ public class GcloudFirestoreDatabases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clone(
-        GcloudFirestoreDatabasesCloneOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreDatabasesCloneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesCloneOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudFirestoreDatabases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConnectionString(
-        GcloudFirestoreDatabasesConnectionStringOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreDatabasesConnectionStringOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesConnectionStringOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudFirestoreDatabases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudFirestoreDatabasesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreDatabasesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesCreateOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudFirestoreDatabases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudFirestoreDatabasesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreDatabasesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesDeleteOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudFirestoreDatabases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudFirestoreDatabasesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreDatabasesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesDescribeOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudFirestoreDatabases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFirestoreDatabasesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreDatabasesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudFirestoreDatabases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ping(
-        GcloudFirestoreDatabasesPingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreDatabasesPingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesPingOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudFirestoreDatabases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        GcloudFirestoreDatabasesRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreDatabasesRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesRestoreOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudFirestoreDatabases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudFirestoreDatabasesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreDatabasesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesUpdateOptions(), executionOptions, cancellationToken);

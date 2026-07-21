@@ -40,7 +40,7 @@ public class GcloudPreviewComputeExternalVpnGateways
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeExternalVpnGatewaysCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeExternalVpnGateways
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeExternalVpnGatewaysDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeExternalVpnGateways
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeExternalVpnGatewaysDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudPreviewComputeExternalVpnGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeExternalVpnGatewaysListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeExternalVpnGatewaysListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeExternalVpnGatewaysListOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudPreviewComputeExternalVpnGateways
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TestIamPermissions(
         GcloudPreviewComputeExternalVpnGatewaysTestIamPermissionsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudPreviewComputeExternalVpnGateways
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPreviewComputeExternalVpnGatewaysUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

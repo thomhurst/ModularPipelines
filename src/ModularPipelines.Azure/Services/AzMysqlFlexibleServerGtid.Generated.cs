@@ -39,8 +39,8 @@ public class AzMysqlFlexibleServerGtid
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzMysqlFlexibleServerGtidResetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMysqlFlexibleServerGtidResetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerGtidResetOptions(), executionOptions, cancellationToken);

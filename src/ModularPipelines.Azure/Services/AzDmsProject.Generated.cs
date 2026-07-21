@@ -49,8 +49,8 @@ public class AzDmsProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDmsProjectCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDmsProjectCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsProjectCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzDmsProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDmsProjectDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDmsProjectDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsProjectDeleteOptions(), executionOptions, cancellationToken);

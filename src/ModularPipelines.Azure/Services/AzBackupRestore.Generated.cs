@@ -39,8 +39,8 @@ public class AzBackupRestore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreAzurefileshare(
-        AzBackupRestoreRestoreAzurefileshareOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupRestoreRestoreAzurefileshareOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupRestoreRestoreAzurefileshareOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzBackupRestore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreAzurefiles(
-        AzBackupRestoreRestoreAzurefilesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupRestoreRestoreAzurefilesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupRestoreRestoreAzurefilesOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzBackupRestore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreAzurewl(
-        AzBackupRestoreRestoreAzurewlOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupRestoreRestoreAzurewlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupRestoreRestoreAzurewlOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzBackupRestore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreDisks(
-        AzBackupRestoreRestoreDisksOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupRestoreRestoreDisksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupRestoreRestoreDisksOptions(), executionOptions, cancellationToken);

@@ -40,7 +40,7 @@ public class GcloudComputeAcceleratorTypes
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeAcceleratorTypesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputeAcceleratorTypes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeAcceleratorTypesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeAcceleratorTypesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeAcceleratorTypesListOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudKmsSingleTenantHsmProposal
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
-        GcloudKmsSingleTenantHsmProposalApproveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsSingleTenantHsmProposalApproveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsSingleTenantHsmProposalApproveOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudKmsSingleTenantHsmProposal
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudKmsSingleTenantHsmProposalCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsSingleTenantHsmProposalCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsSingleTenantHsmProposalCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudKmsSingleTenantHsmProposal
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudKmsSingleTenantHsmProposalDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsSingleTenantHsmProposalDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsSingleTenantHsmProposalDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudKmsSingleTenantHsmProposal
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudKmsSingleTenantHsmProposalDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsSingleTenantHsmProposalDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsSingleTenantHsmProposalDescribeOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudKmsSingleTenantHsmProposal
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudKmsSingleTenantHsmProposalExecuteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsSingleTenantHsmProposalExecuteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsSingleTenantHsmProposalExecuteOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudKmsSingleTenantHsmProposal
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudKmsSingleTenantHsmProposalListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsSingleTenantHsmProposalListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsSingleTenantHsmProposalListOptions(), executionOptions, cancellationToken);

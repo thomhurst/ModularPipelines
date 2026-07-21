@@ -39,8 +39,8 @@ public class AzNetworkDdosProtection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkDdosProtectionCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDdosProtectionCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDdosProtectionCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkDdosProtection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkDdosProtectionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDdosProtectionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDdosProtectionDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkDdosProtection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkDdosProtectionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDdosProtectionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDdosProtectionListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzNetworkDdosProtection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkDdosProtectionUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDdosProtectionUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDdosProtectionUpdateOptions(), executionOptions, cancellationToken);

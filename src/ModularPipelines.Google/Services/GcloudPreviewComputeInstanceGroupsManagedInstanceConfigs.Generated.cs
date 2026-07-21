@@ -40,7 +40,7 @@ public class GcloudPreviewComputeInstanceGroupsManagedInstanceConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeInstanceGroupsManagedInstanceConfigsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeInstanceGroupsManagedInstanceConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeInstanceGroupsManagedInstanceConfigsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeInstanceGroupsManagedInstanceConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudPreviewComputeInstanceGroupsManagedInstanceConfigsListOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudPreviewComputeInstanceGroupsManagedInstanceConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPreviewComputeInstanceGroupsManagedInstanceConfigsUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

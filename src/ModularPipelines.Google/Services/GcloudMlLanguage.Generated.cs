@@ -39,8 +39,8 @@ public class GcloudMlLanguage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeEntities(
-        GcloudMlLanguageAnalyzeEntitiesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMlLanguageAnalyzeEntitiesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMlLanguageAnalyzeEntitiesOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudMlLanguage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeEntitySentiment(
-        GcloudMlLanguageAnalyzeEntitySentimentOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMlLanguageAnalyzeEntitySentimentOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMlLanguageAnalyzeEntitySentimentOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudMlLanguage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeSentiment(
-        GcloudMlLanguageAnalyzeSentimentOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMlLanguageAnalyzeSentimentOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMlLanguageAnalyzeSentimentOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudMlLanguage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeSyntax(
-        GcloudMlLanguageAnalyzeSyntaxOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMlLanguageAnalyzeSyntaxOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMlLanguageAnalyzeSyntaxOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudMlLanguage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ClassifyText(
-        GcloudMlLanguageClassifyTextOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMlLanguageClassifyTextOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMlLanguageClassifyTextOptions(), executionOptions, cancellationToken);

@@ -50,7 +50,7 @@ public class GcloudStorageIntelligenceFindings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudStorageIntelligenceFindingsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudStorageIntelligenceFindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudStorageIntelligenceFindingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageIntelligenceFindingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageIntelligenceFindingsListOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudStorageIntelligenceFindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Summarize(
-        GcloudStorageIntelligenceFindingsSummarizeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageIntelligenceFindingsSummarizeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageIntelligenceFindingsSummarizeOptions(), executionOptions, cancellationToken);

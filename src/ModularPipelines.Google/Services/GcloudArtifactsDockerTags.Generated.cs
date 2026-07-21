@@ -40,7 +40,7 @@ public class GcloudArtifactsDockerTags
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
         GcloudArtifactsDockerTagsAddOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudArtifactsDockerTags
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudArtifactsDockerTagsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudArtifactsDockerTags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudArtifactsDockerTagsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsDockerTagsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerTagsListOptions(), executionOptions, cancellationToken);

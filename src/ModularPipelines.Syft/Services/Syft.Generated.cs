@@ -50,7 +50,7 @@ internal partial class Syft : ISyft
     /// <inheritdoc />
     public virtual async Task<CommandResult> Attest(
         SyftAttestOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -58,8 +58,8 @@ internal partial class Syft : ISyft
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Convert(
-        SyftConvertOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SyftConvertOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SyftConvertOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ internal partial class Syft : ISyft
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Login(
-        SyftLoginOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SyftLoginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SyftLoginOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ internal partial class Syft : ISyft
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Scan(
-        SyftScanOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SyftScanOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SyftScanOptions(), executionOptions, cancellationToken);

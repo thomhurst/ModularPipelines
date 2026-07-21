@@ -39,8 +39,8 @@ public class AzNetworkPrivateEndpointAsg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkPrivateEndpointAsgAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkPrivateEndpointAsgAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointAsgAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkPrivateEndpointAsg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetworkPrivateEndpointAsgRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkPrivateEndpointAsgRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointAsgRemoveOptions(), executionOptions, cancellationToken);

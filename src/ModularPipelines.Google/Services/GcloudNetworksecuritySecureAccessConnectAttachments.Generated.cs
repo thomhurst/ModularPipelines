@@ -40,7 +40,7 @@ public class GcloudNetworksecuritySecureAccessConnectAttachments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudNetworkSecuritySecureAccessConnectAttachmentsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudNetworksecuritySecureAccessConnectAttachments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudNetworkSecuritySecureAccessConnectAttachmentsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudNetworksecuritySecureAccessConnectAttachments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudNetworkSecuritySecureAccessConnectAttachmentsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworksecuritySecureAccessConnectAttachments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkSecuritySecureAccessConnectAttachmentsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecureAccessConnectAttachmentsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecureAccessConnectAttachmentsListOptions(), executionOptions, cancellationToken);

@@ -49,8 +49,8 @@ public class AzContainerappRevision
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Copy(
-        AzContainerappRevisionCopyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappRevisionCopyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappRevisionCopyOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzContainerappRevision
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzContainerappRevisionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappRevisionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappRevisionListOptions(), executionOptions, cancellationToken);

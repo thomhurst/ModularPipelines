@@ -39,8 +39,8 @@ public class GcloudContainerHubWorkloadIdentityScopeTenancyPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        GcloudContainerHubWorkloadIdentityScopeTenancyPoolSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubWorkloadIdentityScopeTenancyPoolSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubWorkloadIdentityScopeTenancyPoolSetOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerHubWorkloadIdentityScopeTenancyPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unset(
-        GcloudContainerHubWorkloadIdentityScopeTenancyPoolUnsetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubWorkloadIdentityScopeTenancyPoolUnsetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubWorkloadIdentityScopeTenancyPoolUnsetOptions(), executionOptions, cancellationToken);

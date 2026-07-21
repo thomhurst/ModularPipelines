@@ -39,8 +39,8 @@ public class GcloudBiglakeIcebergCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBiglakeIcebergCatalogsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergCatalogsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergCatalogsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBiglakeIcebergCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBiglakeIcebergCatalogsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergCatalogsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergCatalogsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudBiglakeIcebergCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBiglakeIcebergCatalogsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergCatalogsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergCatalogsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudBiglakeIcebergCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Failover(
-        GcloudBiglakeIcebergCatalogsFailoverOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergCatalogsFailoverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergCatalogsFailoverOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudBiglakeIcebergCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudBiglakeIcebergCatalogsGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergCatalogsGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergCatalogsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudBiglakeIcebergCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBiglakeIcebergCatalogsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergCatalogsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergCatalogsListOptions(), executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudBiglakeIcebergCatalogs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudBiglakeIcebergCatalogsSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudBiglakeIcebergCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBiglakeIcebergCatalogsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergCatalogsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergCatalogsUpdateOptions(), executionOptions, cancellationToken);

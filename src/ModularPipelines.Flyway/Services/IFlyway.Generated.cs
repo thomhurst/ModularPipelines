@@ -20,29 +20,29 @@ public partial interface IFlyway
 {
     #region Commands
 
-    Task<CommandResult> Baseline(FlywayBaselineOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Baseline(FlywayBaselineOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Check(FlywayCheckOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Check(FlywayCheckOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Clean(FlywayCleanOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Clean(FlywayCleanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Deploy(FlywayDeployOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Deploy(FlywayDeployOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Info(FlywayInfoOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Info(FlywayInfoOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Init(FlywayInitOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Init(FlywayInitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ListEngines(FlywayListEnginesOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ListEngines(FlywayListEnginesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Migrate(FlywayMigrateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Migrate(FlywayMigrateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Prepare(FlywayPrepareOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Prepare(FlywayPrepareOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Repair(FlywayRepairOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Repair(FlywayRepairOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Snapshot(FlywaySnapshotOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Snapshot(FlywaySnapshotOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Validate(FlywayValidateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Validate(FlywayValidateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

@@ -39,8 +39,8 @@ public class GcloudEventarcGoogleApiSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudEventarcGoogleApiSourcesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcGoogleApiSourcesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudEventarcGoogleApiSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudEventarcGoogleApiSourcesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcGoogleApiSourcesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudEventarcGoogleApiSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEventarcGoogleApiSourcesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcGoogleApiSourcesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudEventarcGoogleApiSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEventarcGoogleApiSourcesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcGoogleApiSourcesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudEventarcGoogleApiSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudEventarcGoogleApiSourcesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcGoogleApiSourcesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesUpdateOptions(), executionOptions, cancellationToken);

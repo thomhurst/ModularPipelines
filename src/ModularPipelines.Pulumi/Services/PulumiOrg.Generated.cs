@@ -79,8 +79,8 @@ public class PulumiOrg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        PulumiOrgOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiOrgOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiOrgOptions(), executionOptions, cancellationToken);

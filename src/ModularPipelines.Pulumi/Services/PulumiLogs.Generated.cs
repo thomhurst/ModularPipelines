@@ -39,8 +39,8 @@ public class PulumiLogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        PulumiLogsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiLogsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiLogsOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PulumiLogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Decrypt(
-        PulumiLogsDecryptOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiLogsDecryptOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiLogsDecryptOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class PulumiLogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PulumiLogsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiLogsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiLogsListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class PulumiLogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        PulumiLogsRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiLogsRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiLogsRemoveOptions(), executionOptions, cancellationToken);

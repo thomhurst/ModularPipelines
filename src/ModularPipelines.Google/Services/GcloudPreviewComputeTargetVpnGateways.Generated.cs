@@ -40,7 +40,7 @@ public class GcloudPreviewComputeTargetVpnGateways
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeTargetVpnGatewaysCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeTargetVpnGateways
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeTargetVpnGatewaysDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeTargetVpnGateways
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeTargetVpnGatewaysDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudPreviewComputeTargetVpnGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeTargetVpnGatewaysListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeTargetVpnGatewaysListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeTargetVpnGatewaysListOptions(), executionOptions, cancellationToken);

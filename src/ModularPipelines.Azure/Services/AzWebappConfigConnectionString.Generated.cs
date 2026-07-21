@@ -39,8 +39,8 @@ public class AzWebappConfigConnectionString
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzWebappConfigConnectionStringDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappConfigConnectionStringDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigConnectionStringDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzWebappConfigConnectionString
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzWebappConfigConnectionStringListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappConfigConnectionStringListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigConnectionStringListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzWebappConfigConnectionString
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzWebappConfigConnectionStringSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappConfigConnectionStringSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigConnectionStringSetOptions(), executionOptions, cancellationToken);

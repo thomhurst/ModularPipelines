@@ -39,8 +39,8 @@ public class AzAppconfigCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAppconfigCredentialListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppconfigCredentialListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigCredentialListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAppconfigCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Regenerate(
-        AzAppconfigCredentialRegenerateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppconfigCredentialRegenerateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigCredentialRegenerateOptions(), executionOptions, cancellationToken);

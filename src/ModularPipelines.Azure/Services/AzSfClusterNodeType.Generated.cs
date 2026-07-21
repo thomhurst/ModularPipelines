@@ -39,8 +39,8 @@ public class AzSfClusterNodeType
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzSfClusterNodeTypeAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfClusterNodeTypeAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterNodeTypeAddOptions(), executionOptions, cancellationToken);

@@ -55,8 +55,8 @@ public class AzAppservice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListLocations(
-        AzAppserviceListLocationsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppserviceListLocationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppserviceListLocationsOptions(), executionOptions, cancellationToken);

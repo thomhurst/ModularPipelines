@@ -61,8 +61,8 @@ public class GcloudFirebaseTestIos
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDeviceCapacities(
-        GcloudFirebaseTestIosListDeviceCapacitiesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirebaseTestIosListDeviceCapacitiesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosListDeviceCapacitiesOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ public class GcloudFirebaseTestIos
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
-        GcloudFirebaseTestIosRunOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirebaseTestIosRunOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosRunOptions(), executionOptions, cancellationToken);

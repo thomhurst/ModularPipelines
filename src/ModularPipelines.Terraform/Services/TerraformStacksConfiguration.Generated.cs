@@ -39,8 +39,8 @@ public class TerraformStacksConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Fetch(
-        TerraformStacksConfigurationFetchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksConfigurationFetchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksConfigurationFetchOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class TerraformStacksConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        TerraformStacksConfigurationListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksConfigurationListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksConfigurationListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class TerraformStacksConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        TerraformStacksConfigurationShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksConfigurationShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksConfigurationShowOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class TerraformStacksConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upload(
-        TerraformStacksConfigurationUploadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksConfigurationUploadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksConfigurationUploadOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class TerraformStacksConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Watch(
-        TerraformStacksConfigurationWatchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksConfigurationWatchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksConfigurationWatchOptions(), executionOptions, cancellationToken);

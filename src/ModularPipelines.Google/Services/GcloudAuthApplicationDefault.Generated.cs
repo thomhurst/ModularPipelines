@@ -39,8 +39,8 @@ public class GcloudAuthApplicationDefault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Login(
-        GcloudAuthApplicationDefaultLoginOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAuthApplicationDefaultLoginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthApplicationDefaultLoginOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudAuthApplicationDefault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PrintAccessToken(
-        GcloudAuthApplicationDefaultPrintAccessTokenOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAuthApplicationDefaultPrintAccessTokenOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthApplicationDefaultPrintAccessTokenOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudAuthApplicationDefault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Revoke(
-        GcloudAuthApplicationDefaultRevokeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAuthApplicationDefaultRevokeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthApplicationDefaultRevokeOptions(), executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudAuthApplicationDefault
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetQuotaProject(
         GcloudAuthApplicationDefaultSetQuotaProjectOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

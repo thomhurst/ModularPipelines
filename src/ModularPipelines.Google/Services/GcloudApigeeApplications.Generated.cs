@@ -39,8 +39,8 @@ public class GcloudApigeeApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApigeeApplicationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApigeeApplicationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeApplicationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudApigeeApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApigeeApplicationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApigeeApplicationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeApplicationsListOptions(), executionOptions, cancellationToken);

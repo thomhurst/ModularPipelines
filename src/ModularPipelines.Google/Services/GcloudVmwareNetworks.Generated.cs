@@ -40,7 +40,7 @@ public class GcloudVmwareNetworks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudVmwareNetworksCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudVmwareNetworks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudVmwareNetworksDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudVmwareNetworks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudVmwareNetworksDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudVmwareNetworks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudVmwareNetworksListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwareNetworksListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworksListOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudVmwareNetworks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudVmwareNetworksUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

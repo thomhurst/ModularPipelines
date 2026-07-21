@@ -39,8 +39,8 @@ public class AzStorageAccountOrPolicyRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzStorageAccountOrPolicyRuleAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountOrPolicyRuleAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountOrPolicyRuleAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageAccountOrPolicyRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageAccountOrPolicyRuleListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountOrPolicyRuleListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountOrPolicyRuleListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzStorageAccountOrPolicyRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzStorageAccountOrPolicyRuleRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountOrPolicyRuleRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountOrPolicyRuleRemoveOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzStorageAccountOrPolicyRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageAccountOrPolicyRuleShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountOrPolicyRuleShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountOrPolicyRuleShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzStorageAccountOrPolicyRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageAccountOrPolicyRuleUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountOrPolicyRuleUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountOrPolicyRuleUpdateOptions(), executionOptions, cancellationToken);

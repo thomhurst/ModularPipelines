@@ -40,7 +40,7 @@ public class GcloudPubsubLiteReservations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPubsubLiteReservationsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudPubsubLiteReservations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudPubsubLiteReservationsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubLiteReservationsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteReservationsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudPubsubLiteReservations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudPubsubLiteReservationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubLiteReservationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteReservationsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudPubsubLiteReservations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPubsubLiteReservationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubLiteReservationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteReservationsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudPubsubLiteReservations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTopics(
-        GcloudPubsubLiteReservationsListTopicsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubLiteReservationsListTopicsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteReservationsListTopicsOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudPubsubLiteReservations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudPubsubLiteReservationsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubLiteReservationsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteReservationsUpdateOptions(), executionOptions, cancellationToken);

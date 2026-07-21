@@ -39,8 +39,8 @@ public class GcloudDomainsRegistrationsGoogleDomainsDns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportDnsRecordSets(
-        GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDomainsRegistrationsGoogleDomainsDns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetForwardingConfig(
-        GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions(), executionOptions, cancellationToken);

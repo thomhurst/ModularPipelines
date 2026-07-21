@@ -39,8 +39,8 @@ public class AzStorageContainerLegalHold
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clear(
-        AzStorageContainerLegalHoldClearOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageContainerLegalHoldClearOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerLegalHoldClearOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageContainerLegalHold
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzStorageContainerLegalHoldSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageContainerLegalHoldSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerLegalHoldSetOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzStorageContainerLegalHold
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageContainerLegalHoldShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageContainerLegalHoldShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerLegalHoldShowOptions(), executionOptions, cancellationToken);

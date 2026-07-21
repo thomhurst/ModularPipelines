@@ -49,8 +49,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Add(
-        BuildahAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahAddOptions(), executionOptions, cancellationToken);
@@ -58,8 +58,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Build(
-        BuildahBuildOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahBuildOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahBuildOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Commit(
-        BuildahCommitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahCommitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahCommitOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Config(
-        BuildahConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahConfigOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Containers(
-        BuildahContainersOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahContainersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahContainersOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Copy(
-        BuildahCopyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahCopyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahCopyOptions(), executionOptions, cancellationToken);
@@ -103,8 +103,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> From(
-        BuildahFromOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahFromOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahFromOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Images(
-        BuildahImagesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahImagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahImagesOptions(), executionOptions, cancellationToken);
@@ -121,8 +121,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Inspect(
-        BuildahInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahInspectOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Login(
-        BuildahLoginOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahLoginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahLoginOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Logout(
-        BuildahLogoutOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahLogoutOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahLogoutOptions(), executionOptions, cancellationToken);
@@ -148,8 +148,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Mkcw(
-        BuildahMkcwOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahMkcwOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahMkcwOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Mount(
-        BuildahMountOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahMountOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahMountOptions(), executionOptions, cancellationToken);
@@ -166,8 +166,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Prune(
-        BuildahPruneOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahPruneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahPruneOptions(), executionOptions, cancellationToken);
@@ -175,8 +175,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Pull(
-        BuildahPullOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahPullOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahPullOptions(), executionOptions, cancellationToken);
@@ -184,8 +184,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Push(
-        BuildahPushOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahPushOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahPushOptions(), executionOptions, cancellationToken);
@@ -193,8 +193,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Rename(
-        BuildahRenameOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahRenameOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahRenameOptions(), executionOptions, cancellationToken);
@@ -202,8 +202,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Rmi(
-        BuildahRmiOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahRmiOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahRmiOptions(), executionOptions, cancellationToken);
@@ -211,8 +211,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Rm(
-        BuildahRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahRmOptions(), executionOptions, cancellationToken);
@@ -220,8 +220,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Run(
-        BuildahRunOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahRunOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahRunOptions(), executionOptions, cancellationToken);
@@ -229,8 +229,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Tag(
-        BuildahTagOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahTagOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahTagOptions(), executionOptions, cancellationToken);
@@ -238,8 +238,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Umount(
-        BuildahUmountOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahUmountOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahUmountOptions(), executionOptions, cancellationToken);
@@ -247,8 +247,8 @@ internal partial class Buildah : IBuildah
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Unshare(
-        BuildahUnshareOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahUnshareOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahUnshareOptions(), executionOptions, cancellationToken);

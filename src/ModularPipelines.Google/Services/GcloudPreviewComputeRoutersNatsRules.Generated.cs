@@ -40,7 +40,7 @@ public class GcloudPreviewComputeRoutersNatsRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeRoutersNatsRulesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeRoutersNatsRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeRoutersNatsRulesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeRoutersNatsRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeRoutersNatsRulesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudPreviewComputeRoutersNatsRules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeRoutersNatsRulesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeRoutersNatsRulesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeRoutersNatsRulesListOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudPreviewComputeRoutersNatsRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPreviewComputeRoutersNatsRulesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

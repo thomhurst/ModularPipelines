@@ -39,8 +39,8 @@ public class AzStorageFsFileMetadata
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageFsFileMetadataShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageFsFileMetadataShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsFileMetadataShowOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageFsFileMetadata
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageFsFileMetadataUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageFsFileMetadataUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsFileMetadataUpdateOptions(), executionOptions, cancellationToken);

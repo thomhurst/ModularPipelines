@@ -39,8 +39,8 @@ public class GcloudNetworkconnectivitySpokesLinkedVpcNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkConnectivitySpokesLinkedVpcNetworkCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivitySpokesLinkedVpcNetworkCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedVpcNetworkCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkconnectivitySpokesLinkedVpcNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkConnectivitySpokesLinkedVpcNetworkUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivitySpokesLinkedVpcNetworkUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedVpcNetworkUpdateOptions(), executionOptions, cancellationToken);

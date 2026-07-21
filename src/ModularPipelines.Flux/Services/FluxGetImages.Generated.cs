@@ -39,8 +39,8 @@ public class FluxGetImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> All(
-        FluxGetImagesAllOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxGetImagesAllOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetImagesAllOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class FluxGetImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Policy(
-        FluxGetImagesPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxGetImagesPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetImagesPolicyOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class FluxGetImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Repository(
-        FluxGetImagesRepositoryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxGetImagesRepositoryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetImagesRepositoryOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class FluxGetImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        FluxGetImagesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxGetImagesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetImagesUpdateOptions(), executionOptions, cancellationToken);

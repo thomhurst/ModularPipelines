@@ -39,8 +39,8 @@ public class AzAdvisorRecommendation
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        AzAdvisorRecommendationDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdvisorRecommendationDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorRecommendationDisableOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAdvisorRecommendation
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAdvisorRecommendationListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdvisorRecommendationListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorRecommendationListOptions(), executionOptions, cancellationToken);

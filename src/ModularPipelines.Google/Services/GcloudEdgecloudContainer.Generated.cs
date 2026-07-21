@@ -79,8 +79,8 @@ public class GcloudEdgecloudContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetServerConfig(
-        GcloudEdgeCloudContainerGetServerConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudContainerGetServerConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerGetServerConfigOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzStorageAccountKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageAccountKeysListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountKeysListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountKeysListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageAccountKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Renew(
-        AzStorageAccountKeysRenewOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountKeysRenewOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountKeysRenewOptions(), executionOptions, cancellationToken);

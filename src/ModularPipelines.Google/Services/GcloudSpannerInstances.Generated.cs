@@ -39,8 +39,8 @@ public class GcloudSpannerInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudSpannerInstancesAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerInstancesAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudSpannerInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudSpannerInstancesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudSpannerInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudSpannerInstancesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudSpannerInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudSpannerInstancesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudSpannerInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudSpannerInstancesGetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudSpannerInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetLocations(
         GcloudSpannerInstancesGetLocationsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudSpannerInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSpannerInstancesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerInstancesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancesListOptions(), executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudSpannerInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Move(
         GcloudSpannerInstancesMoveOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudSpannerInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudSpannerInstancesRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerInstancesRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -175,7 +175,7 @@ public class GcloudSpannerInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudSpannerInstancesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -190,7 +190,7 @@ public class GcloudSpannerInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudSpannerInstancesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

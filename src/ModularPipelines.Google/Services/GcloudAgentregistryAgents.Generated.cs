@@ -39,8 +39,8 @@ public class GcloudAgentregistryAgents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAgentRegistryAgentsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryAgentsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryAgentsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudAgentregistryAgents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAgentRegistryAgentsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryAgentsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryAgentsListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudAgentregistryAgents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
-        GcloudAgentRegistryAgentsSearchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryAgentsSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryAgentsSearchOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class PulumiOrgRole
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        PulumiOrgRoleAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiOrgRoleAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiOrgRoleAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PulumiOrgRole
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Edit(
-        PulumiOrgRoleEditOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiOrgRoleEditOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiOrgRoleEditOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class PulumiOrgRole
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PulumiOrgRoleListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiOrgRoleListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiOrgRoleListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class PulumiOrgRole
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> New(
-        PulumiOrgRoleNewOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiOrgRoleNewOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiOrgRoleNewOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class PulumiOrgRole
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        PulumiOrgRoleRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiOrgRoleRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiOrgRoleRemoveOptions(), executionOptions, cancellationToken);

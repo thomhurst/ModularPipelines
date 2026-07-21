@@ -39,8 +39,8 @@ public class GcloudPreviewComputePreviewFeatures
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudPreviewComputePreviewFeaturesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputePreviewFeaturesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputePreviewFeaturesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudPreviewComputePreviewFeatures
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputePreviewFeaturesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputePreviewFeaturesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputePreviewFeaturesListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudPreviewComputePreviewFeatures
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudPreviewComputePreviewFeaturesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputePreviewFeaturesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputePreviewFeaturesUpdateOptions(), executionOptions, cancellationToken);

@@ -40,7 +40,7 @@ public class GcloudFirebaseTestNetworkProfiles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudFirebaseTestNetworkProfilesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudFirebaseTestNetworkProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFirebaseTestNetworkProfilesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirebaseTestNetworkProfilesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestNetworkProfilesListOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzWebappAuth
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzWebappAuthShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappAuthShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthShowOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzWebappAuth
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzWebappAuthUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappAuthUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthUpdateOptions(), executionOptions, cancellationToken);

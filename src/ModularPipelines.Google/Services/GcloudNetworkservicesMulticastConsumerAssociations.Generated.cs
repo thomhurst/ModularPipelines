@@ -39,8 +39,8 @@ public class GcloudNetworkservicesMulticastConsumerAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkServicesMulticastConsumerAssociationsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMulticastConsumerAssociationsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkservicesMulticastConsumerAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkServicesMulticastConsumerAssociationsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMulticastConsumerAssociationsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetworkservicesMulticastConsumerAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkServicesMulticastConsumerAssociationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMulticastConsumerAssociationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworkservicesMulticastConsumerAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkServicesMulticastConsumerAssociationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMulticastConsumerAssociationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetworkservicesMulticastConsumerAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkServicesMulticastConsumerAssociationsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMulticastConsumerAssociationsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsUpdateOptions(), executionOptions, cancellationToken);

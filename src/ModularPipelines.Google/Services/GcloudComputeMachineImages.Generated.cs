@@ -39,8 +39,8 @@ public class GcloudComputeMachineImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudComputeMachineImagesAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeMachineImagesAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudComputeMachineImages
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeMachineImagesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudComputeMachineImages
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeMachineImagesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudComputeMachineImages
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeMachineImagesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudComputeMachineImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudComputeMachineImagesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeMachineImagesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudComputeMachineImages
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudComputeMachineImagesImportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudComputeMachineImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeMachineImagesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeMachineImagesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesListOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudComputeMachineImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudComputeMachineImagesRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeMachineImagesRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -160,7 +160,7 @@ public class GcloudComputeMachineImages
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudComputeMachineImagesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

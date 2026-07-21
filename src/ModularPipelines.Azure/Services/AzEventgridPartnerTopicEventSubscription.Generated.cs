@@ -39,8 +39,8 @@ public class AzEventgridPartnerTopicEventSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzEventgridPartnerTopicEventSubscriptionCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzEventgridPartnerTopicEventSubscriptionCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicEventSubscriptionCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzEventgridPartnerTopicEventSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzEventgridPartnerTopicEventSubscriptionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzEventgridPartnerTopicEventSubscriptionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicEventSubscriptionDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzEventgridPartnerTopicEventSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventgridPartnerTopicEventSubscriptionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzEventgridPartnerTopicEventSubscriptionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicEventSubscriptionListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzEventgridPartnerTopicEventSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzEventgridPartnerTopicEventSubscriptionShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzEventgridPartnerTopicEventSubscriptionShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicEventSubscriptionShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzEventgridPartnerTopicEventSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzEventgridPartnerTopicEventSubscriptionUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzEventgridPartnerTopicEventSubscriptionUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicEventSubscriptionUpdateOptions(), executionOptions, cancellationToken);

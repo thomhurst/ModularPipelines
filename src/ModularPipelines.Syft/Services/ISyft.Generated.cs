@@ -41,7 +41,7 @@ public partial interface ISyft
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Attest(SyftAttestOptions options, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Attest(SyftAttestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// [Experimental] Convert SBOM files to, and from, SPDX, CycloneDX and Syft's format. For more info about data loss between formats see https://github.com/anchore/syft/wiki/format-conversion
@@ -50,7 +50,7 @@ public partial interface ISyft
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Convert(SyftConvertOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Convert(SyftConvertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Log in to a registry
@@ -59,7 +59,7 @@ public partial interface ISyft
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Login(SyftLoginOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Login(SyftLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generate a packaged-based Software Bill Of Materials (SBOM) from container images and filesystems
@@ -68,7 +68,7 @@ public partial interface ISyft
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Scan(SyftScanOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Scan(SyftScanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

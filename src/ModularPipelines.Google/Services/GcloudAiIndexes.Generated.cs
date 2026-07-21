@@ -39,8 +39,8 @@ public class GcloudAiIndexes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAiIndexesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiIndexesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudAiIndexes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAiIndexesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiIndexesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudAiIndexes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAiIndexesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiIndexesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudAiIndexes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAiIndexesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiIndexesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudAiIndexes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveDatapoints(
-        GcloudAiIndexesRemoveDatapointsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiIndexesRemoveDatapointsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesRemoveDatapointsOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudAiIndexes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAiIndexesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiIndexesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesUpdateOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudAiIndexes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpsertDatapoints(
-        GcloudAiIndexesUpsertDatapointsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiIndexesUpsertDatapointsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesUpsertDatapointsOptions(), executionOptions, cancellationToken);

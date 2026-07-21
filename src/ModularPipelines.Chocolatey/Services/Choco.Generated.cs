@@ -33,8 +33,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Apikey(
-        ChocoApikeyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoApikeyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoApikeyOptions(), executionOptions, cancellationToken);
@@ -42,8 +42,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Cache(
-        ChocoCacheOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoCacheOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoCacheOptions(), executionOptions, cancellationToken);
@@ -51,8 +51,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Config(
-        ChocoConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoConfigOptions(), executionOptions, cancellationToken);
@@ -60,8 +60,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Export(
-        ChocoExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoExportOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Feature(
-        ChocoFeatureOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoFeatureOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoFeatureOptions(), executionOptions, cancellationToken);
@@ -78,8 +78,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Features(
-        ChocoFeaturesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoFeaturesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoFeaturesOptions(), executionOptions, cancellationToken);
@@ -87,8 +87,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Find(
-        ChocoFindOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoFindOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoFindOptions(), executionOptions, cancellationToken);
@@ -96,8 +96,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Info(
-        ChocoInfoOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoInfoOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoInfoOptions(), executionOptions, cancellationToken);
@@ -105,8 +105,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Install(
-        ChocoInstallOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoInstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoInstallOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> License(
-        ChocoLicenseOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoLicenseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoLicenseOptions(), executionOptions, cancellationToken);
@@ -123,8 +123,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> List(
-        ChocoListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoListOptions(), executionOptions, cancellationToken);
@@ -132,8 +132,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> New(
-        ChocoNewOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoNewOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoNewOptions(), executionOptions, cancellationToken);
@@ -141,8 +141,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Outdated(
-        ChocoOutdatedOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoOutdatedOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoOutdatedOptions(), executionOptions, cancellationToken);
@@ -150,8 +150,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Pack(
-        ChocoPackOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoPackOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoPackOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Pin(
-        ChocoPinOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoPinOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoPinOptions(), executionOptions, cancellationToken);
@@ -168,8 +168,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Push(
-        ChocoPushOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoPushOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoPushOptions(), executionOptions, cancellationToken);
@@ -177,8 +177,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Rule(
-        ChocoRuleOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoRuleOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoRuleOptions(), executionOptions, cancellationToken);
@@ -186,8 +186,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Search(
-        ChocoSearchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoSearchOptions(), executionOptions, cancellationToken);
@@ -195,8 +195,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Setapikey(
-        ChocoSetapikeyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoSetapikeyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoSetapikeyOptions(), executionOptions, cancellationToken);
@@ -204,8 +204,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Source(
-        ChocoSourceOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoSourceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoSourceOptions(), executionOptions, cancellationToken);
@@ -213,8 +213,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Sources(
-        ChocoSourcesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoSourcesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoSourcesOptions(), executionOptions, cancellationToken);
@@ -222,8 +222,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Support(
-        ChocoSupportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoSupportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoSupportOptions(), executionOptions, cancellationToken);
@@ -231,8 +231,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Template(
-        ChocoTemplateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoTemplateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoTemplateOptions(), executionOptions, cancellationToken);
@@ -240,8 +240,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Templates(
-        ChocoTemplatesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoTemplatesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoTemplatesOptions(), executionOptions, cancellationToken);
@@ -249,8 +249,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Uninstall(
-        ChocoUninstallOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoUninstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoUninstallOptions(), executionOptions, cancellationToken);
@@ -258,8 +258,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Unpackself(
-        ChocoUnpackselfOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoUnpackselfOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoUnpackselfOptions(), executionOptions, cancellationToken);
@@ -267,8 +267,8 @@ internal partial class Choco : IChoco
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Upgrade(
-        ChocoUpgradeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        ChocoUpgradeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new ChocoUpgradeOptions(), executionOptions, cancellationToken);

@@ -61,8 +61,8 @@ public class AzKeyvaultCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzKeyvaultCertificateCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultCertificateCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateCreateOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ public class AzKeyvaultCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Download(
-        AzKeyvaultCertificateDownloadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultCertificateDownloadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateDownloadOptions(), executionOptions, cancellationToken);
@@ -91,8 +91,8 @@ public class AzKeyvaultCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDefaultPolicy(
-        AzKeyvaultCertificateGetDefaultPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultCertificateGetDefaultPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateGetDefaultPolicyOptions(), executionOptions, cancellationToken);
@@ -106,8 +106,8 @@ public class AzKeyvaultCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        AzKeyvaultCertificateImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultCertificateImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateImportOptions(), executionOptions, cancellationToken);
@@ -121,8 +121,8 @@ public class AzKeyvaultCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDeleted(
-        AzKeyvaultCertificateListDeletedOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultCertificateListDeletedOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateListDeletedOptions(), executionOptions, cancellationToken);
@@ -136,8 +136,8 @@ public class AzKeyvaultCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzKeyvaultCertificateListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultCertificateListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateListOptions(), executionOptions, cancellationToken);
@@ -151,8 +151,8 @@ public class AzKeyvaultCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListVersions(
-        AzKeyvaultCertificateListVersionsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultCertificateListVersionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateListVersionsOptions(), executionOptions, cancellationToken);
@@ -166,8 +166,8 @@ public class AzKeyvaultCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetAttributes(
-        AzKeyvaultCertificateSetAttributesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultCertificateSetAttributesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateSetAttributesOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzNetworkLbAddressPoolAddress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkLbAddressPoolAddressAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbAddressPoolAddressAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolAddressAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkLbAddressPoolAddress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetworkLbAddressPoolAddressRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbAddressPoolAddressRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolAddressRemoveOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkLbAddressPoolAddress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkLbAddressPoolAddressUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbAddressPoolAddressUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolAddressUpdateOptions(), executionOptions, cancellationToken);

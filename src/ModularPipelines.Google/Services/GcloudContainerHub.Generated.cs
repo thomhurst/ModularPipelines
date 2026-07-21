@@ -157,8 +157,8 @@ public class GcloudContainerHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerHubCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubCreateOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class GcloudContainerHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerHubDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubDeleteOptions(), executionOptions, cancellationToken);
@@ -187,8 +187,8 @@ public class GcloudContainerHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubDescribeOptions(), executionOptions, cancellationToken);
@@ -202,8 +202,8 @@ public class GcloudContainerHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerHubListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubListOptions(), executionOptions, cancellationToken);
@@ -217,8 +217,8 @@ public class GcloudContainerHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerHubUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubUpdateOptions(), executionOptions, cancellationToken);

@@ -97,8 +97,8 @@ public class GcloudDeploy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudDeployOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeployOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudDeploy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Apply(
-        GcloudDeployApplyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeployApplyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployApplyOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudDeploy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDeployDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeployDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeleteOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudDeploy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfig(
-        GcloudDeployGetConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeployGetConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployGetConfigOptions(), executionOptions, cancellationToken);

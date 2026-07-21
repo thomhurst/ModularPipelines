@@ -39,8 +39,8 @@ public class GcloudAgentregistryBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAgentRegistryBindingsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryBindingsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryBindingsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudAgentregistryBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAgentRegistryBindingsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryBindingsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryBindingsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudAgentregistryBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAgentRegistryBindingsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryBindingsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryBindingsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudAgentregistryBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchAvailable(
-        GcloudAgentRegistryBindingsFetchAvailableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryBindingsFetchAvailableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryBindingsFetchAvailableOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudAgentregistryBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAgentRegistryBindingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryBindingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryBindingsListOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudAgentregistryBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAgentRegistryBindingsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryBindingsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryBindingsUpdateOptions(), executionOptions, cancellationToken);

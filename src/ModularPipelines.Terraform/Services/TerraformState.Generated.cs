@@ -39,8 +39,8 @@ public class TerraformState
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Identities(
-        TerraformStateIdentitiesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStateIdentitiesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStateIdentitiesOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class TerraformState
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        TerraformStateListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStateListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStateListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class TerraformState
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Mv(
-        TerraformStateMvOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStateMvOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStateMvOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class TerraformState
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pull(
-        TerraformStatePullOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStatePullOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStatePullOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class TerraformState
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Push(
-        TerraformStatePushOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStatePushOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStatePushOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class TerraformState
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReplaceProvider(
-        TerraformStateReplaceProviderOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStateReplaceProviderOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStateReplaceProviderOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class TerraformState
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        TerraformStateRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStateRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStateRmOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class TerraformState
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        TerraformStateShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStateShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStateShowOptions(), executionOptions, cancellationToken);

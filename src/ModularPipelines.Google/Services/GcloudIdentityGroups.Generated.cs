@@ -50,7 +50,7 @@ public class GcloudIdentityGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudIdentityGroupsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -65,7 +65,7 @@ public class GcloudIdentityGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudIdentityGroupsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -80,7 +80,7 @@ public class GcloudIdentityGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudIdentityGroupsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudIdentityGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
-        GcloudIdentityGroupsSearchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIdentityGroupsSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsSearchOptions(), executionOptions, cancellationToken);
@@ -110,7 +110,7 @@ public class GcloudIdentityGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudIdentityGroupsUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

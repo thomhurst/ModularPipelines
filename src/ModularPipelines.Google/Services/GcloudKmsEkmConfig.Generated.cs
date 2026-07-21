@@ -39,8 +39,8 @@ public class GcloudKmsEkmConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudKmsEkmConfigAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsEkmConfigAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConfigAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudKmsEkmConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudKmsEkmConfigDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsEkmConfigDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConfigDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudKmsEkmConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudKmsEkmConfigGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsEkmConfigGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConfigGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudKmsEkmConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudKmsEkmConfigRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsEkmConfigRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConfigRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudKmsEkmConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudKmsEkmConfigSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudKmsEkmConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudKmsEkmConfigUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsEkmConfigUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConfigUpdateOptions(), executionOptions, cancellationToken);

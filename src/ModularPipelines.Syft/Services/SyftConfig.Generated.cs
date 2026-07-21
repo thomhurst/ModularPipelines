@@ -39,8 +39,8 @@ public class SyftConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        SyftConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SyftConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SyftConfigOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class SyftConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Locations(
-        SyftConfigLocationsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SyftConfigLocationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SyftConfigLocationsOptions(), executionOptions, cancellationToken);

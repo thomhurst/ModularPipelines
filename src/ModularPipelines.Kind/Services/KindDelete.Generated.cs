@@ -39,8 +39,8 @@ public class KindDelete
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        KindDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KindDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class KindDelete
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cluster(
-        KindDeleteClusterOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KindDeleteClusterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindDeleteClusterOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class KindDelete
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clusters(
-        KindDeleteClustersOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KindDeleteClustersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindDeleteClustersOptions(), executionOptions, cancellationToken);

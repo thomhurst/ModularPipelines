@@ -39,8 +39,8 @@ public class GcloudIapTcpDestGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudIapTcpDestGroupsAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIapTcpDestGroupsAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudIapTcpDestGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudIapTcpDestGroupsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudIapTcpDestGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudIapTcpDestGroupsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudIapTcpDestGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudIapTcpDestGroupsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudIapTcpDestGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudIapTcpDestGroupsGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIapTcpDestGroupsGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudIapTcpDestGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudIapTcpDestGroupsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIapTcpDestGroupsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudIapTcpDestGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudIapTcpDestGroupsRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIapTcpDestGroupsRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudIapTcpDestGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudIapTcpDestGroupsSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -160,7 +160,7 @@ public class GcloudIapTcpDestGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudIapTcpDestGroupsUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

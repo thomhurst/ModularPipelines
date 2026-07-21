@@ -39,8 +39,8 @@ public class GcloudCertificatemanagerTrustConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudCertificateManagerTrustConfigsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerTrustConfigsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudCertificatemanagerTrustConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudCertificateManagerTrustConfigsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerTrustConfigsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudCertificatemanagerTrustConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudCertificateManagerTrustConfigsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerTrustConfigsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudCertificatemanagerTrustConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudCertificateManagerTrustConfigsExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerTrustConfigsExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsExportOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudCertificatemanagerTrustConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudCertificateManagerTrustConfigsImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerTrustConfigsImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsImportOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudCertificatemanagerTrustConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudCertificateManagerTrustConfigsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerTrustConfigsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudCertificatemanagerTrustConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudCertificateManagerTrustConfigsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerTrustConfigsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudOracledatabaseOdbNetworksOdbSubnets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudOracleDatabaseOdbNetworksOdbSubnetsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseOdbNetworksOdbSubnetsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOdbNetworksOdbSubnetsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudOracledatabaseOdbNetworksOdbSubnets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudOracleDatabaseOdbNetworksOdbSubnetsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseOdbNetworksOdbSubnetsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOdbNetworksOdbSubnetsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudOracledatabaseOdbNetworksOdbSubnets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudOracleDatabaseOdbNetworksOdbSubnetsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseOdbNetworksOdbSubnetsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOdbNetworksOdbSubnetsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudOracledatabaseOdbNetworksOdbSubnets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseOdbNetworksOdbSubnetsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseOdbNetworksOdbSubnetsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOdbNetworksOdbSubnetsListOptions(), executionOptions, cancellationToken);

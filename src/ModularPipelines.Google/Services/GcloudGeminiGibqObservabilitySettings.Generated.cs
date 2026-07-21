@@ -49,8 +49,8 @@ public class GcloudGeminiGibqObservabilitySettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudGeminiGibqObservabilitySettingsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiGibqObservabilitySettingsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGibqObservabilitySettingsCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudGeminiGibqObservabilitySettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudGeminiGibqObservabilitySettingsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiGibqObservabilitySettingsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGibqObservabilitySettingsDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudGeminiGibqObservabilitySettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudGeminiGibqObservabilitySettingsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiGibqObservabilitySettingsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGibqObservabilitySettingsDescribeOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudGeminiGibqObservabilitySettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudGeminiGibqObservabilitySettingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiGibqObservabilitySettingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGibqObservabilitySettingsListOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudGeminiGibqObservabilitySettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudGeminiGibqObservabilitySettingsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiGibqObservabilitySettingsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGibqObservabilitySettingsUpdateOptions(), executionOptions, cancellationToken);

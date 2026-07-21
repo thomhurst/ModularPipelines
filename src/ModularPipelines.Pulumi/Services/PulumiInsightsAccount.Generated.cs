@@ -49,8 +49,8 @@ public class PulumiInsightsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PulumiInsightsAccountListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiInsightsAccountListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiInsightsAccountListOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class PulumiInsightsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> New(
-        PulumiInsightsAccountNewOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiInsightsAccountNewOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiInsightsAccountNewOptions(), executionOptions, cancellationToken);

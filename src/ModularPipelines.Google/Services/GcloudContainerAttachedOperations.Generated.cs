@@ -39,8 +39,8 @@ public class GcloudContainerAttachedOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerAttachedOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAttachedOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerAttachedOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerAttachedOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAttachedOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedOperationsListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerAttachedOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudContainerAttachedOperationsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAttachedOperationsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedOperationsWaitOptions(), executionOptions, cancellationToken);

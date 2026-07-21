@@ -39,8 +39,8 @@ public class GcloudDatalineageConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDatalineageConfigDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatalineageConfigDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatalineageConfigDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDatalineageConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDatalineageConfigUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatalineageConfigUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatalineageConfigUpdateOptions(), executionOptions, cancellationToken);

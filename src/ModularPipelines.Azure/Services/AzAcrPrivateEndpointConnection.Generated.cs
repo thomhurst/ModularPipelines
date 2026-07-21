@@ -39,8 +39,8 @@ public class AzAcrPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
-        AzAcrPrivateEndpointConnectionApproveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrPrivateEndpointConnectionApproveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrPrivateEndpointConnectionApproveOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAcrPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAcrPrivateEndpointConnectionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrPrivateEndpointConnectionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrPrivateEndpointConnectionDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAcrPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAcrPrivateEndpointConnectionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrPrivateEndpointConnectionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrPrivateEndpointConnectionListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzAcrPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reject(
-        AzAcrPrivateEndpointConnectionRejectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrPrivateEndpointConnectionRejectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrPrivateEndpointConnectionRejectOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzAcrPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAcrPrivateEndpointConnectionShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrPrivateEndpointConnectionShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrPrivateEndpointConnectionShowOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzContainerappEnvCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzContainerappEnvCertificateDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappEnvCertificateDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvCertificateDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzContainerappEnvCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzContainerappEnvCertificateListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappEnvCertificateListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvCertificateListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzContainerappEnvCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upload(
-        AzContainerappEnvCertificateUploadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappEnvCertificateUploadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvCertificateUploadOptions(), executionOptions, cancellationToken);

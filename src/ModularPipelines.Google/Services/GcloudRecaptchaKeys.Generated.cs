@@ -39,8 +39,8 @@ public class GcloudRecaptchaKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIpOverride(
-        GcloudRecaptchaKeysAddIpOverrideOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaKeysAddIpOverrideOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysAddIpOverrideOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudRecaptchaKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudRecaptchaKeysCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaKeysCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudRecaptchaKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudRecaptchaKeysDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaKeysDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudRecaptchaKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudRecaptchaKeysDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaKeysDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysDescribeOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudRecaptchaKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListIpOverrides(
-        GcloudRecaptchaKeysListIpOverridesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaKeysListIpOverridesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysListIpOverridesOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudRecaptchaKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudRecaptchaKeysListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaKeysListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudRecaptchaKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Migrate(
-        GcloudRecaptchaKeysMigrateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaKeysMigrateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysMigrateOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudRecaptchaKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIpOverride(
-        GcloudRecaptchaKeysRemoveIpOverrideOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaKeysRemoveIpOverrideOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysRemoveIpOverrideOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudRecaptchaKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudRecaptchaKeysUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaKeysUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysUpdateOptions(), executionOptions, cancellationToken);

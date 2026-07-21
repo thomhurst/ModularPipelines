@@ -39,8 +39,8 @@ public class GcloudNetworkservicesRouteViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkServicesRouteViewsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesRouteViewsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesRouteViewsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkservicesRouteViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkServicesRouteViewsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesRouteViewsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesRouteViewsListOptions(), executionOptions, cancellationToken);

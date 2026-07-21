@@ -39,8 +39,8 @@ public class AzContainerappGithubAction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzContainerappGithubActionAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappGithubActionAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappGithubActionAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzContainerappGithubAction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzContainerappGithubActionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappGithubActionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappGithubActionDeleteOptions(), executionOptions, cancellationToken);

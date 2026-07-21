@@ -39,8 +39,8 @@ public class AzVmExtensionImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzVmExtensionImageListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmExtensionImageListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionImageListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzVmExtensionImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListVersions(
-        AzVmExtensionImageListVersionsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmExtensionImageListVersionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionImageListVersionsOptions(), executionOptions, cancellationToken);

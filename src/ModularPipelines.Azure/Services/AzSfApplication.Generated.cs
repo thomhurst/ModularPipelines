@@ -49,8 +49,8 @@ public class AzSfApplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSfApplicationCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfApplicationCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfApplicationCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzSfApplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSfApplicationUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfApplicationUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfApplicationUpdateOptions(), executionOptions, cancellationToken);

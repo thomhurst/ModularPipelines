@@ -49,8 +49,8 @@ public class AzKeyvaultCertificateIssuer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzKeyvaultCertificateIssuerCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultCertificateIssuerCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateIssuerCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzKeyvaultCertificateIssuer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzKeyvaultCertificateIssuerUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultCertificateIssuerUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateIssuerUpdateOptions(), executionOptions, cancellationToken);

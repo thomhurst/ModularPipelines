@@ -39,8 +39,8 @@ public class AzAcrNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzAcrNetworkRuleAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrNetworkRuleAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrNetworkRuleAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAcrNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAcrNetworkRuleListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrNetworkRuleListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrNetworkRuleListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAcrNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzAcrNetworkRuleRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrNetworkRuleRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrNetworkRuleRemoveOptions(), executionOptions, cancellationToken);

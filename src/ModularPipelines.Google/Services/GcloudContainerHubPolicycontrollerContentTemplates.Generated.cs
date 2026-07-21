@@ -39,8 +39,8 @@ public class GcloudContainerHubPolicycontrollerContentTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerHubPolicycontrollerContentTemplatesDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubPolicycontrollerContentTemplatesDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubPolicycontrollerContentTemplatesDisableOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerHubPolicycontrollerContentTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerHubPolicycontrollerContentTemplatesEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubPolicycontrollerContentTemplatesEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubPolicycontrollerContentTemplatesEnableOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudKmsInventory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetProtectedResourcesSummary(
-        GcloudKmsInventoryGetProtectedResourcesSummaryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsInventoryGetProtectedResourcesSummaryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventoryGetProtectedResourcesSummaryOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudKmsInventory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListKeys(
-        GcloudKmsInventoryListKeysOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsInventoryListKeysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventoryListKeysOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudKmsInventory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchProtectedResources(
-        GcloudKmsInventorySearchProtectedResourcesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsInventorySearchProtectedResourcesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventorySearchProtectedResourcesOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudGeminiCodeRepositoryIndexesRepositoryGroupsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiCodeRepositoryIndexesRepositoryGroupsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudGeminiCodeRepositoryIndexesRepositoryGroupsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiCodeRepositoryIndexesRepositoryGroupsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudGeminiCodeRepositoryIndexesRepositoryGroupsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiCodeRepositoryIndexesRepositoryGroupsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsDescribeOptions(), executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudGeminiCodeRepositoryIndexesRepositoryGroupsGetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudGeminiCodeRepositoryIndexesRepositoryGroupsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiCodeRepositoryIndexesRepositoryGroupsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsListOptions(), executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudGeminiCodeRepositoryIndexesRepositoryGroupsSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudGeminiCodeRepositoryIndexesRepositoryGroupsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiCodeRepositoryIndexesRepositoryGroupsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsUpdateOptions(), executionOptions, cancellationToken);

@@ -40,7 +40,7 @@ public class GcloudPreviewComputeOrgSecurityPoliciesRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddPreconfigWafExclusion(
         GcloudPreviewComputeOrgSecurityPoliciesRulesAddPreconfigWafExclusionOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeOrgSecurityPoliciesRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeOrgSecurityPoliciesRulesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeOrgSecurityPoliciesRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeOrgSecurityPoliciesRulesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudPreviewComputeOrgSecurityPoliciesRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeOrgSecurityPoliciesRulesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudPreviewComputeOrgSecurityPoliciesRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemovePreconfigWafExclusion(
         GcloudPreviewComputeOrgSecurityPoliciesRulesRemovePreconfigWafExclusionOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudPreviewComputeOrgSecurityPoliciesRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPreviewComputeOrgSecurityPoliciesRulesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudMemcacheRegions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudMemcacheRegionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMemcacheRegionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheRegionsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudMemcacheRegions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudMemcacheRegionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMemcacheRegionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheRegionsListOptions(), executionOptions, cancellationToken);

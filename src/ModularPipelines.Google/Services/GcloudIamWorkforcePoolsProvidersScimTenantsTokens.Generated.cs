@@ -39,8 +39,8 @@ public class GcloudIamWorkforcePoolsProvidersScimTenantsTokens
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudIamWorkforcePoolsProvidersScimTenantsTokensCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamWorkforcePoolsProvidersScimTenantsTokensCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsTokensCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudIamWorkforcePoolsProvidersScimTenantsTokens
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudIamWorkforcePoolsProvidersScimTenantsTokensDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamWorkforcePoolsProvidersScimTenantsTokensDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsTokensDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudIamWorkforcePoolsProvidersScimTenantsTokens
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudIamWorkforcePoolsProvidersScimTenantsTokensDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamWorkforcePoolsProvidersScimTenantsTokensDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsTokensDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudIamWorkforcePoolsProvidersScimTenantsTokens
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudIamWorkforcePoolsProvidersScimTenantsTokensListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamWorkforcePoolsProvidersScimTenantsTokensListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsTokensListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudIamWorkforcePoolsProvidersScimTenantsTokens
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudIamWorkforcePoolsProvidersScimTenantsTokensUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamWorkforcePoolsProvidersScimTenantsTokensUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsTokensUpdateOptions(), executionOptions, cancellationToken);

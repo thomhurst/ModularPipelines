@@ -39,8 +39,8 @@ public class GcloudPreviewComputeStoragePoolTypes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudPreviewComputeStoragePoolTypesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeStoragePoolTypesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeStoragePoolTypesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudPreviewComputeStoragePoolTypes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeStoragePoolTypesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeStoragePoolTypesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeStoragePoolTypesListOptions(), executionOptions, cancellationToken);

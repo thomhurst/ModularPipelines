@@ -39,8 +39,8 @@ public class AzSynapseDataFlow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseDataFlowCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseDataFlowCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseDataFlowCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapseDataFlow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseDataFlowDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseDataFlowDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseDataFlowDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSynapseDataFlow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzSynapseDataFlowSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseDataFlowSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseDataFlowSetOptions(), executionOptions, cancellationToken);

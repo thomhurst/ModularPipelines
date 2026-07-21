@@ -39,8 +39,8 @@ public class GcloudArtifactsProjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudArtifactsProjectsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsProjectsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsProjectsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudArtifactsProjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudArtifactsProjectsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsProjectsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsProjectsUpdateOptions(), executionOptions, cancellationToken);

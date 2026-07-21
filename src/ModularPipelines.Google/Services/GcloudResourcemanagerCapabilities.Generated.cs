@@ -40,7 +40,7 @@ public class GcloudResourcemanagerCapabilities
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudResourceManagerCapabilitiesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudResourcemanagerCapabilities
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudResourceManagerCapabilitiesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

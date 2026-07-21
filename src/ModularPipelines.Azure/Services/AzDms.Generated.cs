@@ -49,8 +49,8 @@ public class AzDms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDmsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDmsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzDms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDmsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDmsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzDms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDmsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDmsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsListOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzDms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzDmsStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDmsStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsStartOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class AzDms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzDmsStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDmsStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsStopOptions(), executionOptions, cancellationToken);

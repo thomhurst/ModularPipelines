@@ -49,8 +49,8 @@ public class GrypeDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GrypeDbOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GrypeDbOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GrypeDbOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GrypeDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Check(
-        GrypeDbCheckOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GrypeDbCheckOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GrypeDbCheckOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GrypeDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GrypeDbDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GrypeDbDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GrypeDbDeleteOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GrypeDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Diff(
-        GrypeDbDiffOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GrypeDbDiffOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GrypeDbDiffOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GrypeDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GrypeDbImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GrypeDbImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GrypeDbImportOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GrypeDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GrypeDbListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GrypeDbListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GrypeDbListOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class GrypeDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Providers(
-        GrypeDbProvidersOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GrypeDbProvidersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GrypeDbProvidersOptions(), executionOptions, cancellationToken);
@@ -154,8 +154,8 @@ public class GrypeDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Status(
-        GrypeDbStatusOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GrypeDbStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GrypeDbStatusOptions(), executionOptions, cancellationToken);
@@ -169,8 +169,8 @@ public class GrypeDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GrypeDbUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GrypeDbUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GrypeDbUpdateOptions(), executionOptions, cancellationToken);

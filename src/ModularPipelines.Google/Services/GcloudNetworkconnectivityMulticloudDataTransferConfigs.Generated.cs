@@ -49,8 +49,8 @@ public class GcloudNetworkconnectivityMulticloudDataTransferConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkConnectivityMulticloudDataTransferConfigsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivityMulticloudDataTransferConfigsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudNetworkconnectivityMulticloudDataTransferConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkConnectivityMulticloudDataTransferConfigsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivityMulticloudDataTransferConfigsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudNetworkconnectivityMulticloudDataTransferConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkConnectivityMulticloudDataTransferConfigsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivityMulticloudDataTransferConfigsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsDescribeOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudNetworkconnectivityMulticloudDataTransferConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkConnectivityMulticloudDataTransferConfigsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivityMulticloudDataTransferConfigsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsListOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudNetworkconnectivityMulticloudDataTransferConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkConnectivityMulticloudDataTransferConfigsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivityMulticloudDataTransferConfigsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsUpdateOptions(), executionOptions, cancellationToken);

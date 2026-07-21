@@ -39,8 +39,8 @@ public class GcloudNetappHostGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetappHostGroupsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappHostGroupsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappHostGroupsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetappHostGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetappHostGroupsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappHostGroupsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappHostGroupsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetappHostGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetappHostGroupsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappHostGroupsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappHostGroupsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetappHostGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetappHostGroupsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappHostGroupsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappHostGroupsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetappHostGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetappHostGroupsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappHostGroupsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappHostGroupsUpdateOptions(), executionOptions, cancellationToken);

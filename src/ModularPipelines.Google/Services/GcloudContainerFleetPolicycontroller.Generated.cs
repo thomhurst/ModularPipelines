@@ -55,8 +55,8 @@ public class GcloudContainerFleetPolicycontroller
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetPolicycontrollerDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetPolicycontrollerDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerDescribeOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class GcloudContainerFleetPolicycontroller
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Detach(
-        GcloudContainerFleetPolicycontrollerDetachOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetPolicycontrollerDetachOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerDetachOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class GcloudContainerFleetPolicycontroller
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetPolicycontrollerDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetPolicycontrollerDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerDisableOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class GcloudContainerFleetPolicycontroller
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerFleetPolicycontrollerEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetPolicycontrollerEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerEnableOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class GcloudContainerFleetPolicycontroller
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Suspend(
-        GcloudContainerFleetPolicycontrollerSuspendOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetPolicycontrollerSuspendOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerSuspendOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class GcloudContainerFleetPolicycontroller
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerFleetPolicycontrollerUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetPolicycontrollerUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerUpdateOptions(), executionOptions, cancellationToken);

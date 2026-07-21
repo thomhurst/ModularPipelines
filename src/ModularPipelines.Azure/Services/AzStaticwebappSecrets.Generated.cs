@@ -39,8 +39,8 @@ public class AzStaticwebappSecrets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStaticwebappSecretsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappSecretsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappSecretsListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStaticwebappSecrets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetApiKey(
-        AzStaticwebappSecretsResetApiKeyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappSecretsResetApiKeyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappSecretsResetApiKeyOptions(), executionOptions, cancellationToken);

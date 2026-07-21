@@ -49,8 +49,8 @@ public class AzCosmosdbCassandraTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbCassandraTableCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbCassandraTableCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbCassandraTableCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzCosmosdbCassandraTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbCassandraTableDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbCassandraTableDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbCassandraTableDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzCosmosdbCassandraTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbCassandraTableUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbCassandraTableUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbCassandraTableUpdateOptions(), executionOptions, cancellationToken);

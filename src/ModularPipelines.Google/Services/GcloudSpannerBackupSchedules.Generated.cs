@@ -39,8 +39,8 @@ public class GcloudSpannerBackupSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudSpannerBackupSchedulesAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerBackupSchedulesAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudSpannerBackupSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudSpannerBackupSchedulesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerBackupSchedulesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudSpannerBackupSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudSpannerBackupSchedulesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerBackupSchedulesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudSpannerBackupSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudSpannerBackupSchedulesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerBackupSchedulesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesDescribeOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudSpannerBackupSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudSpannerBackupSchedulesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerBackupSchedulesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudSpannerBackupSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSpannerBackupSchedulesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerBackupSchedulesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesListOptions(), executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudSpannerBackupSchedules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
         GcloudSpannerBackupSchedulesRemoveIamPolicyBindingOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudSpannerBackupSchedules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudSpannerBackupSchedulesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudSpannerBackupSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudSpannerBackupSchedulesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerBackupSchedulesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesUpdateOptions(), executionOptions, cancellationToken);

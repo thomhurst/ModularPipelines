@@ -55,8 +55,8 @@ public class AzContainerappConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzContainerappConnectionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappConnectionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionDeleteOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzContainerappConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListConfiguration(
-        AzContainerappConnectionListConfigurationOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappConnectionListConfigurationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionListConfigurationOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class AzContainerappConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzContainerappConnectionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappConnectionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionListOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class AzContainerappConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSupportTypes(
-        AzContainerappConnectionListSupportTypesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappConnectionListSupportTypesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionListSupportTypesOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class AzContainerappConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzContainerappConnectionShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappConnectionShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionShowOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class AzContainerappConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Validate(
-        AzContainerappConnectionValidateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappConnectionValidateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionValidateOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ public class AzContainerappConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzContainerappConnectionWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappConnectionWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionWaitOptions(), executionOptions, cancellationToken);

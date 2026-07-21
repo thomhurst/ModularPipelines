@@ -39,8 +39,8 @@ public class GcloudAssuredWorkloadsViolations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Acknowledge(
-        GcloudAssuredWorkloadsViolationsAcknowledgeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAssuredWorkloadsViolationsAcknowledgeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsViolationsAcknowledgeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudAssuredWorkloadsViolations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAssuredWorkloadsViolationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAssuredWorkloadsViolationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsViolationsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudAssuredWorkloadsViolations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAssuredWorkloadsViolationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAssuredWorkloadsViolationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsViolationsListOptions(), executionOptions, cancellationToken);

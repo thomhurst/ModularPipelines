@@ -39,8 +39,8 @@ public class GcloudMemorystoreBackupCollectionsBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudMemorystoreBackupCollectionsBackupsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMemorystoreBackupCollectionsBackupsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreBackupCollectionsBackupsDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudMemorystoreBackupCollectionsBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudMemorystoreBackupCollectionsBackupsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMemorystoreBackupCollectionsBackupsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreBackupCollectionsBackupsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudMemorystoreBackupCollectionsBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudMemorystoreBackupCollectionsBackupsExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMemorystoreBackupCollectionsBackupsExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreBackupCollectionsBackupsExportOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudMemorystoreBackupCollectionsBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudMemorystoreBackupCollectionsBackupsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMemorystoreBackupCollectionsBackupsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreBackupCollectionsBackupsListOptions(), executionOptions, cancellationToken);

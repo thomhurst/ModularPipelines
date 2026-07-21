@@ -39,8 +39,8 @@ public class AzStaticwebappBackends
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Link(
-        AzStaticwebappBackendsLinkOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappBackendsLinkOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappBackendsLinkOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStaticwebappBackends
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStaticwebappBackendsShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappBackendsShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappBackendsShowOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzStaticwebappBackends
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unlink(
-        AzStaticwebappBackendsUnlinkOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappBackendsUnlinkOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappBackendsUnlinkOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzStaticwebappBackends
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Validate(
-        AzStaticwebappBackendsValidateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappBackendsValidateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappBackendsValidateOptions(), executionOptions, cancellationToken);

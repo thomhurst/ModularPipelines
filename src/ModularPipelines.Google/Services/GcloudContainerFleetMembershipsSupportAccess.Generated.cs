@@ -39,8 +39,8 @@ public class GcloudContainerFleetMembershipsSupportAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetMembershipsSupportAccessDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetMembershipsSupportAccessDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsSupportAccessDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerFleetMembershipsSupportAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetMembershipsSupportAccessDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetMembershipsSupportAccessDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsSupportAccessDisableOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerFleetMembershipsSupportAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerFleetMembershipsSupportAccessEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetMembershipsSupportAccessEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsSupportAccessEnableOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudContainerFleetMembershipsSupportAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetYaml(
-        GcloudContainerFleetMembershipsSupportAccessGetYamlOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetMembershipsSupportAccessGetYamlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsSupportAccessGetYamlOptions(), executionOptions, cancellationToken);

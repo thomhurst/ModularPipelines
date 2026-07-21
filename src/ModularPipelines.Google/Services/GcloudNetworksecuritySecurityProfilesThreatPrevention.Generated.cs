@@ -39,8 +39,8 @@ public class GcloudNetworksecuritySecurityProfilesThreatPrevention
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddOverride(
-        GcloudNetworkSecuritySecurityProfilesThreatPreventionAddOverrideOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesThreatPreventionAddOverrideOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionAddOverrideOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworksecuritySecurityProfilesThreatPrevention
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkSecuritySecurityProfilesThreatPreventionCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesThreatPreventionCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetworksecuritySecurityProfilesThreatPrevention
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecuritySecurityProfilesThreatPreventionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesThreatPreventionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworksecuritySecurityProfilesThreatPrevention
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteOverride(
-        GcloudNetworkSecuritySecurityProfilesThreatPreventionDeleteOverrideOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesThreatPreventionDeleteOverrideOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionDeleteOverrideOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetworksecuritySecurityProfilesThreatPrevention
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkSecuritySecurityProfilesThreatPreventionDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesThreatPreventionDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionDescribeOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudNetworksecuritySecurityProfilesThreatPrevention
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkSecuritySecurityProfilesThreatPreventionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesThreatPreventionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudNetworksecuritySecurityProfilesThreatPrevention
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListOverrides(
-        GcloudNetworkSecuritySecurityProfilesThreatPreventionListOverridesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesThreatPreventionListOverridesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionListOverridesOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudNetworksecuritySecurityProfilesThreatPrevention
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateOverride(
-        GcloudNetworkSecuritySecurityProfilesThreatPreventionUpdateOverrideOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesThreatPreventionUpdateOverrideOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionUpdateOverrideOptions(), executionOptions, cancellationToken);

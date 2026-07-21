@@ -49,8 +49,8 @@ public class DockerBuilderHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        DockerBuilderHistoryExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderHistoryExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderHistoryExportOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class DockerBuilderHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        DockerBuilderHistoryImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderHistoryImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderHistoryImportOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class DockerBuilderHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Logs(
-        DockerBuilderHistoryLogsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderHistoryLogsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderHistoryLogsOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class DockerBuilderHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        DockerBuilderHistoryLsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderHistoryLsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderHistoryLsOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class DockerBuilderHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Open(
-        DockerBuilderHistoryOpenOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderHistoryOpenOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderHistoryOpenOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class DockerBuilderHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        DockerBuilderHistoryRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderHistoryRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderHistoryRmOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class DockerBuilderHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Trace(
-        DockerBuilderHistoryTraceOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderHistoryTraceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderHistoryTraceOptions(), executionOptions, cancellationToken);

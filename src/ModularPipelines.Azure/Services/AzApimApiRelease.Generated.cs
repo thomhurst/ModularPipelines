@@ -39,8 +39,8 @@ public class AzApimApiRelease
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzApimApiReleaseCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApiReleaseCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiReleaseCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzApimApiRelease
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzApimApiReleaseDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApiReleaseDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiReleaseDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzApimApiRelease
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzApimApiReleaseUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApiReleaseUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiReleaseUpdateOptions(), executionOptions, cancellationToken);

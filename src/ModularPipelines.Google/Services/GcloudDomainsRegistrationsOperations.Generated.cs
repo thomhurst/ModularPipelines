@@ -39,8 +39,8 @@ public class GcloudDomainsRegistrationsOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDomainsRegistrationsOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDomainsRegistrationsOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDomainsRegistrationsOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDomainsRegistrationsOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDomainsRegistrationsOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsOperationsListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDomainsRegistrationsOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudDomainsRegistrationsOperationsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDomainsRegistrationsOperationsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsOperationsWaitOptions(), executionOptions, cancellationToken);

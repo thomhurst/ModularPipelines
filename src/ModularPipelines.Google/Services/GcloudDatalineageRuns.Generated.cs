@@ -39,8 +39,8 @@ public class GcloudDatalineageRuns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDatalineageRunsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatalineageRunsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatalineageRunsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDatalineageRuns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDatalineageRunsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatalineageRunsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatalineageRunsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDatalineageRuns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDatalineageRunsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatalineageRunsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatalineageRunsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudDatalineageRuns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDatalineageRunsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatalineageRunsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatalineageRunsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudDatalineageRuns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDatalineageRunsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatalineageRunsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatalineageRunsUpdateOptions(), executionOptions, cancellationToken);

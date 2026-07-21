@@ -39,8 +39,8 @@ public class GcloudDesigncenterLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDesignCenterLocationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterLocationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterLocationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDesigncenterLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDesignCenterLocationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterLocationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterLocationsListOptions(), executionOptions, cancellationToken);

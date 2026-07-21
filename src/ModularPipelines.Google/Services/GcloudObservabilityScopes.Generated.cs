@@ -39,8 +39,8 @@ public class GcloudObservabilityScopes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudObservabilityScopesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudObservabilityScopesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudObservabilityScopesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudObservabilityScopes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudObservabilityScopesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudObservabilityScopesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudObservabilityScopesUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzAmsAccountIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzAmsAccountIdentityAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsAccountIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAmsAccountIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzAmsAccountIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsAccountIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountIdentityRemoveOptions(), executionOptions, cancellationToken);

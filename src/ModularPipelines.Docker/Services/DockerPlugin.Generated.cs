@@ -39,8 +39,8 @@ public class DockerPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DockerPluginOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerPluginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPluginOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class DockerPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        DockerPluginCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerPluginCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPluginCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class DockerPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        DockerPluginDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerPluginDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPluginDisableOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class DockerPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        DockerPluginEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerPluginEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPluginEnableOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class DockerPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        DockerPluginInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerPluginInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPluginInspectOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class DockerPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Install(
-        DockerPluginInstallOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerPluginInstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPluginInstallOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class DockerPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        DockerPluginLsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerPluginLsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPluginLsOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class DockerPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Push(
-        DockerPluginPushOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerPluginPushOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPluginPushOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class DockerPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        DockerPluginRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerPluginRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPluginRmOptions(), executionOptions, cancellationToken);
@@ -174,8 +174,8 @@ public class DockerPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upgrade(
-        DockerPluginUpgradeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerPluginUpgradeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPluginUpgradeOptions(), executionOptions, cancellationToken);

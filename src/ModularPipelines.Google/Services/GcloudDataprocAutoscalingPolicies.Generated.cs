@@ -39,8 +39,8 @@ public class GcloudDataprocAutoscalingPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataprocAutoscalingPoliciesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocAutoscalingPoliciesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDataprocAutoscalingPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataprocAutoscalingPoliciesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocAutoscalingPoliciesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDataprocAutoscalingPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudDataprocAutoscalingPoliciesExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocAutoscalingPoliciesExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesExportOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudDataprocAutoscalingPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudDataprocAutoscalingPoliciesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocAutoscalingPoliciesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudDataprocAutoscalingPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudDataprocAutoscalingPoliciesImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocAutoscalingPoliciesImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesImportOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudDataprocAutoscalingPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataprocAutoscalingPoliciesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocAutoscalingPoliciesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesListOptions(), executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudDataprocAutoscalingPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDataprocAutoscalingPoliciesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Hadoop(
-        GcloudDataprocWorkflowTemplatesAddJobHadoopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesAddJobHadoopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobHadoopOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Hive(
-        GcloudDataprocWorkflowTemplatesAddJobHiveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesAddJobHiveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobHiveOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pig(
-        GcloudDataprocWorkflowTemplatesAddJobPigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesAddJobPigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobPigOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Presto(
-        GcloudDataprocWorkflowTemplatesAddJobPrestoOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesAddJobPrestoOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobPrestoOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudDataprocWorkflowTemplatesAddJob
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pyspark(
         GcloudDataprocWorkflowTemplatesAddJobPysparkOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Spark(
-        GcloudDataprocWorkflowTemplatesAddJobSparkOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesAddJobSparkOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobSparkOptions(), executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudDataprocWorkflowTemplatesAddJob
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SparkR(
         GcloudDataprocWorkflowTemplatesAddJobSparkROptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SparkSql(
-        GcloudDataprocWorkflowTemplatesAddJobSparkSqlOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesAddJobSparkSqlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobSparkSqlOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Trino(
-        GcloudDataprocWorkflowTemplatesAddJobTrinoOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesAddJobTrinoOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobTrinoOptions(), executionOptions, cancellationToken);

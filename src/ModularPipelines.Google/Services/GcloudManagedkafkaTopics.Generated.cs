@@ -39,8 +39,8 @@ public class GcloudManagedkafkaTopics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudManagedKafkaTopicsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudManagedKafkaTopicsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaTopicsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudManagedkafkaTopics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudManagedKafkaTopicsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudManagedKafkaTopicsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaTopicsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudManagedkafkaTopics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudManagedKafkaTopicsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudManagedKafkaTopicsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaTopicsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudManagedkafkaTopics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudManagedKafkaTopicsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudManagedKafkaTopicsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaTopicsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudManagedkafkaTopics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudManagedKafkaTopicsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudManagedKafkaTopicsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaTopicsUpdateOptions(), executionOptions, cancellationToken);

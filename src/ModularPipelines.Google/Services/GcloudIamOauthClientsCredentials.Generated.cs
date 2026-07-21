@@ -39,8 +39,8 @@ public class GcloudIamOauthClientsCredentials
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudIamOauthClientsCredentialsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamOauthClientsCredentialsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsCredentialsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudIamOauthClientsCredentials
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudIamOauthClientsCredentialsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamOauthClientsCredentialsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsCredentialsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudIamOauthClientsCredentials
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudIamOauthClientsCredentialsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamOauthClientsCredentialsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsCredentialsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudIamOauthClientsCredentials
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudIamOauthClientsCredentialsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamOauthClientsCredentialsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsCredentialsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudIamOauthClientsCredentials
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudIamOauthClientsCredentialsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamOauthClientsCredentialsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsCredentialsUpdateOptions(), executionOptions, cancellationToken);

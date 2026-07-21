@@ -39,8 +39,8 @@ public class GcloudArtifactsImageStreamingCache
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudArtifactsImageStreamingCacheCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsImageStreamingCacheCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsImageStreamingCacheCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudArtifactsImageStreamingCache
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudArtifactsImageStreamingCacheDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsImageStreamingCacheDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsImageStreamingCacheDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudArtifactsImageStreamingCache
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudArtifactsImageStreamingCacheDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsImageStreamingCacheDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsImageStreamingCacheDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudArtifactsImageStreamingCache
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudArtifactsImageStreamingCacheListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsImageStreamingCacheListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsImageStreamingCacheListOptions(), executionOptions, cancellationToken);

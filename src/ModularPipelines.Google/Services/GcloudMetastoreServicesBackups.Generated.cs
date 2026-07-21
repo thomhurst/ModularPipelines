@@ -39,8 +39,8 @@ public class GcloudMetastoreServicesBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudMetastoreServicesBackupsAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMetastoreServicesBackupsAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesBackupsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudMetastoreServicesBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudMetastoreServicesBackupsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMetastoreServicesBackupsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesBackupsCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudMetastoreServicesBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudMetastoreServicesBackupsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMetastoreServicesBackupsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesBackupsDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudMetastoreServicesBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudMetastoreServicesBackupsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMetastoreServicesBackupsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesBackupsDescribeOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudMetastoreServicesBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudMetastoreServicesBackupsGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMetastoreServicesBackupsGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesBackupsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudMetastoreServicesBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudMetastoreServicesBackupsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMetastoreServicesBackupsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesBackupsListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudMetastoreServicesBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudMetastoreServicesBackupsRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMetastoreServicesBackupsRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesBackupsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudMetastoreServicesBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudMetastoreServicesBackupsSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -50,7 +50,7 @@ public class GcloudPreviewConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
         GcloudPreviewConfigGetOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudPreviewConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewConfigListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewConfigListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewConfigListOptions(), executionOptions, cancellationToken);
@@ -80,7 +80,7 @@ public class GcloudPreviewConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
         GcloudPreviewConfigSetOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -95,7 +95,7 @@ public class GcloudPreviewConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unset(
         GcloudPreviewConfigUnsetOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -49,8 +49,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudGeminiDataSharingWithGoogleSettingsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiDataSharingWithGoogleSettingsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudGeminiDataSharingWithGoogleSettingsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiDataSharingWithGoogleSettingsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudGeminiDataSharingWithGoogleSettingsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiDataSharingWithGoogleSettingsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsDescribeOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudGeminiDataSharingWithGoogleSettingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiDataSharingWithGoogleSettingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsListOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudGeminiDataSharingWithGoogleSettingsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiDataSharingWithGoogleSettingsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class PodmanGenerate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kube(
-        PodmanGenerateKubeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanGenerateKubeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanGenerateKubeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PodmanGenerate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Spec(
-        PodmanGenerateSpecOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanGenerateSpecOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanGenerateSpecOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class PodmanGenerate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Systemd(
-        PodmanGenerateSystemdOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanGenerateSystemdOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanGenerateSystemdOptions(), executionOptions, cancellationToken);

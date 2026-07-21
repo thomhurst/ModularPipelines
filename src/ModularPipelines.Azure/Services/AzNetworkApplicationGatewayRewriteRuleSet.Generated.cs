@@ -39,8 +39,8 @@ public class AzNetworkApplicationGatewayRewriteRuleSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkApplicationGatewayRewriteRuleSetCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkApplicationGatewayRewriteRuleSetCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRewriteRuleSetCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkApplicationGatewayRewriteRuleSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkApplicationGatewayRewriteRuleSetDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkApplicationGatewayRewriteRuleSetDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRewriteRuleSetDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkApplicationGatewayRewriteRuleSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkApplicationGatewayRewriteRuleSetUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkApplicationGatewayRewriteRuleSetUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRewriteRuleSetUpdateOptions(), executionOptions, cancellationToken);

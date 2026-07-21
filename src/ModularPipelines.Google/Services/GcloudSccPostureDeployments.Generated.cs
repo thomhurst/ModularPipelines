@@ -39,8 +39,8 @@ public class GcloudSccPostureDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudSccPostureDeploymentsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccPostureDeploymentsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureDeploymentsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudSccPostureDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudSccPostureDeploymentsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccPostureDeploymentsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureDeploymentsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudSccPostureDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudSccPostureDeploymentsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccPostureDeploymentsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureDeploymentsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudSccPostureDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSccPostureDeploymentsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccPostureDeploymentsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureDeploymentsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudSccPostureDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudSccPostureDeploymentsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccPostureDeploymentsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureDeploymentsUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudArtifactsPackages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudArtifactsPackagesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsPackagesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPackagesDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudArtifactsPackages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudArtifactsPackagesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsPackagesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPackagesDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudArtifactsPackages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudArtifactsPackagesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsPackagesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPackagesListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudArtifactsPackages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudArtifactsPackagesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsPackagesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPackagesUpdateOptions(), executionOptions, cancellationToken);

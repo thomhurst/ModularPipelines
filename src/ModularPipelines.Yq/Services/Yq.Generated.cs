@@ -33,8 +33,8 @@ internal partial class Yq : IYq
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> EvalAll(
-        YqEvalAllOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        YqEvalAllOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new YqEvalAllOptions(), executionOptions, cancellationToken);
@@ -42,8 +42,8 @@ internal partial class Yq : IYq
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Eval(
-        YqEvalOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        YqEvalOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new YqEvalOptions(), executionOptions, cancellationToken);

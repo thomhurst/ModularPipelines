@@ -39,8 +39,8 @@ public class GcloudContainerFleetConfigManagement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetConfigManagementDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetConfigManagementDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetConfigManagementDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerFleetConfigManagement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetConfigManagementDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetConfigManagementDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetConfigManagementDisableOptions(), executionOptions, cancellationToken);

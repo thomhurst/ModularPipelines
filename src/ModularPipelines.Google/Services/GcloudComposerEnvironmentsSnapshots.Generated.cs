@@ -39,8 +39,8 @@ public class GcloudComposerEnvironmentsSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Load(
-        GcloudComposerEnvironmentsSnapshotsLoadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsSnapshotsLoadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsSnapshotsLoadOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComposerEnvironmentsSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Save(
-        GcloudComposerEnvironmentsSnapshotsSaveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsSnapshotsSaveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsSnapshotsSaveOptions(), executionOptions, cancellationToken);

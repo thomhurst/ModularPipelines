@@ -39,8 +39,8 @@ public class AzNetworkLbFrontendIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkLbFrontendIpCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbFrontendIpCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbFrontendIpCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkLbFrontendIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkLbFrontendIpDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbFrontendIpDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbFrontendIpDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkLbFrontendIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkLbFrontendIpUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbFrontendIpUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbFrontendIpUpdateOptions(), executionOptions, cancellationToken);

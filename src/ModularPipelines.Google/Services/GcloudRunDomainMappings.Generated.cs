@@ -39,8 +39,8 @@ public class GcloudRunDomainMappings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudRunDomainMappingsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRunDomainMappingsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunDomainMappingsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudRunDomainMappings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudRunDomainMappingsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRunDomainMappingsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunDomainMappingsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudRunDomainMappings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudRunDomainMappingsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRunDomainMappingsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunDomainMappingsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudRunDomainMappings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudRunDomainMappingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRunDomainMappingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunDomainMappingsListOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class DockerSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DockerSystemOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerSystemOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class DockerSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Df(
-        DockerSystemDfOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerSystemDfOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemDfOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class DockerSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Events(
-        DockerSystemEventsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerSystemEventsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemEventsOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class DockerSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Info(
-        DockerSystemInfoOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerSystemInfoOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemInfoOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class DockerSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        DockerSystemPruneOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerSystemPruneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemPruneOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudBiglakeIcebergNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBiglakeIcebergNamespacesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergNamespacesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergNamespacesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBiglakeIcebergNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBiglakeIcebergNamespacesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergNamespacesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergNamespacesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudBiglakeIcebergNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBiglakeIcebergNamespacesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergNamespacesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergNamespacesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudBiglakeIcebergNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudBiglakeIcebergNamespacesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergNamespacesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergNamespacesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudBiglakeIcebergNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBiglakeIcebergNamespacesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergNamespacesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergNamespacesListOptions(), executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudBiglakeIcebergNamespaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudBiglakeIcebergNamespacesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudBiglakeIcebergNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBiglakeIcebergNamespacesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergNamespacesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergNamespacesUpdateOptions(), executionOptions, cancellationToken);

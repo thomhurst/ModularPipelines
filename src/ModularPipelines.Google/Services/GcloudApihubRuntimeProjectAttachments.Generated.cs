@@ -39,8 +39,8 @@ public class GcloudApihubRuntimeProjectAttachments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudApihubRuntimeProjectAttachmentsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubRuntimeProjectAttachmentsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubRuntimeProjectAttachmentsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudApihubRuntimeProjectAttachments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudApihubRuntimeProjectAttachmentsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubRuntimeProjectAttachmentsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubRuntimeProjectAttachmentsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudApihubRuntimeProjectAttachments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApihubRuntimeProjectAttachmentsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubRuntimeProjectAttachmentsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubRuntimeProjectAttachmentsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudApihubRuntimeProjectAttachments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApihubRuntimeProjectAttachmentsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubRuntimeProjectAttachmentsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubRuntimeProjectAttachmentsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudApihubRuntimeProjectAttachments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lookup(
-        GcloudApihubRuntimeProjectAttachmentsLookupOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubRuntimeProjectAttachmentsLookupOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubRuntimeProjectAttachmentsLookupOptions(), executionOptions, cancellationToken);

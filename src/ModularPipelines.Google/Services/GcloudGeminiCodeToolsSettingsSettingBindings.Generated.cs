@@ -39,8 +39,8 @@ public class GcloudGeminiCodeToolsSettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudGeminiCodeToolsSettingsSettingBindingsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiCodeToolsSettingsSettingBindingsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsSettingBindingsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudGeminiCodeToolsSettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudGeminiCodeToolsSettingsSettingBindingsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiCodeToolsSettingsSettingBindingsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsSettingBindingsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudGeminiCodeToolsSettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudGeminiCodeToolsSettingsSettingBindingsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiCodeToolsSettingsSettingBindingsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsSettingBindingsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudGeminiCodeToolsSettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudGeminiCodeToolsSettingsSettingBindingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiCodeToolsSettingsSettingBindingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsSettingBindingsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudGeminiCodeToolsSettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudGeminiCodeToolsSettingsSettingBindingsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiCodeToolsSettingsSettingBindingsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsSettingBindingsUpdateOptions(), executionOptions, cancellationToken);

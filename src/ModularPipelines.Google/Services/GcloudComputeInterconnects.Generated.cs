@@ -92,7 +92,7 @@ public class GcloudComputeInterconnects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeInterconnectsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -107,7 +107,7 @@ public class GcloudComputeInterconnects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeInterconnectsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -122,7 +122,7 @@ public class GcloudComputeInterconnects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeInterconnectsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -137,7 +137,7 @@ public class GcloudComputeInterconnects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDiagnostics(
         GcloudComputeInterconnectsGetDiagnosticsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -151,8 +151,8 @@ public class GcloudComputeInterconnects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeInterconnectsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeInterconnectsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsListOptions(), executionOptions, cancellationToken);
@@ -167,7 +167,7 @@ public class GcloudComputeInterconnects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeInterconnectsUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

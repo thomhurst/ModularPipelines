@@ -49,8 +49,8 @@ public class AzDiskencryptionset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDiskEncryptionSetCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDiskEncryptionSetCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzDiskencryptionset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDiskEncryptionSetDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDiskEncryptionSetDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzDiskencryptionset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDiskEncryptionSetListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDiskEncryptionSetListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetListOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzDiskencryptionset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDiskEncryptionSetUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDiskEncryptionSetUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetUpdateOptions(), executionOptions, cancellationToken);

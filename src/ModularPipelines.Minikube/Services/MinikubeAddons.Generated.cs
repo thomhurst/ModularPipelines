@@ -39,8 +39,8 @@ public class MinikubeAddons
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        MinikubeAddonsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeAddonsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeAddonsOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class MinikubeAddons
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Configure(
-        MinikubeAddonsConfigureOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeAddonsConfigureOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeAddonsConfigureOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class MinikubeAddons
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        MinikubeAddonsEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeAddonsEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeAddonsEnableOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class MinikubeAddons
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Images(
-        MinikubeAddonsImagesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeAddonsImagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeAddonsImagesOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class MinikubeAddons
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        MinikubeAddonsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeAddonsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeAddonsListOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class MinikubeAddons
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Open(
-        MinikubeAddonsOpenOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeAddonsOpenOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeAddonsOpenOptions(), executionOptions, cancellationToken);

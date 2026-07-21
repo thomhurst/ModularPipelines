@@ -39,8 +39,8 @@ public class GcloudRunWorkerPoolsRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudRunWorkerPoolsRevisionsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRunWorkerPoolsRevisionsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunWorkerPoolsRevisionsDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudRunWorkerPoolsRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudRunWorkerPoolsRevisionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRunWorkerPoolsRevisionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunWorkerPoolsRevisionsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudRunWorkerPoolsRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudRunWorkerPoolsRevisionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRunWorkerPoolsRevisionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunWorkerPoolsRevisionsListOptions(), executionOptions, cancellationToken);

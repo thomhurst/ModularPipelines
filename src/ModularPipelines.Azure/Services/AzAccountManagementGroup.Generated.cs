@@ -49,8 +49,8 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAccountManagementGroupCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountManagementGroupCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAccountManagementGroupDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountManagementGroupDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAccountManagementGroupListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountManagementGroupListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupListOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAccountManagementGroupShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountManagementGroupShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupShowOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAccountManagementGroupUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountManagementGroupUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupUpdateOptions(), executionOptions, cancellationToken);

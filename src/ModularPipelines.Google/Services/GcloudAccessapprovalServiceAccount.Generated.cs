@@ -39,8 +39,8 @@ public class GcloudAccessapprovalServiceAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        GcloudAccessApprovalServiceAccountGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAccessApprovalServiceAccountGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalServiceAccountGetOptions(), executionOptions, cancellationToken);

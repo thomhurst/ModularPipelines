@@ -40,7 +40,7 @@ public class GcloudResourcemanagerTagsValues
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
         GcloudResourceManagerTagsValuesAddIamPolicyBindingOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudResourcemanagerTagsValues
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudResourceManagerTagsValuesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudResourceManagerTagsValuesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsValuesCreateOptions(), executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudResourcemanagerTagsValues
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudResourceManagerTagsValuesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudResourcemanagerTagsValues
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudResourceManagerTagsValuesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudResourcemanagerTagsValues
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudResourceManagerTagsValuesGetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudResourcemanagerTagsValues
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudResourceManagerTagsValuesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudResourceManagerTagsValuesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsValuesListOptions(), executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudResourcemanagerTagsValues
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
         GcloudResourceManagerTagsValuesRemoveIamPolicyBindingOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudResourcemanagerTagsValues
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudResourceManagerTagsValuesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -160,7 +160,7 @@ public class GcloudResourcemanagerTagsValues
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudResourceManagerTagsValuesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

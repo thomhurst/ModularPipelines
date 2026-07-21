@@ -39,8 +39,8 @@ public class GcloudBillingBudgets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBillingBudgetsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBillingBudgetsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingBudgetsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBillingBudgets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBillingBudgetsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBillingBudgetsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingBudgetsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudBillingBudgets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBillingBudgetsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBillingBudgetsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingBudgetsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudBillingBudgets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBillingBudgetsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBillingBudgetsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingBudgetsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudBillingBudgets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBillingBudgetsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBillingBudgetsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingBudgetsUpdateOptions(), executionOptions, cancellationToken);

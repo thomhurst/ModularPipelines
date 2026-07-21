@@ -49,8 +49,8 @@ public class GcloudDesigncenterSpacesCatalogsTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDesignCenterSpacesCatalogsTemplatesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesCatalogsTemplatesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudDesigncenterSpacesCatalogsTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDesignCenterSpacesCatalogsTemplatesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesCatalogsTemplatesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudDesigncenterSpacesCatalogsTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDesignCenterSpacesCatalogsTemplatesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesCatalogsTemplatesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesDescribeOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudDesigncenterSpacesCatalogsTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDesignCenterSpacesCatalogsTemplatesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesCatalogsTemplatesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesListOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudDesigncenterSpacesCatalogsTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDesignCenterSpacesCatalogsTemplatesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesCatalogsTemplatesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesUpdateOptions(), executionOptions, cancellationToken);

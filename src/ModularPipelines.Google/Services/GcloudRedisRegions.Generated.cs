@@ -39,8 +39,8 @@ public class GcloudRedisRegions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudRedisRegionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisRegionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisRegionsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudRedisRegions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudRedisRegionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisRegionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisRegionsListOptions(), executionOptions, cancellationToken);

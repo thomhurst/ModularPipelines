@@ -39,8 +39,8 @@ public class AzNetappfilesCache
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetappfilesCacheCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesCacheCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesCacheCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetappfilesCache
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetappfilesCacheDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesCacheDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesCacheDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetappfilesCache
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PoolChange(
-        AzNetappfilesCachePoolChangeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesCachePoolChangeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesCachePoolChangeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzNetappfilesCache
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetSmbPassword(
-        AzNetappfilesCacheResetSmbPasswordOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesCacheResetSmbPasswordOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesCacheResetSmbPasswordOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzNetappfilesCache
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetappfilesCacheUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesCacheUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesCacheUpdateOptions(), executionOptions, cancellationToken);

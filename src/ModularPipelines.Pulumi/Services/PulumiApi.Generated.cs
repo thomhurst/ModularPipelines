@@ -39,8 +39,8 @@ public class PulumiApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        PulumiApiOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiApiOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiApiOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PulumiApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        PulumiApiDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiApiDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiApiDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class PulumiApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PulumiApiListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiApiListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiApiListOptions(), executionOptions, cancellationToken);

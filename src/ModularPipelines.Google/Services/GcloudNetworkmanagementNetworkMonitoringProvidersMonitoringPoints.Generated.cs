@@ -39,8 +39,8 @@ public class GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DownloadInstallScript(
-        GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadInstallScriptOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadInstallScriptOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadInstallScriptOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DownloadRecreateInstallScript(
-        GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadRecreateInstallScriptOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadRecreateInstallScriptOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadRecreateInstallScriptOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DownloadServerConnectConfig(
-        GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadServerConnectConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadServerConnectConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadServerConnectConfigOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsListOptions(), executionOptions, cancellationToken);

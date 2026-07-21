@@ -39,8 +39,8 @@ public class GcloudApihubHostProjectRegistrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudApihubHostProjectRegistrationsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubHostProjectRegistrationsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubHostProjectRegistrationsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudApihubHostProjectRegistrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApihubHostProjectRegistrationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubHostProjectRegistrationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubHostProjectRegistrationsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudApihubHostProjectRegistrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApihubHostProjectRegistrationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubHostProjectRegistrationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubHostProjectRegistrationsListOptions(), executionOptions, cancellationToken);

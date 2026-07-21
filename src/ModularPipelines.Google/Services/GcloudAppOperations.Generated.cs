@@ -40,7 +40,7 @@ public class GcloudAppOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAppOperationsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudAppOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAppOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAppOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAppOperationsListOptions(), executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudAppOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
         GcloudAppOperationsWaitOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

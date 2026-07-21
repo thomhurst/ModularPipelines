@@ -39,8 +39,8 @@ public class FluxPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxPluginOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxPluginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxPluginOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class FluxPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Install(
-        FluxPluginInstallOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxPluginInstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxPluginInstallOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class FluxPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        FluxPluginListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxPluginListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxPluginListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class FluxPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
-        FluxPluginSearchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxPluginSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxPluginSearchOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class FluxPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Uninstall(
-        FluxPluginUninstallOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxPluginUninstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxPluginUninstallOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class FluxPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        FluxPluginUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxPluginUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxPluginUpdateOptions(), executionOptions, cancellationToken);

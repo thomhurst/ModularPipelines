@@ -49,8 +49,8 @@ public class AzServicebusTopic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzServicebusTopicListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzServicebusTopicListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicListOptions(), executionOptions, cancellationToken);

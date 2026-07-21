@@ -40,7 +40,7 @@ public class GcloudContainerNodePools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CompleteUpgrade(
         GcloudContainerNodePoolsCompleteUpgradeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudContainerNodePools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudContainerNodePoolsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudContainerNodePools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudContainerNodePoolsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudContainerNodePools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudContainerNodePoolsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudContainerNodePools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetUpgradeInfo(
         GcloudContainerNodePoolsGetUpgradeInfoOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudContainerNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerNodePoolsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerNodePoolsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerNodePoolsListOptions(), executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudContainerNodePools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rollback(
         GcloudContainerNodePoolsRollbackOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudContainerNodePools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudContainerNodePoolsUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

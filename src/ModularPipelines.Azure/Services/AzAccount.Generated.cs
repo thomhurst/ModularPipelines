@@ -55,8 +55,8 @@ public class AzAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAccessToken(
-        AzAccountGetAccessTokenOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountGetAccessTokenOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountGetAccessTokenOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListLocations(
-        AzAccountListLocationsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountListLocationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountListLocationsOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class AzAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAccountListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountListOptions(), executionOptions, cancellationToken);

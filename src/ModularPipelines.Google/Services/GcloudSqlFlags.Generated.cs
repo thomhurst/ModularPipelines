@@ -39,8 +39,8 @@ public class GcloudSqlFlags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSqlFlagsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlFlagsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlFlagsListOptions(), executionOptions, cancellationToken);

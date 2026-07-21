@@ -39,8 +39,8 @@ public class AzIotHubCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzIotHubCertificateCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotHubCertificateCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubCertificateCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzIotHubCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzIotHubCertificateUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotHubCertificateUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubCertificateUpdateOptions(), executionOptions, cancellationToken);

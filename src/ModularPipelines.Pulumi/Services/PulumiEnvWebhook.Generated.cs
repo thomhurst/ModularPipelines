@@ -49,8 +49,8 @@ public class PulumiEnvWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Edit(
-        PulumiEnvWebhookEditOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiEnvWebhookEditOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvWebhookEditOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class PulumiEnvWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        PulumiEnvWebhookGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiEnvWebhookGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvWebhookGetOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class PulumiEnvWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PulumiEnvWebhookListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiEnvWebhookListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvWebhookListOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class PulumiEnvWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> New(
-        PulumiEnvWebhookNewOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiEnvWebhookNewOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvWebhookNewOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class PulumiEnvWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ping(
-        PulumiEnvWebhookPingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiEnvWebhookPingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvWebhookPingOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class PulumiEnvWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        PulumiEnvWebhookRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiEnvWebhookRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvWebhookRemoveOptions(), executionOptions, cancellationToken);

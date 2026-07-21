@@ -109,8 +109,8 @@ public class GcloudSql
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudSqlOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlOptions(), executionOptions, cancellationToken);
@@ -125,7 +125,7 @@ public class GcloudSql
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Connect(
         GcloudSqlConnectOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class GcloudSql
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateLoginToken(
-        GcloudSqlGenerateLoginTokenOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlGenerateLoginTokenOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlGenerateLoginTokenOptions(), executionOptions, cancellationToken);
@@ -155,7 +155,7 @@ public class GcloudSql
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RescheduleMaintenance(
         GcloudSqlRescheduleMaintenanceOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

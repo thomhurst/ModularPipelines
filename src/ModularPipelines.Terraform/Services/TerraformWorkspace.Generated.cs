@@ -39,8 +39,8 @@ public class TerraformWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        TerraformWorkspaceDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformWorkspaceDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformWorkspaceDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class TerraformWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> New(
-        TerraformWorkspaceNewOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformWorkspaceNewOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformWorkspaceNewOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class TerraformWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Select(
-        TerraformWorkspaceSelectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformWorkspaceSelectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformWorkspaceSelectOptions(), executionOptions, cancellationToken);

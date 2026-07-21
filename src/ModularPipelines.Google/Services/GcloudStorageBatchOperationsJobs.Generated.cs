@@ -39,8 +39,8 @@ public class GcloudStorageBatchOperationsJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudStorageBatchOperationsJobsCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageBatchOperationsJobsCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBatchOperationsJobsCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudStorageBatchOperationsJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudStorageBatchOperationsJobsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageBatchOperationsJobsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBatchOperationsJobsCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudStorageBatchOperationsJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudStorageBatchOperationsJobsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageBatchOperationsJobsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBatchOperationsJobsDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudStorageBatchOperationsJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudStorageBatchOperationsJobsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageBatchOperationsJobsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBatchOperationsJobsDescribeOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudStorageBatchOperationsJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudStorageBatchOperationsJobsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageBatchOperationsJobsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBatchOperationsJobsListOptions(), executionOptions, cancellationToken);

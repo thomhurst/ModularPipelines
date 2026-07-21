@@ -39,8 +39,8 @@ public class AzAdvisorConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAdvisorConfigurationShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdvisorConfigurationShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorConfigurationShowOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAdvisorConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAdvisorConfigurationUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdvisorConfigurationUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorConfigurationUpdateOptions(), executionOptions, cancellationToken);

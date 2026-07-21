@@ -39,8 +39,8 @@ public class GcloudNetworkmanagementConnectivityTests
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkManagementConnectivityTestsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementConnectivityTestsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementConnectivityTestsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkmanagementConnectivityTests
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkManagementConnectivityTestsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementConnectivityTestsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementConnectivityTestsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetworkmanagementConnectivityTests
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkManagementConnectivityTestsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementConnectivityTestsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementConnectivityTestsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworkmanagementConnectivityTests
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkManagementConnectivityTestsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementConnectivityTestsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementConnectivityTestsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetworkmanagementConnectivityTests
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rerun(
-        GcloudNetworkManagementConnectivityTestsRerunOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementConnectivityTestsRerunOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementConnectivityTestsRerunOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudNetworkmanagementConnectivityTests
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkManagementConnectivityTestsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementConnectivityTestsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementConnectivityTestsUpdateOptions(), executionOptions, cancellationToken);

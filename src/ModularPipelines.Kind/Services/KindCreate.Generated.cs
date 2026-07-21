@@ -39,8 +39,8 @@ public class KindCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        KindCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KindCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class KindCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cluster(
-        KindCreateClusterOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KindCreateClusterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindCreateClusterOptions(), executionOptions, cancellationToken);

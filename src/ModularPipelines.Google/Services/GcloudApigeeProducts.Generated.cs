@@ -40,7 +40,7 @@ public class GcloudApigeeProducts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudApigeeProductsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudApigeeProducts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudApigeeProductsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudApigeeProducts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudApigeeProductsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudApigeeProducts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApigeeProductsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApigeeProductsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeProductsListOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudApigeeProducts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudApigeeProductsUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

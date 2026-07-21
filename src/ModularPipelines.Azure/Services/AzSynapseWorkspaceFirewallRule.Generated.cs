@@ -39,8 +39,8 @@ public class AzSynapseWorkspaceFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseWorkspaceFirewallRuleCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseWorkspaceFirewallRuleCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceFirewallRuleCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapseWorkspaceFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseWorkspaceFirewallRuleDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseWorkspaceFirewallRuleDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceFirewallRuleDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSynapseWorkspaceFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseWorkspaceFirewallRuleUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseWorkspaceFirewallRuleUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceFirewallRuleUpdateOptions(), executionOptions, cancellationToken);

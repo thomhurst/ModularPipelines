@@ -39,8 +39,8 @@ public class PulumiOrgSearch
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ai(
-        PulumiOrgSearchAiOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiOrgSearchAiOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiOrgSearchAiOptions(), executionOptions, cancellationToken);

@@ -67,8 +67,8 @@ public class GcloudComposerEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CheckUpgrade(
-        GcloudComposerEnvironmentsCheckUpgradeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsCheckUpgradeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsCheckUpgradeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComposerEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComposerEnvironmentsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsCreateOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudComposerEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DatabaseFailover(
-        GcloudComposerEnvironmentsDatabaseFailoverOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsDatabaseFailoverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsDatabaseFailoverOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudComposerEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComposerEnvironmentsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsDeleteOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudComposerEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComposerEnvironmentsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsDescribeOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudComposerEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchDatabaseProperties(
-        GcloudComposerEnvironmentsFetchDatabasePropertiesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsFetchDatabasePropertiesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsFetchDatabasePropertiesOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudComposerEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComposerEnvironmentsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsListOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class GcloudComposerEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPackages(
-        GcloudComposerEnvironmentsListPackagesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsListPackagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsListPackagesOptions(), executionOptions, cancellationToken);
@@ -187,8 +187,8 @@ public class GcloudComposerEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListUpgrades(
-        GcloudComposerEnvironmentsListUpgradesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsListUpgradesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsListUpgradesOptions(), executionOptions, cancellationToken);
@@ -202,8 +202,8 @@ public class GcloudComposerEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListWorkloads(
-        GcloudComposerEnvironmentsListWorkloadsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsListWorkloadsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsListWorkloadsOptions(), executionOptions, cancellationToken);
@@ -217,8 +217,8 @@ public class GcloudComposerEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestartWebServer(
-        GcloudComposerEnvironmentsRestartWebServerOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsRestartWebServerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsRestartWebServerOptions(), executionOptions, cancellationToken);
@@ -233,7 +233,7 @@ public class GcloudComposerEnvironments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
         GcloudComposerEnvironmentsRunOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -247,8 +247,8 @@ public class GcloudComposerEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComposerEnvironmentsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComposerEnvironmentsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUpdateOptions(), executionOptions, cancellationToken);

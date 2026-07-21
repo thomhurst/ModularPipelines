@@ -39,8 +39,8 @@ public class AzSqlDbReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlDbReplicaCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlDbReplicaCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbReplicaCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSqlDbReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLink(
-        AzSqlDbReplicaDeleteLinkOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlDbReplicaDeleteLinkOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbReplicaDeleteLinkOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSqlDbReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetPrimary(
-        AzSqlDbReplicaSetPrimaryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlDbReplicaSetPrimaryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbReplicaSetPrimaryOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzNetworkVnetGatewayVpnClient
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Generate(
-        AzNetworkVnetGatewayVpnClientGenerateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVnetGatewayVpnClientGenerateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayVpnClientGenerateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkVnetGatewayVpnClient
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowUrl(
-        AzNetworkVnetGatewayVpnClientShowUrlOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVnetGatewayVpnClientShowUrlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayVpnClientShowUrlOptions(), executionOptions, cancellationToken);

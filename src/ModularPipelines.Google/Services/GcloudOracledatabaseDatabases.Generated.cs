@@ -39,8 +39,8 @@ public class GcloudOracledatabaseDatabases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudOracleDatabaseDatabasesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseDatabasesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseDatabasesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudOracledatabaseDatabases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseDatabasesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseDatabasesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseDatabasesListOptions(), executionOptions, cancellationToken);

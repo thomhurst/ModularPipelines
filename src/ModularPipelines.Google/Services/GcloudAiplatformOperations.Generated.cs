@@ -40,7 +40,7 @@ public class GcloudAiplatformOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
         GcloudAiPlatformOperationsCancelOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudAiplatformOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAiPlatformOperationsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudAiplatformOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAiPlatformOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiPlatformOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformOperationsListOptions(), executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudAiplatformOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
         GcloudAiPlatformOperationsWaitOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

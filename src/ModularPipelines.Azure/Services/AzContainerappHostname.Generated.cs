@@ -39,8 +39,8 @@ public class AzContainerappHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzContainerappHostnameAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappHostnameAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappHostnameAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzContainerappHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bind(
-        AzContainerappHostnameBindOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappHostnameBindOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappHostnameBindOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzContainerappHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzContainerappHostnameDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappHostnameDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappHostnameDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzContainerappHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzContainerappHostnameListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappHostnameListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappHostnameListOptions(), executionOptions, cancellationToken);

@@ -205,8 +205,8 @@ public class GcloudNetworksecurity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MirroringEndpoints(
-        GcloudNetworkSecurityMirroringEndpointsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityMirroringEndpointsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointsOptions(), executionOptions, cancellationToken);

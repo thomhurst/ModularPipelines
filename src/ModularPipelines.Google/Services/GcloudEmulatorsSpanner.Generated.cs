@@ -39,8 +39,8 @@ public class GcloudEmulatorsSpanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnvInit(
-        GcloudEmulatorsSpannerEnvInitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEmulatorsSpannerEnvInitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsSpannerEnvInitOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudEmulatorsSpanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Notices(
-        GcloudEmulatorsSpannerNoticesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEmulatorsSpannerNoticesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsSpannerNoticesOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudEmulatorsSpanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        GcloudEmulatorsSpannerStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEmulatorsSpannerStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsSpannerStartOptions(), executionOptions, cancellationToken);

@@ -511,8 +511,8 @@ public class GcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudComputeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOptions(), executionOptions, cancellationToken);
@@ -526,8 +526,8 @@ public class GcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigSsh(
-        GcloudComputeConfigSshOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeConfigSshOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeConfigSshOptions(), executionOptions, cancellationToken);
@@ -541,8 +541,8 @@ public class GcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConnectToSerialPort(
-        GcloudComputeConnectToSerialPortOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeConnectToSerialPortOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeConnectToSerialPortOptions(), executionOptions, cancellationToken);
@@ -556,8 +556,8 @@ public class GcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyFiles(
-        GcloudComputeCopyFilesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeCopyFilesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCopyFilesOptions(), executionOptions, cancellationToken);
@@ -572,7 +572,7 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetWindowsPassword(
         GcloudComputeResetWindowsPasswordOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -586,8 +586,8 @@ public class GcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scp(
-        GcloudComputeScpOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeScpOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeScpOptions(), executionOptions, cancellationToken);
@@ -602,7 +602,7 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SignUrl(
         GcloudComputeSignUrlOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -616,8 +616,8 @@ public class GcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ssh(
-        GcloudComputeSshOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeSshOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSshOptions(), executionOptions, cancellationToken);
@@ -632,7 +632,7 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartIapTunnel(
         GcloudComputeStartIapTunnelOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

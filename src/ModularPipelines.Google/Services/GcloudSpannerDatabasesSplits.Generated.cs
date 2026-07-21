@@ -39,8 +39,8 @@ public class GcloudSpannerDatabasesSplits
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        GcloudSpannerDatabasesSplitsAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerDatabasesSplitsAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesSplitsAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudSpannerDatabasesSplits
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSpannerDatabasesSplitsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerDatabasesSplitsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesSplitsListOptions(), executionOptions, cancellationToken);

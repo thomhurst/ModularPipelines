@@ -39,8 +39,8 @@ public class AzSynapseKqlScript
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseKqlScriptCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseKqlScriptCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKqlScriptCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapseKqlScript
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseKqlScriptDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseKqlScriptDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKqlScriptDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSynapseKqlScript
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        AzSynapseKqlScriptExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseKqlScriptExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKqlScriptExportOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzSynapseKqlScript
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        AzSynapseKqlScriptImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseKqlScriptImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKqlScriptImportOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzResourceLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzResourceLockCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceLockCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzResourceLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzResourceLockDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceLockDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzResourceLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzResourceLockListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceLockListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzResourceLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzResourceLockShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceLockShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzResourceLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzResourceLockUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceLockUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudContainerBinauthzPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudContainerBinauthzPolicyAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBinauthzPolicyAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzPolicyAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerBinauthzPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudContainerBinauthzPolicyExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBinauthzPolicyExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzPolicyExportOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerBinauthzPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudContainerBinauthzPolicyGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBinauthzPolicyGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzPolicyGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudContainerBinauthzPolicy
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudContainerBinauthzPolicyImportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudContainerBinauthzPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudContainerBinauthzPolicyRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBinauthzPolicyRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzPolicyRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudContainerBinauthzPolicy
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudContainerBinauthzPolicySetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

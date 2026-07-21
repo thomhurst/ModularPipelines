@@ -39,8 +39,8 @@ public class AzSqlFailoverGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlFailoverGroupCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlFailoverGroupCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlFailoverGroupCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSqlFailoverGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetPrimary(
-        AzSqlFailoverGroupSetPrimaryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlFailoverGroupSetPrimaryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlFailoverGroupSetPrimaryOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSqlFailoverGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlFailoverGroupUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlFailoverGroupUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlFailoverGroupUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudDatabasemigrationObjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDatabaseMigrationObjectsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatabaseMigrationObjectsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationObjectsListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDatabasemigrationObjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lookup(
-        GcloudDatabaseMigrationObjectsLookupOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatabaseMigrationObjectsLookupOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationObjectsLookupOptions(), executionOptions, cancellationToken);

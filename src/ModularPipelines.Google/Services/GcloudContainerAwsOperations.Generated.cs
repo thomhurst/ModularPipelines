@@ -39,8 +39,8 @@ public class GcloudContainerAwsOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudContainerAwsOperationsCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAwsOperationsCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsOperationsCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerAwsOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerAwsOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAwsOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerAwsOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerAwsOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAwsOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsOperationsListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudContainerAwsOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudContainerAwsOperationsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAwsOperationsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsOperationsWaitOptions(), executionOptions, cancellationToken);

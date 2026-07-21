@@ -79,8 +79,8 @@ public class GcloudHealthcare
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudHealthcareOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareOptions(), executionOptions, cancellationToken);

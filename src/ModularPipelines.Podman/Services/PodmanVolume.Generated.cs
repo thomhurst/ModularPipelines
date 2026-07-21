@@ -39,8 +39,8 @@ public class PodmanVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        PodmanVolumeCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanVolumeCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanVolumeCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PodmanVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        PodmanVolumeExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanVolumeExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanVolumeExportOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class PodmanVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        PodmanVolumeInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanVolumeInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanVolumeInspectOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class PodmanVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        PodmanVolumeLsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanVolumeLsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanVolumeLsOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class PodmanVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        PodmanVolumePruneOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanVolumePruneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanVolumePruneOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class PodmanVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        PodmanVolumeRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanVolumeRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanVolumeRmOptions(), executionOptions, cancellationToken);

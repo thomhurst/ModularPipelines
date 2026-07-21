@@ -39,8 +39,8 @@ public class GcloudNetworksecurityDnsThreatDetectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkSecurityDnsThreatDetectorsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityDnsThreatDetectorsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityDnsThreatDetectorsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworksecurityDnsThreatDetectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecurityDnsThreatDetectorsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityDnsThreatDetectorsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityDnsThreatDetectorsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetworksecurityDnsThreatDetectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkSecurityDnsThreatDetectorsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityDnsThreatDetectorsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityDnsThreatDetectorsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworksecurityDnsThreatDetectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkSecurityDnsThreatDetectorsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityDnsThreatDetectorsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityDnsThreatDetectorsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetworksecurityDnsThreatDetectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkSecurityDnsThreatDetectorsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityDnsThreatDetectorsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityDnsThreatDetectorsUpdateOptions(), executionOptions, cancellationToken);

@@ -67,8 +67,8 @@ public class DockerBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bake(
-        DockerBuilderBakeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderBakeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderBakeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class DockerBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
-        DockerBuilderBuildOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderBuildOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderBuildOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class DockerBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        DockerBuilderCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderCreateOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class DockerBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DialStdio(
-        DockerBuilderDialStdioOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderDialStdioOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderDialStdioOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class DockerBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Du(
-        DockerBuilderDuOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderDuOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderDuOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class DockerBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        DockerBuilderInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderInspectOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class DockerBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        DockerBuilderLsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderLsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderLsOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class DockerBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        DockerBuilderPruneOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderPruneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderPruneOptions(), executionOptions, cancellationToken);
@@ -187,8 +187,8 @@ public class DockerBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        DockerBuilderRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderRmOptions(), executionOptions, cancellationToken);
@@ -202,8 +202,8 @@ public class DockerBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        DockerBuilderStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderStopOptions(), executionOptions, cancellationToken);
@@ -217,8 +217,8 @@ public class DockerBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Use(
-        DockerBuilderUseOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderUseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderUseOptions(), executionOptions, cancellationToken);

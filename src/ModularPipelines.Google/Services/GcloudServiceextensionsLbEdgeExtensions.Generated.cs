@@ -39,8 +39,8 @@ public class GcloudServiceextensionsLbEdgeExtensions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudServiceExtensionsLbEdgeExtensionsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceExtensionsLbEdgeExtensionsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbEdgeExtensionsDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudServiceextensionsLbEdgeExtensions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudServiceExtensionsLbEdgeExtensionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceExtensionsLbEdgeExtensionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbEdgeExtensionsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudServiceextensionsLbEdgeExtensions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudServiceExtensionsLbEdgeExtensionsImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceExtensionsLbEdgeExtensionsImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbEdgeExtensionsImportOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudServiceextensionsLbEdgeExtensions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudServiceExtensionsLbEdgeExtensionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceExtensionsLbEdgeExtensionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbEdgeExtensionsListOptions(), executionOptions, cancellationToken);

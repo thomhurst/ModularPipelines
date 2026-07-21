@@ -39,8 +39,8 @@ public class GcloudOracledatabaseOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudOracleDatabaseOperationsCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseOperationsCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOperationsCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudOracledatabaseOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudOracleDatabaseOperationsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseOperationsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOperationsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudOracledatabaseOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudOracleDatabaseOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudOracledatabaseOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOperationsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudOracledatabaseOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudOracleDatabaseOperationsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseOperationsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOperationsWaitOptions(), executionOptions, cancellationToken);

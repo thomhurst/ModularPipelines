@@ -40,7 +40,7 @@ public class GcloudPreviewComputeResourcePoliciesCreate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DiskConsistencyGroup(
         GcloudPreviewComputeResourcePoliciesCreateDiskConsistencyGroupOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeResourcePoliciesCreate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GroupPlacement(
         GcloudPreviewComputeResourcePoliciesCreateGroupPlacementOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeResourcePoliciesCreate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InstanceSchedule(
         GcloudPreviewComputeResourcePoliciesCreateInstanceScheduleOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudPreviewComputeResourcePoliciesCreate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SnapshotSchedule(
         GcloudPreviewComputeResourcePoliciesCreateSnapshotScheduleOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudPreviewComputeResourcePoliciesCreate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> WorkloadPolicy(
         GcloudPreviewComputeResourcePoliciesCreateWorkloadPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

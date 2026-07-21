@@ -39,8 +39,8 @@ public class HelmShow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        HelmShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmShowOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class HelmShow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> All(
-        HelmShowAllOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmShowAllOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmShowAllOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class HelmShow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Chart(
-        HelmShowChartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmShowChartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmShowChartOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class HelmShow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Crds(
-        HelmShowCrdsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmShowCrdsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmShowCrdsOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class HelmShow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Readme(
-        HelmShowReadmeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmShowReadmeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmShowReadmeOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class HelmShow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Values(
-        HelmShowValuesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmShowValuesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmShowValuesOptions(), executionOptions, cancellationToken);

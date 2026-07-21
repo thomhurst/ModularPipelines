@@ -40,7 +40,7 @@ public class GcloudComputeInstancesNetworkInterfaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
         GcloudComputeInstancesNetworkInterfacesAddOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudComputeInstancesNetworkInterfaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeInstancesNetworkInterfacesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudComputeInstancesNetworkInterfaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEffectiveFirewalls(
         GcloudComputeInstancesNetworkInterfacesGetEffectiveFirewallsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudComputeInstancesNetworkInterfaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeInstancesNetworkInterfacesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

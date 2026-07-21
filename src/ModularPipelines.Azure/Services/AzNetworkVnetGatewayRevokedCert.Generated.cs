@@ -39,8 +39,8 @@ public class AzNetworkVnetGatewayRevokedCert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkVnetGatewayRevokedCertCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVnetGatewayRevokedCertCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayRevokedCertCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkVnetGatewayRevokedCert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkVnetGatewayRevokedCertDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVnetGatewayRevokedCertDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayRevokedCertDeleteOptions(), executionOptions, cancellationToken);

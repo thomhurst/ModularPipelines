@@ -33,8 +33,8 @@ internal partial class Go : IGo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Build(
-        GoBuildOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GoBuildOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GoBuildOptions(), executionOptions, cancellationToken);
@@ -42,8 +42,8 @@ internal partial class Go : IGo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Fix(
-        GoFixOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GoFixOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GoFixOptions(), executionOptions, cancellationToken);
@@ -51,8 +51,8 @@ internal partial class Go : IGo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Generate(
-        GoGenerateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GoGenerateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GoGenerateOptions(), executionOptions, cancellationToken);
@@ -60,8 +60,8 @@ internal partial class Go : IGo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Test(
-        GoTestOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GoTestOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GoTestOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ internal partial class Go : IGo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Vet(
-        GoVetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GoVetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GoVetOptions(), executionOptions, cancellationToken);

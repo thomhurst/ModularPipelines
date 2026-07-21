@@ -39,8 +39,8 @@ public class AzNetworkVirtualNetworkAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkVirtualNetworkApplianceCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualNetworkApplianceCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualNetworkApplianceCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkVirtualNetworkAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkVirtualNetworkApplianceDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualNetworkApplianceDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualNetworkApplianceDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkVirtualNetworkAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkVirtualNetworkApplianceUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualNetworkApplianceUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualNetworkApplianceUpdateOptions(), executionOptions, cancellationToken);

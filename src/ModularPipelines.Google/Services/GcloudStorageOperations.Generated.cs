@@ -40,7 +40,7 @@ public class GcloudStorageOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
         GcloudStorageOperationsCancelOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudStorageOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudStorageOperationsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudStorageOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudStorageOperationsListOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

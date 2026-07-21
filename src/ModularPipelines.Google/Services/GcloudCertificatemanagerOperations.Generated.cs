@@ -39,8 +39,8 @@ public class GcloudCertificatemanagerOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudCertificateManagerOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudCertificatemanagerOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudCertificateManagerOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerOperationsListOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudEdgecacheOrigins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudEdgeCacheOriginsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheOriginsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudEdgecacheOrigins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudEdgeCacheOriginsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheOriginsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudEdgecacheOrigins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCacheOriginsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheOriginsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudEdgecacheOrigins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudEdgeCacheOriginsExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheOriginsExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsExportOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudEdgecacheOrigins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudEdgeCacheOriginsImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheOriginsImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsImportOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudEdgecacheOrigins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEdgeCacheOriginsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheOriginsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudEdgecacheOrigins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudEdgeCacheOriginsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheOriginsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsUpdateOptions(), executionOptions, cancellationToken);

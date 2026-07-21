@@ -39,8 +39,8 @@ public class GcloudNetworkservicesTlsRoutes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkServicesTlsRoutesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesTlsRoutesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTlsRoutesDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkservicesTlsRoutes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkServicesTlsRoutesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesTlsRoutesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTlsRoutesDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetworkservicesTlsRoutes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudNetworkServicesTlsRoutesExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesTlsRoutesExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTlsRoutesExportOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworkservicesTlsRoutes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudNetworkServicesTlsRoutesImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesTlsRoutesImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTlsRoutesImportOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetworkservicesTlsRoutes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkServicesTlsRoutesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesTlsRoutesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTlsRoutesListOptions(), executionOptions, cancellationToken);

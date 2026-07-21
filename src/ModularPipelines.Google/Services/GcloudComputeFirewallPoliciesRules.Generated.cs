@@ -40,7 +40,7 @@ public class GcloudComputeFirewallPoliciesRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeFirewallPoliciesRulesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudComputeFirewallPoliciesRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeFirewallPoliciesRulesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudComputeFirewallPoliciesRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeFirewallPoliciesRulesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudComputeFirewallPoliciesRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeFirewallPoliciesRulesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

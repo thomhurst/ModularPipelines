@@ -62,7 +62,7 @@ public class GcloudPreviewComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CloneRules(
         GcloudPreviewComputeNetworkFirewallPoliciesCloneRulesOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -77,7 +77,7 @@ public class GcloudPreviewComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeNetworkFirewallPoliciesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -92,7 +92,7 @@ public class GcloudPreviewComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeNetworkFirewallPoliciesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -107,7 +107,7 @@ public class GcloudPreviewComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeNetworkFirewallPoliciesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -122,7 +122,7 @@ public class GcloudPreviewComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportRules(
         GcloudPreviewComputeNetworkFirewallPoliciesExportRulesOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -136,8 +136,8 @@ public class GcloudPreviewComputeNetworkFirewallPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEffectiveFirewalls(
-        GcloudPreviewComputeNetworkFirewallPoliciesGetEffectiveFirewallsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeNetworkFirewallPoliciesGetEffectiveFirewallsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeNetworkFirewallPoliciesGetEffectiveFirewallsOptions(), executionOptions, cancellationToken);
@@ -152,7 +152,7 @@ public class GcloudPreviewComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudPreviewComputeNetworkFirewallPoliciesGetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -167,7 +167,7 @@ public class GcloudPreviewComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportRules(
         GcloudPreviewComputeNetworkFirewallPoliciesImportRulesOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -181,8 +181,8 @@ public class GcloudPreviewComputeNetworkFirewallPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeNetworkFirewallPoliciesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeNetworkFirewallPoliciesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeNetworkFirewallPoliciesListOptions(), executionOptions, cancellationToken);
@@ -197,7 +197,7 @@ public class GcloudPreviewComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudPreviewComputeNetworkFirewallPoliciesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -212,7 +212,7 @@ public class GcloudPreviewComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPreviewComputeNetworkFirewallPoliciesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

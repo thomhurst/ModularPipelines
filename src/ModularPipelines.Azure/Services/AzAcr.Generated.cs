@@ -133,8 +133,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
-        AzAcrBuildOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrBuildOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrBuildOptions(), executionOptions, cancellationToken);
@@ -148,8 +148,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CheckHealth(
-        AzAcrCheckHealthOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrCheckHealthOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrCheckHealthOptions(), executionOptions, cancellationToken);
@@ -163,8 +163,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CheckName(
-        AzAcrCheckNameOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrCheckNameOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrCheckNameOptions(), executionOptions, cancellationToken);
@@ -178,8 +178,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAcrCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrCreateOptions(), executionOptions, cancellationToken);
@@ -193,8 +193,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAcrDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrDeleteOptions(), executionOptions, cancellationToken);
@@ -208,8 +208,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        AzAcrImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrImportOptions(), executionOptions, cancellationToken);
@@ -223,8 +223,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAcrListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrListOptions(), executionOptions, cancellationToken);
@@ -238,8 +238,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Login(
-        AzAcrLoginOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrLoginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrLoginOptions(), executionOptions, cancellationToken);
@@ -253,8 +253,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
-        AzAcrRunOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrRunOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrRunOptions(), executionOptions, cancellationToken);
@@ -268,8 +268,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowEndpoints(
-        AzAcrShowEndpointsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrShowEndpointsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrShowEndpointsOptions(), executionOptions, cancellationToken);
@@ -283,8 +283,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAcrShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrShowOptions(), executionOptions, cancellationToken);
@@ -298,8 +298,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowUsage(
-        AzAcrShowUsageOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrShowUsageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrShowUsageOptions(), executionOptions, cancellationToken);
@@ -313,8 +313,8 @@ public class AzAcr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAcrUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrUpdateOptions(), executionOptions, cancellationToken);

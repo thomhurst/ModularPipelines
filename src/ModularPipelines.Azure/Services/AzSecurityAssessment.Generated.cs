@@ -39,8 +39,8 @@ public class AzSecurityAssessment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSecurityAssessmentCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSecurityAssessmentCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAssessmentCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSecurityAssessment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSecurityAssessmentDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSecurityAssessmentDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAssessmentDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSecurityAssessment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSecurityAssessmentShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSecurityAssessmentShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAssessmentShowOptions(), executionOptions, cancellationToken);

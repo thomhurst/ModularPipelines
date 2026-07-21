@@ -39,8 +39,8 @@ public class AzIotHubConsumerGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzIotHubConsumerGroupCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotHubConsumerGroupCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubConsumerGroupCreateOptions(), executionOptions, cancellationToken);

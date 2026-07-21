@@ -40,7 +40,7 @@ public class GcloudPreviewComputeResourcePoliciesUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InstanceSchedule(
         GcloudPreviewComputeResourcePoliciesUpdateInstanceScheduleOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeResourcePoliciesUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SnapshotSchedule(
         GcloudPreviewComputeResourcePoliciesUpdateSnapshotScheduleOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

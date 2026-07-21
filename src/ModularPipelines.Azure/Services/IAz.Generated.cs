@@ -436,7 +436,7 @@ public partial interface IAz
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Login(AzLoginOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Login(AzLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Log out to remove access to Azure subscriptions.
@@ -445,7 +445,7 @@ public partial interface IAz
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Logout(AzLogoutOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Logout(AzLogoutOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

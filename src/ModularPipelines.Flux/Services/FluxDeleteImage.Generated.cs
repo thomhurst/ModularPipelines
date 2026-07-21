@@ -39,8 +39,8 @@ public class FluxDeleteImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Policy(
-        FluxDeleteImagePolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxDeleteImagePolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxDeleteImagePolicyOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class FluxDeleteImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Repository(
-        FluxDeleteImageRepositoryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxDeleteImageRepositoryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxDeleteImageRepositoryOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class FluxDeleteImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        FluxDeleteImageUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxDeleteImageUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxDeleteImageUpdateOptions(), executionOptions, cancellationToken);

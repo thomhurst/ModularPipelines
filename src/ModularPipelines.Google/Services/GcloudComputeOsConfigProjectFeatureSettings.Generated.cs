@@ -39,8 +39,8 @@ public class GcloudComputeOsConfigProjectFeatureSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeOsConfigProjectFeatureSettingsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeOsConfigProjectFeatureSettingsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigProjectFeatureSettingsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputeOsConfigProjectFeatureSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComputeOsConfigProjectFeatureSettingsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeOsConfigProjectFeatureSettingsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigProjectFeatureSettingsUpdateOptions(), executionOptions, cancellationToken);

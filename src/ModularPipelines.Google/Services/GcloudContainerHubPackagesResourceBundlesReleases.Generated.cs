@@ -39,8 +39,8 @@ public class GcloudContainerHubPackagesResourceBundlesReleases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerHubPackagesResourceBundlesReleasesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubPackagesResourceBundlesReleasesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubPackagesResourceBundlesReleasesCreateOptions(), executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudContainerHubPackagesResourceBundlesReleases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudContainerHubPackagesResourceBundlesReleasesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudContainerHubPackagesResourceBundlesReleases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudContainerHubPackagesResourceBundlesReleasesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudContainerHubPackagesResourceBundlesReleases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerHubPackagesResourceBundlesReleasesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubPackagesResourceBundlesReleasesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubPackagesResourceBundlesReleasesListOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudContainerHubPackagesResourceBundlesReleases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudContainerHubPackagesResourceBundlesReleasesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

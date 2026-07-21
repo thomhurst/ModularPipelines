@@ -49,8 +49,8 @@ public class AzNetworkRouteTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkRouteTableCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkRouteTableCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteTableCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzNetworkRouteTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkRouteTableDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkRouteTableDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteTableDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzNetworkRouteTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkRouteTableShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkRouteTableShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteTableShowOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzNetworkRouteTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkRouteTableUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkRouteTableUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteTableUpdateOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class AzNetworkRouteTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzNetworkRouteTableWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkRouteTableWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteTableWaitOptions(), executionOptions, cancellationToken);

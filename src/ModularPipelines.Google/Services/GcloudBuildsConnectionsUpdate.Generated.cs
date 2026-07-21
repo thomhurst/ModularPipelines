@@ -39,8 +39,8 @@ public class GcloudBuildsConnectionsUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BitbucketCloud(
-        GcloudBuildsConnectionsUpdateBitbucketCloudOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsConnectionsUpdateBitbucketCloudOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateBitbucketCloudOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBuildsConnectionsUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BitbucketDataCenter(
-        GcloudBuildsConnectionsUpdateBitbucketDataCenterOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsConnectionsUpdateBitbucketDataCenterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateBitbucketDataCenterOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudBuildsConnectionsUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GithubEnterprise(
-        GcloudBuildsConnectionsUpdateGithubEnterpriseOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsConnectionsUpdateGithubEnterpriseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateGithubEnterpriseOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudBuildsConnectionsUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Github(
-        GcloudBuildsConnectionsUpdateGithubOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsConnectionsUpdateGithubOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateGithubOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudBuildsConnectionsUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Gitlab(
-        GcloudBuildsConnectionsUpdateGitlabOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsConnectionsUpdateGitlabOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateGitlabOptions(), executionOptions, cancellationToken);

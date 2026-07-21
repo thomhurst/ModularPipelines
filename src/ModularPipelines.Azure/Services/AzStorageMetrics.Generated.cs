@@ -39,8 +39,8 @@ public class AzStorageMetrics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageMetricsShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageMetricsShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageMetricsShowOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageMetrics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageMetricsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageMetricsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageMetricsUpdateOptions(), executionOptions, cancellationToken);

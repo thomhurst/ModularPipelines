@@ -39,8 +39,8 @@ public class AzDmsProjectTask
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDmsProjectTaskCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDmsProjectTaskCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsProjectTaskCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzDmsProjectTask
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDmsProjectTaskDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDmsProjectTaskDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsProjectTaskDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzDmsProjectTask
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDmsProjectTaskListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDmsProjectTaskListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsProjectTaskListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzDmsProjectTask
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzDmsProjectTaskShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDmsProjectTaskShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsProjectTaskShowOptions(), executionOptions, cancellationToken);

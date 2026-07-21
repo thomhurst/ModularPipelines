@@ -67,8 +67,8 @@ public class AzBatchNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBatchNodeDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchNodeDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchNodeDeleteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzBatchNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reboot(
-        AzBatchNodeRebootOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchNodeRebootOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchNodeRebootOptions(), executionOptions, cancellationToken);

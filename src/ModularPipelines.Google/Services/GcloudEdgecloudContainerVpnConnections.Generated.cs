@@ -39,8 +39,8 @@ public class GcloudEdgecloudContainerVpnConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudEdgeCloudContainerVpnConnectionsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudContainerVpnConnectionsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerVpnConnectionsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudEdgecloudContainerVpnConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudEdgeCloudContainerVpnConnectionsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudContainerVpnConnectionsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerVpnConnectionsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudEdgecloudContainerVpnConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCloudContainerVpnConnectionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudContainerVpnConnectionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerVpnConnectionsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudEdgecloudContainerVpnConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEdgeCloudContainerVpnConnectionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudContainerVpnConnectionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerVpnConnectionsListOptions(), executionOptions, cancellationToken);

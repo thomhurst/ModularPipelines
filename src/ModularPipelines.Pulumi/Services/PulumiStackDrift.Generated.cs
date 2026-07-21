@@ -39,8 +39,8 @@ public class PulumiStackDrift
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PulumiStackDriftListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiStackDriftListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackDriftListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PulumiStackDrift
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Status(
-        PulumiStackDriftStatusOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiStackDriftStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackDriftStatusOptions(), executionOptions, cancellationToken);

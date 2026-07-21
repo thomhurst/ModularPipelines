@@ -39,8 +39,8 @@ public class GcloudDataplexDatascansCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DataDiscovery(
-        GcloudDataplexDatascansCreateDataDiscoveryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexDatascansCreateDataDiscoveryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansCreateDataDiscoveryOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDataplexDatascansCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DataDocumentation(
-        GcloudDataplexDatascansCreateDataDocumentationOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexDatascansCreateDataDocumentationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansCreateDataDocumentationOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDataplexDatascansCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DataProfile(
-        GcloudDataplexDatascansCreateDataProfileOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexDatascansCreateDataProfileOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansCreateDataProfileOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudDataplexDatascansCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DataQuality(
-        GcloudDataplexDatascansCreateDataQualityOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexDatascansCreateDataQualityOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansCreateDataQualityOptions(), executionOptions, cancellationToken);

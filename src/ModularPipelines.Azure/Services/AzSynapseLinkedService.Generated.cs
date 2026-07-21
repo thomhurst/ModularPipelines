@@ -39,8 +39,8 @@ public class AzSynapseLinkedService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseLinkedServiceCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseLinkedServiceCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseLinkedServiceCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapseLinkedService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseLinkedServiceDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseLinkedServiceDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseLinkedServiceDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSynapseLinkedService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseLinkedServiceUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseLinkedServiceUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseLinkedServiceUpdateOptions(), executionOptions, cancellationToken);

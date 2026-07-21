@@ -50,7 +50,7 @@ public class GcloudComputePublicDelegatedPrefixes
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputePublicDelegatedPrefixesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -65,7 +65,7 @@ public class GcloudComputePublicDelegatedPrefixes
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputePublicDelegatedPrefixesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -80,7 +80,7 @@ public class GcloudComputePublicDelegatedPrefixes
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputePublicDelegatedPrefixesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudComputePublicDelegatedPrefixes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputePublicDelegatedPrefixesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputePublicDelegatedPrefixesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicDelegatedPrefixesListOptions(), executionOptions, cancellationToken);
@@ -110,7 +110,7 @@ public class GcloudComputePublicDelegatedPrefixes
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputePublicDelegatedPrefixesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

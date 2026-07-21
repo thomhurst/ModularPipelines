@@ -54,8 +54,8 @@ internal partial class Kustomize : IKustomize
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Build(
-        KustomizeBuildOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KustomizeBuildOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeBuildOptions(), executionOptions, cancellationToken);
@@ -63,8 +63,8 @@ internal partial class Kustomize : IKustomize
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Create(
-        KustomizeCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KustomizeCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeCreateOptions(), executionOptions, cancellationToken);
@@ -72,8 +72,8 @@ internal partial class Kustomize : IKustomize
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Localize(
-        KustomizeLocalizeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KustomizeLocalizeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeLocalizeOptions(), executionOptions, cancellationToken);

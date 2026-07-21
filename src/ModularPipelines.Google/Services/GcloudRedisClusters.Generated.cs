@@ -55,8 +55,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddClusterEndpoints(
-        GcloudRedisClustersAddClusterEndpointsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersAddClusterEndpointsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersAddClusterEndpointsOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBackup(
-        GcloudRedisClustersCreateBackupOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersCreateBackupOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersCreateBackupOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudRedisClustersCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersCreateOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudRedisClustersDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersDeleteOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudRedisClustersDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersDescribeOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Detach(
-        GcloudRedisClustersDetachOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersDetachOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersDetachOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachSecondaries(
-        GcloudRedisClustersDetachSecondariesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersDetachSecondariesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersDetachSecondariesOptions(), executionOptions, cancellationToken);
@@ -160,8 +160,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetClusterCertificateAuthority(
-        GcloudRedisClustersGetClusterCertificateAuthorityOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersGetClusterCertificateAuthorityOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersGetClusterCertificateAuthorityOptions(), executionOptions, cancellationToken);
@@ -175,8 +175,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSharedRegionalCertificateAuthority(
-        GcloudRedisClustersGetSharedRegionalCertificateAuthorityOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersGetSharedRegionalCertificateAuthorityOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersGetSharedRegionalCertificateAuthorityOptions(), executionOptions, cancellationToken);
@@ -190,8 +190,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudRedisClustersListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersListOptions(), executionOptions, cancellationToken);
@@ -205,8 +205,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveClusterEndpoints(
-        GcloudRedisClustersRemoveClusterEndpointsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersRemoveClusterEndpointsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersRemoveClusterEndpointsOptions(), executionOptions, cancellationToken);
@@ -220,8 +220,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RescheduleMaintenance(
-        GcloudRedisClustersRescheduleMaintenanceOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersRescheduleMaintenanceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersRescheduleMaintenanceOptions(), executionOptions, cancellationToken);
@@ -235,8 +235,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Switchover(
-        GcloudRedisClustersSwitchoverOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersSwitchoverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersSwitchoverOptions(), executionOptions, cancellationToken);
@@ -250,8 +250,8 @@ public class GcloudRedisClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudRedisClustersUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersUpdateOptions(), executionOptions, cancellationToken);

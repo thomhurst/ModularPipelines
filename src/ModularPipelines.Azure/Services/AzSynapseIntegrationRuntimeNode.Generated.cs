@@ -39,8 +39,8 @@ public class AzSynapseIntegrationRuntimeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseIntegrationRuntimeNodeDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseIntegrationRuntimeNodeDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseIntegrationRuntimeNodeDeleteOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzStorageFsServiceProperties
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageFsServicePropertiesShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageFsServicePropertiesShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsServicePropertiesShowOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageFsServiceProperties
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageFsServicePropertiesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageFsServicePropertiesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsServicePropertiesUpdateOptions(), executionOptions, cancellationToken);

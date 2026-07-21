@@ -40,7 +40,7 @@ public class GcloudStorageBucketsAnywhereCaches
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudStorageBucketsAnywhereCachesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudStorageBucketsAnywhereCaches
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudStorageBucketsAnywhereCachesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudStorageBucketsAnywhereCaches
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
         GcloudStorageBucketsAnywhereCachesDisableOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudStorageBucketsAnywhereCaches
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudStorageBucketsAnywhereCachesListOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudStorageBucketsAnywhereCaches
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pause(
         GcloudStorageBucketsAnywhereCachesPauseOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudStorageBucketsAnywhereCaches
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resume(
         GcloudStorageBucketsAnywhereCachesResumeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudStorageBucketsAnywhereCaches
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudStorageBucketsAnywhereCachesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzContainerappEnvStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzContainerappEnvStorageRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappEnvStorageRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvStorageRemoveOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzContainerappEnvStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzContainerappEnvStorageSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappEnvStorageSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvStorageSetOptions(), executionOptions, cancellationToken);

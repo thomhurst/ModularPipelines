@@ -39,8 +39,8 @@ public class AzMysqlDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMysqlDbCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMysqlDbCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlDbCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzMysqlDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMysqlDbDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMysqlDbDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlDbDeleteOptions(), executionOptions, cancellationToken);

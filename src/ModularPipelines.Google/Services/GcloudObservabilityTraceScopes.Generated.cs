@@ -39,8 +39,8 @@ public class GcloudObservabilityTraceScopes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudObservabilityTraceScopesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudObservabilityTraceScopesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudObservabilityTraceScopesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudObservabilityTraceScopes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudObservabilityTraceScopesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudObservabilityTraceScopesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudObservabilityTraceScopesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudObservabilityTraceScopes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudObservabilityTraceScopesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudObservabilityTraceScopesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudObservabilityTraceScopesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudObservabilityTraceScopes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudObservabilityTraceScopesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudObservabilityTraceScopesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudObservabilityTraceScopesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudObservabilityTraceScopes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudObservabilityTraceScopesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudObservabilityTraceScopesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudObservabilityTraceScopesUpdateOptions(), executionOptions, cancellationToken);

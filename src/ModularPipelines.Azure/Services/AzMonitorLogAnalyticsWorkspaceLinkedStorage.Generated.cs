@@ -39,8 +39,8 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMonitorLogAnalyticsWorkspaceLinkedStorageDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceLinkedStorageDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedStorageDeleteOptions(), executionOptions, cancellationToken);

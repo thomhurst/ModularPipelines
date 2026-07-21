@@ -55,8 +55,8 @@ public class AzMonitorDiagnosticSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorDiagnosticSettingsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorDiagnosticSettingsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDiagnosticSettingsCreateOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzMonitorDiagnosticSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMonitorDiagnosticSettingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorDiagnosticSettingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDiagnosticSettingsListOptions(), executionOptions, cancellationToken);

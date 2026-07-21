@@ -39,8 +39,8 @@ public class AzNetworkVnetGatewayIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzNetworkVnetGatewayIdentityAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVnetGatewayIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkVnetGatewayIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetworkVnetGatewayIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVnetGatewayIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayIdentityRemoveOptions(), executionOptions, cancellationToken);

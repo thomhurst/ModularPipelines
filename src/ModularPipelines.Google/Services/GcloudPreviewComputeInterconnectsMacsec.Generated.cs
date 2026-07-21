@@ -40,7 +40,7 @@ public class GcloudPreviewComputeInterconnectsMacsec
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddKey(
         GcloudPreviewComputeInterconnectsMacsecAddKeyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeInterconnectsMacsec
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfig(
         GcloudPreviewComputeInterconnectsMacsecGetConfigOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeInterconnectsMacsec
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveKey(
         GcloudPreviewComputeInterconnectsMacsecRemoveKeyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudPreviewComputeInterconnectsMacsec
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateKey(
         GcloudPreviewComputeInterconnectsMacsecUpdateKeyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudPreviewComputeInterconnectsMacsec
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPreviewComputeInterconnectsMacsecUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

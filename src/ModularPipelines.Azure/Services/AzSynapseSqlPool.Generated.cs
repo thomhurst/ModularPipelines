@@ -61,8 +61,8 @@ public class AzSynapseSqlPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseSqlPoolCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSqlPoolCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolCreateOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ public class AzSynapseSqlPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseSqlPoolDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSqlPoolDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolDeleteOptions(), executionOptions, cancellationToken);
@@ -91,8 +91,8 @@ public class AzSynapseSqlPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzSynapseSqlPoolRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSqlPoolRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolRestoreOptions(), executionOptions, cancellationToken);
@@ -106,8 +106,8 @@ public class AzSynapseSqlPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseSqlPoolUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSqlPoolUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolUpdateOptions(), executionOptions, cancellationToken);

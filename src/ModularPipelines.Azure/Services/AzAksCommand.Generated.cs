@@ -39,8 +39,8 @@ public class AzAksCommand
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Invoke(
-        AzAksCommandInvokeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksCommandInvokeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksCommandInvokeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAksCommand
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Result(
-        AzAksCommandResultOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksCommandResultOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksCommandResultOptions(), executionOptions, cancellationToken);

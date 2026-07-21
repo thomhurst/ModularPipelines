@@ -39,8 +39,8 @@ public class GcloudSchedulerJobsUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AppEngine(
-        GcloudSchedulerJobsUpdateAppEngineOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSchedulerJobsUpdateAppEngineOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsUpdateAppEngineOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudSchedulerJobsUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Http(
-        GcloudSchedulerJobsUpdateHttpOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSchedulerJobsUpdateHttpOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsUpdateHttpOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudSchedulerJobsUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pubsub(
-        GcloudSchedulerJobsUpdatePubsubOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSchedulerJobsUpdatePubsubOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsUpdatePubsubOptions(), executionOptions, cancellationToken);

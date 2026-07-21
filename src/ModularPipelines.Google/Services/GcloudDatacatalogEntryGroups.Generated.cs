@@ -39,8 +39,8 @@ public class GcloudDatacatalogEntryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudDataCatalogEntryGroupsAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntryGroupsAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDatacatalogEntryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDataCatalogEntryGroupsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntryGroupsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDatacatalogEntryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataCatalogEntryGroupsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntryGroupsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudDatacatalogEntryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataCatalogEntryGroupsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntryGroupsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsDescribeOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudDatacatalogEntryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudDataCatalogEntryGroupsGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntryGroupsGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudDatacatalogEntryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataCatalogEntryGroupsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntryGroupsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudDatacatalogEntryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudDataCatalogEntryGroupsRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntryGroupsRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudDatacatalogEntryGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDataCatalogEntryGroupsSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudDatacatalogEntryGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDataCatalogEntryGroupsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntryGroupsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsUpdateOptions(), executionOptions, cancellationToken);

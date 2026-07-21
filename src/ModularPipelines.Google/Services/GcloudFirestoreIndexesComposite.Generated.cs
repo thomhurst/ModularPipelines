@@ -39,8 +39,8 @@ public class GcloudFirestoreIndexesComposite
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudFirestoreIndexesCompositeCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreIndexesCompositeCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesCompositeCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudFirestoreIndexesComposite
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudFirestoreIndexesCompositeDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreIndexesCompositeDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesCompositeDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudFirestoreIndexesComposite
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudFirestoreIndexesCompositeDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreIndexesCompositeDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesCompositeDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudFirestoreIndexesComposite
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFirestoreIndexesCompositeListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreIndexesCompositeListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesCompositeListOptions(), executionOptions, cancellationToken);

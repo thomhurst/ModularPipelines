@@ -39,8 +39,8 @@ public class PodmanSystemConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        PodmanSystemConnectionAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanSystemConnectionAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSystemConnectionAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PodmanSystemConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PodmanSystemConnectionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanSystemConnectionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSystemConnectionListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class PodmanSystemConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        PodmanSystemConnectionRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanSystemConnectionRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSystemConnectionRemoveOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzSfManagedClusterNetworkSecurityRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzSfManagedClusterNetworkSecurityRuleAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfManagedClusterNetworkSecurityRuleAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedClusterNetworkSecurityRuleAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSfManagedClusterNetworkSecurityRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSfManagedClusterNetworkSecurityRuleUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfManagedClusterNetworkSecurityRuleUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedClusterNetworkSecurityRuleUpdateOptions(), executionOptions, cancellationToken);

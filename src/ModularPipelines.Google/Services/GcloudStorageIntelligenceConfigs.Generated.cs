@@ -39,8 +39,8 @@ public class GcloudStorageIntelligenceConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudStorageIntelligenceConfigsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageIntelligenceConfigsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageIntelligenceConfigsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudStorageIntelligenceConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudStorageIntelligenceConfigsDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageIntelligenceConfigsDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageIntelligenceConfigsDisableOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudStorageIntelligenceConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudStorageIntelligenceConfigsEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageIntelligenceConfigsEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageIntelligenceConfigsEnableOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudStorageIntelligenceConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudStorageIntelligenceConfigsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageIntelligenceConfigsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageIntelligenceConfigsUpdateOptions(), executionOptions, cancellationToken);

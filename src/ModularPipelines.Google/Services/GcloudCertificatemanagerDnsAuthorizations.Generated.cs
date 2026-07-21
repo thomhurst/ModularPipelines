@@ -39,8 +39,8 @@ public class GcloudCertificatemanagerDnsAuthorizations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudCertificateManagerDnsAuthorizationsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerDnsAuthorizationsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerDnsAuthorizationsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudCertificatemanagerDnsAuthorizations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudCertificateManagerDnsAuthorizationsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerDnsAuthorizationsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerDnsAuthorizationsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudCertificatemanagerDnsAuthorizations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudCertificateManagerDnsAuthorizationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerDnsAuthorizationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerDnsAuthorizationsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudCertificatemanagerDnsAuthorizations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudCertificateManagerDnsAuthorizationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerDnsAuthorizationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerDnsAuthorizationsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudCertificatemanagerDnsAuthorizations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudCertificateManagerDnsAuthorizationsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerDnsAuthorizationsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerDnsAuthorizationsUpdateOptions(), executionOptions, cancellationToken);

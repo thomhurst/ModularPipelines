@@ -40,7 +40,7 @@ public class GcloudArtifactsDockerImages
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudArtifactsDockerImagesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudArtifactsDockerImages
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudArtifactsDockerImagesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudArtifactsDockerImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetOperation(
-        GcloudArtifactsDockerImagesGetOperationOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsDockerImagesGetOperationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerImagesGetOperationOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudArtifactsDockerImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudArtifactsDockerImagesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsDockerImagesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerImagesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudArtifactsDockerImages
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListVulnerabilities(
-        GcloudArtifactsDockerImagesListVulnerabilitiesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsDockerImagesListVulnerabilitiesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerImagesListVulnerabilitiesOptions(), executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudArtifactsDockerImages
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scan(
         GcloudArtifactsDockerImagesScanOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class BuildahManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        BuildahManifestOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahManifestOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahManifestOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class BuildahManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        BuildahManifestAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahManifestAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahManifestAddOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class BuildahManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Annotate(
-        BuildahManifestAnnotateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahManifestAnnotateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahManifestAnnotateOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class BuildahManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        BuildahManifestCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahManifestCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahManifestCreateOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class BuildahManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Exists(
-        BuildahManifestExistsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahManifestExistsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahManifestExistsOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class BuildahManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        BuildahManifestInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahManifestInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahManifestInspectOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class BuildahManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Push(
-        BuildahManifestPushOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahManifestPushOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahManifestPushOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class BuildahManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        BuildahManifestRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahManifestRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahManifestRemoveOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class BuildahManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        BuildahManifestRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahManifestRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahManifestRmOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzCosmosdbSqlRoleAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbSqlRoleAssignmentCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbSqlRoleAssignmentCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlRoleAssignmentCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzCosmosdbSqlRoleAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbSqlRoleAssignmentDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbSqlRoleAssignmentDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlRoleAssignmentDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzCosmosdbSqlRoleAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbSqlRoleAssignmentUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbSqlRoleAssignmentUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlRoleAssignmentUpdateOptions(), executionOptions, cancellationToken);

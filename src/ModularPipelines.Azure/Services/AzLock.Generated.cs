@@ -39,8 +39,8 @@ public class AzLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzLockCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzLockCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLockCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzLockDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzLockDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLockDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzLockListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzLockListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLockListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzLockShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzLockShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLockShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzLockUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzLockUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLockUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzAmsAssetFilter
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsAssetFilterCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsAssetFilterCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetFilterCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAmsAssetFilter
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAmsAssetFilterUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsAssetFilterUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetFilterUpdateOptions(), executionOptions, cancellationToken);

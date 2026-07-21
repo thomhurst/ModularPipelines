@@ -39,8 +39,8 @@ public class GcloudTransferAgents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudTransferAgentsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTransferAgentsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferAgentsDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudTransferAgents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Install(
-        GcloudTransferAgentsInstallOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTransferAgentsInstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferAgentsInstallOptions(), executionOptions, cancellationToken);

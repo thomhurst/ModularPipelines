@@ -39,8 +39,8 @@ public class GcloudContainerFleetDataplaneV2Encryption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetDataplaneV2EncryptionDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetDataplaneV2EncryptionDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetDataplaneV2EncryptionDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerFleetDataplaneV2Encryption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetDataplaneV2EncryptionDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetDataplaneV2EncryptionDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetDataplaneV2EncryptionDisableOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerFleetDataplaneV2Encryption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerFleetDataplaneV2EncryptionEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetDataplaneV2EncryptionEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetDataplaneV2EncryptionEnableOptions(), executionOptions, cancellationToken);

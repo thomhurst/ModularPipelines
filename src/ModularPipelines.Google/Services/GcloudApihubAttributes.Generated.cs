@@ -39,8 +39,8 @@ public class GcloudApihubAttributes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudApihubAttributesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubAttributesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubAttributesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudApihubAttributes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudApihubAttributesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubAttributesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubAttributesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudApihubAttributes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApihubAttributesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubAttributesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubAttributesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudApihubAttributes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApihubAttributesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubAttributesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubAttributesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudApihubAttributes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudApihubAttributesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubAttributesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubAttributesUpdateOptions(), executionOptions, cancellationToken);

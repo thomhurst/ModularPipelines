@@ -39,8 +39,8 @@ public class GcloudNetworkservicesMeshes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkServicesMeshesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMeshesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMeshesDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkservicesMeshes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkServicesMeshesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMeshesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMeshesDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetworkservicesMeshes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudNetworkServicesMeshesExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMeshesExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMeshesExportOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworkservicesMeshes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudNetworkServicesMeshesImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMeshesImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMeshesImportOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetworkservicesMeshes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkServicesMeshesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMeshesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMeshesListOptions(), executionOptions, cancellationToken);

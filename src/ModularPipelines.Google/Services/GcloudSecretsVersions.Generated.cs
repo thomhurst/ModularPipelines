@@ -39,8 +39,8 @@ public class GcloudSecretsVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Access(
-        GcloudSecretsVersionsAccessOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSecretsVersionsAccessOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsAccessOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudSecretsVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        GcloudSecretsVersionsAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSecretsVersionsAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsAddOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudSecretsVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudSecretsVersionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSecretsVersionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudSecretsVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Destroy(
-        GcloudSecretsVersionsDestroyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSecretsVersionsDestroyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsDestroyOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudSecretsVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudSecretsVersionsDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSecretsVersionsDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsDisableOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudSecretsVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudSecretsVersionsEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSecretsVersionsEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsEnableOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudSecretsVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSecretsVersionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSecretsVersionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsListOptions(), executionOptions, cancellationToken);

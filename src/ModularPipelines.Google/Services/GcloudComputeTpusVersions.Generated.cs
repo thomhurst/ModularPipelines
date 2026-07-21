@@ -39,8 +39,8 @@ public class GcloudComputeTpusVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeTpusVersionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeTpusVersionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusVersionsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputeTpusVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeTpusVersionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeTpusVersionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusVersionsListOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudBackupdrDataSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBackupDrDataSourcesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBackupDrDataSourcesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrDataSourcesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBackupdrDataSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBackupDrDataSourcesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBackupDrDataSourcesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrDataSourcesListOptions(), executionOptions, cancellationToken);

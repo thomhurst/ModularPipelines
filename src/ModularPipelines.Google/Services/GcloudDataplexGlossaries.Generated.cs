@@ -55,8 +55,8 @@ public class GcloudDataplexGlossaries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudDataplexGlossariesAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexGlossariesAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class GcloudDataplexGlossaries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDataplexGlossariesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexGlossariesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesCreateOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class GcloudDataplexGlossaries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataplexGlossariesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexGlossariesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesDeleteOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class GcloudDataplexGlossaries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataplexGlossariesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexGlossariesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesDescribeOptions(), executionOptions, cancellationToken);
@@ -116,7 +116,7 @@ public class GcloudDataplexGlossaries
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudDataplexGlossariesGetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class GcloudDataplexGlossaries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataplexGlossariesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexGlossariesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesListOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ public class GcloudDataplexGlossaries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudDataplexGlossariesRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexGlossariesRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -161,7 +161,7 @@ public class GcloudDataplexGlossaries
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDataplexGlossariesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -175,8 +175,8 @@ public class GcloudDataplexGlossaries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDataplexGlossariesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexGlossariesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesUpdateOptions(), executionOptions, cancellationToken);

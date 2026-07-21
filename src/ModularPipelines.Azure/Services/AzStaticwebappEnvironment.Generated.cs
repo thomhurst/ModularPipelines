@@ -39,8 +39,8 @@ public class AzStaticwebappEnvironment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStaticwebappEnvironmentDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappEnvironmentDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappEnvironmentDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStaticwebappEnvironment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Functions(
-        AzStaticwebappEnvironmentFunctionsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappEnvironmentFunctionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappEnvironmentFunctionsOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzStaticwebappEnvironment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStaticwebappEnvironmentListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappEnvironmentListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappEnvironmentListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzStaticwebappEnvironment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStaticwebappEnvironmentShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappEnvironmentShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappEnvironmentShowOptions(), executionOptions, cancellationToken);

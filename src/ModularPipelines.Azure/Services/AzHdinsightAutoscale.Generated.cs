@@ -49,8 +49,8 @@ public class AzHdinsightAutoscale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzHdinsightAutoscaleCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzHdinsightAutoscaleCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightAutoscaleCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzHdinsightAutoscale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzHdinsightAutoscaleDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzHdinsightAutoscaleDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightAutoscaleDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzHdinsightAutoscale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzHdinsightAutoscaleUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzHdinsightAutoscaleUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightAutoscaleUpdateOptions(), executionOptions, cancellationToken);

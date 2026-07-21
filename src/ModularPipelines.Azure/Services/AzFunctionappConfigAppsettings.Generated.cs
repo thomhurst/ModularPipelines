@@ -39,8 +39,8 @@ public class AzFunctionappConfigAppsettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzFunctionappConfigAppsettingsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappConfigAppsettingsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAppsettingsDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzFunctionappConfigAppsettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzFunctionappConfigAppsettingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappConfigAppsettingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAppsettingsListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzFunctionappConfigAppsettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzFunctionappConfigAppsettingsSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappConfigAppsettingsSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAppsettingsSetOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzMysqlFlexibleServerIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzMysqlFlexibleServerIdentityAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMysqlFlexibleServerIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzMysqlFlexibleServerIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzMysqlFlexibleServerIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMysqlFlexibleServerIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerIdentityRemoveOptions(), executionOptions, cancellationToken);

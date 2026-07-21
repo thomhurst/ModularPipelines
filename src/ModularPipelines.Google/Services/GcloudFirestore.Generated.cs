@@ -85,8 +85,8 @@ public class GcloudFirestore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudFirestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class GcloudFirestore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BulkDelete(
-        GcloudFirestoreBulkDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreBulkDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBulkDeleteOptions(), executionOptions, cancellationToken);
@@ -116,7 +116,7 @@ public class GcloudFirestore
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudFirestoreExportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -131,7 +131,7 @@ public class GcloudFirestore
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudFirestoreImportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

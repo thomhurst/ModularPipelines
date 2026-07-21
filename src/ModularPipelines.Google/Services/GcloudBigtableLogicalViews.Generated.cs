@@ -39,8 +39,8 @@ public class GcloudBigtableLogicalViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBigtableLogicalViewsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableLogicalViewsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableLogicalViewsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBigtableLogicalViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBigtableLogicalViewsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableLogicalViewsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableLogicalViewsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudBigtableLogicalViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBigtableLogicalViewsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableLogicalViewsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableLogicalViewsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudBigtableLogicalViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBigtableLogicalViewsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableLogicalViewsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableLogicalViewsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudBigtableLogicalViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBigtableLogicalViewsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableLogicalViewsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableLogicalViewsUpdateOptions(), executionOptions, cancellationToken);

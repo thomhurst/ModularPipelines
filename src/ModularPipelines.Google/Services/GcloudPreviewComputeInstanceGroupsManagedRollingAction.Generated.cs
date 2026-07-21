@@ -40,7 +40,7 @@ public class GcloudPreviewComputeInstanceGroupsManagedRollingAction
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Replace(
         GcloudPreviewComputeInstanceGroupsManagedRollingActionReplaceOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeInstanceGroupsManagedRollingAction
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
         GcloudPreviewComputeInstanceGroupsManagedRollingActionRestartOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeInstanceGroupsManagedRollingAction
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartUpdate(
         GcloudPreviewComputeInstanceGroupsManagedRollingActionStartUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudPreviewComputeInstanceGroupsManagedRollingAction
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopProactiveUpdate(
         GcloudPreviewComputeInstanceGroupsManagedRollingActionStopProactiveUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

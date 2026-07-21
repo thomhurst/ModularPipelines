@@ -39,8 +39,8 @@ public class AzAmsAccountSp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsAccountSpCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsAccountSpCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountSpCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAmsAccountSp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetCredentials(
-        AzAmsAccountSpResetCredentialsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsAccountSpResetCredentialsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountSpResetCredentialsOptions(), executionOptions, cancellationToken);

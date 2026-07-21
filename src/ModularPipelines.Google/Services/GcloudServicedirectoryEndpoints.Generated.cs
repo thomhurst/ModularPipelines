@@ -39,8 +39,8 @@ public class GcloudServicedirectoryEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudServiceDirectoryEndpointsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryEndpointsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryEndpointsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudServicedirectoryEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudServiceDirectoryEndpointsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryEndpointsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryEndpointsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudServicedirectoryEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudServiceDirectoryEndpointsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryEndpointsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryEndpointsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudServicedirectoryEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudServiceDirectoryEndpointsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryEndpointsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryEndpointsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudServicedirectoryEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudServiceDirectoryEndpointsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryEndpointsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryEndpointsUpdateOptions(), executionOptions, cancellationToken);

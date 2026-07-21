@@ -33,8 +33,8 @@ internal partial class Packer : IPacker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Build(
-        PackerBuildOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PackerBuildOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PackerBuildOptions(), executionOptions, cancellationToken);
@@ -42,8 +42,8 @@ internal partial class Packer : IPacker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Console(
-        PackerConsoleOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PackerConsoleOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PackerConsoleOptions(), executionOptions, cancellationToken);
@@ -51,8 +51,8 @@ internal partial class Packer : IPacker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Fix(
-        PackerFixOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PackerFixOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PackerFixOptions(), executionOptions, cancellationToken);
@@ -60,8 +60,8 @@ internal partial class Packer : IPacker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Fmt(
-        PackerFmtOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PackerFmtOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PackerFmtOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ internal partial class Packer : IPacker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Hcl2_upgrade(
-        PackerHcl2UpgradeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PackerHcl2UpgradeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PackerHcl2UpgradeOptions(), executionOptions, cancellationToken);
@@ -78,8 +78,8 @@ internal partial class Packer : IPacker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Init(
-        PackerInitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PackerInitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PackerInitOptions(), executionOptions, cancellationToken);
@@ -87,8 +87,8 @@ internal partial class Packer : IPacker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Inspect(
-        PackerInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PackerInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PackerInspectOptions(), executionOptions, cancellationToken);
@@ -96,8 +96,8 @@ internal partial class Packer : IPacker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Plugins(
-        PackerPluginsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PackerPluginsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PackerPluginsOptions(), executionOptions, cancellationToken);
@@ -105,8 +105,8 @@ internal partial class Packer : IPacker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Validate(
-        PackerValidateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PackerValidateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PackerValidateOptions(), executionOptions, cancellationToken);

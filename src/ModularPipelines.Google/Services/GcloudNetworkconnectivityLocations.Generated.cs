@@ -39,8 +39,8 @@ public class GcloudNetworkconnectivityLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkConnectivityLocationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivityLocationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityLocationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkconnectivityLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkConnectivityLocationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivityLocationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityLocationsListOptions(), executionOptions, cancellationToken);

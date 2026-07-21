@@ -39,8 +39,8 @@ public class AzSignalrReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSignalrReplicaCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSignalrReplicaCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrReplicaCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSignalrReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSignalrReplicaUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSignalrReplicaUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrReplicaUpdateOptions(), executionOptions, cancellationToken);

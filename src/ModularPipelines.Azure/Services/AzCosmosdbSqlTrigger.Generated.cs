@@ -39,8 +39,8 @@ public class AzCosmosdbSqlTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbSqlTriggerCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbSqlTriggerCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlTriggerCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzCosmosdbSqlTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbSqlTriggerDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbSqlTriggerDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlTriggerDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzCosmosdbSqlTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbSqlTriggerUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbSqlTriggerUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlTriggerUpdateOptions(), executionOptions, cancellationToken);

@@ -61,8 +61,8 @@ public class AzNetworkApplicationGatewayWafPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkApplicationGatewayWafPolicyCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkApplicationGatewayWafPolicyCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyCreateOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ public class AzNetworkApplicationGatewayWafPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkApplicationGatewayWafPolicyDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkApplicationGatewayWafPolicyDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyDeleteOptions(), executionOptions, cancellationToken);
@@ -91,8 +91,8 @@ public class AzNetworkApplicationGatewayWafPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkApplicationGatewayWafPolicyListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkApplicationGatewayWafPolicyListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyListOptions(), executionOptions, cancellationToken);
@@ -106,8 +106,8 @@ public class AzNetworkApplicationGatewayWafPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkApplicationGatewayWafPolicyUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkApplicationGatewayWafPolicyUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyUpdateOptions(), executionOptions, cancellationToken);

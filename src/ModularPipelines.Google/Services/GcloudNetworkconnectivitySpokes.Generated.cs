@@ -79,8 +79,8 @@ public class GcloudNetworkconnectivitySpokes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkConnectivitySpokesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivitySpokesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesDeleteOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudNetworkconnectivitySpokes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkConnectivitySpokesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivitySpokesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesDescribeOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudNetworkconnectivitySpokes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkConnectivitySpokesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivitySpokesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesListOptions(), executionOptions, cancellationToken);

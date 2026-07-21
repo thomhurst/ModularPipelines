@@ -39,8 +39,8 @@ public class DockerTrustSigner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        DockerTrustSignerAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerTrustSignerAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerTrustSignerAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class DockerTrustSigner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        DockerTrustSignerRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerTrustSignerRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerTrustSignerRemoveOptions(), executionOptions, cancellationToken);

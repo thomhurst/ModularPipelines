@@ -40,7 +40,7 @@ public class GcloudPreviewComputeInterconnectsWireGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddEndpoint(
         GcloudPreviewComputeInterconnectsWireGroupsAddEndpointOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeInterconnectsWireGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddInterconnect(
         GcloudPreviewComputeInterconnectsWireGroupsAddInterconnectOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeInterconnectsWireGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeInterconnectsWireGroupsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudPreviewComputeInterconnectsWireGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeInterconnectsWireGroupsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudPreviewComputeInterconnectsWireGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeInterconnectsWireGroupsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudPreviewComputeInterconnectsWireGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeInterconnectsWireGroupsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeInterconnectsWireGroupsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeInterconnectsWireGroupsListOptions(), executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudPreviewComputeInterconnectsWireGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveEndpoint(
         GcloudPreviewComputeInterconnectsWireGroupsRemoveEndpointOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudPreviewComputeInterconnectsWireGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveInterconnect(
         GcloudPreviewComputeInterconnectsWireGroupsRemoveInterconnectOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -160,7 +160,7 @@ public class GcloudPreviewComputeInterconnectsWireGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPreviewComputeInterconnectsWireGroupsUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

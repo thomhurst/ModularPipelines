@@ -39,8 +39,8 @@ public class AzStorageContainerRm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageContainerRmCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageContainerRmCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageContainerRm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStorageContainerRmDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageContainerRmDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzStorageContainerRm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageContainerRmListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageContainerRmListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzStorageContainerRm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageContainerRmUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageContainerRmUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmUpdateOptions(), executionOptions, cancellationToken);

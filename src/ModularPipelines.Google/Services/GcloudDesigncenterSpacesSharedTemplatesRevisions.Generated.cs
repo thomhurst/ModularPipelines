@@ -40,7 +40,7 @@ public class GcloudDesigncenterSpacesSharedTemplatesRevisions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDesignCenterSpacesSharedTemplatesRevisionsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDesigncenterSpacesSharedTemplatesRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDesignCenterSpacesSharedTemplatesRevisionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesSharedTemplatesRevisionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesSharedTemplatesRevisionsListOptions(), executionOptions, cancellationToken);

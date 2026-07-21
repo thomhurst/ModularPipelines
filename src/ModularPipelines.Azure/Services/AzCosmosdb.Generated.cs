@@ -103,8 +103,8 @@ public class AzCosmosdb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbCreateOptions(), executionOptions, cancellationToken);
@@ -118,8 +118,8 @@ public class AzCosmosdb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbDeleteOptions(), executionOptions, cancellationToken);
@@ -133,8 +133,8 @@ public class AzCosmosdb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzCosmosdbListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbListOptions(), executionOptions, cancellationToken);
@@ -148,8 +148,8 @@ public class AzCosmosdb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzCosmosdbRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbRestoreOptions(), executionOptions, cancellationToken);
@@ -163,8 +163,8 @@ public class AzCosmosdb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbUpdateOptions(), executionOptions, cancellationToken);

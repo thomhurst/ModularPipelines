@@ -39,8 +39,8 @@ public class AzBackupProtectableItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBackupProtectableItemListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupProtectableItemListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectableItemListOptions(), executionOptions, cancellationToken);

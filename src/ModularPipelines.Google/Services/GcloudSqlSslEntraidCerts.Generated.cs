@@ -39,8 +39,8 @@ public class GcloudSqlSslEntraidCerts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudSqlSslEntraidCertsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlSslEntraidCertsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslEntraidCertsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudSqlSslEntraidCerts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSqlSslEntraidCertsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlSslEntraidCertsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslEntraidCertsListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudSqlSslEntraidCerts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rollback(
-        GcloudSqlSslEntraidCertsRollbackOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlSslEntraidCertsRollbackOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslEntraidCertsRollbackOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudSqlSslEntraidCerts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rotate(
-        GcloudSqlSslEntraidCertsRotateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlSslEntraidCertsRotateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslEntraidCertsRotateOptions(), executionOptions, cancellationToken);

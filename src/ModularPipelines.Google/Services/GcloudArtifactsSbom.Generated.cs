@@ -39,8 +39,8 @@ public class GcloudArtifactsSbom
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudArtifactsSbomExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsSbomExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsSbomExportOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudArtifactsSbom
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudArtifactsSbomListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsSbomListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsSbomListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudArtifactsSbom
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Load(
-        GcloudArtifactsSbomLoadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsSbomLoadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsSbomLoadOptions(), executionOptions, cancellationToken);

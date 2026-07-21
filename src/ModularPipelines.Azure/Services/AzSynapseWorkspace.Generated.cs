@@ -61,8 +61,8 @@ public class AzSynapseWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Activate(
-        AzSynapseWorkspaceActivateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseWorkspaceActivateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceActivateOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ public class AzSynapseWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseWorkspaceCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseWorkspaceCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceCreateOptions(), executionOptions, cancellationToken);
@@ -91,8 +91,8 @@ public class AzSynapseWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseWorkspaceDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseWorkspaceDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceDeleteOptions(), executionOptions, cancellationToken);
@@ -106,8 +106,8 @@ public class AzSynapseWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSynapseWorkspaceListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseWorkspaceListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceListOptions(), executionOptions, cancellationToken);
@@ -121,8 +121,8 @@ public class AzSynapseWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseWorkspaceUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseWorkspaceUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceUpdateOptions(), executionOptions, cancellationToken);

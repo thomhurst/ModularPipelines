@@ -49,8 +49,8 @@ public class GcloudWorkflows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudWorkflowsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkflowsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudWorkflows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudWorkflowsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkflowsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudWorkflows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deploy(
-        GcloudWorkflowsDeployOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkflowsDeployOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsDeployOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudWorkflows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudWorkflowsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkflowsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsDescribeOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudWorkflows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudWorkflowsExecuteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkflowsExecuteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsExecuteOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GcloudWorkflows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudWorkflowsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkflowsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsListOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class GcloudWorkflows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
-        GcloudWorkflowsRunOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkflowsRunOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsRunOptions(), executionOptions, cancellationToken);

@@ -67,8 +67,8 @@ public class GcloudDesigncenterSpaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDesignCenterSpacesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCreateOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDesigncenterSpaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDesignCenterSpacesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesDeleteOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudDesigncenterSpaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDesignCenterSpacesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesDescribeOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudDesigncenterSpaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudDesignCenterSpacesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudDesigncenterSpaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDesignCenterSpacesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesListOptions(), executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudDesigncenterSpaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDesignCenterSpacesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudDesigncenterSpaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TestIamPermissions(
-        GcloudDesignCenterSpacesTestIamPermissionsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesTestIamPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesTestIamPermissionsOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class GcloudDesigncenterSpaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDesignCenterSpacesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDesignCenterSpacesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesUpdateOptions(), executionOptions, cancellationToken);

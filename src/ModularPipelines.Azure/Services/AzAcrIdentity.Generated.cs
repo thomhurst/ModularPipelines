@@ -39,8 +39,8 @@ public class AzAcrIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzAcrIdentityAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAcrIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzAcrIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrIdentityRemoveOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAcrIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAcrIdentityShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrIdentityShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrIdentityShowOptions(), executionOptions, cancellationToken);

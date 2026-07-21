@@ -39,8 +39,8 @@ public class GcloudBigtableAuthorizedViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudBigtableAuthorizedViewsAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableAuthorizedViewsAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBigtableAuthorizedViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBigtableAuthorizedViewsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableAuthorizedViewsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudBigtableAuthorizedViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBigtableAuthorizedViewsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableAuthorizedViewsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudBigtableAuthorizedViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBigtableAuthorizedViewsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableAuthorizedViewsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsDescribeOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudBigtableAuthorizedViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudBigtableAuthorizedViewsGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableAuthorizedViewsGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudBigtableAuthorizedViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBigtableAuthorizedViewsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableAuthorizedViewsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsListOptions(), executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudBigtableAuthorizedViews
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
         GcloudBigtableAuthorizedViewsRemoveIamPolicyBindingOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudBigtableAuthorizedViews
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudBigtableAuthorizedViewsSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudBigtableAuthorizedViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBigtableAuthorizedViewsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableAuthorizedViewsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsUpdateOptions(), executionOptions, cancellationToken);

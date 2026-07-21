@@ -55,8 +55,8 @@ public class AzAksApprouting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        AzAksApproutingDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksApproutingDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksApproutingDisableOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzAksApprouting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        AzAksApproutingEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksApproutingEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksApproutingEnableOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class AzAksApprouting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAksApproutingUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksApproutingUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksApproutingUpdateOptions(), executionOptions, cancellationToken);

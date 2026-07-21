@@ -49,8 +49,8 @@ public class AzWebappLog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Config(
-        AzWebappLogConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappLogConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogConfigOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzWebappLog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Download(
-        AzWebappLogDownloadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappLogDownloadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogDownloadOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzWebappLog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzWebappLogShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappLogShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogShowOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzWebappLog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Tail(
-        AzWebappLogTailOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappLogTailOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogTailOptions(), executionOptions, cancellationToken);

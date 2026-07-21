@@ -39,8 +39,8 @@ public class GcloudKmsRetiredResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudKmsRetiredResourcesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsRetiredResourcesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsRetiredResourcesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudKmsRetiredResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudKmsRetiredResourcesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsRetiredResourcesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsRetiredResourcesListOptions(), executionOptions, cancellationToken);

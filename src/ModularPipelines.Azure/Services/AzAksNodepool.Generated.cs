@@ -55,8 +55,8 @@ public class AzAksNodepool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzAksNodepoolAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksNodepoolAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolAddOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzAksNodepool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMachines(
-        AzAksNodepoolDeleteMachinesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksNodepoolDeleteMachinesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolDeleteMachinesOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class AzAksNodepool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAksNodepoolDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksNodepoolDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolDeleteOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class AzAksNodepool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> OperationAbort(
-        AzAksNodepoolOperationAbortOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksNodepoolOperationAbortOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolOperationAbortOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class AzAksNodepool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rollback(
-        AzAksNodepoolRollbackOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksNodepoolRollbackOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolRollbackOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class AzAksNodepool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scale(
-        AzAksNodepoolScaleOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksNodepoolScaleOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolScaleOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ public class AzAksNodepool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzAksNodepoolStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksNodepoolStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolStartOptions(), executionOptions, cancellationToken);
@@ -160,8 +160,8 @@ public class AzAksNodepool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzAksNodepoolStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksNodepoolStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolStopOptions(), executionOptions, cancellationToken);
@@ -175,8 +175,8 @@ public class AzAksNodepool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAksNodepoolUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksNodepoolUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudSecretsLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudSecretsLocationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSecretsLocationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsLocationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudSecretsLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSecretsLocationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSecretsLocationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsLocationsListOptions(), executionOptions, cancellationToken);

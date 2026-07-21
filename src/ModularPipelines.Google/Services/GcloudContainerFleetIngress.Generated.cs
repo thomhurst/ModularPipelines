@@ -39,8 +39,8 @@ public class GcloudContainerFleetIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetIngressDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetIngressDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIngressDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerFleetIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetIngressDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetIngressDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIngressDisableOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerFleetIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerFleetIngressEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetIngressEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIngressEnableOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudContainerFleetIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerFleetIngressUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetIngressUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIngressUpdateOptions(), executionOptions, cancellationToken);

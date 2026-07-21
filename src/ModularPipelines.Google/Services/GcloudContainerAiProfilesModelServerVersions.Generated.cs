@@ -39,8 +39,8 @@ public class GcloudContainerAiProfilesModelServerVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerAiProfilesModelServerVersionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAiProfilesModelServerVersionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAiProfilesModelServerVersionsListOptions(), executionOptions, cancellationToken);

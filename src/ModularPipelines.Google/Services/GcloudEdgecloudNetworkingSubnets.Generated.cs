@@ -39,8 +39,8 @@ public class GcloudEdgecloudNetworkingSubnets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudEdgeCloudNetworkingSubnetsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingSubnetsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingSubnetsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudEdgecloudNetworkingSubnets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudEdgeCloudNetworkingSubnetsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingSubnetsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingSubnetsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudEdgecloudNetworkingSubnets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCloudNetworkingSubnetsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingSubnetsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingSubnetsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudEdgecloudNetworkingSubnets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEdgeCloudNetworkingSubnetsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingSubnetsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingSubnetsListOptions(), executionOptions, cancellationToken);

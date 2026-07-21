@@ -39,8 +39,8 @@ public class GcloudTranscoderTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudTranscoderTemplatesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTranscoderTemplatesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTranscoderTemplatesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudTranscoderTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudTranscoderTemplatesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTranscoderTemplatesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTranscoderTemplatesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudTranscoderTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudTranscoderTemplatesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTranscoderTemplatesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTranscoderTemplatesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudTranscoderTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudTranscoderTemplatesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTranscoderTemplatesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTranscoderTemplatesListOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzCosmosdbKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzCosmosdbKeysListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbKeysListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbKeysListOptions(), executionOptions, cancellationToken);

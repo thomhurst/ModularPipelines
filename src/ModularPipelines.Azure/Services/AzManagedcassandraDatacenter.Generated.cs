@@ -39,8 +39,8 @@ public class AzManagedcassandraDatacenter
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzManagedCassandraDatacenterCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzManagedCassandraDatacenterCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraDatacenterCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzManagedcassandraDatacenter
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzManagedCassandraDatacenterDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzManagedCassandraDatacenterDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraDatacenterDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzManagedcassandraDatacenter
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzManagedCassandraDatacenterUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzManagedCassandraDatacenterUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraDatacenterUpdateOptions(), executionOptions, cancellationToken);

@@ -40,7 +40,7 @@ public class GcloudComponentsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
         GcloudComponentsRepositoriesAddOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComponentsRepositories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComponentsRepositoriesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComponentsRepositoriesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsRepositoriesListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudComponentsRepositories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        GcloudComponentsRepositoriesRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComponentsRepositoriesRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsRepositoriesRemoveOptions(), executionOptions, cancellationToken);

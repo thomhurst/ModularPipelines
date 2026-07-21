@@ -39,8 +39,8 @@ public class AzSqlDbLtrBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlDbLtrBackupDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlDbLtrBackupDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbLtrBackupDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSqlDbLtrBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSqlDbLtrBackupListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlDbLtrBackupListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbLtrBackupListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSqlDbLtrBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> LockTimeBasedImmutability(
-        AzSqlDbLtrBackupLockTimeBasedImmutabilityOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlDbLtrBackupLockTimeBasedImmutabilityOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbLtrBackupLockTimeBasedImmutabilityOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzSqlDbLtrBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveTimeBasedImmutability(
-        AzSqlDbLtrBackupRemoveTimeBasedImmutabilityOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlDbLtrBackupRemoveTimeBasedImmutabilityOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbLtrBackupRemoveTimeBasedImmutabilityOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzSqlDbLtrBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzSqlDbLtrBackupRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlDbLtrBackupRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbLtrBackupRestoreOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzSqlDbLtrBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzSqlDbLtrBackupWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlDbLtrBackupWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbLtrBackupWaitOptions(), executionOptions, cancellationToken);

@@ -33,8 +33,8 @@ internal partial class Skopeo : ISkopeo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Copy(
-        SkopeoCopyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SkopeoCopyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SkopeoCopyOptions(), executionOptions, cancellationToken);
@@ -42,8 +42,8 @@ internal partial class Skopeo : ISkopeo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Delete(
-        SkopeoDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SkopeoDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SkopeoDeleteOptions(), executionOptions, cancellationToken);
@@ -51,8 +51,8 @@ internal partial class Skopeo : ISkopeo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> GenerateSigstoreKey(
-        SkopeoGenerateSigstoreKeyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SkopeoGenerateSigstoreKeyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SkopeoGenerateSigstoreKeyOptions(), executionOptions, cancellationToken);
@@ -60,8 +60,8 @@ internal partial class Skopeo : ISkopeo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Inspect(
-        SkopeoInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SkopeoInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SkopeoInspectOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ internal partial class Skopeo : ISkopeo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ListTags(
-        SkopeoListTagsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SkopeoListTagsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SkopeoListTagsOptions(), executionOptions, cancellationToken);
@@ -78,8 +78,8 @@ internal partial class Skopeo : ISkopeo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Login(
-        SkopeoLoginOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SkopeoLoginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SkopeoLoginOptions(), executionOptions, cancellationToken);
@@ -87,8 +87,8 @@ internal partial class Skopeo : ISkopeo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Logout(
-        SkopeoLogoutOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SkopeoLogoutOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SkopeoLogoutOptions(), executionOptions, cancellationToken);
@@ -96,8 +96,8 @@ internal partial class Skopeo : ISkopeo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ManifestDigest(
-        SkopeoManifestDigestOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SkopeoManifestDigestOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SkopeoManifestDigestOptions(), executionOptions, cancellationToken);
@@ -105,8 +105,8 @@ internal partial class Skopeo : ISkopeo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> StandaloneSign(
-        SkopeoStandaloneSignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SkopeoStandaloneSignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SkopeoStandaloneSignOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ internal partial class Skopeo : ISkopeo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> StandaloneVerify(
-        SkopeoStandaloneVerifyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SkopeoStandaloneVerifyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SkopeoStandaloneVerifyOptions(), executionOptions, cancellationToken);
@@ -123,8 +123,8 @@ internal partial class Skopeo : ISkopeo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Sync(
-        SkopeoSyncOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        SkopeoSyncOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SkopeoSyncOptions(), executionOptions, cancellationToken);

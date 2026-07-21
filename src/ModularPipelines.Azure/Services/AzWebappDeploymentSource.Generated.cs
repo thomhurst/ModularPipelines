@@ -39,8 +39,8 @@ public class AzWebappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigLocalGit(
-        AzWebappDeploymentSourceConfigLocalGitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentSourceConfigLocalGitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentSourceConfigLocalGitOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzWebappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Config(
-        AzWebappDeploymentSourceConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentSourceConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentSourceConfigOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzWebappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzWebappDeploymentSourceDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentSourceDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentSourceDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzWebappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzWebappDeploymentSourceShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentSourceShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentSourceShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzWebappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Sync(
-        AzWebappDeploymentSourceSyncOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentSourceSyncOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentSourceSyncOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzWebappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateToken(
-        AzWebappDeploymentSourceUpdateTokenOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentSourceUpdateTokenOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentSourceUpdateTokenOptions(), executionOptions, cancellationToken);

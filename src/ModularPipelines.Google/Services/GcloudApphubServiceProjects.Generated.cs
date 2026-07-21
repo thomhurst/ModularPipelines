@@ -39,8 +39,8 @@ public class GcloudApphubServiceProjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        GcloudApphubServiceProjectsAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubServiceProjectsAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubServiceProjectsAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudApphubServiceProjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApphubServiceProjectsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubServiceProjectsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubServiceProjectsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudApphubServiceProjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Detach(
-        GcloudApphubServiceProjectsDetachOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubServiceProjectsDetachOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubServiceProjectsDetachOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudApphubServiceProjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApphubServiceProjectsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubServiceProjectsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubServiceProjectsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudApphubServiceProjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lookup(
-        GcloudApphubServiceProjectsLookupOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubServiceProjectsLookupOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubServiceProjectsLookupOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudApphubServiceProjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        GcloudApphubServiceProjectsRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubServiceProjectsRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubServiceProjectsRemoveOptions(), executionOptions, cancellationToken);

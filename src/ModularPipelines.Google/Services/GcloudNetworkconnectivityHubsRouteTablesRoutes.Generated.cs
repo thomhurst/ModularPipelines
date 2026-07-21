@@ -39,8 +39,8 @@ public class GcloudNetworkconnectivityHubsRouteTablesRoutes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkConnectivityHubsRouteTablesRoutesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivityHubsRouteTablesRoutesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRouteTablesRoutesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkconnectivityHubsRouteTablesRoutes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkConnectivityHubsRouteTablesRoutesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivityHubsRouteTablesRoutesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRouteTablesRoutesListOptions(), executionOptions, cancellationToken);

@@ -40,7 +40,7 @@ public class GcloudComputeSoleTenancyNodeTypes
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeSoleTenancyNodeTypesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputeSoleTenancyNodeTypes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeSoleTenancyNodeTypesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeSoleTenancyNodeTypesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeTypesListOptions(), executionOptions, cancellationToken);

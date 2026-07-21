@@ -49,8 +49,8 @@ public class AzEventgridDomainTopic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventgridDomainTopicListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzEventgridDomainTopicListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainTopicListOptions(), executionOptions, cancellationToken);

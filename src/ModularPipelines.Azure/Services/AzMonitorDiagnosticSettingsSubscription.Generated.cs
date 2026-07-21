@@ -39,8 +39,8 @@ public class AzMonitorDiagnosticSettingsSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorDiagnosticSettingsSubscriptionCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorDiagnosticSettingsSubscriptionCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDiagnosticSettingsSubscriptionCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzMonitorDiagnosticSettingsSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMonitorDiagnosticSettingsSubscriptionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorDiagnosticSettingsSubscriptionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDiagnosticSettingsSubscriptionDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzMonitorDiagnosticSettingsSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorDiagnosticSettingsSubscriptionUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorDiagnosticSettingsSubscriptionUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDiagnosticSettingsSubscriptionUpdateOptions(), executionOptions, cancellationToken);

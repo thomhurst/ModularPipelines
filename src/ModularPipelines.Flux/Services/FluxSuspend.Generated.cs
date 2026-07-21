@@ -55,8 +55,8 @@ public class FluxSuspend
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxSuspendOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxSuspendOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class FluxSuspend
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Alert(
-        FluxSuspendAlertOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxSuspendAlertOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendAlertOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class FluxSuspend
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Helmrelease(
-        FluxSuspendHelmreleaseOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxSuspendHelmreleaseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendHelmreleaseOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class FluxSuspend
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kustomization(
-        FluxSuspendKustomizationOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxSuspendKustomizationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendKustomizationOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class FluxSuspend
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Receiver(
-        FluxSuspendReceiverOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxSuspendReceiverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendReceiverOptions(), executionOptions, cancellationToken);

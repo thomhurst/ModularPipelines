@@ -39,8 +39,8 @@ public class GcloudContainerHubFleetobservability
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubFleetobservabilityDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubFleetobservabilityDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubFleetobservabilityDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerHubFleetobservability
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerHubFleetobservabilityDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubFleetobservabilityDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubFleetobservabilityDisableOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerHubFleetobservability
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerHubFleetobservabilityEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubFleetobservabilityEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubFleetobservabilityEnableOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudContainerHubFleetobservability
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerHubFleetobservabilityUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubFleetobservabilityUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubFleetobservabilityUpdateOptions(), executionOptions, cancellationToken);

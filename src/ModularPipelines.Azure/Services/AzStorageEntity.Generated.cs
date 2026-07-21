@@ -39,8 +39,8 @@ public class AzStorageEntity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStorageEntityDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageEntityDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageEntityDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageEntity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Insert(
-        AzStorageEntityInsertOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageEntityInsertOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageEntityInsertOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzStorageEntity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Merge(
-        AzStorageEntityMergeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageEntityMergeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageEntityMergeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzStorageEntity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Query(
-        AzStorageEntityQueryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageEntityQueryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageEntityQueryOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzStorageEntity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Replace(
-        AzStorageEntityReplaceOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageEntityReplaceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageEntityReplaceOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzStorageEntity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageEntityShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageEntityShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageEntityShowOptions(), executionOptions, cancellationToken);

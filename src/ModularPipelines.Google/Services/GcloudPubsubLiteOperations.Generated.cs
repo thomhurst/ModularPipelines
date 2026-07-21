@@ -39,8 +39,8 @@ public class GcloudPubsubLiteOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudPubsubLiteOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubLiteOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudPubsubLiteOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPubsubLiteOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubLiteOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteOperationsListOptions(), executionOptions, cancellationToken);

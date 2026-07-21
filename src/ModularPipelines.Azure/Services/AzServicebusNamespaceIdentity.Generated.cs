@@ -39,8 +39,8 @@ public class AzServicebusNamespaceIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzServicebusNamespaceIdentityAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzServicebusNamespaceIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzServicebusNamespaceIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzServicebusNamespaceIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzServicebusNamespaceIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceIdentityRemoveOptions(), executionOptions, cancellationToken);

@@ -56,7 +56,7 @@ public class GcloudPreviewComputeResourcePolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeResourcePoliciesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -71,7 +71,7 @@ public class GcloudPreviewComputeResourcePolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeResourcePoliciesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class GcloudPreviewComputeResourcePolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudPreviewComputeResourcePoliciesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeResourcePoliciesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeResourcePoliciesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class GcloudPreviewComputeResourcePolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeResourcePoliciesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeResourcePoliciesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeResourcePoliciesListOptions(), executionOptions, cancellationToken);
@@ -116,7 +116,7 @@ public class GcloudPreviewComputeResourcePolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudPreviewComputeResourcePoliciesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

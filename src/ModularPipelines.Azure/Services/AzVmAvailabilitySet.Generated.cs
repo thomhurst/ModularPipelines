@@ -39,8 +39,8 @@ public class AzVmAvailabilitySet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConvertToVmss(
-        AzVmAvailabilitySetConvertToVmssOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmAvailabilitySetConvertToVmssOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmAvailabilitySetConvertToVmssOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzVmAvailabilitySet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzVmAvailabilitySetCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmAvailabilitySetCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmAvailabilitySetCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzVmAvailabilitySet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzVmAvailabilitySetListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmAvailabilitySetListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmAvailabilitySetListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzVmAvailabilitySet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzVmAvailabilitySetUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmAvailabilitySetUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmAvailabilitySetUpdateOptions(), executionOptions, cancellationToken);

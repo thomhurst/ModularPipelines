@@ -39,8 +39,8 @@ public class GcloudComputeProjectZonalMetadata
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        GcloudComputeProjectZonalMetadataAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeProjectZonalMetadataAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectZonalMetadataAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputeProjectZonalMetadata
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeProjectZonalMetadataDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeProjectZonalMetadataDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectZonalMetadataDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudComputeProjectZonalMetadata
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        GcloudComputeProjectZonalMetadataRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeProjectZonalMetadataRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectZonalMetadataRemoveOptions(), executionOptions, cancellationToken);

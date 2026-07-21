@@ -39,8 +39,8 @@ public class GcloudPreviewComputeInstanceTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudPreviewComputeInstanceTemplatesAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeInstanceTemplatesAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeInstanceTemplatesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeInstanceTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeInstanceTemplatesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeInstanceTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWithContainer(
         GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudPreviewComputeInstanceTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeInstanceTemplatesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudPreviewComputeInstanceTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeInstanceTemplatesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudPreviewComputeInstanceTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudPreviewComputeInstanceTemplatesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeInstanceTemplatesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeInstanceTemplatesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudPreviewComputeInstanceTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeInstanceTemplatesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeInstanceTemplatesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeInstanceTemplatesListOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudPreviewComputeInstanceTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudPreviewComputeInstanceTemplatesRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeInstanceTemplatesRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeInstanceTemplatesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -160,7 +160,7 @@ public class GcloudPreviewComputeInstanceTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudPreviewComputeInstanceTemplatesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -174,8 +174,8 @@ public class GcloudPreviewComputeInstanceTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TestIamPermissions(
-        GcloudPreviewComputeInstanceTemplatesTestIamPermissionsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeInstanceTemplatesTestIamPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeInstanceTemplatesTestIamPermissionsOptions(), executionOptions, cancellationToken);

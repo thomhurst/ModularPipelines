@@ -39,8 +39,8 @@ public class GcloudArtifactsSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudArtifactsSettingsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsSettingsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsSettingsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudArtifactsSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableUpgradeRedirection(
-        GcloudArtifactsSettingsDisableUpgradeRedirectionOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsSettingsDisableUpgradeRedirectionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsSettingsDisableUpgradeRedirectionOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudArtifactsSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableUpgradeRedirection(
-        GcloudArtifactsSettingsEnableUpgradeRedirectionOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsSettingsEnableUpgradeRedirectionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsSettingsEnableUpgradeRedirectionOptions(), executionOptions, cancellationToken);

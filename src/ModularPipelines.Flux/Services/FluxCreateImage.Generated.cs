@@ -39,8 +39,8 @@ public class FluxCreateImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Policy(
-        FluxCreateImagePolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxCreateImagePolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateImagePolicyOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class FluxCreateImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Repository(
-        FluxCreateImageRepositoryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxCreateImageRepositoryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateImageRepositoryOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class FluxCreateImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        FluxCreateImageUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxCreateImageUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateImageUpdateOptions(), executionOptions, cancellationToken);

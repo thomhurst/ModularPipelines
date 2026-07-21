@@ -67,8 +67,8 @@ public class GcloudTransfer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudTransferOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTransferOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudTransfer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Authorize(
-        GcloudTransferAuthorizeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTransferAuthorizeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferAuthorizeOptions(), executionOptions, cancellationToken);

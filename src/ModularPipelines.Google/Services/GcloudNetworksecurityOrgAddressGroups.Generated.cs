@@ -39,8 +39,8 @@ public class GcloudNetworksecurityOrgAddressGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddItems(
-        GcloudNetworkSecurityOrgAddressGroupsAddItemsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityOrgAddressGroupsAddItemsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsAddItemsOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworksecurityOrgAddressGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CloneItems(
-        GcloudNetworkSecurityOrgAddressGroupsCloneItemsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityOrgAddressGroupsCloneItemsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsCloneItemsOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetworksecurityOrgAddressGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkSecurityOrgAddressGroupsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityOrgAddressGroupsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsCreateOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworksecurityOrgAddressGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecurityOrgAddressGroupsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityOrgAddressGroupsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsDeleteOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetworksecurityOrgAddressGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkSecurityOrgAddressGroupsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityOrgAddressGroupsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsDescribeOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudNetworksecurityOrgAddressGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkSecurityOrgAddressGroupsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityOrgAddressGroupsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudNetworksecurityOrgAddressGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListReferences(
-        GcloudNetworkSecurityOrgAddressGroupsListReferencesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityOrgAddressGroupsListReferencesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsListReferencesOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudNetworksecurityOrgAddressGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveItems(
-        GcloudNetworkSecurityOrgAddressGroupsRemoveItemsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityOrgAddressGroupsRemoveItemsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsRemoveItemsOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudNetworksecurityOrgAddressGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkSecurityOrgAddressGroupsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecurityOrgAddressGroupsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsUpdateOptions(), executionOptions, cancellationToken);

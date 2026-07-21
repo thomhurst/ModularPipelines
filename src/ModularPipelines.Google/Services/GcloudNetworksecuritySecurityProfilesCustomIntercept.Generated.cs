@@ -39,8 +39,8 @@ public class GcloudNetworksecuritySecurityProfilesCustomIntercept
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkSecuritySecurityProfilesCustomInterceptCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesCustomInterceptCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworksecuritySecurityProfilesCustomIntercept
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecuritySecurityProfilesCustomInterceptDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesCustomInterceptDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetworksecuritySecurityProfilesCustomIntercept
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkSecuritySecurityProfilesCustomInterceptDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesCustomInterceptDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworksecuritySecurityProfilesCustomIntercept
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkSecuritySecurityProfilesCustomInterceptListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesCustomInterceptListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetworksecuritySecurityProfilesCustomIntercept
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkSecuritySecurityProfilesCustomInterceptUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkSecuritySecurityProfilesCustomInterceptUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptUpdateOptions(), executionOptions, cancellationToken);

@@ -55,8 +55,8 @@ public class GcloudContainerAttached
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetServerConfig(
-        GcloudContainerAttachedGetServerConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerAttachedGetServerConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedGetServerConfigOptions(), executionOptions, cancellationToken);

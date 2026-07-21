@@ -39,8 +39,8 @@ public class GcloudEventarcPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudEventarcPipelinesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcPipelinesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcPipelinesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudEventarcPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudEventarcPipelinesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcPipelinesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcPipelinesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudEventarcPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEventarcPipelinesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcPipelinesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcPipelinesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudEventarcPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEventarcPipelinesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcPipelinesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcPipelinesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudEventarcPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudEventarcPipelinesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcPipelinesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcPipelinesUpdateOptions(), executionOptions, cancellationToken);

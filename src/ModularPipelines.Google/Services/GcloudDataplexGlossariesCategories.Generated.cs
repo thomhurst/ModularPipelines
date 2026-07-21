@@ -39,8 +39,8 @@ public class GcloudDataplexGlossariesCategories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDataplexGlossariesCategoriesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexGlossariesCategoriesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesCategoriesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDataplexGlossariesCategories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataplexGlossariesCategoriesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexGlossariesCategoriesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesCategoriesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDataplexGlossariesCategories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataplexGlossariesCategoriesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexGlossariesCategoriesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesCategoriesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudDataplexGlossariesCategories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataplexGlossariesCategoriesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexGlossariesCategoriesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesCategoriesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudDataplexGlossariesCategories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDataplexGlossariesCategoriesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexGlossariesCategoriesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesCategoriesUpdateOptions(), executionOptions, cancellationToken);

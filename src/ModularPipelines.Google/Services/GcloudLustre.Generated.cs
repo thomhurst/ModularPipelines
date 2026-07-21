@@ -55,8 +55,8 @@ public class GcloudLustre
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudLustreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLustreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreOptions(), executionOptions, cancellationToken);

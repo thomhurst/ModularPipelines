@@ -39,8 +39,8 @@ public class AzResourceLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzResourceLinkCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceLinkCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceLinkCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzResourceLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzResourceLinkListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceLinkListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceLinkListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzResourceLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzResourceLinkUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceLinkUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceLinkUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class FluxPull
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxPullOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxPullOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxPullOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class FluxPull
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Artifact(
-        FluxPullArtifactOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxPullArtifactOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxPullArtifactOptions(), executionOptions, cancellationToken);

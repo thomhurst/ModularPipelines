@@ -39,8 +39,8 @@ public class AzWebappWebjobContinuous
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzWebappWebjobContinuousListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappWebjobContinuousListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappWebjobContinuousListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzWebappWebjobContinuous
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzWebappWebjobContinuousRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappWebjobContinuousRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappWebjobContinuousRemoveOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzWebappWebjobContinuous
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzWebappWebjobContinuousStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappWebjobContinuousStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappWebjobContinuousStartOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzWebappWebjobContinuous
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzWebappWebjobContinuousStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappWebjobContinuousStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappWebjobContinuousStopOptions(), executionOptions, cancellationToken);

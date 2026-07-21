@@ -49,8 +49,8 @@ public class AzRelayNamespaceAuthorizationRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzRelayNamespaceAuthorizationRuleCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRelayNamespaceAuthorizationRuleCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceAuthorizationRuleCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzRelayNamespaceAuthorizationRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzRelayNamespaceAuthorizationRuleUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRelayNamespaceAuthorizationRuleUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceAuthorizationRuleUpdateOptions(), executionOptions, cancellationToken);

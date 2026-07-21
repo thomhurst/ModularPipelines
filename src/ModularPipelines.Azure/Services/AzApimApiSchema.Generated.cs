@@ -39,8 +39,8 @@ public class AzApimApiSchema
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzApimApiSchemaCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApiSchemaCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiSchemaCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzApimApiSchema
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzApimApiSchemaDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApiSchemaDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiSchemaDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzApimApiSchema
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzApimApiSchemaListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApiSchemaListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiSchemaListOptions(), executionOptions, cancellationToken);

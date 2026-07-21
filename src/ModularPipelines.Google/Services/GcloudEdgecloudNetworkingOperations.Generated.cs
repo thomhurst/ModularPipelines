@@ -39,8 +39,8 @@ public class GcloudEdgecloudNetworkingOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCloudNetworkingOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudEdgecloudNetworkingOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudEdgeCloudNetworkingOperationsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingOperationsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingOperationsWaitOptions(), executionOptions, cancellationToken);

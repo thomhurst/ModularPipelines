@@ -39,8 +39,8 @@ public class AzNetworkPrivateDnsZone
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkPrivateDnsZoneCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkPrivateDnsZoneCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkPrivateDnsZone
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkPrivateDnsZoneDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkPrivateDnsZoneDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkPrivateDnsZone
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        AzNetworkPrivateDnsZoneExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkPrivateDnsZoneExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneExportOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzNetworkPrivateDnsZone
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkPrivateDnsZoneListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkPrivateDnsZoneListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzNetworkPrivateDnsZone
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkPrivateDnsZoneUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkPrivateDnsZoneUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneUpdateOptions(), executionOptions, cancellationToken);

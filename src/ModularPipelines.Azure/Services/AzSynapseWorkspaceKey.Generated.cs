@@ -39,8 +39,8 @@ public class AzSynapseWorkspaceKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseWorkspaceKeyCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseWorkspaceKeyCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceKeyCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapseWorkspaceKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseWorkspaceKeyDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseWorkspaceKeyDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceKeyDeleteOptions(), executionOptions, cancellationToken);

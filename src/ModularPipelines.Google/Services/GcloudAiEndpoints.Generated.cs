@@ -39,8 +39,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAiEndpointsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAiEndpointsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeployModel(
-        GcloudAiEndpointsDeployModelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsDeployModelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDeployModelOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAiEndpointsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDescribeOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DirectPredict(
-        GcloudAiEndpointsDirectPredictOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsDirectPredictOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDirectPredictOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DirectRawPredict(
-        GcloudAiEndpointsDirectRawPredictOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsDirectRawPredictOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDirectRawPredictOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Explain(
-        GcloudAiEndpointsExplainOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsExplainOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsExplainOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAiEndpointsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsListOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Predict(
-        GcloudAiEndpointsPredictOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsPredictOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsPredictOptions(), executionOptions, cancellationToken);
@@ -174,8 +174,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RawPredict(
-        GcloudAiEndpointsRawPredictOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsRawPredictOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsRawPredictOptions(), executionOptions, cancellationToken);
@@ -189,8 +189,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StreamDirectPredict(
-        GcloudAiEndpointsStreamDirectPredictOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsStreamDirectPredictOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsStreamDirectPredictOptions(), executionOptions, cancellationToken);
@@ -204,8 +204,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StreamDirectRawPredict(
-        GcloudAiEndpointsStreamDirectRawPredictOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsStreamDirectRawPredictOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsStreamDirectRawPredictOptions(), executionOptions, cancellationToken);
@@ -219,8 +219,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StreamRawPredict(
-        GcloudAiEndpointsStreamRawPredictOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsStreamRawPredictOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsStreamRawPredictOptions(), executionOptions, cancellationToken);
@@ -234,8 +234,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UndeployModel(
-        GcloudAiEndpointsUndeployModelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsUndeployModelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsUndeployModelOptions(), executionOptions, cancellationToken);
@@ -249,8 +249,8 @@ public class GcloudAiEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAiEndpointsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiEndpointsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsUpdateOptions(), executionOptions, cancellationToken);

@@ -104,8 +104,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Attach(
-        PodmanAttachOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanAttachOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanAttachOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Build(
-        PodmanBuildOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanBuildOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanBuildOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Commit(
-        PodmanCommitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanCommitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanCommitOptions(), executionOptions, cancellationToken);
@@ -131,8 +131,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Cp(
-        PodmanCpOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanCpOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanCpOptions(), executionOptions, cancellationToken);
@@ -140,8 +140,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Create(
-        PodmanCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanCreateOptions(), executionOptions, cancellationToken);
@@ -149,8 +149,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Diff(
-        PodmanDiffOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanDiffOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanDiffOptions(), executionOptions, cancellationToken);
@@ -158,8 +158,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Events(
-        PodmanEventsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanEventsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanEventsOptions(), executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Exec(
-        PodmanExecOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanExecOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanExecOptions(), executionOptions, cancellationToken);
@@ -176,8 +176,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Export(
-        PodmanExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanExportOptions(), executionOptions, cancellationToken);
@@ -185,8 +185,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> History(
-        PodmanHistoryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanHistoryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanHistoryOptions(), executionOptions, cancellationToken);
@@ -194,8 +194,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Images(
-        PodmanImagesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanImagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImagesOptions(), executionOptions, cancellationToken);
@@ -203,8 +203,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Import(
-        PodmanImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImportOptions(), executionOptions, cancellationToken);
@@ -212,8 +212,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Init(
-        PodmanInitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanInitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanInitOptions(), executionOptions, cancellationToken);
@@ -221,8 +221,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Inspect(
-        PodmanInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanInspectOptions(), executionOptions, cancellationToken);
@@ -230,8 +230,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Kill(
-        PodmanKillOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanKillOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanKillOptions(), executionOptions, cancellationToken);
@@ -239,8 +239,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Load(
-        PodmanLoadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanLoadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanLoadOptions(), executionOptions, cancellationToken);
@@ -248,8 +248,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Login(
-        PodmanLoginOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanLoginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanLoginOptions(), executionOptions, cancellationToken);
@@ -257,8 +257,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Logout(
-        PodmanLogoutOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanLogoutOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanLogoutOptions(), executionOptions, cancellationToken);
@@ -266,8 +266,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Logs(
-        PodmanLogsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanLogsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanLogsOptions(), executionOptions, cancellationToken);
@@ -275,8 +275,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Mount(
-        PodmanMountOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanMountOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanMountOptions(), executionOptions, cancellationToken);
@@ -284,8 +284,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Pause(
-        PodmanPauseOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanPauseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanPauseOptions(), executionOptions, cancellationToken);
@@ -293,8 +293,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Port(
-        PodmanPortOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanPortOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanPortOptions(), executionOptions, cancellationToken);
@@ -302,8 +302,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Ps(
-        PodmanPsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanPsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanPsOptions(), executionOptions, cancellationToken);
@@ -311,8 +311,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Pull(
-        PodmanPullOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanPullOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanPullOptions(), executionOptions, cancellationToken);
@@ -320,8 +320,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Push(
-        PodmanPushOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanPushOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanPushOptions(), executionOptions, cancellationToken);
@@ -329,8 +329,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Restart(
-        PodmanRestartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanRestartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanRestartOptions(), executionOptions, cancellationToken);
@@ -338,8 +338,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Rmi(
-        PodmanRmiOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanRmiOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanRmiOptions(), executionOptions, cancellationToken);
@@ -347,8 +347,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Rm(
-        PodmanRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanRmOptions(), executionOptions, cancellationToken);
@@ -356,8 +356,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Run(
-        PodmanRunOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanRunOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanRunOptions(), executionOptions, cancellationToken);
@@ -365,8 +365,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Save(
-        PodmanSaveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanSaveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSaveOptions(), executionOptions, cancellationToken);
@@ -374,8 +374,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Search(
-        PodmanSearchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSearchOptions(), executionOptions, cancellationToken);
@@ -383,8 +383,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Start(
-        PodmanStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanStartOptions(), executionOptions, cancellationToken);
@@ -392,8 +392,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Stats(
-        PodmanStatsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanStatsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanStatsOptions(), executionOptions, cancellationToken);
@@ -401,8 +401,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Stop(
-        PodmanStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanStopOptions(), executionOptions, cancellationToken);
@@ -410,8 +410,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Top(
-        PodmanTopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanTopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanTopOptions(), executionOptions, cancellationToken);
@@ -419,8 +419,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Unmount(
-        PodmanUnmountOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanUnmountOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanUnmountOptions(), executionOptions, cancellationToken);
@@ -428,8 +428,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Unpause(
-        PodmanUnpauseOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanUnpauseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanUnpauseOptions(), executionOptions, cancellationToken);
@@ -437,8 +437,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Unshare(
-        PodmanUnshareOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanUnshareOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanUnshareOptions(), executionOptions, cancellationToken);
@@ -446,8 +446,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Update(
-        PodmanUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanUpdateOptions(), executionOptions, cancellationToken);
@@ -455,8 +455,8 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Wait(
-        PodmanWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanWaitOptions(), executionOptions, cancellationToken);

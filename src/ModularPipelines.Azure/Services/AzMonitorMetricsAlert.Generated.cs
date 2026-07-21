@@ -39,8 +39,8 @@ public class AzMonitorMetricsAlert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorMetricsAlertCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorMetricsAlertCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorMetricsAlertCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzMonitorMetricsAlert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMonitorMetricsAlertListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorMetricsAlertListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorMetricsAlertListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzMonitorMetricsAlert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorMetricsAlertUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorMetricsAlertUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorMetricsAlertUpdateOptions(), executionOptions, cancellationToken);

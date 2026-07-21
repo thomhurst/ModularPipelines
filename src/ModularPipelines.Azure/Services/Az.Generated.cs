@@ -444,8 +444,8 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Login(
-        AzLoginOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzLoginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLoginOptions(), executionOptions, cancellationToken);
@@ -453,8 +453,8 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Logout(
-        AzLogoutOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzLogoutOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLogoutOptions(), executionOptions, cancellationToken);

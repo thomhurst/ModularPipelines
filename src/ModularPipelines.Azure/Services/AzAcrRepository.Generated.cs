@@ -39,8 +39,8 @@ public class AzAcrRepository
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAcrRepositoryDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrRepositoryDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrRepositoryDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAcrRepository
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAcrRepositoryListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrRepositoryListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrRepositoryListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAcrRepository
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAcrRepositoryShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrRepositoryShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrRepositoryShowOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzAcrRepository
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowTags(
-        AzAcrRepositoryShowTagsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrRepositoryShowTagsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrRepositoryShowTagsOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzAcrRepository
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Untag(
-        AzAcrRepositoryUntagOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrRepositoryUntagOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrRepositoryUntagOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzAcrRepository
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAcrRepositoryUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrRepositoryUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrRepositoryUpdateOptions(), executionOptions, cancellationToken);

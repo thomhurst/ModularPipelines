@@ -49,8 +49,8 @@ public class AzSfManagedService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSfManagedServiceCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfManagedServiceCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedServiceCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzSfManagedService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSfManagedServiceUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfManagedServiceUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedServiceUpdateOptions(), executionOptions, cancellationToken);

@@ -49,8 +49,8 @@ public class GcloudBigtableInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudBigtableInstancesAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableInstancesAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudBigtableInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBigtableInstancesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableInstancesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesCreateOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudBigtableInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBigtableInstancesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableInstancesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesDeleteOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudBigtableInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBigtableInstancesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableInstancesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesDescribeOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudBigtableInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudBigtableInstancesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableInstancesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GcloudBigtableInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBigtableInstancesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableInstancesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesListOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class GcloudBigtableInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudBigtableInstancesRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableInstancesRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -155,7 +155,7 @@ public class GcloudBigtableInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudBigtableInstancesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -169,8 +169,8 @@ public class GcloudBigtableInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBigtableInstancesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableInstancesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesUpdateOptions(), executionOptions, cancellationToken);
@@ -184,8 +184,8 @@ public class GcloudBigtableInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upgrade(
-        GcloudBigtableInstancesUpgradeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBigtableInstancesUpgradeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesUpgradeOptions(), executionOptions, cancellationToken);

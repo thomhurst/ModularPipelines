@@ -67,8 +67,8 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlMidbCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlMidbCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbCreateOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlMidbDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlMidbDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbDeleteOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Recover(
-        AzSqlMidbRecoverOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlMidbRecoverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbRecoverOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzSqlMidbRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlMidbRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbRestoreOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlMidbUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlMidbUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbUpdateOptions(), executionOptions, cancellationToken);

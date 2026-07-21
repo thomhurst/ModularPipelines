@@ -39,8 +39,8 @@ public class AzEventhubsNamespacePrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
-        AzEventhubsNamespacePrivateEndpointConnectionApproveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzEventhubsNamespacePrivateEndpointConnectionApproveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionApproveOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzEventhubsNamespacePrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzEventhubsNamespacePrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reject(
-        AzEventhubsNamespacePrivateEndpointConnectionRejectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzEventhubsNamespacePrivateEndpointConnectionRejectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionRejectOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzEventhubsNamespacePrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzEventhubsNamespacePrivateEndpointConnectionShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzEventhubsNamespacePrivateEndpointConnectionShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionShowOptions(), executionOptions, cancellationToken);

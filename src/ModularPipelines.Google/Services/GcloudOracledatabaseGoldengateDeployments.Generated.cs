@@ -39,8 +39,8 @@ public class GcloudOracledatabaseGoldengateDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudOracleDatabaseGoldengateDeploymentsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseGoldengateDeploymentsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseGoldengateDeploymentsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudOracledatabaseGoldengateDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudOracleDatabaseGoldengateDeploymentsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseGoldengateDeploymentsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseGoldengateDeploymentsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudOracledatabaseGoldengateDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudOracleDatabaseGoldengateDeploymentsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseGoldengateDeploymentsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseGoldengateDeploymentsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudOracledatabaseGoldengateDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseGoldengateDeploymentsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseGoldengateDeploymentsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseGoldengateDeploymentsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudOracledatabaseGoldengateDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        GcloudOracleDatabaseGoldengateDeploymentsStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseGoldengateDeploymentsStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseGoldengateDeploymentsStartOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudOracledatabaseGoldengateDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        GcloudOracleDatabaseGoldengateDeploymentsStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseGoldengateDeploymentsStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseGoldengateDeploymentsStopOptions(), executionOptions, cancellationToken);

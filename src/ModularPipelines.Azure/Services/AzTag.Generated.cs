@@ -39,8 +39,8 @@ public class AzTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzTagCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzTagCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzTagCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzTagDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzTagDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzTagDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzTagListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzTagListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzTagListOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudNetworkservicesMulticastGroupRanges
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkServicesMulticastGroupRangesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMulticastGroupRangesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkservicesMulticastGroupRanges
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkServicesMulticastGroupRangesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMulticastGroupRangesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetworkservicesMulticastGroupRanges
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkServicesMulticastGroupRangesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMulticastGroupRangesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworkservicesMulticastGroupRanges
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkServicesMulticastGroupRangesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMulticastGroupRangesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetworkservicesMulticastGroupRanges
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkServicesMulticastGroupRangesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkServicesMulticastGroupRangesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangesUpdateOptions(), executionOptions, cancellationToken);

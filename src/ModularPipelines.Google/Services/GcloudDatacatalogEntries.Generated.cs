@@ -39,8 +39,8 @@ public class GcloudDatacatalogEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDataCatalogEntriesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntriesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDatacatalogEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataCatalogEntriesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntriesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDatacatalogEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataCatalogEntriesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntriesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudDatacatalogEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataCatalogEntriesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntriesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesListOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudDatacatalogEntries
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lookup(
         GcloudDataCatalogEntriesLookupOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudDatacatalogEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Star(
-        GcloudDataCatalogEntriesStarOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntriesStarOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesStarOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudDatacatalogEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unstar(
-        GcloudDataCatalogEntriesUnstarOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataCatalogEntriesUnstarOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesUnstarOptions(), executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudDatacatalogEntries
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudDataCatalogEntriesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

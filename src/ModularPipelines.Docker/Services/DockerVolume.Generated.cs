@@ -39,8 +39,8 @@ public class DockerVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DockerVolumeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerVolumeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerVolumeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class DockerVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        DockerVolumeCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerVolumeCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerVolumeCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class DockerVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        DockerVolumeInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerVolumeInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerVolumeInspectOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class DockerVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        DockerVolumeLsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerVolumeLsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerVolumeLsOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class DockerVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        DockerVolumePruneOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerVolumePruneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerVolumePruneOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class DockerVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        DockerVolumeRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerVolumeRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerVolumeRmOptions(), executionOptions, cancellationToken);

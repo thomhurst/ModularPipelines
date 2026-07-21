@@ -39,8 +39,8 @@ public class GcloudServiceextensionsLbRouteExtensions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudServiceExtensionsLbRouteExtensionsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceExtensionsLbRouteExtensionsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbRouteExtensionsDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudServiceextensionsLbRouteExtensions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudServiceExtensionsLbRouteExtensionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceExtensionsLbRouteExtensionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbRouteExtensionsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudServiceextensionsLbRouteExtensions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudServiceExtensionsLbRouteExtensionsImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceExtensionsLbRouteExtensionsImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbRouteExtensionsImportOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudServiceextensionsLbRouteExtensions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudServiceExtensionsLbRouteExtensionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceExtensionsLbRouteExtensionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbRouteExtensionsListOptions(), executionOptions, cancellationToken);

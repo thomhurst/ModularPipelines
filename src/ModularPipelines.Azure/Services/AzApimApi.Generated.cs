@@ -67,8 +67,8 @@ public class AzApimApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzApimApiCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApiCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiCreateOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzApimApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzApimApiDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApiDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiDeleteOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzApimApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        AzApimApiExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApiExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiExportOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzApimApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        AzApimApiImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApiImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiImportOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzApimApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzApimApiListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApiListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiListOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class AzApimApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzApimApiUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimApiUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiUpdateOptions(), executionOptions, cancellationToken);

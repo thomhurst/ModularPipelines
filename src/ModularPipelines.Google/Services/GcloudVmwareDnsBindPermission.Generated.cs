@@ -39,8 +39,8 @@ public class GcloudVmwareDnsBindPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVmwareDnsBindPermissionDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwareDnsBindPermissionDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDnsBindPermissionDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudVmwareDnsBindPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Grant(
-        GcloudVmwareDnsBindPermissionGrantOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwareDnsBindPermissionGrantOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDnsBindPermissionGrantOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudVmwareDnsBindPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Revoke(
-        GcloudVmwareDnsBindPermissionRevokeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwareDnsBindPermissionRevokeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDnsBindPermissionRevokeOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class FluxTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxTriggerOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxTriggerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxTriggerOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class FluxTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Receiver(
-        FluxTriggerReceiverOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxTriggerReceiverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxTriggerReceiverOptions(), executionOptions, cancellationToken);

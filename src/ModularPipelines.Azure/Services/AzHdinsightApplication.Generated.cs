@@ -39,8 +39,8 @@ public class AzHdinsightApplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzHdinsightApplicationCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzHdinsightApplicationCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightApplicationCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzHdinsightApplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzHdinsightApplicationDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzHdinsightApplicationDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightApplicationDeleteOptions(), executionOptions, cancellationToken);

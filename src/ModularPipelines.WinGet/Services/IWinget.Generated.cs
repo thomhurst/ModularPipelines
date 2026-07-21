@@ -27,7 +27,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Configure(WingetConfigureOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Configure(WingetConfigureOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Downloads the installer from the selected package, either found by searching a configured source or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option. By default, download command will download the appropriate installer to the user's Downloads folder.
@@ -36,7 +36,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Download(WingetDownloadOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Download(WingetDownloadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The sub-commands here implement Desired State Configuration (DSC) v3 resources for configuring winget and packages.
@@ -45,7 +45,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Dscv3(WingetDscv3Options options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Dscv3(WingetDscv3Options? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Writes a list of the installed packages to a file. The packages can then be installed with the import command.
@@ -54,7 +54,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Export(WingetExportOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Export(WingetExportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Shows the status of experimental features. Experimental features can be turned on via 'winget settings'.
@@ -63,7 +63,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Features(WingetFeaturesOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Features(WingetFeaturesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Computes the hash of a local file, appropriate for entry into a manifest.  It can also compute the hash of the signature file of an MSIX package to enable streaming installations.
@@ -72,7 +72,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Hash(WingetHashOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Hash(WingetHashOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Installs all the packages listed in a file.
@@ -81,7 +81,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Import(WingetImportOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Import(WingetImportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Installs the selected package, either found by searching a configured source or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option. By default, install command will check package installed status and try to perform an upgrade if applicable. Override with --force to perform a direct install.
@@ -90,7 +90,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Install(WingetInstallOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Install(WingetInstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The list command displays the packages installed on the system, as well as whether an upgrade is available. Additional options can be provided to filter the output, much like the search command.
@@ -99,7 +99,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> List(WingetListOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> List(WingetListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Manage package pins with the sub-commands. A pin can limit the Windows Package Manager from upgrading a package to specific ranges of versions, or it can prevent it from upgrading the package altogether. A pinned package may still upgrade on its own and be upgraded from outside the Windows Package Manager.
@@ -108,7 +108,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Pin(WingetPinOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Pin(WingetPinOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Repairs the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
@@ -117,7 +117,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Repair(WingetRepairOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Repair(WingetRepairOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for packages from configured sources.
@@ -126,7 +126,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Search(WingetSearchOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Search(WingetSearchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Open settings in the default json text editor. If no editor is configured, opens settings in notepad. For available settings see https://aka.ms/winget-settings This command can also be used to set administrator settings by providing the --enable or --disable arguments
@@ -135,7 +135,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Settings(WingetSettingsOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Settings(WingetSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Shows information on a specific package. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
@@ -144,7 +144,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Show(WingetShowOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Show(WingetShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Manage sources with the sub-commands. A source provides the data for you to discover and install packages. Only add a new source if you trust it as a secure location.
@@ -153,7 +153,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Source(WingetSourceOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Source(WingetSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uninstalls the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
@@ -162,7 +162,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Uninstall(WingetUninstallOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Uninstall(WingetUninstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Upgrades the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option. When no arguments are given, shows the packages with upgrades available
@@ -171,7 +171,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Upgrade(WingetUpgradeOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Upgrade(WingetUpgradeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Validates a manifest using a strict set of guidelines. This is intended to enable you to check your manifest before submitting to a repo.
@@ -180,7 +180,7 @@ public partial interface IWinget
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Validate(WingetValidateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Validate(WingetValidateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

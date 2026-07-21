@@ -39,8 +39,8 @@ public class GcloudBiglakeIcebergTables
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBiglakeIcebergTablesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergTablesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergTablesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBiglakeIcebergTables
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBiglakeIcebergTablesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergTablesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergTablesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudBiglakeIcebergTables
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBiglakeIcebergTablesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergTablesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergTablesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudBiglakeIcebergTables
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudBiglakeIcebergTablesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergTablesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergTablesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudBiglakeIcebergTables
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBiglakeIcebergTablesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergTablesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergTablesListOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudBiglakeIcebergTables
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Register(
-        GcloudBiglakeIcebergTablesRegisterOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergTablesRegisterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergTablesRegisterOptions(), executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudBiglakeIcebergTables
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudBiglakeIcebergTablesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudBiglakeIcebergTables
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBiglakeIcebergTablesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBiglakeIcebergTablesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBiglakeIcebergTablesUpdateOptions(), executionOptions, cancellationToken);

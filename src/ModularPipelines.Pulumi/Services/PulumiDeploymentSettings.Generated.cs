@@ -39,8 +39,8 @@ public class PulumiDeploymentSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Edit(
-        PulumiDeploymentSettingsEditOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiDeploymentSettingsEditOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiDeploymentSettingsEditOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PulumiDeploymentSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        PulumiDeploymentSettingsGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiDeploymentSettingsGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiDeploymentSettingsGetOptions(), executionOptions, cancellationToken);

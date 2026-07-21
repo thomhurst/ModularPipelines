@@ -39,8 +39,8 @@ public class HelmRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        HelmRegistryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmRegistryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmRegistryOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class HelmRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Login(
-        HelmRegistryLoginOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmRegistryLoginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmRegistryLoginOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class HelmRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Logout(
-        HelmRegistryLogoutOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmRegistryLogoutOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmRegistryLogoutOptions(), executionOptions, cancellationToken);

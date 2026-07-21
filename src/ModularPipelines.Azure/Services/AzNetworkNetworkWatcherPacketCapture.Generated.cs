@@ -39,8 +39,8 @@ public class AzNetworkNetworkWatcherPacketCapture
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkNetworkWatcherPacketCaptureCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNetworkWatcherPacketCaptureCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNetworkWatcherPacketCaptureCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkNetworkWatcherPacketCapture
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkNetworkWatcherPacketCaptureDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNetworkWatcherPacketCaptureDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNetworkWatcherPacketCaptureDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkNetworkWatcherPacketCapture
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> QueryStatus(
-        AzNetworkNetworkWatcherPacketCaptureQueryStatusOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNetworkWatcherPacketCaptureQueryStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNetworkWatcherPacketCaptureQueryStatusOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzNetworkNetworkWatcherPacketCapture
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzNetworkNetworkWatcherPacketCaptureStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNetworkWatcherPacketCaptureStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNetworkWatcherPacketCaptureStopOptions(), executionOptions, cancellationToken);

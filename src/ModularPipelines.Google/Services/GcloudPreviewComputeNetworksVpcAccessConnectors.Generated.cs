@@ -39,8 +39,8 @@ public class GcloudPreviewComputeNetworksVpcAccessConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudPreviewComputeNetworksVpcAccessConnectorsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeNetworksVpcAccessConnectorsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeNetworksVpcAccessConnectorsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudPreviewComputeNetworksVpcAccessConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudPreviewComputeNetworksVpcAccessConnectorsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeNetworksVpcAccessConnectorsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeNetworksVpcAccessConnectorsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudPreviewComputeNetworksVpcAccessConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudPreviewComputeNetworksVpcAccessConnectorsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeNetworksVpcAccessConnectorsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeNetworksVpcAccessConnectorsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudPreviewComputeNetworksVpcAccessConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeNetworksVpcAccessConnectorsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeNetworksVpcAccessConnectorsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeNetworksVpcAccessConnectorsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudPreviewComputeNetworksVpcAccessConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudPreviewComputeNetworksVpcAccessConnectorsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeNetworksVpcAccessConnectorsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeNetworksVpcAccessConnectorsUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzSynapseWorkspaceManagedIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GrantSqlAccess(
-        AzSynapseWorkspaceManagedIdentityGrantSqlAccessOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseWorkspaceManagedIdentityGrantSqlAccessOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityGrantSqlAccessOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapseWorkspaceManagedIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RevokeSqlAccess(
-        AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions(), executionOptions, cancellationToken);

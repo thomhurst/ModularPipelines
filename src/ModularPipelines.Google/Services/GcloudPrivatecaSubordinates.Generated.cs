@@ -40,7 +40,7 @@ public class GcloudPrivatecaSubordinates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Activate(
         GcloudPrivatecaSubordinatesActivateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudPrivatecaSubordinates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudPrivatecaSubordinatesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPrivatecaSubordinatesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesCreateOptions(), executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPrivatecaSubordinates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPrivatecaSubordinatesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudPrivatecaSubordinates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPrivatecaSubordinatesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudPrivatecaSubordinates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
         GcloudPrivatecaSubordinatesDisableOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudPrivatecaSubordinates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
         GcloudPrivatecaSubordinatesEnableOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudPrivatecaSubordinates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCsr(
         GcloudPrivatecaSubordinatesGetCsrOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudPrivatecaSubordinates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPrivatecaSubordinatesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPrivatecaSubordinatesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesListOptions(), executionOptions, cancellationToken);
@@ -160,7 +160,7 @@ public class GcloudPrivatecaSubordinates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
         GcloudPrivatecaSubordinatesUndeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -175,7 +175,7 @@ public class GcloudPrivatecaSubordinates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPrivatecaSubordinatesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

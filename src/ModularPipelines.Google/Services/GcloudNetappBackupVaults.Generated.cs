@@ -49,8 +49,8 @@ public class GcloudNetappBackupVaults
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetappBackupVaultsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappBackupVaultsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappBackupVaultsCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudNetappBackupVaults
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetappBackupVaultsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappBackupVaultsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappBackupVaultsDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudNetappBackupVaults
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetappBackupVaultsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappBackupVaultsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappBackupVaultsDescribeOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudNetappBackupVaults
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetappBackupVaultsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappBackupVaultsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappBackupVaultsListOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudNetappBackupVaults
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetappBackupVaultsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappBackupVaultsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappBackupVaultsUpdateOptions(), executionOptions, cancellationToken);

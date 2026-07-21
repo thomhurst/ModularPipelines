@@ -67,8 +67,8 @@ public class GcloudLooker
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudLookerOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLookerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLookerOptions(), executionOptions, cancellationToken);

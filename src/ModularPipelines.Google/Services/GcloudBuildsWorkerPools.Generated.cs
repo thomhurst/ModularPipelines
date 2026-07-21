@@ -40,7 +40,7 @@ public class GcloudBuildsWorkerPools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudBuildsWorkerPoolsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudBuildsWorkerPools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudBuildsWorkerPoolsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudBuildsWorkerPools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudBuildsWorkerPoolsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudBuildsWorkerPools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBuildsWorkerPoolsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsWorkerPoolsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsWorkerPoolsListOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudBuildsWorkerPools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudBuildsWorkerPoolsUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

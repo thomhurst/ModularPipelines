@@ -49,8 +49,8 @@ public class GcloudMonitoringPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudMonitoringPoliciesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringPoliciesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringPoliciesCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudMonitoringPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudMonitoringPoliciesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringPoliciesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringPoliciesDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudMonitoringPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudMonitoringPoliciesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringPoliciesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringPoliciesDescribeOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudMonitoringPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudMonitoringPoliciesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringPoliciesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringPoliciesListOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudMonitoringPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Migrate(
-        GcloudMonitoringPoliciesMigrateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringPoliciesMigrateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringPoliciesMigrateOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GcloudMonitoringPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudMonitoringPoliciesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringPoliciesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringPoliciesUpdateOptions(), executionOptions, cancellationToken);

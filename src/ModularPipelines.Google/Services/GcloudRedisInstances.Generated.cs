@@ -39,8 +39,8 @@ public class GcloudRedisInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudRedisInstancesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisInstancesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudRedisInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudRedisInstancesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisInstancesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudRedisInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudRedisInstancesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisInstancesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesDescribeOptions(), executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudRedisInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudRedisInstancesExportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudRedisInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Failover(
-        GcloudRedisInstancesFailoverOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisInstancesFailoverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesFailoverOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudRedisInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAuthString(
-        GcloudRedisInstancesGetAuthStringOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisInstancesGetAuthStringOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesGetAuthStringOptions(), executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudRedisInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudRedisInstancesImportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudRedisInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudRedisInstancesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisInstancesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesListOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudRedisInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RescheduleMaintenance(
-        GcloudRedisInstancesRescheduleMaintenanceOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisInstancesRescheduleMaintenanceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesRescheduleMaintenanceOptions(), executionOptions, cancellationToken);
@@ -174,8 +174,8 @@ public class GcloudRedisInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudRedisInstancesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisInstancesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesUpdateOptions(), executionOptions, cancellationToken);
@@ -189,8 +189,8 @@ public class GcloudRedisInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upgrade(
-        GcloudRedisInstancesUpgradeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisInstancesUpgradeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesUpgradeOptions(), executionOptions, cancellationToken);

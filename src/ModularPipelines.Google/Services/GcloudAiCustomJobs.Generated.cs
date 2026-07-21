@@ -39,8 +39,8 @@ public class GcloudAiCustomJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudAiCustomJobsCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiCustomJobsCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiCustomJobsCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudAiCustomJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAiCustomJobsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiCustomJobsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiCustomJobsCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudAiCustomJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAiCustomJobsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiCustomJobsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiCustomJobsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudAiCustomJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAiCustomJobsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiCustomJobsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiCustomJobsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudAiCustomJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> LocalRun(
-        GcloudAiCustomJobsLocalRunOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiCustomJobsLocalRunOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiCustomJobsLocalRunOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudAiCustomJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StreamLogs(
-        GcloudAiCustomJobsStreamLogsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiCustomJobsStreamLogsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiCustomJobsStreamLogsOptions(), executionOptions, cancellationToken);

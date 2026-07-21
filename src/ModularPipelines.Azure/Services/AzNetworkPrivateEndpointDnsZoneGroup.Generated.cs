@@ -39,8 +39,8 @@ public class AzNetworkPrivateEndpointDnsZoneGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkPrivateEndpointDnsZoneGroupAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkPrivateEndpointDnsZoneGroupAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointDnsZoneGroupAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkPrivateEndpointDnsZoneGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkPrivateEndpointDnsZoneGroupCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkPrivateEndpointDnsZoneGroupCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointDnsZoneGroupCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkPrivateEndpointDnsZoneGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkPrivateEndpointDnsZoneGroupDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkPrivateEndpointDnsZoneGroupDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointDnsZoneGroupDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzNetworkPrivateEndpointDnsZoneGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetworkPrivateEndpointDnsZoneGroupRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkPrivateEndpointDnsZoneGroupRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointDnsZoneGroupRemoveOptions(), executionOptions, cancellationToken);

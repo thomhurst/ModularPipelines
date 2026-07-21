@@ -39,8 +39,8 @@ public class GcloudDeveloperconnectInsightsConfigsDeploymentEvents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDeveloperConnectInsightsConfigsDeploymentEventsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeveloperConnectInsightsConfigsDeploymentEventsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectInsightsConfigsDeploymentEventsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDeveloperconnectInsightsConfigsDeploymentEvents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDeveloperConnectInsightsConfigsDeploymentEventsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeveloperConnectInsightsConfigsDeploymentEventsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectInsightsConfigsDeploymentEventsListOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzVmUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzVmUserDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmUserDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmUserDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzVmUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetSsh(
-        AzVmUserResetSshOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmUserResetSshOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmUserResetSshOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzVmUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzVmUserUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmUserUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmUserUpdateOptions(), executionOptions, cancellationToken);

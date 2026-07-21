@@ -39,8 +39,8 @@ public class GcloudCompliancemanagerCloudControlDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComplianceManagerCloudControlDeploymentsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComplianceManagerCloudControlDeploymentsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerCloudControlDeploymentsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudCompliancemanagerCloudControlDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComplianceManagerCloudControlDeploymentsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComplianceManagerCloudControlDeploymentsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerCloudControlDeploymentsListOptions(), executionOptions, cancellationToken);

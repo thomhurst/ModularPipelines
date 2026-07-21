@@ -39,8 +39,8 @@ public class GcloudMemorystoreAclPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudMemorystoreAclPoliciesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMemorystoreAclPoliciesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreAclPoliciesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudMemorystoreAclPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudMemorystoreAclPoliciesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMemorystoreAclPoliciesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreAclPoliciesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudMemorystoreAclPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudMemorystoreAclPoliciesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMemorystoreAclPoliciesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreAclPoliciesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudMemorystoreAclPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudMemorystoreAclPoliciesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMemorystoreAclPoliciesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreAclPoliciesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudMemorystoreAclPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudMemorystoreAclPoliciesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMemorystoreAclPoliciesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreAclPoliciesUpdateOptions(), executionOptions, cancellationToken);

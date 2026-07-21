@@ -39,8 +39,8 @@ public class AzNetappfilesSnapshotPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetappfilesSnapshotPolicyDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesSnapshotPolicyDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotPolicyDeleteOptions(), executionOptions, cancellationToken);

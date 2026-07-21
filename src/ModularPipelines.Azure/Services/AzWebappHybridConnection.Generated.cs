@@ -39,8 +39,8 @@ public class AzWebappHybridConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzWebappHybridConnectionAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappHybridConnectionAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappHybridConnectionAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzWebappHybridConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzWebappHybridConnectionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappHybridConnectionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappHybridConnectionListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzWebappHybridConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzWebappHybridConnectionRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappHybridConnectionRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappHybridConnectionRemoveOptions(), executionOptions, cancellationToken);

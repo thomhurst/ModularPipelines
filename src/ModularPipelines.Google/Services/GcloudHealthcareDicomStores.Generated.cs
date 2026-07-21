@@ -55,8 +55,8 @@ public class GcloudHealthcareDicomStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudHealthcareDicomStoresAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDicomStoresAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class GcloudHealthcareDicomStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudHealthcareDicomStoresCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDicomStoresCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresCreateOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class GcloudHealthcareDicomStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deidentify(
-        GcloudHealthcareDicomStoresDeidentifyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDicomStoresDeidentifyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresDeidentifyOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class GcloudHealthcareDicomStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudHealthcareDicomStoresDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDicomStoresDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresDeleteOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class GcloudHealthcareDicomStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudHealthcareDicomStoresDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDicomStoresDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresDescribeOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class GcloudHealthcareDicomStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudHealthcareDicomStoresGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDicomStoresGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ public class GcloudHealthcareDicomStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudHealthcareDicomStoresListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDicomStoresListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresListOptions(), executionOptions, cancellationToken);
@@ -160,8 +160,8 @@ public class GcloudHealthcareDicomStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Metrics(
-        GcloudHealthcareDicomStoresMetricsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDicomStoresMetricsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresMetricsOptions(), executionOptions, cancellationToken);
@@ -175,8 +175,8 @@ public class GcloudHealthcareDicomStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudHealthcareDicomStoresRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDicomStoresRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -191,7 +191,7 @@ public class GcloudHealthcareDicomStores
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudHealthcareDicomStoresSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -205,8 +205,8 @@ public class GcloudHealthcareDicomStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudHealthcareDicomStoresUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDicomStoresUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresUpdateOptions(), executionOptions, cancellationToken);

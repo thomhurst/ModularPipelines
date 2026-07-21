@@ -39,8 +39,8 @@ public class HelmDependency
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        HelmDependencyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmDependencyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmDependencyOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class HelmDependency
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
-        HelmDependencyBuildOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmDependencyBuildOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmDependencyBuildOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class HelmDependency
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        HelmDependencyListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmDependencyListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmDependencyListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class HelmDependency
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        HelmDependencyUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmDependencyUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmDependencyUpdateOptions(), executionOptions, cancellationToken);

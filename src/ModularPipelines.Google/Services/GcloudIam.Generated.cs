@@ -97,8 +97,8 @@ public class GcloudIam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudIamOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOptions(), executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudIam
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListGrantableRoles(
         GcloudIamListGrantableRolesOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudIam
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTestablePermissions(
         GcloudIamListTestablePermissionsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

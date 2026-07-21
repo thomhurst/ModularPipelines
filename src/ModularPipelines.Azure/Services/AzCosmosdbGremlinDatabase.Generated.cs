@@ -49,8 +49,8 @@ public class AzCosmosdbGremlinDatabase
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbGremlinDatabaseCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbGremlinDatabaseCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbGremlinDatabaseCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzCosmosdbGremlinDatabase
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbGremlinDatabaseDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbGremlinDatabaseDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbGremlinDatabaseDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzCosmosdbGremlinDatabase
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzCosmosdbGremlinDatabaseRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbGremlinDatabaseRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbGremlinDatabaseRestoreOptions(), executionOptions, cancellationToken);

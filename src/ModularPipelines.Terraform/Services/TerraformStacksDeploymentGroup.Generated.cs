@@ -39,8 +39,8 @@ public class TerraformStacksDeploymentGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ApproveAllPlans(
-        TerraformStacksDeploymentGroupApproveAllPlansOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksDeploymentGroupApproveAllPlansOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksDeploymentGroupApproveAllPlansOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class TerraformStacksDeploymentGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        TerraformStacksDeploymentGroupListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksDeploymentGroupListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksDeploymentGroupListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class TerraformStacksDeploymentGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rerun(
-        TerraformStacksDeploymentGroupRerunOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksDeploymentGroupRerunOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksDeploymentGroupRerunOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class TerraformStacksDeploymentGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        TerraformStacksDeploymentGroupShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksDeploymentGroupShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksDeploymentGroupShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class TerraformStacksDeploymentGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Watch(
-        TerraformStacksDeploymentGroupWatchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksDeploymentGroupWatchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksDeploymentGroupWatchOptions(), executionOptions, cancellationToken);

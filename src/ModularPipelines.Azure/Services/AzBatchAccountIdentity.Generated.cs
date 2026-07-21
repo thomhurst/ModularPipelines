@@ -39,8 +39,8 @@ public class AzBatchAccountIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzBatchAccountIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchAccountIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchAccountIdentityRemoveOptions(), executionOptions, cancellationToken);

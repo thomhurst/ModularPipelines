@@ -39,8 +39,8 @@ public class GrypeDbSearch
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Vuln(
-        GrypeDbSearchVulnOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GrypeDbSearchVulnOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GrypeDbSearchVulnOptions(), executionOptions, cancellationToken);

@@ -40,7 +40,7 @@ public class GcloudPreviewComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddMapping(
         GcloudPreviewComputeInterconnectsAttachmentsL2ForwardingAddMappingOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeInterconnectsAttachmentsL2ForwardingCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeMapping(
         GcloudPreviewComputeInterconnectsAttachmentsL2ForwardingDescribeMappingOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudPreviewComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMapping(
         GcloudPreviewComputeInterconnectsAttachmentsL2ForwardingListMappingOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudPreviewComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveMapping(
         GcloudPreviewComputeInterconnectsAttachmentsL2ForwardingRemoveMappingOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudPreviewComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateMapping(
         GcloudPreviewComputeInterconnectsAttachmentsL2ForwardingUpdateMappingOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudPreviewComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPreviewComputeInterconnectsAttachmentsL2ForwardingUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

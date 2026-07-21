@@ -74,8 +74,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Create(
-        HelmCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmCreateOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Env(
-        HelmEnvOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmEnvOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmEnvOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> History(
-        HelmHistoryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmHistoryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmHistoryOptions(), executionOptions, cancellationToken);
@@ -101,8 +101,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Install(
-        HelmInstallOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmInstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmInstallOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Lint(
-        HelmLintOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmLintOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmLintOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> List(
-        HelmListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmListOptions(), executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Package(
-        HelmPackageOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmPackageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmPackageOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Pull(
-        HelmPullOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmPullOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmPullOptions(), executionOptions, cancellationToken);
@@ -146,8 +146,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Push(
-        HelmPushOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmPushOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmPushOptions(), executionOptions, cancellationToken);
@@ -156,7 +156,7 @@ internal partial class Helm : IHelm
     /// <inheritdoc />
     public virtual async Task<CommandResult> Rollback(
         HelmRollbackOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -164,8 +164,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Status(
-        HelmStatusOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmStatusOptions(), executionOptions, cancellationToken);
@@ -173,8 +173,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Template(
-        HelmTemplateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmTemplateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmTemplateOptions(), executionOptions, cancellationToken);
@@ -182,8 +182,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Test(
-        HelmTestOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmTestOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmTestOptions(), executionOptions, cancellationToken);
@@ -191,8 +191,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Uninstall(
-        HelmUninstallOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmUninstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmUninstallOptions(), executionOptions, cancellationToken);
@@ -200,8 +200,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Upgrade(
-        HelmUpgradeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmUpgradeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmUpgradeOptions(), executionOptions, cancellationToken);
@@ -209,8 +209,8 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Verify(
-        HelmVerifyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmVerifyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmVerifyOptions(), executionOptions, cancellationToken);

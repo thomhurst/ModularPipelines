@@ -39,8 +39,8 @@ public class AzDataboxedgeOrder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDataboxedgeOrderCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeOrderCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeOrderCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzDataboxedgeOrder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDataboxedgeOrderDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeOrderDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeOrderDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzDataboxedgeOrder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDataboxedgeOrderUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeOrderUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeOrderUpdateOptions(), executionOptions, cancellationToken);

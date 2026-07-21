@@ -39,8 +39,8 @@ public class AzNetworkVnetGatewayIpsecPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkVnetGatewayIpsecPolicyAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVnetGatewayIpsecPolicyAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayIpsecPolicyAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkVnetGatewayIpsecPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clear(
-        AzNetworkVnetGatewayIpsecPolicyClearOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVnetGatewayIpsecPolicyClearOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayIpsecPolicyClearOptions(), executionOptions, cancellationToken);

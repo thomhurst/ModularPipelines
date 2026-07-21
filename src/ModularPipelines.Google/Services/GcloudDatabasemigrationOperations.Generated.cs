@@ -39,8 +39,8 @@ public class GcloudDatabasemigrationOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDatabaseMigrationOperationsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatabaseMigrationOperationsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationOperationsDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDatabasemigrationOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDatabaseMigrationOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatabaseMigrationOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDatabasemigrationOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDatabaseMigrationOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatabaseMigrationOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationOperationsListOptions(), executionOptions, cancellationToken);

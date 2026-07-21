@@ -39,8 +39,8 @@ public class AzSfManagedNodeTypeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSfManagedNodeTypeNodeDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfManagedNodeTypeNodeDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedNodeTypeNodeDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSfManagedNodeTypeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reimage(
-        AzSfManagedNodeTypeNodeReimageOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfManagedNodeTypeNodeReimageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedNodeTypeNodeReimageOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSfManagedNodeTypeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        AzSfManagedNodeTypeNodeRestartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfManagedNodeTypeNodeRestartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedNodeTypeNodeRestartOptions(), executionOptions, cancellationToken);

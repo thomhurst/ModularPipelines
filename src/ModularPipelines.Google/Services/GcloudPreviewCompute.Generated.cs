@@ -439,8 +439,8 @@ public class GcloudPreviewCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigSsh(
-        GcloudPreviewComputeConfigSshOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeConfigSshOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeConfigSshOptions(), executionOptions, cancellationToken);
@@ -454,8 +454,8 @@ public class GcloudPreviewCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConnectToSerialPort(
-        GcloudPreviewComputeConnectToSerialPortOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeConnectToSerialPortOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeConnectToSerialPortOptions(), executionOptions, cancellationToken);
@@ -469,8 +469,8 @@ public class GcloudPreviewCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyFiles(
-        GcloudPreviewComputeCopyFilesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeCopyFilesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeCopyFilesOptions(), executionOptions, cancellationToken);
@@ -485,7 +485,7 @@ public class GcloudPreviewCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetWindowsPassword(
         GcloudPreviewComputeResetWindowsPasswordOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -499,8 +499,8 @@ public class GcloudPreviewCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scp(
-        GcloudPreviewComputeScpOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeScpOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeScpOptions(), executionOptions, cancellationToken);
@@ -515,7 +515,7 @@ public class GcloudPreviewCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SignUrl(
         GcloudPreviewComputeSignUrlOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -529,8 +529,8 @@ public class GcloudPreviewCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ssh(
-        GcloudPreviewComputeSshOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeSshOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeSshOptions(), executionOptions, cancellationToken);
@@ -545,7 +545,7 @@ public class GcloudPreviewCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartIapTunnel(
         GcloudPreviewComputeStartIapTunnelOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

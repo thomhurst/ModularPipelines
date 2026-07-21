@@ -39,8 +39,8 @@ public class AzSigShare
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzSigShareAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSigShareAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigShareAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSigShare
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableCommunity(
-        AzSigShareEnableCommunityOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSigShareEnableCommunityOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigShareEnableCommunityOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSigShare
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzSigShareRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSigShareRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigShareRemoveOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzSigShare
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzSigShareResetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSigShareResetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigShareResetOptions(), executionOptions, cancellationToken);

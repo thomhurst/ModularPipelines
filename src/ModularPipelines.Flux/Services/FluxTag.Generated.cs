@@ -39,8 +39,8 @@ public class FluxTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxTagOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxTagOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxTagOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class FluxTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Artifact(
-        FluxTagArtifactOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxTagArtifactOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxTagArtifactOptions(), executionOptions, cancellationToken);

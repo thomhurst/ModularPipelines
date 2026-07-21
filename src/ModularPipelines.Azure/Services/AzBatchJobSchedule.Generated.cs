@@ -39,8 +39,8 @@ public class AzBatchJobSchedule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBatchJobScheduleCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchJobScheduleCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobScheduleCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzBatchJobSchedule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBatchJobScheduleDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchJobScheduleDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobScheduleDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzBatchJobSchedule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzBatchJobScheduleResetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchJobScheduleResetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobScheduleResetOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzBatchJobSchedule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzBatchJobScheduleSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchJobScheduleSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobScheduleSetOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzStackSub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStackSubCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStackSubCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStackSubCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStackSub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStackSubDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStackSubDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStackSubDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzStackSub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        AzStackSubExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStackSubExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStackSubExportOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzStackSub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStackSubShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStackSubShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStackSubShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzStackSub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Validate(
-        AzStackSubValidateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStackSubValidateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStackSubValidateOptions(), executionOptions, cancellationToken);

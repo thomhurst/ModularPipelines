@@ -39,8 +39,8 @@ public class AzNetworkApplicationGatewayRootCert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkApplicationGatewayRootCertCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkApplicationGatewayRootCertCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRootCertCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkApplicationGatewayRootCert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkApplicationGatewayRootCertDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkApplicationGatewayRootCertDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRootCertDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkApplicationGatewayRootCert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkApplicationGatewayRootCertUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkApplicationGatewayRootCertUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRootCertUpdateOptions(), executionOptions, cancellationToken);

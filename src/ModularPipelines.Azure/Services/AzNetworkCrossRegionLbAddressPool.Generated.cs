@@ -49,8 +49,8 @@ public class AzNetworkCrossRegionLbAddressPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkCrossRegionLbAddressPoolCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCrossRegionLbAddressPoolCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzNetworkCrossRegionLbAddressPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkCrossRegionLbAddressPoolDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCrossRegionLbAddressPoolDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzNetworkCrossRegionLbAddressPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkCrossRegionLbAddressPoolUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCrossRegionLbAddressPoolUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolUpdateOptions(), executionOptions, cancellationToken);

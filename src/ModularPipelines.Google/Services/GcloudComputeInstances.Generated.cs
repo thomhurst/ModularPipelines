@@ -68,7 +68,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddAccessConfig(
         GcloudComputeInstancesAddAccessConfigOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComputeInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudComputeInstancesAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeInstancesAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddLabels(
         GcloudComputeInstancesAddLabelsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddMetadata(
         GcloudComputeInstancesAddMetadataOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddResourcePolicies(
         GcloudComputeInstancesAddResourcePoliciesOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddTags(
         GcloudComputeInstancesAddTagsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -158,7 +158,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AttachDisk(
         GcloudComputeInstancesAttachDiskOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -173,7 +173,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeInstancesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -188,7 +188,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWithContainer(
         GcloudComputeInstancesCreateWithContainerOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -203,7 +203,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAccessConfig(
         GcloudComputeInstancesDeleteAccessConfigOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -218,7 +218,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeInstancesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -233,7 +233,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeInstancesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -248,7 +248,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachDisk(
         GcloudComputeInstancesDetachDiskOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -262,8 +262,8 @@ public class GcloudComputeInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudComputeInstancesExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeInstancesExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesExportOptions(), executionOptions, cancellationToken);
@@ -277,8 +277,8 @@ public class GcloudComputeInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetGuestAttributes(
-        GcloudComputeInstancesGetGuestAttributesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeInstancesGetGuestAttributesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesGetGuestAttributesOptions(), executionOptions, cancellationToken);
@@ -292,8 +292,8 @@ public class GcloudComputeInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudComputeInstancesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeInstancesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -308,7 +308,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetScreenshot(
         GcloudComputeInstancesGetScreenshotOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -323,7 +323,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSerialPortOutput(
         GcloudComputeInstancesGetSerialPortOutputOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -338,7 +338,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetShieldedIdentity(
         GcloudComputeInstancesGetShieldedIdentityOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -353,7 +353,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudComputeInstancesImportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -367,8 +367,8 @@ public class GcloudComputeInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeInstancesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeInstancesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesListOptions(), executionOptions, cancellationToken);
@@ -383,7 +383,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListReferrers(
         GcloudComputeInstancesListReferrersOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -398,7 +398,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PerformMaintenance(
         GcloudComputeInstancesPerformMaintenanceOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -412,8 +412,8 @@ public class GcloudComputeInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudComputeInstancesRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeInstancesRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -428,7 +428,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveLabels(
         GcloudComputeInstancesRemoveLabelsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -443,7 +443,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveMetadata(
         GcloudComputeInstancesRemoveMetadataOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -458,7 +458,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveResourcePolicies(
         GcloudComputeInstancesRemoveResourcePoliciesOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -473,7 +473,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveTags(
         GcloudComputeInstancesRemoveTagsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -488,7 +488,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReportHostAsFaulty(
         GcloudComputeInstancesReportHostAsFaultyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -503,7 +503,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
         GcloudComputeInstancesResetOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -518,7 +518,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resume(
         GcloudComputeInstancesResumeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -533,7 +533,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendDiagnosticInterrupt(
         GcloudComputeInstancesSendDiagnosticInterruptOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -548,7 +548,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetDiskAutoDelete(
         GcloudComputeInstancesSetDiskAutoDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -563,7 +563,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudComputeInstancesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -578,7 +578,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetMachineResources(
         GcloudComputeInstancesSetMachineResourcesOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -593,7 +593,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetMachineType(
         GcloudComputeInstancesSetMachineTypeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -608,7 +608,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetName(
         GcloudComputeInstancesSetNameOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -623,7 +623,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetScheduling(
         GcloudComputeInstancesSetSchedulingOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -638,7 +638,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetServiceAccount(
         GcloudComputeInstancesSetServiceAccountOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -653,7 +653,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SimulateMaintenanceEvent(
         GcloudComputeInstancesSimulateMaintenanceEventOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -668,7 +668,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
         GcloudComputeInstancesStartOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -683,7 +683,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
         GcloudComputeInstancesStopOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -698,7 +698,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Suspend(
         GcloudComputeInstancesSuspendOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -713,7 +713,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TailSerialPortOutput(
         GcloudComputeInstancesTailSerialPortOutputOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -728,7 +728,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAccessConfig(
         GcloudComputeInstancesUpdateAccessConfigOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -743,7 +743,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateContainer(
         GcloudComputeInstancesUpdateContainerOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -758,7 +758,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateFromFile(
         GcloudComputeInstancesUpdateFromFileOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -773,7 +773,7 @@ public class GcloudComputeInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeInstancesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -49,8 +49,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDataprocWorkflowTemplatesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataprocWorkflowTemplatesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataprocWorkflowTemplatesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesDescribeOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudDataprocWorkflowTemplatesExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesExportOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudDataprocWorkflowTemplatesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudDataprocWorkflowTemplatesImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesImportOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InstantiateFromFile(
-        GcloudDataprocWorkflowTemplatesInstantiateFromFileOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesInstantiateFromFileOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesInstantiateFromFileOptions(), executionOptions, cancellationToken);
@@ -154,8 +154,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Instantiate(
-        GcloudDataprocWorkflowTemplatesInstantiateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesInstantiateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesInstantiateOptions(), executionOptions, cancellationToken);
@@ -169,8 +169,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataprocWorkflowTemplatesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesListOptions(), executionOptions, cancellationToken);
@@ -184,8 +184,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveDagTimeout(
-        GcloudDataprocWorkflowTemplatesRemoveDagTimeoutOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesRemoveDagTimeoutOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesRemoveDagTimeoutOptions(), executionOptions, cancellationToken);
@@ -199,8 +199,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveJob(
-        GcloudDataprocWorkflowTemplatesRemoveJobOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesRemoveJobOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesRemoveJobOptions(), executionOptions, cancellationToken);
@@ -214,8 +214,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetClusterSelector(
-        GcloudDataprocWorkflowTemplatesSetClusterSelectorOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesSetClusterSelectorOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesSetClusterSelectorOptions(), executionOptions, cancellationToken);
@@ -229,8 +229,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetDagTimeout(
-        GcloudDataprocWorkflowTemplatesSetDagTimeoutOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesSetDagTimeoutOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesSetDagTimeoutOptions(), executionOptions, cancellationToken);
@@ -245,7 +245,7 @@ public class GcloudDataprocWorkflowTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDataprocWorkflowTemplatesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -259,8 +259,8 @@ public class GcloudDataprocWorkflowTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetManagedCluster(
-        GcloudDataprocWorkflowTemplatesSetManagedClusterOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocWorkflowTemplatesSetManagedClusterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesSetManagedClusterOptions(), executionOptions, cancellationToken);

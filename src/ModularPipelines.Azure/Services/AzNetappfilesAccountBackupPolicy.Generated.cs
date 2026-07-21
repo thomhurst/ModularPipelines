@@ -39,8 +39,8 @@ public class AzNetappfilesAccountBackupPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetappfilesAccountBackupPolicyCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesAccountBackupPolicyCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupPolicyCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetappfilesAccountBackupPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetappfilesAccountBackupPolicyDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesAccountBackupPolicyDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupPolicyDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetappfilesAccountBackupPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetappfilesAccountBackupPolicyUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesAccountBackupPolicyUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupPolicyUpdateOptions(), executionOptions, cancellationToken);

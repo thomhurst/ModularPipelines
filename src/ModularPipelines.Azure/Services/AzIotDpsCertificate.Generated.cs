@@ -39,8 +39,8 @@ public class AzIotDpsCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzIotDpsCertificateCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsCertificateCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsCertificateCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzIotDpsCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzIotDpsCertificateDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsCertificateDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsCertificateDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzIotDpsCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateVerificationCode(
-        AzIotDpsCertificateGenerateVerificationCodeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsCertificateGenerateVerificationCodeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsCertificateGenerateVerificationCodeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzIotDpsCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzIotDpsCertificateListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsCertificateListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsCertificateListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzIotDpsCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzIotDpsCertificateShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsCertificateShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsCertificateShowOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzIotDpsCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzIotDpsCertificateUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsCertificateUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsCertificateUpdateOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class AzIotDpsCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Verify(
-        AzIotDpsCertificateVerifyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsCertificateVerifyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsCertificateVerifyOptions(), executionOptions, cancellationToken);

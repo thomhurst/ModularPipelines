@@ -40,7 +40,7 @@ public class GcloudInframanagerPreviews
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudInfraManagerPreviewsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudInframanagerPreviews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudInfraManagerPreviewsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudInfraManagerPreviewsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerPreviewsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudInframanagerPreviews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudInfraManagerPreviewsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudInfraManagerPreviewsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerPreviewsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudInframanagerPreviews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudInfraManagerPreviewsExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudInfraManagerPreviewsExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerPreviewsExportOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudInframanagerPreviews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudInfraManagerPreviewsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudInfraManagerPreviewsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerPreviewsListOptions(), executionOptions, cancellationToken);

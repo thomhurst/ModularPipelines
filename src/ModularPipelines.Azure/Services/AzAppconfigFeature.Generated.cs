@@ -49,8 +49,8 @@ public class AzAppconfigFeature
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAppconfigFeatureDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppconfigFeatureDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigFeatureDeleteOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzAppconfigFeature
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        AzAppconfigFeatureDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppconfigFeatureDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigFeatureDisableOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzAppconfigFeature
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        AzAppconfigFeatureEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppconfigFeatureEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigFeatureEnableOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzAppconfigFeature
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAppconfigFeatureListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppconfigFeatureListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigFeatureListOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class AzAppconfigFeature
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lock(
-        AzAppconfigFeatureLockOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppconfigFeatureLockOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigFeatureLockOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class AzAppconfigFeature
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzAppconfigFeatureSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppconfigFeatureSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigFeatureSetOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class AzAppconfigFeature
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAppconfigFeatureShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppconfigFeatureShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigFeatureShowOptions(), executionOptions, cancellationToken);
@@ -154,8 +154,8 @@ public class AzAppconfigFeature
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unlock(
-        AzAppconfigFeatureUnlockOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppconfigFeatureUnlockOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigFeatureUnlockOptions(), executionOptions, cancellationToken);

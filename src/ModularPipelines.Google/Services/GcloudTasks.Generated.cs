@@ -61,8 +61,8 @@ public class GcloudTasks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudTasksOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTasksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTasksOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ public class GcloudTasks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Buffer(
-        GcloudTasksBufferOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTasksBufferOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTasksBufferOptions(), executionOptions, cancellationToken);
@@ -91,8 +91,8 @@ public class GcloudTasks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAppEngineTask(
-        GcloudTasksCreateAppEngineTaskOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTasksCreateAppEngineTaskOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTasksCreateAppEngineTaskOptions(), executionOptions, cancellationToken);
@@ -106,8 +106,8 @@ public class GcloudTasks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateHttpTask(
-        GcloudTasksCreateHttpTaskOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTasksCreateHttpTaskOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTasksCreateHttpTaskOptions(), executionOptions, cancellationToken);
@@ -122,7 +122,7 @@ public class GcloudTasks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudTasksDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -137,7 +137,7 @@ public class GcloudTasks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudTasksDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -151,8 +151,8 @@ public class GcloudTasks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudTasksListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTasksListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTasksListOptions(), executionOptions, cancellationToken);
@@ -167,7 +167,7 @@ public class GcloudTasks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
         GcloudTasksRunOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

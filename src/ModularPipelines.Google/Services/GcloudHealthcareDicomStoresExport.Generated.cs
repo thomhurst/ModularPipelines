@@ -39,8 +39,8 @@ public class GcloudHealthcareDicomStoresExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bq(
-        GcloudHealthcareDicomStoresExportBqOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDicomStoresExportBqOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresExportBqOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudHealthcareDicomStoresExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Gcs(
-        GcloudHealthcareDicomStoresExportGcsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDicomStoresExportGcsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresExportGcsOptions(), executionOptions, cancellationToken);

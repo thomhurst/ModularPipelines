@@ -39,8 +39,8 @@ public class AzAmsStreamingLocator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsStreamingLocatorCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsStreamingLocatorCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAmsStreamingLocator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAmsStreamingLocatorListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsStreamingLocatorListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorListOptions(), executionOptions, cancellationToken);

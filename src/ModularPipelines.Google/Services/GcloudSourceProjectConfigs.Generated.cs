@@ -39,8 +39,8 @@ public class GcloudSourceProjectConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudSourceProjectConfigsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSourceProjectConfigsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSourceProjectConfigsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudSourceProjectConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudSourceProjectConfigsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSourceProjectConfigsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSourceProjectConfigsUpdateOptions(), executionOptions, cancellationToken);

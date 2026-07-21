@@ -103,8 +103,8 @@ public class AzStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageAccountCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountCreateOptions(), executionOptions, cancellationToken);
@@ -118,8 +118,8 @@ public class AzStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStorageAccountDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountDeleteOptions(), executionOptions, cancellationToken);
@@ -133,8 +133,8 @@ public class AzStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Failover(
-        AzStorageAccountFailoverOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountFailoverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountFailoverOptions(), executionOptions, cancellationToken);
@@ -148,8 +148,8 @@ public class AzStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateSas(
-        AzStorageAccountGenerateSasOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountGenerateSasOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountGenerateSasOptions(), executionOptions, cancellationToken);
@@ -163,8 +163,8 @@ public class AzStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageAccountListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountListOptions(), executionOptions, cancellationToken);
@@ -178,8 +178,8 @@ public class AzStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowConnectionString(
-        AzStorageAccountShowConnectionStringOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountShowConnectionStringOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountShowConnectionStringOptions(), executionOptions, cancellationToken);
@@ -193,8 +193,8 @@ public class AzStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageAccountShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountShowOptions(), executionOptions, cancellationToken);
@@ -208,8 +208,8 @@ public class AzStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageAccountUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountUpdateOptions(), executionOptions, cancellationToken);

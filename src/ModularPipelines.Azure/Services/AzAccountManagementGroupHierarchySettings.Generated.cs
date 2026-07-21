@@ -39,8 +39,8 @@ public class AzAccountManagementGroupHierarchySettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAccountManagementGroupHierarchySettingsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountManagementGroupHierarchySettingsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupHierarchySettingsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAccountManagementGroupHierarchySettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAccountManagementGroupHierarchySettingsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountManagementGroupHierarchySettingsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupHierarchySettingsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAccountManagementGroupHierarchySettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAccountManagementGroupHierarchySettingsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountManagementGroupHierarchySettingsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupHierarchySettingsUpdateOptions(), executionOptions, cancellationToken);

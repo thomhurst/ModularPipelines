@@ -39,8 +39,8 @@ public class GcloudSccSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudSccSourcesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccSourcesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccSourcesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudSccSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSccSourcesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccSourcesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccSourcesListOptions(), executionOptions, cancellationToken);

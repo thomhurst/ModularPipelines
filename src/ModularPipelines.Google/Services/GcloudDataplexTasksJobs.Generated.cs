@@ -39,8 +39,8 @@ public class GcloudDataplexTasksJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudDataplexTasksJobsCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexTasksJobsCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexTasksJobsCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDataplexTasksJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataplexTasksJobsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexTasksJobsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexTasksJobsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDataplexTasksJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataplexTasksJobsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexTasksJobsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexTasksJobsListOptions(), executionOptions, cancellationToken);

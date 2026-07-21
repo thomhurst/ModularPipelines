@@ -39,8 +39,8 @@ public class GcloudServicedirectoryNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudServiceDirectoryNamespacesAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryNamespacesAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudServicedirectoryNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudServiceDirectoryNamespacesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryNamespacesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudServicedirectoryNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudServiceDirectoryNamespacesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryNamespacesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudServicedirectoryNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudServiceDirectoryNamespacesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryNamespacesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesDescribeOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudServicedirectoryNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudServiceDirectoryNamespacesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryNamespacesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudServicedirectoryNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudServiceDirectoryNamespacesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryNamespacesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudServicedirectoryNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudServiceDirectoryNamespacesRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryNamespacesRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudServicedirectoryNamespaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudServiceDirectoryNamespacesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudServicedirectoryNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudServiceDirectoryNamespacesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceDirectoryNamespacesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesUpdateOptions(), executionOptions, cancellationToken);

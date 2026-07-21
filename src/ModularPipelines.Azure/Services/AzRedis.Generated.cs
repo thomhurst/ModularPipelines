@@ -49,8 +49,8 @@ public class AzRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzRedisCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRedisCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzRedisDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRedisDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        AzRedisExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRedisExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisExportOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Flush(
-        AzRedisFlushOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRedisFlushOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisFlushOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class AzRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ForceReboot(
-        AzRedisForceRebootOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRedisForceRebootOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisForceRebootOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class AzRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        AzRedisImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRedisImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisImportOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class AzRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzRedisListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRedisListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisListOptions(), executionOptions, cancellationToken);
@@ -154,8 +154,8 @@ public class AzRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzRedisUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRedisUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisUpdateOptions(), executionOptions, cancellationToken);

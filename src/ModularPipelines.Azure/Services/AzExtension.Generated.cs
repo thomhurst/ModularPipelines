@@ -39,8 +39,8 @@ public class AzExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzExtensionAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzExtensionAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzExtensionAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAvailable(
-        AzExtensionListAvailableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzExtensionListAvailableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzExtensionListAvailableOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzExtensionUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzExtensionUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzExtensionUpdateOptions(), executionOptions, cancellationToken);

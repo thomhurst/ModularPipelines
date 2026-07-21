@@ -50,7 +50,7 @@ public class GcloudPreviewComputeSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddLayer7DdosDefenseThresholdConfig(
         GcloudPreviewComputeSecurityPoliciesAddLayer7DdosDefenseThresholdConfigOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -65,7 +65,7 @@ public class GcloudPreviewComputeSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddUserDefinedField(
         GcloudPreviewComputeSecurityPoliciesAddUserDefinedFieldOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -80,7 +80,7 @@ public class GcloudPreviewComputeSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeSecurityPoliciesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -95,7 +95,7 @@ public class GcloudPreviewComputeSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeSecurityPoliciesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -110,7 +110,7 @@ public class GcloudPreviewComputeSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeSecurityPoliciesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -125,7 +125,7 @@ public class GcloudPreviewComputeSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudPreviewComputeSecurityPoliciesExportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -140,7 +140,7 @@ public class GcloudPreviewComputeSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudPreviewComputeSecurityPoliciesImportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -154,8 +154,8 @@ public class GcloudPreviewComputeSecurityPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeSecurityPoliciesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeSecurityPoliciesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeSecurityPoliciesListOptions(), executionOptions, cancellationToken);
@@ -169,8 +169,8 @@ public class GcloudPreviewComputeSecurityPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPreconfiguredExpressionSets(
-        GcloudPreviewComputeSecurityPoliciesListPreconfiguredExpressionSetsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeSecurityPoliciesListPreconfiguredExpressionSetsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeSecurityPoliciesListPreconfiguredExpressionSetsOptions(), executionOptions, cancellationToken);
@@ -185,7 +185,7 @@ public class GcloudPreviewComputeSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveLayer7DdosDefenseThresholdConfig(
         GcloudPreviewComputeSecurityPoliciesRemoveLayer7DdosDefenseThresholdConfigOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -200,7 +200,7 @@ public class GcloudPreviewComputeSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveUserDefinedField(
         GcloudPreviewComputeSecurityPoliciesRemoveUserDefinedFieldOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -215,7 +215,7 @@ public class GcloudPreviewComputeSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPreviewComputeSecurityPoliciesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

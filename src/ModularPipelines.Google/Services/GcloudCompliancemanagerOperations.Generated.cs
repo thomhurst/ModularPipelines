@@ -39,8 +39,8 @@ public class GcloudCompliancemanagerOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudComplianceManagerOperationsCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComplianceManagerOperationsCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerOperationsCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudCompliancemanagerOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComplianceManagerOperationsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComplianceManagerOperationsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerOperationsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudCompliancemanagerOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComplianceManagerOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComplianceManagerOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudCompliancemanagerOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComplianceManagerOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComplianceManagerOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerOperationsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudCompliancemanagerOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudComplianceManagerOperationsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComplianceManagerOperationsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerOperationsWaitOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzNetworkVirtualApplianceIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzNetworkVirtualApplianceIdentityAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkVirtualApplianceIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetworkVirtualApplianceIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceIdentityRemoveOptions(), executionOptions, cancellationToken);

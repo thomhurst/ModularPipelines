@@ -39,8 +39,8 @@ public class AzIotDpsPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzIotDpsPolicyCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsPolicyCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsPolicyCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzIotDpsPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzIotDpsPolicyDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsPolicyDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsPolicyDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzIotDpsPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzIotDpsPolicyListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsPolicyListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsPolicyListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzIotDpsPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzIotDpsPolicyShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsPolicyShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsPolicyShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzIotDpsPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzIotDpsPolicyUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsPolicyUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsPolicyUpdateOptions(), executionOptions, cancellationToken);

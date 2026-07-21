@@ -39,8 +39,8 @@ public class AzKeyvaultPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
-        AzKeyvaultPrivateEndpointConnectionApproveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultPrivateEndpointConnectionApproveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPrivateEndpointConnectionApproveOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzKeyvaultPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzKeyvaultPrivateEndpointConnectionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultPrivateEndpointConnectionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPrivateEndpointConnectionDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzKeyvaultPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzKeyvaultPrivateEndpointConnectionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultPrivateEndpointConnectionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPrivateEndpointConnectionListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzKeyvaultPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reject(
-        AzKeyvaultPrivateEndpointConnectionRejectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultPrivateEndpointConnectionRejectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPrivateEndpointConnectionRejectOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzKeyvaultPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzKeyvaultPrivateEndpointConnectionShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultPrivateEndpointConnectionShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPrivateEndpointConnectionShowOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzKeyvaultPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzKeyvaultPrivateEndpointConnectionWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultPrivateEndpointConnectionWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPrivateEndpointConnectionWaitOptions(), executionOptions, cancellationToken);

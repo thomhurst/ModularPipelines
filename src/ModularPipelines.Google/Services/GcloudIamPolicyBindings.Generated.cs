@@ -39,8 +39,8 @@ public class GcloudIamPolicyBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudIamPolicyBindingsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamPolicyBindingsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPolicyBindingsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudIamPolicyBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudIamPolicyBindingsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamPolicyBindingsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPolicyBindingsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudIamPolicyBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudIamPolicyBindingsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamPolicyBindingsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPolicyBindingsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudIamPolicyBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudIamPolicyBindingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamPolicyBindingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPolicyBindingsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudIamPolicyBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchTargetPolicyBindings(
-        GcloudIamPolicyBindingsSearchTargetPolicyBindingsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamPolicyBindingsSearchTargetPolicyBindingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPolicyBindingsSearchTargetPolicyBindingsOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudIamPolicyBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudIamPolicyBindingsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamPolicyBindingsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPolicyBindingsUpdateOptions(), executionOptions, cancellationToken);

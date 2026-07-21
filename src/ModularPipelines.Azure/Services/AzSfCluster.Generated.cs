@@ -73,8 +73,8 @@ public class AzSfCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSfClusterCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfClusterCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterCreateOptions(), executionOptions, cancellationToken);
@@ -88,8 +88,8 @@ public class AzSfCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSfClusterListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfClusterListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterListOptions(), executionOptions, cancellationToken);

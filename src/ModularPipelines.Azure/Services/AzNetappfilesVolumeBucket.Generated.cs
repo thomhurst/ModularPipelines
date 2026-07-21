@@ -39,8 +39,8 @@ public class AzNetappfilesVolumeBucket
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetappfilesVolumeBucketCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeBucketCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeBucketCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetappfilesVolumeBucket
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetappfilesVolumeBucketDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeBucketDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeBucketDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetappfilesVolumeBucket
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateAkvCredential(
-        AzNetappfilesVolumeBucketGenerateAkvCredentialOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeBucketGenerateAkvCredentialOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeBucketGenerateAkvCredentialOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzNetappfilesVolumeBucket
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RefreshCertificate(
-        AzNetappfilesVolumeBucketRefreshCertificateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeBucketRefreshCertificateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeBucketRefreshCertificateOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzNetappfilesVolumeBucket
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetappfilesVolumeBucketUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeBucketUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeBucketUpdateOptions(), executionOptions, cancellationToken);

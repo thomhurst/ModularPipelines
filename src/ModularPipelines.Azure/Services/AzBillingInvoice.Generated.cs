@@ -39,8 +39,8 @@ public class AzBillingInvoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBillingInvoiceListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBillingInvoiceListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBillingInvoiceListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzBillingInvoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzBillingInvoiceShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBillingInvoiceShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBillingInvoiceShowOptions(), executionOptions, cancellationToken);

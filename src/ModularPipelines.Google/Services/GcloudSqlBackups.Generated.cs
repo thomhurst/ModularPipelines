@@ -39,8 +39,8 @@ public class GcloudSqlBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudSqlBackupsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlBackupsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlBackupsCreateOptions(), executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudSqlBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudSqlBackupsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudSqlBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudSqlBackupsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudSqlBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSqlBackupsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlBackupsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlBackupsListOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudSqlBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Patch(
         GcloudSqlBackupsPatchOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudSqlBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
         GcloudSqlBackupsRestoreOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

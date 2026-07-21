@@ -39,8 +39,8 @@ public class GcloudContainerVmwareClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerVmwareClustersCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareClustersCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerVmwareClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerVmwareClustersDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareClustersDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerVmwareClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerVmwareClustersDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareClustersDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudContainerVmwareClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enroll(
-        GcloudContainerVmwareClustersEnrollOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareClustersEnrollOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersEnrollOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudContainerVmwareClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerVmwareClustersListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareClustersListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersListOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudContainerVmwareClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> QueryVersionConfig(
-        GcloudContainerVmwareClustersQueryVersionConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareClustersQueryVersionConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersQueryVersionConfigOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudContainerVmwareClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerVmwareClustersUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareClustersUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersUpdateOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudContainerVmwareClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upgrade(
-        GcloudContainerVmwareClustersUpgradeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareClustersUpgradeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersUpgradeOptions(), executionOptions, cancellationToken);

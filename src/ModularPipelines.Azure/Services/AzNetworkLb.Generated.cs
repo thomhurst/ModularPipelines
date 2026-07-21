@@ -85,8 +85,8 @@ public class AzNetworkLb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkLbCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbCreateOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class AzNetworkLb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkLbDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbDeleteOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class AzNetworkLb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkLbListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbListOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class AzNetworkLb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkLbShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbShowOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ public class AzNetworkLb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkLbUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbUpdateOptions(), executionOptions, cancellationToken);
@@ -160,8 +160,8 @@ public class AzNetworkLb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzNetworkLbWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbWaitOptions(), executionOptions, cancellationToken);

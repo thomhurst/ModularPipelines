@@ -39,8 +39,8 @@ public class AzContainerappSsl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upload(
-        AzContainerappSslUploadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappSslUploadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappSslUploadOptions(), executionOptions, cancellationToken);
