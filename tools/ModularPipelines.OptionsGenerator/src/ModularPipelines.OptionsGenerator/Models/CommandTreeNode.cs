@@ -56,13 +56,12 @@ public class CommandTreeNode
     {
         // SubDomainGroup is already normalized by the scraper. Re-normalizing it would
         // collapse compound identifiers such as ApplicationSet to Applicationset.
-        var pascalSubDomain = subDomain;
-        var rootClassName = $"{toolPrefix}{pascalSubDomain}";
+        var rootClassName = $"{toolPrefix}{subDomain}";
 
         var root = new CommandTreeNode
         {
             Segment = subDomain,
-            PascalSegment = pascalSubDomain,
+            PascalSegment = subDomain,
             ClassName = rootClassName,
             Depth = 0
         };

@@ -74,9 +74,8 @@ public class ServiceImplementationGenerator : ICodeGenerator
             var constructorParams = new List<string>();
             foreach (var subDomain in subDomains.OrderBy(s => s))
             {
-                var pascalSubDomain = subDomain;
-                var subDomainClassName = $"{tool.NamespacePrefix}{pascalSubDomain}";
-                var rawParamName = char.ToLowerInvariant(pascalSubDomain[0]) + pascalSubDomain[1..];
+                var subDomainClassName = $"{tool.NamespacePrefix}{subDomain}";
+                var rawParamName = char.ToLowerInvariant(subDomain[0]) + subDomain[1..];
                 var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
                 constructorParams.Add($"        {subDomainClassName} {paramName}");
             }
@@ -89,10 +88,9 @@ public class ServiceImplementationGenerator : ICodeGenerator
             // Assign sub-domains
             foreach (var subDomain in subDomains.OrderBy(s => s))
             {
-                var pascalSubDomain = subDomain;
-                var rawParamName = char.ToLowerInvariant(pascalSubDomain[0]) + pascalSubDomain[1..];
+                var rawParamName = char.ToLowerInvariant(subDomain[0]) + subDomain[1..];
                 var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
-                sb.AppendLine($"        {pascalSubDomain} = {paramName};");
+                sb.AppendLine($"        {subDomain} = {paramName};");
             }
 
             sb.AppendLine("        _command = command;");
@@ -120,10 +118,9 @@ public class ServiceImplementationGenerator : ICodeGenerator
 
             foreach (var subDomain in subDomains.OrderBy(s => s))
             {
-                var pascalSubDomain = subDomain;
-                var subDomainClassName = $"{tool.NamespacePrefix}{pascalSubDomain}";
+                var subDomainClassName = $"{tool.NamespacePrefix}{subDomain}";
                 sb.AppendLine($"    /// <inheritdoc />");
-                sb.AppendLine($"    public {subDomainClassName} {pascalSubDomain} {{ get; }}");
+                sb.AppendLine($"    public {subDomainClassName} {subDomain} {{ get; }}");
                 sb.AppendLine();
             }
 
