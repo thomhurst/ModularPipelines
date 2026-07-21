@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -58,6 +59,63 @@ public partial class CosignCliScraper : CobraCliScraper
     public override string TargetNamespace => "ModularPipelines.Cosign";
 
     public override string OutputDirectory => "src/ModularPipelines.Cosign";
+
+    /// <summary>
+    /// Cosign validates many positional arguments in command code without including them
+    /// in the generated usage line. Supply that metadata explicitly from the v3 command
+    /// validators, and remove login's non-argument [OPTIONS] marker.
+    /// </summary>
+    protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        return string.Join(' ', commandParts) switch
+        {
+            "attest" or "sign" or "verify" or "verify-attestation" =>
+                [RequiredMultiple("Images", "IMAGE")],
+            "sign-blob" => [RequiredMultiple("Blobs", "BLOB")],
+            "attest-blob" or "verify-blob-attestation" => [Optional("Blob", "BLOB")],
+            "verify-blob" => [Required("Blob", "BLOB")],
+            "clean" or "load" or "save" or "tree" or "download attestation" or "download sbom" or
+                "download signature" =>
+                [Required("Image", "IMAGE")],
+            "bundle inspect" or "bundle upgrade" => [Required("Bundle", "BUNDLE")],
+            "login" => [Optional("Server", "SERVER")],
+            _ => positionalArguments,
+        };
+    }
+
+    protected override bool IsSecretOption(string propertyName, bool isFlag) =>
+        base.IsSecretOption(propertyName, isFlag) ||
+        (!isFlag &&
+         (propertyName.Equals("NewKey", StringComparison.OrdinalIgnoreCase) ||
+          propertyName.Equals("OldKey", StringComparison.OrdinalIgnoreCase) ||
+          propertyName.EndsWith("Pin", StringComparison.OrdinalIgnoreCase) ||
+          propertyName.EndsWith("Puk", StringComparison.OrdinalIgnoreCase) ||
+          propertyName.EndsWith("ManagementKey", StringComparison.OrdinalIgnoreCase)));
+
+    private static CliPositionalArgument Required(string propertyName, string placeholderName) =>
+        Positional(propertyName, placeholderName, "string", isRequired: true);
+
+    private static CliPositionalArgument RequiredMultiple(string propertyName, string placeholderName) =>
+        Positional(propertyName, placeholderName, "IEnumerable<string>", isRequired: true);
+
+    private static CliPositionalArgument Optional(string propertyName, string placeholderName) =>
+        Positional(propertyName, placeholderName, "string?", isRequired: false);
+
+    private static CliPositionalArgument Positional(
+        string propertyName,
+        string placeholderName,
+        string csharpType,
+        bool isRequired) =>
+        new()
+        {
+            PropertyName = propertyName,
+            PlaceholderName = placeholderName,
+            CSharpType = csharpType,
+            IsRequired = isRequired,
+            PositionIndex = 0,
+        };
 
     /// <summary>
     /// Skip utility commands.

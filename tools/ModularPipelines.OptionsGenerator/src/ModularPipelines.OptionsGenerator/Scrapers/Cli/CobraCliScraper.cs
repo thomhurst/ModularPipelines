@@ -268,6 +268,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 var shortForm = match.Groups["short"].Value.Trim();
                 var longForm = match.Groups["long"].Value.Trim();
                 var typeHint = match.Groups["type"].Value.Trim();
+                var hasDefaultValue = match.Groups["default"].Success;
                 var description = match.Groups["desc"].Value.Trim();
 
                 // Accumulate multi-line descriptions
@@ -293,25 +294,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     continue;
                 }
 
-                // Determine types - check if typeHint contains default value (kubectl style)
-                var actualType = typeHint;
-                if (typeHint.Contains('='))
-                {
-                    // kubectl format: --option=defaultValue: where typeHint might be "false" or "500"
-                    var defaultValue = typeHint.TrimEnd(':');
-                    if (defaultValue.ToLowerInvariant() is "true" or "false")
-                    {
-                        actualType = "bool";
-                    }
-                    else if (int.TryParse(defaultValue, out _))
-                    {
-                        actualType = "int";
-                    }
-                    else
-                    {
-                        actualType = "string";
-                    }
-                }
+                var actualType = NormalizeTypeHint(typeHint, hasDefaultValue);
 
                 var isFlag = string.IsNullOrEmpty(actualType) || IsKnownBooleanType(actualType);
                 var isInteger = IsKnownIntegerType(actualType);
@@ -340,13 +323,50 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     IsNumeric = isInteger || isFloat,
                     ValueSeparator = separator,
                     EnumDefinition = enumDef,
-                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                    IsSecret = IsSecretOption(propertyName, isFlag)
                 });
             }
         }
 
         return options;
     }
+
+    private static string NormalizeTypeHint(string typeHint, bool hasDefaultValue)
+    {
+        if (!hasDefaultValue)
+        {
+            return typeHint;
+        }
+
+        if (typeHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+            typeHint.Equals("false", StringComparison.OrdinalIgnoreCase))
+        {
+            return "bool";
+        }
+
+        if (typeHint == "[]")
+        {
+            return "stringArray";
+        }
+
+        if (int.TryParse(typeHint, out _))
+        {
+            return "int";
+        }
+
+        if (double.TryParse(typeHint, System.Globalization.CultureInfo.InvariantCulture, out _))
+        {
+            return "double";
+        }
+
+        return "string";
+    }
+
+    /// <summary>
+    /// Determines whether a tool option value must be masked in command logs.
+    /// </summary>
+    protected virtual bool IsSecretOption(string propertyName, bool isFlag) =>
+        GeneratorUtils.IsSecretOption(propertyName, isFlag);
 
     /// <summary>
     /// Extracts the Flags and Global Flags sections from help text.
@@ -799,7 +819,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// or "command    description".
     /// Also handles Docker's asterisk markers for extensions: "  buildx*    description"
     /// </summary>
-    [GeneratedRegex(@"^\s*(?<name>[\w-]+)\*?\s{2,}", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?<name>[\w-]+)\*?\s+", RegexOptions.Multiline)]
     private static partial Regex SubcommandLinePattern();
 
     /// <summary>
@@ -830,7 +850,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     ///     -A, --all-namespaces=false:
     ///     --chunk-size=500:
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:=(?<type>\S+))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>[^:\s]*))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
     private static partial Regex KubectlOptionPattern();
 
     /// <summary>
