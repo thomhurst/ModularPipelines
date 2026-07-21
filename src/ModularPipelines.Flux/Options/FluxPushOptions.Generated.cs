@@ -51,7 +51,7 @@ public record FluxPushOptions : FluxOptions
     public IEnumerable<string>? AsUserExtra { get; set; }
 
     /// <summary>
-    /// Default cache directory (default "/home/runner/.kube/cache")
+    /// Default cache directory (default "~/.kube/cache")
     /// </summary>
     [CliOption("--cache-dir", Format = OptionFormat.EqualsSeparated)]
     public string? CacheDir { get; set; }

@@ -57,7 +57,7 @@ public record HelmShowReadmeOptions : HelmOptions
     public string? KeyFile { get; set; }
 
     /// <summary>
-    /// location of public keys used for verification (default "/home/runner/.gnupg/pubring.gpg")
+    /// location of public keys used for verification (default "~/.gnupg/pubring.gpg")
     /// </summary>
     [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
     public string? Keyring { get; set; }
@@ -185,19 +185,19 @@ public record HelmShowReadmeOptions : HelmOptions
     public double? Qps { get; set; }
 
     /// <summary>
-    /// path to the registry config file (default "/home/runner/.config/helm/registry/config.json")
+    /// path to the registry config file (default "~/.config/helm/registry/config.json")
     /// </summary>
     [CliOption("--registry-config", Format = OptionFormat.EqualsSeparated)]
     public string? RegistryConfig { get; set; }
 
     /// <summary>
-    /// path to the directory containing cached repository indexes (default "/home/runner/.cache/helm/repository")
+    /// path to the directory containing cached repository indexes (default "~/.cache/helm/repository")
     /// </summary>
     [CliOption("--repository-cache", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryCache { get; set; }
 
     /// <summary>
-    /// path to the file containing repository names and URLs (default "/home/runner/.config/helm/repositories.yaml")
+    /// path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
