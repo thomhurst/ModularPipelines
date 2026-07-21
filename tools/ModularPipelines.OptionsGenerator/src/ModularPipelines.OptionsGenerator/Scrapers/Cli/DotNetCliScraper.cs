@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Scrapers;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -140,6 +141,7 @@ public partial class DotNetCliScraper : CliScraperBase
 
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
+        DotNetCliCompatibility.NormalizeOptions(commandParts, options);
 
         // Parse positional arguments
         var positionalArgs = ParsePositionalArguments(helpText);
@@ -167,7 +169,8 @@ public partial class DotNetCliScraper : CliScraperBase
             Options = options,
             PositionalArguments = positionalArgs,
             SubDomainGroup = subDomain,
-            Enums = enums
+            Enums = enums,
+            CompatibilityProperties = DotNetCliCompatibility.GetProperties(commandParts),
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);

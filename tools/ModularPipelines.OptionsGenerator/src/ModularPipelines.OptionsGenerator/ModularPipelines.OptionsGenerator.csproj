@@ -24,4 +24,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="ModularPipelines.OptionsGenerator.Tests" />
+  </ItemGroup>
+
 </Project>
