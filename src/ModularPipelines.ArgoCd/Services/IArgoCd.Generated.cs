@@ -75,15 +75,6 @@ public partial interface IArgoCd
     #region Commands
 
     /// <summary>
-    /// Manage ApplicationSets
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> Appset(ArgoCdApplicationSetExecuteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Manage local configuration
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -19,7 +19,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appset", "delete")]
-public record ArgoCdApplicationSetDeleteOptions : ArgoCdOptions
+public record ArgoCdApplicationSetDeleteOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> ApplicationSetNames
+) : ArgoCdOptions
 {
     /// <summary>
     /// help for delete
@@ -65,7 +67,7 @@ public record ArgoCdApplicationSetDeleteOptions : ArgoCdOptions
     public string? ClientCrtKey { get; set; }
 
     /// <summary>
-    /// Path to Argo CD config (default "~/.config/argocd/config")
+    /// Path to Argo CD config (default "C:\\Users\\thomh/.config/argocd/config")
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }

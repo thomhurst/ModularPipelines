@@ -39,11 +39,11 @@ public class ArgoCdAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        ArgoCdAccountExecuteOptions? options = null,
+        ArgoCdAccountOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdAccountExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdAccountOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

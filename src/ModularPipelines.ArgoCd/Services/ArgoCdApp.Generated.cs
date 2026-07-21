@@ -49,11 +49,11 @@ public class ArgoCdApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        ArgoCdAppExecuteOptions? options = null,
+        ArgoCdAppOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdAppExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdAppOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -334,11 +334,11 @@ public class ArgoCdApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Sync(
-        ArgoCdAppSyncOptions options,
+        ArgoCdAppSyncOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdAppSyncOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -379,11 +379,11 @@ public class ArgoCdApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        ArgoCdAppWaitOptions options,
+        ArgoCdAppWaitOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdAppWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

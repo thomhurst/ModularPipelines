@@ -19,9 +19,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "sync")]
-public record ArgoCdAppSyncOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> ApplicationName
-) : ArgoCdOptions
+public record ArgoCdAppSyncOptions : ArgoCdOptions
 {
     /// <summary>
     /// Only sync an application in namespace
@@ -247,7 +245,7 @@ public record ArgoCdAppSyncOptions(
     public string? ClientCrtKey { get; set; }
 
     /// <summary>
-    /// Path to Argo CD config (default "~/.config/argocd/config")
+    /// Path to Argo CD config (default "C:\\Users\\thomh/.config/argocd/config")
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }

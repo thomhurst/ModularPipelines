@@ -19,10 +19,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "settings", "rbac", "validate")]
-public record ArgoCdAdminSettingsRbacValidateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PolicyFile,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Namespace
-) : ArgoCdOptions
+public record ArgoCdAdminSettingsRbacValidateOptions : ArgoCdOptions
 {
     /// <summary>
     /// Username to impersonate for the operation
@@ -97,11 +94,23 @@ public record ArgoCdAdminSettingsRbacValidateOptions(
     public string? Kubeconfig { get; set; }
 
     /// <summary>
+    /// namespace to get argo rbac configmap from
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
     /// Password for basic authentication to the API server
     /// </summary>
     [SecretValue]
     [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
+
+    /// <summary>
+    /// path to the policy file to use
+    /// </summary>
+    [CliOption("--policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PolicyFile { get; set; }
 
     /// <summary>
     /// If provided, this URL will be used to connect via proxy
@@ -185,7 +194,7 @@ public record ArgoCdAdminSettingsRbacValidateOptions(
     public string? ClientCrtKey { get; set; }
 
     /// <summary>
-    /// Path to Argo CD config (default "~/.config/argocd/config")
+    /// Path to Argo CD config (default "C:\\Users\\thomh/.config/argocd/config")
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }

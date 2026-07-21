@@ -19,9 +19,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "wait")]
-public record ArgoCdAppWaitOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ApplicationName
-) : ArgoCdOptions
+public record ArgoCdAppWaitOptions : ArgoCdOptions
 {
     /// <summary>
     /// Only wait for an application  in namespace
@@ -127,7 +125,7 @@ public record ArgoCdAppWaitOptions(
     public string? ClientCrtKey { get; set; }
 
     /// <summary>
-    /// Path to Argo CD config (default "~/.config/argocd/config")
+    /// Path to Argo CD config (default "C:\\Users\\thomh/.config/argocd/config")
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }

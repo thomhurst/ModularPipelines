@@ -32,6 +32,21 @@ public class ArgoCdApplicationSet
     #region Commands
 
     /// <summary>
+    /// Manage ApplicationSets
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Execute(
+        ArgoCdApplicationSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdApplicationSetOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create one or more ApplicationSets
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -54,11 +69,11 @@ public class ArgoCdApplicationSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        ArgoCdApplicationSetDeleteOptions? options = null,
+        ArgoCdApplicationSetDeleteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdApplicationSetDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -69,11 +84,11 @@ public class ArgoCdApplicationSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Generate(
-        ArgoCdApplicationSetGenerateOptions? options = null,
+        ArgoCdApplicationSetGenerateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdApplicationSetGenerateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
