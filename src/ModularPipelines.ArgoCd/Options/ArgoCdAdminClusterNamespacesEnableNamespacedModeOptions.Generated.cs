@@ -86,7 +86,7 @@ public record ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions(
     /// <summary>
     /// Print what will be performed (default true)
     /// </summary>
-    [CliFlag("--dry-run")]
+    [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
     public bool? DryRun { get; set; }
 
     /// <summary>

@@ -98,6 +98,25 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
+        if (commandParts is ["admin", "settings", "rbac", "can"])
+        {
+            return
+            [
+                RequiredArgument("RoleSubject", "ROLE/SUBJECT", "string", "Role or subject to check.", 0),
+                RequiredArgument("Action", "ACTION", "string", "Action to check.", 1),
+                RequiredArgument("Resource", "RESOURCE", "string", "Resource to check.", 2),
+                new CliPositionalArgument
+                {
+                    PropertyName = "SubResource",
+                    PlaceholderName = "SUB-RESOURCE",
+                    CSharpType = "string?",
+                    IsRequired = false,
+                    PositionIndex = 3,
+                    Description = "Optional sub-resource to check.",
+                },
+            ];
+        }
+
         if (positionalArguments.Count == 0)
         {
             var missingArguments = commandParts switch
@@ -129,13 +148,14 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         string propertyName,
         string placeholderName,
         string csharpType,
-        string description) => new()
+        string description,
+        int positionIndex = 0) => new()
         {
             PropertyName = propertyName,
             PlaceholderName = placeholderName,
             CSharpType = csharpType,
             IsRequired = true,
-            PositionIndex = 0,
+            PositionIndex = positionIndex,
             Description = description,
         };
 

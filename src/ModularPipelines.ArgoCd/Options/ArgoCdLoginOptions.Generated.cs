@@ -63,7 +63,7 @@ public record ArgoCdLoginOptions(
     /// <summary>
     /// Automatically launch the system default browser when performing SSO login (default true)
     /// </summary>
-    [CliFlag("--sso-launch-browser")]
+    [CliOption("--sso-launch-browser", Format = OptionFormat.EqualsSeparated)]
     public bool? SsoLaunchBrowser { get; set; }
 
     /// <summary>

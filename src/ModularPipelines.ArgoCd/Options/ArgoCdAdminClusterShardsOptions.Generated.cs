@@ -121,7 +121,7 @@ public record ArgoCdAdminClusterShardsOptions : ArgoCdOptions
     /// <summary>
     /// Automatically port-forward ha proxy redis from current namespace? (default true)
     /// </summary>
-    [CliFlag("--port-forward-redis")]
+    [CliOption("--port-forward-redis", Format = OptionFormat.EqualsSeparated)]
     public bool? PortForwardRedis { get; set; }
 
     /// <summary>
