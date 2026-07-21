@@ -23,6 +23,7 @@ public partial class SonarScannerCliScraper : CliScraperBase
     public SonarScannerCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<SonarScannerCliScraper> logger)
         : base(executor, helpCache, logger)
     {
+        ExecutablePath = ResolveExecutablePath();
     }
 
     public override string ToolName => "sonar-scanner";
@@ -32,6 +33,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
     public override string TargetNamespace => "ModularPipelines.SonarScanner";
 
     public override string OutputDirectory => "src/ModularPipelines.SonarScanner";
+
+    protected override string ExecutablePath { get; }
 
     /// <summary>
     /// SonarScanner doesn't have subcommands.
@@ -94,7 +97,7 @@ public partial class SonarScannerCliScraper : CliScraperBase
             ParentClassName = BaseOptionsClassName,
             ToolNamespacePrefix = NamespacePrefix,
             Description = description,
-            DocumentationUrl = "https://docs.sonarqube.org/latest/analyzing-source-code/scanners/sonarscanner/",
+            DocumentationUrl = "https://docs.sonarsource.com/sonarqube-server/analyzing-source-code/scanners/sonarscanner/",
             Options = options,
             PositionalArguments = [],
             SubDomainGroup = null,
@@ -146,7 +149,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
             }
 
             var isFlag = string.IsNullOrEmpty(valueHint);
-            var csharpType = isFlag ? "bool?" : "string?";
+            var isKeyValue = longForm == "--define";
+            var csharpType = isFlag ? "bool?" : isKeyValue ? "IEnumerable<KeyValue>?" : "string?";
 
             options.Add(new CliOptionDefinition
             {
@@ -157,8 +161,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
-                AcceptsMultipleValues = false,
-                IsKeyValue = longForm == "--define",
+                AcceptsMultipleValues = isKeyValue,
+                IsKeyValue = isKeyValue,
                 IsNumeric = false,
                 ValueSeparator = " ",
                 EnumDefinition = null,
@@ -169,6 +173,29 @@ public partial class SonarScannerCliScraper : CliScraperBase
         return options;
     }
 
+    private static string ResolveExecutablePath()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return "sonar-scanner";
+        }
+
+        var pathDirectories = Environment.GetEnvironmentVariable("PATH")?
+            .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            ?? [];
+
+        foreach (var pathDirectory in pathDirectories)
+        {
+            var candidate = Path.Combine(pathDirectory.Trim('"'), "sonar-scanner.bat");
+            if (File.Exists(candidate))
+            {
+                return Path.GetFullPath(candidate);
+            }
+        }
+
+        return "sonar-scanner.bat";
+    }
+
     /// <summary>
     /// Gets common SonarQube properties that are passed via -D.
     /// </summary>
@@ -176,117 +203,34 @@ public partial class SonarScannerCliScraper : CliScraperBase
     {
         return
         [
-            new CliOptionDefinition
-            {
-                SwitchName = "-Dsonar.projectKey",
-                PropertyName = "ProjectKey",
-                CSharpType = "string?",
-                Description = "The project's unique key. Allowed characters are: letters, numbers, -, _, . and :",
-                IsFlag = false,
-                IsRequired = false,
-                ValueSeparator = "=",
-                IsSecret = GeneratorUtils.IsSecretOption("ProjectKey", false)
-            },
-            new CliOptionDefinition
-            {
-                SwitchName = "-Dsonar.projectName",
-                PropertyName = "ProjectName",
-                CSharpType = "string?",
-                Description = "Name of the project that will be displayed on the web interface",
-                IsFlag = false,
-                IsRequired = false,
-                ValueSeparator = "=",
-                IsSecret = GeneratorUtils.IsSecretOption("ProjectName", false)
-            },
-            new CliOptionDefinition
-            {
-                SwitchName = "-Dsonar.projectVersion",
-                PropertyName = "ProjectVersion",
-                CSharpType = "string?",
-                Description = "The project version",
-                IsFlag = false,
-                IsRequired = false,
-                ValueSeparator = "=",
-                IsSecret = GeneratorUtils.IsSecretOption("ProjectVersion", false)
-            },
-            new CliOptionDefinition
-            {
-                SwitchName = "-Dsonar.sources",
-                PropertyName = "Sources",
-                CSharpType = "string?",
-                Description = "Comma-separated paths to directories containing main source files",
-                IsFlag = false,
-                IsRequired = false,
-                ValueSeparator = "=",
-                IsSecret = GeneratorUtils.IsSecretOption("Sources", false)
-            },
-            new CliOptionDefinition
-            {
-                SwitchName = "-Dsonar.tests",
-                PropertyName = "Tests",
-                CSharpType = "string?",
-                Description = "Comma-separated paths to directories containing test source files",
-                IsFlag = false,
-                IsRequired = false,
-                ValueSeparator = "=",
-                IsSecret = GeneratorUtils.IsSecretOption("Tests", false)
-            },
-            new CliOptionDefinition
-            {
-                SwitchName = "-Dsonar.host.url",
-                PropertyName = "HostUrl",
-                CSharpType = "string?",
-                Description = "The server URL",
-                IsFlag = false,
-                IsRequired = false,
-                ValueSeparator = "=",
-                IsSecret = GeneratorUtils.IsSecretOption("HostUrl", false)
-            },
-            new CliOptionDefinition
-            {
-                SwitchName = "-Dsonar.token",
-                PropertyName = "Token",
-                CSharpType = "string?",
-                Description = "Authentication token for the SonarQube server",
-                IsFlag = false,
-                IsRequired = false,
-                ValueSeparator = "=",
-                IsSecret = GeneratorUtils.IsSecretOption("Token", false)
-            },
-            new CliOptionDefinition
-            {
-                SwitchName = "-Dsonar.organization",
-                PropertyName = "Organization",
-                CSharpType = "string?",
-                Description = "Organization key (required for SonarCloud)",
-                IsFlag = false,
-                IsRequired = false,
-                ValueSeparator = "=",
-                IsSecret = GeneratorUtils.IsSecretOption("Organization", false)
-            },
-            new CliOptionDefinition
-            {
-                SwitchName = "-Dsonar.exclusions",
-                PropertyName = "Exclusions",
-                CSharpType = "string?",
-                Description = "Comma-separated file path patterns to exclude from analysis",
-                IsFlag = false,
-                IsRequired = false,
-                ValueSeparator = "=",
-                IsSecret = GeneratorUtils.IsSecretOption("Exclusions", false)
-            },
-            new CliOptionDefinition
-            {
-                SwitchName = "-Dsonar.coverage.exclusions",
-                PropertyName = "CoverageExclusions",
-                CSharpType = "string?",
-                Description = "Comma-separated file path patterns to exclude from coverage analysis",
-                IsFlag = false,
-                IsRequired = false,
-                ValueSeparator = "=",
-                IsSecret = GeneratorUtils.IsSecretOption("CoverageExclusions", false)
-            }
+            CreateProperty("-Dsonar.projectKey", "ProjectKey", "The project's unique key. Allowed characters are: letters, numbers, -, _, . and :"),
+            CreateProperty("-Dsonar.projectName", "ProjectName", "Name of the project that will be displayed on the web interface"),
+            CreateProperty("-Dsonar.projectVersion", "ProjectVersion", "The project version"),
+            CreateProperty("-Dsonar.sources", "Sources", "Comma-separated paths to directories containing main source files"),
+            CreateProperty("-Dsonar.tests", "Tests", "Comma-separated paths to directories containing test source files"),
+            CreateProperty("-Dsonar.projectBaseDir", "ProjectBaseDir", "Root directory of the project to analyze"),
+            CreateProperty("-Dproject.settings", "ProjectSettings", "Path to the project settings file"),
+            CreateProperty("-Dsonar.sourceEncoding", "SourceEncoding", "Encoding of the source files"),
+            CreateProperty("-Dsonar.host.url", "HostUrl", "The server URL"),
+            CreateProperty("-Dsonar.token", "Token", "Authentication token for the SonarQube server"),
+            CreateProperty("-Dsonar.organization", "Organization", "Organization key (required for SonarCloud)"),
+            CreateProperty("-Dsonar.region", "Region", "SonarQube Cloud region"),
+            CreateProperty("-Dsonar.exclusions", "Exclusions", "Comma-separated file path patterns to exclude from analysis"),
+            CreateProperty("-Dsonar.coverage.exclusions", "CoverageExclusions", "Comma-separated file path patterns to exclude from coverage analysis"),
         ];
+    }
+
+    private static CliOptionDefinition CreateProperty(string switchName, string propertyName, string description)
+    {
+        return new CliOptionDefinition
+        {
+            SwitchName = switchName,
+            PropertyName = propertyName,
+            CSharpType = "string?",
+            Description = description,
+            ValueSeparator = "=",
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag: false),
+        };
     }
 
     /// <summary>

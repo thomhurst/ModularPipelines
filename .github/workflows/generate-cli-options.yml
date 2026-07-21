@@ -354,9 +354,10 @@ jobs:
       - name: Install SonarScanner
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'sonar-scanner'
         run: |
-          wget -qO- https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.2.1.4610-linux-x64.zip -O sonar-scanner.zip
+          wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-8.0.1.6346-linux-x64.zip -O sonar-scanner.zip
+          echo "4bd40bf8411ed104853e94a3746ec92bc92845fde2b27dbf5c33fb5cfa8ecbe9  sonar-scanner.zip" | sha256sum --check
           unzip -q sonar-scanner.zip
-          sudo mv sonar-scanner-6.2.1.4610-linux-x64 /opt/sonar-scanner
+          sudo mv sonar-scanner-8.0.1.6346-linux-x64 /opt/sonar-scanner
           sudo ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
 
       - name: Install Snyk
