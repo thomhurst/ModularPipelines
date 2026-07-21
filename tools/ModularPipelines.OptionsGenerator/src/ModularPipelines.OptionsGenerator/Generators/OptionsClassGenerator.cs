@@ -127,9 +127,12 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine();
         }
 
+        // Compatibility aliases may intentionally differ from current members only by casing.
+        // CLR and C# member names are case-sensitive, unlike scraper duplicate detection.
+        var emittedCompatibilityNames = existingPropertyNames.ToHashSet(StringComparer.Ordinal);
         foreach (var compatibilityProperty in command.CompatibilityProperties)
         {
-            if (!existingPropertyNames.Add(compatibilityProperty.PropertyName))
+            if (!emittedCompatibilityNames.Add(compatibilityProperty.PropertyName))
             {
                 continue;
             }

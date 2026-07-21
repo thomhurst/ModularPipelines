@@ -175,6 +175,40 @@ public class GeneratorHardeningTests
         await Assert.That(generated).DoesNotContain("CliFlag(\"--removed-flag\")");
     }
 
+    [Test]
+    public async Task OptionsClassGenerator_Emits_Case_Variant_Compatibility_Alias()
+    {
+        var command = Command("ToolBuildOptions", "ToolOptions") with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--nologo",
+                    PropertyName = "NoLogo",
+                    CSharpType = "bool?",
+                    IsFlag = true,
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "Nologo",
+                    CSharpType = "bool?",
+                    ForwardToPropertyName = "NoLogo",
+                    ObsoleteMessage = "Use NoLogo instead.",
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(generated).Contains("public bool? NoLogo { get; set; }");
+        await Assert.That(generated).Contains("public bool? Nologo");
+        await Assert.That(generated).Contains("get => NoLogo;");
+    }
+
     #endregion
 
     #region EnsureNoDuplicateFilePaths

@@ -1,5 +1,7 @@
+using System.Net;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Models;
-using ModularPipelines.OptionsGenerator.Scrapers.Cli;
+using ModularPipelines.OptionsGenerator.Scrapers;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
@@ -18,7 +20,7 @@ public class DotNetCliScraperTests
             Flag("--debug", "Debug"),
         };
 
-        DotNetCliScraper.ApplyBuildOptionCompatibility(["build"], options);
+        DotNetCliCompatibility.NormalizeOptions(["build"], options);
 
         await Assert.That(options).Count().IsEqualTo(1);
         await Assert.That(options[0].SwitchName).IsEqualTo("--nologo");
@@ -29,7 +31,7 @@ public class DotNetCliScraperTests
     [Test]
     public async Task Build_Compatibility_Preserves_Removed_Public_Properties()
     {
-        var properties = DotNetCliScraper.GetCompatibilityProperties(["build"]);
+        var properties = DotNetCliCompatibility.GetProperties(["build"]);
 
         await Assert.That(properties.Select(property => property.PropertyName))
             .IsEquivalentTo(["Nologo", "Debug"]);
@@ -37,6 +39,32 @@ public class DotNetCliScraperTests
             .IsEqualTo("NoLogo");
         await Assert.That(properties.Single(property => property.PropertyName == "Debug").ForwardToPropertyName)
             .IsNull();
+    }
+
+    [Test]
+    public async Task Documentation_Fallback_Applies_Build_Compatibility()
+    {
+        const string html = """
+                            <html><body><article>
+                            <dl>
+                              <dt>--no-logo</dt><dd>Do not display the startup banner.</dd>
+                              <dt>--debug</dt><dd>Enable debug output.</dd>
+                            </dl>
+                            </article></body></html>
+                            """;
+        using var httpClient = new HttpClient(new StaticHtmlHandler(html));
+        var scraper = new DotNetCliDocumentationScraper(
+            httpClient,
+            NullLogger<DotNetCliDocumentationScraper>.Instance);
+
+        var tool = await scraper.ScrapeAsync();
+        var build = tool.Commands.Single(command => command.CommandParts.SequenceEqual(["build"]));
+
+        await Assert.That(build.Options).Count().IsEqualTo(1);
+        await Assert.That(build.Options[0].SwitchName).IsEqualTo("--nologo");
+        await Assert.That(build.Options[0].PropertyName).IsEqualTo("NoLogo");
+        await Assert.That(build.CompatibilityProperties.Select(property => property.PropertyName))
+            .IsEquivalentTo(["Nologo", "Debug"]);
     }
 
     private static CliOptionDefinition Flag(string switchName, string propertyName) => new()
@@ -47,4 +75,16 @@ public class DotNetCliScraperTests
         CSharpType = "bool?",
         IsFlag = true,
     };
+
+    private sealed class StaticHtmlHandler(string html) : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(html),
+                RequestMessage = request,
+            });
+    }
 }
