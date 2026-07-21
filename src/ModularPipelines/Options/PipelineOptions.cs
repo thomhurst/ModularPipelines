@@ -54,6 +54,12 @@ public record PipelineOptions
     public ExecutionMode ExecutionMode { get; set; } = ExecutionMode.StopOnFirstException;
 
     /// <summary>
+    /// Gets or sets the default timeout for modules that do not configure their own timeout.
+    /// Set to <see cref="TimeSpan.Zero"/> to disable the default module timeout.
+    /// </summary>
+    public TimeSpan DefaultModuleTimeout { get; set; } = TimeSpan.FromMinutes(30);
+
+    /// <summary>
     /// Gets or sets the collection of module categories to run exclusively. If specified, only modules in these categories will run.
     /// </summary>
     public ICollection<string>? RunOnlyCategories { get; set; }

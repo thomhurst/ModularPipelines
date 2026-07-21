@@ -46,20 +46,21 @@ internal interface IModuleExecutionPipeline
 /// </remarks>
 internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 {
-    private const int DefaultTimeoutMinutes = 30;
-
     private readonly IModuleResultRepository _resultRepository;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IDirectHookInvoker _directHookInvoker;
+    private readonly IOptions<PipelineOptions> _pipelineOptions;
 
     public ModuleExecutionPipeline(
         IModuleResultRepository resultRepository,
         EngineCancellationToken engineCancellationToken,
-        IDirectHookInvoker directHookInvoker)
+        IDirectHookInvoker directHookInvoker,
+        IOptions<PipelineOptions> pipelineOptions)
     {
         _resultRepository = resultRepository;
         _engineCancellationToken = engineCancellationToken;
         _directHookInvoker = directHookInvoker;
+        _pipelineOptions = pipelineOptions;
     }
 
     public async Task<ModuleResult<T>> ExecuteAsync<T>(
@@ -256,6 +257,18 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IModuleContext moduleContext)
     {
         var timeout = GetTimeout(config);
+        if (config.Timeout is null)
+        {
+            if (timeout == TimeSpan.Zero)
+            {
+                moduleContext.Logger.LogDebug("No module timeout configured. The pipeline default timeout is disabled");
+            }
+            else
+            {
+                moduleContext.Logger.LogDebug("No module timeout configured. Using pipeline default timeout {Timeout}", timeout);
+            }
+        }
+
         var cancellationToken = executionContext.ModuleCancellationTokenSource.Token;
 
         // Get retry policy if applicable
@@ -286,9 +299,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         return timeoutResult.Value;
     }
 
-    private static TimeSpan GetTimeout(ModuleConfiguration config)
+    private TimeSpan GetTimeout(ModuleConfiguration config)
     {
-        return config.Timeout ?? TimeSpan.FromMinutes(DefaultTimeoutMinutes);
+        return config.Timeout ?? _pipelineOptions.Value.DefaultModuleTimeout;
     }
 
     private static IAsyncPolicy? GetRetryPolicy<T>(
@@ -404,7 +417,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         throw exception;
     }
 
-    private static bool IsTimeout(ModuleConfiguration config, ModuleExecutionContext executionContext, Exception exception)
+    private bool IsTimeout(ModuleConfiguration config, ModuleExecutionContext executionContext, Exception exception)
     {
         var timeout = GetTimeout(config);
         if (timeout == TimeSpan.Zero)

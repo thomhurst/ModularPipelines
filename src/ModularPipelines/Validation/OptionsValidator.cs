@@ -37,6 +37,13 @@ internal class OptionsValidator : IOptionsValidator
                 $"DefaultRetryCount cannot be negative. Current value: {options.DefaultRetryCount}"));
         }
 
+        if (options.DefaultModuleTimeout < TimeSpan.Zero)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"DefaultModuleTimeout cannot be negative. Current value: {options.DefaultModuleTimeout}"));
+        }
+
         // Validate concurrency options
         if (options.Concurrency.MaxParallelism < 1)
         {

@@ -265,6 +265,7 @@ public sealed class PipelineBuilder
             services.Configure<PipelineOptions>(opts =>
             {
                 opts.ExecutionMode = _options.ExecutionMode;
+                opts.DefaultModuleTimeout = _options.DefaultModuleTimeout;
                 opts.RunOnlyCategories = _options.RunOnlyCategories;
                 opts.IgnoreCategories = _options.IgnoreCategories;
                 opts.ShowProgressInConsole = _options.ShowProgressInConsole;

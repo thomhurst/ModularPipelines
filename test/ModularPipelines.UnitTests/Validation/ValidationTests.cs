@@ -280,6 +280,21 @@ public class ValidationTests
     }
 
     [Test]
+    public async Task ValidateAsync_WithNegativeDefaultModuleTimeout_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<SimpleModule>();
+        builder.Options.DefaultModuleTimeout = TimeSpan.FromSeconds(-1);
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.HasErrors).IsTrue();
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("DefaultModuleTimeout"))).IsTrue();
+    }
+
+    [Test]
     public async Task ValidateAsync_WithConflictingCategories_ReturnsError()
     {
         // Arrange
