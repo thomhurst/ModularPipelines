@@ -247,8 +247,9 @@ public class CodeGeneratorOrchestrator
     /// Runs all generators for a tool and writes the results to disk.
     /// All files are generated in memory and validated for path collisions before anything
     /// on disk is touched, so a scraping or generation failure never mutates the package.
-    /// Not crash-atomic: an I/O failure during the write loop itself can still leave
-    /// partial output, which the post-generation compile check catches.
+    /// Writes happen before stale files are pruned, so nothing is ever deleted until its
+    /// replacement exists on disk - an I/O failure mid-write leaves the old files in
+    /// place (possibly alongside new ones, which the compile check then catches).
     /// </summary>
     private async Task GenerateForToolAsync(
         CliToolDefinition tool,
@@ -271,16 +272,19 @@ public class CodeGeneratorOrchestrator
 
         GeneratorUtils.EnsureNoDuplicateFilePaths(generatedFiles, emittedPaths);
 
-        // Only now that generation fully succeeded is it safe to remove the old output.
-        CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory, toolDefinition.NamespacePrefix);
+        var writtenFullPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         foreach (var file in generatedFiles)
         {
             var fullPath = Path.Combine(outputDirectory, file.RelativePath);
             await WriteFileAsync(fullPath, file.Content, cancellationToken);
+            writtenFullPaths.Add(Path.GetFullPath(fullPath));
             result.FilesGenerated.Add(file.RelativePath);
             emittedPaths.Add(file.RelativePath.Replace('\\', '/'));
         }
+
+        // Only after every replacement is on disk is it safe to prune stale files.
+        CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory, toolDefinition.NamespacePrefix, writtenFullPaths);
 
         // AssemblyInfo is deliberately outside collision tracking: tools sharing an
         // output directory (kubectl + kustomize) each write the same AssemblyInfo path,
@@ -338,12 +342,17 @@ public class CodeGeneratorOrchestrator
     }
 
     /// <summary>
-    /// Cleans up old generated files before regenerating.
+    /// Prunes stale generated files after the current generation has been written.
     /// Only deletes files that match the namespace prefix to avoid removing files from other tools
     /// that share the same output directory (e.g., kubectl and kustomize in ModularPipelines.Kubernetes).
-    /// Files without the auto-generated header are never deleted - they are hand-written.
+    /// Files just written this run (<paramref name="pathsToKeep"/>) and files without the
+    /// auto-generated header (hand-written) are never deleted.
     /// </summary>
-    private void CleanupGeneratedFiles(string outputDirectory, string toolOutputDirectory, string namespacePrefix)
+    private void CleanupGeneratedFiles(
+        string outputDirectory,
+        string toolOutputDirectory,
+        string namespacePrefix,
+        IReadOnlySet<string> pathsToKeep)
     {
         var toolPath = Path.Combine(outputDirectory, toolOutputDirectory);
         if (!Directory.Exists(toolPath))
@@ -367,6 +376,11 @@ public class CodeGeneratorOrchestrator
             var generatedFiles = Directory.GetFiles(subDirPath, "*.Generated.cs", SearchOption.TopDirectoryOnly);
             foreach (var file in generatedFiles)
             {
+                if (pathsToKeep.Contains(Path.GetFullPath(file)))
+                {
+                    continue; // Written this run - not stale
+                }
+
                 var fileName = Path.GetFileName(file);
                 if (FileMatchesNamespacePrefix(fileName, namespacePrefix))
                 {

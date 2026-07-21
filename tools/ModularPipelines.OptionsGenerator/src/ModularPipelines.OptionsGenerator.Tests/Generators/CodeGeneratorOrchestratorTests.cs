@@ -190,6 +190,43 @@ public class CodeGeneratorOrchestratorTests
     }
 
     [Test]
+    public async Task Write_Failure_Preserves_Old_Files_Because_Prune_Runs_Last()
+    {
+        var (outputRoot, existingFile) = CreateOutputRootWithExistingFile();
+
+        try
+        {
+            var scraper = new FakeCliScraper { Commands = [FakeCommand()] };
+            var generator = new FakeGenerator
+            {
+                OnGenerate = _ =>
+                [
+                    new GeneratedFile
+                    {
+                        RelativePath = Path.Combine(ToolOutputDirectory, "Options", "FakeNewOptions.Generated.cs"),
+                        Content = "// new",
+                    },
+                    new GeneratedFile
+                    {
+                        // Embedded null char makes the write itself fail mid-loop
+                        RelativePath = Path.Combine(ToolOutputDirectory, "Options", "Fake\0Invalid.Generated.cs"),
+                        Content = "// bad",
+                    },
+                ],
+            };
+
+            var result = await Orchestrator(scraper, generator).GenerateAsync("fake", outputRoot);
+
+            await Assert.That(result.HasErrors).IsTrue();
+            await Assert.That(File.Exists(existingFile)).IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Successful_Generation_Replaces_Old_Output()
     {
         var (outputRoot, existingFile) = CreateOutputRootWithExistingFile();
