@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAuthEnterpriseCertificateConfig
 {
     private readonly ICommand _command;
-    private GcloudAuthEnterpriseCertificateConfigCreate _create;
+    private GcloudAuthEnterpriseCertificateConfigCreate? _create;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAuthEnterpriseCertificateConfig"/> class.

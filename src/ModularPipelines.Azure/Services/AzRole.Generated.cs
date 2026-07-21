@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzRole
 {
     private readonly ICommand _command;
-    private AzRoleAssignment _assignment;
-    private AzRoleDefinition _definition;
-    private AzRoleDenyAssignment _denyAssignment;
+    private AzRoleAssignment? _assignment;
+    private AzRoleDefinition? _definition;
+    private AzRoleDenyAssignment? _denyAssignment;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRole"/> class.

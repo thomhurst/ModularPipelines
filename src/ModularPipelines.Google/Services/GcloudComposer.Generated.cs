@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComposer
 {
     private readonly ICommand _command;
-    private GcloudComposerEnvironments _environments;
-    private GcloudComposerOperations _operations;
+    private GcloudComposerEnvironments? _environments;
+    private GcloudComposerOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComposer"/> class.

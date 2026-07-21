@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkWatcher
 {
     private readonly ICommand _command;
-    private AzNetworkWatcherConnectionMonitor _connectionMonitor;
-    private AzNetworkWatcherFlowLog _flowLog;
-    private AzNetworkWatcherPacketCapture _packetCapture;
-    private AzNetworkWatcherTroubleshooting _troubleshooting;
+    private AzNetworkWatcherConnectionMonitor? _connectionMonitor;
+    private AzNetworkWatcherFlowLog? _flowLog;
+    private AzNetworkWatcherPacketCapture? _packetCapture;
+    private AzNetworkWatcherTroubleshooting? _troubleshooting;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkWatcher"/> class.

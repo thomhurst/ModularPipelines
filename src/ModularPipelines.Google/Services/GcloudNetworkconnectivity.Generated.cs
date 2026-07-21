@@ -20,17 +20,17 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworkconnectivity
 {
     private readonly ICommand _command;
-    private GcloudNetworkconnectivityHubs _hubs;
-    private GcloudNetworkconnectivityInternalRanges _internalRanges;
-    private GcloudNetworkconnectivityLocations _locations;
-    private GcloudNetworkconnectivityMulticloudDataTransferConfigs _multicloudDataTransferConfigs;
-    private GcloudNetworkconnectivityMulticloudDataTransferSupportedServices _multicloudDataTransferSupportedServices;
-    private GcloudNetworkconnectivityOperations _operations;
-    private GcloudNetworkconnectivityPolicyBasedRoutes _policyBasedRoutes;
-    private GcloudNetworkconnectivityRegionalEndpoints _regionalEndpoints;
-    private GcloudNetworkconnectivityServiceConnectionPolicies _serviceConnectionPolicies;
-    private GcloudNetworkconnectivitySpokes _spokes;
-    private GcloudNetworkconnectivityTransports _transports;
+    private GcloudNetworkconnectivityHubs? _hubs;
+    private GcloudNetworkconnectivityInternalRanges? _internalRanges;
+    private GcloudNetworkconnectivityLocations? _locations;
+    private GcloudNetworkconnectivityMulticloudDataTransferConfigs? _multicloudDataTransferConfigs;
+    private GcloudNetworkconnectivityMulticloudDataTransferSupportedServices? _multicloudDataTransferSupportedServices;
+    private GcloudNetworkconnectivityOperations? _operations;
+    private GcloudNetworkconnectivityPolicyBasedRoutes? _policyBasedRoutes;
+    private GcloudNetworkconnectivityRegionalEndpoints? _regionalEndpoints;
+    private GcloudNetworkconnectivityServiceConnectionPolicies? _serviceConnectionPolicies;
+    private GcloudNetworkconnectivitySpokes? _spokes;
+    private GcloudNetworkconnectivityTransports? _transports;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkconnectivity"/> class.

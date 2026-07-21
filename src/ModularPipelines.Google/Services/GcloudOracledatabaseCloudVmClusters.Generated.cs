@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudOracledatabaseCloudVmClusters
 {
     private readonly ICommand _command;
-    private GcloudOracledatabaseCloudVmClustersDbNodes _dbNodes;
+    private GcloudOracledatabaseCloudVmClustersDbNodes? _dbNodes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudOracledatabaseCloudVmClusters"/> class.

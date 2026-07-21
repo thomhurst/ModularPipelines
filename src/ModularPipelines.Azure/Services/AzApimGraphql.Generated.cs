@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzApimGraphql
 {
     private readonly ICommand _command;
-    private AzApimGraphqlResolver _resolver;
+    private AzApimGraphqlResolver? _resolver;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzApimGraphql"/> class.

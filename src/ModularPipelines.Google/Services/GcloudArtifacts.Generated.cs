@@ -20,27 +20,27 @@ namespace ModularPipelines.Google.Services;
 public class GcloudArtifacts
 {
     private readonly ICommand _command;
-    private GcloudArtifactsApt _apt;
-    private GcloudArtifactsAttachments _attachments;
-    private GcloudArtifactsDocker _docker;
-    private GcloudArtifactsFiles _files;
-    private GcloudArtifactsGeneric _generic;
-    private GcloudArtifactsGo _go;
-    private GcloudArtifactsImageStreamingCache _imageStreamingCache;
-    private GcloudArtifactsLocations _locations;
-    private GcloudArtifactsOperations _operations;
-    private GcloudArtifactsPackages _packages;
-    private GcloudArtifactsPrintSettings _printSettings;
-    private GcloudArtifactsProjects _projects;
-    private GcloudArtifactsRepositories _repositories;
-    private GcloudArtifactsRules _rules;
-    private GcloudArtifactsSbom _sbom;
-    private GcloudArtifactsSettings _settings;
-    private GcloudArtifactsTags _tags;
-    private GcloudArtifactsVersions _versions;
-    private GcloudArtifactsVpcscConfig _vpcscConfig;
-    private GcloudArtifactsVulnerabilities _vulnerabilities;
-    private GcloudArtifactsYum _yum;
+    private GcloudArtifactsApt? _apt;
+    private GcloudArtifactsAttachments? _attachments;
+    private GcloudArtifactsDocker? _docker;
+    private GcloudArtifactsFiles? _files;
+    private GcloudArtifactsGeneric? _generic;
+    private GcloudArtifactsGo? _go;
+    private GcloudArtifactsImageStreamingCache? _imageStreamingCache;
+    private GcloudArtifactsLocations? _locations;
+    private GcloudArtifactsOperations? _operations;
+    private GcloudArtifactsPackages? _packages;
+    private GcloudArtifactsPrintSettings? _printSettings;
+    private GcloudArtifactsProjects? _projects;
+    private GcloudArtifactsRepositories? _repositories;
+    private GcloudArtifactsRules? _rules;
+    private GcloudArtifactsSbom? _sbom;
+    private GcloudArtifactsSettings? _settings;
+    private GcloudArtifactsTags? _tags;
+    private GcloudArtifactsVersions? _versions;
+    private GcloudArtifactsVpcscConfig? _vpcscConfig;
+    private GcloudArtifactsVulnerabilities? _vulnerabilities;
+    private GcloudArtifactsYum? _yum;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudArtifacts"/> class.

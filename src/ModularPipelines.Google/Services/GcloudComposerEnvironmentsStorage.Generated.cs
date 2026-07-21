@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComposerEnvironmentsStorage
 {
     private readonly ICommand _command;
-    private GcloudComposerEnvironmentsStorageDags _dags;
-    private GcloudComposerEnvironmentsStorageData _data;
-    private GcloudComposerEnvironmentsStoragePlugins _plugins;
+    private GcloudComposerEnvironmentsStorageDags? _dags;
+    private GcloudComposerEnvironmentsStorageData? _data;
+    private GcloudComposerEnvironmentsStoragePlugins? _plugins;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComposerEnvironmentsStorage"/> class.

@@ -20,12 +20,12 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiOrg
 {
     private readonly ICommand _command;
-    private PulumiOrgAuditLog _auditLog;
-    private PulumiOrgMember _member;
-    private PulumiOrgRole _role;
-    private PulumiOrgSearch _search;
-    private PulumiOrgUsage _usage;
-    private PulumiOrgWebhook _webhook;
+    private PulumiOrgAuditLog? _auditLog;
+    private PulumiOrgMember? _member;
+    private PulumiOrgRole? _role;
+    private PulumiOrgSearch? _search;
+    private PulumiOrgUsage? _usage;
+    private PulumiOrgWebhook? _webhook;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiOrg"/> class.

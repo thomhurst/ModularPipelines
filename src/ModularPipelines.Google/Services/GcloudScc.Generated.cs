@@ -20,20 +20,20 @@ namespace ModularPipelines.Google.Services;
 public class GcloudScc
 {
     private readonly ICommand _command;
-    private GcloudSccAssets _assets;
-    private GcloudSccBqexports _bqexports;
-    private GcloudSccCustomModules _customModules;
-    private GcloudSccFindings _findings;
-    private GcloudSccIacValidationReports _iacValidationReports;
-    private GcloudSccManage _manage;
-    private GcloudSccMuteconfigs _muteconfigs;
-    private GcloudSccNotifications _notifications;
-    private GcloudSccOperations _operations;
-    private GcloudSccPostureDeployments _postureDeployments;
-    private GcloudSccPostureOperations _postureOperations;
-    private GcloudSccPostures _postures;
-    private GcloudSccPostureTemplates _postureTemplates;
-    private GcloudSccSources _sources;
+    private GcloudSccAssets? _assets;
+    private GcloudSccBqexports? _bqexports;
+    private GcloudSccCustomModules? _customModules;
+    private GcloudSccFindings? _findings;
+    private GcloudSccIacValidationReports? _iacValidationReports;
+    private GcloudSccManage? _manage;
+    private GcloudSccMuteconfigs? _muteconfigs;
+    private GcloudSccNotifications? _notifications;
+    private GcloudSccOperations? _operations;
+    private GcloudSccPostureDeployments? _postureDeployments;
+    private GcloudSccPostureOperations? _postureOperations;
+    private GcloudSccPostures? _postures;
+    private GcloudSccPostureTemplates? _postureTemplates;
+    private GcloudSccSources? _sources;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudScc"/> class.

@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzSynapseRole
 {
     private readonly ICommand _command;
-    private AzSynapseRoleAssignment _assignment;
-    private AzSynapseRoleDefinition _definition;
+    private AzSynapseRoleAssignment? _assignment;
+    private AzSynapseRoleDefinition? _definition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseRole"/> class.

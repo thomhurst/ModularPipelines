@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataprocJobs
 {
     private readonly ICommand _command;
-    private GcloudDataprocJobsSubmit _submit;
+    private GcloudDataprocJobsSubmit? _submit;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataprocJobs"/> class.

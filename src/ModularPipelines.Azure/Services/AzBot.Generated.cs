@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzBot
 {
     private readonly ICommand _command;
-    private AzBotAuthsetting _authsetting;
-    private AzBotWebchat _webchat;
+    private AzBotAuthsetting? _authsetting;
+    private AzBotWebchat? _webchat;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBot"/> class.

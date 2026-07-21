@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzDataboxedge
 {
     private readonly ICommand _command;
-    private AzDataboxedgeBandwidthSchedule _bandwidthSchedule;
-    private AzDataboxedgeDevice _device;
-    private AzDataboxedgeOrder _order;
+    private AzDataboxedgeBandwidthSchedule? _bandwidthSchedule;
+    private AzDataboxedgeDevice? _device;
+    private AzDataboxedgeOrder? _order;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDataboxedge"/> class.

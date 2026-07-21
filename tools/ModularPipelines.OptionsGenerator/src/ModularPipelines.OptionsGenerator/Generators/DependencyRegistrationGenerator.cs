@@ -32,7 +32,7 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         var sb = new StringBuilder();
 
         // File header
-        GeneratorUtils.GenerateFileHeader(sb);
+        GeneratorUtils.GenerateFileHeaderWithNullable(sb);
 
         // Usings
         sb.AppendLine("using System.CodeDom.Compiler;");

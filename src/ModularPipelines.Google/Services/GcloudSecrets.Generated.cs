@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudSecrets
 {
     private readonly ICommand _command;
-    private GcloudSecretsLocations _locations;
-    private GcloudSecretsReplication _replication;
-    private GcloudSecretsVersions _versions;
+    private GcloudSecretsLocations? _locations;
+    private GcloudSecretsReplication? _replication;
+    private GcloudSecretsVersions? _versions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSecrets"/> class.

@@ -20,9 +20,9 @@ namespace ModularPipelines.Kubernetes.Services;
 public class KustomizeEdit
 {
     private readonly ICommand _command;
-    private KustomizeEditAdd _add;
-    private KustomizeEditRemove _remove;
-    private KustomizeEditSet _set;
+    private KustomizeEditAdd? _add;
+    private KustomizeEditRemove? _remove;
+    private KustomizeEditSet? _set;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="KustomizeEdit"/> class.

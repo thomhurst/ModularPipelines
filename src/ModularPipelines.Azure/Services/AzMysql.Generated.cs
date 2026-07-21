@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzMysql
 {
     private readonly ICommand _command;
-    private AzMysqlDb _db;
-    private AzMysqlFlexibleServer _flexibleServer;
-    private AzMysqlServer _server;
-    private AzMysqlServerLogs _serverLogs;
+    private AzMysqlDb? _db;
+    private AzMysqlFlexibleServer? _flexibleServer;
+    private AzMysqlServer? _server;
+    private AzMysqlServerLogs? _serverLogs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMysql"/> class.

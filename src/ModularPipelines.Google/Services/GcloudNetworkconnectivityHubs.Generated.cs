@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworkconnectivityHubs
 {
     private readonly ICommand _command;
-    private GcloudNetworkconnectivityHubsGroups _groups;
-    private GcloudNetworkconnectivityHubsRouteTables _routeTables;
+    private GcloudNetworkconnectivityHubsGroups? _groups;
+    private GcloudNetworkconnectivityHubsRouteTables? _routeTables;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityHubs"/> class.

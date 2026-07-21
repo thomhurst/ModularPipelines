@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudWorkstations
 {
     private readonly ICommand _command;
-    private GcloudWorkstationsClusters _clusters;
-    private GcloudWorkstationsConfigs _configs;
+    private GcloudWorkstationsClusters? _clusters;
+    private GcloudWorkstationsConfigs? _configs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudWorkstations"/> class.

@@ -20,14 +20,14 @@ namespace ModularPipelines.Google.Services;
 public class GcloudInframanager
 {
     private readonly ICommand _command;
-    private GcloudInframanagerAutomigrationconfig _automigrationconfig;
-    private GcloudInframanagerDeployments _deployments;
-    private GcloudInframanagerPreviews _previews;
-    private GcloudInframanagerResourceChanges _resourceChanges;
-    private GcloudInframanagerResourceDrifts _resourceDrifts;
-    private GcloudInframanagerResources _resources;
-    private GcloudInframanagerRevisions _revisions;
-    private GcloudInframanagerTerraformVersions _terraformVersions;
+    private GcloudInframanagerAutomigrationconfig? _automigrationconfig;
+    private GcloudInframanagerDeployments? _deployments;
+    private GcloudInframanagerPreviews? _previews;
+    private GcloudInframanagerResourceChanges? _resourceChanges;
+    private GcloudInframanagerResourceDrifts? _resourceDrifts;
+    private GcloudInframanagerResources? _resources;
+    private GcloudInframanagerRevisions? _revisions;
+    private GcloudInframanagerTerraformVersions? _terraformVersions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudInframanager"/> class.

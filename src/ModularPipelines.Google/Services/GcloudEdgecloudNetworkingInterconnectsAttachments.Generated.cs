@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudEdgecloudNetworkingInterconnectsAttachments
 {
     private readonly ICommand _command;
-    private GcloudEdgecloudNetworkingInterconnectsAttachmentsDedicated _dedicated;
+    private GcloudEdgecloudNetworkingInterconnectsAttachmentsDedicated? _dedicated;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEdgecloudNetworkingInterconnectsAttachments"/> class.

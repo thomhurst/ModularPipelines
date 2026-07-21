@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerHubPackages
 {
     private readonly ICommand _command;
-    private GcloudContainerHubPackagesResourceBundles _resourceBundles;
-    private GcloudContainerHubPackagesRollouts _rollouts;
+    private GcloudContainerHubPackagesResourceBundles? _resourceBundles;
+    private GcloudContainerHubPackagesRollouts? _rollouts;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerHubPackages"/> class.

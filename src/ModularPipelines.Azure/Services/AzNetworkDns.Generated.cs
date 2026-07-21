@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkDns
 {
     private readonly ICommand _command;
-    private AzNetworkDnsRecordSet _recordSet;
-    private AzNetworkDnsZone _zone;
+    private AzNetworkDnsRecordSet? _recordSet;
+    private AzNetworkDnsZone? _zone;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkDns"/> class.

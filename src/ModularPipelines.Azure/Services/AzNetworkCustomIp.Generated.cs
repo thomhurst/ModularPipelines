@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkCustomIp
 {
     private readonly ICommand _command;
-    private AzNetworkCustomIpPrefix _prefix;
+    private AzNetworkCustomIpPrefix? _prefix;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkCustomIp"/> class.

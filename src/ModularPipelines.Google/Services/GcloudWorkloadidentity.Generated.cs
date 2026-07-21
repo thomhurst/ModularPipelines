@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudWorkloadidentity
 {
     private readonly ICommand _command;
-    private GcloudWorkloadidentityServiceAgents _serviceAgents;
+    private GcloudWorkloadidentityServiceAgents? _serviceAgents;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudWorkloadidentity"/> class.

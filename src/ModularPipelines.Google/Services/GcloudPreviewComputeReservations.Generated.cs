@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPreviewComputeReservations
 {
     private readonly ICommand _command;
-    private GcloudPreviewComputeReservationsBlocks _blocks;
-    private GcloudPreviewComputeReservationsSlots _slots;
-    private GcloudPreviewComputeReservationsSubBlocks _subBlocks;
+    private GcloudPreviewComputeReservationsBlocks? _blocks;
+    private GcloudPreviewComputeReservationsSlots? _slots;
+    private GcloudPreviewComputeReservationsSubBlocks? _subBlocks;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeReservations"/> class.

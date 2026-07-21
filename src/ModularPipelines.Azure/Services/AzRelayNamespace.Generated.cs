@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzRelayNamespace
 {
     private readonly ICommand _command;
-    private AzRelayNamespaceAuthorizationRule _authorizationRule;
+    private AzRelayNamespaceAuthorizationRule? _authorizationRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRelayNamespace"/> class.

@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPrivateca
 {
     private readonly ICommand _command;
-    private GcloudPrivatecaCertificates _certificates;
-    private GcloudPrivatecaLocations _locations;
-    private GcloudPrivatecaOperations _operations;
-    private GcloudPrivatecaPools _pools;
-    private GcloudPrivatecaRoots _roots;
-    private GcloudPrivatecaSubordinates _subordinates;
-    private GcloudPrivatecaTemplates _templates;
+    private GcloudPrivatecaCertificates? _certificates;
+    private GcloudPrivatecaLocations? _locations;
+    private GcloudPrivatecaOperations? _operations;
+    private GcloudPrivatecaPools? _pools;
+    private GcloudPrivatecaRoots? _roots;
+    private GcloudPrivatecaSubordinates? _subordinates;
+    private GcloudPrivatecaTemplates? _templates;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPrivateca"/> class.

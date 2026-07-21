@@ -20,16 +20,16 @@ namespace ModularPipelines.Google.Services;
 public class GcloudStorage
 {
     private readonly ICommand _command;
-    private GcloudStorageBatchOperations _batchOperations;
-    private GcloudStorageBuckets _buckets;
-    private GcloudStorageFolders _folders;
-    private GcloudStorageHmac _hmac;
-    private GcloudStorageInsights _insights;
-    private GcloudStorageIntelligenceConfigs _intelligenceConfigs;
-    private GcloudStorageIntelligenceFindings _intelligenceFindings;
-    private GcloudStorageManagedFolders _managedFolders;
-    private GcloudStorageObjects _objects;
-    private GcloudStorageOperations _operations;
+    private GcloudStorageBatchOperations? _batchOperations;
+    private GcloudStorageBuckets? _buckets;
+    private GcloudStorageFolders? _folders;
+    private GcloudStorageHmac? _hmac;
+    private GcloudStorageInsights? _insights;
+    private GcloudStorageIntelligenceConfigs? _intelligenceConfigs;
+    private GcloudStorageIntelligenceFindings? _intelligenceFindings;
+    private GcloudStorageManagedFolders? _managedFolders;
+    private GcloudStorageObjects? _objects;
+    private GcloudStorageOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudStorage"/> class.

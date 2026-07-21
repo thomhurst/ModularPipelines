@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudEmulators
 {
     private readonly ICommand _command;
-    private GcloudEmulatorsFirestore _firestore;
-    private GcloudEmulatorsSpanner _spanner;
+    private GcloudEmulatorsFirestore? _firestore;
+    private GcloudEmulatorsSpanner? _spanner;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEmulators"/> class.

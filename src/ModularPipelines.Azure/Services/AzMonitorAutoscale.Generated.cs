@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitorAutoscale
 {
     private readonly ICommand _command;
-    private AzMonitorAutoscaleProfile _profile;
-    private AzMonitorAutoscaleRule _rule;
+    private AzMonitorAutoscaleProfile? _profile;
+    private AzMonitorAutoscaleRule? _rule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorAutoscale"/> class.

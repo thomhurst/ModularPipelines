@@ -20,17 +20,17 @@ namespace ModularPipelines.Azure.Services;
 public class AzMysqlFlexibleServer
 {
     private readonly ICommand _command;
-    private AzMysqlFlexibleServerAdAdmin _adAdmin;
-    private AzMysqlFlexibleServerBackup _backup;
-    private AzMysqlFlexibleServerDb _db;
-    private AzMysqlFlexibleServerDeploy _deploy;
-    private AzMysqlFlexibleServerFirewallRule _firewallRule;
-    private AzMysqlFlexibleServerGtid _gtid;
-    private AzMysqlFlexibleServerIdentity _identity;
-    private AzMysqlFlexibleServerImport _import;
-    private AzMysqlFlexibleServerParameter _parameter;
-    private AzMysqlFlexibleServerReplica _replica;
-    private AzMysqlFlexibleServerServerLogs _serverLogs;
+    private AzMysqlFlexibleServerAdAdmin? _adAdmin;
+    private AzMysqlFlexibleServerBackup? _backup;
+    private AzMysqlFlexibleServerDb? _db;
+    private AzMysqlFlexibleServerDeploy? _deploy;
+    private AzMysqlFlexibleServerFirewallRule? _firewallRule;
+    private AzMysqlFlexibleServerGtid? _gtid;
+    private AzMysqlFlexibleServerIdentity? _identity;
+    private AzMysqlFlexibleServerImport? _import;
+    private AzMysqlFlexibleServerParameter? _parameter;
+    private AzMysqlFlexibleServerReplica? _replica;
+    private AzMysqlFlexibleServerServerLogs? _serverLogs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMysqlFlexibleServer"/> class.

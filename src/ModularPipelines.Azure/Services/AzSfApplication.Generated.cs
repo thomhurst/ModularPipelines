@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzSfApplication
 {
     private readonly ICommand _command;
-    private AzSfApplicationCertificate _certificate;
+    private AzSfApplicationCertificate? _certificate;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSfApplication"/> class.

@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerFleetMemberships
 {
     private readonly ICommand _command;
-    private GcloudContainerFleetMembershipsBindings _bindings;
-    private GcloudContainerFleetMembershipsSupportAccess _supportAccess;
+    private GcloudContainerFleetMembershipsBindings? _bindings;
+    private GcloudContainerFleetMembershipsSupportAccess? _supportAccess;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerFleetMemberships"/> class.

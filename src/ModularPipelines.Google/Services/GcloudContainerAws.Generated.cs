@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerAws
 {
     private readonly ICommand _command;
-    private GcloudContainerAwsClusters _clusters;
-    private GcloudContainerAwsNodePools _nodePools;
-    private GcloudContainerAwsOperations _operations;
+    private GcloudContainerAwsClusters? _clusters;
+    private GcloudContainerAwsNodePools? _nodePools;
+    private GcloudContainerAwsOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerAws"/> class.

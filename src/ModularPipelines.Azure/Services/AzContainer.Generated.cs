@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzContainer
 {
     private readonly ICommand _command;
-    private AzContainerContainerGroupProfile _containerGroupProfile;
+    private AzContainerContainerGroupProfile? _containerGroupProfile;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainer"/> class.

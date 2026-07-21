@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudSqlSsl
 {
     private readonly ICommand _command;
-    private GcloudSqlSslClientCerts _clientCerts;
-    private GcloudSqlSslEntraidCerts _entraidCerts;
-    private GcloudSqlSslServerCaCerts _serverCaCerts;
-    private GcloudSqlSslServerCerts _serverCerts;
+    private GcloudSqlSslClientCerts? _clientCerts;
+    private GcloudSqlSslEntraidCerts? _entraidCerts;
+    private GcloudSqlSslServerCaCerts? _serverCaCerts;
+    private GcloudSqlSslServerCerts? _serverCerts;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSqlSsl"/> class.

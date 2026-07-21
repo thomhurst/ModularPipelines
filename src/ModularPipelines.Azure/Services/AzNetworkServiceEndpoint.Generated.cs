@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkServiceEndpoint
 {
     private readonly ICommand _command;
-    private AzNetworkServiceEndpointPolicy _policy;
-    private AzNetworkServiceEndpointPolicyDefinition _policyDefinition;
+    private AzNetworkServiceEndpointPolicy? _policy;
+    private AzNetworkServiceEndpointPolicyDefinition? _policyDefinition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkServiceEndpoint"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzEventgridPartnerNamespace
 {
     private readonly ICommand _command;
-    private AzEventgridPartnerNamespaceChannel _channel;
+    private AzEventgridPartnerNamespaceChannel? _channel;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventgridPartnerNamespace"/> class.

@@ -20,19 +20,19 @@ namespace ModularPipelines.Azure.Services;
 public class AzAms
 {
     private readonly ICommand _command;
-    private AzAmsAccount _account;
-    private AzAmsAccountFilter _accountFilter;
-    private AzAmsAsset _asset;
-    private AzAmsAssetFilter _assetFilter;
-    private AzAmsAssetTrack _assetTrack;
-    private AzAmsContentKeyPolicy _contentKeyPolicy;
-    private AzAmsJob _job;
-    private AzAmsLiveEvent _liveEvent;
-    private AzAmsLiveOutput _liveOutput;
-    private AzAmsStreamingEndpoint _streamingEndpoint;
-    private AzAmsStreamingLocator _streamingLocator;
-    private AzAmsStreamingPolicy _streamingPolicy;
-    private AzAmsTransform _transform;
+    private AzAmsAccount? _account;
+    private AzAmsAccountFilter? _accountFilter;
+    private AzAmsAsset? _asset;
+    private AzAmsAssetFilter? _assetFilter;
+    private AzAmsAssetTrack? _assetTrack;
+    private AzAmsContentKeyPolicy? _contentKeyPolicy;
+    private AzAmsJob? _job;
+    private AzAmsLiveEvent? _liveEvent;
+    private AzAmsLiveOutput? _liveOutput;
+    private AzAmsStreamingEndpoint? _streamingEndpoint;
+    private AzAmsStreamingLocator? _streamingLocator;
+    private AzAmsStreamingPolicy? _streamingPolicy;
+    private AzAmsTransform? _transform;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAms"/> class.

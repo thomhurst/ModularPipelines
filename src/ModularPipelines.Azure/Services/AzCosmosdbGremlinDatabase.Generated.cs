@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzCosmosdbGremlinDatabase
 {
     private readonly ICommand _command;
-    private AzCosmosdbGremlinDatabaseThroughput _throughput;
+    private AzCosmosdbGremlinDatabaseThroughput? _throughput;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbGremlinDatabase"/> class.

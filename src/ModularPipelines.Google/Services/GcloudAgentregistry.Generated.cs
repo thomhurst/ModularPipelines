@@ -20,12 +20,12 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAgentregistry
 {
     private readonly ICommand _command;
-    private GcloudAgentregistryAgents _agents;
-    private GcloudAgentregistryBindings _bindings;
-    private GcloudAgentregistryEndpoints _endpoints;
-    private GcloudAgentregistryMcpServers _mcpServers;
-    private GcloudAgentregistryOperations _operations;
-    private GcloudAgentregistryServices _services;
+    private GcloudAgentregistryAgents? _agents;
+    private GcloudAgentregistryBindings? _bindings;
+    private GcloudAgentregistryEndpoints? _endpoints;
+    private GcloudAgentregistryMcpServers? _mcpServers;
+    private GcloudAgentregistryOperations? _operations;
+    private GcloudAgentregistryServices? _services;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAgentregistry"/> class.

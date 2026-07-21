@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataprocBatches
 {
     private readonly ICommand _command;
-    private GcloudDataprocBatchesSubmit _submit;
+    private GcloudDataprocBatchesSubmit? _submit;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataprocBatches"/> class.

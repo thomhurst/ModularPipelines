@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzSqlVmGroup
 {
     private readonly ICommand _command;
-    private AzSqlVmGroupAgListener _agListener;
+    private AzSqlVmGroupAgListener? _agListener;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlVmGroup"/> class.

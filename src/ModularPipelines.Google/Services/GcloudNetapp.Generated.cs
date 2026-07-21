@@ -20,15 +20,15 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetapp
 {
     private readonly ICommand _command;
-    private GcloudNetappActiveDirectories _activeDirectories;
-    private GcloudNetappBackupPolicies _backupPolicies;
-    private GcloudNetappBackupVaults _backupVaults;
-    private GcloudNetappHostGroups _hostGroups;
-    private GcloudNetappKmsConfigs _kmsConfigs;
-    private GcloudNetappLocations _locations;
-    private GcloudNetappOperations _operations;
-    private GcloudNetappStoragePools _storagePools;
-    private GcloudNetappVolumes _volumes;
+    private GcloudNetappActiveDirectories? _activeDirectories;
+    private GcloudNetappBackupPolicies? _backupPolicies;
+    private GcloudNetappBackupVaults? _backupVaults;
+    private GcloudNetappHostGroups? _hostGroups;
+    private GcloudNetappKmsConfigs? _kmsConfigs;
+    private GcloudNetappLocations? _locations;
+    private GcloudNetappOperations? _operations;
+    private GcloudNetappStoragePools? _storagePools;
+    private GcloudNetappVolumes? _volumes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetapp"/> class.

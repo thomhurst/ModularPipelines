@@ -20,25 +20,25 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerHub
 {
     private readonly ICommand _command;
-    private GcloudContainerHubCloudrun _cloudrun;
-    private GcloudContainerHubClusterupgrade _clusterupgrade;
-    private GcloudContainerHubConfigManagement _configManagement;
-    private GcloudContainerHubDataplaneV2Encryption _dataplaneV2Encryption;
-    private GcloudContainerHubFeatures _features;
-    private GcloudContainerHubFleetobservability _fleetobservability;
-    private GcloudContainerHubIdentityService _identityService;
-    private GcloudContainerHubIngress _ingress;
-    private GcloudContainerHubMemberships _memberships;
-    private GcloudContainerHubMesh _mesh;
-    private GcloudContainerHubMultiClusterServices _multiClusterServices;
-    private GcloudContainerHubOperations _operations;
-    private GcloudContainerHubPackages _packages;
-    private GcloudContainerHubPolicycontroller _policycontroller;
-    private GcloudContainerHubRbacrolebindingactuation _rbacrolebindingactuation;
-    private GcloudContainerHubRollouts _rollouts;
-    private GcloudContainerHubRolloutsequences _rolloutsequences;
-    private GcloudContainerHubScopes _scopes;
-    private GcloudContainerHubWorkloadIdentity _workloadIdentity;
+    private GcloudContainerHubCloudrun? _cloudrun;
+    private GcloudContainerHubClusterupgrade? _clusterupgrade;
+    private GcloudContainerHubConfigManagement? _configManagement;
+    private GcloudContainerHubDataplaneV2Encryption? _dataplaneV2Encryption;
+    private GcloudContainerHubFeatures? _features;
+    private GcloudContainerHubFleetobservability? _fleetobservability;
+    private GcloudContainerHubIdentityService? _identityService;
+    private GcloudContainerHubIngress? _ingress;
+    private GcloudContainerHubMemberships? _memberships;
+    private GcloudContainerHubMesh? _mesh;
+    private GcloudContainerHubMultiClusterServices? _multiClusterServices;
+    private GcloudContainerHubOperations? _operations;
+    private GcloudContainerHubPackages? _packages;
+    private GcloudContainerHubPolicycontroller? _policycontroller;
+    private GcloudContainerHubRbacrolebindingactuation? _rbacrolebindingactuation;
+    private GcloudContainerHubRollouts? _rollouts;
+    private GcloudContainerHubRolloutsequences? _rolloutsequences;
+    private GcloudContainerHubScopes? _scopes;
+    private GcloudContainerHubWorkloadIdentity? _workloadIdentity;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerHub"/> class.

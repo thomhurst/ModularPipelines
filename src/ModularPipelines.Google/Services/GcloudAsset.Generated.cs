@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAsset
 {
     private readonly ICommand _command;
-    private GcloudAssetFeeds _feeds;
-    private GcloudAssetOperations _operations;
-    private GcloudAssetSavedQueries _savedQueries;
+    private GcloudAssetFeeds? _feeds;
+    private GcloudAssetOperations? _operations;
+    private GcloudAssetSavedQueries? _savedQueries;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAsset"/> class.

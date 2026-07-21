@@ -20,11 +20,11 @@ namespace ModularPipelines.Azure.Services;
 public class AzApim
 {
     private readonly ICommand _command;
-    private AzApimApi _api;
-    private AzApimBackend _backend;
-    private AzApimGraphql _graphql;
-    private AzApimNv _nv;
-    private AzApimProduct _product;
+    private AzApimApi? _api;
+    private AzApimBackend? _backend;
+    private AzApimGraphql? _graphql;
+    private AzApimNv? _nv;
+    private AzApimProduct? _product;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzApim"/> class.

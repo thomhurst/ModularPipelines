@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMigration
 {
     private readonly ICommand _command;
-    private GcloudMigrationVms _vms;
+    private GcloudMigrationVms? _vms;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMigration"/> class.

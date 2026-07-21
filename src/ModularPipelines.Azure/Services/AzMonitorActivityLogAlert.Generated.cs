@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitorActivityLogAlert
 {
     private readonly ICommand _command;
-    private AzMonitorActivityLogAlertActionGroup _actionGroup;
-    private AzMonitorActivityLogAlertScope _scope;
+    private AzMonitorActivityLogAlertActionGroup? _actionGroup;
+    private AzMonitorActivityLogAlertScope? _scope;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorActivityLogAlert"/> class.

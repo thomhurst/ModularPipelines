@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerHubPolicycontroller
 {
     private readonly ICommand _command;
-    private GcloudContainerHubPolicycontrollerContent _content;
-    private GcloudContainerHubPolicycontrollerDeployment _deployment;
+    private GcloudContainerHubPolicycontrollerContent? _content;
+    private GcloudContainerHubPolicycontrollerDeployment? _deployment;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerHubPolicycontroller"/> class.

@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudFunctions
 {
     private readonly ICommand _command;
-    private GcloudFunctionsEventTypes _eventTypes;
-    private GcloudFunctionsLogs _logs;
-    private GcloudFunctionsRegions _regions;
-    private GcloudFunctionsRuntimes _runtimes;
+    private GcloudFunctionsEventTypes? _eventTypes;
+    private GcloudFunctionsLogs? _logs;
+    private GcloudFunctionsRegions? _regions;
+    private GcloudFunctionsRuntimes? _runtimes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFunctions"/> class.

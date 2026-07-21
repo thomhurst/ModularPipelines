@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudConfig
 {
     private readonly ICommand _command;
-    private GcloudConfigConfigurations _configurations;
+    private GcloudConfigConfigurations? _configurations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudConfig"/> class.

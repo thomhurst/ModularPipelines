@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkApplicationGatewayWafPolicy
 {
     private readonly ICommand _command;
-    private AzNetworkApplicationGatewayWafPolicyCustomRule _customRule;
-    private AzNetworkApplicationGatewayWafPolicyManagedRule _managedRule;
-    private AzNetworkApplicationGatewayWafPolicyPolicySetting _policySetting;
+    private AzNetworkApplicationGatewayWafPolicyCustomRule? _customRule;
+    private AzNetworkApplicationGatewayWafPolicyManagedRule? _managedRule;
+    private AzNetworkApplicationGatewayWafPolicyPolicySetting? _policySetting;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGatewayWafPolicy"/> class.

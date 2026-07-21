@@ -20,11 +20,11 @@ namespace ModularPipelines.Azure.Services;
 public class AzFunctionappDeployment
 {
     private readonly ICommand _command;
-    private AzFunctionappDeploymentContainer _container;
-    private AzFunctionappDeploymentGithubActions _githubActions;
-    private AzFunctionappDeploymentSlot _slot;
-    private AzFunctionappDeploymentSource _source;
-    private AzFunctionappDeploymentUser _user;
+    private AzFunctionappDeploymentContainer? _container;
+    private AzFunctionappDeploymentGithubActions? _githubActions;
+    private AzFunctionappDeploymentSlot? _slot;
+    private AzFunctionappDeploymentSource? _source;
+    private AzFunctionappDeploymentUser? _user;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzFunctionappDeployment"/> class.

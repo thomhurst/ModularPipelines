@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzAdApp
 {
     private readonly ICommand _command;
-    private AzAdAppCredential _credential;
-    private AzAdAppPermission _permission;
+    private AzAdAppCredential? _credential;
+    private AzAdAppPermission? _permission;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAdApp"/> class.

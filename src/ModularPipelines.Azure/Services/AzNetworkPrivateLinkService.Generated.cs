@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkPrivateLinkService
 {
     private readonly ICommand _command;
-    private AzNetworkPrivateLinkServiceConnection _connection;
+    private AzNetworkPrivateLinkServiceConnection? _connection;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkPrivateLinkService"/> class.

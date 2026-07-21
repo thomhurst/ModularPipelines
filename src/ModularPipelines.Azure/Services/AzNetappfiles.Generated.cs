@@ -20,12 +20,12 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetappfiles
 {
     private readonly ICommand _command;
-    private AzNetappfilesAccount _account;
-    private AzNetappfilesCache _cache;
-    private AzNetappfilesPool _pool;
-    private AzNetappfilesSnapshot _snapshot;
-    private AzNetappfilesVolume _volume;
-    private AzNetappfilesVolumeGroup _volumeGroup;
+    private AzNetappfilesAccount? _account;
+    private AzNetappfilesCache? _cache;
+    private AzNetappfilesPool? _pool;
+    private AzNetappfilesSnapshot? _snapshot;
+    private AzNetappfilesVolume? _volume;
+    private AzNetappfilesVolumeGroup? _volumeGroup;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetappfiles"/> class.

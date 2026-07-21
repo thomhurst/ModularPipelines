@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzAmsContentKeyPolicy
 {
     private readonly ICommand _command;
-    private AzAmsContentKeyPolicyOption _option;
+    private AzAmsContentKeyPolicyOption? _option;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAmsContentKeyPolicy"/> class.

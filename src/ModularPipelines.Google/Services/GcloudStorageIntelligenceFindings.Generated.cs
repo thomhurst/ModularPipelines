@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudStorageIntelligenceFindings
 {
     private readonly ICommand _command;
-    private GcloudStorageIntelligenceFindingsRevisions _revisions;
+    private GcloudStorageIntelligenceFindingsRevisions? _revisions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudStorageIntelligenceFindings"/> class.

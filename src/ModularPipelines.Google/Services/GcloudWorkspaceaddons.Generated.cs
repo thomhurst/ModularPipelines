@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudWorkspaceaddons
 {
     private readonly ICommand _command;
-    private GcloudWorkspaceaddonsDeployments _deployments;
+    private GcloudWorkspaceaddonsDeployments? _deployments;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudWorkspaceaddons"/> class.

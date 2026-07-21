@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzIot
 {
     private readonly ICommand _command;
-    private AzIotCentral _central;
-    private AzIotDps _dps;
-    private AzIotHub _hub;
+    private AzIotCentral? _central;
+    private AzIotDps? _dps;
+    private AzIotHub? _hub;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzIot"/> class.

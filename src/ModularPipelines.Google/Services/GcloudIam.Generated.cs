@@ -20,15 +20,15 @@ namespace ModularPipelines.Google.Services;
 public class GcloudIam
 {
     private readonly ICommand _command;
-    private GcloudIamOauthClients _oauthClients;
-    private GcloudIamPolicies _policies;
-    private GcloudIamPolicyBindings _policyBindings;
-    private GcloudIamPrincipalAccessBoundaryPolicies _principalAccessBoundaryPolicies;
-    private GcloudIamRoles _roles;
-    private GcloudIamServiceAccounts _serviceAccounts;
-    private GcloudIamSimulator _simulator;
-    private GcloudIamWorkforcePools _workforcePools;
-    private GcloudIamWorkloadIdentityPools _workloadIdentityPools;
+    private GcloudIamOauthClients? _oauthClients;
+    private GcloudIamPolicies? _policies;
+    private GcloudIamPolicyBindings? _policyBindings;
+    private GcloudIamPrincipalAccessBoundaryPolicies? _principalAccessBoundaryPolicies;
+    private GcloudIamRoles? _roles;
+    private GcloudIamServiceAccounts? _serviceAccounts;
+    private GcloudIamSimulator? _simulator;
+    private GcloudIamWorkforcePools? _workforcePools;
+    private GcloudIamWorkloadIdentityPools? _workloadIdentityPools;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIam"/> class.

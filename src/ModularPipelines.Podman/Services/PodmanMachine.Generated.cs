@@ -20,7 +20,7 @@ namespace ModularPipelines.Podman.Services;
 public class PodmanMachine
 {
     private readonly ICommand _command;
-    private PodmanMachineOs _os;
+    private PodmanMachineOs? _os;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PodmanMachine"/> class.

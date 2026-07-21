@@ -20,7 +20,7 @@ namespace ModularPipelines.Docker.Services;
 public class DockerCompose
 {
     private readonly ICommand _command;
-    private DockerComposeBridge _bridge;
+    private DockerComposeBridge? _bridge;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerCompose"/> class.

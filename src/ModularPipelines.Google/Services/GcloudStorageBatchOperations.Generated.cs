@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudStorageBatchOperations
 {
     private readonly ICommand _command;
-    private GcloudStorageBatchOperationsBucketOperations _bucketOperations;
-    private GcloudStorageBatchOperationsJobs _jobs;
+    private GcloudStorageBatchOperationsBucketOperations? _bucketOperations;
+    private GcloudStorageBatchOperationsJobs? _jobs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudStorageBatchOperations"/> class.

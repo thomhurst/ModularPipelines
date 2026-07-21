@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzAmsStreamingEndpoint
 {
     private readonly ICommand _command;
-    private AzAmsStreamingEndpointAkamai _akamai;
+    private AzAmsStreamingEndpointAkamai? _akamai;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAmsStreamingEndpoint"/> class.

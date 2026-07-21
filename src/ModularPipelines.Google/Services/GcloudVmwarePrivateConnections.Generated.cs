@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudVmwarePrivateConnections
 {
     private readonly ICommand _command;
-    private GcloudVmwarePrivateConnectionsRoutes _routes;
+    private GcloudVmwarePrivateConnectionsRoutes? _routes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmwarePrivateConnections"/> class.

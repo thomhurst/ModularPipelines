@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudOracledatabaseGiVersions
 {
     private readonly ICommand _command;
-    private GcloudOracledatabaseGiVersionsMinorVersions _minorVersions;
+    private GcloudOracledatabaseGiVersionsMinorVersions? _minorVersions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudOracledatabaseGiVersions"/> class.

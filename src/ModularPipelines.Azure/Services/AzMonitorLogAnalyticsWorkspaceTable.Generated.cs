@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitorLogAnalyticsWorkspaceTable
 {
     private readonly ICommand _command;
-    private AzMonitorLogAnalyticsWorkspaceTableRestore _restore;
-    private AzMonitorLogAnalyticsWorkspaceTableSearchJob _searchJob;
+    private AzMonitorLogAnalyticsWorkspaceTableRestore? _restore;
+    private AzMonitorLogAnalyticsWorkspaceTableSearchJob? _searchJob;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorLogAnalyticsWorkspaceTable"/> class.

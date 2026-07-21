@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworkconnectivitySpokesGateways
 {
     private readonly ICommand _command;
-    private GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes _advertisedRoutes;
+    private GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes? _advertisedRoutes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkconnectivitySpokesGateways"/> class.

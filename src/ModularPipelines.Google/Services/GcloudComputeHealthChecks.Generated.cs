@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComputeHealthChecks
 {
     private readonly ICommand _command;
-    private GcloudComputeHealthChecksCreate _create;
-    private GcloudComputeHealthChecksUpdate _update;
+    private GcloudComputeHealthChecksCreate? _create;
+    private GcloudComputeHealthChecksUpdate? _update;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeHealthChecks"/> class.

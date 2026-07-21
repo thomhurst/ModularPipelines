@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzEventgridTopic
 {
     private readonly ICommand _command;
-    private AzEventgridTopicEventSubscription _eventSubscription;
+    private AzEventgridTopicEventSubscription? _eventSubscription;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventgridTopic"/> class.

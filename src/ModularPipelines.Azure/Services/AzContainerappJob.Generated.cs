@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzContainerappJob
 {
     private readonly ICommand _command;
-    private AzContainerappJobIdentity _identity;
-    private AzContainerappJobSecret _secret;
+    private AzContainerappJobIdentity? _identity;
+    private AzContainerappJobSecret? _secret;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainerappJob"/> class.

@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBiglakeDeltaSharing
 {
     private readonly ICommand _command;
-    private GcloudBiglakeDeltaSharingCatalogs _catalogs;
-    private GcloudBiglakeDeltaSharingSchemas _schemas;
-    private GcloudBiglakeDeltaSharingShares _shares;
-    private GcloudBiglakeDeltaSharingTables _tables;
+    private GcloudBiglakeDeltaSharingCatalogs? _catalogs;
+    private GcloudBiglakeDeltaSharingSchemas? _schemas;
+    private GcloudBiglakeDeltaSharingShares? _shares;
+    private GcloudBiglakeDeltaSharingTables? _tables;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBiglakeDeltaSharing"/> class.

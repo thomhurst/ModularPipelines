@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudVmwareNetworkPolicies
 {
     private readonly ICommand _command;
-    private GcloudVmwareNetworkPoliciesExternalAccessRules _externalAccessRules;
+    private GcloudVmwareNetworkPoliciesExternalAccessRules? _externalAccessRules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmwareNetworkPolicies"/> class.

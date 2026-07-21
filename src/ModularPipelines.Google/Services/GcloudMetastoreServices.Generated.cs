@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMetastoreServices
 {
     private readonly ICommand _command;
-    private GcloudMetastoreServicesBackups _backups;
-    private GcloudMetastoreServicesExport _export;
-    private GcloudMetastoreServicesImport _import;
+    private GcloudMetastoreServicesBackups? _backups;
+    private GcloudMetastoreServicesExport? _export;
+    private GcloudMetastoreServicesImport? _import;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMetastoreServices"/> class.

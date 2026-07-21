@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkVirtualAppliance
 {
     private readonly ICommand _command;
-    private AzNetworkVirtualApplianceConnection _connection;
-    private AzNetworkVirtualApplianceIdentity _identity;
-    private AzNetworkVirtualApplianceInboundSecurityRule _inboundSecurityRule;
-    private AzNetworkVirtualApplianceSite _site;
+    private AzNetworkVirtualApplianceConnection? _connection;
+    private AzNetworkVirtualApplianceIdentity? _identity;
+    private AzNetworkVirtualApplianceInboundSecurityRule? _inboundSecurityRule;
+    private AzNetworkVirtualApplianceSite? _site;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkVirtualAppliance"/> class.

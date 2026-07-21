@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudServicesVpcPeerings
 {
     private readonly ICommand _command;
-    private GcloudServicesVpcPeeringsOperations _operations;
+    private GcloudServicesVpcPeeringsOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudServicesVpcPeerings"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudIamOauthClients
 {
     private readonly ICommand _command;
-    private GcloudIamOauthClientsCredentials _credentials;
+    private GcloudIamOauthClientsCredentials? _credentials;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIamOauthClients"/> class.

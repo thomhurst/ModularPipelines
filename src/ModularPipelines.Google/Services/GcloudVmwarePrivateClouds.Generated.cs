@@ -20,16 +20,16 @@ namespace ModularPipelines.Google.Services;
 public class GcloudVmwarePrivateClouds
 {
     private readonly ICommand _command;
-    private GcloudVmwarePrivateCloudsClusters _clusters;
-    private GcloudVmwarePrivateCloudsDnsForwarding _dnsForwarding;
-    private GcloudVmwarePrivateCloudsExternalAddresses _externalAddresses;
-    private GcloudVmwarePrivateCloudsHcx _hcx;
-    private GcloudVmwarePrivateCloudsLoggingServers _loggingServers;
-    private GcloudVmwarePrivateCloudsManagementDnsZoneBindings _managementDnsZoneBindings;
-    private GcloudVmwarePrivateCloudsNsx _nsx;
-    private GcloudVmwarePrivateCloudsSubnets _subnets;
-    private GcloudVmwarePrivateCloudsUpgrades _upgrades;
-    private GcloudVmwarePrivateCloudsVcenter _vcenter;
+    private GcloudVmwarePrivateCloudsClusters? _clusters;
+    private GcloudVmwarePrivateCloudsDnsForwarding? _dnsForwarding;
+    private GcloudVmwarePrivateCloudsExternalAddresses? _externalAddresses;
+    private GcloudVmwarePrivateCloudsHcx? _hcx;
+    private GcloudVmwarePrivateCloudsLoggingServers? _loggingServers;
+    private GcloudVmwarePrivateCloudsManagementDnsZoneBindings? _managementDnsZoneBindings;
+    private GcloudVmwarePrivateCloudsNsx? _nsx;
+    private GcloudVmwarePrivateCloudsSubnets? _subnets;
+    private GcloudVmwarePrivateCloudsUpgrades? _upgrades;
+    private GcloudVmwarePrivateCloudsVcenter? _vcenter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmwarePrivateClouds"/> class.

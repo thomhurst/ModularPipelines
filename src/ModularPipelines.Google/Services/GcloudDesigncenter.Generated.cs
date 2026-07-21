@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDesigncenter
 {
     private readonly ICommand _command;
-    private GcloudDesigncenterLocations _locations;
-    private GcloudDesigncenterOperations _operations;
-    private GcloudDesigncenterSpaces _spaces;
+    private GcloudDesigncenterLocations? _locations;
+    private GcloudDesigncenterOperations? _operations;
+    private GcloudDesigncenterSpaces? _spaces;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDesigncenter"/> class.

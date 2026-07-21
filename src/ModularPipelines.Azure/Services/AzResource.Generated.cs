@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzResource
 {
     private readonly ICommand _command;
-    private AzResourceLink _link;
-    private AzResourceLock _lock;
+    private AzResourceLink? _link;
+    private AzResourceLock? _lock;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzResource"/> class.

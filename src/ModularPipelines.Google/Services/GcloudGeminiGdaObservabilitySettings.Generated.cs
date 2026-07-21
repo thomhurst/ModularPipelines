@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudGeminiGdaObservabilitySettings
 {
     private readonly ICommand _command;
-    private GcloudGeminiGdaObservabilitySettingsSettingBindings _settingBindings;
+    private GcloudGeminiGdaObservabilitySettingsSettingBindings? _settingBindings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudGeminiGdaObservabilitySettings"/> class.

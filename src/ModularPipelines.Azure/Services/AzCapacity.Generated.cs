@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzCapacity
 {
     private readonly ICommand _command;
-    private AzCapacityReservation _reservation;
+    private AzCapacityReservation? _reservation;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCapacity"/> class.

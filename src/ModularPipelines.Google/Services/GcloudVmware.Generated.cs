@@ -20,17 +20,17 @@ namespace ModularPipelines.Google.Services;
 public class GcloudVmware
 {
     private readonly ICommand _command;
-    private GcloudVmwareAnnouncements _announcements;
-    private GcloudVmwareDatastores _datastores;
-    private GcloudVmwareDnsBindPermission _dnsBindPermission;
-    private GcloudVmwareLocations _locations;
-    private GcloudVmwareNetworkPeerings _networkPeerings;
-    private GcloudVmwareNetworkPolicies _networkPolicies;
-    private GcloudVmwareNetworks _networks;
-    private GcloudVmwareNodeTypes _nodeTypes;
-    private GcloudVmwareOperations _operations;
-    private GcloudVmwarePrivateClouds _privateClouds;
-    private GcloudVmwarePrivateConnections _privateConnections;
+    private GcloudVmwareAnnouncements? _announcements;
+    private GcloudVmwareDatastores? _datastores;
+    private GcloudVmwareDnsBindPermission? _dnsBindPermission;
+    private GcloudVmwareLocations? _locations;
+    private GcloudVmwareNetworkPeerings? _networkPeerings;
+    private GcloudVmwareNetworkPolicies? _networkPolicies;
+    private GcloudVmwareNetworks? _networks;
+    private GcloudVmwareNodeTypes? _nodeTypes;
+    private GcloudVmwareOperations? _operations;
+    private GcloudVmwarePrivateClouds? _privateClouds;
+    private GcloudVmwarePrivateConnections? _privateConnections;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmware"/> class.

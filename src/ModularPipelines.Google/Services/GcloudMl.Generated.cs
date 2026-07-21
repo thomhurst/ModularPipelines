@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMl
 {
     private readonly ICommand _command;
-    private GcloudMlLanguage _language;
-    private GcloudMlSpeech _speech;
-    private GcloudMlVideo _video;
-    private GcloudMlVision _vision;
+    private GcloudMlLanguage? _language;
+    private GcloudMlSpeech? _speech;
+    private GcloudMlVideo? _video;
+    private GcloudMlVision? _vision;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMl"/> class.

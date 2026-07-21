@@ -20,12 +20,12 @@ namespace ModularPipelines.Google.Services;
 public class GcloudRedis
 {
     private readonly ICommand _command;
-    private GcloudRedisAclPolicies _aclPolicies;
-    private GcloudRedisClusters _clusters;
-    private GcloudRedisInstances _instances;
-    private GcloudRedisOperations _operations;
-    private GcloudRedisRegions _regions;
-    private GcloudRedisZones _zones;
+    private GcloudRedisAclPolicies? _aclPolicies;
+    private GcloudRedisClusters? _clusters;
+    private GcloudRedisInstances? _instances;
+    private GcloudRedisOperations? _operations;
+    private GcloudRedisRegions? _regions;
+    private GcloudRedisZones? _zones;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRedis"/> class.

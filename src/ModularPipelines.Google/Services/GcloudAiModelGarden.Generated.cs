@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAiModelGarden
 {
     private readonly ICommand _command;
-    private GcloudAiModelGardenModels _models;
+    private GcloudAiModelGardenModels? _models;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAiModelGarden"/> class.

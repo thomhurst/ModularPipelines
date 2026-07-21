@@ -20,18 +20,18 @@ namespace ModularPipelines.Google.Services;
 public class GcloudKms
 {
     private readonly ICommand _command;
-    private GcloudKmsAutokeyConfig _autokeyConfig;
-    private GcloudKmsEkmConfig _ekmConfig;
-    private GcloudKmsEkmConnections _ekmConnections;
-    private GcloudKmsImportJobs _importJobs;
-    private GcloudKmsInventory _inventory;
-    private GcloudKmsKeyHandles _keyHandles;
-    private GcloudKmsKeyrings _keyrings;
-    private GcloudKmsKeys _keys;
-    private GcloudKmsLocations _locations;
-    private GcloudKmsOperations _operations;
-    private GcloudKmsRetiredResources _retiredResources;
-    private GcloudKmsSingleTenantHsm _singleTenantHsm;
+    private GcloudKmsAutokeyConfig? _autokeyConfig;
+    private GcloudKmsEkmConfig? _ekmConfig;
+    private GcloudKmsEkmConnections? _ekmConnections;
+    private GcloudKmsImportJobs? _importJobs;
+    private GcloudKmsInventory? _inventory;
+    private GcloudKmsKeyHandles? _keyHandles;
+    private GcloudKmsKeyrings? _keyrings;
+    private GcloudKmsKeys? _keys;
+    private GcloudKmsLocations? _locations;
+    private GcloudKmsOperations? _operations;
+    private GcloudKmsRetiredResources? _retiredResources;
+    private GcloudKmsSingleTenantHsm? _singleTenantHsm;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudKms"/> class.

@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzServicebusNamespace
 {
     private readonly ICommand _command;
-    private AzServicebusNamespaceEncryption _encryption;
-    private AzServicebusNamespaceIdentity _identity;
-    private AzServicebusNamespaceNetworkRuleSet _networkRuleSet;
-    private AzServicebusNamespacePrivateEndpointConnection _privateEndpointConnection;
+    private AzServicebusNamespaceEncryption? _encryption;
+    private AzServicebusNamespaceIdentity? _identity;
+    private AzServicebusNamespaceNetworkRuleSet? _networkRuleSet;
+    private AzServicebusNamespacePrivateEndpointConnection? _privateEndpointConnection;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzServicebusNamespace"/> class.

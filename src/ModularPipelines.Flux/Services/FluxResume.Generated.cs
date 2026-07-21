@@ -20,8 +20,8 @@ namespace ModularPipelines.Flux.Services;
 public class FluxResume
 {
     private readonly ICommand _command;
-    private FluxResumeImage _image;
-    private FluxResumeSource _source;
+    private FluxResumeImage? _image;
+    private FluxResumeSource? _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxResume"/> class.

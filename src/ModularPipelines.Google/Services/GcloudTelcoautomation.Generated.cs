@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudTelcoautomation
 {
     private readonly ICommand _command;
-    private GcloudTelcoautomationOperations _operations;
-    private GcloudTelcoautomationOrchestrationCluster _orchestrationCluster;
+    private GcloudTelcoautomationOperations? _operations;
+    private GcloudTelcoautomationOrchestrationCluster? _orchestrationCluster;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudTelcoautomation"/> class.

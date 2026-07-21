@@ -20,14 +20,14 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPreviewComputeInterconnects
 {
     private readonly ICommand _command;
-    private GcloudPreviewComputeInterconnectsApplicationAwareness _applicationAwareness;
-    private GcloudPreviewComputeInterconnectsAttachments _attachments;
-    private GcloudPreviewComputeInterconnectsCrossSiteNetworks _crossSiteNetworks;
-    private GcloudPreviewComputeInterconnectsGroups _groups;
-    private GcloudPreviewComputeInterconnectsLocations _locations;
-    private GcloudPreviewComputeInterconnectsMacsec _macsec;
-    private GcloudPreviewComputeInterconnectsRemoteLocations _remoteLocations;
-    private GcloudPreviewComputeInterconnectsWireGroups _wireGroups;
+    private GcloudPreviewComputeInterconnectsApplicationAwareness? _applicationAwareness;
+    private GcloudPreviewComputeInterconnectsAttachments? _attachments;
+    private GcloudPreviewComputeInterconnectsCrossSiteNetworks? _crossSiteNetworks;
+    private GcloudPreviewComputeInterconnectsGroups? _groups;
+    private GcloudPreviewComputeInterconnectsLocations? _locations;
+    private GcloudPreviewComputeInterconnectsMacsec? _macsec;
+    private GcloudPreviewComputeInterconnectsRemoteLocations? _remoteLocations;
+    private GcloudPreviewComputeInterconnectsWireGroups? _wireGroups;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeInterconnects"/> class.

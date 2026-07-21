@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzIotCentral
 {
     private readonly ICommand _command;
-    private AzIotCentralApp _app;
+    private AzIotCentralApp? _app;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzIotCentral"/> class.

@@ -20,14 +20,14 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComputeOsConfig
 {
     private readonly ICommand _command;
-    private GcloudComputeOsConfigInventories _inventories;
-    private GcloudComputeOsConfigOsPolicyAssignmentReports _osPolicyAssignmentReports;
-    private GcloudComputeOsConfigOsPolicyAssignments _osPolicyAssignments;
-    private GcloudComputeOsConfigPatchDeployments _patchDeployments;
-    private GcloudComputeOsConfigPatchJobs _patchJobs;
-    private GcloudComputeOsConfigPolicyOrchestrators _policyOrchestrators;
-    private GcloudComputeOsConfigProjectFeatureSettings _projectFeatureSettings;
-    private GcloudComputeOsConfigVulnerabilityReports _vulnerabilityReports;
+    private GcloudComputeOsConfigInventories? _inventories;
+    private GcloudComputeOsConfigOsPolicyAssignmentReports? _osPolicyAssignmentReports;
+    private GcloudComputeOsConfigOsPolicyAssignments? _osPolicyAssignments;
+    private GcloudComputeOsConfigPatchDeployments? _patchDeployments;
+    private GcloudComputeOsConfigPatchJobs? _patchJobs;
+    private GcloudComputeOsConfigPolicyOrchestrators? _policyOrchestrators;
+    private GcloudComputeOsConfigProjectFeatureSettings? _projectFeatureSettings;
+    private GcloudComputeOsConfigVulnerabilityReports? _vulnerabilityReports;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeOsConfig"/> class.

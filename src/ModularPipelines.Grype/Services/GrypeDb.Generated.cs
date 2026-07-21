@@ -20,7 +20,7 @@ namespace ModularPipelines.Grype.Services;
 public class GrypeDb
 {
     private readonly ICommand _command;
-    private GrypeDbSearch _search;
+    private GrypeDbSearch? _search;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GrypeDb"/> class.

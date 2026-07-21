@@ -20,12 +20,12 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiEnv
 {
     private readonly ICommand _command;
-    private PulumiEnvProvider _provider;
-    private PulumiEnvReferrer _referrer;
-    private PulumiEnvSchedule _schedule;
-    private PulumiEnvSettings _settings;
-    private PulumiEnvTag _tag;
-    private PulumiEnvWebhook _webhook;
+    private PulumiEnvProvider? _provider;
+    private PulumiEnvReferrer? _referrer;
+    private PulumiEnvSchedule? _schedule;
+    private PulumiEnvSettings? _settings;
+    private PulumiEnvTag? _tag;
+    private PulumiEnvWebhook? _webhook;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiEnv"/> class.

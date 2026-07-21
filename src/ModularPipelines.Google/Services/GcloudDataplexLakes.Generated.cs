@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataplexLakes
 {
     private readonly ICommand _command;
-    private GcloudDataplexLakesActions _actions;
+    private GcloudDataplexLakesActions? _actions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataplexLakes"/> class.

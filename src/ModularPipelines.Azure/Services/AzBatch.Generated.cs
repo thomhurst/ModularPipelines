@@ -20,16 +20,16 @@ namespace ModularPipelines.Azure.Services;
 public class AzBatch
 {
     private readonly ICommand _command;
-    private AzBatchAccount _account;
-    private AzBatchApplication _application;
-    private AzBatchJob _job;
-    private AzBatchJobSchedule _jobSchedule;
-    private AzBatchLocation _location;
-    private AzBatchNode _node;
-    private AzBatchPool _pool;
-    private AzBatchPrivateEndpointConnection _privateEndpointConnection;
-    private AzBatchPrivateLinkResource _privateLinkResource;
-    private AzBatchTask _task;
+    private AzBatchAccount? _account;
+    private AzBatchApplication? _application;
+    private AzBatchJob? _job;
+    private AzBatchJobSchedule? _jobSchedule;
+    private AzBatchLocation? _location;
+    private AzBatchNode? _node;
+    private AzBatchPool? _pool;
+    private AzBatchPrivateEndpointConnection? _privateEndpointConnection;
+    private AzBatchPrivateLinkResource? _privateLinkResource;
+    private AzBatchTask? _task;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBatch"/> class.

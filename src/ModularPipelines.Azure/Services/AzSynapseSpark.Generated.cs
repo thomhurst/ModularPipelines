@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzSynapseSpark
 {
     private readonly ICommand _command;
-    private AzSynapseSparkJob _job;
-    private AzSynapseSparkPool _pool;
-    private AzSynapseSparkSession _session;
-    private AzSynapseSparkStatement _statement;
+    private AzSynapseSparkJob? _job;
+    private AzSynapseSparkPool? _pool;
+    private AzSynapseSparkSession? _session;
+    private AzSynapseSparkStatement? _statement;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseSpark"/> class.

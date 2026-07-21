@@ -20,16 +20,16 @@ namespace ModularPipelines.Azure.Services;
 public class AzSql
 {
     private readonly ICommand _command;
-    private AzSqlDb _db;
-    private AzSqlDw _dw;
-    private AzSqlElasticPool _elasticPool;
-    private AzSqlFailoverGroup _failoverGroup;
-    private AzSqlInstanceFailoverGroup _instanceFailoverGroup;
-    private AzSqlMi _mi;
-    private AzSqlMidb _midb;
-    private AzSqlServer _server;
-    private AzSqlVirtualCluster _virtualCluster;
-    private AzSqlVm _vm;
+    private AzSqlDb? _db;
+    private AzSqlDw? _dw;
+    private AzSqlElasticPool? _elasticPool;
+    private AzSqlFailoverGroup? _failoverGroup;
+    private AzSqlInstanceFailoverGroup? _instanceFailoverGroup;
+    private AzSqlMi? _mi;
+    private AzSqlMidb? _midb;
+    private AzSqlServer? _server;
+    private AzSqlVirtualCluster? _virtualCluster;
+    private AzSqlVm? _vm;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSql"/> class.

@@ -20,22 +20,22 @@ namespace ModularPipelines.Azure.Services;
 public class AzVm
 {
     private readonly ICommand _command;
-    private AzVmApplication _application;
-    private AzVmAvailabilitySet _availabilitySet;
-    private AzVmBootDiagnostics _bootDiagnostics;
-    private AzVmDiagnostics _diagnostics;
-    private AzVmDisk _disk;
-    private AzVmEncryption _encryption;
-    private AzVmExtension _extension;
-    private AzVmHost _host;
-    private AzVmIdentity _identity;
-    private AzVmImage _image;
-    private AzVmMonitor _monitor;
-    private AzVmNic _nic;
-    private AzVmRunCommand _runCommand;
-    private AzVmSecret _secret;
-    private AzVmUnmanagedDisk _unmanagedDisk;
-    private AzVmUser _user;
+    private AzVmApplication? _application;
+    private AzVmAvailabilitySet? _availabilitySet;
+    private AzVmBootDiagnostics? _bootDiagnostics;
+    private AzVmDiagnostics? _diagnostics;
+    private AzVmDisk? _disk;
+    private AzVmEncryption? _encryption;
+    private AzVmExtension? _extension;
+    private AzVmHost? _host;
+    private AzVmIdentity? _identity;
+    private AzVmImage? _image;
+    private AzVmMonitor? _monitor;
+    private AzVmNic? _nic;
+    private AzVmRunCommand? _runCommand;
+    private AzVmSecret? _secret;
+    private AzVmUnmanagedDisk? _unmanagedDisk;
+    private AzVmUser? _user;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzVm"/> class.

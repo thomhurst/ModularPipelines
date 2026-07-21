@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzBatchNode
 {
     private readonly ICommand _command;
-    private AzBatchNodeFile _file;
-    private AzBatchNodeScheduling _scheduling;
-    private AzBatchNodeServiceLogs _serviceLogs;
-    private AzBatchNodeUser _user;
+    private AzBatchNodeFile? _file;
+    private AzBatchNodeScheduling? _scheduling;
+    private AzBatchNodeServiceLogs? _serviceLogs;
+    private AzBatchNodeUser? _user;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBatchNode"/> class.

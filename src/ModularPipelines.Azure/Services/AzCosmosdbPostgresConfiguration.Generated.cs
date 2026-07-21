@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzCosmosdbPostgresConfiguration
 {
     private readonly ICommand _command;
-    private AzCosmosdbPostgresConfigurationCoordinator _coordinator;
-    private AzCosmosdbPostgresConfigurationNode _node;
+    private AzCosmosdbPostgresConfigurationCoordinator? _coordinator;
+    private AzCosmosdbPostgresConfigurationNode? _node;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbPostgresConfiguration"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzDisk
 {
     private readonly ICommand _command;
-    private AzDiskConfig _config;
+    private AzDiskConfig? _config;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDisk"/> class.

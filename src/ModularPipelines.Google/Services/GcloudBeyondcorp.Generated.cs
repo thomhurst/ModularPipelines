@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBeyondcorp
 {
     private readonly ICommand _command;
-    private GcloudBeyondcorpOperations _operations;
-    private GcloudBeyondcorpSecurityGateways _securityGateways;
+    private GcloudBeyondcorpOperations? _operations;
+    private GcloudBeyondcorpSecurityGateways? _securityGateways;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBeyondcorp"/> class.

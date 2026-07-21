@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkRouteserver
 {
     private readonly ICommand _command;
-    private AzNetworkRouteserverPeering _peering;
+    private AzNetworkRouteserverPeering? _peering;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkRouteserver"/> class.

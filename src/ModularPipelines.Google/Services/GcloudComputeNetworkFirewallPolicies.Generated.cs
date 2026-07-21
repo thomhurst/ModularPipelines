@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComputeNetworkFirewallPolicies
 {
     private readonly ICommand _command;
-    private GcloudComputeNetworkFirewallPoliciesAssociations _associations;
-    private GcloudComputeNetworkFirewallPoliciesMirroringRules _mirroringRules;
-    private GcloudComputeNetworkFirewallPoliciesRules _rules;
+    private GcloudComputeNetworkFirewallPoliciesAssociations? _associations;
+    private GcloudComputeNetworkFirewallPoliciesMirroringRules? _mirroringRules;
+    private GcloudComputeNetworkFirewallPoliciesRules? _rules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeNetworkFirewallPolicies"/> class.

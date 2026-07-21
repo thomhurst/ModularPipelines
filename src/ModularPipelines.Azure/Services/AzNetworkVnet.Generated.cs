@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkVnet
 {
     private readonly ICommand _command;
-    private AzNetworkVnetPeering _peering;
-    private AzNetworkVnetSubnet _subnet;
+    private AzNetworkVnetPeering? _peering;
+    private AzNetworkVnetSubnet? _subnet;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkVnet"/> class.

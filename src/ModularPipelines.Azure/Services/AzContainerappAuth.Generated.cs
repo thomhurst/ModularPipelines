@@ -20,13 +20,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzContainerappAuth
 {
     private readonly ICommand _command;
-    private AzContainerappAuthApple _apple;
-    private AzContainerappAuthFacebook _facebook;
-    private AzContainerappAuthGithub _github;
-    private AzContainerappAuthGoogle _google;
-    private AzContainerappAuthMicrosoft _microsoft;
-    private AzContainerappAuthOpenidConnect _openidConnect;
-    private AzContainerappAuthTwitter _twitter;
+    private AzContainerappAuthApple? _apple;
+    private AzContainerappAuthFacebook? _facebook;
+    private AzContainerappAuthGithub? _github;
+    private AzContainerappAuthGoogle? _google;
+    private AzContainerappAuthMicrosoft? _microsoft;
+    private AzContainerappAuthOpenidConnect? _openidConnect;
+    private AzContainerappAuthTwitter? _twitter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainerappAuth"/> class.

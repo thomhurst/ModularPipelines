@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzMaps
 {
     private readonly ICommand _command;
-    private AzMapsAccount _account;
+    private AzMapsAccount? _account;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMaps"/> class.

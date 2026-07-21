@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudIapTcp
 {
     private readonly ICommand _command;
-    private GcloudIapTcpDestGroups _destGroups;
+    private GcloudIapTcpDestGroups? _destGroups;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIapTcp"/> class.

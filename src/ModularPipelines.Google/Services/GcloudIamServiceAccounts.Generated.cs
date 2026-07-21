@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudIamServiceAccounts
 {
     private readonly ICommand _command;
-    private GcloudIamServiceAccountsKeys _keys;
+    private GcloudIamServiceAccountsKeys? _keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIamServiceAccounts"/> class.

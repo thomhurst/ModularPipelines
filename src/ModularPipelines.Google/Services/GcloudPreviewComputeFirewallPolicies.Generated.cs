@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPreviewComputeFirewallPolicies
 {
     private readonly ICommand _command;
-    private GcloudPreviewComputeFirewallPoliciesAssociations _associations;
-    private GcloudPreviewComputeFirewallPoliciesRules _rules;
+    private GcloudPreviewComputeFirewallPoliciesAssociations? _associations;
+    private GcloudPreviewComputeFirewallPoliciesRules? _rules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeFirewallPolicies"/> class.

@@ -20,8 +20,8 @@ namespace ModularPipelines.Flux.Services;
 public class FluxDelete
 {
     private readonly ICommand _command;
-    private FluxDeleteImage _image;
-    private FluxDeleteSource _source;
+    private FluxDeleteImage? _image;
+    private FluxDeleteSource? _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxDelete"/> class.

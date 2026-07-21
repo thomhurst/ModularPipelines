@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudFirebaseTestIos
 {
     private readonly ICommand _command;
-    private GcloudFirebaseTestIosLocales _locales;
-    private GcloudFirebaseTestIosModels _models;
-    private GcloudFirebaseTestIosVersions _versions;
+    private GcloudFirebaseTestIosLocales? _locales;
+    private GcloudFirebaseTestIosModels? _models;
+    private GcloudFirebaseTestIosVersions? _versions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirebaseTestIos"/> class.

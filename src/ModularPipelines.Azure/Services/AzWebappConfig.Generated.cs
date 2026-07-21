@@ -20,15 +20,15 @@ namespace ModularPipelines.Azure.Services;
 public class AzWebappConfig
 {
     private readonly ICommand _command;
-    private AzWebappConfigAccessRestriction _accessRestriction;
-    private AzWebappConfigAppsettings _appsettings;
-    private AzWebappConfigBackup _backup;
-    private AzWebappConfigConnectionString _connectionString;
-    private AzWebappConfigContainer _container;
-    private AzWebappConfigHostname _hostname;
-    private AzWebappConfigSnapshot _snapshot;
-    private AzWebappConfigSsl _ssl;
-    private AzWebappConfigStorageAccount _storageAccount;
+    private AzWebappConfigAccessRestriction? _accessRestriction;
+    private AzWebappConfigAppsettings? _appsettings;
+    private AzWebappConfigBackup? _backup;
+    private AzWebappConfigConnectionString? _connectionString;
+    private AzWebappConfigContainer? _container;
+    private AzWebappConfigHostname? _hostname;
+    private AzWebappConfigSnapshot? _snapshot;
+    private AzWebappConfigSsl? _ssl;
+    private AzWebappConfigStorageAccount? _storageAccount;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzWebappConfig"/> class.

@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworksecuritySecureAccessConnect
 {
     private readonly ICommand _command;
-    private GcloudNetworksecuritySecureAccessConnectAttachments _attachments;
-    private GcloudNetworksecuritySecureAccessConnectRealms _realms;
+    private GcloudNetworksecuritySecureAccessConnectAttachments? _attachments;
+    private GcloudNetworksecuritySecureAccessConnectRealms? _realms;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecureAccessConnect"/> class.

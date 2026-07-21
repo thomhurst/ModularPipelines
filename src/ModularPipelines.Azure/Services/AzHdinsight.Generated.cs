@@ -20,14 +20,14 @@ namespace ModularPipelines.Azure.Services;
 public class AzHdinsight
 {
     private readonly ICommand _command;
-    private AzHdinsightApplication _application;
-    private AzHdinsightAutoscale _autoscale;
-    private AzHdinsightAzureMonitor _azureMonitor;
-    private AzHdinsightAzureMonitorAgent _azureMonitorAgent;
-    private AzHdinsightCredentials _credentials;
-    private AzHdinsightHost _host;
-    private AzHdinsightMonitor _monitor;
-    private AzHdinsightScriptAction _scriptAction;
+    private AzHdinsightApplication? _application;
+    private AzHdinsightAutoscale? _autoscale;
+    private AzHdinsightAzureMonitor? _azureMonitor;
+    private AzHdinsightAzureMonitorAgent? _azureMonitorAgent;
+    private AzHdinsightCredentials? _credentials;
+    private AzHdinsightHost? _host;
+    private AzHdinsightMonitor? _monitor;
+    private AzHdinsightScriptAction? _scriptAction;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzHdinsight"/> class.

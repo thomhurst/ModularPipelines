@@ -20,9 +20,9 @@ namespace ModularPipelines.Flux.Services;
 public class FluxExport
 {
     private readonly ICommand _command;
-    private FluxExportArtifact _artifact;
-    private FluxExportImage _image;
-    private FluxExportSource _source;
+    private FluxExportArtifact? _artifact;
+    private FluxExportImage? _image;
+    private FluxExportSource? _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxExport"/> class.

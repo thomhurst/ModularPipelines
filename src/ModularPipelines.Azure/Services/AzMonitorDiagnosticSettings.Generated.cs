@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitorDiagnosticSettings
 {
     private readonly ICommand _command;
-    private AzMonitorDiagnosticSettingsCategories _categories;
-    private AzMonitorDiagnosticSettingsSubscription _subscription;
+    private AzMonitorDiagnosticSettingsCategories? _categories;
+    private AzMonitorDiagnosticSettingsSubscription? _subscription;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorDiagnosticSettings"/> class.

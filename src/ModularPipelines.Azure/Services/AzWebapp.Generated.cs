@@ -20,17 +20,17 @@ namespace ModularPipelines.Azure.Services;
 public class AzWebapp
 {
     private readonly ICommand _command;
-    private AzWebappAuth _auth;
-    private AzWebappConfig _config;
-    private AzWebappConnection _connection;
-    private AzWebappCors _cors;
-    private AzWebappDeployment _deployment;
-    private AzWebappHybridConnection _hybridConnection;
-    private AzWebappIdentity _identity;
-    private AzWebappLog _log;
-    private AzWebappSitecontainers _sitecontainers;
-    private AzWebappVnetIntegration _vnetIntegration;
-    private AzWebappWebjob _webjob;
+    private AzWebappAuth? _auth;
+    private AzWebappConfig? _config;
+    private AzWebappConnection? _connection;
+    private AzWebappCors? _cors;
+    private AzWebappDeployment? _deployment;
+    private AzWebappHybridConnection? _hybridConnection;
+    private AzWebappIdentity? _identity;
+    private AzWebappLog? _log;
+    private AzWebappSitecontainers? _sitecontainers;
+    private AzWebappVnetIntegration? _vnetIntegration;
+    private AzWebappWebjob? _webjob;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzWebapp"/> class.

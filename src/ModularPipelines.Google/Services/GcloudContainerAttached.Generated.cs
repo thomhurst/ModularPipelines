@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerAttached
 {
     private readonly ICommand _command;
-    private GcloudContainerAttachedClusters _clusters;
-    private GcloudContainerAttachedOperations _operations;
+    private GcloudContainerAttachedClusters? _clusters;
+    private GcloudContainerAttachedOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerAttached"/> class.

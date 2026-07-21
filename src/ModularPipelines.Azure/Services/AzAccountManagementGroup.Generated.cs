@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzAccountManagementGroup
 {
     private readonly ICommand _command;
-    private AzAccountManagementGroupHierarchySettings _hierarchySettings;
+    private AzAccountManagementGroupHierarchySettings? _hierarchySettings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAccountManagementGroup"/> class.

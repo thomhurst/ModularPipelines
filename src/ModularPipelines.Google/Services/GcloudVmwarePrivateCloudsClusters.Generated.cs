@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudVmwarePrivateCloudsClusters
 {
     private readonly ICommand _command;
-    private GcloudVmwarePrivateCloudsClustersNodes _nodes;
+    private GcloudVmwarePrivateCloudsClustersNodes? _nodes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmwarePrivateCloudsClusters"/> class.

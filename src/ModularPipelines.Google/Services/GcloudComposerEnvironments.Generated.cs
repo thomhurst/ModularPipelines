@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComposerEnvironments
 {
     private readonly ICommand _command;
-    private GcloudComposerEnvironmentsSnapshots _snapshots;
-    private GcloudComposerEnvironmentsStorage _storage;
-    private GcloudComposerEnvironmentsUserWorkloadsConfigMaps _userWorkloadsConfigMaps;
-    private GcloudComposerEnvironmentsUserWorkloadsSecrets _userWorkloadsSecrets;
+    private GcloudComposerEnvironmentsSnapshots? _snapshots;
+    private GcloudComposerEnvironmentsStorage? _storage;
+    private GcloudComposerEnvironmentsUserWorkloadsConfigMaps? _userWorkloadsConfigMaps;
+    private GcloudComposerEnvironmentsUserWorkloadsSecrets? _userWorkloadsSecrets;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComposerEnvironments"/> class.

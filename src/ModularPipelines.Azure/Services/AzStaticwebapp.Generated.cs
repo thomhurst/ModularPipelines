@@ -20,15 +20,15 @@ namespace ModularPipelines.Azure.Services;
 public class AzStaticwebapp
 {
     private readonly ICommand _command;
-    private AzStaticwebappAppsettings _appsettings;
-    private AzStaticwebappBackends _backends;
-    private AzStaticwebappEnterpriseEdge _enterpriseEdge;
-    private AzStaticwebappEnvironment _environment;
-    private AzStaticwebappFunctions _functions;
-    private AzStaticwebappHostname _hostname;
-    private AzStaticwebappIdentity _identity;
-    private AzStaticwebappSecrets _secrets;
-    private AzStaticwebappUsers _users;
+    private AzStaticwebappAppsettings? _appsettings;
+    private AzStaticwebappBackends? _backends;
+    private AzStaticwebappEnterpriseEdge? _enterpriseEdge;
+    private AzStaticwebappEnvironment? _environment;
+    private AzStaticwebappFunctions? _functions;
+    private AzStaticwebappHostname? _hostname;
+    private AzStaticwebappIdentity? _identity;
+    private AzStaticwebappSecrets? _secrets;
+    private AzStaticwebappUsers? _users;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStaticwebapp"/> class.

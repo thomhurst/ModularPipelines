@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzBatchPool
 {
     private readonly ICommand _command;
-    private AzBatchPoolAutoscale _autoscale;
+    private AzBatchPoolAutoscale? _autoscale;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBatchPool"/> class.

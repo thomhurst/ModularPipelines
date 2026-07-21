@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkNat
 {
     private readonly ICommand _command;
-    private AzNetworkNatGateway _gateway;
+    private AzNetworkNatGateway? _gateway;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkNat"/> class.

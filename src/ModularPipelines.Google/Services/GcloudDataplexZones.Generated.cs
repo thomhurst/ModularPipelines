@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataplexZones
 {
     private readonly ICommand _command;
-    private GcloudDataplexZonesActions _actions;
+    private GcloudDataplexZonesActions? _actions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataplexZones"/> class.

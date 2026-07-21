@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzAcrToken
 {
     private readonly ICommand _command;
-    private AzAcrTokenCredential _credential;
+    private AzAcrTokenCredential? _credential;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAcrToken"/> class.

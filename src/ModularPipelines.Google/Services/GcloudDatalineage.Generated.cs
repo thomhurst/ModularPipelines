@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDatalineage
 {
     private readonly ICommand _command;
-    private GcloudDatalineageConfig _config;
-    private GcloudDatalineageLineageEvents _lineageEvents;
-    private GcloudDatalineageProcesses _processes;
-    private GcloudDatalineageRuns _runs;
+    private GcloudDatalineageConfig? _config;
+    private GcloudDatalineageLineageEvents? _lineageEvents;
+    private GcloudDatalineageProcesses? _processes;
+    private GcloudDatalineageRuns? _runs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatalineage"/> class.

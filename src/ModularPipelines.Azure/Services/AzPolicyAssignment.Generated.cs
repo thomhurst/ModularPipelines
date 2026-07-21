@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzPolicyAssignment
 {
     private readonly ICommand _command;
-    private AzPolicyAssignmentIdentity _identity;
-    private AzPolicyAssignmentNonComplianceMessage _nonComplianceMessage;
+    private AzPolicyAssignmentIdentity? _identity;
+    private AzPolicyAssignmentNonComplianceMessage? _nonComplianceMessage;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPolicyAssignment"/> class.

@@ -20,17 +20,17 @@ namespace ModularPipelines.Google.Services;
 public class GcloudEventarc
 {
     private readonly ICommand _command;
-    private GcloudEventarcAuditLogsProvider _auditLogsProvider;
-    private GcloudEventarcChannelConnections _channelConnections;
-    private GcloudEventarcChannels _channels;
-    private GcloudEventarcEnrollments _enrollments;
-    private GcloudEventarcGoogleApiSources _googleApiSources;
-    private GcloudEventarcGoogleChannels _googleChannels;
-    private GcloudEventarcLocations _locations;
-    private GcloudEventarcMessageBuses _messageBuses;
-    private GcloudEventarcPipelines _pipelines;
-    private GcloudEventarcProviders _providers;
-    private GcloudEventarcTriggers _triggers;
+    private GcloudEventarcAuditLogsProvider? _auditLogsProvider;
+    private GcloudEventarcChannelConnections? _channelConnections;
+    private GcloudEventarcChannels? _channels;
+    private GcloudEventarcEnrollments? _enrollments;
+    private GcloudEventarcGoogleApiSources? _googleApiSources;
+    private GcloudEventarcGoogleChannels? _googleChannels;
+    private GcloudEventarcLocations? _locations;
+    private GcloudEventarcMessageBuses? _messageBuses;
+    private GcloudEventarcPipelines? _pipelines;
+    private GcloudEventarcProviders? _providers;
+    private GcloudEventarcTriggers? _triggers;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEventarc"/> class.

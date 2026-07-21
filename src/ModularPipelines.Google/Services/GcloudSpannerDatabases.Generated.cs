@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudSpannerDatabases
 {
     private readonly ICommand _command;
-    private GcloudSpannerDatabasesDdl _ddl;
-    private GcloudSpannerDatabasesRoles _roles;
-    private GcloudSpannerDatabasesSessions _sessions;
-    private GcloudSpannerDatabasesSplits _splits;
+    private GcloudSpannerDatabasesDdl? _ddl;
+    private GcloudSpannerDatabasesRoles? _roles;
+    private GcloudSpannerDatabasesSessions? _sessions;
+    private GcloudSpannerDatabasesSplits? _splits;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSpannerDatabases"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudCertificatemanagerMaps
 {
     private readonly ICommand _command;
-    private GcloudCertificatemanagerMapsEntries _entries;
+    private GcloudCertificatemanagerMapsEntries? _entries;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudCertificatemanagerMaps"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudWorkflows
 {
     private readonly ICommand _command;
-    private GcloudWorkflowsExecutions _executions;
+    private GcloudWorkflowsExecutions? _executions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudWorkflows"/> class.

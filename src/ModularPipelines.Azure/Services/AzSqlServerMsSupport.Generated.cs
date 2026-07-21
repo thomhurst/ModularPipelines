@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzSqlServerMsSupport
 {
     private readonly ICommand _command;
-    private AzSqlServerMsSupportAuditPolicy _auditPolicy;
+    private AzSqlServerMsSupportAuditPolicy? _auditPolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlServerMsSupport"/> class.

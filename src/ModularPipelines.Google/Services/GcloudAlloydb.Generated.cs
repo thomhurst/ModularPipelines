@@ -20,11 +20,11 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAlloydb
 {
     private readonly ICommand _command;
-    private GcloudAlloydbBackups _backups;
-    private GcloudAlloydbClusters _clusters;
-    private GcloudAlloydbInstances _instances;
-    private GcloudAlloydbOperations _operations;
-    private GcloudAlloydbUsers _users;
+    private GcloudAlloydbBackups? _backups;
+    private GcloudAlloydbClusters? _clusters;
+    private GcloudAlloydbInstances? _instances;
+    private GcloudAlloydbOperations? _operations;
+    private GcloudAlloydbUsers? _users;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAlloydb"/> class.

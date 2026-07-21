@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDatabasemigrationConversionWorkspaces
 {
     private readonly ICommand _command;
-    private GcloudDatabasemigrationConversionWorkspacesMappingRules _mappingRules;
+    private GcloudDatabasemigrationConversionWorkspacesMappingRules? _mappingRules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatabasemigrationConversionWorkspaces"/> class.

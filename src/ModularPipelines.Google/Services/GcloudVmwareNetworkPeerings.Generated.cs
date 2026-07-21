@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudVmwareNetworkPeerings
 {
     private readonly ICommand _command;
-    private GcloudVmwareNetworkPeeringsRoutes _routes;
+    private GcloudVmwareNetworkPeeringsRoutes? _routes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmwareNetworkPeerings"/> class.

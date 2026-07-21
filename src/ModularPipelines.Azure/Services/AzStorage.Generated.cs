@@ -20,20 +20,20 @@ namespace ModularPipelines.Azure.Services;
 public class AzStorage
 {
     private readonly ICommand _command;
-    private AzStorageAccount _account;
-    private AzStorageBlob _blob;
-    private AzStorageContainer _container;
-    private AzStorageContainerRm _containerRm;
-    private AzStorageCors _cors;
-    private AzStorageDirectory _directory;
-    private AzStorageEntity _entity;
-    private AzStorageFile _file;
-    private AzStorageFs _fs;
-    private AzStorageLogging _logging;
-    private AzStorageMetrics _metrics;
-    private AzStorageShare _share;
-    private AzStorageShareRm _shareRm;
-    private AzStorageTable _table;
+    private AzStorageAccount? _account;
+    private AzStorageBlob? _blob;
+    private AzStorageContainer? _container;
+    private AzStorageContainerRm? _containerRm;
+    private AzStorageCors? _cors;
+    private AzStorageDirectory? _directory;
+    private AzStorageEntity? _entity;
+    private AzStorageFile? _file;
+    private AzStorageFs? _fs;
+    private AzStorageLogging? _logging;
+    private AzStorageMetrics? _metrics;
+    private AzStorageShare? _share;
+    private AzStorageShareRm? _shareRm;
+    private AzStorageTable? _table;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorage"/> class.

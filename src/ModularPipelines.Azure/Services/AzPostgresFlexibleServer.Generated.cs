@@ -20,21 +20,21 @@ namespace ModularPipelines.Azure.Services;
 public class AzPostgresFlexibleServer
 {
     private readonly ICommand _command;
-    private AzPostgresFlexibleServerAutonomousTuning _autonomousTuning;
-    private AzPostgresFlexibleServerBackup _backup;
-    private AzPostgresFlexibleServerDb _db;
-    private AzPostgresFlexibleServerDeploy _deploy;
-    private AzPostgresFlexibleServerFabricMirroring _fabricMirroring;
-    private AzPostgresFlexibleServerFirewallRule _firewallRule;
-    private AzPostgresFlexibleServerIdentity _identity;
-    private AzPostgresFlexibleServerMaintenanceEvent _maintenanceEvent;
-    private AzPostgresFlexibleServerMicrosoftEntraAdmin _microsoftEntraAdmin;
-    private AzPostgresFlexibleServerMigration _migration;
-    private AzPostgresFlexibleServerParameter _parameter;
-    private AzPostgresFlexibleServerPrivateEndpointConnection _privateEndpointConnection;
-    private AzPostgresFlexibleServerReplica _replica;
-    private AzPostgresFlexibleServerServerLogs _serverLogs;
-    private AzPostgresFlexibleServerVirtualEndpoint _virtualEndpoint;
+    private AzPostgresFlexibleServerAutonomousTuning? _autonomousTuning;
+    private AzPostgresFlexibleServerBackup? _backup;
+    private AzPostgresFlexibleServerDb? _db;
+    private AzPostgresFlexibleServerDeploy? _deploy;
+    private AzPostgresFlexibleServerFabricMirroring? _fabricMirroring;
+    private AzPostgresFlexibleServerFirewallRule? _firewallRule;
+    private AzPostgresFlexibleServerIdentity? _identity;
+    private AzPostgresFlexibleServerMaintenanceEvent? _maintenanceEvent;
+    private AzPostgresFlexibleServerMicrosoftEntraAdmin? _microsoftEntraAdmin;
+    private AzPostgresFlexibleServerMigration? _migration;
+    private AzPostgresFlexibleServerParameter? _parameter;
+    private AzPostgresFlexibleServerPrivateEndpointConnection? _privateEndpointConnection;
+    private AzPostgresFlexibleServerReplica? _replica;
+    private AzPostgresFlexibleServerServerLogs? _serverLogs;
+    private AzPostgresFlexibleServerVirtualEndpoint? _virtualEndpoint;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPostgresFlexibleServer"/> class.

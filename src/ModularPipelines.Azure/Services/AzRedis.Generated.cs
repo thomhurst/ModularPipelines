@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzRedis
 {
     private readonly ICommand _command;
-    private AzRedisIdentity _identity;
+    private AzRedisIdentity? _identity;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRedis"/> class.

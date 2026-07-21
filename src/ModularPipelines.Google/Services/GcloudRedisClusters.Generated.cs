@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudRedisClusters
 {
     private readonly ICommand _command;
-    private GcloudRedisClustersBackupCollections _backupCollections;
-    private GcloudRedisClustersBackups _backups;
+    private GcloudRedisClustersBackupCollections? _backupCollections;
+    private GcloudRedisClustersBackups? _backups;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRedisClusters"/> class.

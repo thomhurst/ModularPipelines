@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzVmssExtension
 {
     private readonly ICommand _command;
-    private AzVmssExtensionImage _image;
+    private AzVmssExtensionImage? _image;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzVmssExtension"/> class.

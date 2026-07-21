@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComputeInterconnectsAttachments
 {
     private readonly ICommand _command;
-    private GcloudComputeInterconnectsAttachmentsDedicated _dedicated;
-    private GcloudComputeInterconnectsAttachmentsGroups _groups;
-    private GcloudComputeInterconnectsAttachmentsL2Forwarding _l2Forwarding;
-    private GcloudComputeInterconnectsAttachmentsPartner _partner;
+    private GcloudComputeInterconnectsAttachmentsDedicated? _dedicated;
+    private GcloudComputeInterconnectsAttachmentsGroups? _groups;
+    private GcloudComputeInterconnectsAttachmentsL2Forwarding? _l2Forwarding;
+    private GcloudComputeInterconnectsAttachmentsPartner? _partner;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeInterconnectsAttachments"/> class.

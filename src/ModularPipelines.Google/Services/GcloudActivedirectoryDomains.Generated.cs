@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudActivedirectoryDomains
 {
     private readonly ICommand _command;
-    private GcloudActivedirectoryDomainsBackups _backups;
-    private GcloudActivedirectoryDomainsTrusts _trusts;
+    private GcloudActivedirectoryDomainsBackups? _backups;
+    private GcloudActivedirectoryDomainsTrusts? _trusts;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudActivedirectoryDomains"/> class.

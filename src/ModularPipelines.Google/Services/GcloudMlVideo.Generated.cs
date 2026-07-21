@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMlVideo
 {
     private readonly ICommand _command;
-    private GcloudMlVideoOperations _operations;
+    private GcloudMlVideoOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMlVideo"/> class.

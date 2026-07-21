@@ -20,11 +20,11 @@ namespace ModularPipelines.Azure.Services;
 public class AzSfCluster
 {
     private readonly ICommand _command;
-    private AzSfClusterClientCertificate _clientCertificate;
-    private AzSfClusterNodeType _nodeType;
-    private AzSfClusterReliability _reliability;
-    private AzSfClusterSetting _setting;
-    private AzSfClusterUpgradeType _upgradeType;
+    private AzSfClusterClientCertificate? _clientCertificate;
+    private AzSfClusterNodeType? _nodeType;
+    private AzSfClusterReliability? _reliability;
+    private AzSfClusterSetting? _setting;
+    private AzSfClusterUpgradeType? _upgradeType;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSfCluster"/> class.

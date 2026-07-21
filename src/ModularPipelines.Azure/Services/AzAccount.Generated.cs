@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzAccount
 {
     private readonly ICommand _command;
-    private AzAccountLock _lock;
-    private AzAccountManagementGroup _managementGroup;
+    private AzAccountLock? _lock;
+    private AzAccountManagementGroup? _managementGroup;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAccount"/> class.

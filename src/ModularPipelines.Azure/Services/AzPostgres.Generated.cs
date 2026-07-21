@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzPostgres
 {
     private readonly ICommand _command;
-    private AzPostgresFlexibleServer _flexibleServer;
+    private AzPostgresFlexibleServer? _flexibleServer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPostgres"/> class.

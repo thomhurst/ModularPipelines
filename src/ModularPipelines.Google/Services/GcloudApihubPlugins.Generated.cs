@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudApihubPlugins
 {
     private readonly ICommand _command;
-    private GcloudApihubPluginsInstances _instances;
+    private GcloudApihubPluginsInstances? _instances;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApihubPlugins"/> class.

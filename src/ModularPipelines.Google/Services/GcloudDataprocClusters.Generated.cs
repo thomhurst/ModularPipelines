@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataprocClusters
 {
     private readonly ICommand _command;
-    private GcloudDataprocClustersGke _gke;
+    private GcloudDataprocClustersGke? _gke;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataprocClusters"/> class.

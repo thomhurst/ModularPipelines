@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataprocWorkflowTemplates
 {
     private readonly ICommand _command;
-    private GcloudDataprocWorkflowTemplatesAddJob _addJob;
+    private GcloudDataprocWorkflowTemplatesAddJob? _addJob;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataprocWorkflowTemplates"/> class.

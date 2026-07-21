@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAiplatformJobs
 {
     private readonly ICommand _command;
-    private GcloudAiplatformJobsSubmit _submit;
+    private GcloudAiplatformJobsSubmit? _submit;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAiplatformJobs"/> class.

@@ -20,11 +20,11 @@ namespace ModularPipelines.Azure.Services;
 public class AzStorageFs
 {
     private readonly ICommand _command;
-    private AzStorageFsAccess _access;
-    private AzStorageFsDirectory _directory;
-    private AzStorageFsFile _file;
-    private AzStorageFsMetadata _metadata;
-    private AzStorageFsServiceProperties _serviceProperties;
+    private AzStorageFsAccess? _access;
+    private AzStorageFsDirectory? _directory;
+    private AzStorageFsFile? _file;
+    private AzStorageFsMetadata? _metadata;
+    private AzStorageFsServiceProperties? _serviceProperties;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageFs"/> class.

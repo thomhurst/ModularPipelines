@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzSynapseSqlPoolClassification
 {
     private readonly ICommand _command;
-    private AzSynapseSqlPoolClassificationRecommendation _recommendation;
+    private AzSynapseSqlPoolClassificationRecommendation? _recommendation;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseSqlPoolClassification"/> class.

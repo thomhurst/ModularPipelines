@@ -20,10 +20,10 @@ namespace ModularPipelines.Docker.Services;
 public class DockerBuilder
 {
     private readonly ICommand _command;
-    private DockerBuilderDap _dap;
-    private DockerBuilderHistory _history;
-    private DockerBuilderImagetools _imagetools;
-    private DockerBuilderPolicy _policy;
+    private DockerBuilderDap? _dap;
+    private DockerBuilderHistory? _history;
+    private DockerBuilderImagetools? _imagetools;
+    private DockerBuilderPolicy? _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerBuilder"/> class.

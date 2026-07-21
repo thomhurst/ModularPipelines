@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzSignalr
 {
     private readonly ICommand _command;
-    private AzSignalrCustomCertificate _customCertificate;
-    private AzSignalrCustomDomain _customDomain;
-    private AzSignalrNetworkRule _networkRule;
-    private AzSignalrReplica _replica;
+    private AzSignalrCustomCertificate? _customCertificate;
+    private AzSignalrCustomDomain? _customDomain;
+    private AzSignalrNetworkRule? _networkRule;
+    private AzSignalrReplica? _replica;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSignalr"/> class.

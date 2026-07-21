@@ -20,19 +20,19 @@ namespace ModularPipelines.Google.Services;
 public class GcloudLogging
 {
     private readonly ICommand _command;
-    private GcloudLoggingBuckets _buckets;
-    private GcloudLoggingLinks _links;
-    private GcloudLoggingLocations _locations;
-    private GcloudLoggingLogs _logs;
-    private GcloudLoggingMetrics _metrics;
-    private GcloudLoggingOperations _operations;
-    private GcloudLoggingRecentQueries _recentQueries;
-    private GcloudLoggingResourceDescriptors _resourceDescriptors;
-    private GcloudLoggingSavedQueries _savedQueries;
-    private GcloudLoggingScopes _scopes;
-    private GcloudLoggingSettings _settings;
-    private GcloudLoggingSinks _sinks;
-    private GcloudLoggingViews _views;
+    private GcloudLoggingBuckets? _buckets;
+    private GcloudLoggingLinks? _links;
+    private GcloudLoggingLocations? _locations;
+    private GcloudLoggingLogs? _logs;
+    private GcloudLoggingMetrics? _metrics;
+    private GcloudLoggingOperations? _operations;
+    private GcloudLoggingRecentQueries? _recentQueries;
+    private GcloudLoggingResourceDescriptors? _resourceDescriptors;
+    private GcloudLoggingSavedQueries? _savedQueries;
+    private GcloudLoggingScopes? _scopes;
+    private GcloudLoggingSettings? _settings;
+    private GcloudLoggingSinks? _sinks;
+    private GcloudLoggingViews? _views;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudLogging"/> class.

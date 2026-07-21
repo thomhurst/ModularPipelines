@@ -20,9 +20,9 @@ namespace ModularPipelines.Terraform.Services;
 public class TerraformStacks
 {
     private readonly ICommand _command;
-    private TerraformStacksConfiguration _configuration;
-    private TerraformStacksDeploymentGroup _deploymentGroup;
-    private TerraformStacksDeploymentRun _deploymentRun;
+    private TerraformStacksConfiguration? _configuration;
+    private TerraformStacksDeploymentGroup? _deploymentGroup;
+    private TerraformStacksDeploymentRun? _deploymentRun;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TerraformStacks"/> class.

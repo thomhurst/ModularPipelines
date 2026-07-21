@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitorActionGroup
 {
     private readonly ICommand _command;
-    private AzMonitorActionGroupIdentity _identity;
-    private AzMonitorActionGroupTestNotifications _testNotifications;
+    private AzMonitorActionGroupIdentity? _identity;
+    private AzMonitorActionGroupTestNotifications? _testNotifications;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorActionGroup"/> class.

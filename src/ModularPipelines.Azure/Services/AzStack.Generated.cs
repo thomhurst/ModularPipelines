@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzStack
 {
     private readonly ICommand _command;
-    private AzStackGroup _group;
-    private AzStackMg _mg;
-    private AzStackSub _sub;
+    private AzStackGroup? _group;
+    private AzStackMg? _mg;
+    private AzStackSub? _sub;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStack"/> class.

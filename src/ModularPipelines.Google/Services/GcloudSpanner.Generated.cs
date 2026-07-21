@@ -20,15 +20,15 @@ namespace ModularPipelines.Google.Services;
 public class GcloudSpanner
 {
     private readonly ICommand _command;
-    private GcloudSpannerBackups _backups;
-    private GcloudSpannerBackupSchedules _backupSchedules;
-    private GcloudSpannerDatabases _databases;
-    private GcloudSpannerInstanceConfigs _instanceConfigs;
-    private GcloudSpannerInstancePartitions _instancePartitions;
-    private GcloudSpannerInstances _instances;
-    private GcloudSpannerOperations _operations;
-    private GcloudSpannerRows _rows;
-    private GcloudSpannerSamples _samples;
+    private GcloudSpannerBackups? _backups;
+    private GcloudSpannerBackupSchedules? _backupSchedules;
+    private GcloudSpannerDatabases? _databases;
+    private GcloudSpannerInstanceConfigs? _instanceConfigs;
+    private GcloudSpannerInstancePartitions? _instancePartitions;
+    private GcloudSpannerInstances? _instances;
+    private GcloudSpannerOperations? _operations;
+    private GcloudSpannerRows? _rows;
+    private GcloudSpannerSamples? _samples;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSpanner"/> class.

@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzEventhubsNamespaceNetworkRuleSet
 {
     private readonly ICommand _command;
-    private AzEventhubsNamespaceNetworkRuleSetIpRule _ipRule;
-    private AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRule _virtualNetworkRule;
+    private AzEventhubsNamespaceNetworkRuleSetIpRule? _ipRule;
+    private AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRule? _virtualNetworkRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventhubsNamespaceNetworkRuleSet"/> class.

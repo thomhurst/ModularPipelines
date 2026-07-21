@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDeveloperconnect
 {
     private readonly ICommand _command;
-    private GcloudDeveloperconnectConnections _connections;
-    private GcloudDeveloperconnectInsightsConfigs _insightsConfigs;
-    private GcloudDeveloperconnectOperations _operations;
+    private GcloudDeveloperconnectConnections? _connections;
+    private GcloudDeveloperconnectInsightsConfigs? _insightsConfigs;
+    private GcloudDeveloperconnectOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDeveloperconnect"/> class.

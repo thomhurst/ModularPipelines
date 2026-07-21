@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComputeNetworks
 {
     private readonly ICommand _command;
-    private GcloudComputeNetworksPeerings _peerings;
-    private GcloudComputeNetworksSubnets _subnets;
-    private GcloudComputeNetworksVpcAccess _vpcAccess;
+    private GcloudComputeNetworksPeerings? _peerings;
+    private GcloudComputeNetworksSubnets? _subnets;
+    private GcloudComputeNetworksVpcAccess? _vpcAccess;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeNetworks"/> class.

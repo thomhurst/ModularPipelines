@@ -20,7 +20,7 @@ namespace ModularPipelines.Docker.Services;
 public class DockerBuilderHistory
 {
     private readonly ICommand _command;
-    private DockerBuilderHistoryInspect _inspect;
+    private DockerBuilderHistoryInspect? _inspect;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerBuilderHistory"/> class.

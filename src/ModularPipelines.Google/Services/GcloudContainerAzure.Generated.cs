@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerAzure
 {
     private readonly ICommand _command;
-    private GcloudContainerAzureClients _clients;
-    private GcloudContainerAzureClusters _clusters;
-    private GcloudContainerAzureNodePools _nodePools;
-    private GcloudContainerAzureOperations _operations;
+    private GcloudContainerAzureClients? _clients;
+    private GcloudContainerAzureClusters? _clusters;
+    private GcloudContainerAzureNodePools? _nodePools;
+    private GcloudContainerAzureOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerAzure"/> class.

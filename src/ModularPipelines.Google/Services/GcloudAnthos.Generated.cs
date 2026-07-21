@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAnthos
 {
     private readonly ICommand _command;
-    private GcloudAnthosAuth _auth;
-    private GcloudAnthosConfig _config;
+    private GcloudAnthosAuth? _auth;
+    private GcloudAnthosConfig? _config;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAnthos"/> class.

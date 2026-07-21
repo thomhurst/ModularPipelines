@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudApihubDiscoveredApiObservations
 {
     private readonly ICommand _command;
-    private GcloudApihubDiscoveredApiObservationsDiscoveredApiOperations _discoveredApiOperations;
+    private GcloudApihubDiscoveredApiObservationsDiscoveredApiOperations? _discoveredApiOperations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApihubDiscoveredApiObservations"/> class.

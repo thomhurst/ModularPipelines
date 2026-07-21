@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzManagedapp
 {
     private readonly ICommand _command;
-    private AzManagedappDefinition _definition;
+    private AzManagedappDefinition? _definition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzManagedapp"/> class.

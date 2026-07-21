@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzFunctionappScale
 {
     private readonly ICommand _command;
-    private AzFunctionappScaleConfig _config;
+    private AzFunctionappScaleConfig? _config;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzFunctionappScale"/> class.

@@ -20,12 +20,12 @@ namespace ModularPipelines.Google.Services;
 public class GcloudCertificatemanager
 {
     private readonly ICommand _command;
-    private GcloudCertificatemanagerCertificates _certificates;
-    private GcloudCertificatemanagerDnsAuthorizations _dnsAuthorizations;
-    private GcloudCertificatemanagerIssuanceConfigs _issuanceConfigs;
-    private GcloudCertificatemanagerMaps _maps;
-    private GcloudCertificatemanagerOperations _operations;
-    private GcloudCertificatemanagerTrustConfigs _trustConfigs;
+    private GcloudCertificatemanagerCertificates? _certificates;
+    private GcloudCertificatemanagerDnsAuthorizations? _dnsAuthorizations;
+    private GcloudCertificatemanagerIssuanceConfigs? _issuanceConfigs;
+    private GcloudCertificatemanagerMaps? _maps;
+    private GcloudCertificatemanagerOperations? _operations;
+    private GcloudCertificatemanagerTrustConfigs? _trustConfigs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudCertificatemanager"/> class.

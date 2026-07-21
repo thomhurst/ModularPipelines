@@ -20,13 +20,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzCosmosdbSql
 {
     private readonly ICommand _command;
-    private AzCosmosdbSqlContainer _container;
-    private AzCosmosdbSqlDatabase _database;
-    private AzCosmosdbSqlRestorableContainer _restorableContainer;
-    private AzCosmosdbSqlRole _role;
-    private AzCosmosdbSqlStoredProcedure _storedProcedure;
-    private AzCosmosdbSqlTrigger _trigger;
-    private AzCosmosdbSqlUserDefinedFunction _userDefinedFunction;
+    private AzCosmosdbSqlContainer? _container;
+    private AzCosmosdbSqlDatabase? _database;
+    private AzCosmosdbSqlRestorableContainer? _restorableContainer;
+    private AzCosmosdbSqlRole? _role;
+    private AzCosmosdbSqlStoredProcedure? _storedProcedure;
+    private AzCosmosdbSqlTrigger? _trigger;
+    private AzCosmosdbSqlUserDefinedFunction? _userDefinedFunction;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbSql"/> class.

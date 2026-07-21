@@ -20,17 +20,17 @@ namespace ModularPipelines.Google.Services;
 public class GcloudSql
 {
     private readonly ICommand _command;
-    private GcloudSqlBackups _backups;
-    private GcloudSqlDatabases _databases;
-    private GcloudSqlExport _export;
-    private GcloudSqlFlags _flags;
-    private GcloudSqlImport _import;
-    private GcloudSqlInstances _instances;
-    private GcloudSqlOperations _operations;
-    private GcloudSqlSsl _ssl;
-    private GcloudSqlSslCerts _sslCerts;
-    private GcloudSqlTiers _tiers;
-    private GcloudSqlUsers _users;
+    private GcloudSqlBackups? _backups;
+    private GcloudSqlDatabases? _databases;
+    private GcloudSqlExport? _export;
+    private GcloudSqlFlags? _flags;
+    private GcloudSqlImport? _import;
+    private GcloudSqlInstances? _instances;
+    private GcloudSqlOperations? _operations;
+    private GcloudSqlSsl? _ssl;
+    private GcloudSqlSslCerts? _sslCerts;
+    private GcloudSqlTiers? _tiers;
+    private GcloudSqlUsers? _users;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSql"/> class.

@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Services;
 public class GcloudApphub
 {
     private readonly ICommand _command;
-    private GcloudApphubApplications _applications;
-    private GcloudApphubBoundary _boundary;
-    private GcloudApphubDiscoveredServices _discoveredServices;
-    private GcloudApphubDiscoveredWorkloads _discoveredWorkloads;
-    private GcloudApphubLocations _locations;
-    private GcloudApphubOperations _operations;
-    private GcloudApphubServiceProjects _serviceProjects;
+    private GcloudApphubApplications? _applications;
+    private GcloudApphubBoundary? _boundary;
+    private GcloudApphubDiscoveredServices? _discoveredServices;
+    private GcloudApphubDiscoveredWorkloads? _discoveredWorkloads;
+    private GcloudApphubLocations? _locations;
+    private GcloudApphubOperations? _operations;
+    private GcloudApphubServiceProjects? _serviceProjects;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApphub"/> class.

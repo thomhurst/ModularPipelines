@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkCrossRegionLbAddressPool
 {
     private readonly ICommand _command;
-    private AzNetworkCrossRegionLbAddressPoolAddress _address;
+    private AzNetworkCrossRegionLbAddressPoolAddress? _address;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkCrossRegionLbAddressPool"/> class.

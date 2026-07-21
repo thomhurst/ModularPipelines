@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPreviewComputeInstanceGroups
 {
     private readonly ICommand _command;
-    private GcloudPreviewComputeInstanceGroupsManaged _managed;
-    private GcloudPreviewComputeInstanceGroupsUnmanaged _unmanaged;
+    private GcloudPreviewComputeInstanceGroupsManaged? _managed;
+    private GcloudPreviewComputeInstanceGroupsUnmanaged? _unmanaged;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeInstanceGroups"/> class.

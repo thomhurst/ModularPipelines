@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzBilling
 {
     private readonly ICommand _command;
-    private AzBillingInvoice _invoice;
-    private AzBillingPeriod _period;
+    private AzBillingInvoice? _invoice;
+    private AzBillingPeriod? _period;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBilling"/> class.

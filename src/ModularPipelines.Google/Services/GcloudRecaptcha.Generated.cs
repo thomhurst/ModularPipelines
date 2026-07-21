@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudRecaptcha
 {
     private readonly ICommand _command;
-    private GcloudRecaptchaFirewallPolicies _firewallPolicies;
-    private GcloudRecaptchaKeys _keys;
+    private GcloudRecaptchaFirewallPolicies? _firewallPolicies;
+    private GcloudRecaptchaKeys? _keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRecaptcha"/> class.

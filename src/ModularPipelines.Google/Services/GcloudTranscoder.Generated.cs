@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudTranscoder
 {
     private readonly ICommand _command;
-    private GcloudTranscoderJobs _jobs;
-    private GcloudTranscoderTemplates _templates;
+    private GcloudTranscoderJobs? _jobs;
+    private GcloudTranscoderTemplates? _templates;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudTranscoder"/> class.

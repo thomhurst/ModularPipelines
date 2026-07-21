@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzManagedcassandra
 {
     private readonly ICommand _command;
-    private AzManagedcassandraCluster _cluster;
-    private AzManagedcassandraDatacenter _datacenter;
+    private AzManagedcassandraCluster? _cluster;
+    private AzManagedcassandraDatacenter? _datacenter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzManagedcassandra"/> class.

@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerFleetScopes
 {
     private readonly ICommand _command;
-    private GcloudContainerFleetScopesNamespaces _namespaces;
-    private GcloudContainerFleetScopesRbacrolebindings _rbacrolebindings;
+    private GcloudContainerFleetScopesNamespaces? _namespaces;
+    private GcloudContainerFleetScopesRbacrolebindings? _rbacrolebindings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerFleetScopes"/> class.

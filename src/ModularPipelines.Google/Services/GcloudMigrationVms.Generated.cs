@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMigrationVms
 {
     private readonly ICommand _command;
-    private GcloudMigrationVmsImageImports _imageImports;
-    private GcloudMigrationVmsMachineImageImports _machineImageImports;
-    private GcloudMigrationVmsTargetProjects _targetProjects;
+    private GcloudMigrationVmsImageImports? _imageImports;
+    private GcloudMigrationVmsMachineImageImports? _machineImageImports;
+    private GcloudMigrationVmsTargetProjects? _targetProjects;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMigrationVms"/> class.

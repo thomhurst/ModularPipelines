@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzKeyvaultKey
 {
     private readonly ICommand _command;
-    private AzKeyvaultKeyRotationPolicy _rotationPolicy;
+    private AzKeyvaultKeyRotationPolicy? _rotationPolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzKeyvaultKey"/> class.

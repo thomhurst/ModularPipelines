@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudVectorsearch
 {
     private readonly ICommand _command;
-    private GcloudVectorsearchCollections _collections;
-    private GcloudVectorsearchOperations _operations;
+    private GcloudVectorsearchCollections? _collections;
+    private GcloudVectorsearchOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVectorsearch"/> class.

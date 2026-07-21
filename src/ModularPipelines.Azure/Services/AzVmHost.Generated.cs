@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzVmHost
 {
     private readonly ICommand _command;
-    private AzVmHostGroup _group;
+    private AzVmHostGroup? _group;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzVmHost"/> class.

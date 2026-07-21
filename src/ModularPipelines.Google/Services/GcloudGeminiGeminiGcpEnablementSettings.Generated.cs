@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudGeminiGeminiGcpEnablementSettings
 {
     private readonly ICommand _command;
-    private GcloudGeminiGeminiGcpEnablementSettingsSettingBindings _settingBindings;
+    private GcloudGeminiGeminiGcpEnablementSettingsSettingBindings? _settingBindings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudGeminiGeminiGcpEnablementSettings"/> class.

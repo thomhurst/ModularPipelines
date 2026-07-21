@@ -20,13 +20,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzAppconfig
 {
     private readonly ICommand _command;
-    private AzAppconfigCredential _credential;
-    private AzAppconfigFeature _feature;
-    private AzAppconfigIdentity _identity;
-    private AzAppconfigKv _kv;
-    private AzAppconfigReplica _replica;
-    private AzAppconfigRevision _revision;
-    private AzAppconfigSnapshot _snapshot;
+    private AzAppconfigCredential? _credential;
+    private AzAppconfigFeature? _feature;
+    private AzAppconfigIdentity? _identity;
+    private AzAppconfigKv? _kv;
+    private AzAppconfigReplica? _replica;
+    private AzAppconfigRevision? _revision;
+    private AzAppconfigSnapshot? _snapshot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAppconfig"/> class.

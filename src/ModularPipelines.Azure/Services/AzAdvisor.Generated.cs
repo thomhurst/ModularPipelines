@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzAdvisor
 {
     private readonly ICommand _command;
-    private AzAdvisorConfiguration _configuration;
-    private AzAdvisorRecommendation _recommendation;
+    private AzAdvisorConfiguration? _configuration;
+    private AzAdvisorRecommendation? _recommendation;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAdvisor"/> class.

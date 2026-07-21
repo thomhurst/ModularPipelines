@@ -20,7 +20,7 @@ namespace ModularPipelines.Podman.Services;
 public class PodmanCompose
 {
     private readonly ICommand _command;
-    private PodmanComposeBridge _bridge;
+    private PodmanComposeBridge? _bridge;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PodmanCompose"/> class.

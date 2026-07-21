@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBq
 {
     private readonly ICommand _command;
-    private GcloudBqMigrationWorkflows _migrationWorkflows;
+    private GcloudBqMigrationWorkflows? _migrationWorkflows;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBq"/> class.

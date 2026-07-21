@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudKmsKeys
 {
     private readonly ICommand _command;
-    private GcloudKmsKeysVersions _versions;
+    private GcloudKmsKeysVersions? _versions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudKmsKeys"/> class.

@@ -20,19 +20,19 @@ namespace ModularPipelines.Azure.Services;
 public class AzFunctionapp
 {
     private readonly ICommand _command;
-    private AzFunctionappConfig _config;
-    private AzFunctionappConnection _connection;
-    private AzFunctionappCors _cors;
-    private AzFunctionappDeployment _deployment;
-    private AzFunctionappFlexMigration _flexMigration;
-    private AzFunctionappFunction _function;
-    private AzFunctionappHybridConnection _hybridConnection;
-    private AzFunctionappIdentity _identity;
-    private AzFunctionappKeys _keys;
-    private AzFunctionappLog _log;
-    private AzFunctionappPlan _plan;
-    private AzFunctionappScale _scale;
-    private AzFunctionappVnetIntegration _vnetIntegration;
+    private AzFunctionappConfig? _config;
+    private AzFunctionappConnection? _connection;
+    private AzFunctionappCors? _cors;
+    private AzFunctionappDeployment? _deployment;
+    private AzFunctionappFlexMigration? _flexMigration;
+    private AzFunctionappFunction? _function;
+    private AzFunctionappHybridConnection? _hybridConnection;
+    private AzFunctionappIdentity? _identity;
+    private AzFunctionappKeys? _keys;
+    private AzFunctionappLog? _log;
+    private AzFunctionappPlan? _plan;
+    private AzFunctionappScale? _scale;
+    private AzFunctionappVnetIntegration? _vnetIntegration;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzFunctionapp"/> class.

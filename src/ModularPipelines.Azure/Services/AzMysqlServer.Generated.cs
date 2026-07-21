@@ -20,13 +20,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzMysqlServer
 {
     private readonly ICommand _command;
-    private AzMysqlServerAdAdmin _adAdmin;
-    private AzMysqlServerConfiguration _configuration;
-    private AzMysqlServerFirewallRule _firewallRule;
-    private AzMysqlServerKey _key;
-    private AzMysqlServerPrivateEndpointConnection _privateEndpointConnection;
-    private AzMysqlServerReplica _replica;
-    private AzMysqlServerVnetRule _vnetRule;
+    private AzMysqlServerAdAdmin? _adAdmin;
+    private AzMysqlServerConfiguration? _configuration;
+    private AzMysqlServerFirewallRule? _firewallRule;
+    private AzMysqlServerKey? _key;
+    private AzMysqlServerPrivateEndpointConnection? _privateEndpointConnection;
+    private AzMysqlServerReplica? _replica;
+    private AzMysqlServerVnetRule? _vnetRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMysqlServer"/> class.

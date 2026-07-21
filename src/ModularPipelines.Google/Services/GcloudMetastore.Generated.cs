@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMetastore
 {
     private readonly ICommand _command;
-    private GcloudMetastoreFederations _federations;
-    private GcloudMetastoreLocations _locations;
-    private GcloudMetastoreOperations _operations;
-    private GcloudMetastoreServices _services;
+    private GcloudMetastoreFederations? _federations;
+    private GcloudMetastoreLocations? _locations;
+    private GcloudMetastoreOperations? _operations;
+    private GcloudMetastoreServices? _services;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMetastore"/> class.

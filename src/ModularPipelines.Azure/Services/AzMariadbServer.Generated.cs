@@ -20,11 +20,11 @@ namespace ModularPipelines.Azure.Services;
 public class AzMariadbServer
 {
     private readonly ICommand _command;
-    private AzMariadbServerConfiguration _configuration;
-    private AzMariadbServerFirewallRule _firewallRule;
-    private AzMariadbServerPrivateEndpointConnection _privateEndpointConnection;
-    private AzMariadbServerReplica _replica;
-    private AzMariadbServerVnetRule _vnetRule;
+    private AzMariadbServerConfiguration? _configuration;
+    private AzMariadbServerFirewallRule? _firewallRule;
+    private AzMariadbServerPrivateEndpointConnection? _privateEndpointConnection;
+    private AzMariadbServerReplica? _replica;
+    private AzMariadbServerVnetRule? _vnetRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMariadbServer"/> class.

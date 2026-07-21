@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkVpnConnection
 {
     private readonly ICommand _command;
-    private AzNetworkVpnConnectionIpsecPolicy _ipsecPolicy;
-    private AzNetworkVpnConnectionPacketCapture _packetCapture;
-    private AzNetworkVpnConnectionSharedKey _sharedKey;
+    private AzNetworkVpnConnectionIpsecPolicy? _ipsecPolicy;
+    private AzNetworkVpnConnectionPacketCapture? _packetCapture;
+    private AzNetworkVpnConnectionSharedKey? _sharedKey;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkVpnConnection"/> class.

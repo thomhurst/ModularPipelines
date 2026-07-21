@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAuditmanager
 {
     private readonly ICommand _command;
-    private GcloudAuditmanagerAuditReports _auditReports;
-    private GcloudAuditmanagerAuditScopes _auditScopes;
-    private GcloudAuditmanagerEnrollments _enrollments;
-    private GcloudAuditmanagerOperations _operations;
+    private GcloudAuditmanagerAuditReports? _auditReports;
+    private GcloudAuditmanagerAuditScopes? _auditScopes;
+    private GcloudAuditmanagerEnrollments? _enrollments;
+    private GcloudAuditmanagerOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAuditmanager"/> class.

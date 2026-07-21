@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitorLogAnalytics
 {
     private readonly ICommand _command;
-    private AzMonitorLogAnalyticsCluster _cluster;
-    private AzMonitorLogAnalyticsWorkspace _workspace;
+    private AzMonitorLogAnalyticsCluster? _cluster;
+    private AzMonitorLogAnalyticsWorkspace? _workspace;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorLogAnalytics"/> class.

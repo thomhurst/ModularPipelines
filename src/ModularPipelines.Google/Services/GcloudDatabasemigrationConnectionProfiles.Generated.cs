@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDatabasemigrationConnectionProfiles
 {
     private readonly ICommand _command;
-    private GcloudDatabasemigrationConnectionProfilesCreate _create;
+    private GcloudDatabasemigrationConnectionProfilesCreate? _create;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatabasemigrationConnectionProfiles"/> class.

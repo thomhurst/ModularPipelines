@@ -20,15 +20,15 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPubsub
 {
     private readonly ICommand _command;
-    private GcloudPubsubLiteOperations _liteOperations;
-    private GcloudPubsubLiteReservations _liteReservations;
-    private GcloudPubsubLiteSubscriptions _liteSubscriptions;
-    private GcloudPubsubLiteTopics _liteTopics;
-    private GcloudPubsubMessageTransforms _messageTransforms;
-    private GcloudPubsubSchemas _schemas;
-    private GcloudPubsubSnapshots _snapshots;
-    private GcloudPubsubSubscriptions _subscriptions;
-    private GcloudPubsubTopics _topics;
+    private GcloudPubsubLiteOperations? _liteOperations;
+    private GcloudPubsubLiteReservations? _liteReservations;
+    private GcloudPubsubLiteSubscriptions? _liteSubscriptions;
+    private GcloudPubsubLiteTopics? _liteTopics;
+    private GcloudPubsubMessageTransforms? _messageTransforms;
+    private GcloudPubsubSchemas? _schemas;
+    private GcloudPubsubSnapshots? _snapshots;
+    private GcloudPubsubSubscriptions? _subscriptions;
+    private GcloudPubsubTopics? _topics;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPubsub"/> class.

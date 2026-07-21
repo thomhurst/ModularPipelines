@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataflow
 {
     private readonly ICommand _command;
-    private GcloudDataflowFlexTemplate _flexTemplate;
-    private GcloudDataflowJobs _jobs;
-    private GcloudDataflowSnapshots _snapshots;
-    private GcloudDataflowYaml _yaml;
+    private GcloudDataflowFlexTemplate? _flexTemplate;
+    private GcloudDataflowJobs? _jobs;
+    private GcloudDataflowSnapshots? _snapshots;
+    private GcloudDataflowYaml? _yaml;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataflow"/> class.

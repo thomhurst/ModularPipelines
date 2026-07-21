@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComputeRoutersNats
 {
     private readonly ICommand _command;
-    private GcloudComputeRoutersNatsRules _rules;
+    private GcloudComputeRoutersNatsRules? _rules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeRoutersNats"/> class.

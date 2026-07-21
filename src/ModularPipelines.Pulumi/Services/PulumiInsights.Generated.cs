@@ -20,8 +20,8 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiInsights
 {
     private readonly ICommand _command;
-    private PulumiInsightsAccount _account;
-    private PulumiInsightsResource _resource;
+    private PulumiInsightsAccount? _account;
+    private PulumiInsightsResource? _resource;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiInsights"/> class.

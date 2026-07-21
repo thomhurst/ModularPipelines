@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudModelarmor
 {
     private readonly ICommand _command;
-    private GcloudModelarmorFloorsettings _floorsettings;
-    private GcloudModelarmorTemplates _templates;
+    private GcloudModelarmorFloorsettings? _floorsettings;
+    private GcloudModelarmorTemplates? _templates;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudModelarmor"/> class.

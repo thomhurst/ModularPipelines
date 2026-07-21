@@ -20,11 +20,11 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAiplatform
 {
     private readonly ICommand _command;
-    private GcloudAiplatformJobs _jobs;
-    private GcloudAiplatformLocal _local;
-    private GcloudAiplatformModels _models;
-    private GcloudAiplatformOperations _operations;
-    private GcloudAiplatformVersions _versions;
+    private GcloudAiplatformJobs? _jobs;
+    private GcloudAiplatformLocal? _local;
+    private GcloudAiplatformModels? _models;
+    private GcloudAiplatformOperations? _operations;
+    private GcloudAiplatformVersions? _versions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAiplatform"/> class.

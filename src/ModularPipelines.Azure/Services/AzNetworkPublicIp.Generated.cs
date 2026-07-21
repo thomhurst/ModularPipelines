@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkPublicIp
 {
     private readonly ICommand _command;
-    private AzNetworkPublicIpDdosProtection _ddosProtection;
-    private AzNetworkPublicIpPrefix _prefix;
+    private AzNetworkPublicIpDdosProtection? _ddosProtection;
+    private AzNetworkPublicIpPrefix? _prefix;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkPublicIp"/> class.

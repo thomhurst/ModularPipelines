@@ -20,11 +20,11 @@ namespace ModularPipelines.Google.Services;
 public class GcloudIap
 {
     private readonly ICommand _command;
-    private GcloudIapOauthBrands _oauthBrands;
-    private GcloudIapOauthClients _oauthClients;
-    private GcloudIapSettings _settings;
-    private GcloudIapTcp _tcp;
-    private GcloudIapWeb _web;
+    private GcloudIapOauthBrands? _oauthBrands;
+    private GcloudIapOauthClients? _oauthClients;
+    private GcloudIapSettings? _settings;
+    private GcloudIapTcp? _tcp;
+    private GcloudIapWeb? _web;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIap"/> class.

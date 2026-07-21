@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDesigncenterSpacesSharedTemplates
 {
     private readonly ICommand _command;
-    private GcloudDesigncenterSpacesSharedTemplatesRevisions _revisions;
+    private GcloudDesigncenterSpacesSharedTemplatesRevisions? _revisions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDesigncenterSpacesSharedTemplates"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkPrivateDnsLink
 {
     private readonly ICommand _command;
-    private AzNetworkPrivateDnsLinkVnet _vnet;
+    private AzNetworkPrivateDnsLinkVnet? _vnet;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkPrivateDnsLink"/> class.

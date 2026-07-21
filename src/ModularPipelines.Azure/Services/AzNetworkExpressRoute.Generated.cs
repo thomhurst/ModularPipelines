@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkExpressRoute
 {
     private readonly ICommand _command;
-    private AzNetworkExpressRouteAuth _auth;
-    private AzNetworkExpressRouteGateway _gateway;
-    private AzNetworkExpressRoutePeering _peering;
-    private AzNetworkExpressRoutePort _port;
+    private AzNetworkExpressRouteAuth? _auth;
+    private AzNetworkExpressRouteGateway? _gateway;
+    private AzNetworkExpressRoutePeering? _peering;
+    private AzNetworkExpressRoutePort? _port;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkExpressRoute"/> class.

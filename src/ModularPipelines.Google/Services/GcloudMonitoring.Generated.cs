@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMonitoring
 {
     private readonly ICommand _command;
-    private GcloudMonitoringDashboards _dashboards;
-    private GcloudMonitoringPolicies _policies;
-    private GcloudMonitoringSnoozes _snoozes;
-    private GcloudMonitoringUptime _uptime;
+    private GcloudMonitoringDashboards? _dashboards;
+    private GcloudMonitoringPolicies? _policies;
+    private GcloudMonitoringSnoozes? _snoozes;
+    private GcloudMonitoringUptime? _uptime;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMonitoring"/> class.

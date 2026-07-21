@@ -20,7 +20,7 @@ namespace ModularPipelines.Podman.Services;
 public class PodmanImage
 {
     private readonly ICommand _command;
-    private PodmanImageTrust _trust;
+    private PodmanImageTrust? _trust;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PodmanImage"/> class.

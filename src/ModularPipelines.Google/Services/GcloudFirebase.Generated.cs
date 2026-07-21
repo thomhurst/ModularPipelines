@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudFirebase
 {
     private readonly ICommand _command;
-    private GcloudFirebaseTest _test;
+    private GcloudFirebaseTest? _test;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirebase"/> class.

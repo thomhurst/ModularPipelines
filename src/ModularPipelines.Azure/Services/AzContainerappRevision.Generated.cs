@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzContainerappRevision
 {
     private readonly ICommand _command;
-    private AzContainerappRevisionLabel _label;
+    private AzContainerappRevisionLabel? _label;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainerappRevision"/> class.

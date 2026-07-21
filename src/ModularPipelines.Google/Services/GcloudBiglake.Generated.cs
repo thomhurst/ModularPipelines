@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBiglake
 {
     private readonly ICommand _command;
-    private GcloudBiglakeDataProductSharing _dataProductSharing;
-    private GcloudBiglakeDeltaSharing _deltaSharing;
-    private GcloudBiglakeIceberg _iceberg;
+    private GcloudBiglakeDataProductSharing? _dataProductSharing;
+    private GcloudBiglakeDeltaSharing? _deltaSharing;
+    private GcloudBiglakeIceberg? _iceberg;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBiglake"/> class.

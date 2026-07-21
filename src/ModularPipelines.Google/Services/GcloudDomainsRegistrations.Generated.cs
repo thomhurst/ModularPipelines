@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDomainsRegistrations
 {
     private readonly ICommand _command;
-    private GcloudDomainsRegistrationsAuthorizationCode _authorizationCode;
-    private GcloudDomainsRegistrationsConfigure _configure;
-    private GcloudDomainsRegistrationsGoogleDomainsDns _googleDomainsDns;
-    private GcloudDomainsRegistrationsOperations _operations;
+    private GcloudDomainsRegistrationsAuthorizationCode? _authorizationCode;
+    private GcloudDomainsRegistrationsConfigure? _configure;
+    private GcloudDomainsRegistrationsGoogleDomainsDns? _googleDomainsDns;
+    private GcloudDomainsRegistrationsOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDomainsRegistrations"/> class.

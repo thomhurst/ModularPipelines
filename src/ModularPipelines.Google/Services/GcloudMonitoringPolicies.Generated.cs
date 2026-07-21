@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMonitoringPolicies
 {
     private readonly ICommand _command;
-    private GcloudMonitoringPoliciesConditions _conditions;
+    private GcloudMonitoringPoliciesConditions? _conditions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMonitoringPolicies"/> class.

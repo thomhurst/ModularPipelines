@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzAcrTask
 {
     private readonly ICommand _command;
-    private AzAcrTaskCredential _credential;
-    private AzAcrTaskIdentity _identity;
-    private AzAcrTaskTimer _timer;
+    private AzAcrTaskCredential? _credential;
+    private AzAcrTaskIdentity? _identity;
+    private AzAcrTaskTimer? _timer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAcrTask"/> class.

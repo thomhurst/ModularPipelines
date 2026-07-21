@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMemcache
 {
     private readonly ICommand _command;
-    private GcloudMemcacheInstances _instances;
-    private GcloudMemcacheOperations _operations;
-    private GcloudMemcacheRegions _regions;
+    private GcloudMemcacheInstances? _instances;
+    private GcloudMemcacheOperations? _operations;
+    private GcloudMemcacheRegions? _regions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMemcache"/> class.

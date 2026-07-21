@@ -20,12 +20,12 @@ namespace ModularPipelines.Google.Services;
 public class GcloudEdgecloudContainer
 {
     private readonly ICommand _command;
-    private GcloudEdgecloudContainerClusters _clusters;
-    private GcloudEdgecloudContainerMachines _machines;
-    private GcloudEdgecloudContainerOperations _operations;
-    private GcloudEdgecloudContainerRegions _regions;
-    private GcloudEdgecloudContainerVpnConnections _vpnConnections;
-    private GcloudEdgecloudContainerZones _zones;
+    private GcloudEdgecloudContainerClusters? _clusters;
+    private GcloudEdgecloudContainerMachines? _machines;
+    private GcloudEdgecloudContainerOperations? _operations;
+    private GcloudEdgecloudContainerRegions? _regions;
+    private GcloudEdgecloudContainerVpnConnections? _vpnConnections;
+    private GcloudEdgecloudContainerZones? _zones;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEdgecloudContainer"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDnsResponsePolicies
 {
     private readonly ICommand _command;
-    private GcloudDnsResponsePoliciesRules _rules;
+    private GcloudDnsResponsePoliciesRules? _rules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDnsResponsePolicies"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerAi
 {
     private readonly ICommand _command;
-    private GcloudContainerAiProfiles _profiles;
+    private GcloudContainerAiProfiles? _profiles;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerAi"/> class.

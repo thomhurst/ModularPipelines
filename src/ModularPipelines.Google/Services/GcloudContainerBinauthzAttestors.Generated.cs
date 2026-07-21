@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerBinauthzAttestors
 {
     private readonly ICommand _command;
-    private GcloudContainerBinauthzAttestorsPublicKeys _publicKeys;
+    private GcloudContainerBinauthzAttestorsPublicKeys? _publicKeys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerBinauthzAttestors"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMemorystoreBackupCollections
 {
     private readonly ICommand _command;
-    private GcloudMemorystoreBackupCollectionsBackups _backups;
+    private GcloudMemorystoreBackupCollectionsBackups? _backups;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMemorystoreBackupCollections"/> class.

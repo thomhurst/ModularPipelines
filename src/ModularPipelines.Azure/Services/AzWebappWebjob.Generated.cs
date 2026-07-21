@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzWebappWebjob
 {
     private readonly ICommand _command;
-    private AzWebappWebjobContinuous _continuous;
-    private AzWebappWebjobTriggered _triggered;
+    private AzWebappWebjobContinuous? _continuous;
+    private AzWebappWebjobTriggered? _triggered;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzWebappWebjob"/> class.

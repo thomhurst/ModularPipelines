@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudKmsSingleTenantHsm
 {
     private readonly ICommand _command;
-    private GcloudKmsSingleTenantHsmProposal _proposal;
+    private GcloudKmsSingleTenantHsmProposal? _proposal;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudKmsSingleTenantHsm"/> class.

@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzFunctionappConnection
 {
     private readonly ICommand _command;
-    private AzFunctionappConnectionCreate _create;
-    private AzFunctionappConnectionUpdate _update;
+    private AzFunctionappConnectionCreate? _create;
+    private AzFunctionappConnectionUpdate? _update;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzFunctionappConnection"/> class.

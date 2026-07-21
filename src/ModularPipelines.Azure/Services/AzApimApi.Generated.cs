@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzApimApi
 {
     private readonly ICommand _command;
-    private AzApimApiOperation _operation;
-    private AzApimApiRelease _release;
-    private AzApimApiSchema _schema;
-    private AzApimApiVersionset _versionset;
+    private AzApimApiOperation? _operation;
+    private AzApimApiRelease? _release;
+    private AzApimApiSchema? _schema;
+    private AzApimApiVersionset? _versionset;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzApimApi"/> class.

@@ -20,21 +20,21 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainer
 {
     private readonly ICommand _command;
-    private GcloudContainerAi _ai;
-    private GcloudContainerAttached _attached;
-    private GcloudContainerAws _aws;
-    private GcloudContainerAzure _azure;
-    private GcloudContainerBareMetal _bareMetal;
-    private GcloudContainerBinauthz _binauthz;
-    private GcloudContainerClusters _clusters;
-    private GcloudContainerFleet _fleet;
-    private GcloudContainerHub _hub;
-    private GcloudContainerImages _images;
-    private GcloudContainerNodePools _nodePools;
-    private GcloudContainerOperations _operations;
-    private GcloudContainerSubnets _subnets;
-    private GcloudContainerVmware _vmware;
-    private GcloudContainerWorkload _workload;
+    private GcloudContainerAi? _ai;
+    private GcloudContainerAttached? _attached;
+    private GcloudContainerAws? _aws;
+    private GcloudContainerAzure? _azure;
+    private GcloudContainerBareMetal? _bareMetal;
+    private GcloudContainerBinauthz? _binauthz;
+    private GcloudContainerClusters? _clusters;
+    private GcloudContainerFleet? _fleet;
+    private GcloudContainerHub? _hub;
+    private GcloudContainerImages? _images;
+    private GcloudContainerNodePools? _nodePools;
+    private GcloudContainerOperations? _operations;
+    private GcloudContainerSubnets? _subnets;
+    private GcloudContainerVmware? _vmware;
+    private GcloudContainerWorkload? _workload;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainer"/> class.

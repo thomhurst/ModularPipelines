@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPreviewComputePublicDelegatedPrefixes
 {
     private readonly ICommand _command;
-    private GcloudPreviewComputePublicDelegatedPrefixesDelegatedSubPrefixes _delegatedSubPrefixes;
+    private GcloudPreviewComputePublicDelegatedPrefixesDelegatedSubPrefixes? _delegatedSubPrefixes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputePublicDelegatedPrefixes"/> class.

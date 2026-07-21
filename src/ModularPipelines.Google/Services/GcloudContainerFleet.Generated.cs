@@ -20,25 +20,25 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerFleet
 {
     private readonly ICommand _command;
-    private GcloudContainerFleetCloudrun _cloudrun;
-    private GcloudContainerFleetClusterupgrade _clusterupgrade;
-    private GcloudContainerFleetConfigManagement _configManagement;
-    private GcloudContainerFleetDataplaneV2Encryption _dataplaneV2Encryption;
-    private GcloudContainerFleetFeatures _features;
-    private GcloudContainerFleetFleetobservability _fleetobservability;
-    private GcloudContainerFleetIdentityService _identityService;
-    private GcloudContainerFleetIngress _ingress;
-    private GcloudContainerFleetMemberships _memberships;
-    private GcloudContainerFleetMesh _mesh;
-    private GcloudContainerFleetMultiClusterServices _multiClusterServices;
-    private GcloudContainerFleetOperations _operations;
-    private GcloudContainerFleetPackages _packages;
-    private GcloudContainerFleetPolicycontroller _policycontroller;
-    private GcloudContainerFleetRbacrolebindingactuation _rbacrolebindingactuation;
-    private GcloudContainerFleetRollouts _rollouts;
-    private GcloudContainerFleetRolloutsequences _rolloutsequences;
-    private GcloudContainerFleetScopes _scopes;
-    private GcloudContainerFleetWorkloadIdentity _workloadIdentity;
+    private GcloudContainerFleetCloudrun? _cloudrun;
+    private GcloudContainerFleetClusterupgrade? _clusterupgrade;
+    private GcloudContainerFleetConfigManagement? _configManagement;
+    private GcloudContainerFleetDataplaneV2Encryption? _dataplaneV2Encryption;
+    private GcloudContainerFleetFeatures? _features;
+    private GcloudContainerFleetFleetobservability? _fleetobservability;
+    private GcloudContainerFleetIdentityService? _identityService;
+    private GcloudContainerFleetIngress? _ingress;
+    private GcloudContainerFleetMemberships? _memberships;
+    private GcloudContainerFleetMesh? _mesh;
+    private GcloudContainerFleetMultiClusterServices? _multiClusterServices;
+    private GcloudContainerFleetOperations? _operations;
+    private GcloudContainerFleetPackages? _packages;
+    private GcloudContainerFleetPolicycontroller? _policycontroller;
+    private GcloudContainerFleetRbacrolebindingactuation? _rbacrolebindingactuation;
+    private GcloudContainerFleetRollouts? _rollouts;
+    private GcloudContainerFleetRolloutsequences? _rolloutsequences;
+    private GcloudContainerFleetScopes? _scopes;
+    private GcloudContainerFleetWorkloadIdentity? _workloadIdentity;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerFleet"/> class.

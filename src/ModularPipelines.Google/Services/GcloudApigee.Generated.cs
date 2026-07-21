@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Services;
 public class GcloudApigee
 {
     private readonly ICommand _command;
-    private GcloudApigeeApis _apis;
-    private GcloudApigeeApplications _applications;
-    private GcloudApigeeDeployments _deployments;
-    private GcloudApigeeDevelopers _developers;
-    private GcloudApigeeEnvironments _environments;
-    private GcloudApigeeOrganizations _organizations;
-    private GcloudApigeeProducts _products;
+    private GcloudApigeeApis? _apis;
+    private GcloudApigeeApplications? _applications;
+    private GcloudApigeeDeployments? _deployments;
+    private GcloudApigeeDevelopers? _developers;
+    private GcloudApigeeEnvironments? _environments;
+    private GcloudApigeeOrganizations? _organizations;
+    private GcloudApigeeProducts? _products;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApigee"/> class.

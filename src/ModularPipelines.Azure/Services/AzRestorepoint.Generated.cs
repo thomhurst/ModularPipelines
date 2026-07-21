@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzRestorepoint
 {
     private readonly ICommand _command;
-    private AzRestorepointCollection _collection;
+    private AzRestorepointCollection? _collection;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRestorepoint"/> class.

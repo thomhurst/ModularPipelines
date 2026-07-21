@@ -20,7 +20,7 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiEnvWebhook
 {
     private readonly ICommand _command;
-    private PulumiEnvWebhookDelivery _delivery;
+    private PulumiEnvWebhookDelivery? _delivery;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiEnvWebhook"/> class.

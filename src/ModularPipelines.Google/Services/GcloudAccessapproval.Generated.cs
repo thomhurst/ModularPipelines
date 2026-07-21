@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAccessapproval
 {
     private readonly ICommand _command;
-    private GcloudAccessapprovalRequests _requests;
-    private GcloudAccessapprovalServiceAccount _serviceAccount;
-    private GcloudAccessapprovalSettings _settings;
+    private GcloudAccessapprovalRequests? _requests;
+    private GcloudAccessapprovalServiceAccount? _serviceAccount;
+    private GcloudAccessapprovalSettings? _settings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAccessapproval"/> class.

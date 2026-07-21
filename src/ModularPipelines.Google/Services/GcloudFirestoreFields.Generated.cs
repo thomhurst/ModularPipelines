@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudFirestoreFields
 {
     private readonly ICommand _command;
-    private GcloudFirestoreFieldsTtls _ttls;
+    private GcloudFirestoreFieldsTtls? _ttls;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirestoreFields"/> class.

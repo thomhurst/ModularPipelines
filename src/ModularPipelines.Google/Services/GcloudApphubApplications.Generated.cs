@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudApphubApplications
 {
     private readonly ICommand _command;
-    private GcloudApphubApplicationsServices _services;
-    private GcloudApphubApplicationsWorkloads _workloads;
+    private GcloudApphubApplicationsServices? _services;
+    private GcloudApphubApplicationsWorkloads? _workloads;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApphubApplications"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPublicca
 {
     private readonly ICommand _command;
-    private GcloudPubliccaExternalAccountKeys _externalAccountKeys;
+    private GcloudPubliccaExternalAccountKeys? _externalAccountKeys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPublicca"/> class.

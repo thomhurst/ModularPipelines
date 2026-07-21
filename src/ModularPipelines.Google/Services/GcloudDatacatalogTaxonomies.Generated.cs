@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDatacatalogTaxonomies
 {
     private readonly ICommand _command;
-    private GcloudDatacatalogTaxonomiesPolicyTags _policyTags;
+    private GcloudDatacatalogTaxonomiesPolicyTags? _policyTags;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatacatalogTaxonomies"/> class.

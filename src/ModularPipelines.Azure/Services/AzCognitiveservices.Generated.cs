@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzCognitiveservices
 {
     private readonly ICommand _command;
-    private AzCognitiveservicesAccount _account;
+    private AzCognitiveservicesAccount? _account;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCognitiveservices"/> class.
