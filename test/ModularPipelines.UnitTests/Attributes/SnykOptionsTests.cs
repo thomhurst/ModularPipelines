@@ -79,6 +79,42 @@ public class SnykOptionsTests
         await Assert.That(arguments).IsEquivalentTo([".snyk", "-d"]);
     }
 
+    [Test]
+    public async Task Previously_Bare_Value_Options_And_Code_Path_Render_Values()
+    {
+        var describeArguments = BuildArguments(new SnykIacDescribeOptions
+        {
+            TfcToken = "terraform-token",
+            TfcEndpoint = "https://terraform.example.com",
+            ConfigDir = ".snyk-config",
+        });
+        var aibomArguments = BuildArguments(new SnykAibomOptions
+        {
+            Upload = true,
+            Repo = "https://github.com/example/repository",
+        });
+        var codeArguments = BuildArguments(new SnykCodeTestOptions
+        {
+            Path = "src",
+        });
+
+        await Assert.That(describeArguments).IsEquivalentTo(
+        [
+            "--tfc-token=terraform-token",
+            "--tfc-endpoint=https://terraform.example.com",
+            "--config-dir=.snyk-config",
+        ]);
+        await Assert.That(aibomArguments).IsEquivalentTo(
+        [
+            "--upload",
+            "--repo=https://github.com/example/repository",
+        ]);
+        await Assert.That(codeArguments).IsEquivalentTo(["src"]);
+
+        var tfcToken = typeof(SnykIacDescribeOptions).GetProperty(nameof(SnykIacDescribeOptions.TfcToken));
+        await Assert.That(tfcToken!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
+    }
+
     private List<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());

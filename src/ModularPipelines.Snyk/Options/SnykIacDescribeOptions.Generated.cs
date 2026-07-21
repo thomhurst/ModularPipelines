@@ -42,38 +42,39 @@ public record SnykIacDescribeOptions : SnykOptions
     /// <summary>
     /// Specify a Terraform provider version to use. If none is specified, default versions are used as follows:
     /// </summary>
-    [CliFlag("--tf-provider-version")]
-    public bool? TfProviderVersion { get; set; }
+    [CliOption("--tf-provider-version", Format = OptionFormat.EqualsSeparated)]
+    public string? TfProviderVersion { get; set; }
 
     /// <summary>
     /// Read the Terraform lock file (.terraform.lock.hcl) from a custom path (default: current directory).
     /// </summary>
-    [CliFlag("--tf-lockfile")]
-    public bool? TfLockfile { get; set; }
+    [CliOption("--tf-lockfile", Format = OptionFormat.EqualsSeparated)]
+    public string? TfLockfile { get; set; }
 
     /// <summary>
     /// Use a specific HTTP header or headers for the HTTP backend when fetching Terraform state.
     /// </summary>
-    [CliFlag("--fetch-tfstate-headers")]
-    public bool? FetchTfstateHeaders { get; set; }
+    [CliOption("--fetch-tfstate-headers", Format = OptionFormat.EqualsSeparated)]
+    public string? FetchTfstateHeaders { get; set; }
 
     /// <summary>
     /// Specify an API token to authenticate to the Terraform Cloud or Enterprise API.
     /// </summary>
-    [CliFlag("--tfc-token")]
-    public bool? TfcToken { get; set; }
+    [SecretValue]
+    [CliOption("--tfc-token", Format = OptionFormat.EqualsSeparated)]
+    public string? TfcToken { get; set; }
 
     /// <summary>
     /// Read the current state for a given workspace from Terraform Enterprise by passing the tfc-endpoint value that is specific to your org's Terraform Enterprise installation.
     /// </summary>
-    [CliFlag("--tfc-endpoint")]
-    public bool? TfcEndpoint { get; set; }
+    [CliOption("--tfc-endpoint", Format = OptionFormat.EqualsSeparated)]
+    public string? TfcEndpoint { get; set; }
 
     /// <summary>
     /// Change the directory path used for iac describe configuration (default $HOME). This can be useful, for example, if you want to invoke this command in an AWS Lambda function where you can only use the /tmp folder.
     /// </summary>
-    [CliFlag("--config-dir")]
-    public bool? ConfigDir { get; set; }
+    [CliOption("--config-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigDir { get; set; }
 
     /// <summary>
     /// Specify the services to inspect for unmanaged resources.

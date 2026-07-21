@@ -240,8 +240,8 @@ public record SnykMonitorOptions : SnykOptions
     /// <summary>
     /// Specify a custom path to the packages folder.
     /// </summary>
-    [CliFlag("--packages-folder")]
-    public bool? PackagesFolder { get; set; }
+    [CliOption("--packages-folder", Format = OptionFormat.EqualsSeparated)]
+    public string? PackagesFolder { get; set; }
 
     /// <summary>
     /// When monitoring a .NET project, use this option to add a custom prefix to the name of files inside a project along with any desired separators.
@@ -258,8 +258,8 @@ public record SnykMonitorOptions : SnykOptions
     /// <summary>
     /// Note: This option in in Early Access and may change until it is released.
     /// </summary>
-    [CliFlag("--dotnet-target-framework")]
-    public bool? DotnetTargetFramework { get; set; }
+    [CliOption("--dotnet-target-framework", Format = OptionFormat.EqualsSeparated)]
+    public string? DotnetTargetFramework { get; set; }
 
     /// <summary>
     /// https://docs.snyk.io/snyk-cli/commands/monitor#prune-repeated-subdependencies-p

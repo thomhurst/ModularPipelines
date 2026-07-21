@@ -117,6 +117,71 @@ public class SnykCliScraperTests
     }
 
     [Test]
+    public async Task Known_Value_Options_Work_When_Help_Omits_Placeholders()
+    {
+        const string helpText = """
+            Describe infrastructure.
+
+            Options
+              --packages-folder
+                  Specify a custom path to the packages folder.
+              --tfc-token
+                  Specify an API token.
+              --tfc-endpoint
+                  Specify the Terraform Enterprise endpoint.
+              --repo
+                  Specify the repository URL.
+            """;
+
+        var command = await new TestSnykCliScraper().Parse(["snyk", "iac", "describe"], helpText);
+
+        foreach (var switchName in new[] { "--packages-folder", "--tfc-token", "--tfc-endpoint", "--repo" })
+        {
+            var option = command!.Options.Single(x => x.SwitchName == switchName);
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+            await Assert.That(option.IsFlag).IsFalse();
+        }
+
+        await Assert.That(command!.Options.Single(x => x.SwitchName == "--tfc-token").IsSecret).IsTrue();
+    }
+
+    [Test]
+    public async Task Code_Test_Models_Optional_Path()
+    {
+        var command = await new TestSnykCliScraper().Parse(
+            ["snyk", "code", "test"],
+            "Usage: snyk code test [<OPTIONS>] [<PATH>]");
+
+        var path = command!.PositionalArguments.Single();
+        await Assert.That(path.PropertyName).IsEqualTo("Path");
+        await Assert.That(path.IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Windows_Resolver_Finds_Standalone_Executable()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "mp-snyk-resolver-tests", Guid.NewGuid().ToString("N"));
+
+        try
+        {
+            Directory.CreateDirectory(root);
+            var executable = Path.Combine(root, "snyk.exe");
+            await File.WriteAllTextAsync(executable, string.Empty);
+
+            var resolved = SnykCliScraper.ResolveExecutablePath(root, isWindows: true);
+
+            await Assert.That(resolved).IsEqualTo(Path.GetFullPath(executable));
+        }
+        finally
+        {
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, recursive: true);
+            }
+        }
+    }
+
+    [Test]
     public async Task Policy_With_Only_Positional_And_Debug_Is_Generated()
     {
         const string helpText = """

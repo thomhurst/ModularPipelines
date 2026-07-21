@@ -100,4 +100,10 @@ public record SnykCodeTestOptions : SnykOptions
     [CliFlag("-d")]
     public bool? Debug { get; set; }
 
+    /// <summary>
+    /// Source code path to scan
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Path { get; set; }
+
 }

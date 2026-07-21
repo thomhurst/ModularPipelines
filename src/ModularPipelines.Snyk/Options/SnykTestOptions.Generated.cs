@@ -259,8 +259,8 @@ public record SnykTestOptions : SnykOptions
     /// <summary>
     /// Specify a custom path to the packages folder.
     /// </summary>
-    [CliFlag("--packages-folder")]
-    public bool? PackagesFolder { get; set; }
+    [CliOption("--packages-folder", Format = OptionFormat.EqualsSeparated)]
+    public string? PackagesFolder { get; set; }
 
     /// <summary>
     /// When monitoring a .NET project, use this option to add a custom prefix to the name of files inside a project along with any desired separators.
@@ -271,8 +271,8 @@ public record SnykTestOptions : SnykOptions
     /// <summary>
     /// Optional. You may use this option if your solution contains multiple &lt;TargetFramework&gt; directives. If you do not specify the option --dotnet-target-framework, all supported Target Frameworks will be scanned.
     /// </summary>
-    [CliFlag("--dotnet-target-framework")]
-    public bool? DotnetTargetFramework { get; set; }
+    [CliOption("--dotnet-target-framework", Format = OptionFormat.EqualsSeparated)]
+    public string? DotnetTargetFramework { get; set; }
 
     /// <summary>
     /// https://docs.snyk.io/snyk-cli/commands/test#prune-repeated-subdependencies-p

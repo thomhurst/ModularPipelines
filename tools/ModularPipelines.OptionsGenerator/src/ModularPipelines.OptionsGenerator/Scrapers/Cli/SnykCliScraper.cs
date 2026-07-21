@@ -31,6 +31,19 @@ public partial class SnykCliScraper : CliScraperBase
         "--nested-jars-depth",
     };
 
+    private static readonly HashSet<string> ValueOptionsWithoutHelpPlaceholders = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--config-dir",
+        "--dotnet-target-framework",
+        "--fetch-tfstate-headers",
+        "--packages-folder",
+        "--repo",
+        "--tf-lockfile",
+        "--tf-provider-version",
+        "--tfc-endpoint",
+        "--tfc-token",
+    };
+
     public SnykCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<SnykCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -256,7 +269,9 @@ public partial class SnykCliScraper : CliScraperBase
                 }
 
                 var isNumeric = NumericOptions.Contains(longForm);
-                var isFlag = string.IsNullOrEmpty(valueHint) && !isNumeric;
+                var isFlag = string.IsNullOrEmpty(valueHint)
+                    && !isNumeric
+                    && !ValueOptionsWithoutHelpPlaceholders.Contains(longForm);
                 var isBoolean = IsBooleanValueHint(valueHint);
                 var csharpType = isFlag || isBoolean ? "bool?" : isNumeric ? "int?" : "string?";
 
@@ -326,6 +341,10 @@ public partial class SnykCliScraper : CliScraperBase
             [
                 CreatePositional("Path", "PATH", "Infrastructure as Code path to scan", isRequired: false)
             ],
+            "code test" =>
+            [
+                CreatePositional("Path", "PATH", "Source code path to scan", isRequired: false)
+            ],
             "sbom" =>
             [
                 CreatePositional("TargetDirectory", "TARGET_DIRECTORY", "Project directory to scan", isRequired: false)
@@ -358,27 +377,30 @@ public partial class SnykCliScraper : CliScraperBase
         };
     }
 
-    private static string ResolveExecutablePath()
+    internal static string ResolveExecutablePath(string? searchPath = null, bool? isWindows = null)
     {
-        if (!OperatingSystem.IsWindows())
+        if (!(isWindows ?? OperatingSystem.IsWindows()))
         {
             return "snyk";
         }
 
-        var pathDirectories = Environment.GetEnvironmentVariable("PATH")?
+        var pathDirectories = (searchPath ?? Environment.GetEnvironmentVariable("PATH"))?
             .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             ?? [];
 
         foreach (var pathDirectory in pathDirectories)
         {
-            var candidate = Path.Combine(pathDirectory.Trim('"'), "snyk.cmd");
-            if (File.Exists(candidate))
+            foreach (var executableName in new[] { "snyk.exe", "snyk.cmd" })
             {
-                return Path.GetFullPath(candidate);
+                var candidate = Path.Combine(pathDirectory.Trim('"'), executableName);
+                if (File.Exists(candidate))
+                {
+                    return Path.GetFullPath(candidate);
+                }
             }
         }
 
-        return "snyk.cmd";
+        return "snyk";
     }
 
     private static string? ExtractOptionDescription(string[] lines, int currentIndex)

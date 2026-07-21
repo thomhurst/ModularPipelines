@@ -48,8 +48,8 @@ public record SnykAibomOptions : SnykOptions
     /// <summary>
     /// Optional. Specify the repository to use when persisting the AI-BOM. Required when you use the
     /// </summary>
-    [CliFlag("--repo")]
-    public bool? Repo { get; set; }
+    [CliOption("--repo", Format = OptionFormat.EqualsSeparated)]
+    public string? Repo { get; set; }
 
     /// <summary>
     /// Output debug logs.

@@ -114,8 +114,8 @@ public record SnykSbomOptions(
     /// <summary>
     /// Specify a custom path to the packages folder.
     /// </summary>
-    [CliFlag("--packages-folder")]
-    public bool? PackagesFolder { get; set; }
+    [CliOption("--packages-folder", Format = OptionFormat.EqualsSeparated)]
+    public string? PackagesFolder { get; set; }
 
     /// <summary>
     /// Prevent testing out-of-sync lockfiles.
