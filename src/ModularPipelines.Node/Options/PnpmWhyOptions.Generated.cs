@@ -39,7 +39,7 @@ public record PnpmWhyOptions : PnpmOptions
     public string? Dev { get; set; }
 
     /// <summary>
-    /// Change to directory &lt;dir&gt; (default: /home/runner/work/ModularPipelines/ModularPipelines/ tools/ModularPipelines.OptionsGenerator/src/ ModularPipelines.OptionsGenerator)
+    /// Change to directory &lt;dir&gt; (default: ~/work/ModularPipelines/ModularPipelines/ tools/ModularPipelines.OptionsGenerator/src/ ModularPipelines.OptionsGenerator)
     /// </summary>
     [CliOption("--dir", ShortForm = "-C")]
     public string? Dir { get; set; }

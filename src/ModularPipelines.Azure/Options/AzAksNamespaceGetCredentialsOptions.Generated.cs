@@ -27,7 +27,7 @@ public record AzAksNamespaceGetCredentialsOptions : AzOptions
     public bool? Context { get; set; }
 
     /// <summary>
-    /// Kubernetes configuration file to update. Use "-" to print YAML to stdout instead.  Default: /home/runner/.kube/config.
+    /// Kubernetes configuration file to update. Use "-" to print YAML to stdout instead.  Default: ~/.kube/config.
     /// </summary>
     [CliFlag("--file", ShortForm = "-f")]
     public bool? File { get; set; }

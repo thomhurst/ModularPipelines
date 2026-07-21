@@ -162,19 +162,19 @@ public record HelmRollbackOptions(
     public double? Qps { get; set; }
 
     /// <summary>
-    /// path to the registry config file (default "/home/runner/.config/helm/registry/config.json")
+    /// path to the registry config file (default "~/.config/helm/registry/config.json")
     /// </summary>
     [CliOption("--registry-config", Format = OptionFormat.EqualsSeparated)]
     public string? RegistryConfig { get; set; }
 
     /// <summary>
-    /// path to the directory containing cached repository indexes (default "/home/runner/.cache/helm/repository")
+    /// path to the directory containing cached repository indexes (default "~/.cache/helm/repository")
     /// </summary>
     [CliOption("--repository-cache", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryCache { get; set; }
 
     /// <summary>
-    /// path to the file containing repository names and URLs (default "/home/runner/.config/helm/repositories.yaml")
+    /// path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
