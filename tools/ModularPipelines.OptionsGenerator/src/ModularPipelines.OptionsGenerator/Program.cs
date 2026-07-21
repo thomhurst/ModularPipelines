@@ -158,6 +158,7 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     builder.Services.AddSingleton<ICodeGenerator, SubDomainClassGenerator>();
     builder.Services.AddSingleton<ICodeGenerator, GlobalOptionsBaseGenerator>();
     builder.Services.AddSingleton<ICodeGenerator, DependencyRegistrationGenerator>();
+    builder.Services.AddSingleton<ICodeGenerator, MarkdownDocumentationGenerator>();
 
     // Register type enhancer
     if (enhanceTypes)
