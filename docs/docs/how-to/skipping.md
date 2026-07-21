@@ -9,6 +9,10 @@ sidebar_position: 7
 
 The recommended way to configure module skipping is through the `Configure()` method with the fluent builder API:
 
+Attribute conditions (`[SkipIf<T>]`, `[RunIfAll<T>]`, and `[RunIfAny<T>]`) are normalized into
+the same module configuration. Attribute and fluent conditions therefore run at the same point
+in the execution pipeline and produce the same skipped-module lifecycle events.
+
 ### Simple Boolean Condition
 
 ```csharp

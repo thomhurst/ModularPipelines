@@ -71,14 +71,8 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     {
         var tags = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // 1. From attributes
-        tags.UnionWith(moduleType.GetCustomAttributes<ModuleTagAttribute>(inherit: true).Select(a => a.Tag));
-
-        // 2. From override (if ITaggedModule)
-        if (instance is ITaggedModule tagged)
-        {
-            tags.UnionWith(tagged.Tags);
-        }
+        // Module configuration already combines attributes, overrides, and fluent metadata.
+        tags.UnionWith(instance.Configuration.Tags);
 
         // 3. From registration
         if (_registrationTags.TryGetValue(moduleType, out var regTags))
@@ -86,19 +80,15 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
             tags.UnionWith(regTags);
         }
 
-        // Category: registration > override > attribute
-        string? category = null;
+        // Registration metadata takes precedence over module configuration.
+        string? category;
         if (_registrationCategories.TryGetValue(moduleType, out var regCat))
         {
             category = regCat;
         }
-        else if (instance is ITaggedModule taggedModule && taggedModule.Category != null)
-        {
-            category = taggedModule.Category;
-        }
         else
         {
-            category = moduleType.GetCustomAttribute<ModuleCategoryAttribute>(inherit: true)?.Category;
+            category = instance.Configuration.Category;
         }
 
         _finalizedMetadata[moduleType] = new ModuleMetadata(tags.ToFrozenSet(), category);

@@ -4,6 +4,7 @@ using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
 
@@ -141,6 +142,16 @@ public class NewRunConditionAttributeTests : TestBase
     private class ConditionGroupFalseModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
+    }
+
+    [SkipIf<AlwaysFalse>]
+    private class AttributeAndFluentConditionModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+
+        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() => ModularPipelines.Configuration.ModuleConfiguration.Create()
+            .WithSkipWhen(() => SkipDecision.Skip("Fluent condition"))
+            .Build();
     }
 
     #endregion
@@ -341,6 +352,24 @@ public class NewRunConditionAttributeTests : TestBase
         var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(ConditionGroupFalseModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+    }
+
+    [Test]
+    public async Task Attribute_And_Fluent_Conditions_Use_One_Skip_Pipeline()
+    {
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<AttributeAndFluentConditionModule>()
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult(typeof(AttributeAndFluentConditionModule))!;
+        using (Assert.Multiple())
+        {
+            await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(moduleResult.SkipDecisionOrDefault!.Reason).IsEqualTo("Fluent condition");
+        }
     }
 
     #endregion

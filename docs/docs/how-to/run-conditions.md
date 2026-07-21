@@ -4,86 +4,41 @@ sidebar_position: 5
 ---
 
 # Run conditions
-Run conditions gives us a way to easily skip or run modules based on some custom, reusable logic.
 
-Run conditions are generally controlled by attributes, placed upon your module.
-
-Some of these exist out-of-the-box
-e.g.
-[RunOnLinux]
-[RunOnWindows]
-[RunOnMacOS]
-
-You can create your own custom run conditions by inheriting from `RunConditionAttribute` and plugging custom logic into the `Condition` method.
+Reusable run conditions implement `IRunCondition`:
 
 ```csharp
-public class MyCustomRunConditionAttribute : RunConditionAttribute
+public class ServiceIsAvailable : IRunCondition
 {
-    public override async Task<bool> Condition(IPipelineHookContext pipelineContext)
+    public async Task<bool> EvaluateAsync(IPipelineHookContext context)
     {
-        var response = await pipelineContext.Http.SendAsync("https://www.example.com/ping");
+        var response = await context.Http.SendAsync("https://www.example.com/ping");
         return response.StatusCode == HttpStatusCode.OK;
     }
 }
 ```
 
-Returning `true` means the module will run. Returning `false` means it won't, UNLESS another run condition attribute returns true.
-
-Multiple can be supplied, and only one needs to return `true`.
-
-e.g.
-```csharp
-[RunOnLinux]
-[RunOnMacOS]
-public class MyModule : Module
-```
-
-The above module will run on either Linux, or Mac. But not windows.
-
-## Mandatory run conditions
-
-Mandatory run conditions are similar to standard run conditions, but they MUST return true to run the module. If ANY return false, then the module will not run.
-
-For built-in OS conditions, use the `*Only` variants for mandatory behavior:
-- `[RunOnLinuxOnly]` - Module runs ONLY on Linux
-- `[RunOnWindowsOnly]` - Module runs ONLY on Windows
-- `[RunOnMacOSOnly]` - Module runs ONLY on macOS
+Apply the condition with an attribute that states its intent:
 
 ```csharp
-[RunOnLinuxOnly]
-public class MyLinuxOnlyModule : Module
+[RunIfAll<ServiceIsAvailable>]
+public class DeployModule : Module<None>
 ```
 
-The above module will ONLY run on Linux and will be skipped on Windows and macOS.
+- `[SkipIf<T>]` skips when the condition is `true`.
+- `[RunIfAll<T1, T2>]` runs only when every condition is `true`.
+- `[RunIfAny<T1, T2>]` runs when at least one condition is `true`.
 
-You can create your own custom mandatory run conditions by inheriting from `MandatoryRunConditionAttribute` and plugging custom logic into the `Condition` method.
+Multiple condition attributes are evaluated in this order: `SkipIf`, `RunIfAll`, then
+`RunIfAny`. They are converted into the module's `ModuleConfiguration` and evaluated in the
+same execution stage as fluent `.WithSkipWhen(...)` conditions.
 
-```csharp
-public class MyMandatoryCustomRunConditionAttribute : MandatoryRunConditionAttribute
-{
-    public override async Task<bool> Condition(IPipelineHookContext pipelineContext)
-    {
-        var response = await pipelineContext.Http.SendAsync("https://www.example.com/service1/mustbeup/ping");
-        return response.StatusCode == HttpStatusCode.OK;
-    }
-}
+Built-in platform attributes remain available, including `[RunOnLinux]`, `[RunOnWindows]`,
+`[RunOnMacOS]`, and their `*Only` variants.
 
-public class MyMandatoryCustomRunCondition2Attribute : MandatoryRunConditionAttribute
-{
-    public override async Task<bool> Condition(IPipelineHookContext pipelineContext)
-    {
-        var response = await pipelineContext.Http.SendAsync("https://www.example.com/service2/mustbeup/ping");
-        return response.StatusCode == HttpStatusCode.OK;
-    }
-}
-```
+## Legacy attributes
 
-Take the above 2 mandatory conditions and this module:
-
-```csharp
-[MyMandatoryCustomRunCondition]
-[MyMandatoryCustomRunCondition2]
-public class MyModule : Module
-```
-
-This module will only run if BOTH conditions return true. If either return false, then the module will be skipped.
+`RunConditionAttribute` and `MandatoryRunConditionAttribute` are deprecated. Existing modules
+continue to work, but new reusable conditions should implement `IRunCondition` and use the
+intent-specific attributes above. One-off conditions should use
+`Configure().WithSkipWhen(...)`.

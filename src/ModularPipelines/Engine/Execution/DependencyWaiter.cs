@@ -63,14 +63,8 @@ internal class DependencyWaiter : IDependencyWaiter
     /// </summary>
     private static IEnumerable<(Type DependencyType, bool Optional)> GetAllDependencies(ModuleState moduleState)
     {
-        // Attribute-based dependencies
-        foreach (var dep in ModuleDependencyResolver.GetDependencies(moduleState.ModuleType))
-        {
-            yield return dep;
-        }
-
-        // Programmatic dependencies from DeclareDependencies method
-        foreach (var dep in ModuleDependencyResolver.GetProgrammaticDependencies(moduleState.Module))
+        // Configuration combines direct attributes, legacy declarations, and fluent dependencies.
+        foreach (var dep in ModuleDependencyResolver.GetConfiguredDependencies(moduleState.Module))
         {
             yield return dep;
         }

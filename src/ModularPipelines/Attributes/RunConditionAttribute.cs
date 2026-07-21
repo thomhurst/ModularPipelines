@@ -6,6 +6,7 @@ namespace ModularPipelines.Attributes;
 /// Abstract base class for attributes that define conditional execution of modules.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+[Obsolete("Use SkipIfAttribute<T>, RunIfAllAttribute<T>, RunIfAnyAttribute<T>, or ModuleConfiguration.Create().WithSkipWhen(...) instead.")]
 public abstract class RunConditionAttribute : Attribute
 {
     /// <summary>
