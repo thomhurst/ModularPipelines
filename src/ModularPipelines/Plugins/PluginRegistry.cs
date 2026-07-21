@@ -6,13 +6,22 @@ namespace ModularPipelines.Plugins;
 /// </summary>
 public static class PluginRegistry
 {
+    private static readonly object Lock = new();
     private static readonly List<IModularPipelinesPlugin> Registered = [];
 
     /// <summary>
     /// Gets all registered plugins, ordered by priority (ascending).
     /// </summary>
-    public static IReadOnlyList<IModularPipelinesPlugin> Plugins =>
-        Registered.OrderBy(p => p.Priority).ToList();
+    public static IReadOnlyList<IModularPipelinesPlugin> Plugins
+    {
+        get
+        {
+            lock (Lock)
+            {
+                return Registered.OrderBy(p => p.Priority).ToList();
+            }
+        }
+    }
 
     /// <summary>
     /// Registers a plugin. Call this from a [ModuleInitializer] method.
@@ -23,16 +32,25 @@ public static class PluginRegistry
     {
         ArgumentNullException.ThrowIfNull(plugin);
 
-        if (Registered.Any(p => p.Name == plugin.Name))
+        lock (Lock)
         {
-            throw new InvalidOperationException($"Plugin '{plugin.Name}' is already registered.");
-        }
+            if (Registered.Any(p => p.Name == plugin.Name))
+            {
+                throw new InvalidOperationException($"Plugin '{plugin.Name}' is already registered.");
+            }
 
-        Registered.Add(plugin);
+            Registered.Add(plugin);
+        }
     }
 
     /// <summary>
     /// Clears all registered plugins. For testing purposes only.
     /// </summary>
-    internal static void Clear() => Registered.Clear();
+    internal static void Clear()
+    {
+        lock (Lock)
+        {
+            Registered.Clear();
+        }
+    }
 }

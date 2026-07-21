@@ -4,7 +4,7 @@ using ModularPipelines.Plugins;
 
 namespace ModularPipelines.UnitTests.Plugins;
 
-[TUnit.Core.NotInParallel(nameof(PluginIntegrationTests))]
+[TUnit.Core.NotInParallel("PluginRegistry")]
 public class PluginIntegrationTests
 {
     [Test]
