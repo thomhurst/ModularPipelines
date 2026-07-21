@@ -96,6 +96,37 @@ public class ArgoCdOptionsTests
         await Assert.That(password!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
     }
 
+    [Test]
+    public async Task RbacCan_Renders_Role_Or_Subject_As_One_Operand()
+    {
+        var arguments = BuildArguments(new ArgoCdAdminSettingsRbacCanOptions(
+            "role:admin",
+            "create",
+            "application"));
+
+        await Assert.That(arguments).IsEquivalentTo(["role:admin", "create", "application"]);
+    }
+
+    [Test]
+    public async Task UpdateRolePolicy_Renders_Explicit_False_For_Default_True_DryRun()
+    {
+        var arguments = BuildArguments(new ArgoCdAdminProjUpdateRolePolicyOptions(
+            "project-*",
+            "add-permission",
+            "get")
+        {
+            DryRun = false,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "project-*",
+            "add-permission",
+            "get",
+            "--dry-run=false",
+        ]);
+    }
+
     private List<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());

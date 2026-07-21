@@ -476,7 +476,7 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// Validation of repo and cluster (default true)
     /// </summary>
-    [CliFlag("--validate")]
+    [CliOption("--validate", Format = OptionFormat.EqualsSeparated)]
     public bool? Validate { get; set; }
 
     /// <summary>

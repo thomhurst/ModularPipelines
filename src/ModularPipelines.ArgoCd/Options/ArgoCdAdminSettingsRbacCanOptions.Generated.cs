@@ -20,10 +20,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "settings", "rbac", "can")]
 public record ArgoCdAdminSettingsRbacCanOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Role,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Subject,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string Action,
-    [property: CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)] string Resource
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RoleSubject,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Action,
+    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string Resource
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -150,7 +149,7 @@ public record ArgoCdAdminSettingsRbacCanOptions(
     /// <summary>
     /// whether to perform strict check on action and resource names (default true)
     /// </summary>
-    [CliFlag("--strict")]
+    [CliOption("--strict", Format = OptionFormat.EqualsSeparated)]
     public bool? Strict { get; set; }
 
     /// <summary>
@@ -169,7 +168,7 @@ public record ArgoCdAdminSettingsRbacCanOptions(
     /// <summary>
     /// whether to also use builtin-policy (default true)
     /// </summary>
-    [CliFlag("--use-builtin-policy")]
+    [CliOption("--use-builtin-policy", Format = OptionFormat.EqualsSeparated)]
     public bool? UseBuiltinPolicy { get; set; }
 
     /// <summary>
@@ -354,7 +353,10 @@ public record ArgoCdAdminSettingsRbacCanOptions(
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
 
-    [CliArgument(4, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// Optional sub-resource to check.
+    /// </summary>
+    [CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)]
     public string? SubResource { get; set; }
 
 }

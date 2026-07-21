@@ -32,7 +32,7 @@ public record ArgoCdAppDeleteOptions(
     /// <summary>
     /// Perform a cascaded deletion of all application resources (default true)
     /// </summary>
-    [CliFlag("--cascade")]
+    [CliOption("--cascade", Format = OptionFormat.EqualsSeparated)]
     public bool? Cascade { get; set; }
 
     /// <summary>
