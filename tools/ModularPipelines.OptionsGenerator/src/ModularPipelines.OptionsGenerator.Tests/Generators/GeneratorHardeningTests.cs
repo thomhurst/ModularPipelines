@@ -60,6 +60,23 @@ public class GeneratorHardeningTests
         await Assert.That(commands[0].ClassName).IsEqualTo("HelmInstallOptions");
     }
 
+    [Test]
+    public async Task NormalizeCommandClassNames_Renames_Root_Command_Colliding_With_SubDomain_Service()
+    {
+        var commands = GeneratorUtils.NormalizeCommandClassNames(
+        [
+            Command("ToolApplicationSetOptions", "ToolOptions", ["appset"]),
+            Command(
+                "ToolApplicationSetGetOptions",
+                "ToolOptions",
+                ["appset", "get"],
+                subDomainGroup: "ApplicationSet"),
+        ]);
+
+        await Assert.That(commands[0].ClassName).IsEqualTo("ToolApplicationSetExecuteOptions");
+        await Assert.That(commands[1].ClassName).IsEqualTo("ToolApplicationSetGetOptions");
+    }
+
     #endregion
 
     #region EnsureNoDuplicateFilePaths

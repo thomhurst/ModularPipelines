@@ -135,7 +135,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         // Get the first subcommand for grouping
-        var subDomain = commandParts.Length > 1 ? ToPascalCase(commandParts[0]) : null;
+        var subDomain = commandParts.Length > 1 ? NormalizeCommandIdentifier(commandParts[0]) : null;
 
         // Parse description from synopsis or first line
         var description = ExtractDescription(helpText);

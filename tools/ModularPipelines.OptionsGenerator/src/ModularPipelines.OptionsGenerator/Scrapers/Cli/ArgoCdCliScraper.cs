@@ -36,6 +36,15 @@ public partial class ArgoCdCliScraper : CobraCliScraper
     public override string OutputDirectory => "src/ModularPipelines.ArgoCd";
 
     /// <summary>
+    /// Argo CD calls the ApplicationSet command "appset". Expanding the compound name
+    /// prevents it from colliding with the separate "app set" command in generated code.
+    /// </summary>
+    protected override string NormalizeCommandIdentifier(string commandPart) =>
+        commandPart.Equals("appset", StringComparison.OrdinalIgnoreCase)
+            ? "ApplicationSet"
+            : base.NormalizeCommandIdentifier(commandPart);
+
+    /// <summary>
     /// Skip utility commands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)

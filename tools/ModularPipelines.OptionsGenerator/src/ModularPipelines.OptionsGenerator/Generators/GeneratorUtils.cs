@@ -519,31 +519,45 @@ public static partial class GeneratorUtils
     }
 
     /// <summary>
-    /// Renames command options classes that share their name with the parent (base) options
-    /// class. Single-command tools (ansible, jq, shellcheck, ...) scrape their root command
-    /// into a class named "{Prefix}Options" — the same name the abstract global-options base
-    /// class uses — so both generators wrote the same file and the abstract base won,
-    /// producing services that instantiate an abstract type (CS0144).
+    /// Renames command options classes that collide with another generated type. This covers
+    /// single-command tools whose command class matches their global-options base, and root
+    /// commands whose options class matches the service class generated for their subdomain.
     /// </summary>
     public static IReadOnlyList<CliCommandDefinition> NormalizeCommandClassNames(IReadOnlyList<CliCommandDefinition> commands)
     {
         ArgumentNullException.ThrowIfNull(commands);
 
-        if (!commands.Any(c => string.Equals(c.ClassName, c.ParentClassName, StringComparison.OrdinalIgnoreCase)))
+        var subDomainClassNames = commands
+            .Where(c => c.SubDomainGroup is not null)
+            .Select(c => $"{c.ToolNamespacePrefix}{c.SubDomainGroup}Options")
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        static bool MatchesParentOptions(CliCommandDefinition command) =>
+            string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase);
+
+        bool MatchesSubDomainService(CliCommandDefinition command) =>
+            command.SubDomainGroup is null &&
+            command.CommandParts.Length == 1 &&
+            subDomainClassNames.Contains(command.ClassName);
+
+        if (!commands.Any(command => MatchesParentOptions(command) || MatchesSubDomainService(command)))
         {
             return commands;
         }
 
         return commands.Select(command =>
         {
-            if (!string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase))
+            if (!MatchesParentOptions(command) && !MatchesSubDomainService(command))
             {
                 return command;
             }
 
-            var baseName = command.ParentClassName.EndsWith("Options", StringComparison.Ordinal)
-                ? command.ParentClassName[..^"Options".Length]
-                : command.ParentClassName;
+            var collidingName = MatchesParentOptions(command)
+                ? command.ParentClassName
+                : command.ClassName;
+            var baseName = collidingName.EndsWith("Options", StringComparison.Ordinal)
+                ? collidingName[..^"Options".Length]
+                : collidingName;
 
             return command with { ClassName = $"{baseName}ExecuteOptions" };
         }).ToList();

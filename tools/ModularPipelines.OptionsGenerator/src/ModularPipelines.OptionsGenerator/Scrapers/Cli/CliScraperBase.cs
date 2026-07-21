@@ -63,6 +63,12 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual string BaseOptionsClassName => $"{NamespacePrefix}Options";
 
     /// <summary>
+    /// Converts a CLI command segment into its generated C# identifier.
+    /// Override for tool-specific compound names that cannot be inferred from separators.
+    /// </summary>
+    protected virtual string NormalizeCommandIdentifier(string commandPart) => ToPascalCase(commandPart);
+
+    /// <summary>
     /// Whether to skip deprecated commands (identified by "DEPRECATED" in help text).
     /// Defaults to false (include deprecated commands).
     /// </summary>
@@ -519,7 +525,7 @@ public abstract partial class CliScraperBase : ICliScraper
         var parts = commandParts
             .Skip(1) // Skip tool name
             .SelectMany(part => part.Split('-', StringSplitOptions.RemoveEmptyEntries))
-            .Select(ToPascalCase);
+            .Select(NormalizeCommandIdentifier);
 
         return $"{NamespacePrefix}{string.Join("", parts)}Options";
     }
