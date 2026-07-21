@@ -19,6 +19,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
         [
             Sourcy.DotNet.Projects.ModularPipelines,
             Sourcy.DotNet.Projects.ModularPipelines_AmazonWebServices,
+            Sourcy.DotNet.Projects.ModularPipelines_Ansible,
             Sourcy.DotNet.Projects.ModularPipelines_Azure,
             Sourcy.DotNet.Projects.ModularPipelines_Azure_Pipelines,
             Sourcy.DotNet.Projects.ModularPipelines_Chocolatey,

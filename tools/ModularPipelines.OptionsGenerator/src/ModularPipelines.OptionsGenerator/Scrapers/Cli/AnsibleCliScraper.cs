@@ -88,8 +88,8 @@ public partial class AnsibleCliScraper : CliScraperBase
                 {
                     PropertyName = "Pattern",
                     PlaceholderName = "pattern",
-                    CSharpType = "string?",
-                    IsRequired = false,
+                    CSharpType = "string",
+                    IsRequired = true,
                     PositionIndex = 0,
                     Description = "Host pattern"
                 }
@@ -111,81 +111,172 @@ public partial class AnsibleCliScraper : CliScraperBase
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var lines = GetOptionsSection(helpText).Split('\n');
 
-        // Find "optional arguments:" or "options:" section
-        var optionsSectionMatch = OptionsSectionPattern().Match(helpText);
-        string section;
-        if (optionsSectionMatch.Success)
+        for (var i = 0; i < lines.Length; i++)
         {
-            var sectionStart = optionsSectionMatch.Index + optionsSectionMatch.Length;
-            section = helpText.Substring(sectionStart);
-        }
-        else
-        {
-            section = helpText;
-        }
-
-        var lines = section.Split('\n');
-
-        foreach (var line in lines)
-        {
-            var match = AnsibleOptionPattern().Match(line);
+            var match = AnsibleOptionPattern().Match(lines[i].TrimEnd('\r'));
             if (!match.Success)
             {
                 continue;
             }
 
-            var shortForm = match.Groups["short"].Value.Trim();
-            var longForm = match.Groups["long"].Value.Trim();
-            var valueHint = match.Groups["value"].Value.Trim();
             var description = match.Groups["desc"].Value.Trim();
-
-            if (string.IsNullOrEmpty(longForm))
+            i = AccumulateMultiLineDescription(lines, i, ref description);
+            var option = ParseOption(match.Groups["spec"].Value, description);
+            if (option is not null && seenOptions.Add(option.SwitchName))
             {
-                continue;
+                options.Add(option);
             }
-
-            if (seenOptions.Contains(longForm))
-            {
-                continue;
-            }
-
-            seenOptions.Add(longForm);
-
-            var propertyName = NormalizePropertyName(longForm);
-            if (propertyName is null)
-            {
-                continue;
-            }
-
-            var isFlag = string.IsNullOrEmpty(valueHint);
-            var csharpType = isFlag ? "bool?" : "string?";
-
-            // Handle common array-type options
-            if (longForm is "--extra-vars" or "-e" or "--limit" or "-l" or "--tags" or "-t" or "--skip-tags")
-            {
-                csharpType = "IEnumerable<string>?";
-            }
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = longForm,
-                ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
-                IsFlag = isFlag,
-                IsRequired = false,
-                AcceptsMultipleValues = csharpType.Contains("IEnumerable"),
-                IsKeyValue = false,
-                IsNumeric = false,
-                ValueSeparator = " ",
-                EnumDefinition = null,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
         }
 
         return options;
+    }
+
+    private static string GetOptionsSection(string helpText)
+    {
+        var match = OptionsSectionPattern().Match(helpText);
+        return match.Success ? helpText[(match.Index + match.Length)..] : helpText;
+    }
+
+    private CliOptionDefinition? ParseOption(string specification, string description)
+    {
+        var optionParts = specification.Split(
+            ',',
+            StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        var longForm = GetLongForm(optionParts);
+        if (longForm is null || NormalizePropertyName(longForm) is not { } propertyName)
+        {
+            return null;
+        }
+
+        var valueHint = optionParts.Select(GetValueHint).FirstOrDefault(value => value is not null);
+        return CreateOption(
+            longForm,
+            GetShortForm(optionParts),
+            propertyName,
+            valueHint,
+            description);
+    }
+
+    private static string? GetLongForm(IEnumerable<string> optionParts)
+    {
+        var option = optionParts.FirstOrDefault(part => part.StartsWith("--", StringComparison.Ordinal));
+        return option is null ? null : GetOptionName(option);
+    }
+
+    private static string? GetShortForm(IEnumerable<string> optionParts)
+    {
+        var option = optionParts.FirstOrDefault(IsShortOption);
+        return option is null ? null : GetOptionName(option);
+    }
+
+    private static bool IsShortOption(string option) =>
+        option.StartsWith('-') && !option.StartsWith("--", StringComparison.Ordinal);
+
+    private static CliOptionDefinition CreateOption(
+        string longForm,
+        string? shortForm,
+        string propertyName,
+        string? valueHint,
+        string description)
+    {
+        var isFlag = valueHint is null;
+        var isCountedFlag = isFlag && longForm == "--verbose";
+        var acceptsMultipleValues = !isFlag && description.Contains(
+            "specified multiple times",
+            StringComparison.OrdinalIgnoreCase);
+        var isNumeric = !isFlag && IsNumericOption(longForm);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = longForm,
+            ShortForm = shortForm,
+            PropertyName = propertyName,
+            CSharpType = GetCSharpType(isFlag, isCountedFlag, acceptsMultipleValues, isNumeric),
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = false,
+            AcceptsMultipleValues = acceptsMultipleValues,
+            IsKeyValue = false,
+            IsNumeric = isNumeric,
+            ValueSeparator = " ",
+            EnumDefinition = null,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
+            ValidationConstraints = isCountedFlag
+                ? new CliValidationConstraints { MinValue = 0, MaxValue = 6 }
+                : null,
+        };
+    }
+
+    private static string GetOptionName(string option) => option.Split(' ', 2)[0];
+
+    private static string? GetValueHint(string option)
+    {
+        var parts = option.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+        return parts.Length == 2 ? parts[1] : null;
+    }
+
+    private static bool IsNumericOption(string optionName) => optionName is
+        "--background" or
+        "--forks" or
+        "--poll" or
+        "--task-timeout" or
+        "--timeout";
+
+    private static string GetCSharpType(
+        bool isFlag,
+        bool isCountedFlag,
+        bool acceptsMultipleValues,
+        bool isNumeric)
+    {
+        if (isCountedFlag)
+        {
+            return "int?";
+        }
+
+        if (isFlag)
+        {
+            return "bool?";
+        }
+
+        if (acceptsMultipleValues)
+        {
+            return "IEnumerable<string>?";
+        }
+
+        return isNumeric ? "int?" : "string?";
+    }
+
+    private static int AccumulateMultiLineDescription(
+        string[] lines,
+        int currentIndex,
+        ref string description)
+    {
+        var descriptionParts = new List<string>();
+        if (!string.IsNullOrEmpty(description))
+        {
+            descriptionParts.Add(description);
+        }
+
+        var nextIndex = currentIndex + 1;
+        while (nextIndex < lines.Length)
+        {
+            var nextLine = lines[nextIndex].TrimEnd('\r');
+            var trimmedLine = nextLine.Trim();
+            if (trimmedLine.Length == 0 ||
+                AnsibleOptionPattern().IsMatch(nextLine) ||
+                nextLine.Length == nextLine.TrimStart().Length)
+            {
+                break;
+            }
+
+            descriptionParts.Add(trimmedLine);
+            nextIndex++;
+        }
+
+        description = string.Join(" ", descriptionParts);
+        return nextIndex - 1;
     }
 
     /// <summary>
@@ -205,12 +296,12 @@ public partial class AnsibleCliScraper : CliScraperBase
     private static partial Regex OptionsSectionPattern();
 
     /// <summary>
-    /// Matches ansible-style option lines:
+    /// Matches ansible-style option specifications and an optional inline description:
     ///   -h, --help            show this help message
-    ///   -v, --verbose         verbose mode
     ///   -i INVENTORY, --inventory INVENTORY
+    ///   --vault-id VAULT_IDS
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--[\w-]+)(?:\s+(?<value>[A-Z_]+)(?:,\s+--[\w-]+\s+[A-Z_]+)?)?\s*(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^ {2}(?<spec>-\S(?:.*?\S)?)(?:\s{2,}(?<desc>\S.*))?$")]
     private static partial Regex AnsibleOptionPattern();
 
     #endregion

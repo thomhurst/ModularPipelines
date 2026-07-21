@@ -91,6 +91,11 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         {
             args.Add(flagPart.Attribute.GetEffectiveName());
         }
+
+        if (rawValue is int count && count > 0)
+        {
+            args.AddRange(Enumerable.Repeat(flagPart.Attribute.GetEffectiveName(), count));
+        }
     }
 
     private static void AddOption(List<string> args, OptionPart optionPart, object rawValue)
