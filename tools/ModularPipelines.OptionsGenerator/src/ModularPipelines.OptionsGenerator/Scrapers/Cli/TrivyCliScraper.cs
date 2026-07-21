@@ -1,4 +1,6 @@
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -55,4 +57,50 @@ public partial class TrivyCliScraper : CobraCliScraper
     {
         "--help", "-h", "--version", "help", "completion", "version", "clean"
     };
+
+    protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        if (positionalArguments.Count > 0)
+        {
+            return positionalArguments;
+        }
+
+        return commandParts switch
+        {
+            ["config"] => [RequiredArgument("Directory", "DIR")],
+            ["filesystem"] => [RequiredArgument("Path", "PATH")],
+            ["image"] => [RequiredArgument("ImageName", "IMAGE_NAME")],
+            ["repository"] => [RequiredArgument("Repository", "REPO_PATH | REPO_URL")],
+            ["rootfs"] => [RequiredArgument("RootDirectory", "ROOTDIR")],
+            ["sbom"] => [RequiredArgument("SbomPath", "SBOM_PATH")],
+            ["vm"] => [RequiredArgument("VmImage", "VM_IMAGE")],
+            ["convert"] => [RequiredArgument("ResultJson", "RESULT_JSON")],
+            ["module", "install"] or ["module", "uninstall"] =>
+                [RequiredArgument("Repository", "REPOSITORY")],
+            ["plugin", "info"] or ["plugin", "uninstall"] =>
+                [RequiredArgument("PluginName", "PLUGIN_NAME")],
+            ["plugin", "install"] or ["plugin", "run"] =>
+                [RequiredArgument("Source", "NAME | URL | FILE_PATH")],
+            ["registry", "login"] or ["registry", "logout"] =>
+                [RequiredArgument("Server", "SERVER")],
+            _ => positionalArguments,
+        };
+    }
+
+    protected override string NormalizeOptionDescription(string description) =>
+        UserHomeDirectoryPattern().Replace(description, "<home>");
+
+    private static CliPositionalArgument RequiredArgument(string propertyName, string placeholderName) => new()
+    {
+        PropertyName = propertyName,
+        PlaceholderName = placeholderName,
+        CSharpType = "string",
+        IsRequired = true,
+        PositionIndex = 0,
+    };
+
+    [GeneratedRegex(@"(?i)(?:[A-Z]:[\\/]+Users[\\/]+|/(?:home|Users)/)[^\\/\s\""')]+")]
+    private static partial Regex UserHomeDirectoryPattern();
 }

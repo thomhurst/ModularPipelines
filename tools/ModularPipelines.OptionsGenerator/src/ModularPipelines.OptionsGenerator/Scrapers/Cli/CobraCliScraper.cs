@@ -485,14 +485,16 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 break;
             }
 
-            // 2. New option line (starts with dash)
-            if (trimmedNext.StartsWith('-'))
+            // 2. New option line. A single dash can instead be an allowed-value bullet.
+            if (CobraOptionPattern().IsMatch(nextLine) || KubectlOptionPattern().IsMatch(nextLine))
             {
                 break;
             }
 
             // 3. Section header (ends with ':' and is relatively short)
-            if (trimmedNext.EndsWith(':') && trimmedNext.Length < 50)
+            if (trimmedNext.EndsWith(':') &&
+                trimmedNext.Length < 50 &&
+                !trimmedNext.Equals("Allowed values:", StringComparison.OrdinalIgnoreCase))
             {
                 break;
             }
@@ -549,6 +551,15 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
     private static string[] ParseEnumValues(string valuesText)
     {
+        var bulletValues = EnumBulletValuePattern()
+            .Matches(valuesText)
+            .Select(match => match.Groups["value"].Value)
+            .ToArray();
+        if (bulletValues.Length > 0)
+        {
+            return bulletValues;
+        }
+
         return valuesText
             .Replace(" or ", "|")
             .Replace(" and ", "|")
@@ -855,13 +866,13 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// "Common Commands:", "Management Commands:", "Swarm Commands:", "Scanning Commands:",
     /// "Utility Commands:", etc. Uses a flexible pattern to match any word prefix.
     /// </summary>
-    [GeneratedRegex(@"(?:\w+\s+)?Commands?:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^[\w ]*Commands?:?\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex CommandsSectionPattern();
 
     /// <summary>
     /// Matches section headers like "Flags:", "Usage:", etc.
     /// </summary>
-    [GeneratedRegex(@"^[A-Z][\w\s]*:\s*$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^(?:[A-Z][\w\s]*:|[A-Z][\w ]*(?:Commands|Flags|Options|Usage|Examples))\s*$", RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
 
     /// <summary>
@@ -883,9 +894,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
     private static partial Regex CobraOptionPattern();
 
     /// <summary>
-    /// Matches "Flags:" or "Global Flags:" section headers.
+    /// Matches Cobra flag section headers, including grouped headers such as "Image Flags".
     /// </summary>
-    [GeneratedRegex(@"^[ \t]*(?:Global[ \t]+)?Flags:?[ \t]*\r?$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]*(?:[\w/]+[ \t]+)*Flags:?[ \t]*\r?$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex FlagsSectionPattern();
 
     /// <summary>

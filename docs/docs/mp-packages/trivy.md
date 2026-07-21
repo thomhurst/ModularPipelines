@@ -4,7 +4,8 @@ title: Trivy Package
 
 # Trivy Package
 
-Package reserved for Trivy vulnerability and misconfiguration scanning commands.
+`ModularPipelines.Trivy` provides strongly typed access to the Trivy CLI for scanning
+container images, filesystems, repositories, SBOMs, Kubernetes clusters, and virtual machines.
 
 ## Installation
 
@@ -12,8 +13,47 @@ Package reserved for Trivy vulnerability and misconfiguration scanning commands.
 dotnet add package ModularPipelines.Trivy
 ```
 
-Required command-line tool: `trivy`. It must be installed and available on `PATH` when the pipeline runs.
+The `trivy` executable must be installed and available on `PATH` when the pipeline runs.
 
-## API availability
+## Scan an image
 
-The strongly typed context API is not available yet. This page will include context entry points and examples when the integration is implemented.
+```csharp
+using ModularPipelines.Trivy.Extensions;
+using ModularPipelines.Trivy.Enums;
+using ModularPipelines.Trivy.Options;
+
+var result = await context.Trivy().Image(
+    new TrivyImageOptions("alpine:3.20")
+    {
+        Format = TrivyImageFormat.Json,
+        Output = "trivy-results.json",
+        Severity = [TrivyImageSeverity.High, TrivyImageSeverity.Critical],
+        IgnoreUnfixed = true,
+    },
+    cancellationToken: cancellationToken);
+```
+
+This renders the equivalent of:
+
+```shell
+trivy image alpine:3.20 --format=json --output=trivy-results.json --severity=HIGH --severity=CRITICAL --ignore-unfixed
+```
+
+## Scan a filesystem
+
+```csharp
+var result = await context.Trivy().Filesystem(
+    new TrivyFilesystemOptions("./src")
+    {
+        Scanners =
+        [
+            TrivyFilesystemScanners.Vuln,
+            TrivyFilesystemScanners.Secret,
+            TrivyFilesystemScanners.Misconfig,
+        ],
+    },
+    cancellationToken: cancellationToken);
+```
+
+Generated password, token, secret, and key properties are marked as secrets so Modular
+Pipelines masks their values in command logs.
