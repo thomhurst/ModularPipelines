@@ -12,7 +12,8 @@ internal sealed record OptionsClassInfo(
     IReadOnlyList<string> SubCommandParts,
     IReadOnlyList<CliPropertyInfo> Properties,
     bool IsPartial,
-    Location Location
+    Location Location,
+    string BuildMethodModifier
 );
 
 /// <summary>

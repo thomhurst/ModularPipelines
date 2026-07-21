@@ -117,8 +117,99 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             SubCommandParts: subCommandParts,
             Properties: properties,
             IsPartial: isPartial,
-            Location: typeDeclaration.Identifier.GetLocation()
+            Location: typeDeclaration.Identifier.GetLocation(),
+            BuildMethodModifier: GetBuildMethodModifier(typeSymbol, semanticModel.Compilation)
         );
+    }
+
+    /// <summary>
+    /// Determines the modifier for the generated BuildCommandLine() method so that
+    /// derived options classes override the base method instead of hiding it (CS0108).
+    /// Base-most generated classes get "virtual "; classes whose ancestor also gets a
+    /// generated method get "override "; sealed base-most classes get no modifier.
+    /// </summary>
+    private static string GetBuildMethodModifier(INamedTypeSymbol type, Compilation compilation)
+    {
+        var commandLineType = compilation.GetTypeByMetadataName("ModularPipelines.Models.CommandLine");
+
+        for (var current = type.BaseType; current is not null; current = current.BaseType)
+        {
+            // Ancestor compiled in another assembly: its generated method is visible as metadata.
+            // Only methods a derived type in another assembly can actually hide or override matter:
+            // instance, parameterless, non-generic, and at least protected.
+            var existing = current.GetMembers("BuildCommandLine")
+                .OfType<IMethodSymbol>()
+                .FirstOrDefault(m => m.Parameters.IsEmpty
+                    && !m.IsStatic
+                    && !m.IsGenericMethod
+                    && m.DeclaredAccessibility is Accessibility.Public or Accessibility.Protected or Accessibility.ProtectedOrInternal);
+            if (existing is not null)
+            {
+                // Override only a public live slot with the matching return type — the
+                // generated method is always public, and an override cannot change the
+                // inherited accessibility. Anything else (non-virtual, sealed override,
+                // protected, different return type) must be hidden with "new" to keep the
+                // consuming project compiling. The hidden method opens a fresh virtual slot
+                // so generated descendants can still emit "override".
+                var returnsCommandLine = commandLineType is not null
+                    && SymbolEqualityComparer.Default.Equals(existing.ReturnType, commandLineType);
+                var overridable = (existing.IsVirtual || existing.IsAbstract || existing.IsOverride)
+                    && !existing.IsSealed
+                    && existing.DeclaredAccessibility == Accessibility.Public;
+                if (returnsCommandLine && overridable)
+                {
+                    return "override ";
+                }
+
+                return type.IsSealed ? "new " : "new virtual ";
+            }
+
+            // Ancestor in the current compilation: its generated method is not visible to us,
+            // so predict whether GenerateCode will emit one for it.
+            if (WouldGenerateBuildMethod(current, compilation))
+            {
+                return "override ";
+            }
+        }
+
+        return type.IsSealed ? string.Empty : "virtual ";
+    }
+
+    /// <summary>
+    /// Predicts whether GenerateCode will emit a BuildCommandLine() method for the given
+    /// source-declared type, mirroring the checks in GetOptionsClassInfo and GenerateCode.
+    /// </summary>
+    private static bool WouldGenerateBuildMethod(INamedTypeSymbol type, Compilation compilation)
+    {
+        if (!InheritsFromCommandLineToolOptions(type, compilation))
+        {
+            return false;
+        }
+
+        if (GetToolName(type) is null && GetCliProperties(type).Count == 0)
+        {
+            return false;
+        }
+
+        return IsDeclaredPartial(type);
+    }
+
+    /// <summary>
+    /// Checks whether any declaration of the type carries the partial keyword.
+    /// GenerateCode skips non-partial types, so they never receive a generated method.
+    /// </summary>
+    private static bool IsDeclaredPartial(INamedTypeSymbol type)
+    {
+        foreach (var reference in type.DeclaringSyntaxReferences)
+        {
+            if (reference.GetSyntax() is TypeDeclarationSyntax declaration
+                && declaration.Modifiers.Any(SyntaxKind.PartialKeyword))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>

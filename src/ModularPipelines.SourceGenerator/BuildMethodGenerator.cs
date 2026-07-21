@@ -56,7 +56,7 @@ internal static class BuildMethodGenerator
         sb.AppendLine("    /// <summary>");
         sb.AppendLine("    /// Builds the command line arguments from this options instance.");
         sb.AppendLine("    /// </summary>");
-        sb.AppendLine("    public ModularPipelines.Models.CommandLine BuildCommandLine()");
+        sb.AppendLine($"    public {info.BuildMethodModifier}ModularPipelines.Models.CommandLine BuildCommandLine()");
         sb.AppendLine("    {");
         sb.AppendLine("        var args = new System.Collections.Generic.List<string>();");
 
