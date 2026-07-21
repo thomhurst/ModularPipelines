@@ -117,8 +117,76 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             SubCommandParts: subCommandParts,
             Properties: properties,
             IsPartial: isPartial,
-            Location: typeDeclaration.Identifier.GetLocation()
+            Location: typeDeclaration.Identifier.GetLocation(),
+            BuildMethodModifier: GetBuildMethodModifier(typeSymbol, semanticModel.Compilation)
         );
+    }
+
+    /// <summary>
+    /// Determines the modifier for the generated BuildCommandLine() method so that
+    /// derived options classes override the base method instead of hiding it (CS0108).
+    /// Base-most generated classes get "virtual "; classes whose ancestor also gets a
+    /// generated method get "override "; sealed base-most classes get no modifier.
+    /// </summary>
+    private static string GetBuildMethodModifier(INamedTypeSymbol type, Compilation compilation)
+    {
+        for (var current = type.BaseType; current is not null; current = current.BaseType)
+        {
+            // Ancestor compiled in another assembly: its generated method is visible as metadata.
+            var existing = current.GetMembers("BuildCommandLine")
+                .OfType<IMethodSymbol>()
+                .FirstOrDefault(m => m.Parameters.IsEmpty && !m.IsStatic);
+            if (existing is not null)
+            {
+                return existing.IsVirtual || existing.IsOverride ? "override " : "new ";
+            }
+
+            // Ancestor in the current compilation: its generated method is not visible to us,
+            // so predict whether GenerateCode will emit one for it.
+            if (WouldGenerateBuildMethod(current, compilation))
+            {
+                return "override ";
+            }
+        }
+
+        return type.IsSealed ? string.Empty : "virtual ";
+    }
+
+    /// <summary>
+    /// Predicts whether GenerateCode will emit a BuildCommandLine() method for the given
+    /// source-declared type, mirroring the checks in GetOptionsClassInfo and GenerateCode.
+    /// </summary>
+    private static bool WouldGenerateBuildMethod(INamedTypeSymbol type, Compilation compilation)
+    {
+        if (!InheritsFromCommandLineToolOptions(type, compilation))
+        {
+            return false;
+        }
+
+        if (GetToolName(type) is null && GetCliProperties(type).Count == 0)
+        {
+            return false;
+        }
+
+        return IsDeclaredPartial(type);
+    }
+
+    /// <summary>
+    /// Checks whether any declaration of the type carries the partial keyword.
+    /// GenerateCode skips non-partial types, so they never receive a generated method.
+    /// </summary>
+    private static bool IsDeclaredPartial(INamedTypeSymbol type)
+    {
+        foreach (var reference in type.DeclaringSyntaxReferences)
+        {
+            if (reference.GetSyntax() is TypeDeclarationSyntax declaration
+                && declaration.Modifiers.Any(SyntaxKind.PartialKeyword))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>
