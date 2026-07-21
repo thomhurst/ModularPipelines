@@ -1,5 +1,3 @@
-using CliWrap;
-
 namespace ModularPipelines.Options;
 
 /// <summary>
@@ -17,8 +15,10 @@ public record CommandExecutionOptions
     /// </summary>
     public string? WorkingDirectory { get; init; }
 
-    /// <inheritdoc cref="CommandLineCredentials"/>
-    public Credentials? CommandLineCredentials { get; init; }
+    /// <summary>
+    /// Gets the credentials used to start the command-line process.
+    /// </summary>
+    public CommandLineCredentials? CommandLineCredentials { get; init; }
 
     /// <summary>
     /// Gets or sets logging options for command execution.

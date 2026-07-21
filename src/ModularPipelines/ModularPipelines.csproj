@@ -67,7 +67,9 @@
     <PackageReference Include="Microsoft.Extensions.Http" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CliWrap" />
+    <PackageReference Include="CliWrap">
+      <PrivateAssets>compile;contentfiles;build;analyzers</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Polly" />
     <PackageReference Include="Spectre.Console" />
     <PackageReference Include="System.Text.Json" />

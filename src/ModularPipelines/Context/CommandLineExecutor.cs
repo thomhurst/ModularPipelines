@@ -37,6 +37,11 @@ internal sealed class CommandLineExecutor : ICommandLineExecutor
             environmentVariables = new ReadOnlyDictionary<string, string?>(options.EnvironmentVariables);
         }
 
+        if (options?.CommandLineCredentials is not null)
+        {
+            command = command.WithCredentials(options.CommandLineCredentials.ToCliWrapCredentials());
+        }
+
         var timeout = options?.ExecutionTimeout ?? TimeSpan.FromMinutes(30);
         using var timeoutCts = new CancellationTokenSource(timeout);
         using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
