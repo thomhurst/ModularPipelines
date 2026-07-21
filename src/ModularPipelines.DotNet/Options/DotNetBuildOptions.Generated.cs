@@ -56,12 +56,6 @@ public record DotNetBuildOptions : DotNetOptions
     public bool? Interactive { get; set; }
 
     /// <summary>
-    /// [default: False]
-    /// </summary>
-    [CliFlag("--debug")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
     /// The output directory to place built artifacts in.
     /// </summary>
     [CliOption("--output", ShortForm = "-o")]
@@ -86,10 +80,10 @@ public record DotNetBuildOptions : DotNetOptions
     public bool? NoDependencies { get; set; }
 
     /// <summary>
-    /// Do not display the startup banner or the copyright message. [default: False]
+    /// Do not display the startup banner or the copyright message. [default: True]
     /// </summary>
-    [CliFlag("--nologo")]
-    public bool? Nologo { get; set; }
+    [CliFlag("--no-logo", ShortForm = "-nologo")]
+    public bool? NoLogo { get; set; }
 
     /// <summary>
     /// Publish your application as a framework dependent application. A compatible .NET runtime must be installed on the target machine to run your application. [default: False]

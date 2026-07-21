@@ -126,7 +126,7 @@ public class DotNetBuildBuilderTests : TestBase
         builder.WithNoLogo();
 
         var (toolOptions, _) = builder.ToOptions();
-        await Assert.That(toolOptions.Nologo).IsTrue();
+        await Assert.That(toolOptions.NoLogo).IsTrue();
     }
 
     [Test]
@@ -239,7 +239,7 @@ public class DotNetBuildBuilderTests : TestBase
         await Assert.That(toolOptions.Configuration).IsEqualTo("Release");
         await Assert.That(toolOptions.Framework).IsEqualTo("net8.0");
         await Assert.That(toolOptions.NoRestore).IsTrue();
-        await Assert.That(toolOptions.Nologo).IsTrue();
+        await Assert.That(toolOptions.NoLogo).IsTrue();
         await Assert.That(toolOptions.Properties!.First().Key).IsEqualTo("Version");
         await Assert.That(execOptions.WorkingDirectory).IsEqualTo("/project");
         await Assert.That(execOptions.ExecutionTimeout).IsEqualTo(TimeSpan.FromMinutes(15));

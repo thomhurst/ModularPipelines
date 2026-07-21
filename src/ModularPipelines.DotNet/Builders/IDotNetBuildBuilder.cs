@@ -125,10 +125,11 @@ public interface IDotNetBuildBuilder
     IDotNetBuildBuilder WithDisableBuildServers(bool disableBuildServers = true);
 
     /// <summary>
-    /// Enables debug mode.
+    /// Retained for compatibility. The dotnet CLI no longer supports the debug switch.
     /// </summary>
-    /// <param name="debug">Whether to enable debug mode. Defaults to true.</param>
+    /// <param name="debug">Ignored.</param>
     /// <returns>The builder instance for chaining.</returns>
+    [Obsolete("The dotnet --debug switch is no longer supported and this method has no effect.")]
     IDotNetBuildBuilder WithDebug(bool debug = true);
 
     /// <summary>

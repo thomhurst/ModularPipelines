@@ -111,7 +111,7 @@ public class DotNetBuildBuilder : IDotNetBuildBuilder
     /// <inheritdoc />
     public IDotNetBuildBuilder WithNoLogo(bool noLogo = true)
     {
-        _toolOptions = _toolOptions with { Nologo = noLogo };
+        _toolOptions = _toolOptions with { NoLogo = noLogo };
         return this;
     }
 
@@ -151,9 +151,9 @@ public class DotNetBuildBuilder : IDotNetBuildBuilder
     }
 
     /// <inheritdoc />
+    [Obsolete("The dotnet --debug switch is no longer supported and this method has no effect.")]
     public IDotNetBuildBuilder WithDebug(bool debug = true)
     {
-        _toolOptions = _toolOptions with { Debug = debug };
         return this;
     }
 
