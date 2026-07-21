@@ -169,7 +169,7 @@ public record ArgoCdAppOptions : ArgoCdOptions
     public string? ClientCrtKey { get; set; }
 
     /// <summary>
-    /// Path to Argo CD config (default "C:\\Users\\thomh/.config/argocd/config")
+    /// Path to Argo CD config (default "&lt;home&gt;/.config/argocd/config")
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }
@@ -255,7 +255,7 @@ public record ArgoCdAppOptions : ArgoCdOptions
     /// <summary>
     /// Force optional interactive prompts to be enabled or disabled, overriding local configuration. If not specified, the local configuration value will be used, which is false by default.
     /// </summary>
-    [CliFlag("--prompts-enabled")]
+    [CliOption("--prompts-enabled", Format = OptionFormat.EqualsSeparated)]
     public bool? PromptsEnabled { get; set; }
 
     /// <summary>
