@@ -62,7 +62,8 @@ public partial class EksctlCliScraper : CobraCliScraper
     {
         var normalized = VolatileGeneratedExamplePattern()
             .Replace(description, " (generated if unspecified)");
-        return VolatilePathExamplePattern().Replace(normalized, string.Empty);
+        normalized = VolatilePathExamplePattern().Replace(normalized, string.Empty);
+        return VolatileDefaultHomePathPattern().Replace(normalized, string.Empty);
     }
 
     /// <summary>
@@ -81,4 +82,7 @@ public partial class EksctlCliScraper : CobraCliScraper
 
     [GeneratedRegex(@", e\.g\. ""[^""]+""$")]
     private static partial Regex VolatilePathExamplePattern();
+
+    [GeneratedRegex(@" \(default ""(?:[A-Za-z]:\\|/(?:home|Users)/|~[/\\])[^""]+""\)$", RegexOptions.IgnoreCase)]
+    private static partial Regex VolatileDefaultHomePathPattern();
 }

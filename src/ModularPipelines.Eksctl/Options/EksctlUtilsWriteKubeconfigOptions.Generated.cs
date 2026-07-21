@@ -45,7 +45,7 @@ public record EksctlUtilsWriteKubeconfigOptions : EksctlOptions
     public string? ConfigFile { get; set; }
 
     /// <summary>
-    /// path to write kubeconfig (incompatible with --auto-kubeconfig) (default "C:\\Users\\thomh\\.kube\\config")
+    /// path to write kubeconfig (incompatible with --auto-kubeconfig)
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
     public string? Kubeconfig { get; set; }

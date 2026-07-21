@@ -139,6 +139,29 @@ public class EksctlCliScraperTests
             .IsEqualTo("EKS cluster name (generated if unspecified)");
     }
 
+    [Test]
+    public async Task Removes_Volatile_Default_Home_Paths_From_Descriptions()
+    {
+        const string helpText = """
+            Create a cluster
+
+            Usage: eksctl create cluster [flags]
+
+            Flags:
+                  --kubeconfig string        path to write kubeconfig (default "C:\Users\contributor\.kube\config")
+                  --unix-kubeconfig string   alternate kubeconfig path (default "/home/contributor/.kube/config")
+            """;
+
+        var command = await new TestEksctlCliScraper().Parse(
+            ["eksctl", "create", "cluster"],
+            helpText);
+
+        await Assert.That(command!.Options.Single(x => x.SwitchName == "--kubeconfig").Description)
+            .IsEqualTo("path to write kubeconfig");
+        await Assert.That(command.Options.Single(x => x.SwitchName == "--unix-kubeconfig").Description)
+            .IsEqualTo("alternate kubeconfig path");
+    }
+
     private sealed class TestEksctlCliScraper : EksctlCliScraper
     {
         public TestEksctlCliScraper()
