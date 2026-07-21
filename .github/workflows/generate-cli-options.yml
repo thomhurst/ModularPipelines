@@ -357,7 +357,9 @@ jobs:
       - name: Install jq
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'jq'
         run: |
-          # jq is pre-installed on ubuntu-latest
+          sudo curl --fail --location --output /usr/local/bin/jq \
+            https://github.com/jqlang/jq/releases/latest/download/jq-linux-amd64
+          sudo chmod +x /usr/local/bin/jq
           jq --version
 
       - name: Install yq
