@@ -138,7 +138,23 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             ["context"] => positionalArguments
                 .Select(argument => argument with { PropertyName = "ContextName" })
                 .ToList(),
-            ["app", "sync"] or ["app", "wait"] => [ApplicationNamesArgument()],
+            ["app", "delete"] or ["app", "sync"] or ["app", "wait"] => [ApplicationNamesArgument()],
+            ["repo", "rm"] =>
+            [
+                RequiredArgument(
+                    "Repositories",
+                    "REPO...",
+                    "IEnumerable<string>",
+                    "One or more repository URLs."),
+            ],
+            ["cluster", "set"] => positionalArguments
+                .Select(argument => argument with
+                {
+                    PropertyName = argument.PropertyName == "Name"
+                        ? "ClusterName"
+                        : NormalizePositionalArgumentName(argument.PropertyName),
+                })
+                .ToList(),
             ["cluster", "get"] or ["cluster", "rm"] or ["cluster", "rotate-auth"] =>
             [
                 RequiredArgument(

@@ -204,8 +204,8 @@ public record ArgoCdAppSyncOptions : ArgoCdOptions
     /// <summary>
     /// List of source positions. Default is empty array. Counting start at 1. (default [])
     /// </summary>
-    [CliOption("--source-positions", Format = OptionFormat.EqualsSeparated)]
-    public string? SourcePositions { get; set; }
+    [CliOption("--source-positions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? SourcePositions { get; set; }
 
     /// <summary>
     /// Sync strategy (one of: apply|hook)
