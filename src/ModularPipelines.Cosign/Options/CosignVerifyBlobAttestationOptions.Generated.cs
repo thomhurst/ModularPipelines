@@ -84,7 +84,7 @@ public record CosignVerifyBlobAttestationOptions : CosignOptions
     /// <summary>
     /// if true, verifies the digest exists in the in-toto subject (using either the provided digest and digest algorithm or the provided blob's sha256 digest). If false, only the DSSE envelope is verified.
     /// </summary>
-    [CliFlag("--check-claims")]
+    [CliOption("--check-claims", Format = OptionFormat.EqualsSeparated)]
     public bool? CheckClaims { get; set; }
 
     /// <summary>
@@ -151,7 +151,7 @@ public record CosignVerifyBlobAttestationOptions : CosignOptions
     /// specify a predicate type (slsaprovenance|slsaprovenance02|slsaprovenance1|link|spdx|spdxjson|cyclonedx|vuln|openvex|custom) or an URI
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
-    public CosignVerifyBlobAttestationType? Type { get; set; }
+    public string? Type { get; set; }
 
     /// <summary>
     /// verify rfc3161 timestamps

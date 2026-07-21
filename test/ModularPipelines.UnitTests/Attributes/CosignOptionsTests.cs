@@ -37,12 +37,31 @@ public class CosignOptionsTests
         var arguments = BuildArguments(new CosignSignOptions(["registry.example/app:v1"])
         {
             Upload = false,
+            UseSigningConfig = false,
         });
 
         await Assert.That(arguments).IsEquivalentTo(
         [
             "registry.example/app:v1",
             "--upload=false",
+            "--use-signing-config=false",
+        ]);
+    }
+
+    [Test]
+    public async Task Verify_Renders_Custom_Predicate_Uri_And_Explicit_False()
+    {
+        var arguments = BuildArguments(new CosignVerifyAttestationOptions(["registry.example/app:v1"])
+        {
+            Type = "https://example.com/predicates/release/v1",
+            CheckClaims = false,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "registry.example/app:v1",
+            "--check-claims=false",
+            "--type=https://example.com/predicates/release/v1",
         ]);
     }
 

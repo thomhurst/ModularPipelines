@@ -94,6 +94,11 @@ public partial class CosignCliScraper : CobraCliScraper
           propertyName.EndsWith("Puk", StringComparison.OrdinalIgnoreCase) ||
           propertyName.EndsWith("ManagementKey", StringComparison.OrdinalIgnoreCase)));
 
+    protected override bool ShouldGenerateEnum(string[] commandParts, string switchName) =>
+        !switchName.Equals("--type", StringComparison.OrdinalIgnoreCase) ||
+        string.Join(' ', commandParts) is not (
+            "attest" or "attest-blob" or "verify-attestation" or "verify-blob-attestation");
+
     private static CliPositionalArgument Required(string propertyName, string placeholderName) =>
         Positional(propertyName, placeholderName, "string", isRequired: true);
 

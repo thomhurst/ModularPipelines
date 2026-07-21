@@ -92,7 +92,7 @@ public record CosignVerifyAttestationOptions(
     /// <summary>
     /// whether to check the claims found
     /// </summary>
-    [CliFlag("--check-claims")]
+    [CliOption("--check-claims", Format = OptionFormat.EqualsSeparated)]
     public bool? CheckClaims { get; set; }
 
     /// <summary>
@@ -215,7 +215,7 @@ public record CosignVerifyAttestationOptions(
     /// specify a predicate type (slsaprovenance|slsaprovenance02|slsaprovenance1|link|spdx|spdxjson|cyclonedx|vuln|openvex|custom) or an URI
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
-    public CosignVerifyAttestationType? Type { get; set; }
+    public string? Type { get; set; }
 
     /// <summary>
     /// verify rfc3161 timestamps

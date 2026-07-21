@@ -229,12 +229,12 @@ public record CosignAttestOptions(
     /// specify a predicate type (slsaprovenance|slsaprovenance02|slsaprovenance1|link|spdx|spdxjson|cyclonedx|vuln|openvex|custom) or an URI
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
-    public CosignAttestType? Type { get; set; }
+    public string? Type { get; set; }
 
     /// <summary>
     /// whether to use a TUF-provided signing config for the service URLs
     /// </summary>
-    [CliFlag("--use-signing-config")]
+    [CliOption("--use-signing-config", Format = OptionFormat.EqualsSeparated)]
     public bool? UseSigningConfig { get; set; }
 
     /// <summary>

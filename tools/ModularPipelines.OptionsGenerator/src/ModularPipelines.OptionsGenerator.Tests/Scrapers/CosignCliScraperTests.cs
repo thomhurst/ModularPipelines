@@ -90,6 +90,27 @@ public class CosignCliScraperTests
         await Assert.That(scraper.IsSecret("NewPin", isFlag: true)).IsFalse();
     }
 
+    [Test]
+    public async Task Keeps_Attestation_Predicate_Uri_As_String()
+    {
+        const string helpText = """
+            Attest the supplied container image.
+
+            Usage:
+            cosign attest [flags]
+
+            Flags:
+                --type=:
+                        specify a predicate type (slsaprovenance|spdx|custom) or an URI
+            """;
+
+        var command = await new TestCosignCliScraper().Parse(["cosign", "attest"], helpText);
+        var option = GetOption(command!, "--type");
+
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.EnumDefinition).IsNull();
+    }
+
     private static CliOptionDefinition GetOption(CliCommandDefinition command, string switchName) =>
         command.Options.Single(option => option.SwitchName == switchName);
 

@@ -307,7 +307,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 var isKeyValue = IsKnownKeyValueType(actualType);
 
                 // Try to detect enum values
-                var enumDef = TryDetectEnumFromDescription(propertyName, className, actualType, description);
+                var enumDef = ShouldGenerateEnum(commandParts, longForm)
+                    ? TryDetectEnumFromDescription(propertyName, className, actualType, description)
+                    : null;
 
                 var csharpType = DetermineCSharpType(isBoolean, isArray, isKeyValue, isInteger, isFloat, isDuration, enumDef);
                 var separator = isFlag ? " " : "=";
@@ -370,6 +372,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// </summary>
     protected virtual bool IsSecretOption(string propertyName, bool isFlag) =>
         GeneratorUtils.IsSecretOption(propertyName, isFlag);
+
+    /// <summary>
+    /// Determines whether an option's documented values form a closed set.
+    /// </summary>
+    protected virtual bool ShouldGenerateEnum(string[] commandParts, string switchName) => true;
 
     /// <summary>
     /// Extracts the Flags and Global Flags sections from help text.

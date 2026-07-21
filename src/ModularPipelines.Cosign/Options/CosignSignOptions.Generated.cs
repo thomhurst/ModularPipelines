@@ -234,7 +234,7 @@ public record CosignSignOptions(
     /// <summary>
     /// whether to use a TUF-provided signing config for the service URLs
     /// </summary>
-    [CliFlag("--use-signing-config")]
+    [CliOption("--use-signing-config", Format = OptionFormat.EqualsSeparated)]
     public bool? UseSigningConfig { get; set; }
 
     /// <summary>

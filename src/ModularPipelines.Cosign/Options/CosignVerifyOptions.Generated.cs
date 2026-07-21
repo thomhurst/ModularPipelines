@@ -98,7 +98,7 @@ public record CosignVerifyOptions(
     /// <summary>
     /// whether to check the claims found
     /// </summary>
-    [CliFlag("--check-claims")]
+    [CliOption("--check-claims", Format = OptionFormat.EqualsSeparated)]
     public bool? CheckClaims { get; set; }
 
     /// <summary>
