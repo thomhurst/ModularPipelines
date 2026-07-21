@@ -122,7 +122,7 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
             await _outputCoordinator.FlushDeferredAsync().ConfigureAwait(false);
 
             // 5. Flush any unattributed output from coordinator.
-            _consoleCoordinator.FlushModuleOutput();
+            await _consoleCoordinator.FlushModuleOutputAsync().ConfigureAwait(false);
         }
     }
 }

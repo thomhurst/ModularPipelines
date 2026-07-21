@@ -1,3 +1,4 @@
+using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 
@@ -67,5 +68,10 @@ internal interface IModuleOutputBuffer
     /// <param name="console">The console to write to.</param>
     /// <param name="formatter">The CI-specific formatter for log groups.</param>
     /// <param name="logger">The logger for structured log output.</param>
-    void FlushTo(TextWriter console, IBuildSystemFormatter formatter, ILogger logger);
+    /// <param name="loggerControl">Coordinates queued log rendering with direct console writes.</param>
+    Task FlushToAsync(
+        TextWriter console,
+        IBuildSystemFormatter formatter,
+        ILogger logger,
+        ISpectreConsoleLoggerControl loggerControl);
 }

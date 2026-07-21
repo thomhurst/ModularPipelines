@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
+using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
-using Spectre.Console;
 
 namespace ModularPipelines.Console;
 
@@ -100,7 +100,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
-    public void FlushTo(TextWriter console, IBuildSystemFormatter formatter, ILogger logger)
+    public async Task FlushToAsync(
+        TextWriter console,
+        IBuildSystemFormatter formatter,
+        ILogger logger,
+        ISpectreConsoleLoggerControl loggerControl)
     {
         List<BufferedOutput> outputs;
         Exception? exception;
@@ -122,17 +126,24 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         var startCommand = formatter.GetStartBlockCommand(header);
         if (startCommand != null)
         {
-            WriteWithMarkup(startCommand);
+            WriteDirect(console, loggerControl.SynchronizationLock, startCommand);
         }
 
         // Write all buffered output
         // Log events go to the logger which handles both console (via SpectreConsole) and file output
         // String output (from Console.WriteLine interception) goes directly to console
+        var hasPendingLogEvents = false;
         foreach (var output in outputs)
         {
             if (output.IsString)
             {
-                WriteWithMarkup(output.StringValue);
+                if (hasPendingLogEvents)
+                {
+                    await loggerControl.FlushAsync().ConfigureAwait(false);
+                    hasPendingLogEvents = false;
+                }
+
+                WriteDirect(console, loggerControl.SynchronizationLock, output.StringValue);
             }
             else if (output.LogEvent.HasValue)
             {
@@ -141,18 +152,27 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 // Write to logger - this handles console output (via SpectreConsole) and file loggers
                 logger.Log(logEvent.Level, logEvent.EventId, logEvent.State, logEvent.Exception,
                     (state, ex) => logEvent.Formatter(state, ex));
+                hasPendingLogEvents = true;
             }
+        }
+
+        if (hasPendingLogEvents)
+        {
+            await loggerControl.FlushAsync().ConfigureAwait(false);
         }
 
         // Write section footer (CI group end)
         var endCommand = formatter.GetEndBlockCommand(header);
-        if (endCommand != null)
+        lock (loggerControl.SynchronizationLock)
         {
-            console.WriteLine(endCommand);
-        }
+            if (endCommand != null)
+            {
+                console.WriteLine(endCommand);
+            }
 
-        // Add blank line between module sections for visual separation
-        console.WriteLine();
+            // Add blank line between module sections for visual separation
+            console.WriteLine();
+        }
     }
 
     private string FormatHeader(Exception? exception)
@@ -168,22 +188,16 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         return $"{_moduleName} \u2713 ({durationText})";
     }
 
-    private static void WriteWithMarkup(string? value)
+    private static void WriteDirect(TextWriter console, object synchronizationLock, string? value)
     {
         if (string.IsNullOrEmpty(value))
         {
             return;
         }
 
-        try
+        lock (synchronizationLock)
         {
-            AnsiConsole.MarkupLine(value);
-        }
-        catch (Exception)
-        {
-            // Fall back to plain console output if markup parsing fails
-            // This handles CI formatters that use brackets in their syntax (e.g., ##[group])
-            System.Console.WriteLine(value);
+            console.WriteLine(value);
         }
     }
 }

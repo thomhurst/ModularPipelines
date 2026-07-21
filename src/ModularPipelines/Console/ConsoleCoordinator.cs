@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
@@ -66,6 +67,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     // Logger for output
     private ILogger? _outputLogger;
     private readonly IOutputCoordinator _outputCoordinator;
+    private readonly ISpectreConsoleLoggerControl _loggerControl;
 
     public ConsoleCoordinator(
         IBuildSystemFormatterProvider formatterProvider,
@@ -76,7 +78,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         ILoggerFactory loggerFactory,
         IBuildSystemDetector buildSystemDetector,
         IServiceProvider serviceProvider,
-        IOutputCoordinator outputCoordinator)
+        IOutputCoordinator outputCoordinator,
+        ISpectreConsoleLoggerControl loggerControl)
     {
         _formatterProvider = formatterProvider;
         _resultsPrinter = resultsPrinter;
@@ -87,6 +90,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _buildSystemDetector = buildSystemDetector;
         _serviceProvider = serviceProvider;
         _outputCoordinator = outputCoordinator;
+        _loggerControl = loggerControl;
         _unattributedBuffer = new ModuleOutputBuffer("Pipeline", typeof(void));
     }
 
@@ -326,7 +330,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     }
 
     /// <inheritdoc />
-    public void FlushModuleOutput()
+    public async Task FlushModuleOutputAsync()
     {
         // Output is now flushed immediately when modules complete.
         // This method remains for API compatibility but only flushes
@@ -342,7 +346,9 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         if (_unattributedBuffer.HasOutput)
         {
             var unattributedLogger = _outputLogger ?? _loggerFactory.CreateLogger("ModularPipelines.Output");
-            _unattributedBuffer.FlushTo(_originalConsoleOut, formatter, unattributedLogger);
+            await _unattributedBuffer
+                .FlushToAsync(_originalConsoleOut, formatter, unattributedLogger, _loggerControl)
+                .ConfigureAwait(false);
         }
     }
 
@@ -401,11 +407,11 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         {
             try
             {
-                FlushModuleOutput();
+                await FlushModuleOutputAsync().ConfigureAwait(false);
             }
             catch (InvalidOperationException)
             {
-                // Ignore if not installed - FlushModuleOutput requires installation
+                // Ignore if not installed - FlushModuleOutputAsync requires installation
             }
         }
 

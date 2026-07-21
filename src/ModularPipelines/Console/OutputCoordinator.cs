@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 
@@ -15,6 +16,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger _logger;
     private readonly TextWriter _console;
+    private readonly ISpectreConsoleLoggerControl _loggerControl;
 
     private readonly object _queueLock = new();
     private readonly Queue<PendingFlush> _pendingQueue = new();
@@ -39,11 +41,13 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     public OutputCoordinator(
         IBuildSystemFormatterProvider formatterProvider,
         ILoggerFactory loggerFactory,
-        IServiceProvider serviceProvider)
+        IServiceProvider serviceProvider,
+        ISpectreConsoleLoggerControl loggerControl)
     {
         _formatterProvider = formatterProvider ?? throw new ArgumentNullException(nameof(formatterProvider));
         _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        _loggerControl = loggerControl ?? throw new ArgumentNullException(nameof(loggerControl));
         _logger = loggerFactory.CreateLogger<OutputCoordinator>();
         _console = System.Console.Out;
     }
@@ -147,7 +151,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                         break;
                     }
 
-                    FlushBuffer(output.Buffer, formatter);
+                    await FlushBufferAsync(output.Buffer, formatter).ConfigureAwait(false);
                 }
             }
             finally
@@ -227,7 +231,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                     _isFlushingOutput = true;
                     try
                     {
-                        FlushBuffer(pending.Buffer, formatter);
+                        await FlushBufferAsync(pending.Buffer, formatter).ConfigureAwait(false);
                     }
                     finally
                     {
@@ -255,13 +259,13 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         }
     }
 
-    private void FlushBuffer(IModuleOutputBuffer buffer, IBuildSystemFormatter formatter)
+    private Task FlushBufferAsync(IModuleOutputBuffer buffer, IBuildSystemFormatter formatter)
     {
         var loggerType = typeof(ILogger<>).MakeGenericType(buffer.ModuleType);
         var moduleLogger = (ILogger)_serviceProvider.GetService(loggerType)
                            ?? _loggerFactory.CreateLogger(buffer.ModuleType);
 
-        buffer.FlushTo(_console, formatter, moduleLogger);
+        return buffer.FlushToAsync(_console, formatter, moduleLogger, _loggerControl);
     }
 
     private sealed class PendingFlush
