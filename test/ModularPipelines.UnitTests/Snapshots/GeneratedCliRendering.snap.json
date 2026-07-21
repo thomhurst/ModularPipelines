@@ -1,0 +1,240 @@
+{
+  "ModularPipelines.AmazonWebServices": {
+    "options": 0,
+    "properties": 0,
+    "secretProperties": 0,
+    "renderedArguments": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "ModularPipelines.Ansible": {
+    "options": 1,
+    "properties": 39,
+    "secretProperties": 4,
+    "renderedArguments": 74,
+    "sha256": "50d739f316362c03f6a11f0374596ad69820a9608654df99d13c4e88ee8fc4a1"
+  },
+  "ModularPipelines.ArgoCd": {
+    "options": 158,
+    "properties": 6098,
+    "secretProperties": 278,
+    "renderedArguments": 6817,
+    "sha256": "aae10371d7fa9f63fe2dea4c80736271baa73b673b7255d9d7c6fa243a474b26"
+  },
+  "ModularPipelines.Azure": {
+    "options": 3105,
+    "properties": 11728,
+    "secretProperties": 0,
+    "renderedArguments": 22431,
+    "sha256": "e7d66862729ffb3418d111b867a013484f1c95c13a6c2c54844b1da75fe85156"
+  },
+  "ModularPipelines.Buildah": {
+    "options": 37,
+    "properties": 397,
+    "secretProperties": 2,
+    "renderedArguments": 496,
+    "sha256": "04a14ce42b0b1c06287499b22acc854727ff1f0d49c1260678cb9b0b0d190f4f"
+  },
+  "ModularPipelines.Chocolatey": {
+    "options": 27,
+    "properties": 489,
+    "secretProperties": 34,
+    "renderedArguments": 516,
+    "sha256": "3acc816aeb479a801f5719427198044d7fe0188138f9064330ed100194e144ba"
+  },
+  "ModularPipelines.Cosign": {
+    "options": 40,
+    "properties": 560,
+    "secretProperties": 41,
+    "renderedArguments": 633,
+    "sha256": "ea2e7bb6f8df6cda895ffe5164f47709085dff05ef934513652d92480adba3f4"
+  },
+  "ModularPipelines.Docker": {
+    "options": 209,
+    "properties": 1703,
+    "secretProperties": 8,
+    "renderedArguments": 2414,
+    "sha256": "eb93c42a4453ae29a62563cdd00e7a53f6ac1dddb628c6296df1d89a5bf42e51"
+  },
+  "ModularPipelines.DotNet": {
+    "options": 65,
+    "properties": 313,
+    "secretProperties": 12,
+    "renderedArguments": 617,
+    "sha256": "4b7df78eac5aad22011ddb68efd163b78c4ec8281ece526cba1f33a27fdc3898"
+  },
+  "ModularPipelines.Flux": {
+    "options": 161,
+    "properties": 4590,
+    "secretProperties": 211,
+    "renderedArguments": 5351,
+    "sha256": "b1269f16a3904c69753f8bf330bb74eb87f77b025e099466c8d7f34256cb2589"
+  },
+  "ModularPipelines.Flyway": {
+    "options": 12,
+    "properties": 0,
+    "secretProperties": 0,
+    "renderedArguments": 12,
+    "sha256": "4a676fbdd55ac7558f290312409bccb9f580757e5f9eda5e18fc1c5257cd7342"
+  },
+  "ModularPipelines.Go": {
+    "options": 5,
+    "properties": 0,
+    "secretProperties": 0,
+    "renderedArguments": 5,
+    "sha256": "8e446dc0aa80cfdd198bb95e874ed3e2799f9e602fc0761899212f2b8a2537ff"
+  },
+  "ModularPipelines.Google": {
+    "options": 7719,
+    "properties": 11268,
+    "secretProperties": 64,
+    "renderedArguments": 37685,
+    "sha256": "83924be5df24f035fe3f9bfd9fee16c24fab150e1c6ac4634a8fc898fb967150"
+  },
+  "ModularPipelines.Grype": {
+    "options": 12,
+    "properties": 85,
+    "secretProperties": 0,
+    "renderedArguments": 138,
+    "sha256": "4ac4dec5ec65efd3e26d16e330ad4a99e1b3a3c6e1353c9c9522df84eea44ef7"
+  },
+  "ModularPipelines.Hadolint": {
+    "options": 1,
+    "properties": 19,
+    "secretProperties": 0,
+    "renderedArguments": 45,
+    "sha256": "f54b588fcec3c75486d7a929e31e0674986d287102c1ae511b113919f7606289"
+  },
+  "ModularPipelines.Helm": {
+    "options": 50,
+    "properties": 1244,
+    "secretProperties": 65,
+    "renderedArguments": 1401,
+    "sha256": "c5282f018b207266a10a47e16085dfc3546aee76c1271a6a95be61a2f1605a23"
+  },
+  "ModularPipelines.Homebrew": {
+    "options": 97,
+    "properties": 546,
+    "secretProperties": 0,
+    "renderedArguments": 650,
+    "sha256": "fe3d1f788362cc3360547b491277fa1dbed5048c0b90f5e267c877e40d9e72c1"
+  },
+  "ModularPipelines.Kind": {
+    "options": 16,
+    "properties": 73,
+    "secretProperties": 0,
+    "renderedArguments": 100,
+    "sha256": "4b9d1f325dbdcb78b98fe6171cc3419cc17b53fd7dca8dacc6bcf33e24b7cd25"
+  },
+  "ModularPipelines.Kubernetes": {
+    "options": 41,
+    "properties": 198,
+    "secretProperties": 0,
+    "renderedArguments": 314,
+    "sha256": "34251134dac6cb906dc9373bdba98459030b16ca6f1cfb692b1148decf5788dc"
+  },
+  "ModularPipelines.Minikube": {
+    "options": 40,
+    "properties": 196,
+    "secretProperties": 0,
+    "renderedArguments": 253,
+    "sha256": "50091d861a1ec973d2be5d944d579e7f2b4210c7053566b5e79fba0bf04f7afa"
+  },
+  "ModularPipelines.Newman": {
+    "options": 2,
+    "properties": 36,
+    "secretProperties": 1,
+    "renderedArguments": 64,
+    "sha256": "9277b7de63472673d7c7d7e794d80f2a9e2a598eb6a307e0a595f012d000b8fe"
+  },
+  "ModularPipelines.Node": {
+    "options": 10,
+    "properties": 131,
+    "secretProperties": 0,
+    "renderedArguments": 253,
+    "sha256": "f5b9798a316d6f36f9c5db1491e870dcfa68fa1973e7aaf65f602a585ee95a62"
+  },
+  "ModularPipelines.Packer": {
+    "options": 9,
+    "properties": 39,
+    "secretProperties": 0,
+    "renderedArguments": 48,
+    "sha256": "d009c844581992768718fc3c226b8f4e2c29cb4c383e0d9760f6e88a3a82ff98"
+  },
+  "ModularPipelines.Podman": {
+    "options": 200,
+    "properties": 2102,
+    "secretProperties": 12,
+    "renderedArguments": 2842,
+    "sha256": "d960c29f1305a006c349b99e5f5db480f17fc890da4e2f7f6464e00674aa52f5"
+  },
+  "ModularPipelines.Pulumi": {
+    "options": 214,
+    "properties": 3961,
+    "secretProperties": 26,
+    "renderedArguments": 4533,
+    "sha256": "e2d2ade394ba7db0bf22521d7b5d2d4aeca744cb21f1bf27743157a6f15681fc"
+  },
+  "ModularPipelines.Python": {
+    "options": 14,
+    "properties": 427,
+    "secretProperties": 0,
+    "renderedArguments": 766,
+    "sha256": "c2877ca401706d1ace5147eda3210538fdefe41121d08245b8a4b090c48ccebc"
+  },
+  "ModularPipelines.Rust": {
+    "options": 16,
+    "properties": 119,
+    "secretProperties": 0,
+    "renderedArguments": 196,
+    "sha256": "2fac16633becfdaaf706112b0c1f448ae16859363c0e733f6fe1a0a7d7e4daae"
+  },
+  "ModularPipelines.Skopeo": {
+    "options": 11,
+    "properties": 140,
+    "secretProperties": 17,
+    "renderedArguments": 154,
+    "sha256": "878e1586e567ae8b5b922cac961ebb1a483bdab92fab4bb70d9ddb6e11eec76c"
+  },
+  "ModularPipelines.Syft": {
+    "options": 8,
+    "properties": 89,
+    "secretProperties": 1,
+    "renderedArguments": 130,
+    "sha256": "f444a518e17c34a19c636cf5ae3fa1d2fc63afbef315f58586cd7f6c297f9433"
+  },
+  "ModularPipelines.Terraform": {
+    "options": 59,
+    "properties": 215,
+    "secretProperties": 0,
+    "renderedArguments": 327,
+    "sha256": "6571ed7b7ec143985161280a7930095d306b7c0610a52addd13dbef8274c208e"
+  },
+  "ModularPipelines.Vault": {
+    "options": 103,
+    "properties": 0,
+    "secretProperties": 0,
+    "renderedArguments": 214,
+    "sha256": "e35d47cad20426d42360f3d5128bb90db3e5e3198842dde0086c111b6a6e04c5"
+  },
+  "ModularPipelines.WinGet": {
+    "options": 18,
+    "properties": 267,
+    "secretProperties": 0,
+    "renderedArguments": 462,
+    "sha256": "f9dd4b66b8ee70ec1fe56a166f33583ebcb2d92f6693ddfac410dfeb79a88dd9"
+  },
+  "ModularPipelines.Yarn": {
+    "options": 0,
+    "properties": 0,
+    "secretProperties": 0,
+    "renderedArguments": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "ModularPipelines.Yq": {
+    "options": 2,
+    "properties": 94,
+    "secretProperties": 0,
+    "renderedArguments": 96,
+    "sha256": "0e31a66160fee006a92adeb4785eb25ca23efd6b96ae0c8ffd822fb75d2456e1"
+  }
+}

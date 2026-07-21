@@ -19,9 +19,13 @@
     <PackageReference Include="TUnit" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\ModularPipelines.AmazonWebServices\ModularPipelines.AmazonWebServices.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Ansible\ModularPipelines.Ansible.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.ArgoCd\ModularPipelines.ArgoCd.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Azure.Pipelines\ModularPipelines.Azure.Pipelines.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Buildah\ModularPipelines.Buildah.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Chocolatey\ModularPipelines.Chocolatey.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Cosign\ModularPipelines.Cosign.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Docker\ModularPipelines.Docker.csproj" />
@@ -29,21 +33,41 @@
     <ProjectReference Include="..\..\src\ModularPipelines.Eksctl\ModularPipelines.Eksctl.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Email\ModularPipelines.Email.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Ftp\ModularPipelines.Ftp.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Flux\ModularPipelines.Flux.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Flyway\ModularPipelines.Flyway.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.GitHub\ModularPipelines.GitHub.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Git\ModularPipelines.Git.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Go\ModularPipelines.Go.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Google\ModularPipelines.Google.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Grype\ModularPipelines.Grype.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Hadolint\ModularPipelines.Hadolint.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Helm\ModularPipelines.Helm.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Homebrew\ModularPipelines.Homebrew.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Java\ModularPipelines.Java.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Jq\ModularPipelines.Jq.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Kind\ModularPipelines.Kind.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Shellcheck\ModularPipelines.Shellcheck.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Minikube\ModularPipelines.Minikube.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Node\ModularPipelines.Node.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Newman\ModularPipelines.Newman.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Packer\ModularPipelines.Packer.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Podman\ModularPipelines.Podman.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Pulumi\ModularPipelines.Pulumi.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Python\ModularPipelines.Python.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Rust\ModularPipelines.Rust.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Shellcheck\ModularPipelines.Shellcheck.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Slack\ModularPipelines.Slack.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Skopeo\ModularPipelines.Skopeo.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Snyk\ModularPipelines.Snyk.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.SonarScanner\ModularPipelines.SonarScanner.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Syft\ModularPipelines.Syft.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.TeamCity\ModularPipelines.TeamCity.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Vault\ModularPipelines.Vault.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.WinGet\ModularPipelines.WinGet.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Yarn\ModularPipelines.Yarn.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Yq\ModularPipelines.Yq.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
   </ItemGroup>
