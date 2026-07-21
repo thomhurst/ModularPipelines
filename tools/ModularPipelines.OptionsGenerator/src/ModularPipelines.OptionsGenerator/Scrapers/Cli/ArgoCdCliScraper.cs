@@ -98,92 +98,15 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
-        if (commandParts is ["context"])
+        var commandSpecificArguments = GetCommandSpecificArguments(commandParts, positionalArguments);
+        if (commandSpecificArguments is not null)
         {
-            return positionalArguments
-                .Select(argument => argument with { PropertyName = "ContextName" })
-                .ToList();
-        }
-
-        if (commandParts is ["app", "sync"] or ["app", "wait"])
-        {
-            return
-            [
-                new CliPositionalArgument
-                {
-                    PropertyName = "ApplicationNames",
-                    PlaceholderName = "APPNAME...",
-                    CSharpType = "IEnumerable<string>?",
-                    IsRequired = false,
-                    PositionIndex = 0,
-                    Description = "Optional application names to target.",
-                },
-            ];
-        }
-
-        if (commandParts is ["cluster", "get"] or ["cluster", "rm"] or ["cluster", "rotate-auth"])
-        {
-            return
-            [
-                RequiredArgument(
-                    "ServerOrName",
-                    "SERVER/NAME",
-                    "string",
-                    "Cluster server address or configured name."),
-            ];
-        }
-
-        if (commandParts is ["proj", "remove-destination"]
-            or ["proj", "add-destination-service-account"]
-            or ["proj", "remove-destination-service-account"])
-        {
-            return positionalArguments
-                .Select(argument => argument with
-                {
-                    PropertyName = argument.PropertyName == "Server"
-                        ? "DestinationServer"
-                        : NormalizePositionalArgumentName(argument.PropertyName),
-                })
-                .ToList();
-        }
-
-        if (commandParts is ["proj", "add-destination"])
-        {
-            return
-            [
-                RequiredArgument("Project", "PROJECT", "string", "Project name.", 0),
-                RequiredArgument(
-                    "ServerOrName",
-                    "SERVER/NAME",
-                    "string",
-                    "Destination server address or configured name.",
-                    1),
-                RequiredArgument("Namespace", "NAMESPACE", "string", "Destination namespace.", 2),
-            ];
-        }
-
-        if (commandParts is ["admin", "settings", "rbac", "can"])
-        {
-            return
-            [
-                RequiredArgument("RoleSubject", "ROLE/SUBJECT", "string", "Role or subject to check.", 0),
-                RequiredArgument("Action", "ACTION", "string", "Action to check.", 1),
-                RequiredArgument("Resource", "RESOURCE", "string", "Resource to check.", 2),
-                new CliPositionalArgument
-                {
-                    PropertyName = "SubResource",
-                    PlaceholderName = "SUB-RESOURCE",
-                    CSharpType = "string?",
-                    IsRequired = false,
-                    PositionIndex = 3,
-                    Description = "Optional sub-resource to check.",
-                },
-            ];
+            return commandSpecificArguments;
         }
 
         if (positionalArguments.Count == 0)
         {
-            var missingArguments = commandParts switch
+            var missingArgument = commandParts switch
             {
                 ["appset", "create"] => RequiredArgument(
                     "Files", "FILE", "IEnumerable<string>", "One or more ApplicationSet filenames or URLs."),
@@ -194,9 +117,9 @@ public partial class ArgoCdCliScraper : CobraCliScraper
                 _ => null,
             };
 
-            if (missingArguments is not null)
+            if (missingArgument is not null)
             {
-                return [missingArguments];
+                return [missingArgument];
             }
         }
 
@@ -207,6 +130,75 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             })
             .ToList();
     }
+
+    private static IReadOnlyList<CliPositionalArgument>? GetCommandSpecificArguments(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) => commandParts switch
+        {
+            ["context"] => positionalArguments
+                .Select(argument => argument with { PropertyName = "ContextName" })
+                .ToList(),
+            ["app", "sync"] or ["app", "wait"] => [ApplicationNamesArgument()],
+            ["cluster", "get"] or ["cluster", "rm"] or ["cluster", "rotate-auth"] =>
+            [
+                RequiredArgument(
+                    "ServerOrName",
+                    "SERVER/NAME",
+                    "string",
+                    "Cluster server address or configured name."),
+            ],
+            ["proj", "remove-destination"]
+                or ["proj", "add-destination-service-account"]
+                or ["proj", "remove-destination-service-account"] => positionalArguments
+                    .Select(argument => argument with
+                    {
+                        PropertyName = argument.PropertyName == "Server"
+                            ? "DestinationServer"
+                            : NormalizePositionalArgumentName(argument.PropertyName),
+                    })
+                    .ToList(),
+            ["proj", "add-destination"] => ProjectDestinationArguments(),
+            ["admin", "settings", "rbac", "can"] => RbacCanArguments(),
+            _ => null,
+        };
+
+    private static CliPositionalArgument ApplicationNamesArgument() => new()
+    {
+        PropertyName = "ApplicationNames",
+        PlaceholderName = "APPNAME...",
+        CSharpType = "IEnumerable<string>?",
+        IsRequired = false,
+        PositionIndex = 0,
+        Description = "Optional application names to target.",
+    };
+
+    private static IReadOnlyList<CliPositionalArgument> ProjectDestinationArguments() =>
+    [
+        RequiredArgument("Project", "PROJECT", "string", "Project name.", 0),
+        RequiredArgument(
+            "ServerOrName",
+            "SERVER/NAME",
+            "string",
+            "Destination server address or configured name.",
+            1),
+        RequiredArgument("Namespace", "NAMESPACE", "string", "Destination namespace.", 2),
+    ];
+
+    private static IReadOnlyList<CliPositionalArgument> RbacCanArguments() =>
+    [
+        RequiredArgument("RoleSubject", "ROLE/SUBJECT", "string", "Role or subject to check.", 0),
+        RequiredArgument("Action", "ACTION", "string", "Action to check.", 1),
+        RequiredArgument("Resource", "RESOURCE", "string", "Resource to check.", 2),
+        new CliPositionalArgument
+        {
+            PropertyName = "SubResource",
+            PlaceholderName = "SUB-RESOURCE",
+            CSharpType = "string?",
+            IsRequired = false,
+            PositionIndex = 3,
+            Description = "Optional sub-resource to check.",
+        },
+    ];
 
     protected override bool IsBooleanValueOption(
         string[] commandParts,
