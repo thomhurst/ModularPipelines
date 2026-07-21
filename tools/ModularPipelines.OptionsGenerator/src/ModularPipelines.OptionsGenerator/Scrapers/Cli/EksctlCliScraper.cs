@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -35,10 +36,26 @@ public partial class EksctlCliScraper : CobraCliScraper
     public override string OutputDirectory => "src/ModularPipelines.Eksctl";
 
     /// <summary>
+    /// Eksctl prints the complete command path on every command line. Return only
+    /// the final segment so the shared recursive discovery can append it once.
+    /// </summary>
+    protected override IEnumerable<string> ExtractSubcommands(string helpText)
+    {
+        foreach (Match match in EksctlCommandLinePattern().Matches(helpText))
+        {
+            var commandPath = match.Groups["path"].Value;
+            yield return commandPath[(commandPath.LastIndexOf(' ') + 1)..];
+        }
+    }
+
+    /// <summary>
     /// Skip utility commands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
         "--help", "-h", "--version", "help", "completion", "version", "info"
     };
+
+    [GeneratedRegex(@"^\s*eksctl (?<path>[\w-]+(?: [\w-]+)*) {2,}", RegexOptions.Multiline)]
+    private static partial Regex EksctlCommandLinePattern();
 }

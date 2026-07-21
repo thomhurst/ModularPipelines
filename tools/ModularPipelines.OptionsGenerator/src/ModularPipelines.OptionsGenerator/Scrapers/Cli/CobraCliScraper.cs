@@ -807,7 +807,10 @@ public abstract partial class CobraCliScraper : CliScraperBase
         CliEnumDefinition? enumDef)
     {
         if (isBoolean) return "bool?";
-        if (enumDef is not null) return $"{enumDef.EnumName}?";
+        if (enumDef is not null)
+        {
+            return isArray ? $"IEnumerable<{enumDef.EnumName}>?" : $"{enumDef.EnumName}?";
+        }
         if (isKeyValue) return "KeyValue[]?";
         if (isArray) return "IEnumerable<string>?";
         if (isInteger) return "int?";
