@@ -151,7 +151,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
         var options = ParseOptions(helpText, commandParts);
 
         // Parse positional arguments from usage line
-        var positionalArgs = ParsePositionalArguments(helpText);
+        var positionalArgs = ApplyPositionalArgumentFixes(commandParts, ParsePositionalArguments(helpText));
 
         // Extract enums from options
         var enums = options
@@ -268,6 +268,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 var shortForm = match.Groups["short"].Value.Trim();
                 var longForm = match.Groups["long"].Value.Trim();
                 var typeHint = match.Groups["type"].Value.Trim();
+                var hasDefaultValue = match.Groups["default"].Success;
                 var description = match.Groups["desc"].Value.Trim();
 
                 // Accumulate multi-line descriptions
@@ -293,27 +294,12 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     continue;
                 }
 
-                // Determine types - check if typeHint contains default value (kubectl style)
-                var actualType = typeHint;
-                if (typeHint.Contains('='))
-                {
-                    // kubectl format: --option=defaultValue: where typeHint might be "false" or "500"
-                    var defaultValue = typeHint.TrimEnd(':');
-                    if (defaultValue.ToLowerInvariant() is "true" or "false")
-                    {
-                        actualType = "bool";
-                    }
-                    else if (int.TryParse(defaultValue, out _))
-                    {
-                        actualType = "int";
-                    }
-                    else
-                    {
-                        actualType = "string";
-                    }
-                }
+                var actualType = NormalizeTypeHint(typeHint, hasDefaultValue);
 
-                var isFlag = string.IsNullOrEmpty(actualType) || IsKnownBooleanType(actualType);
+                var isBoolean = string.IsNullOrEmpty(actualType) || IsKnownBooleanType(actualType);
+                var isDefaultTrueBoolean = isBoolean && hasDefaultValue &&
+                    typeHint.Equals("true", StringComparison.OrdinalIgnoreCase);
+                var isFlag = isBoolean && !isDefaultTrueBoolean;
                 var isInteger = IsKnownIntegerType(actualType);
                 var isFloat = IsKnownFloatType(actualType);
                 var isDuration = IsKnownDurationType(actualType);
@@ -321,9 +307,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 var isKeyValue = IsKnownKeyValueType(actualType);
 
                 // Try to detect enum values
-                var enumDef = TryDetectEnumFromDescription(propertyName, className, actualType, description);
+                var enumDef = ShouldGenerateEnum(commandParts, longForm)
+                    ? TryDetectEnumFromDescription(propertyName, className, actualType, description)
+                    : null;
 
-                var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isInteger, isFloat, isDuration, enumDef);
+                var csharpType = DetermineCSharpType(isBoolean, isArray, isKeyValue, isInteger, isFloat, isDuration, enumDef);
                 var separator = isFlag ? " " : "=";
 
                 options.Add(new CliOptionDefinition
@@ -340,13 +328,55 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     IsNumeric = isInteger || isFloat,
                     ValueSeparator = separator,
                     EnumDefinition = enumDef,
-                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                    IsSecret = IsSecretOption(propertyName, isFlag)
                 });
             }
         }
 
         return options;
     }
+
+    private static string NormalizeTypeHint(string typeHint, bool hasDefaultValue)
+    {
+        if (!hasDefaultValue)
+        {
+            return typeHint;
+        }
+
+        if (typeHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+            typeHint.Equals("false", StringComparison.OrdinalIgnoreCase))
+        {
+            return "bool";
+        }
+
+        if (typeHint == "[]")
+        {
+            return "stringArray";
+        }
+
+        if (int.TryParse(typeHint, out _))
+        {
+            return "int";
+        }
+
+        if (double.TryParse(typeHint, System.Globalization.CultureInfo.InvariantCulture, out _))
+        {
+            return "double";
+        }
+
+        return "string";
+    }
+
+    /// <summary>
+    /// Determines whether a tool option value must be masked in command logs.
+    /// </summary>
+    protected virtual bool IsSecretOption(string propertyName, bool isFlag) =>
+        GeneratorUtils.IsSecretOption(propertyName, isFlag);
+
+    /// <summary>
+    /// Determines whether an option's documented values form a closed set.
+    /// </summary>
+    protected virtual bool ShouldGenerateEnum(string[] commandParts, string switchName) => true;
 
     /// <summary>
     /// Extracts the Flags and Global Flags sections from help text.
@@ -677,6 +707,14 @@ public abstract partial class CobraCliScraper : CliScraperBase
         return args;
     }
 
+    /// <summary>
+    /// Applies tool-specific corrections when Cobra's usage line omits or misrepresents
+    /// positional arguments.
+    /// </summary>
+    protected virtual IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) => positionalArguments;
+
     #region Type Detection - HashSet-based for extensibility
 
     /// <summary>
@@ -760,7 +798,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     #endregion
 
     private static string DetermineCSharpType(
-        bool isFlag,
+        bool isBoolean,
         bool isArray,
         bool isKeyValue,
         bool isInteger,
@@ -768,7 +806,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
         bool isDuration,
         CliEnumDefinition? enumDef)
     {
-        if (isFlag) return "bool?";
+        if (isBoolean) return "bool?";
         if (enumDef is not null) return $"{enumDef.EnumName}?";
         if (isKeyValue) return "KeyValue[]?";
         if (isArray) return "IEnumerable<string>?";
@@ -795,10 +833,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
     private static partial Regex SectionHeaderPattern();
 
     /// <summary>
-    /// Matches subcommand lines: "  command    description"
+    /// Matches subcommand lines with or without indentation: "  command    description"
+    /// or "command    description".
     /// Also handles Docker's asterisk markers for extensions: "  buildx*    description"
     /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)\*?\s{2,}", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?<name>[\w-]+)\*?\s+", RegexOptions.Multiline)]
     private static partial Regex SubcommandLinePattern();
 
     /// <summary>
@@ -829,7 +868,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     ///     -A, --all-namespaces=false:
     ///     --chunk-size=500:
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:=(?<type>\S+))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>[^:\s]*))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
     private static partial Regex KubectlOptionPattern();
 
     /// <summary>
