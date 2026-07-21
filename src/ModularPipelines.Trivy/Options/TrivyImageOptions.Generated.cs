@@ -19,9 +19,7 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image")]
-public record TrivyImageOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ImageName
-) : TrivyOptions
+public record TrivyImageOptions : TrivyOptions
 {
     /// <summary>
     /// [EXPERIMENTAL] cache backend (e.g. redis://localhost:6379) (default "fs")
@@ -633,5 +631,8 @@ public record TrivyImageOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? ImageName { get; set; }
 
 }

@@ -62,6 +62,13 @@ public partial class TrivyCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
+        if (commandParts is ["image"] && positionalArguments.Count > 0)
+        {
+            return positionalArguments
+                .Select(argument => argument with { CSharpType = "string?", IsRequired = false })
+                .ToList();
+        }
+
         if (positionalArguments.Count > 0)
         {
             return positionalArguments;
@@ -71,7 +78,7 @@ public partial class TrivyCliScraper : CobraCliScraper
         {
             ["config"] => [RequiredArgument("Directory", "DIR")],
             ["filesystem"] => [RequiredArgument("Path", "PATH")],
-            ["image"] => [RequiredArgument("ImageName", "IMAGE_NAME")],
+            ["image"] => [OptionalArgument("ImageName", "IMAGE_NAME")],
             ["repository"] => [RequiredArgument("Repository", "REPO_PATH | REPO_URL")],
             ["rootfs"] => [RequiredArgument("RootDirectory", "ROOTDIR")],
             ["sbom"] => [RequiredArgument("SbomPath", "SBOM_PATH")],
@@ -100,6 +107,13 @@ public partial class TrivyCliScraper : CobraCliScraper
         IsRequired = true,
         PositionIndex = 0,
     };
+
+    private static CliPositionalArgument OptionalArgument(string propertyName, string placeholderName) =>
+        RequiredArgument(propertyName, placeholderName) with
+        {
+            CSharpType = "string?",
+            IsRequired = false,
+        };
 
     [GeneratedRegex(@"(?i)(?:[A-Z]:[\\/]+Users[\\/]+|/(?:home|Users)/)[^\\/\s\""')]+")]
     private static partial Regex UserHomeDirectoryPattern();

@@ -846,16 +846,41 @@ public abstract partial class CobraCliScraper : CliScraperBase
         bool isDuration,
         CliEnumDefinition? enumDef)
     {
-        if (isBoolean) return "bool?";
+        if (isBoolean)
+        {
+            return "bool?";
+        }
+
         if (enumDef is not null)
         {
             return isArray ? $"IEnumerable<{enumDef.EnumName}>?" : $"{enumDef.EnumName}?";
         }
-        if (isKeyValue) return "KeyValue[]?";
-        if (isArray) return "IEnumerable<string>?";
-        if (isInteger) return "int?";
-        if (isFloat) return "double?";
-        if (isDuration) return "string?"; // Duration as string (e.g., "30s", "5m") - CLI handles parsing
+
+        if (isKeyValue)
+        {
+            return "KeyValue[]?";
+        }
+
+        if (isArray)
+        {
+            return "IEnumerable<string>?";
+        }
+
+        if (isInteger)
+        {
+            return "int?";
+        }
+
+        if (isFloat)
+        {
+            return "double?";
+        }
+
+        if (isDuration)
+        {
+            return "string?"; // Duration as string (e.g., "30s", "5m") - CLI handles parsing
+        }
+
         return "string?";
     }
 
@@ -866,7 +891,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// "Common Commands:", "Management Commands:", "Swarm Commands:", "Scanning Commands:",
     /// "Utility Commands:", etc. Uses a flexible pattern to match any word prefix.
     /// </summary>
-    [GeneratedRegex(@"^[\w ]*Commands?:?\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[A-Z][\w ]*Commands?:?\s*$", RegexOptions.Multiline)]
     private static partial Regex CommandsSectionPattern();
 
     /// <summary>

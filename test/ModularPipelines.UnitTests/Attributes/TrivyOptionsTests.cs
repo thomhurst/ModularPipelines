@@ -13,8 +13,9 @@ public class TrivyOptionsTests
     [Test]
     public async Task Image_Renders_Target_Typed_Options_And_Secret()
     {
-        var arguments = BuildArguments(new TrivyImageOptions("alpine:3.20")
+        var arguments = BuildArguments(new TrivyImageOptions
         {
+            ImageName = "alpine:3.20",
             Format = TrivyImageFormat.Json,
             Severity = [TrivyImageSeverity.High, TrivyImageSeverity.Critical],
             Timeout = "2m",
@@ -30,6 +31,17 @@ public class TrivyOptionsTests
             "--timeout=2m",
             "--password=registry-secret",
         ]);
+    }
+
+    [Test]
+    public async Task Image_Renders_Input_Without_Image_Name()
+    {
+        var arguments = BuildArguments(new TrivyImageOptions
+        {
+            Input = "ruby-3.1.tar",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["--input=ruby-3.1.tar"]);
     }
 
     [Test]

@@ -86,11 +86,11 @@ internal partial class Trivy : ITrivy
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Image(
-        TrivyImageOptions options,
+        TrivyImageOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new TrivyImageOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

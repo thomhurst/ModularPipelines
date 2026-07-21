@@ -34,6 +34,26 @@ public class TrivyCliScraperTests
     }
 
     [Test]
+    public async Task Root_Help_Ignores_Command_Descriptions_That_End_In_Command()
+    {
+        const string helpText = """
+            Examples:
+              help        Help about any command
+              phantom     This is not a command entry
+
+            Available Commands:
+              image       Scan a container image
+
+            Flags:
+              -h, --help  help for trivy
+            """;
+
+        var commands = new TestTrivyCliScraper().Extract(helpText);
+
+        await Assert.That(commands).IsEquivalentTo(["image"]);
+    }
+
+    [Test]
     public async Task Image_Help_Parses_Target_Types_And_Secrets()
     {
         const string helpText = """
@@ -61,7 +81,8 @@ public class TrivyCliScraperTests
         var command = await new TestTrivyCliScraper().Parse(["trivy", "image"], helpText);
 
         await Assert.That(command!.PositionalArguments.Single().PropertyName).IsEqualTo("ImageName");
-        await Assert.That(command.PositionalArguments.Single().IsRequired).IsTrue();
+        await Assert.That(command.PositionalArguments.Single().IsRequired).IsFalse();
+        await Assert.That(command.PositionalArguments.Single().CSharpType).IsEqualTo("string?");
         await Assert.That(command.Options.Single(x => x.SwitchName == "--severity").CSharpType)
             .IsEqualTo("IEnumerable<TrivyImageSeverity>?");
         await Assert.That(command.Options.Single(x => x.SwitchName == "--timeout").CSharpType)
