@@ -318,6 +318,8 @@ jobs:
       - name: Install Gradle
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gradle'
         uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: current
 
       - name: Install pnpm
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'pnpm'

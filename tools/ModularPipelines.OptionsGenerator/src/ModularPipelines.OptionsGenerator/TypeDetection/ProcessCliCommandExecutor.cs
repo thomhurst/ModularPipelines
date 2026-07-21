@@ -27,9 +27,11 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     {
         _logger.LogDebug("Executing: {Command} {Arguments} (WorkingDir: {WorkingDir})", command, arguments, workingDirectory ?? "default");
 
+        var executablePath = ResolveExecutablePath(command);
+
         var startInfo = new ProcessStartInfo
         {
-            FileName = command,
+            FileName = executablePath,
             Arguments = arguments,
             UseShellExecute = false,
             RedirectStandardOutput = true,
@@ -103,6 +105,52 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
                 ExitCode = -1
             };
         }
+    }
+
+    private static string ResolveExecutablePath(string command)
+    {
+        if (!OperatingSystem.IsWindows() || Path.IsPathRooted(command) || Path.HasExtension(command))
+        {
+            return ResolveFromPath(command) ?? command;
+        }
+
+        var pathExtensions = Environment.GetEnvironmentVariable("PATHEXT")?
+            .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
+            ?? [".COM", ".EXE", ".BAT", ".CMD"];
+
+        foreach (var extension in pathExtensions)
+        {
+            var resolvedPath = ResolveFromPath(command + extension.ToLowerInvariant());
+            if (resolvedPath is not null)
+            {
+                return resolvedPath;
+            }
+        }
+
+        return command;
+    }
+
+    private static string? ResolveFromPath(string command)
+    {
+        if (Path.IsPathRooted(command))
+        {
+            return File.Exists(command) ? command : null;
+        }
+
+        var pathDirectories = Environment.GetEnvironmentVariable("PATH")?
+            .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            ?? [];
+
+        foreach (var pathDirectory in pathDirectories)
+        {
+            var candidate = Path.Combine(pathDirectory.Trim('"'), command);
+            if (File.Exists(candidate))
+            {
+                return Path.GetFullPath(candidate);
+            }
+        }
+
+        return null;
     }
 
     public async Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default)
