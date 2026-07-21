@@ -14,24 +14,45 @@ using ModularPipelines.ArgoCd.Enums;
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// Switch between contexts
+/// Remove a policy from a role within a project
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("context")]
-public record ArgoCdContextOptions : ArgoCdOptions
+[CliSubCommand("proj", "role", "remove-policy")]
+public record ArgoCdProjRoleRemovePolicyOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Project,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string RoleName
+) : ArgoCdOptions
 {
     /// <summary>
-    /// Delete the context instead of switching to it
+    /// Action to grant/deny permission on (e.g. get, create, list, update, delete)
     /// </summary>
-    [CliFlag("--delete")]
-    public bool? Delete { get; set; }
+    [CliOption("--action", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
+    public string? Action { get; set; }
 
     /// <summary>
-    /// help for context
+    /// help for remove-policy
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Object within the project to grant/deny access.  Use '*' for a wildcard. Will want access to '&lt;project&gt;/&lt;object&gt;'
+    /// </summary>
+    [CliOption("--object", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    public string? Object { get; set; }
+
+    /// <summary>
+    /// Whether to allow or deny access to object with the action.  This can only be 'allow' or 'deny' (default "allow")
+    /// </summary>
+    [CliOption("--permission", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
+    public string? Permission { get; set; }
+
+    /// <summary>
+    /// Resource e.g. 'applications', 'applicationsets', 'logs', 'exec', etc. (default "applications")
+    /// </summary>
+    [CliOption("--resource", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
+    public string? Resource { get; set; }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -116,13 +137,13 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// Set the logging format. One of: json|text (default "json")
     /// </summary>
     [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLogformat? Logformat { get; set; }
+    public ArgoCdProjRoleRemovePolicyLogformat? Logformat { get; set; }
 
     /// <summary>
     /// Set the logging level. One of: debug|info|warn|error (default "info")
     /// </summary>
     [CliOption("--loglevel", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLoglevel? Loglevel { get; set; }
+    public ArgoCdProjRoleRemovePolicyLoglevel? Loglevel { get; set; }
 
     /// <summary>
     /// Disable TLS
@@ -189,8 +210,5 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? ContextName { get; set; }
 
 }

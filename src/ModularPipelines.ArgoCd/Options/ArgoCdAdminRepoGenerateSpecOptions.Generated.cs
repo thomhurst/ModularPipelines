@@ -14,24 +14,174 @@ using ModularPipelines.ArgoCd.Enums;
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// Switch between contexts
+/// Generate declarative config for a repo
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("context")]
-public record ArgoCdContextOptions : ArgoCdOptions
+[CliSubCommand("admin", "repo", "generate-spec")]
+public record ArgoCdAdminRepoGenerateSpecOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RepositoryUrl
+) : ArgoCdOptions
 {
     /// <summary>
-    /// Delete the context instead of switching to it
+    /// bearer token to the Git BitBucket Data Center repository
     /// </summary>
-    [CliFlag("--delete")]
-    public bool? Delete { get; set; }
+    [SecretValue]
+    [CliOption("--bearer-token", Format = OptionFormat.EqualsSeparated)]
+    public string? BearerToken { get; set; }
 
     /// <summary>
-    /// help for context
+    /// Specify a custom depth for git clone operations. Unless specified, a full clone is performed using the depth of 0
+    /// </summary>
+    [CliOption("--depth", Format = OptionFormat.EqualsSeparated)]
+    public int? Depth { get; set; }
+
+    /// <summary>
+    /// enable git-lfs (Large File Support) on this repository
+    /// </summary>
+    [CliFlag("--enable-lfs")]
+    public bool? EnableLfs { get; set; }
+
+    /// <summary>
+    /// enable helm-oci (Helm OCI-Based Repository) (only valid for helm type repositories)
+    /// </summary>
+    [CliFlag("--enable-oci")]
+    public bool? EnableOci { get; set; }
+
+    /// <summary>
+    /// whether to force use of basic auth when connecting repository via HTTP
+    /// </summary>
+    [CliFlag("--force-http-basic-auth")]
+    public bool? ForceHttpBasicAuth { get; set; }
+
+    /// <summary>
+    /// service account key for the Google Cloud Platform
+    /// </summary>
+    [CliOption("--gcp-service-account-key-path", Format = OptionFormat.EqualsSeparated)]
+    public string? GcpServiceAccountKeyPath { get; set; }
+
+    /// <summary>
+    /// base url to use when using GitHub Enterprise (e.g. https://ghe.example.com/api/v3
+    /// </summary>
+    [CliOption("--github-app-enterprise-base-url", Format = OptionFormat.EqualsSeparated)]
+    public string? GithubAppEnterpriseBaseUrl { get; set; }
+
+    /// <summary>
+    /// id of the GitHub Application
+    /// </summary>
+    [CliOption("--github-app-id", Format = OptionFormat.EqualsSeparated)]
+    public int? GithubAppId { get; set; }
+
+    /// <summary>
+    /// installation id of the GitHub Application (optional, will be auto-discovered if not provided)
+    /// </summary>
+    [CliOption("--github-app-installation-id", Format = OptionFormat.EqualsSeparated)]
+    public int? GithubAppInstallationId { get; set; }
+
+    /// <summary>
+    /// private key of the GitHub Application
+    /// </summary>
+    [SecretValue]
+    [CliOption("--github-app-private-key-path", Format = OptionFormat.EqualsSeparated)]
+    public string? GithubAppPrivateKeyPath { get; set; }
+
+    /// <summary>
+    /// help for generate-spec
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// disables SSH strict host key checking (deprecated, use --insecure-skip-server-verification instead)
+    /// </summary>
+    [CliFlag("--insecure-ignore-host-key")]
+    public bool? InsecureIgnoreHostKey { get; set; }
+
+    /// <summary>
+    /// Use http when accessing an OCI repository
+    /// </summary>
+    [CliFlag("--insecure-oci-force-http")]
+    public bool? InsecureOciForceHttp { get; set; }
+
+    /// <summary>
+    /// disables server certificate and host key checks
+    /// </summary>
+    [CliFlag("--insecure-skip-server-verification")]
+    public bool? InsecureSkipServerVerification { get; set; }
+
+    /// <summary>
+    /// name of the repository, mandatory for repositories of type helm
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// don't access these targets via proxy
+    /// </summary>
+    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? NoProxy { get; set; }
+
+    /// <summary>
+    /// Output format. One of: json|yaml (default "yaml")
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    public ArgoCdAdminRepoGenerateSpecOutput? Output { get; set; }
+
+    /// <summary>
+    /// password to the repository
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
+    /// <summary>
+    /// project of the repository
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// use proxy to access repository
+    /// </summary>
+    [CliOption("--proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? Proxy { get; set; }
+
+    /// <summary>
+    /// path to the private ssh key (e.g. ~/.ssh/id_rsa)
+    /// </summary>
+    [SecretValue]
+    [CliOption("--ssh-private-key-path", Format = OptionFormat.EqualsSeparated)]
+    public string? SshPrivateKeyPath { get; set; }
+
+    /// <summary>
+    /// path to the TLS client cert's key (must be PEM format)
+    /// </summary>
+    [CliOption("--tls-client-cert-key-path", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsClientCertKeyPath { get; set; }
+
+    /// <summary>
+    /// path to the TLS client cert (must be PEM format)
+    /// </summary>
+    [CliOption("--tls-client-cert-path", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsClientCertPath { get; set; }
+
+    /// <summary>
+    /// type of the repository, "git", "oci" or "helm" (default "git")
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// whether to use azure workload identity for authentication
+    /// </summary>
+    [CliFlag("--use-azure-workload-identity")]
+    public bool? UseAzureWorkloadIdentity { get; set; }
+
+    /// <summary>
+    /// username to the repository
+    /// </summary>
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
+    public string? Username { get; set; }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -116,13 +266,13 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// Set the logging format. One of: json|text (default "json")
     /// </summary>
     [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLogformat? Logformat { get; set; }
+    public ArgoCdAdminRepoGenerateSpecLogformat? Logformat { get; set; }
 
     /// <summary>
     /// Set the logging level. One of: debug|info|warn|error (default "info")
     /// </summary>
     [CliOption("--loglevel", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLoglevel? Loglevel { get; set; }
+    public ArgoCdAdminRepoGenerateSpecLoglevel? Loglevel { get; set; }
 
     /// <summary>
     /// Disable TLS
@@ -189,8 +339,5 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? ContextName { get; set; }
 
 }

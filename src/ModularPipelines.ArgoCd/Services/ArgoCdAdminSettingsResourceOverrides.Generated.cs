@@ -14,17 +14,17 @@ using ModularPipelines.ArgoCd.Options;
 namespace ModularPipelines.ArgoCd.Services;
 
 /// <summary>
-/// argocd windows commands.
+/// argocd resource-overrides commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class ArgoCdProjWindows
+public class ArgoCdAdminSettingsResourceOverrides
 {
     private readonly ICommand _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ArgoCdProjWindows"/> class.
+    /// Initializes a new instance of the <see cref="ArgoCdAdminSettingsResourceOverrides"/> class.
     /// </summary>
-    public ArgoCdProjWindows(ICommand command)
+    public ArgoCdAdminSettingsResourceOverrides(ICommand command)
     {
         _command = command;
     }
@@ -32,14 +32,14 @@ public class ArgoCdProjWindows
     #region Commands
 
     /// <summary>
-    /// Add a sync window to a project
+    /// Assess resource health using the lua script configured in the 'resource.customizations' field of 'argocd-cm' ConfigMap
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Add(
-        ArgoCdProjWindowsAddOptions options,
+    public virtual async Task<CommandResult> Health(
+        ArgoCdAdminSettingsResourceOverridesHealthOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -47,14 +47,14 @@ public class ArgoCdProjWindows
     }
 
     /// <summary>
-    /// Delete a sync window from a project. Requires ID which can be found by running "argocd proj windows list PROJECT"
+    /// Renders ignored fields using the 'ignoreDifferences' setting specified in the 'resource.customizations' field of 'argocd-cm' ConfigMap
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        ArgoCdProjWindowsDeleteOptions options,
+    public virtual async Task<CommandResult> IgnoreDifferences(
+        ArgoCdAdminSettingsResourceOverridesIgnoreDifferencesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -62,14 +62,14 @@ public class ArgoCdProjWindows
     }
 
     /// <summary>
-    /// Disable manual sync for a sync window. Requires ID which can be found by running "argocd proj windows list PROJECT"
+    /// Renders ignored fields using the 'ignoreResourceUpdates' setting specified in the 'resource.customizations' field of 'argocd-cm' ConfigMap
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DisableManualSync(
-        ArgoCdProjWindowsDisableManualSyncOptions options,
+    public virtual async Task<CommandResult> IgnoreResourceUpdates(
+        ArgoCdAdminSettingsResourceOverridesIgnoreResourceUpdatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -77,14 +77,14 @@ public class ArgoCdProjWindows
     }
 
     /// <summary>
-    /// Enable manual sync for a sync window. Requires ID which can be found by running "argocd proj windows list PROJECT"
+    /// List actions available for given resource action using the lua scripts configured in the 'resource.customizations' field of 'argocd-cm' ConfigMap and outputs updated fields
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> EnableManualSync(
-        ArgoCdProjWindowsEnableManualSyncOptions options,
+    public virtual async Task<CommandResult> ListActions(
+        ArgoCdAdminSettingsResourceOverridesListActionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -92,29 +92,14 @@ public class ArgoCdProjWindows
     }
 
     /// <summary>
-    /// List project sync windows
+    /// Executes resource action using the lua script configured in the 'resource.customizations' field of 'argocd-cm' ConfigMap and outputs updated fields
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        ArgoCdProjWindowsListOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Update a project sync window. Requires ID which can be found by running "argocd proj windows list PROJECT"
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        ArgoCdProjWindowsUpdateOptions options,
+    public virtual async Task<CommandResult> RunAction(
+        ArgoCdAdminSettingsResourceOverridesRunActionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

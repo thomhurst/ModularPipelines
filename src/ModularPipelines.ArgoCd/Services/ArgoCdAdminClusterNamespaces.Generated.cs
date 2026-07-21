@@ -32,6 +32,21 @@ public class ArgoCdAdminClusterNamespaces
     #region Commands
 
     /// <summary>
+    /// Disable namespaced mode for clusters which name matches to the specified pattern.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DisableNamespacedMode(
+        ArgoCdAdminClusterNamespacesDisableNamespacedModeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Enable namespaced mode for clusters which name matches to the specified pattern.
     /// </summary>
     /// <param name="options">The command options.</param>

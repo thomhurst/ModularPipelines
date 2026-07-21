@@ -195,6 +195,44 @@ public class ArgoCdOptionsTests
         ]);
     }
 
+    [Test]
+    public async Task AccountUpdatePassword_Renders_All_Values()
+    {
+        var arguments = BuildArguments(new ArgoCdAccountUpdatePasswordOptions
+        {
+            Account = "alice",
+            CurrentPassword = "old-secret",
+            NewPassword = "new-secret",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "--account=alice",
+            "--current-password=old-secret",
+            "--new-password=new-secret",
+        ]);
+
+        var currentPassword = typeof(ArgoCdAccountUpdatePasswordOptions)
+            .GetProperty(nameof(ArgoCdAccountUpdatePasswordOptions.CurrentPassword));
+        var newPassword = typeof(ArgoCdAccountUpdatePasswordOptions)
+            .GetProperty(nameof(ArgoCdAccountUpdatePasswordOptions.NewPassword));
+
+        await Assert.That(currentPassword!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
+        await Assert.That(newPassword!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
+    }
+
+    [Test]
+    public async Task Context_Renders_Optional_Name_Before_Delete_Flag()
+    {
+        var arguments = BuildArguments(new ArgoCdContextOptions
+        {
+            ContextName = "cd.argoproj.io",
+            Delete = true,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["cd.argoproj.io", "--delete"]);
+    }
+
     private List<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());

@@ -21,6 +21,7 @@ public class ArgoCdAdminSettings
 {
     private readonly ICommand _command;
     private ArgoCdAdminSettingsRbac? _rbac;
+    private ArgoCdAdminSettingsResourceOverrides? _resourceOverrides;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ArgoCdAdminSettings"/> class.
@@ -36,6 +37,11 @@ public class ArgoCdAdminSettings
     /// argocd rbac sub-commands.
     /// </summary>
     public ArgoCdAdminSettingsRbac Rbac => _rbac ??= new ArgoCdAdminSettingsRbac(_command);
+
+    /// <summary>
+    /// argocd resource-overrides sub-commands.
+    /// </summary>
+    public ArgoCdAdminSettingsResourceOverrides ResourceOverrides => _resourceOverrides ??= new ArgoCdAdminSettingsResourceOverrides(_command);
 
     #endregion
 
