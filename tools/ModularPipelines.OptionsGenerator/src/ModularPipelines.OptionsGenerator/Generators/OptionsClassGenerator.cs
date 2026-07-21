@@ -35,7 +35,31 @@ public class OptionsClassGenerator : ICodeGenerator
         // File header
         GenerateFileHeader(sb, command.DocumentationUrl);
 
-        // Usings
+        GenerateUsings(sb, command, tool);
+
+        // Namespace
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Options;");
+        sb.AppendLine();
+
+        // XML documentation
+        GeneratorUtils.GenerateXmlDocumentation(sb, command.Description, "");
+
+        GenerateClassAttributes(sb, command);
+
+        // Class declaration. The returned set contains the names emitted as
+        // primary-constructor parameters, so a name scraped as both required and
+        // optional can't produce two members (CS0102).
+        var existingPropertyNames = GenerateClassDeclaration(sb, command);
+
+        sb.AppendLine("{");
+        GenerateProperties(sb, command, existingPropertyNames);
+        sb.AppendLine("}");
+
+        return sb.ToString();
+    }
+
+    private static void GenerateUsings(StringBuilder sb, CliCommandDefinition command, CliToolDefinition tool)
+    {
         sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
         sb.AppendLine("using ModularPipelines.Attributes;");
@@ -60,15 +84,10 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         sb.AppendLine();
+    }
 
-        // Namespace
-        sb.AppendLine($"namespace {tool.TargetNamespace}.Options;");
-        sb.AppendLine();
-
-        // XML documentation
-        GeneratorUtils.GenerateXmlDocumentation(sb, command.Description, "");
-
-        // Class attributes
+    private static void GenerateClassAttributes(StringBuilder sb, CliCommandDefinition command)
+    {
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
 
@@ -78,14 +97,13 @@ public class OptionsClassGenerator : ICodeGenerator
             var args = string.Join(", ", command.CommandParts.Select(p => $"\"{p}\""));
             sb.AppendLine($"[CliSubCommand({args})]");
         }
+    }
 
-        // Class declaration. The returned set contains the names emitted as
-        // primary-constructor parameters, so a name scraped as both required and
-        // optional can't produce two members (CS0102).
-        var existingPropertyNames = GenerateClassDeclaration(sb, command);
-
-        sb.AppendLine("{");
-
+    private static void GenerateProperties(
+        StringBuilder sb,
+        CliCommandDefinition command,
+        HashSet<string> existingPropertyNames)
+    {
         // Properties for non-required options
         foreach (var option in command.Options.Where(o => !o.IsRequired))
         {
@@ -109,9 +127,16 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine();
         }
 
-        sb.AppendLine("}");
+        foreach (var compatibilityProperty in command.CompatibilityProperties)
+        {
+            if (!existingPropertyNames.Add(compatibilityProperty.PropertyName))
+            {
+                continue;
+            }
 
-        return sb.ToString();
+            GenerateCompatibilityProperty(sb, compatibilityProperty);
+            sb.AppendLine();
+        }
     }
 
     private static void GenerateFileHeader(StringBuilder sb, string? documentationUrl)
@@ -197,6 +222,26 @@ public class OptionsClassGenerator : ICodeGenerator
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
         sb.AppendLine($"    public {positional.CSharpType} {positional.PropertyName} {{ get; set; }}");
+    }
+
+    private static void GenerateCompatibilityProperty(StringBuilder sb, CliCompatibilityProperty property)
+    {
+        var obsoleteMessage = property.ObsoleteMessage
+            .Replace("\\", "\\\\")
+            .Replace("\"", "\\\"");
+        sb.AppendLine($"    [Obsolete(\"{obsoleteMessage}\")]");
+
+        if (property.ForwardToPropertyName is null)
+        {
+            sb.AppendLine($"    public {property.CSharpType} {property.PropertyName} {{ get; set; }}");
+            return;
+        }
+
+        sb.AppendLine($"    public {property.CSharpType} {property.PropertyName}");
+        sb.AppendLine("    {");
+        sb.AppendLine($"        get => {property.ForwardToPropertyName};");
+        sb.AppendLine($"        set => {property.ForwardToPropertyName} = value;");
+        sb.AppendLine("    }");
     }
 
     private static string GetPositionalAttributeString(CliPositionalArgument positional)

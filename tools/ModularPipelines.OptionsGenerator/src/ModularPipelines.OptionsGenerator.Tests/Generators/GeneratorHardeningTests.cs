@@ -140,6 +140,43 @@ public class GeneratorHardeningTests
 
     #endregion
 
+    #region Compatibility properties
+
+    [Test]
+    public async Task OptionsClassGenerator_Emits_NonCli_Compatibility_Properties()
+    {
+        var command = Command("ToolBuildOptions", "ToolOptions") with
+        {
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "OldName",
+                    CSharpType = "bool?",
+                    ForwardToPropertyName = "NewName",
+                    ObsoleteMessage = "Use NewName instead.",
+                },
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "RemovedFlag",
+                    CSharpType = "bool?",
+                    ObsoleteMessage = "This flag has no effect.",
+                },
+            ],
+        };
+
+        var files = await new OptionsClassGenerator().GenerateAsync(Tool(command));
+        var generated = files.Single().Content;
+
+        await Assert.That(generated).Contains("[Obsolete(\"Use NewName instead.\")]");
+        await Assert.That(generated).Contains("get => NewName;");
+        await Assert.That(generated).Contains("set => NewName = value;");
+        await Assert.That(generated).Contains("public bool? RemovedFlag { get; set; }");
+        await Assert.That(generated).DoesNotContain("CliFlag(\"--removed-flag\")");
+    }
+
+    #endregion
+
     #region EnsureNoDuplicateFilePaths
 
     [Test]

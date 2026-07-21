@@ -71,4 +71,35 @@ public record CliCommandDefinition
     /// Enums that need to be generated for this command's options.
     /// </summary>
     public IReadOnlyList<CliEnumDefinition> Enums { get; init; } = [];
+
+    /// <summary>
+    /// Public properties retained for source and binary compatibility but excluded from CLI rendering.
+    /// </summary>
+    public IReadOnlyList<CliCompatibilityProperty> CompatibilityProperties { get; init; } = [];
+}
+
+/// <summary>
+/// Describes an obsolete generated property retained for API compatibility.
+/// </summary>
+public record CliCompatibilityProperty
+{
+    /// <summary>
+    /// CLR property name.
+    /// </summary>
+    public required string PropertyName { get; init; }
+
+    /// <summary>
+    /// C# property type.
+    /// </summary>
+    public required string CSharpType { get; init; }
+
+    /// <summary>
+    /// Optional replacement property that this compatibility alias forwards to.
+    /// </summary>
+    public string? ForwardToPropertyName { get; init; }
+
+    /// <summary>
+    /// Obsolete diagnostic shown to consumers.
+    /// </summary>
+    public required string ObsoleteMessage { get; init; }
 }

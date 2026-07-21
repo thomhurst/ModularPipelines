@@ -82,7 +82,7 @@ public record DotNetBuildOptions : DotNetOptions
     /// <summary>
     /// Do not display the startup banner or the copyright message. [default: True]
     /// </summary>
-    [CliFlag("--no-logo", ShortForm = "-nologo")]
+    [CliFlag("--nologo")]
     public bool? NoLogo { get; set; }
 
     /// <summary>
@@ -120,5 +120,15 @@ public record DotNetBuildOptions : DotNetOptions
     /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? ProjectSolution { get; set; }
+
+    [Obsolete("Use NoLogo instead.")]
+    public bool? Nologo
+    {
+        get => NoLogo;
+        set => NoLogo = value;
+    }
+
+    [Obsolete("The dotnet --debug switch is no longer supported and this property has no effect.")]
+    public bool? Debug { get; set; }
 
 }
