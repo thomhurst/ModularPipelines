@@ -3,8 +3,10 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
 
@@ -14,6 +16,7 @@ namespace ModularPipelines.UnitTests.Execution;
 public class EngineCancellationTokenTests : TestBase
 {
     private static readonly TimeSpan WaitForCancellationDelay = TimeSpan.FromMilliseconds(100);
+    private static TaskCompletionSource PeerModuleStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
     private class BadModule : ThrowingTestModule<bool>
     {
@@ -48,6 +51,34 @@ public class EngineCancellationTokenTests : TestBase
         {
             await _taskCompletionSource.Task;
             return true;
+        }
+    }
+
+    private class WaitForAllFailingModule : Module<bool>
+    {
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await PeerModuleStarted.Task.WaitAsync(cancellationToken);
+            throw new InvalidOperationException("Expected test failure");
+        }
+    }
+
+    private class WaitForAllCompletingModule : Module<bool>
+    {
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            PeerModuleStarted.TrySetResult();
+            await Task.Delay(WaitForCancellationDelay, cancellationToken);
+            return true;
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<WaitForAllCompletingModule>]
+    private class WaitForAllPendingModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
         }
     }
 
@@ -123,5 +154,51 @@ public class EngineCancellationTokenTests : TestBase
         var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModuleWithoutCancellation));
         await Assert.That(longRunningModuleResult).IsNotNull();
         await Assert.That(longRunningModuleResult!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+    }
+
+    [Test]
+    public async Task WaitForAllModules_Allows_InFlight_And_Pending_Modules_To_Complete()
+    {
+        PeerModuleStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var builder = TestPipelineHostBuilder.Create()
+            .ConfigurePipelineOptions((_, options) => options.ExecutionMode = ExecutionMode.WaitForAllModules)
+            .AddModule<WaitForAllFailingModule>()
+            .AddModule<WaitForAllCompletingModule>()
+            .AddModule<WaitForAllPendingModule>();
+
+        var host = await builder.BuildHostAsync();
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+
+        var pipelineSummary = await host.ExecutePipelineAsync();
+
+        var completingModuleResult = resultRegistry.GetResult(typeof(WaitForAllCompletingModule));
+        var pendingModuleResult = resultRegistry.GetResult(typeof(WaitForAllPendingModule));
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Failed);
+        await Assert.That(completingModuleResult).IsNotNull();
+        await Assert.That(completingModuleResult!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(pendingModuleResult).IsNotNull();
+        await Assert.That(pendingModuleResult!.ModuleStatus).IsEqualTo(Status.Successful);
+    }
+
+    [Test]
+    public async Task WaitForAllModules_Preserves_Original_Failure()
+    {
+        PeerModuleStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var builder = TestPipelineHostBuilder.Create()
+            .ConfigurePipelineOptions((_, options) =>
+            {
+                options.ExecutionMode = ExecutionMode.WaitForAllModules;
+                options.ThrowOnPipelineFailure = true;
+            })
+            .AddModule<WaitForAllFailingModule>()
+            .AddModule<WaitForAllCompletingModule>();
+
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(
+            async () => await builder.ExecutePipelineAsync());
+
+        await Assert.That(exception.InnerException).IsTypeOf<InvalidOperationException>();
+        await Assert.That(exception.InnerException!).HasMessageEqualTo("Expected test failure");
     }
 }

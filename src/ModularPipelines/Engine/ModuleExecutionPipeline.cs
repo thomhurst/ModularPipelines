@@ -75,7 +75,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         var beforeHooksExecuted = false;
 
         // Get configuration once at the start
-        var config = ((IModule)module).Configuration;
+        var config = ((IModule) module).Configuration;
 
         try
         {
@@ -441,12 +441,20 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         Exception exception,
         IModuleLogger logger)
     {
-        logger.LogDebug("Module failed. Cancelling the pipeline");
-        ((IInternalModuleLogger)logger).SetException(exception);
+        ((IInternalModuleLogger) logger).SetException(exception);
 
         var moduleFailedException = new ModuleFailedException(executionContext.ModuleType, exception);
 
-        _engineCancellationToken.CancelWithException(moduleFailedException);
+        if (moduleContext.Services.Options.ExecutionMode == ExecutionMode.StopOnFirstException)
+        {
+            logger.LogDebug("Module failed. Cancelling the pipeline");
+            _engineCancellationToken.CancelWithException(moduleFailedException);
+        }
+        else
+        {
+            logger.LogDebug("Module failed. Waiting for all modules to complete");
+            _engineCancellationToken.RecordException(moduleFailedException);
+        }
 
         executionContext.SetException(moduleFailedException);
         throw moduleFailedException;
