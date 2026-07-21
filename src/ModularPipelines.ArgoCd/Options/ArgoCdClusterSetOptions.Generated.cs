@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster", "set")]
 public record ArgoCdClusterSetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ClusterName
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -40,6 +40,12 @@ public record ArgoCdClusterSetOptions(
     /// </summary>
     [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Label { get; set; }
+
+    /// <summary>
+    /// Overwrite the cluster name
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
 
     /// <summary>
     /// List of namespaces which are allowed to manage. Specify '*' to manage all namespaces

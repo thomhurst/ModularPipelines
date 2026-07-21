@@ -772,7 +772,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// </summary>
     private static readonly HashSet<string> KnownArrayTypes = new(StringComparer.OrdinalIgnoreCase)
     {
-        "list", "array", "strings", "stringarray", "stringslice", "slice"
+        "list", "array", "strings", "stringarray", "stringslice", "int64slice", "slice"
     };
 
     /// <summary>

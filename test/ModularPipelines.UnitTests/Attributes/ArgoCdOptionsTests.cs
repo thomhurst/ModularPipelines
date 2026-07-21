@@ -153,6 +153,59 @@ public class ArgoCdOptionsTests
     }
 
     [Test]
+    public async Task App_Delete_Renders_Optional_Multiple_Targets()
+    {
+        var arguments = BuildArguments(new ArgoCdAppDeleteOptions
+        {
+            ApplicationNames = ["first", "second"],
+            Yes = true,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["first", "second", "--yes"]);
+    }
+
+    [Test]
+    public async Task Repo_Rm_Renders_Multiple_Repositories()
+    {
+        var arguments = BuildArguments(new ArgoCdRepoRmOptions(
+            ["https://first.example/repo.git", "https://second.example/repo.git"]));
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "https://first.example/repo.git",
+            "https://second.example/repo.git",
+        ]);
+    }
+
+    [Test]
+    public async Task Cluster_Set_Preserves_Name_Option()
+    {
+        var arguments = BuildArguments(new ArgoCdClusterSetOptions("production")
+        {
+            Name = "renamed-production",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["production", "--name=renamed-production"]);
+    }
+
+    [Test]
+    public async Task Source_Positions_Render_As_Repeated_Options()
+    {
+        var arguments = BuildArguments(new ArgoCdAppSyncOptions
+        {
+            ApplicationNames = ["my-app"],
+            SourcePositions = ["1", "2"],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "my-app",
+            "--source-positions=1",
+            "--source-positions=2",
+        ]);
+    }
+
+    [Test]
     public async Task Configure_Renders_Explicit_False_For_Prompts_Enabled()
     {
         var arguments = BuildArguments(new ArgoCdConfigureOptions
