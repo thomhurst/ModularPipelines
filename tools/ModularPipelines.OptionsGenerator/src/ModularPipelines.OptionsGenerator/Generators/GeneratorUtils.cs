@@ -532,15 +532,7 @@ public static partial class GeneratorUtils
             .Select(c => $"{c.ToolNamespacePrefix}{c.SubDomainGroup}Options")
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        static bool MatchesParentOptions(CliCommandDefinition command) =>
-            string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase);
-
-        bool MatchesSubDomainService(CliCommandDefinition command) =>
-            command.SubDomainGroup is null &&
-            command.CommandParts.Length == 1 &&
-            subDomainClassNames.Contains(command.ClassName);
-
-        if (!commands.Any(command => MatchesParentOptions(command) || MatchesSubDomainService(command)))
+        if (!commands.Any(command => NeedsClassNameNormalization(command, subDomainClassNames)))
         {
             return commands;
         }
@@ -552,31 +544,14 @@ public static partial class GeneratorUtils
 
         foreach (var command in commands)
         {
-            var matchesParentOptions = MatchesParentOptions(command);
-            var matchesSubDomainService = MatchesSubDomainService(command);
-            if (!matchesParentOptions && !matchesSubDomainService)
+            if (!NeedsClassNameNormalization(command, subDomainClassNames))
             {
                 normalizedCommands.Add(command);
                 continue;
             }
 
-            var collidingName = matchesParentOptions
-                ? command.ParentClassName
-                : command.ClassName;
-            var baseName = collidingName.EndsWith("Options", StringComparison.Ordinal)
-                ? collidingName[..^"Options".Length]
-                : collidingName;
-            var suffix = "Execute";
-            var candidate = $"{baseName}{suffix}Options";
-
-            while (occupiedClassNames.Contains(candidate))
-            {
-                suffix += "Execute";
-                candidate = $"{baseName}{suffix}Options";
-            }
-
-            occupiedClassNames.Add(candidate);
-            normalizedCommands.Add(command with { ClassName = candidate });
+            var className = AllocateExecuteClassName(command, occupiedClassNames);
+            normalizedCommands.Add(command with { ClassName = className });
         }
 
         return normalizedCommands;
@@ -619,5 +594,40 @@ public static partial class GeneratorUtils
         }
 
         return rootCommands;
+    }
+
+    private static bool NeedsClassNameNormalization(
+        CliCommandDefinition command,
+        IReadOnlySet<string> subDomainClassNames)
+    {
+        return string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase)
+               || (command.SubDomainGroup is null
+                   && command.CommandParts.Length == 1
+                   && subDomainClassNames.Contains(command.ClassName));
+    }
+
+    private static string AllocateExecuteClassName(
+        CliCommandDefinition command,
+        ISet<string> occupiedClassNames)
+    {
+        var collidingName = string.Equals(
+            command.ClassName,
+            command.ParentClassName,
+            StringComparison.OrdinalIgnoreCase)
+            ? command.ParentClassName
+            : command.ClassName;
+        var baseName = collidingName.EndsWith("Options", StringComparison.Ordinal)
+            ? collidingName[..^"Options".Length]
+            : collidingName;
+        var suffix = "Execute";
+        var candidate = $"{baseName}{suffix}Options";
+
+        while (!occupiedClassNames.Add(candidate))
+        {
+            suffix += "Execute";
+            candidate = $"{baseName}{suffix}Options";
+        }
+
+        return candidate;
     }
 }
