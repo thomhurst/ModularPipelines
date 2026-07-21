@@ -14,21 +14,20 @@ using ModularPipelines.ArgoCd.Enums;
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// Switch between contexts
+/// Remove default destination service account from the project
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("context")]
-public record ArgoCdContextOptions : ArgoCdOptions
+[CliSubCommand("proj", "remove-destination-service-account")]
+public record ArgoCdProjRemoveDestinationServiceAccountOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Project,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Server,
+    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string Namespace,
+    [property: CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)] string ServiceAccount
+) : ArgoCdOptions
 {
     /// <summary>
-    /// Delete the context instead of switching to it
-    /// </summary>
-    [CliFlag("--delete")]
-    public bool? Delete { get; set; }
-
-    /// <summary>
-    /// help for context
+    /// help for remove-destination-service-account
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
@@ -116,13 +115,13 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// Set the logging format. One of: json|text (default "json")
     /// </summary>
     [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLogformat? Logformat { get; set; }
+    public ArgoCdProjRemoveDestinationServiceAccountLogformat? Logformat { get; set; }
 
     /// <summary>
     /// Set the logging level. One of: debug|info|warn|error (default "info")
     /// </summary>
     [CliOption("--loglevel", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLoglevel? Loglevel { get; set; }
+    public ArgoCdProjRemoveDestinationServiceAccountLoglevel? Loglevel { get; set; }
 
     /// <summary>
     /// Disable TLS
@@ -173,12 +172,6 @@ public record ArgoCdContextOptions : ArgoCdOptions
     public string? RepoServerName { get; set; }
 
     /// <summary>
-    /// Argo CD server address
-    /// </summary>
-    [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
-    public string? Server { get; set; }
-
-    /// <summary>
     /// Server certificate file
     /// </summary>
     [CliOption("--server-crt", Format = OptionFormat.EqualsSeparated)]
@@ -189,8 +182,5 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? ContextName { get; set; }
 
 }

@@ -107,6 +107,21 @@ public class ArgoCdCluster
     }
 
     /// <summary>
+    /// argocd cluster rotate-auth SERVER/NAME
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RotateAuth(
+        ArgoCdClusterRotateAuthOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Set cluster information
     /// </summary>
     /// <param name="options">The command options.</param>

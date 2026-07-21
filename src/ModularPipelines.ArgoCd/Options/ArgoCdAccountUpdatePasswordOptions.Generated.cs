@@ -14,24 +14,38 @@ using ModularPipelines.ArgoCd.Enums;
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// Switch between contexts
+/// This command can be used to update the password of the currently logged on
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("context")]
-public record ArgoCdContextOptions : ArgoCdOptions
+[CliSubCommand("account", "update-password")]
+public record ArgoCdAccountUpdatePasswordOptions : ArgoCdOptions
 {
     /// <summary>
-    /// Delete the context instead of switching to it
+    /// An account name that should be updated. Defaults to current user account
     /// </summary>
-    [CliFlag("--delete")]
-    public bool? Delete { get; set; }
+    [CliOption("--account", Format = OptionFormat.EqualsSeparated)]
+    public string? Account { get; set; }
 
     /// <summary>
-    /// help for context
+    /// Password of the currently logged on user
+    /// </summary>
+    [SecretValue]
+    [CliOption("--current-password", Format = OptionFormat.EqualsSeparated)]
+    public string? CurrentPassword { get; set; }
+
+    /// <summary>
+    /// help for update-password
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// New password you want to update to
+    /// </summary>
+    [SecretValue]
+    [CliOption("--new-password", Format = OptionFormat.EqualsSeparated)]
+    public string? NewPassword { get; set; }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -116,13 +130,13 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// Set the logging format. One of: json|text (default "json")
     /// </summary>
     [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLogformat? Logformat { get; set; }
+    public ArgoCdAccountUpdatePasswordLogformat? Logformat { get; set; }
 
     /// <summary>
     /// Set the logging level. One of: debug|info|warn|error (default "info")
     /// </summary>
     [CliOption("--loglevel", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLoglevel? Loglevel { get; set; }
+    public ArgoCdAccountUpdatePasswordLoglevel? Loglevel { get; set; }
 
     /// <summary>
     /// Disable TLS
@@ -189,8 +203,5 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? ContextName { get; set; }
 
 }

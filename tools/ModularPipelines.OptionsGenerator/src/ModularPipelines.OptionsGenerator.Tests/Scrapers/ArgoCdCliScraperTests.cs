@@ -17,6 +17,23 @@ public class ArgoCdCliScraperTests
     }
 
     [Test]
+    public async Task Cobra_Discovery_Parses_Longest_Subcommand_With_One_Separator_Space()
+    {
+        const string helpText = """
+            Available Commands:
+              session-token   Display current session token
+              update-password Update an account's password
+
+            Flags:
+              -h, --help   help for account
+            """;
+
+        var subcommands = new TestArgoCdCliScraper().ExtractCommands(helpText);
+
+        await Assert.That(subcommands).Contains("update-password");
+    }
+
+    [Test]
     public async Task Cobra_Usage_Parses_Bare_Required_And_Bracketed_Optional_Arguments()
     {
         var scraper = new TestArgoCdCliScraper();
@@ -112,6 +129,21 @@ public class ArgoCdCliScraperTests
         await Assert.That(arguments).Count().IsEqualTo(1);
         await Assert.That(arguments[0].PropertyName).IsEqualTo("ApplicationNames");
         await Assert.That(arguments[0].CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(arguments[0].IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Context_Uses_Optional_Context_Name_Operand()
+    {
+        var scraper = new TestArgoCdCliScraper();
+        var parsedArguments = scraper.ParseArguments(
+            "Usage:\n  argocd context [CONTEXT] [flags]");
+
+        var arguments = scraper.ApplyFix(["context"], parsedArguments);
+
+        await Assert.That(arguments).Count().IsEqualTo(1);
+        await Assert.That(arguments[0].PropertyName).IsEqualTo("ContextName");
+        await Assert.That(arguments[0].CSharpType).IsEqualTo("string?");
         await Assert.That(arguments[0].IsRequired).IsFalse();
     }
 
@@ -236,6 +268,9 @@ public class ArgoCdCliScraperTests
         }
 
         public string NormalizeIdentifier(string commandPart) => NormalizeCommandIdentifier(commandPart);
+
+        public IReadOnlyList<string> ExtractCommands(string helpText) =>
+            ExtractSubcommands(helpText).ToList();
 
         public IReadOnlyList<CliPositionalArgument> ParseArguments(string helpText) =>
             ParsePositionalArguments(helpText);
