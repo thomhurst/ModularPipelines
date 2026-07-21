@@ -20,9 +20,9 @@ public class CheckShellScriptsModule : Module<CommandResult>
         CancellationToken cancellationToken)
     {
         return await context.Shellcheck().Execute(
-            new ShellcheckExecuteOptions("scripts/build.sh")
+            new ShellcheckExecuteOptions
             {
-                AdditionalFiles = ["scripts/deploy.sh"],
+                Files = ["scripts/build.sh", "scripts/deploy.sh"],
                 CheckSourced = true,
                 Format = ShellcheckFormat.Gcc,
                 Severity = ShellcheckSeverity.Warning,
@@ -33,4 +33,4 @@ public class CheckShellScriptsModule : Module<CommandResult>
 }
 ```
 
-The first input file is a required constructor argument; pass more through `AdditionalFiles`. Options with fixed value sets use enums, `--extended-analysis` uses a boolean, and `--wiki-link-count` uses an integer. ShellCheck must be installed and available on `PATH` when the pipeline runs.
+Input files are optional so standalone actions such as `--version` remain available; pass files through `Files` when analyzing scripts. Options with fixed value sets use enums, `--extended-analysis` uses a boolean, and `--wiki-link-count` uses an integer. ShellCheck must be installed and available on `PATH` when the pipeline runs.
