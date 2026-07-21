@@ -211,8 +211,10 @@ jobs:
               rm -f "$PKG_DIR/I${PREFIX}.cs" 2>/dev/null || true
               rm -f "$PKG_DIR/${PREFIX}.cs" 2>/dev/null || true
 
-              # Delete old .Generated.cs files in Services folder (will be replaced with non-.Generated names)
-              find "$PKG_DIR/Services" -name "*.Generated.cs" -type f -delete 2>/dev/null || true
+              # Delete only this tool's generated service files. Packages such as
+              # ModularPipelines.Java contain services for multiple CLI tools.
+              rm -f "$PKG_DIR/Services/I${PREFIX}.Generated.cs" 2>/dev/null || true
+              rm -f "$PKG_DIR/Services/${PREFIX}.Generated.cs" 2>/dev/null || true
 
               echo "Cleanup complete for $PACKAGE"
             fi
@@ -684,10 +686,12 @@ jobs:
                 Write-Host "Removed $implFile"
               }
 
-              # Delete old .Generated.cs files in Services folder (will be replaced with non-.Generated names)
+              # Delete only this tool's generated service files. A package may
+              # contain services for multiple CLI tools.
               $servicesDir = Join-Path $pkgDir "Services"
               if (Test-Path $servicesDir) {
-                Get-ChildItem -Path $servicesDir -Filter "*.Generated.cs" -File -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
+                Remove-Item (Join-Path $servicesDir "I$prefix.Generated.cs") -Force -ErrorAction SilentlyContinue
+                Remove-Item (Join-Path $servicesDir "$prefix.Generated.cs") -Force -ErrorAction SilentlyContinue
               }
 
               Write-Host "Cleanup complete for $package"
