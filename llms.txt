@@ -50,4 +50,5 @@ This file contains links to documentation sections following the llmstxt.org sta
 - [Ansible Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/ansible): `ModularPipelines.Ansible` provides strongly typed access to Ansible's ad-hoc command CLI.
 - [Cosign Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/cosign): `ModularPipelines.Cosign` provides strongly typed access to the Sigstore Cosign CLI for
 - [GitHub Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/github): The **GitHub package** offered by **Modular Pipelines**, in conjunction with the implemented **OctoKit client library**, facilitates a streamlined ...
+- [Hadolint Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/hadolint): `ModularPipelines.Hadolint` provides strongly typed access to the Hadolint Dockerfile linter.
 - [Why Modular Pipelines?](https://thomhurst.github.io/ModularPipelines/docs/why): - The .NET ecosystem is rich with features and libraries. You can utilize what already exists and not have to re-invent the wheel.
