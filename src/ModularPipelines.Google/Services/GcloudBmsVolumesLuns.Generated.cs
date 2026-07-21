@@ -39,8 +39,8 @@ public class GcloudBmsVolumesLuns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBmsVolumesLunsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsVolumesLunsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesLunsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBmsVolumesLuns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBmsVolumesLunsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsVolumesLunsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesLunsListOptions(), executionOptions, cancellationToken);

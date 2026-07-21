@@ -39,8 +39,8 @@ public class AzBatchNodeUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBatchNodeUserCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchNodeUserCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchNodeUserCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzBatchNodeUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBatchNodeUserDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchNodeUserDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchNodeUserDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzBatchNodeUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzBatchNodeUserResetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchNodeUserResetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchNodeUserResetOptions(), executionOptions, cancellationToken);

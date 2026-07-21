@@ -73,8 +73,8 @@ public class AzWebappDeployment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPublishingCredentials(
-        AzWebappDeploymentListPublishingCredentialsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentListPublishingCredentialsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentListPublishingCredentialsOptions(), executionOptions, cancellationToken);
@@ -88,8 +88,8 @@ public class AzWebappDeployment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPublishingProfiles(
-        AzWebappDeploymentListPublishingProfilesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentListPublishingProfilesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentListPublishingProfilesOptions(), executionOptions, cancellationToken);

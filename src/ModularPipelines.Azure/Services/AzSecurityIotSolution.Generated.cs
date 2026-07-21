@@ -39,8 +39,8 @@ public class AzSecurityIotSolution
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSecurityIotSolutionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSecurityIotSolutionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityIotSolutionListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSecurityIotSolution
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSecurityIotSolutionUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSecurityIotSolutionUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityIotSolutionUpdateOptions(), executionOptions, cancellationToken);

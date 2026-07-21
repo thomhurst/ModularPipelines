@@ -39,8 +39,8 @@ public class GcloudCertificatemanagerCertificates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudCertificateManagerCertificatesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerCertificatesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerCertificatesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudCertificatemanagerCertificates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudCertificateManagerCertificatesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerCertificatesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerCertificatesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudCertificatemanagerCertificates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudCertificateManagerCertificatesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerCertificatesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerCertificatesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudCertificatemanagerCertificates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudCertificateManagerCertificatesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerCertificatesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerCertificatesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudCertificatemanagerCertificates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudCertificateManagerCertificatesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCertificateManagerCertificatesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerCertificatesUpdateOptions(), executionOptions, cancellationToken);

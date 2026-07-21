@@ -39,8 +39,8 @@ public class GcloudAgentregistryEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAgentRegistryEndpointsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryEndpointsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryEndpointsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudAgentregistryEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAgentRegistryEndpointsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryEndpointsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryEndpointsListOptions(), executionOptions, cancellationToken);

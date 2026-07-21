@@ -39,8 +39,8 @@ public class AzManagedservicesDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzManagedservicesDefinitionCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzManagedservicesDefinitionCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesDefinitionCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzManagedservicesDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzManagedservicesDefinitionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzManagedservicesDefinitionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesDefinitionDeleteOptions(), executionOptions, cancellationToken);

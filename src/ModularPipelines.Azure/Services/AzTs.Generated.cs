@@ -39,8 +39,8 @@ public class AzTs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzTsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzTsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzTsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzTs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzTsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzTsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzTsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzTs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        AzTsExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzTsExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzTsExportOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzTs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzTsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzTsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzTsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzTs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzTsShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzTsShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzTsShowOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzTs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzTsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzTsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzTsUpdateOptions(), executionOptions, cancellationToken);

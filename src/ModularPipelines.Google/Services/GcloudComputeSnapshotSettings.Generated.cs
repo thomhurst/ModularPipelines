@@ -39,8 +39,8 @@ public class GcloudComputeSnapshotSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeSnapshotSettingsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeSnapshotSettingsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotSettingsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputeSnapshotSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComputeSnapshotSettingsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeSnapshotSettingsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotSettingsUpdateOptions(), executionOptions, cancellationToken);

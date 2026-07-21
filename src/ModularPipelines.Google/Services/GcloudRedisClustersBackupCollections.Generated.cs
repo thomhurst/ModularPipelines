@@ -39,8 +39,8 @@ public class GcloudRedisClustersBackupCollections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudRedisClustersBackupCollectionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersBackupCollectionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersBackupCollectionsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudRedisClustersBackupCollections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudRedisClustersBackupCollectionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisClustersBackupCollectionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersBackupCollectionsListOptions(), executionOptions, cancellationToken);

@@ -49,8 +49,8 @@ public class AzAmsContentKeyPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsContentKeyPolicyCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsContentKeyPolicyCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzAmsContentKeyPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAmsContentKeyPolicyListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsContentKeyPolicyListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyListOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzAmsContentKeyPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAmsContentKeyPolicyShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsContentKeyPolicyShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyShowOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzAmsContentKeyPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAmsContentKeyPolicyUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsContentKeyPolicyUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyUpdateOptions(), executionOptions, cancellationToken);

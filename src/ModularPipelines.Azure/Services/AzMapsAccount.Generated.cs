@@ -39,8 +39,8 @@ public class AzMapsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMapsAccountCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMapsAccountCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzMapsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMapsAccountListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMapsAccountListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzMapsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMapsAccountUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMapsAccountUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountUpdateOptions(), executionOptions, cancellationToken);

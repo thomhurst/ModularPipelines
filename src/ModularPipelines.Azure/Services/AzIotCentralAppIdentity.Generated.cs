@@ -39,8 +39,8 @@ public class AzIotCentralAppIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzIotCentralAppIdentityAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotCentralAppIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzIotCentralAppIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzIotCentralAppIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotCentralAppIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppIdentityRemoveOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzIotCentralAppIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzIotCentralAppIdentityShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotCentralAppIdentityShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppIdentityShowOptions(), executionOptions, cancellationToken);

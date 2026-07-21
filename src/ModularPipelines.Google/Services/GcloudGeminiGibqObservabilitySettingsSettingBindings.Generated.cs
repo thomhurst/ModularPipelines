@@ -39,8 +39,8 @@ public class GcloudGeminiGibqObservabilitySettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudGeminiGibqObservabilitySettingsSettingBindingsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiGibqObservabilitySettingsSettingBindingsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGibqObservabilitySettingsSettingBindingsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudGeminiGibqObservabilitySettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudGeminiGibqObservabilitySettingsSettingBindingsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiGibqObservabilitySettingsSettingBindingsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGibqObservabilitySettingsSettingBindingsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudGeminiGibqObservabilitySettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudGeminiGibqObservabilitySettingsSettingBindingsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiGibqObservabilitySettingsSettingBindingsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGibqObservabilitySettingsSettingBindingsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudGeminiGibqObservabilitySettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudGeminiGibqObservabilitySettingsSettingBindingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiGibqObservabilitySettingsSettingBindingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGibqObservabilitySettingsSettingBindingsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudGeminiGibqObservabilitySettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudGeminiGibqObservabilitySettingsSettingBindingsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiGibqObservabilitySettingsSettingBindingsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGibqObservabilitySettingsSettingBindingsUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudEdgecloudContainerClustersNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudEdgeCloudContainerClustersNodePoolsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudContainerClustersNodePoolsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersNodePoolsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudEdgecloudContainerClustersNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudEdgeCloudContainerClustersNodePoolsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudContainerClustersNodePoolsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersNodePoolsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudEdgecloudContainerClustersNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCloudContainerClustersNodePoolsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudContainerClustersNodePoolsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersNodePoolsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudEdgecloudContainerClustersNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEdgeCloudContainerClustersNodePoolsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudContainerClustersNodePoolsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersNodePoolsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudEdgecloudContainerClustersNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudEdgeCloudContainerClustersNodePoolsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudContainerClustersNodePoolsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersNodePoolsUpdateOptions(), executionOptions, cancellationToken);

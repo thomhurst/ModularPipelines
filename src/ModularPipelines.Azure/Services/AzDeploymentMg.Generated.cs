@@ -39,8 +39,8 @@ public class AzDeploymentMg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDeploymentMgCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDeploymentMgCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentMgCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzDeploymentMg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDeploymentMgDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDeploymentMgDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentMgDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzDeploymentMg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Validate(
-        AzDeploymentMgValidateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDeploymentMgValidateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentMgValidateOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzDeploymentMg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> WhatIf(
-        AzDeploymentMgWhatIfOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDeploymentMgWhatIfOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentMgWhatIfOptions(), executionOptions, cancellationToken);

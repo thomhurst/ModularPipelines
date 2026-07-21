@@ -39,8 +39,8 @@ public class AzIotDpsLinkedHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzIotDpsLinkedHubCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsLinkedHubCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsLinkedHubCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzIotDpsLinkedHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzIotDpsLinkedHubDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsLinkedHubDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsLinkedHubDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzIotDpsLinkedHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzIotDpsLinkedHubListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsLinkedHubListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsLinkedHubListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzIotDpsLinkedHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzIotDpsLinkedHubShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsLinkedHubShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsLinkedHubShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzIotDpsLinkedHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzIotDpsLinkedHubUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotDpsLinkedHubUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsLinkedHubUpdateOptions(), executionOptions, cancellationToken);

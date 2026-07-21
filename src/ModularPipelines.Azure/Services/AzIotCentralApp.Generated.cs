@@ -61,8 +61,8 @@ public class AzIotCentralApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzIotCentralAppCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotCentralAppCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppCreateOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ public class AzIotCentralApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzIotCentralAppDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotCentralAppDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppDeleteOptions(), executionOptions, cancellationToken);
@@ -91,8 +91,8 @@ public class AzIotCentralApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzIotCentralAppListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotCentralAppListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppListOptions(), executionOptions, cancellationToken);
@@ -106,8 +106,8 @@ public class AzIotCentralApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzIotCentralAppShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIotCentralAppShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppShowOptions(), executionOptions, cancellationToken);

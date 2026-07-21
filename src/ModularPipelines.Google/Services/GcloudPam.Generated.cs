@@ -61,8 +61,8 @@ public class GcloudPam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudPamOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPamOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ public class GcloudPam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CheckOnboardingStatus(
-        GcloudPamCheckOnboardingStatusOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPamCheckOnboardingStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamCheckOnboardingStatusOptions(), executionOptions, cancellationToken);

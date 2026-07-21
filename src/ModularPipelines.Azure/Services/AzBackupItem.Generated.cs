@@ -39,8 +39,8 @@ public class AzBackupItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBackupItemListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupItemListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupItemListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzBackupItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetPolicy(
-        AzBackupItemSetPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupItemSetPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupItemSetPolicyOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzBackupItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzBackupItemShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupItemShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupItemShowOptions(), executionOptions, cancellationToken);

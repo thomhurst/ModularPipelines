@@ -39,8 +39,8 @@ public class GcloudComputeAdvice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CalendarMode(
-        GcloudComputeAdviceCalendarModeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeAdviceCalendarModeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeAdviceCalendarModeOptions(), executionOptions, cancellationToken);

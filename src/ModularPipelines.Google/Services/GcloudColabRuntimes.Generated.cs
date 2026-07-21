@@ -39,8 +39,8 @@ public class GcloudColabRuntimes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudColabRuntimesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudColabRuntimesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudColabRuntimes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudColabRuntimesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudColabRuntimesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudColabRuntimes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudColabRuntimesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudColabRuntimesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudColabRuntimes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudColabRuntimesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudColabRuntimesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudColabRuntimes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        GcloudColabRuntimesStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudColabRuntimesStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesStartOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudColabRuntimes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        GcloudColabRuntimesStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudColabRuntimesStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesStopOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudColabRuntimes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upgrade(
-        GcloudColabRuntimesUpgradeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudColabRuntimesUpgradeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesUpgradeOptions(), executionOptions, cancellationToken);

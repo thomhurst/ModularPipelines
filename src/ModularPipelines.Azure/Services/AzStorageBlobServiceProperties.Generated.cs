@@ -49,8 +49,8 @@ public class AzStorageBlobServiceProperties
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageBlobServicePropertiesShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageBlobServicePropertiesShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesShowOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzStorageBlobServiceProperties
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageBlobServicePropertiesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageBlobServicePropertiesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzKeyvaultNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzKeyvaultNetworkRuleAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultNetworkRuleAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultNetworkRuleAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzKeyvaultNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzKeyvaultNetworkRuleListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultNetworkRuleListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultNetworkRuleListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzKeyvaultNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzKeyvaultNetworkRuleRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultNetworkRuleRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultNetworkRuleRemoveOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzKeyvaultNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzKeyvaultNetworkRuleWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultNetworkRuleWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultNetworkRuleWaitOptions(), executionOptions, cancellationToken);

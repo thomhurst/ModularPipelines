@@ -49,8 +49,8 @@ public class AzNetworkNsg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkNsgCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNsgCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzNetworkNsg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkNsgDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNsgDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzNetworkNsg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkNsgListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNsgListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgListOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzNetworkNsg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkNsgShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNsgShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgShowOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class AzNetworkNsg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkNsgUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNsgUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgUpdateOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class AzNetworkNsg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzNetworkNsgWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkNsgWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgWaitOptions(), executionOptions, cancellationToken);

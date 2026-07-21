@@ -39,8 +39,8 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudPreviewComputeSoleTenancyNodeGroupsAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeSoleTenancyNodeGroupsAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeSoleTenancyNodeGroupsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeSoleTenancyNodeGroupsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeSoleTenancyNodeGroupsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeSoleTenancyNodeGroupsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudPreviewComputeSoleTenancyNodeGroupsGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeSoleTenancyNodeGroupsGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeSoleTenancyNodeGroupsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListNodes(
         GcloudPreviewComputeSoleTenancyNodeGroupsListNodesOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeSoleTenancyNodeGroupsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeSoleTenancyNodeGroupsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeSoleTenancyNodeGroupsListOptions(), executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PerformMaintenance(
         GcloudPreviewComputeSoleTenancyNodeGroupsPerformMaintenanceOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudPreviewComputeSoleTenancyNodeGroupsRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeSoleTenancyNodeGroupsRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeSoleTenancyNodeGroupsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -175,7 +175,7 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudPreviewComputeSoleTenancyNodeGroupsSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -190,7 +190,7 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SimulateMaintenanceEvent(
         GcloudPreviewComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -204,8 +204,8 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TestIamPermissions(
-        GcloudPreviewComputeSoleTenancyNodeGroupsTestIamPermissionsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeSoleTenancyNodeGroupsTestIamPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeSoleTenancyNodeGroupsTestIamPermissionsOptions(), executionOptions, cancellationToken);
@@ -220,7 +220,7 @@ public class GcloudPreviewComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPreviewComputeSoleTenancyNodeGroupsUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

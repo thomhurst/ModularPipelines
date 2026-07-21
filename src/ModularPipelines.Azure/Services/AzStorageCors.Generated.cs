@@ -39,8 +39,8 @@ public class AzStorageCors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzStorageCorsAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageCorsAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageCorsAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageCors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clear(
-        AzStorageCorsClearOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageCorsClearOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageCorsClearOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzStorageCors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageCorsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageCorsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageCorsListOptions(), executionOptions, cancellationToken);

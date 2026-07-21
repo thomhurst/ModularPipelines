@@ -39,8 +39,8 @@ public class AzNetworkLbOutboundRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkLbOutboundRuleCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbOutboundRuleCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbOutboundRuleCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkLbOutboundRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkLbOutboundRuleDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbOutboundRuleDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbOutboundRuleDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkLbOutboundRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkLbOutboundRuleUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkLbOutboundRuleUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbOutboundRuleUpdateOptions(), executionOptions, cancellationToken);

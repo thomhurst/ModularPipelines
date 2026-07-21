@@ -39,8 +39,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Connect(
-        PodmanNetworkConnectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanNetworkConnectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkConnectOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        PodmanNetworkCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanNetworkCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disconnect(
-        PodmanNetworkDisconnectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanNetworkDisconnectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkDisconnectOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        PodmanNetworkInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanNetworkInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkInspectOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        PodmanNetworkLsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanNetworkLsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkLsOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        PodmanNetworkPruneOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanNetworkPruneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkPruneOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reload(
-        PodmanNetworkReloadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanNetworkReloadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkReloadOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        PodmanNetworkRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanNetworkRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkRmOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        PodmanNetworkUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanNetworkUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkUpdateOptions(), executionOptions, cancellationToken);

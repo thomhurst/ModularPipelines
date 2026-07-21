@@ -49,8 +49,8 @@ public class GcloudKmsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudKmsKeysAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsKeysAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudKmsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudKmsKeysCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsKeysCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysCreateOptions(), executionOptions, cancellationToken);
@@ -80,7 +80,7 @@ public class GcloudKmsKeys
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudKmsKeysDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudKmsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudKmsKeysDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsKeysDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysDescribeOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudKmsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudKmsKeysGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsKeysGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GcloudKmsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudKmsKeysListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsKeysListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysListOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class GcloudKmsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudKmsKeysRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsKeysRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -154,8 +154,8 @@ public class GcloudKmsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveRotationSchedule(
-        GcloudKmsKeysRemoveRotationScheduleOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsKeysRemoveRotationScheduleOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysRemoveRotationScheduleOptions(), executionOptions, cancellationToken);
@@ -170,7 +170,7 @@ public class GcloudKmsKeys
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudKmsKeysSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -184,8 +184,8 @@ public class GcloudKmsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetPrimaryVersion(
-        GcloudKmsKeysSetPrimaryVersionOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsKeysSetPrimaryVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysSetPrimaryVersionOptions(), executionOptions, cancellationToken);
@@ -199,8 +199,8 @@ public class GcloudKmsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetRotationSchedule(
-        GcloudKmsKeysSetRotationScheduleOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsKeysSetRotationScheduleOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysSetRotationScheduleOptions(), executionOptions, cancellationToken);
@@ -214,8 +214,8 @@ public class GcloudKmsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudKmsKeysUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsKeysUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysUpdateOptions(), executionOptions, cancellationToken);

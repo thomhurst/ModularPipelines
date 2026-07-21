@@ -39,8 +39,8 @@ public class AzBackupProtection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BackupNow(
-        AzBackupProtectionBackupNowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupProtectionBackupNowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectionBackupNowOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzBackupProtection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CheckVm(
-        AzBackupProtectionCheckVmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupProtectionCheckVmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectionCheckVmOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzBackupProtection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        AzBackupProtectionDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupProtectionDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectionDisableOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzBackupProtection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableForVm(
-        AzBackupProtectionEnableForVmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupProtectionEnableForVmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectionEnableForVmOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzBackupProtection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reconfigure(
-        AzBackupProtectionReconfigureOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupProtectionReconfigureOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectionReconfigureOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzBackupProtection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resume(
-        AzBackupProtectionResumeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupProtectionResumeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectionResumeOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class AzBackupProtection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
-        AzBackupProtectionUndeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupProtectionUndeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectionUndeleteOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class AzBackupProtection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateForVm(
-        AzBackupProtectionUpdateForVmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBackupProtectionUpdateForVmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectionUpdateForVmOptions(), executionOptions, cancellationToken);

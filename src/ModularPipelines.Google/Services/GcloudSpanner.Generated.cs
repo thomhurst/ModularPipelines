@@ -97,8 +97,8 @@ public class GcloudSpanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudSpannerOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudSpanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cli(
-        GcloudSpannerCliOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerCliOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerCliOptions(), executionOptions, cancellationToken);

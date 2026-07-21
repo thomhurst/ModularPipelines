@@ -39,8 +39,8 @@ public class AzAmsStreamingPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsStreamingPolicyCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsStreamingPolicyCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingPolicyCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAmsStreamingPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAmsStreamingPolicyListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsStreamingPolicyListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingPolicyListOptions(), executionOptions, cancellationToken);

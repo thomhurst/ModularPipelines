@@ -39,8 +39,8 @@ public class GcloudContainerHubIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubIngressDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubIngressDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubIngressDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerHubIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerHubIngressDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubIngressDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubIngressDisableOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerHubIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerHubIngressEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubIngressEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubIngressEnableOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudContainerHubIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerHubIngressUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubIngressUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubIngressUpdateOptions(), executionOptions, cancellationToken);

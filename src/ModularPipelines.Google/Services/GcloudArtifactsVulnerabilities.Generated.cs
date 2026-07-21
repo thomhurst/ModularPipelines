@@ -40,7 +40,7 @@ public class GcloudArtifactsVulnerabilities
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudArtifactsVulnerabilitiesListOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudArtifactsVulnerabilities
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> LoadVex(
-        GcloudArtifactsVulnerabilitiesLoadVexOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsVulnerabilitiesLoadVexOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVulnerabilitiesLoadVexOptions(), executionOptions, cancellationToken);

@@ -674,8 +674,8 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> CheatSheet(
-        GcloudCheatSheetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCheatSheetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCheatSheetOptions(), executionOptions, cancellationToken);
@@ -683,8 +683,8 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Docker(
-        GcloudDockerOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDockerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDockerOptions(), executionOptions, cancellationToken);
@@ -692,8 +692,8 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Feedback(
-        GcloudFeedbackOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFeedbackOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFeedbackOptions(), executionOptions, cancellationToken);
@@ -701,8 +701,8 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Info(
-        GcloudInfoOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudInfoOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfoOptions(), executionOptions, cancellationToken);
@@ -710,8 +710,8 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Init(
-        GcloudInitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudInitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInitOptions(), executionOptions, cancellationToken);
@@ -719,8 +719,8 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Survey(
-        GcloudSurveyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSurveyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSurveyOptions(), executionOptions, cancellationToken);

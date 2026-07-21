@@ -39,8 +39,8 @@ public class AzAccountLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAccountLockCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountLockCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAccountLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAccountLockDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountLockDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAccountLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAccountLockListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountLockListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzAccountLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAccountLockShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountLockShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzAccountLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAccountLockUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAccountLockUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockUpdateOptions(), executionOptions, cancellationToken);

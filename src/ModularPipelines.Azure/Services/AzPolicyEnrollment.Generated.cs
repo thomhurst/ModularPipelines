@@ -39,8 +39,8 @@ public class AzPolicyEnrollment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzPolicyEnrollmentCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyEnrollmentCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyEnrollmentCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzPolicyEnrollment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzPolicyEnrollmentDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyEnrollmentDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyEnrollmentDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzPolicyEnrollment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPolicyEnrollmentListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyEnrollmentListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyEnrollmentListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzPolicyEnrollment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPolicyEnrollmentShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyEnrollmentShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyEnrollmentShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzPolicyEnrollment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzPolicyEnrollmentUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyEnrollmentUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyEnrollmentUpdateOptions(), executionOptions, cancellationToken);

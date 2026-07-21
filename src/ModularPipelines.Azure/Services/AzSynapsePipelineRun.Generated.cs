@@ -39,8 +39,8 @@ public class AzSynapsePipelineRun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzSynapsePipelineRunCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapsePipelineRunCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapsePipelineRunCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapsePipelineRun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> QueryByWorkspace(
-        AzSynapsePipelineRunQueryByWorkspaceOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapsePipelineRunQueryByWorkspaceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapsePipelineRunQueryByWorkspaceOptions(), executionOptions, cancellationToken);

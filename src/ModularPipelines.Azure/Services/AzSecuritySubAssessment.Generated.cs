@@ -39,8 +39,8 @@ public class AzSecuritySubAssessment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSecuritySubAssessmentListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSecuritySubAssessmentListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySubAssessmentListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSecuritySubAssessment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSecuritySubAssessmentShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSecuritySubAssessmentShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySubAssessmentShowOptions(), executionOptions, cancellationToken);

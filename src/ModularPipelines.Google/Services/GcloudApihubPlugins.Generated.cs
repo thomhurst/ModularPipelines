@@ -49,8 +49,8 @@ public class GcloudApihubPlugins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudApihubPluginsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubPluginsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubPluginsCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudApihubPlugins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudApihubPluginsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubPluginsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubPluginsDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudApihubPlugins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApihubPluginsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubPluginsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubPluginsDescribeOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudApihubPlugins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudApihubPluginsDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubPluginsDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubPluginsDisableOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudApihubPlugins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudApihubPluginsEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubPluginsEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubPluginsEnableOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GcloudApihubPlugins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApihubPluginsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubPluginsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubPluginsListOptions(), executionOptions, cancellationToken);

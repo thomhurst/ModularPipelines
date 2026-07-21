@@ -39,8 +39,8 @@ public class AzFunctionappConfigAccessRestriction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzFunctionappConfigAccessRestrictionAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappConfigAccessRestrictionAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAccessRestrictionAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzFunctionappConfigAccessRestriction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzFunctionappConfigAccessRestrictionRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappConfigAccessRestrictionRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAccessRestrictionRemoveOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzFunctionappConfigAccessRestriction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzFunctionappConfigAccessRestrictionSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappConfigAccessRestrictionSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAccessRestrictionSetOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzFunctionappConfigAccessRestriction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzFunctionappConfigAccessRestrictionShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappConfigAccessRestrictionShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAccessRestrictionShowOptions(), executionOptions, cancellationToken);

@@ -55,8 +55,8 @@ public class AzContainerappJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzContainerappJobCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappJobCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobCreateOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzContainerappJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzContainerappJobDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappJobDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobDeleteOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class AzContainerappJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzContainerappJobListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappJobListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobListOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class AzContainerappJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzContainerappJobStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappJobStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobStartOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class AzContainerappJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzContainerappJobStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappJobStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobStopOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class AzContainerappJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzContainerappJobUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappJobUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobUpdateOptions(), executionOptions, cancellationToken);

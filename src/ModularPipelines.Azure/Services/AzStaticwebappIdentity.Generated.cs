@@ -39,8 +39,8 @@ public class AzStaticwebappIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzStaticwebappIdentityAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStaticwebappIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzStaticwebappIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappIdentityRemoveOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudNotebooksEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNotebooksEnvironmentsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNotebooksEnvironmentsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksEnvironmentsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNotebooksEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNotebooksEnvironmentsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNotebooksEnvironmentsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksEnvironmentsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNotebooksEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNotebooksEnvironmentsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNotebooksEnvironmentsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksEnvironmentsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNotebooksEnvironments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNotebooksEnvironmentsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNotebooksEnvironmentsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksEnvironmentsListOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzContainerappEnvWorkloadProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzContainerappEnvWorkloadProfileAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappEnvWorkloadProfileAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvWorkloadProfileAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzContainerappEnvWorkloadProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzContainerappEnvWorkloadProfileUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappEnvWorkloadProfileUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvWorkloadProfileUpdateOptions(), executionOptions, cancellationToken);

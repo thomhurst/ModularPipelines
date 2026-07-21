@@ -39,8 +39,8 @@ public class GcloudComputeHealthSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeHealthSourcesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeHealthSourcesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthSourcesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputeHealthSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComputeHealthSourcesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeHealthSourcesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthSourcesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudComputeHealthSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeHealthSourcesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeHealthSourcesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthSourcesDescribeOptions(), executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudComputeHealthSources
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetHealth(
         GcloudComputeHealthSourcesGetHealthOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudComputeHealthSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeHealthSourcesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeHealthSourcesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthSourcesListOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudComputeHealthSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComputeHealthSourcesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeHealthSourcesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthSourcesUpdateOptions(), executionOptions, cancellationToken);

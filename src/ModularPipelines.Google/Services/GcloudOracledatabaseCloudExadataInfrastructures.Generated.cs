@@ -49,8 +49,8 @@ public class GcloudOracledatabaseCloudExadataInfrastructures
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigureExascale(
-        GcloudOracleDatabaseCloudExadataInfrastructuresConfigureExascaleOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseCloudExadataInfrastructuresConfigureExascaleOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresConfigureExascaleOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudOracledatabaseCloudExadataInfrastructures
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudOracledatabaseCloudExadataInfrastructures
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudOracleDatabaseCloudExadataInfrastructuresDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseCloudExadataInfrastructuresDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresDeleteOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudOracledatabaseCloudExadataInfrastructures
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudOracleDatabaseCloudExadataInfrastructuresDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseCloudExadataInfrastructuresDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresDescribeOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudOracledatabaseCloudExadataInfrastructures
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseCloudExadataInfrastructuresListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOracleDatabaseCloudExadataInfrastructuresListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresListOptions(), executionOptions, cancellationToken);

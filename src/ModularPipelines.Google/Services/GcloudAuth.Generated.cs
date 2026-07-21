@@ -55,8 +55,8 @@ public class GcloudAuth
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudAuthOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAuthOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class GcloudAuth
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ActivateServiceAccount(
-        GcloudAuthActivateServiceAccountOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAuthActivateServiceAccountOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthActivateServiceAccountOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class GcloudAuth
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigureDocker(
-        GcloudAuthConfigureDockerOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAuthConfigureDockerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthConfigureDockerOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class GcloudAuth
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAuthListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAuthListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthListOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class GcloudAuth
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Login(
-        GcloudAuthLoginOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAuthLoginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthLoginOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class GcloudAuth
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PrintAccessToken(
-        GcloudAuthPrintAccessTokenOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAuthPrintAccessTokenOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthPrintAccessTokenOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ public class GcloudAuth
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PrintIdentityToken(
-        GcloudAuthPrintIdentityTokenOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAuthPrintIdentityTokenOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthPrintIdentityTokenOptions(), executionOptions, cancellationToken);
@@ -160,8 +160,8 @@ public class GcloudAuth
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Revoke(
-        GcloudAuthRevokeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAuthRevokeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthRevokeOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Repair(
-        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsRepairOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsRepairOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsRepairOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsUpdateOptions(), executionOptions, cancellationToken);

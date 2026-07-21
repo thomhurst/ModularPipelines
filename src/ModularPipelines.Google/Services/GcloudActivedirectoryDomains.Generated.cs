@@ -55,8 +55,8 @@ public class GcloudActivedirectoryDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudActiveDirectoryDomainsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsCreateOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class GcloudActivedirectoryDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudActiveDirectoryDomainsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsDeleteOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class GcloudActivedirectoryDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeLdapsSettings(
-        GcloudActiveDirectoryDomainsDescribeLdapsSettingsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsDescribeLdapsSettingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsDescribeLdapsSettingsOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class GcloudActivedirectoryDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudActiveDirectoryDomainsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsDescribeOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class GcloudActivedirectoryDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExtendSchema(
-        GcloudActiveDirectoryDomainsExtendSchemaOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsExtendSchemaOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsExtendSchemaOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class GcloudActivedirectoryDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudActiveDirectoryDomainsGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ public class GcloudActivedirectoryDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudActiveDirectoryDomainsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsListOptions(), executionOptions, cancellationToken);
@@ -160,8 +160,8 @@ public class GcloudActivedirectoryDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetAdminPassword(
-        GcloudActiveDirectoryDomainsResetAdminPasswordOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsResetAdminPasswordOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsResetAdminPasswordOptions(), executionOptions, cancellationToken);
@@ -175,8 +175,8 @@ public class GcloudActivedirectoryDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        GcloudActiveDirectoryDomainsRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsRestoreOptions(), executionOptions, cancellationToken);
@@ -191,7 +191,7 @@ public class GcloudActivedirectoryDomains
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudActiveDirectoryDomainsSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -205,8 +205,8 @@ public class GcloudActivedirectoryDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateLdapsSettings(
-        GcloudActiveDirectoryDomainsUpdateLdapsSettingsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsUpdateLdapsSettingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsUpdateLdapsSettingsOptions(), executionOptions, cancellationToken);
@@ -220,8 +220,8 @@ public class GcloudActivedirectoryDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudActiveDirectoryDomainsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsUpdateOptions(), executionOptions, cancellationToken);

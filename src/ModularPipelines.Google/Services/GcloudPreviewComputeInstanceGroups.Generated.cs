@@ -56,7 +56,7 @@ public class GcloudPreviewComputeInstanceGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeInstanceGroupsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -71,7 +71,7 @@ public class GcloudPreviewComputeInstanceGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNamedPorts(
         GcloudPreviewComputeInstanceGroupsGetNamedPortsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -86,7 +86,7 @@ public class GcloudPreviewComputeInstanceGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListInstances(
         GcloudPreviewComputeInstanceGroupsListInstancesOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class GcloudPreviewComputeInstanceGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeInstanceGroupsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeInstanceGroupsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeInstanceGroupsListOptions(), executionOptions, cancellationToken);
@@ -116,7 +116,7 @@ public class GcloudPreviewComputeInstanceGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetNamedPorts(
         GcloudPreviewComputeInstanceGroupsSetNamedPortsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

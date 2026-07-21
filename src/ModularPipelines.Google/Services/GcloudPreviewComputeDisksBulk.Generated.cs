@@ -39,8 +39,8 @@ public class GcloudPreviewComputeDisksBulk
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudPreviewComputeDisksBulkCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeDisksBulkCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeDisksBulkCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudPreviewComputeDisksBulk
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetLabels(
-        GcloudPreviewComputeDisksBulkSetLabelsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeDisksBulkSetLabelsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeDisksBulkSetLabelsOptions(), executionOptions, cancellationToken);

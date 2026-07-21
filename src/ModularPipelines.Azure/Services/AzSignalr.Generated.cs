@@ -67,8 +67,8 @@ public class AzSignalr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSignalrCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSignalrCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrCreateOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzSignalr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSignalrListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSignalrListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzSignalr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSignalrUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSignalrUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrUpdateOptions(), executionOptions, cancellationToken);

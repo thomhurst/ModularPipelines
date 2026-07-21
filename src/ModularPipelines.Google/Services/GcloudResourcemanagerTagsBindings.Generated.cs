@@ -39,8 +39,8 @@ public class GcloudResourcemanagerTagsBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudResourceManagerTagsBindingsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudResourceManagerTagsBindingsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsBindingsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudResourcemanagerTagsBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudResourceManagerTagsBindingsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudResourceManagerTagsBindingsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsBindingsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudResourcemanagerTagsBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudResourceManagerTagsBindingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudResourceManagerTagsBindingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsBindingsListOptions(), executionOptions, cancellationToken);

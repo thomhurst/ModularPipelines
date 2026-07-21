@@ -39,8 +39,8 @@ public class GcloudVmwarePrivateCloudsDnsForwarding
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateCloudsDnsForwardingDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwarePrivateCloudsDnsForwardingDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDnsForwardingDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudVmwarePrivateCloudsDnsForwarding
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudVmwarePrivateCloudsDnsForwardingUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwarePrivateCloudsDnsForwardingUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDnsForwardingUpdateOptions(), executionOptions, cancellationToken);

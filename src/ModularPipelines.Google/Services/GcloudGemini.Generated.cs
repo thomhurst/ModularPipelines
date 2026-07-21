@@ -97,8 +97,8 @@ public class GcloudGemini
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudGeminiOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudGeminiOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzDataboxedgeDeviceUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDataboxedgeDeviceUserCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeDeviceUserCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceUserCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzDataboxedgeDeviceUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDataboxedgeDeviceUserDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeDeviceUserDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceUserDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzDataboxedgeDeviceUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDataboxedgeDeviceUserListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeDeviceUserListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceUserListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzDataboxedgeDeviceUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDataboxedgeDeviceUserUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeDeviceUserUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceUserUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzStaticwebappHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStaticwebappHostnameDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappHostnameDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappHostnameDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStaticwebappHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStaticwebappHostnameListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappHostnameListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappHostnameListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzStaticwebappHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzStaticwebappHostnameSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStaticwebappHostnameSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappHostnameSetOptions(), executionOptions, cancellationToken);

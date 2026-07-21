@@ -39,8 +39,8 @@ public class MinikubeCache
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        MinikubeCacheAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeCacheAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeCacheAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class MinikubeCache
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        MinikubeCacheListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeCacheListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeCacheListOptions(), executionOptions, cancellationToken);

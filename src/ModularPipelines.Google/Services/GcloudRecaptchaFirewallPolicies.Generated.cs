@@ -39,8 +39,8 @@ public class GcloudRecaptchaFirewallPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudRecaptchaFirewallPoliciesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaFirewallPoliciesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudRecaptchaFirewallPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudRecaptchaFirewallPoliciesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaFirewallPoliciesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudRecaptchaFirewallPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudRecaptchaFirewallPoliciesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaFirewallPoliciesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudRecaptchaFirewallPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudRecaptchaFirewallPoliciesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaFirewallPoliciesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudRecaptchaFirewallPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reorder(
-        GcloudRecaptchaFirewallPoliciesReorderOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaFirewallPoliciesReorderOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesReorderOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudRecaptchaFirewallPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudRecaptchaFirewallPoliciesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRecaptchaFirewallPoliciesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesUpdateOptions(), executionOptions, cancellationToken);

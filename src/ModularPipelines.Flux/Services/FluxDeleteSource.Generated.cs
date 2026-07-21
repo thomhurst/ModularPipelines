@@ -39,8 +39,8 @@ public class FluxDeleteSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bucket(
-        FluxDeleteSourceBucketOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxDeleteSourceBucketOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxDeleteSourceBucketOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class FluxDeleteSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Chart(
-        FluxDeleteSourceChartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxDeleteSourceChartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxDeleteSourceChartOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class FluxDeleteSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Git(
-        FluxDeleteSourceGitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxDeleteSourceGitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxDeleteSourceGitOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class FluxDeleteSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Helm(
-        FluxDeleteSourceHelmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxDeleteSourceHelmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxDeleteSourceHelmOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class FluxDeleteSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Oci(
-        FluxDeleteSourceOciOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxDeleteSourceOciOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxDeleteSourceOciOptions(), executionOptions, cancellationToken);

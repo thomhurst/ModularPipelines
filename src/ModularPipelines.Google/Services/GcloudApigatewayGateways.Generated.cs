@@ -39,8 +39,8 @@ public class GcloudApigatewayGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudApiGatewayGatewaysAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApiGatewayGatewaysAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudApigatewayGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudApiGatewayGatewaysCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApiGatewayGatewaysCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudApigatewayGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudApiGatewayGatewaysDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApiGatewayGatewaysDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudApigatewayGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApiGatewayGatewaysDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApiGatewayGatewaysDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysDescribeOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudApigatewayGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudApiGatewayGatewaysGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApiGatewayGatewaysGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudApigatewayGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApiGatewayGatewaysListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApiGatewayGatewaysListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudApigatewayGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudApiGatewayGatewaysRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApiGatewayGatewaysRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudApigatewayGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudApiGatewayGatewaysUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApiGatewayGatewaysUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysUpdateOptions(), executionOptions, cancellationToken);

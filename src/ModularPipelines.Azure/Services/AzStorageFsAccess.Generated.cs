@@ -39,8 +39,8 @@ public class AzStorageFsAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveRecursive(
-        AzStorageFsAccessRemoveRecursiveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageFsAccessRemoveRecursiveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsAccessRemoveRecursiveOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageFsAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzStorageFsAccessSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageFsAccessSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsAccessSetOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzStorageFsAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetRecursive(
-        AzStorageFsAccessSetRecursiveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageFsAccessSetRecursiveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsAccessSetRecursiveOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzStorageFsAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageFsAccessShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageFsAccessShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsAccessShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzStorageFsAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRecursive(
-        AzStorageFsAccessUpdateRecursiveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageFsAccessUpdateRecursiveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsAccessUpdateRecursiveOptions(), executionOptions, cancellationToken);

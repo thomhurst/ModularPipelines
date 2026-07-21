@@ -67,8 +67,8 @@ public class AzServicebusNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzServicebusNamespaceCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzServicebusNamespaceCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceCreateOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzServicebusNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzServicebusNamespaceDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzServicebusNamespaceDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceDeleteOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzServicebusNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Failover(
-        AzServicebusNamespaceFailoverOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzServicebusNamespaceFailoverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceFailoverOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzServicebusNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzServicebusNamespaceListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzServicebusNamespaceListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceListOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzServicebusNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzServicebusNamespaceUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzServicebusNamespaceUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceUpdateOptions(), executionOptions, cancellationToken);

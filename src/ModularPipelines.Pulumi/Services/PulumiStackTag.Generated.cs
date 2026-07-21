@@ -39,8 +39,8 @@ public class PulumiStackTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        PulumiStackTagGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiStackTagGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackTagGetOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PulumiStackTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PulumiStackTagListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiStackTagListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackTagListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class PulumiStackTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        PulumiStackTagRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiStackTagRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackTagRemoveOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class PulumiStackTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        PulumiStackTagSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiStackTagSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackTagSetOptions(), executionOptions, cancellationToken);

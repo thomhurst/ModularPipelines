@@ -40,7 +40,7 @@ public class GcloudMonitoringUptime
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudMonitoringUptimeCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudMonitoringUptime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudMonitoringUptimeDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringUptimeDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringUptimeDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudMonitoringUptime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudMonitoringUptimeDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringUptimeDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringUptimeDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudMonitoringUptime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListConfigs(
-        GcloudMonitoringUptimeListConfigsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringUptimeListConfigsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringUptimeListConfigsOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudMonitoringUptime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListIps(
-        GcloudMonitoringUptimeListIpsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringUptimeListIpsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringUptimeListIpsOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudMonitoringUptime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudMonitoringUptimeUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringUptimeUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringUptimeUpdateOptions(), executionOptions, cancellationToken);

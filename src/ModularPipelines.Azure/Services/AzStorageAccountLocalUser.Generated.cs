@@ -39,8 +39,8 @@ public class AzStorageAccountLocalUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageAccountLocalUserCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountLocalUserCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountLocalUserCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageAccountLocalUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageAccountLocalUserListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountLocalUserListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountLocalUserListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzStorageAccountLocalUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageAccountLocalUserUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountLocalUserUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountLocalUserUpdateOptions(), executionOptions, cancellationToken);

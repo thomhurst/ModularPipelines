@@ -39,8 +39,8 @@ public class AzSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSnapshotCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSnapshotCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSnapshotDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSnapshotDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GrantAccess(
-        AzSnapshotGrantAccessOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSnapshotGrantAccessOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotGrantAccessOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSnapshotListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSnapshotListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RevokeAccess(
-        AzSnapshotRevokeAccessOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSnapshotRevokeAccessOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotRevokeAccessOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSnapshotUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSnapshotUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudServicesVpcPeeringsOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudServicesVpcPeeringsOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServicesVpcPeeringsOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudServicesVpcPeeringsOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudServicesVpcPeeringsOperationsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServicesVpcPeeringsOperationsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsOperationsWaitOptions(), executionOptions, cancellationToken);

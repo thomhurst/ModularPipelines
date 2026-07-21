@@ -85,8 +85,8 @@ public class AzImageBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzImageBuilderCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderCreateOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class AzImageBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzImageBuilderListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderListOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class AzImageBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
-        AzImageBuilderRunOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderRunOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderRunOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class AzImageBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowRuns(
-        AzImageBuilderShowRunsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderShowRunsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderShowRunsOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ public class AzImageBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzImageBuilderUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzStorageBlobServicePropertiesDeletePolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageBlobServicePropertiesDeletePolicyShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageBlobServicePropertiesDeletePolicyShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesDeletePolicyShowOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageBlobServicePropertiesDeletePolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageBlobServicePropertiesDeletePolicyUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageBlobServicePropertiesDeletePolicyUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesDeletePolicyUpdateOptions(), executionOptions, cancellationToken);

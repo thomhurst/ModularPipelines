@@ -49,8 +49,8 @@ public class GcloudDataplexLakes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudDataplexLakesAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexLakesAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudDataplexLakes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Authorize(
-        GcloudDataplexLakesAuthorizeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexLakesAuthorizeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesAuthorizeOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudDataplexLakes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDataplexLakesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexLakesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesCreateOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudDataplexLakes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deauthorize(
-        GcloudDataplexLakesDeauthorizeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexLakesDeauthorizeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesDeauthorizeOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudDataplexLakes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataplexLakesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexLakesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesDeleteOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GcloudDataplexLakes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataplexLakesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexLakesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesDescribeOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class GcloudDataplexLakes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudDataplexLakesGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexLakesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -154,8 +154,8 @@ public class GcloudDataplexLakes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataplexLakesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexLakesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesListOptions(), executionOptions, cancellationToken);
@@ -169,8 +169,8 @@ public class GcloudDataplexLakes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudDataplexLakesRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexLakesRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -185,7 +185,7 @@ public class GcloudDataplexLakes
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDataplexLakesSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -199,8 +199,8 @@ public class GcloudDataplexLakes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDataplexLakesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataplexLakesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesUpdateOptions(), executionOptions, cancellationToken);

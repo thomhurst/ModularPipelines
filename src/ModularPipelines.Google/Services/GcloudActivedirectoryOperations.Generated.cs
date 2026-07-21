@@ -39,8 +39,8 @@ public class GcloudActivedirectoryOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudActiveDirectoryOperationsCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryOperationsCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryOperationsCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudActivedirectoryOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudActiveDirectoryOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudActivedirectoryOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudActiveDirectoryOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryOperationsListOptions(), executionOptions, cancellationToken);

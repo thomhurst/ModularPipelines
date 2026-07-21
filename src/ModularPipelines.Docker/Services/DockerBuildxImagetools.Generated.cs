@@ -39,8 +39,8 @@ public class DockerBuildxImagetools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        DockerBuildxImagetoolsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuildxImagetoolsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxImagetoolsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class DockerBuildxImagetools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        DockerBuildxImagetoolsInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuildxImagetoolsInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxImagetoolsInspectOptions(), executionOptions, cancellationToken);

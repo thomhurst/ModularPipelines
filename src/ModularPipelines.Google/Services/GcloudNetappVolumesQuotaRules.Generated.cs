@@ -39,8 +39,8 @@ public class GcloudNetappVolumesQuotaRules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetappVolumesQuotaRulesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappVolumesQuotaRulesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetappVolumesQuotaRules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetappVolumesQuotaRulesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappVolumesQuotaRulesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetappVolumesQuotaRules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetappVolumesQuotaRulesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappVolumesQuotaRulesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetappVolumesQuotaRules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetappVolumesQuotaRulesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappVolumesQuotaRulesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetappVolumesQuotaRules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetappVolumesQuotaRulesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappVolumesQuotaRulesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudSpannerRows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudSpannerRowsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerRowsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerRowsDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudSpannerRows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Insert(
-        GcloudSpannerRowsInsertOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerRowsInsertOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerRowsInsertOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudSpannerRows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudSpannerRowsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSpannerRowsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerRowsUpdateOptions(), executionOptions, cancellationToken);

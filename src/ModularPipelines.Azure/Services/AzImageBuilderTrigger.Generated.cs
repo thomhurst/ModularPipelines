@@ -39,8 +39,8 @@ public class AzImageBuilderTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzImageBuilderTriggerCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderTriggerCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderTriggerCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzImageBuilderTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzImageBuilderTriggerDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderTriggerDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderTriggerDeleteOptions(), executionOptions, cancellationToken);

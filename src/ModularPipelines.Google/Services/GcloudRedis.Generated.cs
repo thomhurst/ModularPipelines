@@ -79,8 +79,8 @@ public class GcloudRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudRedisOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRedisOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisOptions(), executionOptions, cancellationToken);

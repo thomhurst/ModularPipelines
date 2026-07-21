@@ -55,8 +55,8 @@ public class AzResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzResourceCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceCreateOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzResourceDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceDeleteOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class AzResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InvokeAction(
-        AzResourceInvokeActionOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceInvokeActionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceInvokeActionOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class AzResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzResourceListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceListOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class AzResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Move(
-        AzResourceMoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceMoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceMoveOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class AzResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Patch(
-        AzResourcePatchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourcePatchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourcePatchOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ public class AzResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzResourceShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceShowOptions(), executionOptions, cancellationToken);
@@ -160,8 +160,8 @@ public class AzResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Tag(
-        AzResourceTagOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceTagOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceTagOptions(), executionOptions, cancellationToken);
@@ -175,8 +175,8 @@ public class AzResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzResourceUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceUpdateOptions(), executionOptions, cancellationToken);
@@ -190,8 +190,8 @@ public class AzResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzResourceWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourceWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceWaitOptions(), executionOptions, cancellationToken);

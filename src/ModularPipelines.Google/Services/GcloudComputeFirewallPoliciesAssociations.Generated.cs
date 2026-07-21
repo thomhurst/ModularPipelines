@@ -39,8 +39,8 @@ public class GcloudComputeFirewallPoliciesAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeFirewallPoliciesAssociationsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeFirewallPoliciesAssociationsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesAssociationsCreateOptions(), executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudComputeFirewallPoliciesAssociations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeFirewallPoliciesAssociationsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudComputeFirewallPoliciesAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeFirewallPoliciesAssociationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeFirewallPoliciesAssociationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesAssociationsListOptions(), executionOptions, cancellationToken);

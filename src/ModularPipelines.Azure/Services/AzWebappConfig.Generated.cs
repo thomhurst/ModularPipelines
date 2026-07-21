@@ -97,8 +97,8 @@ public class AzWebappConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzWebappConfigSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappConfigSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigSetOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzWebappConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzWebappConfigShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappConfigShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigShowOptions(), executionOptions, cancellationToken);

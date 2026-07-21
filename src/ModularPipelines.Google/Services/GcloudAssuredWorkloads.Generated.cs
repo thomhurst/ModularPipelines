@@ -49,8 +49,8 @@ public class GcloudAssuredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAssuredWorkloadsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAssuredWorkloadsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudAssuredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAssuredWorkloadsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAssuredWorkloadsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudAssuredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAssuredWorkloadsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAssuredWorkloadsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsDescribeOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudAssuredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableResourceMonitoring(
-        GcloudAssuredWorkloadsEnableResourceMonitoringOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAssuredWorkloadsEnableResourceMonitoringOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsEnableResourceMonitoringOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudAssuredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAssuredWorkloadsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAssuredWorkloadsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsListOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GcloudAssuredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAssuredWorkloadsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAssuredWorkloadsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsUpdateOptions(), executionOptions, cancellationToken);

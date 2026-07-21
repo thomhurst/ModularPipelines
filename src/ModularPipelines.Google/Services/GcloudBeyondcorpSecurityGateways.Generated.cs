@@ -49,8 +49,8 @@ public class GcloudBeyondcorpSecurityGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudBeyondcorpSecurityGatewaysAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudBeyondcorpSecurityGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBeyondcorpSecurityGatewaysCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysCreateOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudBeyondcorpSecurityGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBeyondcorpSecurityGatewaysDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysDeleteOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudBeyondcorpSecurityGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBeyondcorpSecurityGatewaysDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysDescribeOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudBeyondcorpSecurityGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudBeyondcorpSecurityGatewaysGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GcloudBeyondcorpSecurityGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBeyondcorpSecurityGatewaysListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysListOptions(), executionOptions, cancellationToken);
@@ -140,7 +140,7 @@ public class GcloudBeyondcorpSecurityGateways
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
         GcloudBeyondcorpSecurityGatewaysRemoveIamPolicyBindingOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -155,7 +155,7 @@ public class GcloudBeyondcorpSecurityGateways
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudBeyondcorpSecurityGatewaysSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -169,8 +169,8 @@ public class GcloudBeyondcorpSecurityGateways
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBeyondcorpSecurityGatewaysUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysUpdateOptions(), executionOptions, cancellationToken);

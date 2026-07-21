@@ -39,8 +39,8 @@ public class PulumiInsightsAccountScan
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        PulumiInsightsAccountScanGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiInsightsAccountScanGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiInsightsAccountScanGetOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PulumiInsightsAccountScan
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PulumiInsightsAccountScanListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiInsightsAccountScanListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiInsightsAccountScanListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class PulumiInsightsAccountScan
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Log(
-        PulumiInsightsAccountScanLogOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiInsightsAccountScanLogOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiInsightsAccountScanLogOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzPostgresFlexibleServerBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzPostgresFlexibleServerBackupCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPostgresFlexibleServerBackupCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerBackupCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzPostgresFlexibleServerBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzPostgresFlexibleServerBackupDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPostgresFlexibleServerBackupDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerBackupDeleteOptions(), executionOptions, cancellationToken);

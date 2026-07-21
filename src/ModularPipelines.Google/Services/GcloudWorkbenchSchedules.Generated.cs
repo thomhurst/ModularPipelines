@@ -39,8 +39,8 @@ public class GcloudWorkbenchSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudWorkbenchSchedulesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkbenchSchedulesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchSchedulesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudWorkbenchSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudWorkbenchSchedulesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkbenchSchedulesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchSchedulesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudWorkbenchSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudWorkbenchSchedulesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkbenchSchedulesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchSchedulesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudWorkbenchSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudWorkbenchSchedulesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkbenchSchedulesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchSchedulesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudWorkbenchSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pause(
-        GcloudWorkbenchSchedulesPauseOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkbenchSchedulesPauseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchSchedulesPauseOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudWorkbenchSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resume(
-        GcloudWorkbenchSchedulesResumeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkbenchSchedulesResumeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchSchedulesResumeOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudWorkbenchSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudWorkbenchSchedulesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudWorkbenchSchedulesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchSchedulesUpdateOptions(), executionOptions, cancellationToken);

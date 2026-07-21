@@ -39,8 +39,8 @@ public class AzSqlServerTdeKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzSqlServerTdeKeySetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlServerTdeKeySetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerTdeKeySetOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudFirestoreBackupsSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudFirestoreBackupsSchedulesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreBackupsSchedulesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBackupsSchedulesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudFirestoreBackupsSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudFirestoreBackupsSchedulesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreBackupsSchedulesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBackupsSchedulesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudFirestoreBackupsSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudFirestoreBackupsSchedulesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreBackupsSchedulesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBackupsSchedulesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudFirestoreBackupsSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFirestoreBackupsSchedulesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreBackupsSchedulesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBackupsSchedulesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudFirestoreBackupsSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudFirestoreBackupsSchedulesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreBackupsSchedulesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBackupsSchedulesUpdateOptions(), executionOptions, cancellationToken);

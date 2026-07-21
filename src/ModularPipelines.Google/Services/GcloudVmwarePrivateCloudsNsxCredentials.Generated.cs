@@ -39,8 +39,8 @@ public class GcloudVmwarePrivateCloudsNsxCredentials
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateCloudsNsxCredentialsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwarePrivateCloudsNsxCredentialsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsNsxCredentialsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudVmwarePrivateCloudsNsxCredentials
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        GcloudVmwarePrivateCloudsNsxCredentialsResetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudVmwarePrivateCloudsNsxCredentialsResetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsNsxCredentialsResetOptions(), executionOptions, cancellationToken);

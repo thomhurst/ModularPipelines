@@ -39,8 +39,8 @@ public class GcloudEventarcMessageBuses
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudEventarcMessageBusesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcMessageBusesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudEventarcMessageBuses
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudEventarcMessageBusesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcMessageBusesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudEventarcMessageBuses
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEventarcMessageBusesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcMessageBusesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudEventarcMessageBuses
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEnrollments(
-        GcloudEventarcMessageBusesListEnrollmentsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcMessageBusesListEnrollmentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesListEnrollmentsOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudEventarcMessageBuses
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEventarcMessageBusesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcMessageBusesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesListOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudEventarcMessageBuses
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Publish(
-        GcloudEventarcMessageBusesPublishOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcMessageBusesPublishOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesPublishOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudEventarcMessageBuses
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudEventarcMessageBusesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcMessageBusesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzSqlDbGeoBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzSqlDbGeoBackupRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlDbGeoBackupRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbGeoBackupRestoreOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSqlDbGeoBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSqlDbGeoBackupShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlDbGeoBackupShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbGeoBackupShowOptions(), executionOptions, cancellationToken);

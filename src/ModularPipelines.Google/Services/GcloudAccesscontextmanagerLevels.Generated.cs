@@ -49,8 +49,8 @@ public class GcloudAccesscontextmanagerLevels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAccessContextManagerLevelsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAccessContextManagerLevelsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudAccesscontextmanagerLevels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAccessContextManagerLevelsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAccessContextManagerLevelsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudAccesscontextmanagerLevels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAccessContextManagerLevelsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAccessContextManagerLevelsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsDescribeOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudAccesscontextmanagerLevels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAccessContextManagerLevelsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAccessContextManagerLevelsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsListOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudAccesscontextmanagerLevels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReplaceAll(
-        GcloudAccessContextManagerLevelsReplaceAllOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAccessContextManagerLevelsReplaceAllOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsReplaceAllOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GcloudAccesscontextmanagerLevels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAccessContextManagerLevelsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAccessContextManagerLevelsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsUpdateOptions(), executionOptions, cancellationToken);

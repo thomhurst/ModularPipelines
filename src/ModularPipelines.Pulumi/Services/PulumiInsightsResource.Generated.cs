@@ -39,8 +39,8 @@ public class PulumiInsightsResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        PulumiInsightsResourceGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiInsightsResourceGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiInsightsResourceGetOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PulumiInsightsResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
-        PulumiInsightsResourceSearchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiInsightsResourceSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiInsightsResourceSearchOptions(), executionOptions, cancellationToken);

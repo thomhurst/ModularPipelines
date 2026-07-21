@@ -39,8 +39,8 @@ public class AzMysqlFlexibleServerFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMysqlFlexibleServerFirewallRuleCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMysqlFlexibleServerFirewallRuleCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerFirewallRuleCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzMysqlFlexibleServerFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMysqlFlexibleServerFirewallRuleDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMysqlFlexibleServerFirewallRuleDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerFirewallRuleDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzMysqlFlexibleServerFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMysqlFlexibleServerFirewallRuleUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMysqlFlexibleServerFirewallRuleUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerFirewallRuleUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DockerContainerOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Attach(
-        DockerContainerAttachOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerAttachOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerAttachOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Commit(
-        DockerContainerCommitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerCommitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerCommitOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cp(
-        DockerContainerCpOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerCpOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerCpOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        DockerContainerCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerCreateOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Exec(
-        DockerContainerExecOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerExecOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerExecOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        DockerContainerExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerExportOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        DockerContainerInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerInspectOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kill(
-        DockerContainerKillOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerKillOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerKillOptions(), executionOptions, cancellationToken);
@@ -174,8 +174,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Logs(
-        DockerContainerLogsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerLogsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerLogsOptions(), executionOptions, cancellationToken);
@@ -189,8 +189,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        DockerContainerLsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerLsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerLsOptions(), executionOptions, cancellationToken);
@@ -204,8 +204,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        DockerContainerPruneOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerPruneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerPruneOptions(), executionOptions, cancellationToken);
@@ -219,8 +219,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        DockerContainerRestartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerRestartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerRestartOptions(), executionOptions, cancellationToken);
@@ -234,8 +234,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        DockerContainerRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerRmOptions(), executionOptions, cancellationToken);
@@ -249,8 +249,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
-        DockerContainerRunOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerRunOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerRunOptions(), executionOptions, cancellationToken);
@@ -264,8 +264,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        DockerContainerStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerStartOptions(), executionOptions, cancellationToken);
@@ -279,8 +279,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stats(
-        DockerContainerStatsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerStatsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerStatsOptions(), executionOptions, cancellationToken);
@@ -294,8 +294,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        DockerContainerStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerStopOptions(), executionOptions, cancellationToken);
@@ -309,8 +309,8 @@ public class DockerContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        DockerContainerUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerContainerUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContainerUpdateOptions(), executionOptions, cancellationToken);

@@ -40,7 +40,7 @@ public class GcloudDatastoreIndexes
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cleanup(
         GcloudDatastoreIndexesCleanupOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudDatastoreIndexes
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudDatastoreIndexesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDatastoreIndexes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDatastoreIndexesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatastoreIndexesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreIndexesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudDatastoreIndexes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDatastoreIndexesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatastoreIndexesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreIndexesListOptions(), executionOptions, cancellationToken);

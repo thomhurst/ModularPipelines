@@ -39,8 +39,8 @@ public class AzNetworkCrossRegionLbFrontendIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkCrossRegionLbFrontendIpCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCrossRegionLbFrontendIpCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbFrontendIpCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkCrossRegionLbFrontendIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkCrossRegionLbFrontendIpDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCrossRegionLbFrontendIpDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbFrontendIpDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkCrossRegionLbFrontendIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkCrossRegionLbFrontendIpUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCrossRegionLbFrontendIpUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbFrontendIpUpdateOptions(), executionOptions, cancellationToken);

@@ -40,7 +40,7 @@ public class GcloudTransferAgentPools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudTransferAgentPoolsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudTransferAgentPools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudTransferAgentPoolsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudTransferAgentPools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudTransferAgentPoolsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudTransferAgentPools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudTransferAgentPoolsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudTransferAgentPoolsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferAgentPoolsListOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudTransferAgentPools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudTransferAgentPoolsUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

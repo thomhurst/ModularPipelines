@@ -49,8 +49,8 @@ public class GcloudDeveloperconnectConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDeveloperConnectConnectionsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeveloperConnectConnectionsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudDeveloperconnectConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDeveloperConnectConnectionsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeveloperConnectConnectionsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudDeveloperconnectConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDeveloperConnectConnectionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeveloperConnectConnectionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsDescribeOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudDeveloperconnectConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDeveloperConnectConnectionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeveloperConnectConnectionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsListOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudDeveloperconnectConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDeveloperConnectConnectionsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeveloperConnectConnectionsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsUpdateOptions(), executionOptions, cancellationToken);

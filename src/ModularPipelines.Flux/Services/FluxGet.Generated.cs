@@ -61,8 +61,8 @@ public class FluxGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ public class FluxGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Alerts(
-        FluxGetAlertsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxGetAlertsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetAlertsOptions(), executionOptions, cancellationToken);
@@ -91,8 +91,8 @@ public class FluxGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> All(
-        FluxGetAllOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxGetAllOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetAllOptions(), executionOptions, cancellationToken);
@@ -106,8 +106,8 @@ public class FluxGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Helmreleases(
-        FluxGetHelmreleasesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxGetHelmreleasesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetHelmreleasesOptions(), executionOptions, cancellationToken);
@@ -121,8 +121,8 @@ public class FluxGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kustomizations(
-        FluxGetKustomizationsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxGetKustomizationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetKustomizationsOptions(), executionOptions, cancellationToken);
@@ -136,8 +136,8 @@ public class FluxGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Receivers(
-        FluxGetReceiversOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxGetReceiversOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetReceiversOptions(), executionOptions, cancellationToken);

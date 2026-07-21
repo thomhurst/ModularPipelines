@@ -39,8 +39,8 @@ public class AzNetworkVpnConnectionIpsecPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkVpnConnectionIpsecPolicyAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVpnConnectionIpsecPolicyAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionIpsecPolicyAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkVpnConnectionIpsecPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clear(
-        AzNetworkVpnConnectionIpsecPolicyClearOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVpnConnectionIpsecPolicyClearOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionIpsecPolicyClearOptions(), executionOptions, cancellationToken);

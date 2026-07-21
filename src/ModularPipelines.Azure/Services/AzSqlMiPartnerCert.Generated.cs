@@ -39,8 +39,8 @@ public class AzSqlMiPartnerCert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlMiPartnerCertCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlMiPartnerCertCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiPartnerCertCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSqlMiPartnerCert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlMiPartnerCertDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlMiPartnerCertDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiPartnerCertDeleteOptions(), executionOptions, cancellationToken);

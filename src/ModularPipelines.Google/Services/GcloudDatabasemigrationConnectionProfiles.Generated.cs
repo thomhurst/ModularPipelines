@@ -49,8 +49,8 @@ public class GcloudDatabasemigrationConnectionProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDatabaseMigrationConnectionProfilesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatabaseMigrationConnectionProfilesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesDeleteOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudDatabasemigrationConnectionProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDatabaseMigrationConnectionProfilesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatabaseMigrationConnectionProfilesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesDescribeOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudDatabasemigrationConnectionProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchStaticIps(
-        GcloudDatabaseMigrationConnectionProfilesFetchStaticIpsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatabaseMigrationConnectionProfilesFetchStaticIpsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesFetchStaticIpsOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudDatabasemigrationConnectionProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDatabaseMigrationConnectionProfilesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatabaseMigrationConnectionProfilesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesListOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudDatabasemigrationConnectionProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Test(
-        GcloudDatabaseMigrationConnectionProfilesTestOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatabaseMigrationConnectionProfilesTestOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesTestOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GcloudDatabasemigrationConnectionProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDatabaseMigrationConnectionProfilesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatabaseMigrationConnectionProfilesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesUpdateOptions(), executionOptions, cancellationToken);

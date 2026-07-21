@@ -39,8 +39,8 @@ public class AzAdUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAdUserCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdUserCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdUserCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAdUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMemberGroups(
-        AzAdUserGetMemberGroupsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdUserGetMemberGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdUserGetMemberGroupsOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAdUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAdUserListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdUserListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdUserListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzAdUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAdUserUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdUserUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdUserUpdateOptions(), executionOptions, cancellationToken);

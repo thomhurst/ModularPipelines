@@ -39,8 +39,8 @@ public class GcloudComputeCompositeHealthChecks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeCompositeHealthChecksCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeCompositeHealthChecksCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCompositeHealthChecksCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputeCompositeHealthChecks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComputeCompositeHealthChecksDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeCompositeHealthChecksDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCompositeHealthChecksDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudComputeCompositeHealthChecks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeCompositeHealthChecksDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeCompositeHealthChecksDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCompositeHealthChecksDescribeOptions(), executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudComputeCompositeHealthChecks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetHealth(
         GcloudComputeCompositeHealthChecksGetHealthOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudComputeCompositeHealthChecks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeCompositeHealthChecksListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeCompositeHealthChecksListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCompositeHealthChecksListOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudComputeCompositeHealthChecks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComputeCompositeHealthChecksUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeCompositeHealthChecksUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCompositeHealthChecksUpdateOptions(), executionOptions, cancellationToken);

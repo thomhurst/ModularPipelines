@@ -55,8 +55,8 @@ public class AzBot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBotCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBotCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBotCreateOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzBot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PrepareDeploy(
-        AzBotPrepareDeployOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBotPrepareDeployOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBotPrepareDeployOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class AzBot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzBotShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBotShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBotShowOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class AzBot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzBotUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBotUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBotUpdateOptions(), executionOptions, cancellationToken);

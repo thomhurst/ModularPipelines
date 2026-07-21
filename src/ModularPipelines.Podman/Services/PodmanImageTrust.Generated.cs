@@ -39,8 +39,8 @@ public class PodmanImageTrust
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        PodmanImageTrustSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanImageTrustSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageTrustSetOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PodmanImageTrust
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        PodmanImageTrustShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanImageTrustShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageTrustShowOptions(), executionOptions, cancellationToken);

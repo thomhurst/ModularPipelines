@@ -39,8 +39,8 @@ public class AzSynapseSqlAdAdmin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseSqlAdAdminCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSqlAdAdminCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlAdAdminCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapseSqlAdAdmin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseSqlAdAdminDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSqlAdAdminDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlAdAdminDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSynapseSqlAdAdmin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseSqlAdAdminUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSqlAdAdminUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlAdAdminUpdateOptions(), executionOptions, cancellationToken);

@@ -91,8 +91,8 @@ public class AzHdinsight
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzHdinsightCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzHdinsightCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightCreateOptions(), executionOptions, cancellationToken);
@@ -106,8 +106,8 @@ public class AzHdinsight
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzHdinsightDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzHdinsightDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightDeleteOptions(), executionOptions, cancellationToken);
@@ -121,8 +121,8 @@ public class AzHdinsight
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzHdinsightListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzHdinsightListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightListOptions(), executionOptions, cancellationToken);
@@ -136,8 +136,8 @@ public class AzHdinsight
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resize(
-        AzHdinsightResizeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzHdinsightResizeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightResizeOptions(), executionOptions, cancellationToken);
@@ -151,8 +151,8 @@ public class AzHdinsight
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RotateDiskEncryptionKey(
-        AzHdinsightRotateDiskEncryptionKeyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzHdinsightRotateDiskEncryptionKeyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightRotateDiskEncryptionKeyOptions(), executionOptions, cancellationToken);
@@ -166,8 +166,8 @@ public class AzHdinsight
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzHdinsightUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzHdinsightUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightUpdateOptions(), executionOptions, cancellationToken);

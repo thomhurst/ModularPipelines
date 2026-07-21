@@ -39,8 +39,8 @@ public class AzSynapsePipeline
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapsePipelineCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapsePipelineCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapsePipelineCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapsePipeline
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRun(
-        AzSynapsePipelineCreateRunOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapsePipelineCreateRunOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapsePipelineCreateRunOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSynapsePipeline
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapsePipelineDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapsePipelineDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapsePipelineDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzSynapsePipeline
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapsePipelineUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapsePipelineUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapsePipelineUpdateOptions(), executionOptions, cancellationToken);

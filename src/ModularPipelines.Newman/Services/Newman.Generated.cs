@@ -34,7 +34,7 @@ internal partial class Newman : INewman
     /// <inheritdoc />
     public virtual async Task<CommandResult> Run(
         NewmanRunOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -42,8 +42,8 @@ internal partial class Newman : INewman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Url(
-        NewmanUrlOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        NewmanUrlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new NewmanUrlOptions(), executionOptions, cancellationToken);

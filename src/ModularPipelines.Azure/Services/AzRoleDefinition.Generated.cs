@@ -39,8 +39,8 @@ public class AzRoleDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzRoleDefinitionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRoleDefinitionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRoleDefinitionDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzRoleDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzRoleDefinitionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRoleDefinitionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRoleDefinitionListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzRoleDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzRoleDefinitionShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRoleDefinitionShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRoleDefinitionShowOptions(), executionOptions, cancellationToken);

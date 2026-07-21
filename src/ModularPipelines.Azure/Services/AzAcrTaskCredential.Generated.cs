@@ -39,8 +39,8 @@ public class AzAcrTaskCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzAcrTaskCredentialAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrTaskCredentialAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrTaskCredentialAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAcrTaskCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAcrTaskCredentialListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrTaskCredentialListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrTaskCredentialListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAcrTaskCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzAcrTaskCredentialRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrTaskCredentialRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrTaskCredentialRemoveOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzAcrTaskCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAcrTaskCredentialUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAcrTaskCredentialUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrTaskCredentialUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudHealthcareDatasets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudHealthcareDatasetsAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDatasetsAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudHealthcareDatasets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudHealthcareDatasetsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDatasetsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudHealthcareDatasets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deidentify(
-        GcloudHealthcareDatasetsDeidentifyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDatasetsDeidentifyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsDeidentifyOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudHealthcareDatasets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudHealthcareDatasetsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDatasetsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsDeleteOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudHealthcareDatasets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudHealthcareDatasetsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDatasetsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsDescribeOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudHealthcareDatasets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudHealthcareDatasetsGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDatasetsGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudHealthcareDatasets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudHealthcareDatasetsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDatasetsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsListOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudHealthcareDatasets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudHealthcareDatasetsRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDatasetsRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -160,7 +160,7 @@ public class GcloudHealthcareDatasets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudHealthcareDatasetsSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -174,8 +174,8 @@ public class GcloudHealthcareDatasets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudHealthcareDatasetsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareDatasetsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsUpdateOptions(), executionOptions, cancellationToken);

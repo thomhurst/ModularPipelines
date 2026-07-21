@@ -39,8 +39,8 @@ public class GcloudStorageInsightsInventoryReportsDetails
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudStorageInsightsInventoryReportsDetailsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageInsightsInventoryReportsDetailsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsInventoryReportsDetailsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudStorageInsightsInventoryReportsDetails
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudStorageInsightsInventoryReportsDetailsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudStorageInsightsInventoryReportsDetailsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsInventoryReportsDetailsListOptions(), executionOptions, cancellationToken);

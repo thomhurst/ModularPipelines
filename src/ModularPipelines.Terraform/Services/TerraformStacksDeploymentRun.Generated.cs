@@ -39,8 +39,8 @@ public class TerraformStacksDeploymentRun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ApproveAllPlans(
-        TerraformStacksDeploymentRunApproveAllPlansOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksDeploymentRunApproveAllPlansOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksDeploymentRunApproveAllPlansOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class TerraformStacksDeploymentRun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        TerraformStacksDeploymentRunCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksDeploymentRunCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksDeploymentRunCancelOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class TerraformStacksDeploymentRun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        TerraformStacksDeploymentRunListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksDeploymentRunListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksDeploymentRunListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class TerraformStacksDeploymentRun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        TerraformStacksDeploymentRunShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksDeploymentRunShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksDeploymentRunShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class TerraformStacksDeploymentRun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Watch(
-        TerraformStacksDeploymentRunWatchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        TerraformStacksDeploymentRunWatchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformStacksDeploymentRunWatchOptions(), executionOptions, cancellationToken);

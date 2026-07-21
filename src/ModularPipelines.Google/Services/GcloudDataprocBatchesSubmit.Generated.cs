@@ -40,7 +40,7 @@ public class GcloudDataprocBatchesSubmit
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PysparkNotebook(
         GcloudDataprocBatchesSubmitPysparkNotebookOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudDataprocBatchesSubmit
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pyspark(
         GcloudDataprocBatchesSubmitPysparkOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDataprocBatchesSubmit
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Spark(
-        GcloudDataprocBatchesSubmitSparkOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocBatchesSubmitSparkOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocBatchesSubmitSparkOptions(), executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudDataprocBatchesSubmit
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SparkR(
         GcloudDataprocBatchesSubmitSparkROptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudDataprocBatchesSubmit
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SparkSql(
         GcloudDataprocBatchesSubmitSparkSqlOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

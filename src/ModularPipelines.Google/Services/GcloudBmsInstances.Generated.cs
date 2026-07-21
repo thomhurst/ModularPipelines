@@ -39,8 +39,8 @@ public class GcloudBmsInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBmsInstancesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsInstancesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBmsInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableSerialConsole(
-        GcloudBmsInstancesDisableSerialConsoleOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsInstancesDisableSerialConsoleOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesDisableSerialConsoleOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudBmsInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableSerialConsole(
-        GcloudBmsInstancesEnableSerialConsoleOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsInstancesEnableSerialConsoleOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesEnableSerialConsoleOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudBmsInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBmsInstancesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsInstancesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudBmsInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rename(
-        GcloudBmsInstancesRenameOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsInstancesRenameOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesRenameOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudBmsInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        GcloudBmsInstancesResetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsInstancesResetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesResetOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudBmsInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        GcloudBmsInstancesStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsInstancesStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesStartOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudBmsInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        GcloudBmsInstancesStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsInstancesStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesStopOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudBmsInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBmsInstancesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsInstancesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesUpdateOptions(), executionOptions, cancellationToken);

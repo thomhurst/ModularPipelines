@@ -39,8 +39,8 @@ public class GcloudAgentregistryMcpServers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAgentRegistryMcpServersDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryMcpServersDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryMcpServersDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudAgentregistryMcpServers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAgentRegistryMcpServersListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryMcpServersListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryMcpServersListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudAgentregistryMcpServers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
-        GcloudAgentRegistryMcpServersSearchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAgentRegistryMcpServersSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAgentRegistryMcpServersSearchOptions(), executionOptions, cancellationToken);

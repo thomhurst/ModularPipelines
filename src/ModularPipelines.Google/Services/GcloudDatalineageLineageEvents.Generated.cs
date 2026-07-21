@@ -39,8 +39,8 @@ public class GcloudDatalineageLineageEvents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDatalineageLineageEventsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatalineageLineageEventsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatalineageLineageEventsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDatalineageLineageEvents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDatalineageLineageEventsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatalineageLineageEventsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatalineageLineageEventsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDatalineageLineageEvents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDatalineageLineageEventsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatalineageLineageEventsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatalineageLineageEventsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudDatalineageLineageEvents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDatalineageLineageEventsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatalineageLineageEventsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatalineageLineageEventsListOptions(), executionOptions, cancellationToken);

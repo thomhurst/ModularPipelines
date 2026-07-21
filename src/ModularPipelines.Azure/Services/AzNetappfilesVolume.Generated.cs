@@ -73,8 +73,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BreakFileLocks(
-        AzNetappfilesVolumeBreakFileLocksOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeBreakFileLocksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeBreakFileLocksOptions(), executionOptions, cancellationToken);
@@ -88,8 +88,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetappfilesVolumeCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeCreateOptions(), executionOptions, cancellationToken);
@@ -103,8 +103,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetappfilesVolumeDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeDeleteOptions(), executionOptions, cancellationToken);
@@ -118,8 +118,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FinalizeRelocation(
-        AzNetappfilesVolumeFinalizeRelocationOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeFinalizeRelocationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeFinalizeRelocationOptions(), executionOptions, cancellationToken);
@@ -133,8 +133,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetGroupidListForLdapuser(
-        AzNetappfilesVolumeGetGroupidListForLdapuserOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeGetGroupidListForLdapuserOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeGetGroupidListForLdapuserOptions(), executionOptions, cancellationToken);
@@ -148,8 +148,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListQuotaReport(
-        AzNetappfilesVolumeListQuotaReportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeListQuotaReportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeListQuotaReportOptions(), executionOptions, cancellationToken);
@@ -163,8 +163,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MigrateBackup(
-        AzNetappfilesVolumeMigrateBackupOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeMigrateBackupOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeMigrateBackupOptions(), executionOptions, cancellationToken);
@@ -178,8 +178,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PoolChange(
-        AzNetappfilesVolumePoolChangeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumePoolChangeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumePoolChangeOptions(), executionOptions, cancellationToken);
@@ -193,8 +193,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PopulateAvailabilityZone(
-        AzNetappfilesVolumePopulateAvailabilityZoneOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumePopulateAvailabilityZoneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumePopulateAvailabilityZoneOptions(), executionOptions, cancellationToken);
@@ -208,8 +208,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Relocate(
-        AzNetappfilesVolumeRelocateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeRelocateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeRelocateOptions(), executionOptions, cancellationToken);
@@ -223,8 +223,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetCifsPw(
-        AzNetappfilesVolumeResetCifsPwOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeResetCifsPwOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeResetCifsPwOptions(), executionOptions, cancellationToken);
@@ -238,8 +238,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Revert(
-        AzNetappfilesVolumeRevertOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeRevertOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeRevertOptions(), executionOptions, cancellationToken);
@@ -253,8 +253,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RevertRelocation(
-        AzNetappfilesVolumeRevertRelocationOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeRevertRelocationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeRevertRelocationOptions(), executionOptions, cancellationToken);
@@ -268,8 +268,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Splitclonefromparent(
-        AzNetappfilesVolumeSplitclonefromparentOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeSplitclonefromparentOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeSplitclonefromparentOptions(), executionOptions, cancellationToken);
@@ -283,8 +283,8 @@ public class AzNetappfilesVolume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetappfilesVolumeUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesVolumeUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeUpdateOptions(), executionOptions, cancellationToken);

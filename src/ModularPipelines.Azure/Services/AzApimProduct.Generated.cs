@@ -39,8 +39,8 @@ public class AzApimProduct
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzApimProductCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimProductCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimProductCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzApimProduct
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzApimProductDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimProductDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimProductDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzApimProduct
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzApimProductUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzApimProductUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimProductUpdateOptions(), executionOptions, cancellationToken);

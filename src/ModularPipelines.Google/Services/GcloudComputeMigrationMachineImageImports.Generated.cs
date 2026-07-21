@@ -39,8 +39,8 @@ public class GcloudComputeMigrationMachineImageImports
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeMigrationMachineImageImportsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeMigrationMachineImageImportsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMigrationMachineImageImportsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputeMigrationMachineImageImports
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComputeMigrationMachineImageImportsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeMigrationMachineImageImportsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMigrationMachineImageImportsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudComputeMigrationMachineImageImports
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeMigrationMachineImageImportsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeMigrationMachineImageImportsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMigrationMachineImageImportsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudComputeMigrationMachineImageImports
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeMigrationMachineImageImportsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeMigrationMachineImageImportsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMigrationMachineImageImportsListOptions(), executionOptions, cancellationToken);

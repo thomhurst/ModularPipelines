@@ -40,7 +40,7 @@ public class GcloudSqlDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudSqlDatabasesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudSqlDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudSqlDatabasesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudSqlDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudSqlDatabasesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudSqlDatabases
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSqlDatabasesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlDatabasesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlDatabasesListOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudSqlDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Patch(
         GcloudSqlDatabasesPatchOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

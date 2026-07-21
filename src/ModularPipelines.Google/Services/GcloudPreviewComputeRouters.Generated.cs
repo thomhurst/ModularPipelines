@@ -50,7 +50,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddBgpPeer(
         GcloudPreviewComputeRoutersAddBgpPeerOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -65,7 +65,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddInterface(
         GcloudPreviewComputeRoutersAddInterfaceOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -80,7 +80,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddRoutePolicy(
         GcloudPreviewComputeRoutersAddRoutePolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -95,7 +95,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddRoutePolicyTerm(
         GcloudPreviewComputeRoutersAddRoutePolicyTermOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -110,7 +110,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeRoutersCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -125,7 +125,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeRoutersDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -140,7 +140,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeRoutersDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -155,7 +155,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DownloadRoutePolicy(
         GcloudPreviewComputeRoutersDownloadRoutePolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -170,7 +170,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNatIpInfo(
         GcloudPreviewComputeRoutersGetNatIpInfoOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -185,7 +185,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNatMappingInfo(
         GcloudPreviewComputeRoutersGetNatMappingInfoOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -200,7 +200,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRoutePolicy(
         GcloudPreviewComputeRoutersGetRoutePolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -215,7 +215,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetStatus(
         GcloudPreviewComputeRoutersGetStatusOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -230,7 +230,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBgpRoutes(
         GcloudPreviewComputeRoutersListBgpRoutesOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -244,8 +244,8 @@ public class GcloudPreviewComputeRouters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeRoutersListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeRoutersListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeRoutersListOptions(), executionOptions, cancellationToken);
@@ -260,7 +260,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRoutePolicies(
         GcloudPreviewComputeRoutersListRoutePoliciesOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -275,7 +275,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveBgpPeer(
         GcloudPreviewComputeRoutersRemoveBgpPeerOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -290,7 +290,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveInterface(
         GcloudPreviewComputeRoutersRemoveInterfaceOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -305,7 +305,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveRoutePolicy(
         GcloudPreviewComputeRoutersRemoveRoutePolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -320,7 +320,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveRoutePolicyTerm(
         GcloudPreviewComputeRoutersRemoveRoutePolicyTermOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -335,7 +335,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBgpPeer(
         GcloudPreviewComputeRoutersUpdateBgpPeerOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -350,7 +350,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateInterface(
         GcloudPreviewComputeRoutersUpdateInterfaceOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -365,7 +365,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPreviewComputeRoutersUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -380,7 +380,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRoutePolicyTerm(
         GcloudPreviewComputeRoutersUpdateRoutePolicyTermOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -395,7 +395,7 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UploadRoutePolicy(
         GcloudPreviewComputeRoutersUploadRoutePolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

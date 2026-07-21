@@ -39,8 +39,8 @@ public class AzAppconfigRevision
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAppconfigRevisionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppconfigRevisionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigRevisionListOptions(), executionOptions, cancellationToken);

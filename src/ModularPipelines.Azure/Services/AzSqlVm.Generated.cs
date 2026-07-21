@@ -49,8 +49,8 @@ public class AzSqlVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlVmCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlVmCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzSqlVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlVmDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlVmDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzSqlVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableAzureAdAuth(
-        AzSqlVmEnableAzureAdAuthOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlVmEnableAzureAdAuthOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmEnableAzureAdAuthOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzSqlVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSqlVmListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlVmListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmListOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class AzSqlVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSqlVmShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlVmShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmShowOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class AzSqlVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlVmUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlVmUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmUpdateOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class AzSqlVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ValidateAzureAdAuth(
-        AzSqlVmValidateAzureAdAuthOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlVmValidateAzureAdAuthOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmValidateAzureAdAuthOptions(), executionOptions, cancellationToken);

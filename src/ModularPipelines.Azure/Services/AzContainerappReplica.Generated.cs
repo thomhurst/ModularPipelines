@@ -39,8 +39,8 @@ public class AzContainerappReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzContainerappReplicaListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappReplicaListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappReplicaListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzContainerappReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzContainerappReplicaShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappReplicaShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappReplicaShowOptions(), executionOptions, cancellationToken);

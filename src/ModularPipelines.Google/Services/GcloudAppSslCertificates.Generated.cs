@@ -39,8 +39,8 @@ public class GcloudAppSslCertificates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAppSslCertificatesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAppSslCertificatesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAppSslCertificatesCreateOptions(), executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudAppSslCertificates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudAppSslCertificatesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudAppSslCertificates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAppSslCertificatesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudAppSslCertificates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAppSslCertificatesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAppSslCertificatesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAppSslCertificatesListOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudAppSslCertificates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudAppSslCertificatesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

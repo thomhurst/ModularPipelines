@@ -39,8 +39,8 @@ public class GcloudDatastreamObjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDatastreamObjectsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatastreamObjectsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDatastreamObjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDatastreamObjectsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatastreamObjectsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDatastreamObjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lookup(
-        GcloudDatastreamObjectsLookupOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatastreamObjectsLookupOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsLookupOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudDatastreamObjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartBackfill(
-        GcloudDatastreamObjectsStartBackfillOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatastreamObjectsStartBackfillOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsStartBackfillOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudDatastreamObjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopBackfill(
-        GcloudDatastreamObjectsStopBackfillOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDatastreamObjectsStopBackfillOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsStopBackfillOptions(), executionOptions, cancellationToken);

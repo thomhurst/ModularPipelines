@@ -39,8 +39,8 @@ public class GcloudLookerInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudLookerInstancesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLookerInstancesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLookerInstancesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudLookerInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudLookerInstancesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLookerInstancesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLookerInstancesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudLookerInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudLookerInstancesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLookerInstancesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLookerInstancesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudLookerInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudLookerInstancesExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLookerInstancesExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLookerInstancesExportOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudLookerInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudLookerInstancesImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLookerInstancesImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLookerInstancesImportOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudLookerInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudLookerInstancesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLookerInstancesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLookerInstancesListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudLookerInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        GcloudLookerInstancesRestartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLookerInstancesRestartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLookerInstancesRestartOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudLookerInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        GcloudLookerInstancesRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLookerInstancesRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLookerInstancesRestoreOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudLookerInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudLookerInstancesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLookerInstancesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLookerInstancesUpdateOptions(), executionOptions, cancellationToken);

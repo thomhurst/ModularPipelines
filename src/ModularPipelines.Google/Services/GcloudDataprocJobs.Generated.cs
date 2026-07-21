@@ -49,8 +49,8 @@ public class GcloudDataprocJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataprocJobsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocJobsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsDeleteOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudDataprocJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataprocJobsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocJobsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsDescribeOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudDataprocJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudDataprocJobsGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocJobsGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudDataprocJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kill(
-        GcloudDataprocJobsKillOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocJobsKillOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsKillOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class GcloudDataprocJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataprocJobsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocJobsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsListOptions(), executionOptions, cancellationToken);
@@ -125,7 +125,7 @@ public class GcloudDataprocJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDataprocJobsSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class GcloudDataprocJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDataprocJobsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocJobsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsUpdateOptions(), executionOptions, cancellationToken);
@@ -154,8 +154,8 @@ public class GcloudDataprocJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudDataprocJobsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDataprocJobsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsWaitOptions(), executionOptions, cancellationToken);

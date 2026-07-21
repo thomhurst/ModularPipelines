@@ -40,7 +40,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcquireSsrsLease(
         GcloudSqlInstancesAcquireSsrsLeaseOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clone(
         GcloudSqlInstancesCloneOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudSqlInstancesCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudSqlInstancesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudSqlInstancesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteSql(
         GcloudSqlInstancesExecuteSqlOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudSqlInstancesExportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Failover(
         GcloudSqlInstancesFailoverOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -160,7 +160,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetLatestRecoveryTime(
         GcloudSqlInstancesGetLatestRecoveryTimeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -175,7 +175,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetStorageShrinkConfig(
         GcloudSqlInstancesGetStorageShrinkConfigOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -190,7 +190,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudSqlInstancesImportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -204,8 +204,8 @@ public class GcloudSqlInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSqlInstancesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlInstancesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesListOptions(), executionOptions, cancellationToken);
@@ -220,7 +220,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Patch(
         GcloudSqlInstancesPatchOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -235,7 +235,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PerformStorageShrink(
         GcloudSqlInstancesPerformStorageShrinkOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -250,7 +250,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PointInTimeRestore(
         GcloudSqlInstancesPointInTimeRestoreOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -265,7 +265,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PreCheckMajorVersionUpgrade(
         GcloudSqlInstancesPreCheckMajorVersionUpgradeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -280,7 +280,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PromoteReplica(
         GcloudSqlInstancesPromoteReplicaOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -295,7 +295,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reencrypt(
         GcloudSqlInstancesReencryptOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -310,7 +310,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReleaseSsrsLease(
         GcloudSqlInstancesReleaseSsrsLeaseOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -325,7 +325,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetSslConfig(
         GcloudSqlInstancesResetSslConfigOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -340,7 +340,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
         GcloudSqlInstancesRestartOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -355,7 +355,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreBackup(
         GcloudSqlInstancesRestoreBackupOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -370,7 +370,7 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Switchover(
         GcloudSqlInstancesSwitchoverOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

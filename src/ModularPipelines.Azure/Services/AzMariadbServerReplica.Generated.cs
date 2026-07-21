@@ -39,8 +39,8 @@ public class AzMariadbServerReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMariadbServerReplicaCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMariadbServerReplicaCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerReplicaCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzMariadbServerReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzMariadbServerReplicaStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMariadbServerReplicaStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerReplicaStopOptions(), executionOptions, cancellationToken);

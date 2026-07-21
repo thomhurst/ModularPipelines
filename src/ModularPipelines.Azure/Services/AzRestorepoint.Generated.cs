@@ -49,8 +49,8 @@ public class AzRestorepoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzRestorePointCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRestorePointCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzRestorepoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzRestorePointDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRestorePointDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzRestorepoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzRestorePointShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRestorePointShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointShowOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzRestorepoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzRestorePointWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRestorePointWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointWaitOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class BuildahSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        BuildahSourceOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahSourceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahSourceOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class BuildahSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        BuildahSourceAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahSourceAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahSourceAddOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class BuildahSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        BuildahSourceCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahSourceCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahSourceCreateOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class BuildahSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pull(
-        BuildahSourcePullOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahSourcePullOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahSourcePullOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class BuildahSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Push(
-        BuildahSourcePushOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        BuildahSourcePushOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahSourcePushOptions(), executionOptions, cancellationToken);

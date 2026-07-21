@@ -39,8 +39,8 @@ public class GcloudFirestoreFieldsTtls
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFirestoreFieldsTtlsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreFieldsTtlsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreFieldsTtlsListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudFirestoreFieldsTtls
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudFirestoreFieldsTtlsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFirestoreFieldsTtlsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreFieldsTtlsUpdateOptions(), executionOptions, cancellationToken);

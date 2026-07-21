@@ -49,8 +49,8 @@ public class GcloudContainerFleetWorkloadIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetWorkloadIdentityDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetWorkloadIdentityDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetWorkloadIdentityDescribeOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudContainerFleetWorkloadIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetWorkloadIdentityDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetWorkloadIdentityDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetWorkloadIdentityDisableOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudContainerFleetWorkloadIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerFleetWorkloadIdentityEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerFleetWorkloadIdentityEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetWorkloadIdentityEnableOptions(), executionOptions, cancellationToken);

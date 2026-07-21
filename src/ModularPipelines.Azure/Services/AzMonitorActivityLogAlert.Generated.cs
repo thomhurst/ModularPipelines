@@ -55,8 +55,8 @@ public class AzMonitorActivityLogAlert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorActivityLogAlertCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorActivityLogAlertCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertCreateOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzMonitorActivityLogAlert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMonitorActivityLogAlertListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorActivityLogAlertListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertListOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class AzMonitorActivityLogAlert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorActivityLogAlertUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorActivityLogAlertUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzFunctionappIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzFunctionappIdentityAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzFunctionappIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzFunctionappIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappIdentityRemoveOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzFunctionappIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzFunctionappIdentityShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappIdentityShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappIdentityShowOptions(), executionOptions, cancellationToken);

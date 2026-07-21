@@ -49,8 +49,8 @@ public class GcloudComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudComponentsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComponentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsOptions(), executionOptions, cancellationToken);
@@ -65,7 +65,7 @@ public class GcloudComponents
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Install(
         GcloudComponentsInstallOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComponentsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComponentsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsListOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class GcloudComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reinstall(
-        GcloudComponentsReinstallOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComponentsReinstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsReinstallOptions(), executionOptions, cancellationToken);
@@ -110,7 +110,7 @@ public class GcloudComponents
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
         GcloudComponentsRemoveOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class GcloudComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComponentsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComponentsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsUpdateOptions(), executionOptions, cancellationToken);

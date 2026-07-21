@@ -39,8 +39,8 @@ public class AzServicebusNamespacePrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
-        AzServicebusNamespacePrivateEndpointConnectionApproveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzServicebusNamespacePrivateEndpointConnectionApproveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionApproveOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzServicebusNamespacePrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzServicebusNamespacePrivateEndpointConnectionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzServicebusNamespacePrivateEndpointConnectionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzServicebusNamespacePrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reject(
-        AzServicebusNamespacePrivateEndpointConnectionRejectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzServicebusNamespacePrivateEndpointConnectionRejectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionRejectOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzServicebusNamespacePrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzServicebusNamespacePrivateEndpointConnectionShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzServicebusNamespacePrivateEndpointConnectionShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionShowOptions(), executionOptions, cancellationToken);

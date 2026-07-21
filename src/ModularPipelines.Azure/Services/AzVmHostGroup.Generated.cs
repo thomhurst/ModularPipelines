@@ -39,8 +39,8 @@ public class AzVmHostGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzVmHostGroupCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmHostGroupCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzVmHostGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzVmHostGroupDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmHostGroupDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzVmHostGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzVmHostGroupListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmHostGroupListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupListOptions(), executionOptions, cancellationToken);

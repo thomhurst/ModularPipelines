@@ -39,8 +39,8 @@ public class GcloudApigatewayOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudApiGatewayOperationsCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApiGatewayOperationsCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayOperationsCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudApigatewayOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApiGatewayOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApiGatewayOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudApigatewayOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApiGatewayOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApiGatewayOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayOperationsListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudApigatewayOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudApiGatewayOperationsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApiGatewayOperationsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayOperationsWaitOptions(), executionOptions, cancellationToken);

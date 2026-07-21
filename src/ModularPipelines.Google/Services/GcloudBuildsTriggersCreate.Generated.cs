@@ -39,8 +39,8 @@ public class GcloudBuildsTriggersCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BitbucketCloud(
-        GcloudBuildsTriggersCreateBitbucketCloudOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsTriggersCreateBitbucketCloudOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateBitbucketCloudOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBuildsTriggersCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BitbucketDataCenter(
-        GcloudBuildsTriggersCreateBitbucketDataCenterOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsTriggersCreateBitbucketDataCenterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateBitbucketDataCenterOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudBuildsTriggersCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bitbucketserver(
-        GcloudBuildsTriggersCreateBitbucketserverOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsTriggersCreateBitbucketserverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateBitbucketserverOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudBuildsTriggersCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CloudSourceRepositories(
-        GcloudBuildsTriggersCreateCloudSourceRepositoriesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsTriggersCreateCloudSourceRepositoriesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateCloudSourceRepositoriesOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudBuildsTriggersCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Github(
-        GcloudBuildsTriggersCreateGithubOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsTriggersCreateGithubOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateGithubOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudBuildsTriggersCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Gitlab(
-        GcloudBuildsTriggersCreateGitlabOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsTriggersCreateGitlabOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateGitlabOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudBuildsTriggersCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Manual(
-        GcloudBuildsTriggersCreateManualOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsTriggersCreateManualOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateManualOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudBuildsTriggersCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pubsub(
-        GcloudBuildsTriggersCreatePubsubOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsTriggersCreatePubsubOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreatePubsubOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudBuildsTriggersCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Webhook(
-        GcloudBuildsTriggersCreateWebhookOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsTriggersCreateWebhookOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateWebhookOptions(), executionOptions, cancellationToken);

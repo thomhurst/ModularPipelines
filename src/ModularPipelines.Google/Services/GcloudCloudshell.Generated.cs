@@ -40,7 +40,7 @@ public class GcloudCloudshell
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMountCommand(
         GcloudCloudShellGetMountCommandOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudCloudshell
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scp(
-        GcloudCloudShellScpOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCloudShellScpOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudShellScpOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudCloudshell
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ssh(
-        GcloudCloudShellSshOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCloudShellSshOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudShellSshOptions(), executionOptions, cancellationToken);

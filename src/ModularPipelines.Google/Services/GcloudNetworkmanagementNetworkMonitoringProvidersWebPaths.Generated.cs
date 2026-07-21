@@ -39,8 +39,8 @@ public class GcloudNetworkmanagementNetworkMonitoringProvidersWebPaths
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkManagementNetworkMonitoringProvidersWebPathsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementNetworkMonitoringProvidersWebPathsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersWebPathsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkmanagementNetworkMonitoringProvidersWebPaths
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkManagementNetworkMonitoringProvidersWebPathsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementNetworkMonitoringProvidersWebPathsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersWebPathsListOptions(), executionOptions, cancellationToken);

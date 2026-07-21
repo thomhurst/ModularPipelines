@@ -39,8 +39,8 @@ public class AzNetworkWatcherTroubleshooting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkWatcherTroubleshootingShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkWatcherTroubleshootingShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherTroubleshootingShowOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkWatcherTroubleshooting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzNetworkWatcherTroubleshootingStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkWatcherTroubleshootingStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherTroubleshootingStartOptions(), executionOptions, cancellationToken);

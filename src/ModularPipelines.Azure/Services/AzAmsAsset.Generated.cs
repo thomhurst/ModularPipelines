@@ -39,8 +39,8 @@ public class AzAmsAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsAssetCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsAssetCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAmsAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSasUrls(
-        AzAmsAssetGetSasUrlsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsAssetGetSasUrlsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetGetSasUrlsOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAmsAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAmsAssetListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsAssetListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzAmsAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAmsAssetUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsAssetUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetUpdateOptions(), executionOptions, cancellationToken);

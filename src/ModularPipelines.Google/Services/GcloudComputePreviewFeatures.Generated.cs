@@ -39,8 +39,8 @@ public class GcloudComputePreviewFeatures
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputePreviewFeaturesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputePreviewFeaturesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePreviewFeaturesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputePreviewFeatures
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputePreviewFeaturesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputePreviewFeaturesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePreviewFeaturesListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudComputePreviewFeatures
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComputePreviewFeaturesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputePreviewFeaturesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePreviewFeaturesUpdateOptions(), executionOptions, cancellationToken);

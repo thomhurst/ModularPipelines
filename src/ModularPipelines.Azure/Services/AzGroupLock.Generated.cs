@@ -39,8 +39,8 @@ public class AzGroupLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzGroupLockCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzGroupLockCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzGroupLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzGroupLockDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzGroupLockDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzGroupLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzGroupLockListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzGroupLockListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzGroupLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzGroupLockShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzGroupLockShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzGroupLock
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzGroupLockUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzGroupLockUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockUpdateOptions(), executionOptions, cancellationToken);

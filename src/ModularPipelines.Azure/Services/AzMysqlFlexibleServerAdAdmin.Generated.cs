@@ -39,8 +39,8 @@ public class AzMysqlFlexibleServerAdAdmin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMysqlFlexibleServerAdAdminCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMysqlFlexibleServerAdAdminCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerAdAdminCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzMysqlFlexibleServerAdAdmin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMysqlFlexibleServerAdAdminDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMysqlFlexibleServerAdAdminDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerAdAdminDeleteOptions(), executionOptions, cancellationToken);

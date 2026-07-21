@@ -39,8 +39,8 @@ public class AzNetworkServiceEndpointPolicyDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkServiceEndpointPolicyDefinitionCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkServiceEndpointPolicyDefinitionCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyDefinitionCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkServiceEndpointPolicyDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkServiceEndpointPolicyDefinitionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkServiceEndpointPolicyDefinitionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyDefinitionDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkServiceEndpointPolicyDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkServiceEndpointPolicyDefinitionUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkServiceEndpointPolicyDefinitionUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyDefinitionUpdateOptions(), executionOptions, cancellationToken);

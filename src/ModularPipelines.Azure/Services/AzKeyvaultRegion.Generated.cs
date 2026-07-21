@@ -39,8 +39,8 @@ public class AzKeyvaultRegion
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzKeyvaultRegionAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultRegionAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRegionAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzKeyvaultRegion
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzKeyvaultRegionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultRegionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRegionListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzKeyvaultRegion
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzKeyvaultRegionRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultRegionRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRegionRemoveOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzKeyvaultRegion
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzKeyvaultRegionWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzKeyvaultRegionWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRegionWaitOptions(), executionOptions, cancellationToken);

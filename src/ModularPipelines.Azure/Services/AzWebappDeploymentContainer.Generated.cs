@@ -39,8 +39,8 @@ public class AzWebappDeploymentContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Config(
-        AzWebappDeploymentContainerConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentContainerConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentContainerConfigOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzWebappDeploymentContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowCdUrl(
-        AzWebappDeploymentContainerShowCdUrlOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentContainerShowCdUrlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentContainerShowCdUrlOptions(), executionOptions, cancellationToken);

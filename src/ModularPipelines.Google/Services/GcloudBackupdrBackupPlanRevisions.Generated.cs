@@ -39,8 +39,8 @@ public class GcloudBackupdrBackupPlanRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBackupDrBackupPlanRevisionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBackupDrBackupPlanRevisionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanRevisionsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBackupdrBackupPlanRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBackupDrBackupPlanRevisionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBackupDrBackupPlanRevisionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanRevisionsListOptions(), executionOptions, cancellationToken);

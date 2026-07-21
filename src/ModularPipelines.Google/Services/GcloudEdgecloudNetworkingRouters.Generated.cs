@@ -39,8 +39,8 @@ public class GcloudEdgecloudNetworkingRouters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddBgpPeer(
-        GcloudEdgeCloudNetworkingRoutersAddBgpPeerOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingRoutersAddBgpPeerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersAddBgpPeerOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudEdgecloudNetworkingRouters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddInterface(
-        GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudEdgecloudNetworkingRouters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudEdgeCloudNetworkingRoutersCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingRoutersCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersCreateOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudEdgecloudNetworkingRouters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudEdgeCloudNetworkingRoutersDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingRoutersDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersDeleteOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudEdgecloudNetworkingRouters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCloudNetworkingRoutersDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingRoutersDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersDescribeOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudEdgecloudNetworkingRouters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetStatus(
-        GcloudEdgeCloudNetworkingRoutersGetStatusOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingRoutersGetStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersGetStatusOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudEdgecloudNetworkingRouters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEdgeCloudNetworkingRoutersListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingRoutersListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersListOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudEdgecloudNetworkingRouters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveBgpPeer(
-        GcloudEdgeCloudNetworkingRoutersRemoveBgpPeerOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingRoutersRemoveBgpPeerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersRemoveBgpPeerOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudEdgecloudNetworkingRouters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveInterface(
-        GcloudEdgeCloudNetworkingRoutersRemoveInterfaceOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCloudNetworkingRoutersRemoveInterfaceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersRemoveInterfaceOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class DockerBuilderPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Eval(
-        DockerBuilderPolicyEvalOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderPolicyEvalOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderPolicyEvalOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class DockerBuilderPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Test(
-        DockerBuilderPolicyTestOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerBuilderPolicyTestOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderPolicyTestOptions(), executionOptions, cancellationToken);

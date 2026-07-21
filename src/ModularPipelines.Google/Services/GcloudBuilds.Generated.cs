@@ -67,8 +67,8 @@ public class GcloudBuilds
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudBuildsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsOptions(), executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudBuilds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
         GcloudBuildsCancelOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudBuilds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudBuildsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudBuilds
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDefaultServiceAccount(
-        GcloudBuildsGetDefaultServiceAccountOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsGetDefaultServiceAccountOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsGetDefaultServiceAccountOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudBuilds
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBuildsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsListOptions(), executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudBuilds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Log(
         GcloudBuildsLogOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudBuilds
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Submit(
-        GcloudBuildsSubmitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBuildsSubmitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsSubmitOptions(), executionOptions, cancellationToken);

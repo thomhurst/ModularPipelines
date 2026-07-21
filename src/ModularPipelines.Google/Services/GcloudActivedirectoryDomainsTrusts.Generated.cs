@@ -39,8 +39,8 @@ public class GcloudActivedirectoryDomainsTrusts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudActiveDirectoryDomainsTrustsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsTrustsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsTrustsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudActivedirectoryDomainsTrusts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudActiveDirectoryDomainsTrustsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsTrustsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsTrustsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudActivedirectoryDomainsTrusts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudActiveDirectoryDomainsTrustsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsTrustsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsTrustsUpdateOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudActivedirectoryDomainsTrusts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ValidateState(
-        GcloudActiveDirectoryDomainsTrustsValidateStateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudActiveDirectoryDomainsTrustsValidateStateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsTrustsValidateStateOptions(), executionOptions, cancellationToken);

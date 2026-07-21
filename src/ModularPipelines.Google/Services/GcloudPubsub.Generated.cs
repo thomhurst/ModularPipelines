@@ -97,8 +97,8 @@ public class GcloudPubsub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudPubsubOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudDeployAutomationRuns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudDeployAutomationRunsCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeployAutomationRunsCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployAutomationRunsCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudDeployAutomationRuns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDeployAutomationRunsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeployAutomationRunsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployAutomationRunsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudDeployAutomationRuns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDeployAutomationRunsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDeployAutomationRunsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployAutomationRunsListOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzWebappDeploymentSlot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AutoSwap(
-        AzWebappDeploymentSlotAutoSwapOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentSlotAutoSwapOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentSlotAutoSwapOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzWebappDeploymentSlot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzWebappDeploymentSlotCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentSlotCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentSlotCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzWebappDeploymentSlot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Swap(
-        AzWebappDeploymentSlotSwapOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentSlotSwapOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentSlotSwapOptions(), executionOptions, cancellationToken);

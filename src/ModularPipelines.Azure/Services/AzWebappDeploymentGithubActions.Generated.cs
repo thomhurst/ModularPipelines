@@ -39,8 +39,8 @@ public class AzWebappDeploymentGithubActions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzWebappDeploymentGithubActionsAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentGithubActionsAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentGithubActionsAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzWebappDeploymentGithubActions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzWebappDeploymentGithubActionsRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzWebappDeploymentGithubActionsRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentGithubActionsRemoveOptions(), executionOptions, cancellationToken);

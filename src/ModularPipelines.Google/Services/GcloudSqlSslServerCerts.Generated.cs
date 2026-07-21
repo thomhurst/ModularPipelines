@@ -39,8 +39,8 @@ public class GcloudSqlSslServerCerts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudSqlSslServerCertsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlSslServerCertsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslServerCertsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudSqlSslServerCerts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSqlSslServerCertsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlSslServerCertsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslServerCertsListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudSqlSslServerCerts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rollback(
-        GcloudSqlSslServerCertsRollbackOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlSslServerCertsRollbackOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslServerCertsRollbackOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudSqlSslServerCerts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rotate(
-        GcloudSqlSslServerCertsRotateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlSslServerCertsRotateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslServerCertsRotateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudPubsubSchemas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Commit(
-        GcloudPubsubSchemasCommitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSchemasCommitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasCommitOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudPubsubSchemas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudPubsubSchemasCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSchemasCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudPubsubSchemas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudPubsubSchemasDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSchemasDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudPubsubSchemas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRevision(
-        GcloudPubsubSchemasDeleteRevisionOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSchemasDeleteRevisionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasDeleteRevisionOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudPubsubSchemas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudPubsubSchemasDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSchemasDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasDescribeOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudPubsubSchemas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPubsubSchemasListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSchemasListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudPubsubSchemas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRevisions(
-        GcloudPubsubSchemasListRevisionsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSchemasListRevisionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasListRevisionsOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudPubsubSchemas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rollback(
-        GcloudPubsubSchemasRollbackOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSchemasRollbackOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasRollbackOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudPubsubSchemas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ValidateMessage(
-        GcloudPubsubSchemasValidateMessageOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSchemasValidateMessageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasValidateMessageOptions(), executionOptions, cancellationToken);
@@ -174,8 +174,8 @@ public class GcloudPubsubSchemas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ValidateSchema(
-        GcloudPubsubSchemasValidateSchemaOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSchemasValidateSchemaOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasValidateSchemaOptions(), executionOptions, cancellationToken);

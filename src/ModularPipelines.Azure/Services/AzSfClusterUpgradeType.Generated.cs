@@ -39,8 +39,8 @@ public class AzSfClusterUpgradeType
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzSfClusterUpgradeTypeSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSfClusterUpgradeTypeSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterUpgradeTypeSetOptions(), executionOptions, cancellationToken);

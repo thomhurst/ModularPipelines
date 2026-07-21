@@ -39,8 +39,8 @@ public class PodmanKube
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Apply(
-        PodmanKubeApplyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanKubeApplyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanKubeApplyOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PodmanKube
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Down(
-        PodmanKubeDownOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanKubeDownOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanKubeDownOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class PodmanKube
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Generate(
-        PodmanKubeGenerateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanKubeGenerateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanKubeGenerateOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class PodmanKube
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Play(
-        PodmanKubePlayOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanKubePlayOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanKubePlayOptions(), executionOptions, cancellationToken);

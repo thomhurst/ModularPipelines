@@ -39,8 +39,8 @@ public class AzPolicyAssignmentIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzPolicyAssignmentIdentityAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyAssignmentIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzPolicyAssignmentIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzPolicyAssignmentIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyAssignmentIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentIdentityRemoveOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzPolicyAssignmentIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPolicyAssignmentIdentityShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyAssignmentIdentityShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentIdentityShowOptions(), executionOptions, cancellationToken);

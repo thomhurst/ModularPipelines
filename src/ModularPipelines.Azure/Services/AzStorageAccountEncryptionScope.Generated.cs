@@ -39,8 +39,8 @@ public class AzStorageAccountEncryptionScope
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageAccountEncryptionScopeCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountEncryptionScopeCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountEncryptionScopeCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageAccountEncryptionScope
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageAccountEncryptionScopeListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountEncryptionScopeListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountEncryptionScopeListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzStorageAccountEncryptionScope
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageAccountEncryptionScopeShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountEncryptionScopeShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountEncryptionScopeShowOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzStorageAccountEncryptionScope
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageAccountEncryptionScopeUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageAccountEncryptionScopeUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountEncryptionScopeUpdateOptions(), executionOptions, cancellationToken);

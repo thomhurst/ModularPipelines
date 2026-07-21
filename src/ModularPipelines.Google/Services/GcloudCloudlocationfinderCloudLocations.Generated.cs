@@ -39,8 +39,8 @@ public class GcloudCloudlocationfinderCloudLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudCloudlocationfinderCloudLocationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCloudlocationfinderCloudLocationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudlocationfinderCloudLocationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudCloudlocationfinderCloudLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudCloudlocationfinderCloudLocationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCloudlocationfinderCloudLocationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudlocationfinderCloudLocationsListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudCloudlocationfinderCloudLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
-        GcloudCloudlocationfinderCloudLocationsSearchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudCloudlocationfinderCloudLocationsSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudlocationfinderCloudLocationsSearchOptions(), executionOptions, cancellationToken);

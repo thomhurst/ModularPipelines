@@ -39,8 +39,8 @@ public class AzIdentityFederatedCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzIdentityFederatedCredentialDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIdentityFederatedCredentialDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIdentityFederatedCredentialDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzIdentityFederatedCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzIdentityFederatedCredentialListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzIdentityFederatedCredentialListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIdentityFederatedCredentialListOptions(), executionOptions, cancellationToken);

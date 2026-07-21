@@ -39,8 +39,8 @@ public class GcloudComputeTpusAcceleratorTypes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeTpusAcceleratorTypesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeTpusAcceleratorTypesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusAcceleratorTypesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputeTpusAcceleratorTypes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeTpusAcceleratorTypesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeTpusAcceleratorTypesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusAcceleratorTypesListOptions(), executionOptions, cancellationToken);

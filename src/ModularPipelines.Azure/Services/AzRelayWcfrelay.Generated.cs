@@ -49,8 +49,8 @@ public class AzRelayWcfrelay
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzRelayWcfrelayCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRelayWcfrelayCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzRelayWcfrelay
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzRelayWcfrelayUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzRelayWcfrelayUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayUpdateOptions(), executionOptions, cancellationToken);

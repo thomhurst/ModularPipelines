@@ -49,8 +49,8 @@ public class AzVmssExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzVmssExtensionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmssExtensionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionDeleteOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzVmssExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzVmssExtensionSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmssExtensionSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionSetOptions(), executionOptions, cancellationToken);

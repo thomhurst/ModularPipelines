@@ -39,8 +39,8 @@ public class AzImageBuilderErrorHandler
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzImageBuilderErrorHandlerAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderErrorHandlerAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderErrorHandlerAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzImageBuilderErrorHandler
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzImageBuilderErrorHandlerRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderErrorHandlerRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderErrorHandlerRemoveOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzImageBuilderErrorHandler
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzImageBuilderErrorHandlerShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderErrorHandlerShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderErrorHandlerShowOptions(), executionOptions, cancellationToken);

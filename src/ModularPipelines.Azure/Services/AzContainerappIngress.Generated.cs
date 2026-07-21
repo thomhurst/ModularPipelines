@@ -61,8 +61,8 @@ public class AzContainerappIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        AzContainerappIngressEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappIngressEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressEnableOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ public class AzContainerappIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzContainerappIngressUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzContainerappIngressUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressUpdateOptions(), executionOptions, cancellationToken);

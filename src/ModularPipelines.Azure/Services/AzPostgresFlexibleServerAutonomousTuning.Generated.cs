@@ -39,8 +39,8 @@ public class AzPostgresFlexibleServerAutonomousTuning
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListIndexRecommendations(
-        AzPostgresFlexibleServerAutonomousTuningListIndexRecommendationsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPostgresFlexibleServerAutonomousTuningListIndexRecommendationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerAutonomousTuningListIndexRecommendationsOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzPostgresFlexibleServerAutonomousTuning
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTableRecommendations(
-        AzPostgresFlexibleServerAutonomousTuningListTableRecommendationsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPostgresFlexibleServerAutonomousTuningListTableRecommendationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerAutonomousTuningListTableRecommendationsOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzPostgresFlexibleServerAutonomousTuning
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetSettings(
-        AzPostgresFlexibleServerAutonomousTuningSetSettingsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPostgresFlexibleServerAutonomousTuningSetSettingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerAutonomousTuningSetSettingsOptions(), executionOptions, cancellationToken);

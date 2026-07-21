@@ -39,8 +39,8 @@ public class GcloudRunMultiRegionServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudRunMultiRegionServicesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRunMultiRegionServicesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunMultiRegionServicesDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudRunMultiRegionServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudRunMultiRegionServicesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRunMultiRegionServicesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunMultiRegionServicesDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudRunMultiRegionServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudRunMultiRegionServicesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRunMultiRegionServicesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunMultiRegionServicesListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudRunMultiRegionServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Replace(
-        GcloudRunMultiRegionServicesReplaceOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRunMultiRegionServicesReplaceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunMultiRegionServicesReplaceOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudRunMultiRegionServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudRunMultiRegionServicesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudRunMultiRegionServicesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunMultiRegionServicesUpdateOptions(), executionOptions, cancellationToken);

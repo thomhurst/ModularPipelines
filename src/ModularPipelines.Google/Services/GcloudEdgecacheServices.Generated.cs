@@ -39,8 +39,8 @@ public class GcloudEdgecacheServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudEdgeCacheServicesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheServicesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudEdgecacheServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCacheServicesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheServicesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudEdgecacheServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudEdgeCacheServicesExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheServicesExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesExportOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudEdgecacheServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudEdgeCacheServicesImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheServicesImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesImportOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudEdgecacheServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InvalidateCache(
-        GcloudEdgeCacheServicesInvalidateCacheOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheServicesInvalidateCacheOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesInvalidateCacheOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudEdgecacheServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEdgeCacheServicesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheServicesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudEdgecacheServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudEdgeCacheServicesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEdgeCacheServicesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesUpdateOptions(), executionOptions, cancellationToken);

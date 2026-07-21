@@ -39,8 +39,8 @@ public class AzSynapseKustoPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddLanguageExtension(
-        AzSynapseKustoPoolAddLanguageExtensionOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseKustoPoolAddLanguageExtensionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolAddLanguageExtensionOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapseKustoPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseKustoPoolCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseKustoPoolCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSynapseKustoPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseKustoPoolDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseKustoPoolDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzSynapseKustoPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachFollowerDatabase(
-        AzSynapseKustoPoolDetachFollowerDatabaseOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseKustoPoolDetachFollowerDatabaseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolDetachFollowerDatabaseOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzSynapseKustoPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveLanguageExtension(
-        AzSynapseKustoPoolRemoveLanguageExtensionOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseKustoPoolRemoveLanguageExtensionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolRemoveLanguageExtensionOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzSynapseKustoPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzSynapseKustoPoolStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseKustoPoolStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolStartOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class AzSynapseKustoPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzSynapseKustoPoolStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseKustoPoolStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolStopOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class AzSynapseKustoPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseKustoPoolUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseKustoPoolUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolUpdateOptions(), executionOptions, cancellationToken);

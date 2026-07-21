@@ -39,8 +39,8 @@ public class AzPostgresFlexibleServerIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzPostgresFlexibleServerIdentityAssignOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPostgresFlexibleServerIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzPostgresFlexibleServerIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzPostgresFlexibleServerIdentityRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPostgresFlexibleServerIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerIdentityRemoveOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzPostgresFlexibleServerIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzPostgresFlexibleServerIdentityUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPostgresFlexibleServerIdentityUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerIdentityUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzSqlServerVnetRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlServerVnetRuleCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlServerVnetRuleCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerVnetRuleCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSqlServerVnetRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlServerVnetRuleUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSqlServerVnetRuleUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerVnetRuleUpdateOptions(), executionOptions, cancellationToken);

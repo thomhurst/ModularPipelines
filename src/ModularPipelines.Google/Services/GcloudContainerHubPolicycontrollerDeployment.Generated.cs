@@ -40,7 +40,7 @@ public class GcloudContainerHubPolicycontrollerDeployment
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
         GcloudContainerHubPolicycontrollerDeploymentRemoveOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudContainerHubPolicycontrollerDeployment
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
         GcloudContainerHubPolicycontrollerDeploymentSetOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

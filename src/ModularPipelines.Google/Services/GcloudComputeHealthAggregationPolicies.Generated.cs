@@ -39,8 +39,8 @@ public class GcloudComputeHealthAggregationPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeHealthAggregationPoliciesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeHealthAggregationPoliciesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthAggregationPoliciesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputeHealthAggregationPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComputeHealthAggregationPoliciesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeHealthAggregationPoliciesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthAggregationPoliciesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudComputeHealthAggregationPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeHealthAggregationPoliciesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeHealthAggregationPoliciesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthAggregationPoliciesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudComputeHealthAggregationPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeHealthAggregationPoliciesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeHealthAggregationPoliciesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthAggregationPoliciesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudComputeHealthAggregationPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComputeHealthAggregationPoliciesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeHealthAggregationPoliciesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthAggregationPoliciesUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudLoggingSavedQueries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudLoggingSavedQueriesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLoggingSavedQueriesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLoggingSavedQueriesCreateOptions(), executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudLoggingSavedQueries
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudLoggingSavedQueriesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudLoggingSavedQueries
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudLoggingSavedQueriesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudLoggingSavedQueries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudLoggingSavedQueriesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudLoggingSavedQueriesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLoggingSavedQueriesListOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudLoggingSavedQueries
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudLoggingSavedQueriesUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

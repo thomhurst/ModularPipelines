@@ -39,8 +39,8 @@ public class GcloudContainerHubOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerHubOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerHubOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubOperationsListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerHubOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudContainerHubOperationsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubOperationsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubOperationsWaitOptions(), executionOptions, cancellationToken);

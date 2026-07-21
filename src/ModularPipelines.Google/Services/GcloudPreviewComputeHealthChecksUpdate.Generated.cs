@@ -40,7 +40,7 @@ public class GcloudPreviewComputeHealthChecksUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Grpc(
         GcloudPreviewComputeHealthChecksUpdateGrpcOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeHealthChecksUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GrpcWithTls(
         GcloudPreviewComputeHealthChecksUpdateGrpcWithTlsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeHealthChecksUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Http2(
         GcloudPreviewComputeHealthChecksUpdateHttp2Options options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudPreviewComputeHealthChecksUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Http(
         GcloudPreviewComputeHealthChecksUpdateHttpOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudPreviewComputeHealthChecksUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Https(
         GcloudPreviewComputeHealthChecksUpdateHttpsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudPreviewComputeHealthChecksUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ssl(
         GcloudPreviewComputeHealthChecksUpdateSslOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudPreviewComputeHealthChecksUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Tcp(
         GcloudPreviewComputeHealthChecksUpdateTcpOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

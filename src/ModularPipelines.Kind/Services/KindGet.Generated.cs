@@ -39,8 +39,8 @@ public class KindGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        KindGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KindGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindGetOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class KindGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clusters(
-        KindGetClustersOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KindGetClustersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindGetClustersOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class KindGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kubeconfig(
-        KindGetKubeconfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KindGetKubeconfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindGetKubeconfigOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class KindGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Nodes(
-        KindGetNodesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KindGetNodesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindGetNodesOptions(), executionOptions, cancellationToken);

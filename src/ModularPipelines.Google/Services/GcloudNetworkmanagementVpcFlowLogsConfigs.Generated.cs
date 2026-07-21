@@ -39,8 +39,8 @@ public class GcloudNetworkmanagementVpcFlowLogsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkmanagementVpcFlowLogsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkManagementVpcFlowLogsConfigsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementVpcFlowLogsConfigsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetworkmanagementVpcFlowLogsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkManagementVpcFlowLogsConfigsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementVpcFlowLogsConfigsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworkmanagementVpcFlowLogsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkManagementVpcFlowLogsConfigsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementVpcFlowLogsConfigsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetworkmanagementVpcFlowLogsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> QueryOrgVpcFlowLogsConfigs(
-        GcloudNetworkManagementVpcFlowLogsConfigsQueryOrgVpcFlowLogsConfigsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementVpcFlowLogsConfigsQueryOrgVpcFlowLogsConfigsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsQueryOrgVpcFlowLogsConfigsOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudNetworkmanagementVpcFlowLogsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowEffectiveFlowLogsConfigs(
-        GcloudNetworkManagementVpcFlowLogsConfigsShowEffectiveFlowLogsConfigsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementVpcFlowLogsConfigsShowEffectiveFlowLogsConfigsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsShowEffectiveFlowLogsConfigsOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudNetworkmanagementVpcFlowLogsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkManagementVpcFlowLogsConfigsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkManagementVpcFlowLogsConfigsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsUpdateOptions(), executionOptions, cancellationToken);

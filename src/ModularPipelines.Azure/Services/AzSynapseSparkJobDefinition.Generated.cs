@@ -39,8 +39,8 @@ public class AzSynapseSparkJobDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseSparkJobDefinitionCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSparkJobDefinitionCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkJobDefinitionCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapseSparkJobDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseSparkJobDefinitionDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSparkJobDefinitionDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkJobDefinitionDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSynapseSparkJobDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseSparkJobDefinitionUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSparkJobDefinitionUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkJobDefinitionUpdateOptions(), executionOptions, cancellationToken);

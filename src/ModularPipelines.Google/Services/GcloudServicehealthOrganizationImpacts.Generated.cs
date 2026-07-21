@@ -39,8 +39,8 @@ public class GcloudServicehealthOrganizationImpacts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudServiceHealthOrganizationImpactsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceHealthOrganizationImpactsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceHealthOrganizationImpactsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudServicehealthOrganizationImpacts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudServiceHealthOrganizationImpactsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceHealthOrganizationImpactsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceHealthOrganizationImpactsListOptions(), executionOptions, cancellationToken);

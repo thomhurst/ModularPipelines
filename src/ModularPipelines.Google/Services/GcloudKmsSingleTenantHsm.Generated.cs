@@ -49,8 +49,8 @@ public class GcloudKmsSingleTenantHsm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudKmsSingleTenantHsmCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsSingleTenantHsmCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsSingleTenantHsmCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudKmsSingleTenantHsm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudKmsSingleTenantHsmDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsSingleTenantHsmDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsSingleTenantHsmDescribeOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudKmsSingleTenantHsm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudKmsSingleTenantHsmListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudKmsSingleTenantHsmListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsSingleTenantHsmListOptions(), executionOptions, cancellationToken);

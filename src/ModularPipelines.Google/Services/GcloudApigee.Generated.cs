@@ -85,8 +85,8 @@ public class GcloudApigee
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudApigeeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApigeeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeOptions(), executionOptions, cancellationToken);

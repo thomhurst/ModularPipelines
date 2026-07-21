@@ -39,8 +39,8 @@ public class AzFunctionappConfigHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzFunctionappConfigHostnameAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappConfigHostnameAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigHostnameAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzFunctionappConfigHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzFunctionappConfigHostnameDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappConfigHostnameDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigHostnameDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzFunctionappConfigHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzFunctionappConfigHostnameListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappConfigHostnameListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigHostnameListOptions(), executionOptions, cancellationToken);

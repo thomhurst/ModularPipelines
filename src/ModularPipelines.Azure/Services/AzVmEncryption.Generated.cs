@@ -39,8 +39,8 @@ public class AzVmEncryption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        AzVmEncryptionDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmEncryptionDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmEncryptionDisableOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzVmEncryption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        AzVmEncryptionEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzVmEncryptionEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmEncryptionEnableOptions(), executionOptions, cancellationToken);

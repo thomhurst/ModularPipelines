@@ -39,8 +39,8 @@ public class AzFunctionappDeploymentSlot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AutoSwap(
-        AzFunctionappDeploymentSlotAutoSwapOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappDeploymentSlotAutoSwapOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSlotAutoSwapOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzFunctionappDeploymentSlot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzFunctionappDeploymentSlotCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappDeploymentSlotCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSlotCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzFunctionappDeploymentSlot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Swap(
-        AzFunctionappDeploymentSlotSwapOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappDeploymentSlotSwapOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSlotSwapOptions(), executionOptions, cancellationToken);

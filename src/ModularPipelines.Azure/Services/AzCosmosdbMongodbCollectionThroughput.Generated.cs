@@ -39,8 +39,8 @@ public class AzCosmosdbMongodbCollectionThroughput
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbMongodbCollectionThroughputUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbMongodbCollectionThroughputUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbMongodbCollectionThroughputUpdateOptions(), executionOptions, cancellationToken);

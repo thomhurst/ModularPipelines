@@ -39,8 +39,8 @@ public class AzAksSafeguards
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAksSafeguardsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksSafeguardsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksSafeguardsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAksSafeguards
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAksSafeguardsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksSafeguardsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksSafeguardsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAksSafeguards
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAksSafeguardsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksSafeguardsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksSafeguardsListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzAksSafeguards
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAksSafeguardsShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksSafeguardsShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksSafeguardsShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzAksSafeguards
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAksSafeguardsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksSafeguardsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksSafeguardsUpdateOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzAksSafeguards
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzAksSafeguardsWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksSafeguardsWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksSafeguardsWaitOptions(), executionOptions, cancellationToken);

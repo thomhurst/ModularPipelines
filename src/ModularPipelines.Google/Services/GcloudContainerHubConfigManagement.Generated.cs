@@ -39,8 +39,8 @@ public class GcloudContainerHubConfigManagement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubConfigManagementDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubConfigManagementDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubConfigManagementDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerHubConfigManagement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerHubConfigManagementDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubConfigManagementDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubConfigManagementDisableOptions(), executionOptions, cancellationToken);

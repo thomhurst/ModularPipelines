@@ -39,8 +39,8 @@ public class GcloudSccFindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BulkMute(
-        GcloudSccFindingsBulkMuteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccFindingsBulkMuteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsBulkMuteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudSccFindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudSccFindingsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccFindingsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudSccFindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportToBigquery(
-        GcloudSccFindingsExportToBigqueryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccFindingsExportToBigqueryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsExportToBigqueryOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudSccFindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Group(
-        GcloudSccFindingsGroupOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccFindingsGroupOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsGroupOptions(), executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudSccFindings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMarks(
         GcloudSccFindingsListMarksOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudSccFindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSccFindingsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccFindingsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsListOptions(), executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudSccFindings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetMute(
         GcloudSccFindingsSetMuteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudSccFindings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateMarks(
         GcloudSccFindingsUpdateMarksOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -160,7 +160,7 @@ public class GcloudSccFindings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudSccFindingsUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzStorageLogging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageLoggingShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageLoggingShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageLoggingShowOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageLogging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageLoggingUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageLoggingUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageLoggingUpdateOptions(), executionOptions, cancellationToken);

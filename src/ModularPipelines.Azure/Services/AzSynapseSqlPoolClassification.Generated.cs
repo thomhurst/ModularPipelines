@@ -49,8 +49,8 @@ public class AzSynapseSqlPoolClassification
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSynapseSqlPoolClassificationListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSqlPoolClassificationListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolClassificationListOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzSynapseSqlPoolClassification
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseSqlPoolClassificationUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSqlPoolClassificationUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolClassificationUpdateOptions(), executionOptions, cancellationToken);

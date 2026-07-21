@@ -39,8 +39,8 @@ public class GcloudArtifactsVpcscConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Allow(
-        GcloudArtifactsVpcscConfigAllowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsVpcscConfigAllowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVpcscConfigAllowOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudArtifactsVpcscConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deny(
-        GcloudArtifactsVpcscConfigDenyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsVpcscConfigDenyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVpcscConfigDenyOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudArtifactsVpcscConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudArtifactsVpcscConfigDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsVpcscConfigDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVpcscConfigDescribeOptions(), executionOptions, cancellationToken);

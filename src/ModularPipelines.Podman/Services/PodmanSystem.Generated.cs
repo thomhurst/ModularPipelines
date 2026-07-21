@@ -49,8 +49,8 @@ public class PodmanSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Df(
-        PodmanSystemDfOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanSystemDfOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSystemDfOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class PodmanSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Events(
-        PodmanSystemEventsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanSystemEventsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSystemEventsOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class PodmanSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Migrate(
-        PodmanSystemMigrateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanSystemMigrateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSystemMigrateOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class PodmanSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        PodmanSystemPruneOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanSystemPruneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSystemPruneOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class PodmanSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        PodmanSystemResetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanSystemResetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSystemResetOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class PodmanSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Service(
-        PodmanSystemServiceOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PodmanSystemServiceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSystemServiceOptions(), executionOptions, cancellationToken);

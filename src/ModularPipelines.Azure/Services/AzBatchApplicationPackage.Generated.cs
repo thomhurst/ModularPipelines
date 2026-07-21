@@ -39,8 +39,8 @@ public class AzBatchApplicationPackage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBatchApplicationPackageDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchApplicationPackageDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchApplicationPackageDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzBatchApplicationPackage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBatchApplicationPackageListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchApplicationPackageListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchApplicationPackageListOptions(), executionOptions, cancellationToken);

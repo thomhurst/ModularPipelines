@@ -39,8 +39,8 @@ public class AzNetworkWatcherFlowLog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkWatcherFlowLogCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkWatcherFlowLogCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkWatcherFlowLog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkWatcherFlowLogDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkWatcherFlowLogDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkWatcherFlowLog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkWatcherFlowLogListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkWatcherFlowLogListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzNetworkWatcherFlowLog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkWatcherFlowLogShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkWatcherFlowLogShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzNetworkWatcherFlowLog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkWatcherFlowLogUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkWatcherFlowLogUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogUpdateOptions(), executionOptions, cancellationToken);

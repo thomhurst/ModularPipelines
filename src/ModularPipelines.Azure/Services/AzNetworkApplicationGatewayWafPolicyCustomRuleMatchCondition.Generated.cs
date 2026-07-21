@@ -39,8 +39,8 @@ public class AzNetworkApplicationGatewayWafPolicyCustomRuleMatchCondition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOptions(), executionOptions, cancellationToken);

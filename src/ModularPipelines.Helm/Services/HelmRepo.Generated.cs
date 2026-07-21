@@ -39,8 +39,8 @@ public class HelmRepo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        HelmRepoOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmRepoOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmRepoOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class HelmRepo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        HelmRepoAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmRepoAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmRepoAddOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class HelmRepo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Index(
-        HelmRepoIndexOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmRepoIndexOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmRepoIndexOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class HelmRepo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        HelmRepoListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmRepoListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmRepoListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class HelmRepo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        HelmRepoRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmRepoRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmRepoRemoveOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class HelmRepo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        HelmRepoUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        HelmRepoUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmRepoUpdateOptions(), executionOptions, cancellationToken);

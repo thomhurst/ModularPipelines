@@ -39,8 +39,8 @@ public class DockerNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DockerNetworkOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerNetworkOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class DockerNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Connect(
-        DockerNetworkConnectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerNetworkConnectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkConnectOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class DockerNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        DockerNetworkCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerNetworkCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkCreateOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class DockerNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disconnect(
-        DockerNetworkDisconnectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerNetworkDisconnectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkDisconnectOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class DockerNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        DockerNetworkInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerNetworkInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkInspectOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class DockerNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        DockerNetworkLsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerNetworkLsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkLsOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class DockerNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        DockerNetworkPruneOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerNetworkPruneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkPruneOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class DockerNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        DockerNetworkRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerNetworkRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkRmOptions(), executionOptions, cancellationToken);

@@ -40,7 +40,7 @@ public class GcloudOrgpolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCustomConstraint(
         GcloudOrgPoliciesDeleteCustomConstraintOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudOrgpolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudOrgPoliciesDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudOrgpolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCustomConstraint(
         GcloudOrgPoliciesDescribeCustomConstraintOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudOrgpolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudOrgPoliciesDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudOrgpolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCustomConstraints(
-        GcloudOrgPoliciesListCustomConstraintsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOrgPoliciesListCustomConstraintsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesListCustomConstraintsOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudOrgpolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudOrgPoliciesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudOrgPoliciesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesListOptions(), executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudOrgpolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
         GcloudOrgPoliciesResetOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudOrgpolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetCustomConstraint(
         GcloudOrgPoliciesSetCustomConstraintOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -160,7 +160,7 @@ public class GcloudOrgpolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetPolicy(
         GcloudOrgPoliciesSetPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

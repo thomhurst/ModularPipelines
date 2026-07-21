@@ -39,8 +39,8 @@ public class GcloudIapSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        GcloudIapSettingsGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIapSettingsGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIapSettingsGetOptions(), executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudIapSettings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
         GcloudIapSettingsSetOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

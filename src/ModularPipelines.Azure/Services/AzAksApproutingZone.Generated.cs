@@ -39,8 +39,8 @@ public class AzAksApproutingZone
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzAksApproutingZoneAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksApproutingZoneAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksApproutingZoneAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAksApproutingZone
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAksApproutingZoneDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksApproutingZoneDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksApproutingZoneDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAksApproutingZone
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAksApproutingZoneUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAksApproutingZoneUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksApproutingZoneUpdateOptions(), executionOptions, cancellationToken);

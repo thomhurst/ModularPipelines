@@ -49,8 +49,8 @@ public class AzCapacityReservation
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCapacityReservationCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCapacityReservationCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCapacityReservationCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzCapacityReservation
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCapacityReservationDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCapacityReservationDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCapacityReservationDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzCapacityReservation
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzCapacityReservationShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCapacityReservationShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCapacityReservationShowOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzCapacityReservation
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCapacityReservationUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCapacityReservationUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCapacityReservationUpdateOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class AzCapacityReservation
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzCapacityReservationWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCapacityReservationWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCapacityReservationWaitOptions(), executionOptions, cancellationToken);

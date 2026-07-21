@@ -61,8 +61,8 @@ public class AzSearchService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSearchServiceCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSearchServiceCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceCreateOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ public class AzSearchService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSearchServiceDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSearchServiceDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceDeleteOptions(), executionOptions, cancellationToken);
@@ -91,8 +91,8 @@ public class AzSearchService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSearchServiceUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSearchServiceUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceUpdateOptions(), executionOptions, cancellationToken);

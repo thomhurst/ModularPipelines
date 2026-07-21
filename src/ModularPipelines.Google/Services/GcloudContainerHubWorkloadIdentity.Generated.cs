@@ -49,8 +49,8 @@ public class GcloudContainerHubWorkloadIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubWorkloadIdentityDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubWorkloadIdentityDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubWorkloadIdentityDescribeOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class GcloudContainerHubWorkloadIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerHubWorkloadIdentityDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubWorkloadIdentityDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubWorkloadIdentityDisableOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class GcloudContainerHubWorkloadIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerHubWorkloadIdentityEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubWorkloadIdentityEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubWorkloadIdentityEnableOptions(), executionOptions, cancellationToken);

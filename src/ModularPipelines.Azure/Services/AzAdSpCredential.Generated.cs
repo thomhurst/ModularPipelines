@@ -39,8 +39,8 @@ public class AzAdSpCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAdSpCredentialDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdSpCredentialDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdSpCredentialDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAdSpCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAdSpCredentialListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdSpCredentialListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdSpCredentialListOptions(), executionOptions, cancellationToken);

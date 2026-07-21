@@ -39,8 +39,8 @@ public class GcloudContainerHubClusterupgrade
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerHubClusterupgradeCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubClusterupgradeCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubClusterupgradeCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerHubClusterupgrade
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubClusterupgradeDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubClusterupgradeDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubClusterupgradeDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerHubClusterupgrade
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerHubClusterupgradeUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubClusterupgradeUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubClusterupgradeUpdateOptions(), executionOptions, cancellationToken);

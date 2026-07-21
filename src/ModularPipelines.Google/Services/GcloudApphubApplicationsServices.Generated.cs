@@ -39,8 +39,8 @@ public class GcloudApphubApplicationsServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudApphubApplicationsServicesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubApplicationsServicesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsServicesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudApphubApplicationsServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudApphubApplicationsServicesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubApplicationsServicesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsServicesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudApphubApplicationsServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApphubApplicationsServicesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubApplicationsServicesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsServicesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudApphubApplicationsServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApphubApplicationsServicesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubApplicationsServicesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsServicesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudApphubApplicationsServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudApphubApplicationsServicesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApphubApplicationsServicesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsServicesUpdateOptions(), executionOptions, cancellationToken);

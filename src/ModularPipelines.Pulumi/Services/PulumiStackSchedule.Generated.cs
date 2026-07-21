@@ -39,8 +39,8 @@ public class PulumiStackSchedule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Edit(
-        PulumiStackScheduleEditOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiStackScheduleEditOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackScheduleEditOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PulumiStackSchedule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        PulumiStackScheduleGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiStackScheduleGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackScheduleGetOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class PulumiStackSchedule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PulumiStackScheduleListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiStackScheduleListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackScheduleListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class PulumiStackSchedule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> New(
-        PulumiStackScheduleNewOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiStackScheduleNewOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackScheduleNewOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class PulumiStackSchedule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        PulumiStackScheduleRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiStackScheduleRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiStackScheduleRemoveOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudBmsNetworks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBmsNetworksDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsNetworksDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNetworksDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudBmsNetworks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListIpReservations(
-        GcloudBmsNetworksListIpReservationsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsNetworksListIpReservationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNetworksListIpReservationsOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudBmsNetworks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBmsNetworksListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsNetworksListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNetworksListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudBmsNetworks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rename(
-        GcloudBmsNetworksRenameOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsNetworksRenameOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNetworksRenameOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudBmsNetworks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBmsNetworksUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudBmsNetworksUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNetworksUpdateOptions(), executionOptions, cancellationToken);

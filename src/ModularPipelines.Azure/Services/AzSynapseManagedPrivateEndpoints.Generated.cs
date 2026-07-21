@@ -39,8 +39,8 @@ public class AzSynapseManagedPrivateEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseManagedPrivateEndpointsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseManagedPrivateEndpointsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseManagedPrivateEndpointsDeleteOptions(), executionOptions, cancellationToken);

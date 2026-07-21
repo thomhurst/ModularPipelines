@@ -39,8 +39,8 @@ public class AzPolicyAssignmentNonComplianceMessage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzPolicyAssignmentNonComplianceMessageCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyAssignmentNonComplianceMessageCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentNonComplianceMessageCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzPolicyAssignmentNonComplianceMessage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzPolicyAssignmentNonComplianceMessageDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyAssignmentNonComplianceMessageDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentNonComplianceMessageDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzPolicyAssignmentNonComplianceMessage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPolicyAssignmentNonComplianceMessageListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyAssignmentNonComplianceMessageListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentNonComplianceMessageListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzPolicyAssignmentNonComplianceMessage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPolicyAssignmentNonComplianceMessageShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyAssignmentNonComplianceMessageShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentNonComplianceMessageShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzPolicyAssignmentNonComplianceMessage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzPolicyAssignmentNonComplianceMessageUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPolicyAssignmentNonComplianceMessageUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentNonComplianceMessageUpdateOptions(), executionOptions, cancellationToken);

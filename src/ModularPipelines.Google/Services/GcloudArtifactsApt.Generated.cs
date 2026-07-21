@@ -39,8 +39,8 @@ public class GcloudArtifactsApt
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudArtifactsAptImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsAptImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAptImportOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudArtifactsApt
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upload(
-        GcloudArtifactsAptUploadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsAptUploadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAptUploadOptions(), executionOptions, cancellationToken);

@@ -49,8 +49,8 @@ public class AzAdSp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateForRbac(
-        AzAdSpCreateForRbacOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdSpCreateForRbacOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdSpCreateForRbacOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzAdSp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAdSpListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdSpListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdSpListOptions(), executionOptions, cancellationToken);

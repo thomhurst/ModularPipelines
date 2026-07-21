@@ -79,8 +79,8 @@ public class AzMonitorLogAnalyticsWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorLogAnalyticsWorkspaceCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceCreateOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzMonitorLogAnalyticsWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMonitorLogAnalyticsWorkspaceDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceDeleteOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class AzMonitorLogAnalyticsWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Failback(
-        AzMonitorLogAnalyticsWorkspaceFailbackOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceFailbackOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceFailbackOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class AzMonitorLogAnalyticsWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Failover(
-        AzMonitorLogAnalyticsWorkspaceFailoverOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceFailoverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceFailoverOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class AzMonitorLogAnalyticsWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDeletedWorkspaces(
-        AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions(), executionOptions, cancellationToken);
@@ -154,8 +154,8 @@ public class AzMonitorLogAnalyticsWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMonitorLogAnalyticsWorkspaceListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceListOptions(), executionOptions, cancellationToken);
@@ -169,8 +169,8 @@ public class AzMonitorLogAnalyticsWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Recover(
-        AzMonitorLogAnalyticsWorkspaceRecoverOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceRecoverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceRecoverOptions(), executionOptions, cancellationToken);
@@ -184,8 +184,8 @@ public class AzMonitorLogAnalyticsWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorLogAnalyticsWorkspaceUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceUpdateOptions(), executionOptions, cancellationToken);

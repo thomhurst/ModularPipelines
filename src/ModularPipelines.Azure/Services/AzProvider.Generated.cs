@@ -39,8 +39,8 @@ public class AzProvider
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzProviderListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzProviderListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzProviderListOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzProvider
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Register(
-        AzProviderRegisterOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzProviderRegisterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzProviderRegisterOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzProvider
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzProviderShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzProviderShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzProviderShowOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzProvider
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unregister(
-        AzProviderUnregisterOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzProviderUnregisterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzProviderUnregisterOptions(), executionOptions, cancellationToken);

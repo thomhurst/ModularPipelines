@@ -39,8 +39,8 @@ public class GcloudPreviewComputeProjectInfo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddMetadata(
-        GcloudPreviewComputeProjectInfoAddMetadataOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeProjectInfoAddMetadataOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeProjectInfoAddMetadataOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudPreviewComputeProjectInfo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudPreviewComputeProjectInfoDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeProjectInfoDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeProjectInfoDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudPreviewComputeProjectInfo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveMetadata(
-        GcloudPreviewComputeProjectInfoRemoveMetadataOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeProjectInfoRemoveMetadataOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeProjectInfoRemoveMetadataOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudPreviewComputeProjectInfo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudPreviewComputeProjectInfoUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeProjectInfoUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeProjectInfoUpdateOptions(), executionOptions, cancellationToken);

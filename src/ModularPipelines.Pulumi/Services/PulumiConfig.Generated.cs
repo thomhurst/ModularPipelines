@@ -49,8 +49,8 @@ public class PulumiConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        PulumiConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiConfigOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class PulumiConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Copy(
-        PulumiConfigCopyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiConfigCopyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiConfigCopyOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class PulumiConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        PulumiConfigGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiConfigGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiConfigGetOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class PulumiConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Refresh(
-        PulumiConfigRefreshOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiConfigRefreshOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiConfigRefreshOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class PulumiConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveAll(
-        PulumiConfigRemoveAllOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiConfigRemoveAllOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiConfigRemoveAllOptions(), executionOptions, cancellationToken);
@@ -124,8 +124,8 @@ public class PulumiConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        PulumiConfigRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiConfigRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiConfigRemoveOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ public class PulumiConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetAll(
-        PulumiConfigSetAllOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiConfigSetAllOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiConfigSetAllOptions(), executionOptions, cancellationToken);
@@ -154,8 +154,8 @@ public class PulumiConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        PulumiConfigSetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiConfigSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiConfigSetOptions(), executionOptions, cancellationToken);

@@ -74,8 +74,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Dashboard(
-        MinikubeDashboardOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeDashboardOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeDashboardOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Delete(
-        MinikubeDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeDeleteOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> DockerEnv(
-        MinikubeDockerEnvOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeDockerEnvOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeDockerEnvOptions(), executionOptions, cancellationToken);
@@ -101,8 +101,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Ip(
-        MinikubeIpOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeIpOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeIpOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Kubectl(
-        MinikubeKubectlOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeKubectlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeKubectlOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> License(
-        MinikubeLicenseOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeLicenseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeLicenseOptions(), executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Logs(
-        MinikubeLogsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeLogsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeLogsOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Mount(
-        MinikubeMountOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeMountOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeMountOptions(), executionOptions, cancellationToken);
@@ -146,8 +146,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Pause(
-        MinikubePauseOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubePauseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubePauseOptions(), executionOptions, cancellationToken);
@@ -155,8 +155,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PodmanEnv(
-        MinikubePodmanEnvOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubePodmanEnvOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubePodmanEnvOptions(), executionOptions, cancellationToken);
@@ -164,8 +164,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SshHost(
-        MinikubeSshHostOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeSshHostOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeSshHostOptions(), executionOptions, cancellationToken);
@@ -173,8 +173,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SshKey(
-        MinikubeSshKeyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeSshKeyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeSshKeyOptions(), executionOptions, cancellationToken);
@@ -182,8 +182,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Ssh(
-        MinikubeSshOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeSshOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeSshOptions(), executionOptions, cancellationToken);
@@ -191,8 +191,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Start(
-        MinikubeStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeStartOptions(), executionOptions, cancellationToken);
@@ -200,8 +200,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Status(
-        MinikubeStatusOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeStatusOptions(), executionOptions, cancellationToken);
@@ -209,8 +209,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Stop(
-        MinikubeStopOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeStopOptions(), executionOptions, cancellationToken);
@@ -218,8 +218,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Tunnel(
-        MinikubeTunnelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeTunnelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeTunnelOptions(), executionOptions, cancellationToken);
@@ -227,8 +227,8 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Unpause(
-        MinikubeUnpauseOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeUnpauseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeUnpauseOptions(), executionOptions, cancellationToken);

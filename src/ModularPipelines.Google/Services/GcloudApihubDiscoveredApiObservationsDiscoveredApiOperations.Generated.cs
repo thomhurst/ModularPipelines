@@ -39,8 +39,8 @@ public class GcloudApihubDiscoveredApiObservationsDiscoveredApiOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApihubDiscoveredApiObservationsDiscoveredApiOperationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubDiscoveredApiObservationsDiscoveredApiOperationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubDiscoveredApiObservationsDiscoveredApiOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudApihubDiscoveredApiObservationsDiscoveredApiOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApihubDiscoveredApiObservationsDiscoveredApiOperationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudApihubDiscoveredApiObservationsDiscoveredApiOperationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApihubDiscoveredApiObservationsDiscoveredApiOperationsListOptions(), executionOptions, cancellationToken);

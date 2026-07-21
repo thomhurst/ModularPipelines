@@ -39,8 +39,8 @@ public class AzAdGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAdGroupCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdGroupCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdGroupCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAdGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMemberGroups(
-        AzAdGroupGetMemberGroupsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdGroupGetMemberGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdGroupGetMemberGroupsOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAdGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAdGroupListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAdGroupListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdGroupListOptions(), executionOptions, cancellationToken);

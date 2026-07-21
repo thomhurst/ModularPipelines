@@ -39,8 +39,8 @@ public class GcloudSccManageCustomModulesSha
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudSccManageCustomModulesShaCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccManageCustomModulesShaCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaCreateOptions(), executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudSccManageCustomModulesSha
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudSccManageCustomModulesShaDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudSccManageCustomModulesSha
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeEffective(
         GcloudSccManageCustomModulesShaDescribeEffectiveOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudSccManageCustomModulesSha
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudSccManageCustomModulesShaDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudSccManageCustomModulesSha
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDescendant(
-        GcloudSccManageCustomModulesShaListDescendantOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccManageCustomModulesShaListDescendantOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaListDescendantOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudSccManageCustomModulesSha
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEffective(
-        GcloudSccManageCustomModulesShaListEffectiveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccManageCustomModulesShaListEffectiveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaListEffectiveOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudSccManageCustomModulesSha
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSccManageCustomModulesShaListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccManageCustomModulesShaListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaListOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudSccManageCustomModulesSha
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Simulate(
-        GcloudSccManageCustomModulesShaSimulateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSccManageCustomModulesShaSimulateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaSimulateOptions(), executionOptions, cancellationToken);
@@ -160,7 +160,7 @@ public class GcloudSccManageCustomModulesSha
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudSccManageCustomModulesShaUpdateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

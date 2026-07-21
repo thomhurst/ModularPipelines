@@ -39,8 +39,8 @@ public class GcloudInframanagerResourceChanges
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudInfraManagerResourceChangesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudInfraManagerResourceChangesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerResourceChangesDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudInframanagerResourceChanges
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudInfraManagerResourceChangesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudInfraManagerResourceChangesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerResourceChangesListOptions(), executionOptions, cancellationToken);

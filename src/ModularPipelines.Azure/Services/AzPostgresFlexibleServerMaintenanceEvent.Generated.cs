@@ -39,8 +39,8 @@ public class AzPostgresFlexibleServerMaintenanceEvent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ApplyNow(
-        AzPostgresFlexibleServerMaintenanceEventApplyNowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPostgresFlexibleServerMaintenanceEventApplyNowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerMaintenanceEventApplyNowOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzPostgresFlexibleServerMaintenanceEvent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPostgresFlexibleServerMaintenanceEventListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPostgresFlexibleServerMaintenanceEventListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerMaintenanceEventListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzPostgresFlexibleServerMaintenanceEvent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reschedule(
-        AzPostgresFlexibleServerMaintenanceEventRescheduleOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzPostgresFlexibleServerMaintenanceEventRescheduleOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerMaintenanceEventRescheduleOptions(), executionOptions, cancellationToken);

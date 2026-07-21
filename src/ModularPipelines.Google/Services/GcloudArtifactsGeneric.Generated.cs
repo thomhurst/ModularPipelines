@@ -39,8 +39,8 @@ public class GcloudArtifactsGeneric
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Download(
-        GcloudArtifactsGenericDownloadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsGenericDownloadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsGenericDownloadOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudArtifactsGeneric
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upload(
-        GcloudArtifactsGenericUploadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudArtifactsGenericUploadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsGenericUploadOptions(), executionOptions, cancellationToken);

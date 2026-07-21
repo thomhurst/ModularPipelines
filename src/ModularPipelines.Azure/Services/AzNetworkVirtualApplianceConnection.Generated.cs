@@ -39,8 +39,8 @@ public class AzNetworkVirtualApplianceConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkVirtualApplianceConnectionUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceConnectionUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceConnectionUpdateOptions(), executionOptions, cancellationToken);

@@ -40,7 +40,7 @@ public class GcloudIamServiceAccountsKeys
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudIamServiceAccountsKeysCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudIamServiceAccountsKeys
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudIamServiceAccountsKeysDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudIamServiceAccountsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudIamServiceAccountsKeysDisableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamServiceAccountsKeysDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsKeysDisableOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudIamServiceAccountsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudIamServiceAccountsKeysEnableOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamServiceAccountsKeysEnableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsKeysEnableOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudIamServiceAccountsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudIamServiceAccountsKeysListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamServiceAccountsKeysListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsKeysListOptions(), executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudIamServiceAccountsKeys
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upload(
         GcloudIamServiceAccountsKeysUploadOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

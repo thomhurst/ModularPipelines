@@ -39,8 +39,8 @@ public class GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesListOptions(), executionOptions, cancellationToken);

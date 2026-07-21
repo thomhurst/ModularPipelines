@@ -39,8 +39,8 @@ public class GcloudEventarcGoogleChannels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEventarcGoogleChannelsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcGoogleChannelsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleChannelsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudEventarcGoogleChannels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudEventarcGoogleChannelsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudEventarcGoogleChannelsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleChannelsUpdateOptions(), executionOptions, cancellationToken);

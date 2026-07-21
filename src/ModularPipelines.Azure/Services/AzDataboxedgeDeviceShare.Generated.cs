@@ -39,8 +39,8 @@ public class AzDataboxedgeDeviceShare
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDataboxedgeDeviceShareCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeDeviceShareCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceShareCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzDataboxedgeDeviceShare
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDataboxedgeDeviceShareDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeDeviceShareDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceShareDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzDataboxedgeDeviceShare
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDataboxedgeDeviceShareUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeDeviceShareUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceShareUpdateOptions(), executionOptions, cancellationToken);

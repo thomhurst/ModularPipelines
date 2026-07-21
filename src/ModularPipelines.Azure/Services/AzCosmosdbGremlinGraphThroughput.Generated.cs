@@ -39,8 +39,8 @@ public class AzCosmosdbGremlinGraphThroughput
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbGremlinGraphThroughputUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbGremlinGraphThroughputUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbGremlinGraphThroughputUpdateOptions(), executionOptions, cancellationToken);

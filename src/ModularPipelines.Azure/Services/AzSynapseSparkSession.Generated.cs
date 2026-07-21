@@ -39,8 +39,8 @@ public class AzSynapseSparkSession
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzSynapseSparkSessionCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSparkSessionCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkSessionCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzSynapseSparkSession
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseSparkSessionCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSparkSessionCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkSessionCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzSynapseSparkSession
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSynapseSparkSessionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzSynapseSparkSessionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkSessionListOptions(), executionOptions, cancellationToken);

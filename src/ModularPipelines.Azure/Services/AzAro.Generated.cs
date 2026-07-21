@@ -39,8 +39,8 @@ public class AzAro
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAroCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAroCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAroCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAro
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAroDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAroDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAroDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAro
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAdminKubeconfig(
-        AzAroGetAdminKubeconfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAroGetAdminKubeconfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAroGetAdminKubeconfigOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzAro
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAroListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAroListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAroListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzAro
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAroUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAroUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAroUpdateOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzAro
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Validate(
-        AzAroValidateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAroValidateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAroValidateOptions(), executionOptions, cancellationToken);

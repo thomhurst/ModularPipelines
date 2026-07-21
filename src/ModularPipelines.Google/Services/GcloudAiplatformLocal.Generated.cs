@@ -39,8 +39,8 @@ public class GcloudAiplatformLocal
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Predict(
-        GcloudAiPlatformLocalPredictOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiPlatformLocalPredictOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformLocalPredictOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudAiplatformLocal
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Train(
-        GcloudAiPlatformLocalTrainOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiPlatformLocalTrainOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformLocalTrainOptions(), executionOptions, cancellationToken);

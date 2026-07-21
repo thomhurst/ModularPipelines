@@ -39,8 +39,8 @@ public class DockerImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DockerImageOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerImageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImageOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class DockerImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
-        DockerImageBuildOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerImageBuildOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImageBuildOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class DockerImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> History(
-        DockerImageHistoryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerImageHistoryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImageHistoryOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class DockerImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        DockerImageImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerImageImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImageImportOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class DockerImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        DockerImageInspectOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerImageInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImageInspectOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class DockerImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Load(
-        DockerImageLoadOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerImageLoadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImageLoadOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class DockerImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        DockerImageLsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerImageLsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImageLsOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class DockerImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        DockerImagePruneOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerImagePruneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImagePruneOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class DockerImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pull(
-        DockerImagePullOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerImagePullOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImagePullOptions(), executionOptions, cancellationToken);
@@ -174,8 +174,8 @@ public class DockerImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Push(
-        DockerImagePushOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerImagePushOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImagePushOptions(), executionOptions, cancellationToken);
@@ -189,8 +189,8 @@ public class DockerImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        DockerImageRmOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerImageRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImageRmOptions(), executionOptions, cancellationToken);
@@ -204,8 +204,8 @@ public class DockerImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Save(
-        DockerImageSaveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        DockerImageSaveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImageSaveOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class KindExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        KindExportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KindExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindExportOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class KindExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kubeconfig(
-        KindExportKubeconfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KindExportKubeconfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindExportKubeconfigOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class KindExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Logs(
-        KindExportLogsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        KindExportLogsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindExportLogsOptions(), executionOptions, cancellationToken);

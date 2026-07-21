@@ -49,8 +49,8 @@ public class AzDisk
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDiskCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDiskCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzDisk
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDiskDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDiskDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzDisk
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GrantAccess(
-        AzDiskGrantAccessOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDiskGrantAccessOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskGrantAccessOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzDisk
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RevokeAccess(
-        AzDiskRevokeAccessOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDiskRevokeAccessOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskRevokeAccessOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ public class AzDisk
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDiskUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDiskUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskUpdateOptions(), executionOptions, cancellationToken);

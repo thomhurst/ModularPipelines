@@ -39,8 +39,8 @@ public class AzNetworkDnsRecordSetAaaa
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddRecord(
-        AzNetworkDnsRecordSetAaaaAddRecordOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDnsRecordSetAaaaAddRecordOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetAaaaAddRecordOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkDnsRecordSetAaaa
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkDnsRecordSetAaaaCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDnsRecordSetAaaaCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetAaaaCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkDnsRecordSetAaaa
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkDnsRecordSetAaaaDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDnsRecordSetAaaaDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetAaaaDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzNetworkDnsRecordSetAaaa
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkDnsRecordSetAaaaListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDnsRecordSetAaaaListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetAaaaListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzNetworkDnsRecordSetAaaa
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveRecord(
-        AzNetworkDnsRecordSetAaaaRemoveRecordOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDnsRecordSetAaaaRemoveRecordOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetAaaaRemoveRecordOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzNetworkDnsRecordSetAaaa
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkDnsRecordSetAaaaUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDnsRecordSetAaaaUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetAaaaUpdateOptions(), executionOptions, cancellationToken);

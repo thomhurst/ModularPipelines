@@ -39,8 +39,8 @@ public class GcloudFilestoreLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudFilestoreLocationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFilestoreLocationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreLocationsDescribeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudFilestoreLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFilestoreLocationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudFilestoreLocationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreLocationsListOptions(), executionOptions, cancellationToken);

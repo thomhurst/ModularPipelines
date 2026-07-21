@@ -39,8 +39,8 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudIamPrincipalAccessBoundaryPoliciesDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamPrincipalAccessBoundaryPoliciesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudIamPrincipalAccessBoundaryPoliciesDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamPrincipalAccessBoundaryPoliciesDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudIamPrincipalAccessBoundaryPoliciesListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamPrincipalAccessBoundaryPoliciesListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchPolicyBindings(
-        GcloudIamPrincipalAccessBoundaryPoliciesSearchPolicyBindingsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamPrincipalAccessBoundaryPoliciesSearchPolicyBindingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesSearchPolicyBindingsOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions(), executionOptions, cancellationToken);

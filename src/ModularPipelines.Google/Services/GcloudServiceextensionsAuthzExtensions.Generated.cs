@@ -39,8 +39,8 @@ public class GcloudServiceextensionsAuthzExtensions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudServiceExtensionsAuthzExtensionsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceExtensionsAuthzExtensionsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsAuthzExtensionsDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudServiceextensionsAuthzExtensions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudServiceExtensionsAuthzExtensionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceExtensionsAuthzExtensionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsAuthzExtensionsDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudServiceextensionsAuthzExtensions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudServiceExtensionsAuthzExtensionsImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceExtensionsAuthzExtensionsImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsAuthzExtensionsImportOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudServiceextensionsAuthzExtensions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudServiceExtensionsAuthzExtensionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudServiceExtensionsAuthzExtensionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsAuthzExtensionsListOptions(), executionOptions, cancellationToken);

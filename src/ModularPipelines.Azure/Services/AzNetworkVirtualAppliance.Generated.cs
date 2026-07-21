@@ -67,8 +67,8 @@ public class AzNetworkVirtualAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkVirtualApplianceCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceCreateOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzNetworkVirtualAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkVirtualApplianceDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceDeleteOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzNetworkVirtualAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBootDiagnosticLog(
-        AzNetworkVirtualApplianceGetBootDiagnosticLogOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceGetBootDiagnosticLogOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceGetBootDiagnosticLogOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzNetworkVirtualAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkVirtualApplianceListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceListOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzNetworkVirtualAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reimage(
-        AzNetworkVirtualApplianceReimageOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceReimageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceReimageOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class AzNetworkVirtualAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        AzNetworkVirtualApplianceRestartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceRestartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceRestartOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class AzNetworkVirtualAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkVirtualApplianceShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceShowOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class AzNetworkVirtualAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkVirtualApplianceUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceUpdateOptions(), executionOptions, cancellationToken);
@@ -187,8 +187,8 @@ public class AzNetworkVirtualAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzNetworkVirtualApplianceWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceWaitOptions(), executionOptions, cancellationToken);

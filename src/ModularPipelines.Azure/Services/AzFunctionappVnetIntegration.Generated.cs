@@ -39,8 +39,8 @@ public class AzFunctionappVnetIntegration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzFunctionappVnetIntegrationAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappVnetIntegrationAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappVnetIntegrationAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzFunctionappVnetIntegration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzFunctionappVnetIntegrationListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappVnetIntegrationListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappVnetIntegrationListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzFunctionappVnetIntegration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzFunctionappVnetIntegrationRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappVnetIntegrationRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappVnetIntegrationRemoveOptions(), executionOptions, cancellationToken);

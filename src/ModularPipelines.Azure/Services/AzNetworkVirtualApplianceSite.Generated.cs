@@ -39,8 +39,8 @@ public class AzNetworkVirtualApplianceSite
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkVirtualApplianceSiteCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceSiteCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkVirtualApplianceSite
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkVirtualApplianceSiteDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceSiteDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkVirtualApplianceSite
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkVirtualApplianceSiteUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkVirtualApplianceSiteUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteUpdateOptions(), executionOptions, cancellationToken);

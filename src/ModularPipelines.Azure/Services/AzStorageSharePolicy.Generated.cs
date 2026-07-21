@@ -39,8 +39,8 @@ public class AzStorageSharePolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageSharePolicyCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageSharePolicyCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageSharePolicyCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzStorageSharePolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageSharePolicyUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageSharePolicyUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageSharePolicyUpdateOptions(), executionOptions, cancellationToken);

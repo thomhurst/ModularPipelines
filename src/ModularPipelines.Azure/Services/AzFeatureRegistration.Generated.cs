@@ -39,8 +39,8 @@ public class AzFeatureRegistration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzFeatureRegistrationDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFeatureRegistrationDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFeatureRegistrationDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzFeatureRegistration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzFeatureRegistrationListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFeatureRegistrationListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFeatureRegistrationListOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzFunctionappCors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzFunctionappCorsAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappCorsAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappCorsAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzFunctionappCors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Credentials(
-        AzFunctionappCorsCredentialsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappCorsCredentialsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappCorsCredentialsOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzFunctionappCors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzFunctionappCorsRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappCorsRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappCorsRemoveOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzFunctionappCors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzFunctionappCorsShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzFunctionappCorsShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappCorsShowOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class PulumiEnvTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        PulumiEnvTagGetOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiEnvTagGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvTagGetOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class PulumiEnvTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PulumiEnvTagListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiEnvTagListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvTagListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class PulumiEnvTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Move(
-        PulumiEnvTagMoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiEnvTagMoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvTagMoveOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class PulumiEnvTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        PulumiEnvTagRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiEnvTagRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvTagRemoveOptions(), executionOptions, cancellationToken);

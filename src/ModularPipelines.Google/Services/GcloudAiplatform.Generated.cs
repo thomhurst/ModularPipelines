@@ -73,8 +73,8 @@ public class GcloudAiplatform
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Predict(
-        GcloudAiPlatformPredictOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAiPlatformPredictOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformPredictOptions(), executionOptions, cancellationToken);

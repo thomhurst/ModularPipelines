@@ -55,8 +55,8 @@ public class GcloudContainerHubMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerHubMembershipsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubMembershipsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsDeleteOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class GcloudContainerHubMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubMembershipsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubMembershipsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsDescribeOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class GcloudContainerHubMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateGatewayRbac(
-        GcloudContainerHubMembershipsGenerateGatewayRbacOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubMembershipsGenerateGatewayRbacOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsGenerateGatewayRbacOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class GcloudContainerHubMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCredentials(
-        GcloudContainerHubMembershipsGetCredentialsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubMembershipsGetCredentialsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsGetCredentialsOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class GcloudContainerHubMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerHubMembershipsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubMembershipsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsListOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class GcloudContainerHubMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Register(
-        GcloudContainerHubMembershipsRegisterOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubMembershipsRegisterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsRegisterOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ public class GcloudContainerHubMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unregister(
-        GcloudContainerHubMembershipsUnregisterOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubMembershipsUnregisterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsUnregisterOptions(), executionOptions, cancellationToken);
@@ -160,8 +160,8 @@ public class GcloudContainerHubMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerHubMembershipsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerHubMembershipsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsUpdateOptions(), executionOptions, cancellationToken);

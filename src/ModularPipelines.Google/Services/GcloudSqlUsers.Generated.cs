@@ -40,7 +40,7 @@ public class GcloudSqlUsers
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssignRoles(
         GcloudSqlUsersAssignRolesOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudSqlUsers
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudSqlUsersCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudSqlUsers
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudSqlUsersDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudSqlUsers
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudSqlUsersDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudSqlUsers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSqlUsersListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudSqlUsersListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlUsersListOptions(), executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudSqlUsers
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetPassword(
         GcloudSqlUsersSetPasswordOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudSqlUsers
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetPasswordPolicy(
         GcloudSqlUsersSetPasswordPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

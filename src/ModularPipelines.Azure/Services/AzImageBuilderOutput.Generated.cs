@@ -49,8 +49,8 @@ public class AzImageBuilderOutput
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzImageBuilderOutputAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderOutputAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOutputAddOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzImageBuilderOutput
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clear(
-        AzImageBuilderOutputClearOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderOutputClearOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOutputClearOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzImageBuilderOutput
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzImageBuilderOutputRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzImageBuilderOutputRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOutputRemoveOptions(), executionOptions, cancellationToken);

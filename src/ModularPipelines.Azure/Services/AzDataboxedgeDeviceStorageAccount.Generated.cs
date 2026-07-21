@@ -49,8 +49,8 @@ public class AzDataboxedgeDeviceStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDataboxedgeDeviceStorageAccountCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeDeviceStorageAccountCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceStorageAccountCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzDataboxedgeDeviceStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDataboxedgeDeviceStorageAccountDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeDeviceStorageAccountDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceStorageAccountDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzDataboxedgeDeviceStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDataboxedgeDeviceStorageAccountUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzDataboxedgeDeviceStorageAccountUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceStorageAccountUpdateOptions(), executionOptions, cancellationToken);

@@ -67,8 +67,8 @@ public class GcloudDomainsRegistrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDomainsRegistrationsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDomainsRegistrationsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsDeleteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDomainsRegistrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDomainsRegistrationsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDomainsRegistrationsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsDescribeOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudDomainsRegistrations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRegisterParameters(
         GcloudDomainsRegistrationsGetRegisterParametersOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudDomainsRegistrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InitiatePushTransfer(
-        GcloudDomainsRegistrationsInitiatePushTransferOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDomainsRegistrationsInitiatePushTransferOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsInitiatePushTransferOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudDomainsRegistrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDomainsRegistrationsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDomainsRegistrationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsListOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudDomainsRegistrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Register(
-        GcloudDomainsRegistrationsRegisterOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDomainsRegistrationsRegisterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsRegisterOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudDomainsRegistrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RenewDomain(
-        GcloudDomainsRegistrationsRenewDomainOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDomainsRegistrationsRenewDomainOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsRenewDomainOptions(), executionOptions, cancellationToken);
@@ -173,7 +173,7 @@ public class GcloudDomainsRegistrations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchDomains(
         GcloudDomainsRegistrationsSearchDomainsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -187,8 +187,8 @@ public class GcloudDomainsRegistrations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDomainsRegistrationsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudDomainsRegistrationsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsUpdateOptions(), executionOptions, cancellationToken);

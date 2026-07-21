@@ -39,8 +39,8 @@ public class AzAmsJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzAmsJobCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsJobCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobCancelOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAmsJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAmsJobListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsJobListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAmsJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzAmsJobStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsJobStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobStartOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzAmsJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAmsJobUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAmsJobUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class AzBatchPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBatchPrivateEndpointConnectionListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzBatchPrivateEndpointConnectionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchPrivateEndpointConnectionListOptions(), executionOptions, cancellationToken);

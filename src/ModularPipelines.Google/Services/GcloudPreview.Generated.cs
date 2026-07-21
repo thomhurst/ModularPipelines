@@ -55,8 +55,8 @@ public class GcloudPreview
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudPreviewOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class GcloudPreview
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Init(
-        GcloudPreviewInitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewInitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewInitOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class GcloudPreview
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Survey(
-        GcloudPreviewSurveyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewSurveyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewSurveyOptions(), executionOptions, cancellationToken);

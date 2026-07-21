@@ -39,8 +39,8 @@ public class AzNetworkCustomIpPrefix
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkCustomIpPrefixCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCustomIpPrefixCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCustomIpPrefixCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkCustomIpPrefix
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkCustomIpPrefixDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCustomIpPrefixDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCustomIpPrefixDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkCustomIpPrefix
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkCustomIpPrefixListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCustomIpPrefixListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCustomIpPrefixListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzNetworkCustomIpPrefix
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkCustomIpPrefixShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCustomIpPrefixShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCustomIpPrefixShowOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzNetworkCustomIpPrefix
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkCustomIpPrefixUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCustomIpPrefixUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCustomIpPrefixUpdateOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzNetworkCustomIpPrefix
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzNetworkCustomIpPrefixWaitOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCustomIpPrefixWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCustomIpPrefixWaitOptions(), executionOptions, cancellationToken);

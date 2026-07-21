@@ -39,8 +39,8 @@ public class AzNetworkDnsRecordSetNs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddRecord(
-        AzNetworkDnsRecordSetNsAddRecordOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDnsRecordSetNsAddRecordOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetNsAddRecordOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkDnsRecordSetNs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkDnsRecordSetNsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDnsRecordSetNsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetNsCreateOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkDnsRecordSetNs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkDnsRecordSetNsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDnsRecordSetNsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetNsDeleteOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzNetworkDnsRecordSetNs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkDnsRecordSetNsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDnsRecordSetNsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetNsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzNetworkDnsRecordSetNs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveRecord(
-        AzNetworkDnsRecordSetNsRemoveRecordOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDnsRecordSetNsRemoveRecordOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetNsRemoveRecordOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzNetworkDnsRecordSetNs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkDnsRecordSetNsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkDnsRecordSetNsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetNsUpdateOptions(), executionOptions, cancellationToken);

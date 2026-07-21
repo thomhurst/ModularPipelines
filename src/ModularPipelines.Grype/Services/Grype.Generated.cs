@@ -44,8 +44,8 @@ internal partial class Grype : IGrype
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Explain(
-        GrypeExplainOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GrypeExplainOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GrypeExplainOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ack(
-        GcloudPubsubSubscriptionsAckOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsAckOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsAckOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudPubsubSubscriptionsAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudPubsubSubscriptionsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsCreateOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudPubsubSubscriptionsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsDeleteOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudPubsubSubscriptionsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsDescribeOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudPubsubSubscriptionsGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPubsubSubscriptionsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsListOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyMessageAckDeadline(
-        GcloudPubsubSubscriptionsModifyMessageAckDeadlineOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsModifyMessageAckDeadlineOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsModifyMessageAckDeadlineOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyPushConfig(
-        GcloudPubsubSubscriptionsModifyPushConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsModifyPushConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsModifyPushConfigOptions(), executionOptions, cancellationToken);
@@ -174,8 +174,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pull(
-        GcloudPubsubSubscriptionsPullOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsPullOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsPullOptions(), executionOptions, cancellationToken);
@@ -189,8 +189,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudPubsubSubscriptionsRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -204,8 +204,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Seek(
-        GcloudPubsubSubscriptionsSeekOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsSeekOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsSeekOptions(), executionOptions, cancellationToken);
@@ -220,7 +220,7 @@ public class GcloudPubsubSubscriptions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudPubsubSubscriptionsSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -234,8 +234,8 @@ public class GcloudPubsubSubscriptions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudPubsubSubscriptionsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPubsubSubscriptionsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsUpdateOptions(), executionOptions, cancellationToken);

@@ -39,8 +39,8 @@ public class FluxReconcileImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Policy(
-        FluxReconcileImagePolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxReconcileImagePolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileImagePolicyOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class FluxReconcileImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Repository(
-        FluxReconcileImageRepositoryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxReconcileImageRepositoryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileImageRepositoryOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class FluxReconcileImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        FluxReconcileImageUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxReconcileImageUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileImageUpdateOptions(), executionOptions, cancellationToken);

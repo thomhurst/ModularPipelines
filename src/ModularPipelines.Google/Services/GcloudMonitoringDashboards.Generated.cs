@@ -39,8 +39,8 @@ public class GcloudMonitoringDashboards
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudMonitoringDashboardsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringDashboardsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringDashboardsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudMonitoringDashboards
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudMonitoringDashboardsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringDashboardsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringDashboardsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudMonitoringDashboards
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudMonitoringDashboardsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringDashboardsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringDashboardsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudMonitoringDashboards
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudMonitoringDashboardsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringDashboardsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringDashboardsListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudMonitoringDashboards
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudMonitoringDashboardsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudMonitoringDashboardsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringDashboardsUpdateOptions(), executionOptions, cancellationToken);

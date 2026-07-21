@@ -39,8 +39,8 @@ public class FluxDiff
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxDiffOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxDiffOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxDiffOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class FluxDiff
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Artifact(
-        FluxDiffArtifactOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxDiffArtifactOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxDiffArtifactOptions(), executionOptions, cancellationToken);

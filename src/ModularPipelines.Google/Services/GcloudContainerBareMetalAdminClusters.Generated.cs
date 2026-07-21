@@ -39,8 +39,8 @@ public class GcloudContainerBareMetalAdminClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerBareMetalAdminClustersCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalAdminClustersCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerBareMetalAdminClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerBareMetalAdminClustersDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalAdminClustersDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerBareMetalAdminClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enroll(
-        GcloudContainerBareMetalAdminClustersEnrollOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalAdminClustersEnrollOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersEnrollOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudContainerBareMetalAdminClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerBareMetalAdminClustersListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalAdminClustersListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudContainerBareMetalAdminClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> QueryVersionConfig(
-        GcloudContainerBareMetalAdminClustersQueryVersionConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalAdminClustersQueryVersionConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersQueryVersionConfigOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudContainerBareMetalAdminClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unenroll(
-        GcloudContainerBareMetalAdminClustersUnenrollOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalAdminClustersUnenrollOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersUnenrollOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudContainerBareMetalAdminClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerBareMetalAdminClustersUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerBareMetalAdminClustersUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersUpdateOptions(), executionOptions, cancellationToken);

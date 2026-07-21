@@ -39,8 +39,8 @@ public class FluxSuspendImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Policy(
-        FluxSuspendImagePolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxSuspendImagePolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendImagePolicyOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class FluxSuspendImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Repository(
-        FluxSuspendImageRepositoryOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxSuspendImageRepositoryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendImageRepositoryOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class FluxSuspendImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        FluxSuspendImageUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        FluxSuspendImageUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendImageUpdateOptions(), executionOptions, cancellationToken);

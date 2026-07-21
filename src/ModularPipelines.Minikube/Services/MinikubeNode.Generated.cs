@@ -39,8 +39,8 @@ public class MinikubeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        MinikubeNodeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeNodeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeNodeOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class MinikubeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        MinikubeNodeAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeNodeAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeNodeAddOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class MinikubeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        MinikubeNodeStartOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        MinikubeNodeStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeNodeStartOptions(), executionOptions, cancellationToken);

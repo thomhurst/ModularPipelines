@@ -55,8 +55,8 @@ public class GcloudHealthcareHl7v2Stores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudHealthcareHl7v2StoresAddIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareHl7v2StoresAddIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class GcloudHealthcareHl7v2Stores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudHealthcareHl7v2StoresCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareHl7v2StoresCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresCreateOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class GcloudHealthcareHl7v2Stores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudHealthcareHl7v2StoresDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareHl7v2StoresDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresDeleteOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ public class GcloudHealthcareHl7v2Stores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudHealthcareHl7v2StoresDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareHl7v2StoresDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresDescribeOptions(), executionOptions, cancellationToken);
@@ -115,8 +115,8 @@ public class GcloudHealthcareHl7v2Stores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudHealthcareHl7v2StoresGetIamPolicyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareHl7v2StoresGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ public class GcloudHealthcareHl7v2Stores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudHealthcareHl7v2StoresListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareHl7v2StoresListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresListOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ public class GcloudHealthcareHl7v2Stores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Metrics(
-        GcloudHealthcareHl7v2StoresMetricsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareHl7v2StoresMetricsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresMetricsOptions(), executionOptions, cancellationToken);
@@ -160,8 +160,8 @@ public class GcloudHealthcareHl7v2Stores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudHealthcareHl7v2StoresRemoveIamPolicyBindingOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareHl7v2StoresRemoveIamPolicyBindingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -176,7 +176,7 @@ public class GcloudHealthcareHl7v2Stores
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudHealthcareHl7v2StoresSetIamPolicyOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -190,8 +190,8 @@ public class GcloudHealthcareHl7v2Stores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudHealthcareHl7v2StoresUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudHealthcareHl7v2StoresUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresUpdateOptions(), executionOptions, cancellationToken);

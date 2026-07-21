@@ -39,8 +39,8 @@ public class AzNetworkCrossRegionLbRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkCrossRegionLbRuleCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCrossRegionLbRuleCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbRuleCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkCrossRegionLbRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkCrossRegionLbRuleDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCrossRegionLbRuleDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbRuleDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkCrossRegionLbRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkCrossRegionLbRuleUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkCrossRegionLbRuleUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbRuleUpdateOptions(), executionOptions, cancellationToken);

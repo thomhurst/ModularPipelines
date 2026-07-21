@@ -49,8 +49,8 @@ public class AzCosmosdbSqlContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbSqlContainerCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbSqlContainerCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlContainerCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzCosmosdbSqlContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbSqlContainerDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbSqlContainerDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlContainerDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzCosmosdbSqlContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzCosmosdbSqlContainerRestoreOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbSqlContainerRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlContainerRestoreOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzCosmosdbSqlContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbSqlContainerUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzCosmosdbSqlContainerUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlContainerUpdateOptions(), executionOptions, cancellationToken);

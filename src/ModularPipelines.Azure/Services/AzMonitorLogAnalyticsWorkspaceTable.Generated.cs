@@ -55,8 +55,8 @@ public class AzMonitorLogAnalyticsWorkspaceTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorLogAnalyticsWorkspaceTableCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceTableCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceTableCreateOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzMonitorLogAnalyticsWorkspaceTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMonitorLogAnalyticsWorkspaceTableDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceTableDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceTableDeleteOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class AzMonitorLogAnalyticsWorkspaceTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorLogAnalyticsWorkspaceTableUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceTableUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceTableUpdateOptions(), executionOptions, cancellationToken);

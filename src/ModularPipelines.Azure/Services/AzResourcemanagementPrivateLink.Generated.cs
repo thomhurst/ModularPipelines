@@ -39,8 +39,8 @@ public class AzResourcemanagementPrivateLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzResourcemanagementPrivateLinkDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourcemanagementPrivateLinkDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourcemanagementPrivateLinkDeleteOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzResourcemanagementPrivateLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzResourcemanagementPrivateLinkListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzResourcemanagementPrivateLinkListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourcemanagementPrivateLinkListOptions(), executionOptions, cancellationToken);

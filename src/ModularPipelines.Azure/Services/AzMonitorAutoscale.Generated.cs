@@ -55,8 +55,8 @@ public class AzMonitorAutoscale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorAutoscaleCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorAutoscaleCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleCreateOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzMonitorAutoscale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorAutoscaleUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorAutoscaleUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleUpdateOptions(), executionOptions, cancellationToken);

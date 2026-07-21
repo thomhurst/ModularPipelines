@@ -109,8 +109,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Cancel(
-        PulumiCancelOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiCancelOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiCancelOptions(), executionOptions, cancellationToken);
@@ -118,8 +118,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Console(
-        PulumiConsoleOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiConsoleOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiConsoleOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Convert(
-        PulumiConvertOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiConvertOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiConvertOptions(), executionOptions, cancellationToken);
@@ -136,8 +136,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Destroy(
-        PulumiDestroyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiDestroyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiDestroyOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Do(
-        PulumiDoOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiDoOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiDoOptions(), executionOptions, cancellationToken);
@@ -154,8 +154,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Import(
-        PulumiImportOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiImportOptions(), executionOptions, cancellationToken);
@@ -163,8 +163,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Install(
-        PulumiInstallOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiInstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiInstallOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Login(
-        PulumiLoginOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiLoginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiLoginOptions(), executionOptions, cancellationToken);
@@ -181,8 +181,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Logout(
-        PulumiLogoutOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiLogoutOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiLogoutOptions(), executionOptions, cancellationToken);
@@ -190,8 +190,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Neo(
-        PulumiNeoOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiNeoOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiNeoOptions(), executionOptions, cancellationToken);
@@ -199,8 +199,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> New(
-        PulumiNewOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiNewOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiNewOptions(), executionOptions, cancellationToken);
@@ -208,8 +208,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Preview(
-        PulumiPreviewOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiPreviewOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiPreviewOptions(), executionOptions, cancellationToken);
@@ -217,8 +217,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Refresh(
-        PulumiRefreshOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiRefreshOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiRefreshOptions(), executionOptions, cancellationToken);
@@ -226,8 +226,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Up(
-        PulumiUpOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiUpOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiUpOptions(), executionOptions, cancellationToken);
@@ -235,8 +235,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Watch(
-        PulumiWatchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiWatchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiWatchOptions(), executionOptions, cancellationToken);
@@ -244,8 +244,8 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Whoami(
-        PulumiWhoamiOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        PulumiWhoamiOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiWhoamiOptions(), executionOptions, cancellationToken);

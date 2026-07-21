@@ -39,8 +39,8 @@ public class GcloudComputeOsLoginSshKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        GcloudComputeOsLoginSshKeysAddOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeOsLoginSshKeysAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginSshKeysAddOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudComputeOsLoginSshKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeOsLoginSshKeysDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeOsLoginSshKeysDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginSshKeysDescribeOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudComputeOsLoginSshKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeOsLoginSshKeysListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeOsLoginSshKeysListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginSshKeysListOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudComputeOsLoginSshKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        GcloudComputeOsLoginSshKeysRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeOsLoginSshKeysRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginSshKeysRemoveOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudComputeOsLoginSshKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComputeOsLoginSshKeysUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudComputeOsLoginSshKeysUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginSshKeysUpdateOptions(), executionOptions, cancellationToken);

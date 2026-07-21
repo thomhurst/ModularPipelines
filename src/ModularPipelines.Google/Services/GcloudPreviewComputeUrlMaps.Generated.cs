@@ -40,7 +40,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddHostRule(
         GcloudPreviewComputeUrlMapsAddHostRuleOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -55,7 +55,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddPathMatcher(
         GcloudPreviewComputeUrlMapsAddPathMatcherOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -70,7 +70,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudPreviewComputeUrlMapsCreateOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPreviewComputeUrlMapsDeleteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -100,7 +100,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPreviewComputeUrlMapsDescribeOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -115,7 +115,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Edit(
         GcloudPreviewComputeUrlMapsEditOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -130,7 +130,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudPreviewComputeUrlMapsExportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -145,7 +145,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudPreviewComputeUrlMapsImportOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -160,7 +160,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InvalidateCdnCache(
         GcloudPreviewComputeUrlMapsInvalidateCdnCacheOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -175,7 +175,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCdnCacheInvalidations(
         GcloudPreviewComputeUrlMapsListCdnCacheInvalidationsOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -189,8 +189,8 @@ public class GcloudPreviewComputeUrlMaps
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewComputeUrlMapsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeUrlMapsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeUrlMapsListOptions(), executionOptions, cancellationToken);
@@ -205,7 +205,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveHostRule(
         GcloudPreviewComputeUrlMapsRemoveHostRuleOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -220,7 +220,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemovePathMatcher(
         GcloudPreviewComputeUrlMapsRemovePathMatcherOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -235,7 +235,7 @@ public class GcloudPreviewComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetDefaultService(
         GcloudPreviewComputeUrlMapsSetDefaultServiceOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -249,8 +249,8 @@ public class GcloudPreviewComputeUrlMaps
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Validate(
-        GcloudPreviewComputeUrlMapsValidateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudPreviewComputeUrlMapsValidateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewComputeUrlMapsValidateOptions(), executionOptions, cancellationToken);

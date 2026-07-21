@@ -127,8 +127,8 @@ public class AzStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Copy(
-        AzStorageCopyOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageCopyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageCopyOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class AzStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzStorageRemoveOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzStorageRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageRemoveOptions(), executionOptions, cancellationToken);

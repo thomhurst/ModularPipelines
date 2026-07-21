@@ -39,8 +39,8 @@ public class AzNetworkTrafficManagerProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkTrafficManagerProfileCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkTrafficManagerProfileCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkTrafficManagerProfileCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzNetworkTrafficManagerProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkTrafficManagerProfileListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkTrafficManagerProfileListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkTrafficManagerProfileListOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzNetworkTrafficManagerProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkTrafficManagerProfileUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetworkTrafficManagerProfileUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkTrafficManagerProfileUpdateOptions(), executionOptions, cancellationToken);

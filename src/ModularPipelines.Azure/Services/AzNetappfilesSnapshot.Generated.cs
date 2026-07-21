@@ -49,8 +49,8 @@ public class AzNetappfilesSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetappfilesSnapshotCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesSnapshotCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotCreateOptions(), executionOptions, cancellationToken);
@@ -64,8 +64,8 @@ public class AzNetappfilesSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetappfilesSnapshotDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesSnapshotDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotDeleteOptions(), executionOptions, cancellationToken);
@@ -79,8 +79,8 @@ public class AzNetappfilesSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreFiles(
-        AzNetappfilesSnapshotRestoreFilesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesSnapshotRestoreFilesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotRestoreFilesOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ public class AzNetappfilesSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetappfilesSnapshotUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzNetappfilesSnapshotUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotUpdateOptions(), executionOptions, cancellationToken);

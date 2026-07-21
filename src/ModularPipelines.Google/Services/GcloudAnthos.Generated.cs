@@ -55,8 +55,8 @@ public class GcloudAnthos
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudAnthosOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAnthosOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class GcloudAnthos
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLoginConfig(
-        GcloudAnthosCreateLoginConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudAnthosCreateLoginConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosCreateLoginConfigOptions(), executionOptions, cancellationToken);

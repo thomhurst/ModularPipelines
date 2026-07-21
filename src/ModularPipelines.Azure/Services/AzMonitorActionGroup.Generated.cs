@@ -55,8 +55,8 @@ public class AzMonitorActionGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorActionGroupCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorActionGroupCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupCreateOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ public class AzMonitorActionGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMonitorActionGroupListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorActionGroupListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupListOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class AzMonitorActionGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorActionGroupUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzMonitorActionGroupUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupUpdateOptions(), executionOptions, cancellationToken);

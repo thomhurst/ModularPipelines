@@ -39,8 +39,8 @@ public class AzAppserviceAse
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAppserviceAseCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppserviceAseCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppserviceAseCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class AzAppserviceAse
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAppserviceAseDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppserviceAseDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppserviceAseDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class AzAppserviceAse
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAddresses(
-        AzAppserviceAseListAddressesOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppserviceAseListAddressesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppserviceAseListAddressesOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class AzAppserviceAse
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAppserviceAseListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppserviceAseListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppserviceAseListOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class AzAppserviceAse
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPlans(
-        AzAppserviceAseListPlansOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppserviceAseListPlansOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppserviceAseListPlansOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class AzAppserviceAse
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendTestNotification(
-        AzAppserviceAseSendTestNotificationOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppserviceAseSendTestNotificationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppserviceAseSendTestNotificationOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class AzAppserviceAse
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAppserviceAseShowOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppserviceAseShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppserviceAseShowOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class AzAppserviceAse
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAppserviceAseUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        AzAppserviceAseUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppserviceAseUpdateOptions(), executionOptions, cancellationToken);

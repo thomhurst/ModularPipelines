@@ -39,8 +39,8 @@ public class GcloudContainerVmwareNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerVmwareNodePoolsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareNodePoolsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareNodePoolsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudContainerVmwareNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerVmwareNodePoolsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareNodePoolsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareNodePoolsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudContainerVmwareNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerVmwareNodePoolsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareNodePoolsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareNodePoolsDescribeOptions(), executionOptions, cancellationToken);
@@ -84,8 +84,8 @@ public class GcloudContainerVmwareNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enroll(
-        GcloudContainerVmwareNodePoolsEnrollOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareNodePoolsEnrollOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareNodePoolsEnrollOptions(), executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudContainerVmwareNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerVmwareNodePoolsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareNodePoolsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareNodePoolsListOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudContainerVmwareNodePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerVmwareNodePoolsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudContainerVmwareNodePoolsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareNodePoolsUpdateOptions(), executionOptions, cancellationToken);

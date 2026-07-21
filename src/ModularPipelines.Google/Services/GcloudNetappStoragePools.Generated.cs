@@ -39,8 +39,8 @@ public class GcloudNetappStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetappStoragePoolsCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappStoragePoolsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsCreateOptions(), executionOptions, cancellationToken);
@@ -54,8 +54,8 @@ public class GcloudNetappStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetappStoragePoolsDeleteOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappStoragePoolsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsDeleteOptions(), executionOptions, cancellationToken);
@@ -69,8 +69,8 @@ public class GcloudNetappStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetappStoragePoolsDescribeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappStoragePoolsDescribeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsDescribeOptions(), executionOptions, cancellationToken);
@@ -85,7 +85,7 @@ public class GcloudNetappStoragePools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         GcloudNetappStoragePoolsExecuteOptions options,
-        CommandExecutionOptions executionOptions = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,8 +99,8 @@ public class GcloudNetappStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBackupConfigs(
-        GcloudNetappStoragePoolsListBackupConfigsOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappStoragePoolsListBackupConfigsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsListBackupConfigsOptions(), executionOptions, cancellationToken);
@@ -114,8 +114,8 @@ public class GcloudNetappStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetappStoragePoolsListOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappStoragePoolsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsListOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ public class GcloudNetappStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreVolume(
-        GcloudNetappStoragePoolsRestoreVolumeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappStoragePoolsRestoreVolumeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsRestoreVolumeOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ public class GcloudNetappStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Switch(
-        GcloudNetappStoragePoolsSwitchOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappStoragePoolsSwitchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsSwitchOptions(), executionOptions, cancellationToken);
@@ -159,8 +159,8 @@ public class GcloudNetappStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBackupConfig(
-        GcloudNetappStoragePoolsUpdateBackupConfigOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappStoragePoolsUpdateBackupConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsUpdateBackupConfigOptions(), executionOptions, cancellationToken);
@@ -174,8 +174,8 @@ public class GcloudNetappStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetappStoragePoolsUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappStoragePoolsUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsUpdateOptions(), executionOptions, cancellationToken);
@@ -189,8 +189,8 @@ public class GcloudNetappStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ValidateDirectoryService(
-        GcloudNetappStoragePoolsValidateDirectoryServiceOptions options = default,
-        CommandExecutionOptions executionOptions = null,
+        GcloudNetappStoragePoolsValidateDirectoryServiceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsValidateDirectoryServiceOptions(), executionOptions, cancellationToken);
