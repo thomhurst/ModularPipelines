@@ -56,7 +56,10 @@ builder.Services
     .AddModule<PushVersionTagModule>()
     .AddPipelineModuleHooks<MyModuleHooks>();
 
-await BuildPipelineConfiguration.ConfigureDistributedModeAsync(builder);
+if (!await BuildPipelineConfiguration.ConfigureDistributedModeAsync(builder))
+{
+    return;
+}
 
 builder.Services.AddSingleton<IGitHubClient>(sp =>
 {
@@ -114,21 +117,26 @@ await pipeline.RunAsync();
 
 file static class BuildPipelineConfiguration
 {
-    public static async Task ConfigureDistributedModeAsync(PipelineBuilder builder)
+    public static async Task<bool> ConfigureDistributedModeAsync(PipelineBuilder builder)
     {
         var redisRestUrl = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_URL");
         var redisRestToken = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_TOKEN");
         var instanceIndex = int.TryParse(Environment.GetEnvironmentVariable("INSTANCE_INDEX"), out var idx) ? idx : 0;
         var totalInstances = int.TryParse(Environment.GetEnvironmentVariable("TOTAL_INSTANCES"), out var total) ? total : 1;
 
-        if (string.IsNullOrEmpty(redisRestUrl) || string.IsNullOrEmpty(redisRestToken) || totalInstances <= 1)
+        if (totalInstances <= 1)
         {
-            return;
+            return true;
+        }
+
+        if (string.IsNullOrEmpty(redisRestUrl) || string.IsNullOrEmpty(redisRestToken))
+        {
+            return ShouldRunStandalone(instanceIndex, "Redis discovery credentials are unavailable");
         }
 
         if (!await IsRedisDiscoveryAvailableAsync(redisRestUrl, redisRestToken))
         {
-            return;
+            return ShouldRunStandalone(instanceIndex, "Redis discovery is unavailable");
         }
 
         builder.AddDistributedMode(o =>
@@ -149,6 +157,19 @@ file static class BuildPipelineConfiguration
         });
 
         ConfigureArtifactStore(builder);
+        return true;
+    }
+
+    private static bool ShouldRunStandalone(int instanceIndex, string reason)
+    {
+        if (instanceIndex == 0)
+        {
+            System.Diagnostics.Trace.TraceWarning($"{reason}; primary instance running standalone.");
+            return true;
+        }
+
+        System.Diagnostics.Trace.TraceWarning($"{reason}; secondary instance {instanceIndex} exiting.");
+        return false;
     }
 
     private static async Task<bool> IsRedisDiscoveryAvailableAsync(string restUrl, string restToken)
