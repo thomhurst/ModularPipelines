@@ -78,6 +78,20 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task NormalizeCommandClassNames_Does_Not_Overwrite_Real_Execute_Command()
+    {
+        var commands = GeneratorUtils.NormalizeCommandClassNames(
+        [
+            Command("ToolApplicationSetOptions", "ToolOptions", ["appset"]),
+            Command("ToolApplicationSetExecuteOptions", "ToolOptions", ["appset", "execute"], "ApplicationSet"),
+            Command("ToolApplicationSetGetOptions", "ToolOptions", ["appset", "get"], "ApplicationSet"),
+        ]);
+
+        await Assert.That(commands[0].ClassName).IsEqualTo("ToolApplicationSetExecuteExecuteOptions");
+        await Assert.That(commands[1].ClassName).IsEqualTo("ToolApplicationSetExecuteOptions");
+    }
+
+    [Test]
     public async Task SubDomain_Generators_Preserve_Compound_PascalCase()
     {
         var tool = Tool(Command(

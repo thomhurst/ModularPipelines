@@ -545,22 +545,41 @@ public static partial class GeneratorUtils
             return commands;
         }
 
-        return commands.Select(command =>
+        var occupiedClassNames = commands
+            .Select(command => command.ClassName)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var normalizedCommands = new List<CliCommandDefinition>(commands.Count);
+
+        foreach (var command in commands)
         {
-            if (!MatchesParentOptions(command) && !MatchesSubDomainService(command))
+            var matchesParentOptions = MatchesParentOptions(command);
+            var matchesSubDomainService = MatchesSubDomainService(command);
+            if (!matchesParentOptions && !matchesSubDomainService)
             {
-                return command;
+                normalizedCommands.Add(command);
+                continue;
             }
 
-            var collidingName = MatchesParentOptions(command)
+            var collidingName = matchesParentOptions
                 ? command.ParentClassName
                 : command.ClassName;
             var baseName = collidingName.EndsWith("Options", StringComparison.Ordinal)
                 ? collidingName[..^"Options".Length]
                 : collidingName;
+            var suffix = "Execute";
+            var candidate = $"{baseName}{suffix}Options";
 
-            return command with { ClassName = $"{baseName}ExecuteOptions" };
-        }).ToList();
+            while (occupiedClassNames.Contains(candidate))
+            {
+                suffix += "Execute";
+                candidate = $"{baseName}{suffix}Options";
+            }
+
+            occupiedClassNames.Add(candidate);
+            normalizedCommands.Add(command with { ClassName = candidate });
+        }
+
+        return normalizedCommands;
     }
 
     /// <summary>
