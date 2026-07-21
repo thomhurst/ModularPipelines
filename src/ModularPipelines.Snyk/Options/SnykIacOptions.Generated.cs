@@ -21,10 +21,4 @@ namespace ModularPipelines.Snyk.Options;
 [CliSubCommand("iac")]
 public record SnykIacOptions : SnykOptions
 {
-    /// <summary>
-    /// -  iac describe; iac describe --help: detects unmanaged cloud resources Example: snyk iac describe -  iac update-exclude-policy; iac update-exclude-policy --help: auto-generates .snyk exclusions for cloud resources
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

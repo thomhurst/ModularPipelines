@@ -136,9 +136,6 @@ public record SnykIacTestOptions : SnykOptions
     [CliOption("--target-reference", Format = OptionFormat.EqualsSeparated)]
     public string? TargetReference { get; set; }
 
-    [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
-    public string? Abbrev { get; set; }
-
     /// <summary>
     /// Load a terraform variable definitions file that is located in a different directory from the scanned one.
     /// </summary>

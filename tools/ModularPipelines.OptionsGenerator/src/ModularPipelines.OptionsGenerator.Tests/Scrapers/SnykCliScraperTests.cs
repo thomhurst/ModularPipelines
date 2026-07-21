@@ -171,6 +171,67 @@ public class SnykCliScraperTests
     }
 
     [Test]
+    public async Task Option_Parser_Ignores_Indented_Example_Fragments()
+    {
+        const string helpText = """
+            Test infrastructure.
+
+            Options
+              --target-reference=<TARGET_REFERENCE>
+                  Set a target reference, for example from this command:
+                    --abbrev=0
+
+                --platform=<PLATFORM>
+                  Select a container platform.
+              --json
+                  Print JSON output.
+            """;
+
+        var command = await new TestSnykCliScraper().Parse(["snyk", "iac", "test"], helpText);
+
+        await Assert.That(command!.Options.Select(x => x.SwitchName))
+            .IsEquivalentTo(["--target-reference", "--platform", "--json"]);
+    }
+
+    [Test]
+    public async Task Root_Test_Models_Optional_Target()
+    {
+        var command = await new TestSnykCliScraper().Parse(
+            ["snyk", "test"],
+            "Usage: snyk test [<TARGET>] [<OPTIONS>]");
+
+        var target = command!.PositionalArguments.Single();
+        await Assert.That(target.PropertyName).IsEqualTo("Target");
+        await Assert.That(target.IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Commands_With_Different_Value_Sets_Get_Distinct_Enums()
+    {
+        const string rootHelp = """
+            Options
+              --fail-on=<all|upgradable|patchable>
+                  Fail only for fixable vulnerabilities.
+            """;
+        const string containerHelp = """
+            Options
+              --fail-on=<all|upgradable>
+                  Fail only for fixable vulnerabilities.
+            """;
+        var scraper = new TestSnykCliScraper();
+
+        var root = await scraper.Parse(["snyk", "test"], rootHelp);
+        var container = await scraper.Parse(["snyk", "container", "test"], containerHelp);
+        var commands = SnykCliScraper.DisambiguateEnumNames([root!, container!]);
+        var rootEnum = commands[0].Options.Single().EnumDefinition!;
+        var containerEnum = commands[1].Options.Single().EnumDefinition!;
+
+        await Assert.That(rootEnum.EnumName).IsEqualTo("SnykFailOn");
+        await Assert.That(containerEnum.EnumName).IsEqualTo("SnykContainerTestFailOn");
+        await Assert.That(containerEnum.Values.Select(x => x.CliValue)).DoesNotContain("patchable");
+    }
+
+    [Test]
     public async Task Sbom_Parses_Bracketed_Options_And_Adds_Documented_Flag()
     {
         const string helpText = """

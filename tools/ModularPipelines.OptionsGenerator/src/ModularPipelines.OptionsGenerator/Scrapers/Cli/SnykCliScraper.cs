@@ -63,6 +63,21 @@ public partial class SnykCliScraper : CliScraperBase
 
     protected override int MaxParallelism => 4;
 
+    public override async IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(
+        [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in base.ScrapeAsync(cancellationToken))
+        {
+            commands.Add(command);
+        }
+
+        foreach (var command in DisambiguateEnumNames(commands))
+        {
+            yield return command;
+        }
+    }
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>
@@ -246,13 +261,22 @@ public partial class SnykCliScraper : CliScraperBase
         return options;
     }
 
-    private void ParseOptionLines(string[] lines, List<CliOptionDefinition> options, HashSet<string> seenOptions)
+    private void ParseOptionLines(
+        string[] lines,
+        List<CliOptionDefinition> options,
+        HashSet<string> seenOptions)
     {
+        var optionIndentation = lines
+            .Where(IsOptionHeading)
+            .Select(GetIndentation)
+            .DefaultIfEmpty(-1)
+            .Min();
+
         for (var i = 0; i < lines.Length; i++)
         {
             var line = lines[i];
 
-            if (!line.TrimStart().TrimStart('[').StartsWith('-'))
+            if (!IsOptionHeading(line) || !HasOptionHeadingIndentation(lines, i, optionIndentation))
             {
                 continue;
             }
@@ -412,6 +436,10 @@ public partial class SnykCliScraper : CliScraperBase
             [
                 CreatePositional("ApiToken", "API_TOKEN", "Snyk API token", isRequired: false, isSecret: true)
             ],
+            "test" =>
+            [
+                CreatePositional("Target", "TARGET", "Package, version, or repository target to scan", isRequired: false)
+            ],
             "container test" or "container monitor" or "container sbom" =>
             [
                 CreatePositional("Image", "IMAGE", "Container image to scan", isRequired: true)
@@ -490,17 +518,115 @@ public partial class SnykCliScraper : CliScraperBase
 
         while (nextIndex < lines.Length)
         {
-            var line = lines[nextIndex].Trim();
-            if (string.IsNullOrWhiteSpace(line) || line.StartsWith("--"))
+            var line = lines[nextIndex];
+            if (string.IsNullOrWhiteSpace(line) || IsOptionHeading(line))
             {
                 break;
             }
 
-            descParts.Add(line);
+            descParts.Add(line.Trim());
             nextIndex++;
         }
 
         return descParts.Count > 0 ? string.Join(" ", descParts) : null;
+    }
+
+    private static bool IsOptionHeading(string line)
+    {
+        return line.TrimStart().TrimStart('[').StartsWith("--", StringComparison.Ordinal);
+    }
+
+    private static int GetIndentation(string line)
+    {
+        return line.Length - line.TrimStart().Length;
+    }
+
+    private static bool HasOptionHeadingIndentation(string[] lines, int index, int standardIndentation)
+    {
+        var indentation = GetIndentation(lines[index]);
+        if (indentation == standardIndentation)
+        {
+            return true;
+        }
+
+        if (indentation < standardIndentation || index == 0 || !string.IsNullOrWhiteSpace(lines[index - 1]))
+        {
+            return false;
+        }
+
+        return lines
+            .Skip(index + 1)
+            .FirstOrDefault(line => !string.IsNullOrWhiteSpace(line)) is { } nextLine
+            && GetIndentation(nextLine) > indentation;
+    }
+
+    internal static IReadOnlyList<CliCommandDefinition> DisambiguateEnumNames(
+        IReadOnlyList<CliCommandDefinition> commands)
+    {
+        var canonicalValueSets = commands
+            .SelectMany(command => command.Options)
+            .Where(option => option.EnumDefinition is not null)
+            .GroupBy(option => option.EnumDefinition!.EnumName, StringComparer.OrdinalIgnoreCase)
+            .Select(group => new
+            {
+                group.Key,
+                ValueSets = group
+                    .GroupBy(option => GetEnumValueSet(option.EnumDefinition!), StringComparer.OrdinalIgnoreCase)
+                    .ToList(),
+            })
+            .Where(group => group.ValueSets.Count > 1)
+            .ToDictionary(
+                group => group.Key,
+                group => group.ValueSets
+                    .OrderByDescending(valueSet => valueSet.Count())
+                    .ThenByDescending(valueSet => valueSet.First().EnumDefinition!.Values.Count)
+                    .ThenBy(valueSet => valueSet.Key, StringComparer.OrdinalIgnoreCase)
+                    .First()
+                    .Key,
+                StringComparer.OrdinalIgnoreCase);
+
+        return commands.Select(command =>
+        {
+            var enumPrefix = command.ClassName.EndsWith("Options", StringComparison.Ordinal)
+                ? command.ClassName[..^"Options".Length]
+                : command.ClassName;
+            var options = command.Options.Select(option =>
+            {
+                var enumDefinition = option.EnumDefinition;
+                if (enumDefinition is null ||
+                    !canonicalValueSets.TryGetValue(enumDefinition.EnumName, out var canonicalValueSet) ||
+                    string.Equals(GetEnumValueSet(enumDefinition), canonicalValueSet, StringComparison.OrdinalIgnoreCase))
+                {
+                    return option;
+                }
+
+                var enumName = $"{enumPrefix}{option.PropertyName}";
+                return option with
+                {
+                    CSharpType = option.CSharpType.Replace(enumDefinition.EnumName, enumName, StringComparison.Ordinal),
+                    EnumDefinition = enumDefinition with { EnumName = enumName },
+                };
+            }).ToList();
+
+            return command with
+            {
+                Options = options,
+                Enums = options
+                    .Where(option => option.EnumDefinition is not null)
+                    .Select(option => option.EnumDefinition!)
+                    .DistinctBy(enumDefinition => enumDefinition.EnumName, StringComparer.OrdinalIgnoreCase)
+                    .ToList(),
+            };
+        }).ToList();
+    }
+
+    private static string GetEnumValueSet(CliEnumDefinition enumDefinition)
+    {
+        return string.Join(
+            '\u001F',
+            enumDefinition.Values
+                .Select(value => value.CliValue)
+                .Order(StringComparer.OrdinalIgnoreCase));
     }
 
     /// <summary>

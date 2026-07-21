@@ -37,7 +37,7 @@ public class SnykOptionsTests
         {
             PrintDeps = true,
             SeverityThreshold = SnykSeverityThreshold.High,
-            FailOn = SnykFailOn.Patchable,
+            FailOn = SnykContainerTestFailOn.Upgradable,
             NestedJarsDepth = 2,
             Username = "registry-user",
             Password = "registry-password",
@@ -48,7 +48,7 @@ public class SnykOptionsTests
             "alpine:3.20",
             "--print-deps",
             "--severity-threshold=high",
-            "--fail-on=patchable",
+            "--fail-on=upgradable",
             "--nested-jars-depth=2",
             "--username=registry-user",
             "--password=registry-password",
@@ -113,6 +113,22 @@ public class SnykOptionsTests
 
         var tfcToken = typeof(SnykIacDescribeOptions).GetProperty(nameof(SnykIacDescribeOptions.TfcToken));
         await Assert.That(tfcToken!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
+    }
+
+    [Test]
+    public async Task Root_Test_Renders_Optional_Target()
+    {
+        var arguments = BuildArguments(new SnykTestOptions
+        {
+            Target = "github.com/example/repository",
+            FailOn = SnykFailOn.Patchable,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "github.com/example/repository",
+            "--fail-on=patchable",
+        ]);
     }
 
     [Test]

@@ -88,7 +88,7 @@ public record SnykContainerTestOptions(
     /// Fail only when there are vulnerabilities that can be fixed.
     /// </summary>
     [CliOption("--fail-on", Format = OptionFormat.EqualsSeparated)]
-    public SnykFailOn? FailOn { get; set; }
+    public SnykContainerTestFailOn? FailOn { get; set; }
 
     /// <summary>
     /// Allow detection of vulnerabilities in your application dependencies from container images, as well as from the operating system, all in one single scan.

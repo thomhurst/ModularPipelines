@@ -92,7 +92,7 @@ public record SnykCodeTestOptions : SnykOptions
     /// Report only vulnerabilities at the specified level or higher.
     /// </summary>
     [CliOption("--severity-threshold", Format = OptionFormat.EqualsSeparated)]
-    public SnykSeverityThreshold? SeverityThreshold { get; set; }
+    public SnykCodeTestSeverityThreshold? SeverityThreshold { get; set; }
 
     /// <summary>
     /// Output debug logs.

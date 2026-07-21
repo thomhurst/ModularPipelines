@@ -310,4 +310,10 @@ public record SnykTestOptions : SnykOptions
     [CliFlag("-d")]
     public bool? Debug { get; set; }
 
+    /// <summary>
+    /// Package, version, or repository target to scan
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Target { get; set; }
+
 }
