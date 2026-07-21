@@ -176,6 +176,34 @@ public class ArgoCdOptionsTests
     }
 
     [Test]
+    public async Task ClusterRotateAuth_Renders_Server_Or_Name_As_One_Operand()
+    {
+        var arguments = BuildArguments(new ArgoCdClusterRotateAuthOptions("production"));
+
+        await Assert.That(arguments).IsEquivalentTo(["production"]);
+    }
+
+    [Test]
+    public async Task ProjRemoveDestination_Preserves_Server_Option()
+    {
+        var arguments = BuildArguments(new ArgoCdProjRemoveDestinationOptions(
+            "platform",
+            "https://destination.example",
+            "apps")
+        {
+            Server = "https://argocd.example",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "platform",
+            "https://destination.example",
+            "apps",
+            "--server=https://argocd.example",
+        ]);
+    }
+
+    [Test]
     public async Task ProjAddDestination_Preserves_Name_Flag()
     {
         var arguments = BuildArguments(new ArgoCdProjAddDestinationOptions(
