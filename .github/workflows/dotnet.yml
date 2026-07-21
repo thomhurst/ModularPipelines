@@ -18,20 +18,26 @@ on:
 
 jobs:
   pipeline:
+    name: ${{ matrix.check_name }}
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
     strategy:
       matrix:
         include:
           - os: ubuntu-latest
             instance: 0
+            check_name: pipeline (ubuntu-latest)
           - os: windows-latest
             instance: 1
+            check_name: pipeline (windows-latest, 1)
           - os: macos-latest
             instance: 2
+            check_name: pipeline (macos-latest, 2)
           - os: ubuntu-latest
             instance: 3
+            check_name: pipeline (ubuntu-latest, 3)
           - os: ubuntu-latest
             instance: 4
+            check_name: pipeline (ubuntu-latest, 4)
       fail-fast: false
     runs-on: ${{ matrix.os }}
     env:
