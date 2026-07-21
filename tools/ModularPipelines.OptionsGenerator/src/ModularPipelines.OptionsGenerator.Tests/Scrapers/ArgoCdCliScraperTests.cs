@@ -207,6 +207,26 @@ public class ArgoCdCliScraperTests
     }
 
     [Test]
+    public async Task Sync_Option_Is_Repeatable_When_Help_Reports_String()
+    {
+        const string helpText = """
+            Create an application.
+
+            Usage:
+              argocd app create APPNAME [flags]
+
+            Flags:
+                  --sync-option string   Add or remove a sync option
+            """;
+
+        var command = await new TestArgoCdCliScraper().Parse(["argocd", "app", "create"], helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--sync-option");
+
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(option.AcceptsMultipleValues).IsTrue();
+    }
+
+    [Test]
     public async Task Context_Uses_Optional_Context_Name_Operand()
     {
         var scraper = new TestArgoCdCliScraper();

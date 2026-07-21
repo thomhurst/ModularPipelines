@@ -392,8 +392,8 @@ public record ArgoCdAppSetOptions(
     /// <summary>
     /// Add or remove a sync option, e.g add Prune=false. Remove using `!` prefix, e.g. `!Prune=false`
     /// </summary>
-    [CliOption("--sync-option", Format = OptionFormat.EqualsSeparated)]
-    public string? SyncOption { get; set; }
+    [CliOption("--sync-option", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? SyncOption { get; set; }
 
     /// <summary>
     /// Set the sync policy (one of: manual (aliases of manual: none), automated (aliases of automated: auto, automatic))
