@@ -168,6 +168,25 @@ public class ArgoCdCliScraperTests
     }
 
     [Test]
+    public async Task Cert_AddTls_Operand_Does_Not_Hide_ServerName_Option()
+    {
+        const string helpText = """
+            Add TLS certificate data.
+
+            Usage:
+              argocd cert add-tls SERVERNAME [flags]
+
+            Flags:
+                  --server-name string   The Argo CD API server name
+            """;
+
+        var command = await new TestArgoCdCliScraper().Parse(["argocd", "cert", "add-tls"], helpText);
+
+        await Assert.That(command!.PositionalArguments.Single().PropertyName).IsEqualTo("RepositoryServerName");
+        await Assert.That(command.Options.Select(option => option.PropertyName)).Contains("ServerName");
+    }
+
+    [Test]
     public async Task Int64_Slice_Option_Is_Repeatable()
     {
         const string helpText = """

@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cert", "add-tls")]
 public record ArgoCdCertAddTlsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ServerName
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RepositoryServerName
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -191,5 +191,11 @@ public record ArgoCdCertAddTlsOptions(
     /// </summary>
     [CliOption("--server-crt", Format = OptionFormat.EqualsSeparated)]
     public string? ServerCrt { get; set; }
+
+    /// <summary>
+    /// Name of the Argo CD API server; set this or the ARGOCD_SERVER_NAME environment variable when the server's name label differs from the default, for example when installing via the Helm chart (default "argocd-server")
+    /// </summary>
+    [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ServerName { get; set; }
 
 }
