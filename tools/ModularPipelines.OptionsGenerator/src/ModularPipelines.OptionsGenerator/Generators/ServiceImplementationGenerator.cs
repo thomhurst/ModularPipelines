@@ -49,7 +49,6 @@ public class ServiceImplementationGenerator : ICodeGenerator
 
         // Check if we have sub-domains
         var subDomains = tool.SubDomainGroups.ToList();
-        var rootCommands = tool.Commands.Where(c => c.SubDomainGroup is null).ToList();
 
         // Class documentation
         sb.AppendLine("/// <summary>");
@@ -132,15 +131,9 @@ public class ServiceImplementationGenerator : ICodeGenerator
             sb.AppendLine();
         }
 
-        // Root-level command methods
-        // Skip commands that would collide with sub-domain property names
-        var subDomainNames = new HashSet<string>(
-            subDomains.Select(s => GeneratorUtils.ToPascalCase(s)),
-            StringComparer.OrdinalIgnoreCase);
-
-        var nonCollidingRootCommands = rootCommands
-            .Where(c => !subDomainNames.Contains(GeneratorUtils.GenerateMethodNameFromCommandParts(c.CommandParts)))
-            .ToList();
+        // Root-level command methods. The collision filter is shared with
+        // ServiceInterfaceGenerator so interface and implementation always agree.
+        var nonCollidingRootCommands = GeneratorUtils.GetNonCollidingRootCommands(tool);
 
         if (nonCollidingRootCommands.Count > 0)
         {

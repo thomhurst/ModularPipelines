@@ -18,9 +18,15 @@ public static partial class GeneratorUtils
     public const string GeneratorName = "ModularPipelines.OptionsGenerator";
 
     /// <summary>
+    /// The version of this generator tool, stamped into [GeneratedCode] attributes.
+    /// </summary>
+    public static string GeneratorVersion { get; } =
+        typeof(GeneratorUtils).Assembly.GetName().Version?.ToString(3) ?? "1.0.0";
+
+    /// <summary>
     /// The full [GeneratedCode] attribute string for use in generated types.
     /// </summary>
-    public const string GeneratedCodeAttribute = $"[GeneratedCode(\"{GeneratorName}\", \"\")]";
+    public static readonly string GeneratedCodeAttribute = $"[GeneratedCode(\"{GeneratorName}\", \"{GeneratorVersion}\")]";
 
     /// <summary>
     /// Escapes text for use in XML documentation comments.
@@ -31,6 +37,11 @@ public static partial class GeneratorUtils
         {
             return string.Empty;
         }
+
+        // Help text scraped on a CI runner can embed the runner's home directory in
+        // option defaults (e.g. "/home/runner/.config/helm/..."). Those paths are
+        // meaningless to consumers, so normalize them to "~" before shipping docs.
+        text = RunnerHomePathPattern().Replace(text, "~");
 
         return text
             .Replace("&", "&amp;")
@@ -66,7 +77,8 @@ public static partial class GeneratorUtils
 
     /// <summary>
     /// Generates an AssemblyInfo file with generation metadata.
-    /// This keeps the generation date in one place per assembly rather than in every file.
+    /// Deliberately contains no timestamp: embedding the generation time made every
+    /// weekly run produce a diff (and therefore a PR) even when nothing else changed.
     /// </summary>
     /// <param name="targetNamespace">The target namespace for the assembly.</param>
     /// <param name="toolName">The CLI tool name.</param>
@@ -82,7 +94,7 @@ public static partial class GeneratorUtils
         sb.AppendLine("using System.Reflection;");
         sb.AppendLine();
         sb.AppendLine($"[assembly: AssemblyMetadata(\"ModularPipelines.OptionsGenerator.Tool\", \"{toolName}\")]");
-        sb.AppendLine($"[assembly: AssemblyMetadata(\"ModularPipelines.OptionsGenerator.GeneratedAt\", \"{DateTime.UtcNow:O}\")]");
+        sb.AppendLine($"[assembly: AssemblyMetadata(\"ModularPipelines.OptionsGenerator.Version\", \"{GeneratorVersion}\")]");
         return sb.ToString();
     }
 
@@ -181,6 +193,9 @@ public static partial class GeneratorUtils
 
     [GeneratedRegex(@"[-_\s]+")]
     private static partial Regex SeparatorPattern();
+
+    [GeneratedRegex(@"(?:/home/runner|/Users/runner(?:admin)?|[A-Za-z]:\\Users\\runneradmin)(?=[/\\])")]
+    private static partial Regex RunnerHomePathPattern();
 
     /// <summary>
     /// C# reserved keywords that cannot be used as identifiers without escaping.
@@ -318,9 +333,7 @@ public static partial class GeneratorUtils
             return "Execute";
         }
 
-        return string.Join("", commandParts
-            .SelectMany(p => p.Split('-', StringSplitOptions.RemoveEmptyEntries))
-            .Select(p => char.ToUpperInvariant(p[0]) + (p.Length > 1 ? p[1..].ToLowerInvariant() : "")));
+        return string.Join("", commandParts.Select(ToPascalCase));
     }
 
     /// <summary>
@@ -337,10 +350,36 @@ public static partial class GeneratorUtils
             return "Execute";
         }
 
-        var lastPart = command.CommandParts[^1];
-        var parts = lastPart.Split('-', StringSplitOptions.RemoveEmptyEntries);
-        return string.Join("", parts.Select(p =>
-            char.ToUpperInvariant(p[0]) + (p.Length > 1 ? p[1..].ToLowerInvariant() : "")));
+        return ToPascalCase(command.CommandParts[^1]);
+    }
+
+    /// <summary>
+    /// The executionOptions parameter as emitted in every generated command method.
+    /// </summary>
+    public const string ExecutionOptionsParameter = "CommandExecutionOptions? executionOptions = null";
+
+    /// <summary>
+    /// Whether a command has required members that must be constructor/method parameters.
+    /// </summary>
+    public static bool HasRequiredParameters(CliCommandDefinition command)
+    {
+        ArgumentNullException.ThrowIfNull(command);
+
+        return command.RequiredOptions.Count > 0 ||
+               command.PositionalArguments.Any(p => p.IsRequired);
+    }
+
+    /// <summary>
+    /// Builds the options parameter for a generated command method. Shared by the
+    /// interface and implementation generators so their signatures can never diverge.
+    /// Optional options must be nullable: generated files declare #nullable enable, so a
+    /// null default on a non-nullable reference type produces CS8625.
+    /// </summary>
+    public static string BuildOptionsParameter(CliCommandDefinition command)
+    {
+        return HasRequiredParameters(command)
+            ? $"{command.ClassName} options"
+            : $"{command.ClassName}? options = null";
     }
 
     /// <summary>
@@ -362,8 +401,7 @@ public static partial class GeneratorUtils
         ArgumentNullException.ThrowIfNull(sb);
         ArgumentNullException.ThrowIfNull(command);
 
-        var hasRequiredParams = command.RequiredOptions.Count > 0 ||
-                                command.PositionalArguments.Any(p => p.IsRequired);
+        var hasRequiredParams = HasRequiredParameters(command);
 
         // XML documentation
         if (includeXmlDoc && !string.IsNullOrEmpty(command.Description))
@@ -379,14 +417,9 @@ public static partial class GeneratorUtils
             sb.AppendLine($"{indent}/// <inheritdoc />");
         }
 
-        // Method signature
-        var optionsParam = hasRequiredParams
-            ? $"{command.ClassName} options"
-            : $"{command.ClassName} options = default";
-
         sb.AppendLine($"{indent}public virtual async Task<CommandResult> {methodName}(");
-        sb.AppendLine($"{indent}    {optionsParam},");
-        sb.AppendLine($"{indent}    CommandExecutionOptions executionOptions = null,");
+        sb.AppendLine($"{indent}    {BuildOptionsParameter(command)},");
+        sb.AppendLine($"{indent}    {ExecutionOptionsParameter},");
         sb.AppendLine($"{indent}    CancellationToken cancellationToken = default)");
         sb.AppendLine($"{indent}{{");
 
@@ -409,6 +442,7 @@ public static partial class GeneratorUtils
     [
         "Secret",
         "Password",
+        "Passphrase",
         "Token",
         "Credential",
         "ApiKey",
@@ -441,5 +475,116 @@ public static partial class GeneratorUtils
         // Check if the property name contains any secret-related keywords
         return SecretKeywords.Any(keyword =>
             propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+    }
+
+    /// <summary>
+    /// Throws if two generated files resolve to the same output path (case-insensitive).
+    /// Without this check, generators that compute colliding paths silently overwrite each
+    /// other (last writer wins), which is how single-command tools ended up shipping an
+    /// abstract options class where a concrete command options class was expected. Paths
+    /// differing only by case are also rejected because they collide on case-insensitive
+    /// filesystems.
+    /// </summary>
+    /// <param name="files">The files produced for the current tool.</param>
+    /// <param name="previouslyEmittedPaths">
+    /// Normalized (forward-slash) paths already emitted earlier in the run, so tools
+    /// sharing an output directory can't overwrite each other's files either.
+    /// </param>
+    public static void EnsureNoDuplicateFilePaths(
+        IEnumerable<GeneratedFile> files,
+        IReadOnlySet<string>? previouslyEmittedPaths = null)
+    {
+        ArgumentNullException.ThrowIfNull(files);
+
+        var normalizedPaths = files
+            .Select(f => f.RelativePath.Replace('\\', '/'))
+            .ToList();
+
+        var duplicates = normalizedPaths
+            .GroupBy(p => p, StringComparer.OrdinalIgnoreCase)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .Concat(previouslyEmittedPaths is null
+                ? []
+                : normalizedPaths.Where(previouslyEmittedPaths.Contains))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        if (duplicates.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"Multiple generators produced the same output path(s): {string.Join(", ", duplicates)}. " +
+                "Each generated file must have a unique, case-insensitively distinct path.");
+        }
+    }
+
+    /// <summary>
+    /// Renames command options classes that share their name with the parent (base) options
+    /// class. Single-command tools (ansible, jq, shellcheck, ...) scrape their root command
+    /// into a class named "{Prefix}Options" — the same name the abstract global-options base
+    /// class uses — so both generators wrote the same file and the abstract base won,
+    /// producing services that instantiate an abstract type (CS0144).
+    /// </summary>
+    public static IReadOnlyList<CliCommandDefinition> NormalizeCommandClassNames(IReadOnlyList<CliCommandDefinition> commands)
+    {
+        ArgumentNullException.ThrowIfNull(commands);
+
+        if (!commands.Any(c => string.Equals(c.ClassName, c.ParentClassName, StringComparison.OrdinalIgnoreCase)))
+        {
+            return commands;
+        }
+
+        return commands.Select(command =>
+        {
+            if (!string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase))
+            {
+                return command;
+            }
+
+            var baseName = command.ParentClassName.EndsWith("Options", StringComparison.Ordinal)
+                ? command.ParentClassName[..^"Options".Length]
+                : command.ParentClassName;
+
+            return command with { ClassName = $"{baseName}ExecuteOptions" };
+        }).ToList();
+    }
+
+    /// <summary>
+    /// Returns the root-level commands (no sub-domain) whose generated method name does not
+    /// collide with a sub-domain property name. Shared by ServiceInterfaceGenerator and
+    /// ServiceImplementationGenerator so the interface and implementation can never disagree
+    /// about which methods exist. Colliding single-part commands are not lost: the
+    /// SubDomainClassGenerator surfaces them as Execute() on the sub-domain class.
+    /// </summary>
+    public static IReadOnlyList<CliCommandDefinition> GetNonCollidingRootCommands(CliToolDefinition tool)
+    {
+        ArgumentNullException.ThrowIfNull(tool);
+
+        var subDomainNames = new HashSet<string>(
+            tool.SubDomainGroups.Select(ToPascalCase),
+            StringComparer.OrdinalIgnoreCase);
+
+        var rootCommands = tool.Commands
+            .Where(c => c.SubDomainGroup is null)
+            .Where(c => !subDomainNames.Contains(GenerateMethodNameFromCommandParts(c.CommandParts)))
+            .ToList();
+
+        // Distinct commands can normalize to the same method name (e.g. "build-server"
+        // and "build_server" both become BuildServer). Emitting both would produce
+        // duplicate members the duplicate-path check cannot see, so fail loudly here.
+        var duplicateMethodNames = rootCommands
+            .GroupBy(c => GenerateMethodNameFromCommandParts(c.CommandParts), StringComparer.OrdinalIgnoreCase)
+            .Where(g => g.Count() > 1)
+            .Select(g => $"{g.Key} ({string.Join(", ", g.Select(c => c.FullCommand))})")
+            .ToList();
+
+        if (duplicateMethodNames.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"Multiple {tool.ToolName} commands normalize to the same method name: " +
+                $"{string.Join("; ", duplicateMethodNames)}. Rename or exclude one in the scraper.");
+        }
+
+        return rootCommands;
     }
 }

@@ -47,6 +47,11 @@ public record CliToolDefinition
 
     /// <summary>
     /// All enums that need to be generated for this tool.
+    /// Deduplication is deliberately case-SENSITIVE: names differing only by case are a
+    /// scraper casing bug, and dropping one here would leave options referencing the
+    /// dropped spelling (C# type lookup is case-sensitive). Case-variant names flow
+    /// through to the generated file paths, where the orchestrator's duplicate-path
+    /// check fails the tool loudly instead.
     /// </summary>
     public IReadOnlyList<CliEnumDefinition> AllEnums => Commands
         .SelectMany(c => c.Enums)

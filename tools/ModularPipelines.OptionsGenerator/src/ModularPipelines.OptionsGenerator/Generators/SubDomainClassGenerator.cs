@@ -40,9 +40,27 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         // Find root commands that match sub-domain names (e.g., "helm completion")
         // These will be added as Execute() methods on the sub-domain class
-        var parentCommands = tool.Commands
+        var singlePartRootCommands = tool.Commands
             .Where(c => c.SubDomainGroup is null && c.CommandParts.Length == 1)
-            .ToDictionary(c => c.CommandParts[0], c => c, StringComparer.OrdinalIgnoreCase);
+            .ToList();
+
+        // Duplicate definitions of the same command are a scraper bug; picking an
+        // arbitrary survivor would silently generate Execute() from the wrong options.
+        var duplicateParentNames = singlePartRootCommands
+            .GroupBy(c => c.CommandParts[0], StringComparer.OrdinalIgnoreCase)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .ToList();
+
+        if (duplicateParentNames.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"The {tool.ToolName} scraper produced multiple definitions for the same root command(s): " +
+                $"{string.Join(", ", duplicateParentNames)}. Fix the scraper to emit each command once.");
+        }
+
+        var parentCommands = singlePartRootCommands
+            .ToDictionary(c => c.CommandParts[0], StringComparer.OrdinalIgnoreCase);
 
         foreach (var subDomain in tool.SubDomainGroups)
         {
@@ -144,11 +162,12 @@ public class SubDomainClassGenerator : ICodeGenerator
         // Private field for ICommand
         sb.AppendLine("    private readonly ICommand _command;");
 
-        // Private fields for child instances (lazy)
+        // Private fields for child instances (lazy). Nullable: the fields are only
+        // populated on first property access, and generated files declare #nullable enable.
         foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
         {
             var fieldName = GetSafeFieldName(child.PascalSegment);
-            sb.AppendLine($"    private {child.ClassName} {fieldName};");
+            sb.AppendLine($"    private {child.ClassName}? {fieldName};");
         }
 
         sb.AppendLine();
@@ -231,8 +250,8 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
         sb.AppendLine("    /// <returns>The command result.</returns>");
         sb.AppendLine($"    public virtual async Task<CommandResult> Execute(");
-        sb.AppendLine($"        {command.ClassName} options = default,");
-        sb.AppendLine("        CommandExecutionOptions executionOptions = null,");
+        sb.AppendLine($"        {command.ClassName}? options = null,");
+        sb.AppendLine($"        {GeneratorUtils.ExecutionOptionsParameter},");
         sb.AppendLine("        CancellationToken cancellationToken = default)");
         sb.AppendLine("    {");
         sb.AppendLine($"        return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), executionOptions, cancellationToken);");
