@@ -50,10 +50,10 @@ namespace ModularPipelines.Modules;
 /// {
 ///     protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
 ///     {
-///         var buildResult = context.GetModule&lt;BuildModule, BuildOutput&gt;();
+///         var buildResult = context.GetModule&lt;BuildModule&gt;().GetAwaiter().GetResult();
 ///
 ///         // Synchronously access the result (it's already complete due to DependsOn)
-///         return Path.Combine(buildResult.Value!.OutputPath, "artifacts");
+///         return Path.Combine(buildResult.ValueOrDefault!.OutputPath, "artifacts");
 ///     }
 /// }
 /// </code>

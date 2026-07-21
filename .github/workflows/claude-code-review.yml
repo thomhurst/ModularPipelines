@@ -3,12 +3,6 @@ name: Claude Code Review
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
-    # Optional: Only run on specific file changes
-    # paths:
-    #   - "src/**/*.ts"
-    #   - "src/**/*.tsx"
-    #   - "src/**/*.js"
-    #   - "src/**/*.jsx"
   workflow_dispatch:
     inputs:
       pr_number:
@@ -26,11 +20,9 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
-      contents: write        # Allows pushing fixes/commits
+      contents: read         # Allows reading repository files
       pull-requests: write   # Allows posting review comments
       issues: write          # Allows creating/updating issues
-      checks: write          # Allows creating check runs
-      statuses: write        # Allows updating commit statuses
       id-token: write        # Required for OIDC authentication
 
     steps:
