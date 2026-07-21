@@ -97,6 +97,16 @@ internal sealed class Command : ICommand, ICommandContext
             command = command.WithEnvironmentVariables(new ReadOnlyDictionary<string, string?>(execOpts.EnvironmentVariables));
         }
 
+        if (execOpts.CommandLineCredentials != null)
+        {
+            var credentials = execOpts.CommandLineCredentials;
+            command = command.WithCredentials(new Credentials(
+                credentials.Domain,
+                credentials.UserName,
+                credentials.Password,
+                credentials.LoadUserProfile));
+        }
+
         if (execOpts.InternalDryRun)
         {
             _commandLogger.Log(
