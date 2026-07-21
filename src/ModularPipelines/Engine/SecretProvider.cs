@@ -1,5 +1,5 @@
 using System.Collections.Concurrent;
-using System.Linq.Expressions;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -27,8 +27,7 @@ namespace ModularPipelines.Engine;
 /// <threadsafety static="true" instance="true"/>
 internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 {
-    private static readonly ConcurrentDictionary<Type, PropertyInfo[]> SecretPropertiesCache = new();
-    private static readonly ConcurrentDictionary<PropertyInfo, Func<object, object?>> PropertyGettersCache = new();
+    private static readonly ConcurrentDictionary<Type, IReadOnlyList<SecretPropertyAccessor>> ReflectionAccessorsCache = new();
 
     private readonly IOptionsProvider _optionsProvider;
     private readonly IBuildSystemSecretMasker _buildSystemSecretMasker;
@@ -105,13 +104,16 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         }
 
         var type = value.GetType();
-        var secretProperties = SecretPropertiesCache.GetOrAdd(type, GetSecretProperties);
+        if (!GeneratedSecretMetadata.TryGetAccessors(type, out var secretProperties))
+        {
+            secretProperties = ReflectionAccessorsCache.GetOrAdd(type, GetSecretProperties);
+        }
+
         var options = _maskingOptions.Value;
 
         foreach (var property in secretProperties)
         {
-            var getter = PropertyGettersCache.GetOrAdd(property, CreatePropertyGetter);
-            var secret = getter(value)?.ToString();
+            var secret = property.Getter(value)?.ToString();
 
             if (!string.IsNullOrWhiteSpace(secret) && secret.Length >= options.MinimumSecretLength)
             {
@@ -157,22 +159,14 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         return Task.CompletedTask;
     }
 
-    private static PropertyInfo[] GetSecretProperties(Type type)
+    [RequiresUnreferencedCode("Reflection fallback requires SecretValue-attributed properties. Ensure ModularPipelines.SourceGenerator runs for trim-safe secret access.")]
+    private static IReadOnlyList<SecretPropertyAccessor> GetSecretProperties(Type type)
     {
         return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Concat(type.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
             .Where(m => m.GetCustomAttribute<SecretValueAttribute>() is not null)
+            .Select(property => new SecretPropertyAccessor(property.Name, property.GetValue))
             .ToArray();
-    }
-
-    private static Func<object, object?> CreatePropertyGetter(PropertyInfo property)
-    {
-        var instanceParam = Expression.Parameter(typeof(object), "instance");
-        var castInstance = Expression.Convert(instanceParam, property.DeclaringType!);
-        var propertyAccess = Expression.Property(castInstance, property);
-        var castResult = Expression.Convert(propertyAccess, typeof(object));
-        var lambda = Expression.Lambda<Func<object, object?>>(castResult, instanceParam);
-        return lambda.Compile();
     }
 
     private IEnumerable<string> GetSecrets(IEnumerable<object?> options)

@@ -36,4 +36,8 @@
   <ItemGroup Condition="'$(MSBuildProjectName)' != 'ModularPipelines.Development.Analyzers'">
       <ProjectReference Include="$(MSBuildThisFileDirectory)src\ModularPipelines.Development.Analyzers\ModularPipelines.Development.Analyzers.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(MSBuildProjectName)' != 'ModularPipelines.SourceGenerator' and '$(MSBuildProjectName)' != 'ModularPipelines.Development.Analyzers' and '$(MSBuildProjectName)' != 'ModularPipelines.Build'">
+      <ProjectReference Include="$(MSBuildThisFileDirectory)src\ModularPipelines.SourceGenerator\ModularPipelines.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
+  </ItemGroup>
 </Project>
