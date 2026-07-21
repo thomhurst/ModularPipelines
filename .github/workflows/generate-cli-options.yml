@@ -498,7 +498,11 @@ jobs:
       - name: Install ShellCheck
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'shellcheck'
         run: |
-          # ShellCheck is pre-installed on ubuntu-latest
+          SHELLCHECK_VERSION="0.11.0"
+          curl -fsSL "https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz" -o /tmp/shellcheck.tar.xz
+          echo "8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198  /tmp/shellcheck.tar.xz" | sha256sum --check
+          tar -xJf /tmp/shellcheck.tar.xz -C /tmp
+          sudo install "/tmp/shellcheck-v${SHELLCHECK_VERSION}/shellcheck" /usr/local/bin/shellcheck
           shellcheck --version
 
       # Testing tools
