@@ -42,8 +42,8 @@ public class SubDomainClassGenerator : ICodeGenerator
         // These will be added as Execute() methods on the sub-domain class
         var parentCommands = tool.Commands
             .Where(c => c.SubDomainGroup is null && c.CommandParts.Length == 1)
-            .GroupBy(c => c.CommandParts[0], StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(g => g.Key, g => g.First(), StringComparer.OrdinalIgnoreCase);
+            .DistinctBy(c => c.CommandParts[0], StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(c => c.CommandParts[0], StringComparer.OrdinalIgnoreCase);
 
         foreach (var subDomain in tool.SubDomainGroups)
         {
@@ -234,7 +234,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine("    /// <returns>The command result.</returns>");
         sb.AppendLine($"    public virtual async Task<CommandResult> Execute(");
         sb.AppendLine($"        {command.ClassName}? options = null,");
-        sb.AppendLine("        CommandExecutionOptions? executionOptions = null,");
+        sb.AppendLine($"        {GeneratorUtils.ExecutionOptionsParameter},");
         sb.AppendLine("        CancellationToken cancellationToken = default)");
         sb.AppendLine("    {");
         sb.AppendLine($"        return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), executionOptions, cancellationToken);");

@@ -67,62 +67,51 @@ public class GeneratorHardeningTests
     [Test]
     public async Task EnsureNoDuplicateFilePaths_Throws_On_Case_Variant_Duplicate()
     {
-        InvalidOperationException? caught = null;
-        try
-        {
-            GeneratorUtils.EnsureNoDuplicateFilePaths(
+        await Assert.That(() => GeneratorUtils.EnsureNoDuplicateFilePaths(
             [
                 new GeneratedFile { RelativePath = "Options/AppSetOptions.Generated.cs", Content = "a" },
                 new GeneratedFile { RelativePath = "options/appsetoptions.generated.cs", Content = "b" },
-            ]);
-        }
-        catch (InvalidOperationException ex)
-        {
-            caught = ex;
-        }
-
-        await Assert.That(caught).IsNotNull();
-        await Assert.That(caught!.Message).Contains("AppSetOptions.Generated.cs");
+            ]))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("AppSetOptions.Generated.cs");
     }
 
     [Test]
     public async Task EnsureNoDuplicateFilePaths_Allows_Distinct_Paths()
     {
-        InvalidOperationException? caught = null;
-        try
-        {
-            GeneratorUtils.EnsureNoDuplicateFilePaths(
+        await Assert.That(() => GeneratorUtils.EnsureNoDuplicateFilePaths(
             [
                 new GeneratedFile { RelativePath = "Options/AOptions.Generated.cs", Content = "a" },
                 new GeneratedFile { RelativePath = "Options/BOptions.Generated.cs", Content = "b" },
-            ]);
-        }
-        catch (InvalidOperationException ex)
-        {
-            caught = ex;
-        }
+            ]))
+            .ThrowsNothing();
+    }
 
-        await Assert.That(caught).IsNull();
+    [Test]
+    public async Task EnsureNoDuplicateFilePaths_Throws_When_Path_Was_Emitted_By_An_Earlier_Tool()
+    {
+        var previouslyEmitted = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "src/Shared/Options/AOptions.Generated.cs",
+        };
+
+        await Assert.That(() => GeneratorUtils.EnsureNoDuplicateFilePaths(
+            [
+                new GeneratedFile { RelativePath = @"src\Shared\Options\AOptions.Generated.cs", Content = "a" },
+            ],
+            previouslyEmitted))
+            .Throws<InvalidOperationException>();
     }
 
     [Test]
     public async Task EnsureNoDuplicateFilePaths_Treats_Slash_Directions_As_Equal()
     {
-        InvalidOperationException? caught = null;
-        try
-        {
-            GeneratorUtils.EnsureNoDuplicateFilePaths(
+        await Assert.That(() => GeneratorUtils.EnsureNoDuplicateFilePaths(
             [
                 new GeneratedFile { RelativePath = "Options/AOptions.Generated.cs", Content = "a" },
                 new GeneratedFile { RelativePath = @"Options\AOptions.Generated.cs", Content = "b" },
-            ]);
-        }
-        catch (InvalidOperationException ex)
-        {
-            caught = ex;
-        }
-
-        await Assert.That(caught).IsNotNull();
+            ]))
+            .Throws<InvalidOperationException>();
     }
 
     #endregion
@@ -241,8 +230,8 @@ public class GeneratorHardeningTests
     [Test]
     public async Task GeneratedCodeAttribute_Contains_A_Version()
     {
-        await Assert.That(GeneratorUtils.GeneratedCodeAttribute).DoesNotContain("\"\"");
-        await Assert.That(GeneratorUtils.GeneratorVersion).IsNotEmpty();
+        await Assert.That(GeneratorUtils.GeneratedCodeAttribute)
+            .Contains($"\"{GeneratorUtils.GeneratorVersion}\"");
     }
 
     #endregion

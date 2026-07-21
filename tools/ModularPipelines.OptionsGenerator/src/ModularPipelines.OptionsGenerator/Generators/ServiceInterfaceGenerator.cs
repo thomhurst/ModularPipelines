@@ -101,10 +101,6 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         // Generate method name from command parts
         var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
 
-        // Check if command has required parameters - must match implementation signature
-        var hasRequiredParams = command.RequiredOptions.Count > 0 ||
-                                command.PositionalArguments.Any(p => p.IsRequired);
-
         // Single method - users set LogSettings on options if they need custom logging
         if (!string.IsNullOrEmpty(command.Description))
         {
@@ -116,10 +112,6 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         }
 
         // Interface signature must match implementation
-        var optionsParam = hasRequiredParams
-            ? $"{command.ClassName} options"
-            : $"{command.ClassName}? options = null";
-
-        sb.AppendLine($"    Task<CommandResult> {methodName}({optionsParam}, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);");
+        sb.AppendLine($"    Task<CommandResult> {methodName}({GeneratorUtils.BuildOptionsParameter(command)}, {GeneratorUtils.ExecutionOptionsParameter}, CancellationToken cancellationToken = default);");
     }
 }

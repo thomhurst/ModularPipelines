@@ -54,6 +54,11 @@ public class CodeGeneratorOrchestrator
         var toolList = ParseToolList(toolsToGenerate);
         var processedTools = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
+        // Run-wide record of emitted paths, so tools sharing an output directory
+        // (e.g. kubectl and kustomize in ModularPipelines.Kubernetes) can't silently
+        // overwrite each other's generated files.
+        var emittedPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
         // Build a lookup of CLI scrapers by tool name
         var cliScrapersByTool = _cliScrapers.ToDictionary(s => s.ToolName, s => s, StringComparer.OrdinalIgnoreCase);
 
@@ -81,10 +86,13 @@ public class CodeGeneratorOrchestrator
                 // Try CLI scraper first if enabled
                 if (useCliFirst && cliScrapersByTool.TryGetValue(htmlScraper.ToolName, out var cliScraper))
                 {
-                    if (await TryGenerateFromCliAsync(cliScraper, outputDirectory, result, hasHtmlFallback: true, cancellationToken))
+                    var cliFailureReason = await GenerateFromCliAsync(cliScraper, outputDirectory, result, emittedPaths, cancellationToken);
+                    if (cliFailureReason is null)
                     {
                         continue;
                     }
+
+                    _logger.LogWarning("{Reason} Falling back to HTML scraper.", cliFailureReason);
                 }
 
                 // Fall back to HTML scraper (batch mode)
@@ -117,7 +125,7 @@ public class CodeGeneratorOrchestrator
                     }
                 }
 
-                await GenerateForToolAsync(htmlToolDefinition, outputDirectory, result, cancellationToken);
+                await GenerateForToolAsync(htmlToolDefinition, outputDirectory, result, emittedPaths, cancellationToken);
 
                 _logger.LogInformation("Generated files for {Tool}", htmlScraper.ToolName);
             }
@@ -156,7 +164,12 @@ public class CodeGeneratorOrchestrator
                     processedTools.Add(cliScraper.ToolName);
                     result.ToolsProcessed.Add(cliScraper.ToolName);
 
-                    await TryGenerateFromCliAsync(cliScraper, outputDirectory, result, hasHtmlFallback: false, cancellationToken);
+                    var failureReason = await GenerateFromCliAsync(cliScraper, outputDirectory, result, emittedPaths, cancellationToken);
+                    if (failureReason is not null)
+                    {
+                        throw new InvalidOperationException(
+                            $"{failureReason} This is a CLI-only tool with no HTML fallback.");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -176,28 +189,20 @@ public class CodeGeneratorOrchestrator
 
     /// <summary>
     /// Scrapes a tool via its CLI scraper and generates code for it.
-    /// Returns true when generation completed, false when the caller should fall back to
-    /// the HTML scraper. Tools without an HTML fallback throw instead of returning false
-    /// so the failure is loud.
+    /// Returns null when generation completed, or a failure reason when it could not run.
+    /// Failure policy belongs to the caller: the HTML-scraper loop falls back, the
+    /// CLI-only loop throws.
     /// </summary>
-    private async Task<bool> TryGenerateFromCliAsync(
+    private async Task<string?> GenerateFromCliAsync(
         ICliScraper cliScraper,
         string outputDirectory,
         GenerationResult result,
-        bool hasHtmlFallback,
+        HashSet<string> emittedPaths,
         CancellationToken cancellationToken)
     {
         if (!await cliScraper.IsAvailableAsync(cancellationToken))
         {
-            var unavailableMessage = $"The {cliScraper.ToolName} CLI is not available on PATH.";
-            if (!hasHtmlFallback)
-            {
-                throw new InvalidOperationException(
-                    $"{unavailableMessage} This is a CLI-only tool with no HTML fallback - check the tool's install step.");
-            }
-
-            _logger.LogWarning("{Tool} CLI not available, falling back to HTML scraper", cliScraper.ToolName);
-            return false;
+            return $"The {cliScraper.ToolName} CLI is not available on PATH - check the tool's install step.";
         }
 
         _logger.LogInformation("Using CLI scraper for {Tool}", cliScraper.ToolName);
@@ -216,17 +221,8 @@ public class CodeGeneratorOrchestrator
         {
             // The CLI is present (IsAvailableAsync passed), so "not installed" is not the
             // problem - the scraper failed to parse anything out of the help output.
-            var zeroCommandsMessage =
-                $"The {cliScraper.ToolName} CLI reported itself available but help scraping produced no commands. " +
-                "Check the scraper's help-text parsing against the currently installed CLI version.";
-
-            if (!hasHtmlFallback)
-            {
-                throw new InvalidOperationException(zeroCommandsMessage);
-            }
-
-            _logger.LogWarning("{Message} Falling back to HTML scraper.", zeroCommandsMessage);
-            return false;
+            return $"The {cliScraper.ToolName} CLI reported itself available but help scraping produced no commands. " +
+                   "Check the scraper's help-text parsing against the currently installed CLI version.";
         }
 
         var completeToolDefinition = new CliToolDefinition
@@ -239,12 +235,12 @@ public class CodeGeneratorOrchestrator
             Errors = []
         };
 
-        await GenerateForToolAsync(completeToolDefinition, outputDirectory, result, cancellationToken);
+        await GenerateForToolAsync(completeToolDefinition, outputDirectory, result, emittedPaths, cancellationToken);
 
         _logger.LogInformation("Generated files for {Tool} ({Count} commands, {SubDomainCount} sub-domains)",
             cliScraper.ToolName, allCommands.Count, completeToolDefinition.SubDomainGroups.Count);
 
-        return true;
+        return null;
     }
 
     /// <summary>
@@ -257,12 +253,13 @@ public class CodeGeneratorOrchestrator
         CliToolDefinition tool,
         string outputDirectory,
         GenerationResult result,
+        HashSet<string> emittedPaths,
         CancellationToken cancellationToken)
     {
-        var toolDefinition = tool with
-        {
-            Commands = GeneratorUtils.NormalizeCommandClassNames(tool.Commands),
-        };
+        var normalizedCommands = GeneratorUtils.NormalizeCommandClassNames(tool.Commands);
+        var toolDefinition = ReferenceEquals(normalizedCommands, tool.Commands)
+            ? tool
+            : tool with { Commands = normalizedCommands };
 
         var generatedFiles = new List<GeneratedFile>();
 
@@ -271,7 +268,7 @@ public class CodeGeneratorOrchestrator
             generatedFiles.AddRange(await generator.GenerateAsync(toolDefinition, cancellationToken));
         }
 
-        GeneratorUtils.EnsureNoDuplicateFilePaths(generatedFiles);
+        GeneratorUtils.EnsureNoDuplicateFilePaths(generatedFiles, emittedPaths);
 
         // Only now that generation fully succeeded is it safe to remove the old output.
         CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory, toolDefinition.NamespacePrefix);
@@ -281,8 +278,12 @@ public class CodeGeneratorOrchestrator
             var fullPath = Path.Combine(outputDirectory, file.RelativePath);
             await WriteFileAsync(fullPath, file.Content, cancellationToken);
             result.FilesGenerated.Add(file.RelativePath);
+            emittedPaths.Add(file.RelativePath.Replace('\\', '/'));
         }
 
+        // AssemblyInfo is deliberately outside collision tracking: tools sharing an
+        // output directory (kubectl + kustomize) each write the same AssemblyInfo path,
+        // and last-writer-wins is the intended behavior there.
         await WriteAssemblyInfoAsync(outputDirectory, toolDefinition, cancellationToken);
         result.FilesGenerated.Add(Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
     }

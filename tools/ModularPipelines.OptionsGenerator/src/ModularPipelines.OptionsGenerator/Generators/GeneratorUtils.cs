@@ -354,6 +354,35 @@ public static partial class GeneratorUtils
     }
 
     /// <summary>
+    /// The executionOptions parameter as emitted in every generated command method.
+    /// </summary>
+    public const string ExecutionOptionsParameter = "CommandExecutionOptions? executionOptions = null";
+
+    /// <summary>
+    /// Whether a command has required members that must be constructor/method parameters.
+    /// </summary>
+    public static bool HasRequiredParameters(CliCommandDefinition command)
+    {
+        ArgumentNullException.ThrowIfNull(command);
+
+        return command.RequiredOptions.Count > 0 ||
+               command.PositionalArguments.Any(p => p.IsRequired);
+    }
+
+    /// <summary>
+    /// Builds the options parameter for a generated command method. Shared by the
+    /// interface and implementation generators so their signatures can never diverge.
+    /// Optional options must be nullable: generated files declare #nullable enable, so a
+    /// null default on a non-nullable reference type produces CS8625.
+    /// </summary>
+    public static string BuildOptionsParameter(CliCommandDefinition command)
+    {
+        return HasRequiredParameters(command)
+            ? $"{command.ClassName} options"
+            : $"{command.ClassName}? options = null";
+    }
+
+    /// <summary>
     /// Generates a service method that executes a CLI command.
     /// Used by ServiceImplementationGenerator and SubDomainClassGenerator to avoid duplication.
     /// </summary>
@@ -372,8 +401,7 @@ public static partial class GeneratorUtils
         ArgumentNullException.ThrowIfNull(sb);
         ArgumentNullException.ThrowIfNull(command);
 
-        var hasRequiredParams = command.RequiredOptions.Count > 0 ||
-                                command.PositionalArguments.Any(p => p.IsRequired);
+        var hasRequiredParams = HasRequiredParameters(command);
 
         // XML documentation
         if (includeXmlDoc && !string.IsNullOrEmpty(command.Description))
@@ -389,16 +417,9 @@ public static partial class GeneratorUtils
             sb.AppendLine($"{indent}/// <inheritdoc />");
         }
 
-        // Method signature. Optional options params must be nullable: generated files
-        // declare #nullable enable, so a null default on a non-nullable reference type
-        // produces CS8625 in every generated service.
-        var optionsParam = hasRequiredParams
-            ? $"{command.ClassName} options"
-            : $"{command.ClassName}? options = null";
-
         sb.AppendLine($"{indent}public virtual async Task<CommandResult> {methodName}(");
-        sb.AppendLine($"{indent}    {optionsParam},");
-        sb.AppendLine($"{indent}    CommandExecutionOptions? executionOptions = null,");
+        sb.AppendLine($"{indent}    {BuildOptionsParameter(command)},");
+        sb.AppendLine($"{indent}    {ExecutionOptionsParameter},");
         sb.AppendLine($"{indent}    CancellationToken cancellationToken = default)");
         sb.AppendLine($"{indent}{{");
 
@@ -464,14 +485,29 @@ public static partial class GeneratorUtils
     /// differing only by case are also rejected because they collide on case-insensitive
     /// filesystems.
     /// </summary>
-    public static void EnsureNoDuplicateFilePaths(IEnumerable<GeneratedFile> files)
+    /// <param name="files">The files produced for the current tool.</param>
+    /// <param name="previouslyEmittedPaths">
+    /// Normalized (forward-slash) paths already emitted earlier in the run, so tools
+    /// sharing an output directory can't overwrite each other's files either.
+    /// </param>
+    public static void EnsureNoDuplicateFilePaths(
+        IEnumerable<GeneratedFile> files,
+        IReadOnlySet<string>? previouslyEmittedPaths = null)
     {
         ArgumentNullException.ThrowIfNull(files);
 
-        var duplicates = files
-            .GroupBy(f => f.RelativePath.Replace('\\', '/'), StringComparer.OrdinalIgnoreCase)
+        var normalizedPaths = files
+            .Select(f => f.RelativePath.Replace('\\', '/'))
+            .ToList();
+
+        var duplicates = normalizedPaths
+            .GroupBy(p => p, StringComparer.OrdinalIgnoreCase)
             .Where(g => g.Count() > 1)
             .Select(g => g.Key)
+            .Concat(previouslyEmittedPaths is null
+                ? []
+                : normalizedPaths.Where(previouslyEmittedPaths.Contains))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToList();
 
         if (duplicates.Count > 0)
@@ -493,6 +529,11 @@ public static partial class GeneratorUtils
     {
         ArgumentNullException.ThrowIfNull(commands);
 
+        if (!commands.Any(c => string.Equals(c.ClassName, c.ParentClassName, StringComparison.OrdinalIgnoreCase)))
+        {
+            return commands;
+        }
+
         return commands.Select(command =>
         {
             if (!string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase))
@@ -500,11 +541,11 @@ public static partial class GeneratorUtils
                 return command;
             }
 
-            var newClassName = command.ParentClassName.EndsWith("Options", StringComparison.Ordinal)
-                ? $"{command.ParentClassName[..^"Options".Length]}ExecuteOptions"
-                : $"{command.ParentClassName}ExecuteOptions";
+            var baseName = command.ParentClassName.EndsWith("Options", StringComparison.Ordinal)
+                ? command.ParentClassName[..^"Options".Length]
+                : command.ParentClassName;
 
-            return command with { ClassName = newClassName };
+            return command with { ClassName = $"{baseName}ExecuteOptions" };
         }).ToList();
     }
 

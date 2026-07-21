@@ -79,24 +79,12 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine($"[CliSubCommand({args})]");
         }
 
-        // Class declaration
-        GenerateClassDeclaration(sb, command);
+        // Class declaration. The returned set contains the names emitted as
+        // primary-constructor parameters, so a name scraped as both required and
+        // optional can't produce two members (CS0102).
+        var existingPropertyNames = GenerateClassDeclaration(sb, command);
 
         sb.AppendLine("{");
-
-        // Collect existing property names to avoid duplicates. Seed with the required
-        // members already emitted as primary-constructor parameters so a name scraped as
-        // both required and optional can't produce two members (CS0102).
-        var existingPropertyNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var required in command.RequiredOptions)
-        {
-            existingPropertyNames.Add(required.PropertyName);
-        }
-
-        foreach (var requiredPositional in command.PositionalArguments.Where(p => p.IsRequired))
-        {
-            existingPropertyNames.Add(requiredPositional.PropertyName);
-        }
 
         // Properties for non-required options
         foreach (var option in command.Options.Where(o => !o.IsRequired))
@@ -131,16 +119,20 @@ public class OptionsClassGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeaderWithNullable(sb, documentationUrl);
     }
 
-    private static void GenerateClassDeclaration(StringBuilder sb, CliCommandDefinition command)
+    /// <summary>
+    /// Emits the class declaration and returns the member names emitted as
+    /// primary-constructor parameters, so property emission can skip duplicates.
+    /// </summary>
+    private static HashSet<string> GenerateClassDeclaration(StringBuilder sb, CliCommandDefinition command)
     {
         var requiredOptions = command.RequiredOptions;
         var requiredPositionals = command.PositionalArguments.Where(p => p.IsRequired).ToList();
+        var existingNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         if (requiredOptions.Count > 0 || requiredPositionals.Count > 0)
         {
             // Use primary constructor for required parameters
             var parameters = new List<string>();
-            var existingNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
             foreach (var opt in requiredOptions)
             {
@@ -169,6 +161,8 @@ public class OptionsClassGenerator : ICodeGenerator
         {
             sb.AppendLine($"public record {command.ClassName} : {command.ParentClassName}");
         }
+
+        return existingNames;
     }
 
     private static void GenerateProperty(StringBuilder sb, CliOptionDefinition option)
