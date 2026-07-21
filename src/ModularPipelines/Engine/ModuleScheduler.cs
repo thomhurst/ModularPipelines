@@ -125,12 +125,11 @@ internal class ModuleScheduler : IModuleScheduler
         {
             var moduleType = state.ModuleType;
 
-            // Use cached metadata to avoid repeated reflection lookups
-            var metadata = ModuleMetadataCache.GetMetadata(moduleType);
+            var configuration = state.Module.Configuration;
 
-            if (metadata.NotInParallelAttribute != null)
+            if (configuration.ParallelConstraintKeys is { } constraintKeys)
             {
-                if (metadata.NotInParallelAttribute.ConstraintKeys.Length == 0)
+                if (constraintKeys.Count == 0)
                 {
                     state.RequiresSequentialExecution = true;
                     _logger.LogDebug(
@@ -139,7 +138,7 @@ internal class ModuleScheduler : IModuleScheduler
                 }
                 else
                 {
-                    state.RequiredLockKeys = metadata.NotInParallelAttribute.ConstraintKeys;
+                    state.RequiredLockKeys = [.. constraintKeys];
                     _logger.LogDebug(
                         "Module {ModuleName} requires locks: {Keys}",
                         moduleType.Name,
@@ -147,20 +146,18 @@ internal class ModuleScheduler : IModuleScheduler
                 }
             }
 
-            // Read priority attribute
-            if (metadata.PriorityAttribute != null)
+            if (configuration.Priority is { } priority)
             {
-                state.Priority = metadata.PriorityAttribute.Priority;
+                state.Priority = priority;
                 _logger.LogDebug(
                     "Module {ModuleName} has priority: {Priority}",
                     moduleType.Name,
                     state.Priority);
             }
 
-            // Read execution hint attribute
-            if (metadata.ExecutionHintAttribute != null)
+            if (configuration.ExecutionType is { } executionType)
             {
-                state.ExecutionType = metadata.ExecutionHintAttribute.ExecutionType;
+                state.ExecutionType = executionType;
                 _logger.LogDebug(
                     "Module {ModuleName} has execution type: {ExecutionType}",
                     moduleType.Name,
@@ -208,14 +205,14 @@ internal class ModuleScheduler : IModuleScheduler
     {
         var moduleType = module.GetType();
 
-        // Static dependencies from attributes (including DependsOnAllModulesInheritingFrom and predicate-based)
-        foreach (var dep in ModuleDependencyResolver.GetDependencies(moduleType, availableModuleTypes, _metadataRegistry))
+        // Canonical dependencies from fluent configuration, legacy declarations, and direct attributes.
+        foreach (var dep in ModuleDependencyResolver.GetConfiguredDependencies(module))
         {
             yield return dep;
         }
 
-        // Programmatic dependencies from DeclareDependencies method
-        foreach (var dep in ModuleDependencyResolver.GetProgrammaticDependencies(module))
+        // Dependencies selected from the available module set by base type or metadata.
+        foreach (var dep in ModuleDependencyResolver.GetSelectorDependencies(moduleType, availableModuleTypes, _metadataRegistry))
         {
             yield return dep;
         }

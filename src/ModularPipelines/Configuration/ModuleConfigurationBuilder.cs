@@ -1,5 +1,8 @@
 using ModularPipelines.Context;
+using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using Polly;
 
 namespace ModularPipelines.Configuration;
@@ -32,6 +35,8 @@ namespace ModularPipelines.Configuration;
 /// </example>
 public sealed class ModuleConfigurationBuilder
 {
+    private readonly HashSet<string> _tags = new(StringComparer.OrdinalIgnoreCase);
+    private readonly List<DeclaredDependency> _dependencies = [];
     private Func<IModuleContext, Task<SkipDecision>>? _skipCondition;
     private TimeSpan? _timeout;
     private Func<IModuleContext, IAsyncPolicy>? _retryPolicyFactory;
@@ -39,6 +44,10 @@ public sealed class ModuleConfigurationBuilder
     private bool _alwaysRun;
     private Func<IModuleContext, Task>? _onBeforeExecute;
     private Func<IModuleContext, Task>? _onAfterExecute;
+    private string[]? _parallelConstraintKeys;
+    private ModulePriority? _priority;
+    private ExecutionType? _executionType;
+    private string? _category;
 
     #region WithSkipWhen Overloads
 
@@ -52,7 +61,7 @@ public sealed class ModuleConfigurationBuilder
         _skipCondition = _ =>
         {
             var shouldSkip = condition();
-            return Task.FromResult<SkipDecision>(shouldSkip);
+            return Task.FromResult(SkipDecision.Of(shouldSkip, "Configured skip condition returned true"));
         };
         return this;
     }
@@ -67,7 +76,7 @@ public sealed class ModuleConfigurationBuilder
         _skipCondition = async _ =>
         {
             var shouldSkip = await condition().ConfigureAwait(false);
-            return shouldSkip;
+            return SkipDecision.Of(shouldSkip, "Configured skip condition returned true");
         };
         return this;
     }
@@ -104,7 +113,7 @@ public sealed class ModuleConfigurationBuilder
         _skipCondition = ctx =>
         {
             var shouldSkip = condition(ctx);
-            return Task.FromResult<SkipDecision>(shouldSkip);
+            return Task.FromResult(SkipDecision.Of(shouldSkip, "Configured skip condition returned true"));
         };
         return this;
     }
@@ -119,7 +128,7 @@ public sealed class ModuleConfigurationBuilder
         _skipCondition = async ctx =>
         {
             var shouldSkip = await condition(ctx).ConfigureAwait(false);
-            return shouldSkip;
+            return SkipDecision.Of(shouldSkip, "Configured skip condition returned true");
         };
         return this;
     }
@@ -143,6 +152,190 @@ public sealed class ModuleConfigurationBuilder
     public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, Task<SkipDecision>> condition)
     {
         _skipCondition = condition;
+        return this;
+    }
+
+    #endregion
+
+    #region Scheduling and Metadata
+
+    /// <summary>
+    /// Prevents this module from running in parallel with any other module.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder WithNotInParallel()
+    {
+        _parallelConstraintKeys = [];
+        return this;
+    }
+
+    /// <summary>
+    /// Prevents this module from running in parallel with modules using any matching constraint key.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder WithNotInParallel(params string[] constraintKeys)
+    {
+        ArgumentNullException.ThrowIfNull(constraintKeys);
+
+        if (constraintKeys.Any(string.IsNullOrWhiteSpace))
+        {
+            throw new ArgumentException("Constraint keys cannot be empty or whitespace.", nameof(constraintKeys));
+        }
+
+        if (constraintKeys.Length != constraintKeys.Distinct(StringComparer.Ordinal).Count())
+        {
+            throw new ArgumentException("Duplicate constraint keys are not allowed.", nameof(constraintKeys));
+        }
+
+        _parallelConstraintKeys = [.. constraintKeys];
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the module scheduling priority.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder WithPriority(ModulePriority priority)
+    {
+        _priority = priority;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the module resource-usage hint.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder WithExecutionHint(ExecutionType executionType)
+    {
+        _executionType = executionType;
+        return this;
+    }
+
+    /// <summary>
+    /// Adds metadata tags to the module.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder WithTags(params string[] tags)
+    {
+        ArgumentNullException.ThrowIfNull(tags);
+
+        if (tags.Any(string.IsNullOrWhiteSpace))
+        {
+            throw new ArgumentException("Tags cannot be empty or whitespace.", nameof(tags));
+        }
+
+        _tags.UnionWith(tags);
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the module category.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder WithCategory(string category)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(category);
+        _category = category;
+        return this;
+    }
+
+    #endregion
+
+    #region Dependencies
+
+    /// <summary>
+    /// Adds a required dependency. The dependency must be registered with the pipeline.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder DependsOn<TModule>()
+        where TModule : IModule
+        => DependsOn(typeof(TModule));
+
+    /// <summary>
+    /// Adds a required dependency. The dependency must be registered with the pipeline.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder DependsOn(Type moduleType)
+    {
+        ValidateModuleType(moduleType);
+        _dependencies.Add(DeclaredDependency.Required(moduleType));
+        return this;
+    }
+
+    /// <summary>
+    /// Adds an optional dependency.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder DependsOnOptional<TModule>()
+        where TModule : IModule
+        => DependsOnOptional(typeof(TModule));
+
+    /// <summary>
+    /// Adds an optional dependency.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder DependsOnOptional(Type moduleType)
+    {
+        ValidateModuleType(moduleType);
+        _dependencies.Add(DeclaredDependency.Optional(moduleType));
+        return this;
+    }
+
+    /// <summary>
+    /// Adds a required dependency when the supplied condition is true.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder DependsOnIf<TModule>(bool condition)
+        where TModule : IModule
+        => condition ? DependsOn<TModule>() : this;
+
+    /// <summary>
+    /// Adds a required dependency when the supplied predicate returns true.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder DependsOnIf<TModule>(Func<bool> predicate)
+        where TModule : IModule
+    {
+        ArgumentNullException.ThrowIfNull(predicate);
+        return DependsOnIf<TModule>(predicate());
+    }
+
+    /// <summary>
+    /// Adds a required dependency when the supplied condition is true.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder DependsOnIf(Type moduleType, bool condition)
+        => condition ? DependsOn(moduleType) : this;
+
+    /// <summary>
+    /// Adds a required dependency when the supplied predicate returns true.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder DependsOnIf(Type moduleType, Func<bool> predicate)
+    {
+        ArgumentNullException.ThrowIfNull(predicate);
+        return DependsOnIf(moduleType, predicate());
+    }
+
+    /// <summary>
+    /// Adds a lazy optional dependency.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder DependsOnLazy<TModule>()
+        where TModule : IModule
+    {
+        _dependencies.Add(DeclaredDependency.Lazy(typeof(TModule)));
+        return this;
+    }
+
+    /// <summary>
+    /// Adds a lazy optional dependency.
+    /// </summary>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder DependsOnLazy(Type moduleType)
+    {
+        ValidateModuleType(moduleType);
+        _dependencies.Add(DeclaredDependency.Lazy(moduleType));
         return this;
     }
 
@@ -296,6 +489,22 @@ public sealed class ModuleConfigurationBuilder
             AlwaysRun = _alwaysRun,
             OnBeforeExecute = _onBeforeExecute,
             OnAfterExecute = _onAfterExecute,
+            ParallelConstraintKeys = _parallelConstraintKeys,
+            Priority = _priority,
+            ExecutionType = _executionType,
+            Tags = new HashSet<string>(_tags, StringComparer.OrdinalIgnoreCase),
+            Category = _category,
+            Dependencies = [.. _dependencies],
         };
+    }
+
+    private static void ValidateModuleType(Type moduleType)
+    {
+        ArgumentNullException.ThrowIfNull(moduleType);
+
+        if (!moduleType.IsAssignableTo(typeof(IModule)))
+        {
+            throw new InvalidModuleTypeException(moduleType);
+        }
     }
 }
