@@ -339,6 +339,27 @@ public class GeneratorHardeningTests
     #region Enum deduplication
 
     [Test]
+    public async Task EnumGenerator_Emits_Runtime_EnumValue_Attribute()
+    {
+        var enumDefinition = new CliEnumDefinition
+        {
+            EnumName = "ToolOutput",
+            Values = [new CliEnumValue { MemberName = "Json", CliValue = "json-output" }],
+        };
+        var tool = Tool(Command(
+            "ToolGetOptions",
+            "ToolOptions",
+            ["get"],
+            enums: [enumDefinition]));
+
+        var generatedFile = (await new EnumGenerator().GenerateAsync(tool)).Single();
+
+        await Assert.That(generatedFile.Content).Contains("using ModularPipelines.Attributes;");
+        await Assert.That(generatedFile.Content).Contains("[EnumValue(\"json-output\")]");
+        await Assert.That(generatedFile.Content).DoesNotContain("[Description(");
+    }
+
+    [Test]
     public async Task Case_Variant_Enum_Names_Fail_The_Duplicate_Path_Check()
     {
         CliEnumDefinition EnumDef(string name) => new()

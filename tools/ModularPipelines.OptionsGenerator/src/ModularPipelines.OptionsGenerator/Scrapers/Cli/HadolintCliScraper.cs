@@ -66,11 +66,12 @@ public partial class HadolintCliScraper : CliScraperBase
                 new CliEnumValue { MemberName = "Json", CliValue = "json" },
                 new CliEnumValue { MemberName = "Checkstyle", CliValue = "checkstyle" },
                 new CliEnumValue { MemberName = "Codeclimate", CliValue = "codeclimate" },
-                new CliEnumValue { MemberName = "Gitlab_codeclimate", CliValue = "gitlab_codeclimate" },
+                new CliEnumValue { MemberName = "GitlabCodeclimate", CliValue = "gitlab_codeclimate" },
                 new CliEnumValue { MemberName = "Gnu", CliValue = "gnu" },
                 new CliEnumValue { MemberName = "Codacy", CliValue = "codacy" },
                 new CliEnumValue { MemberName = "Sonarqube", CliValue = "sonarqube" },
-                new CliEnumValue { MemberName = "Sarif", CliValue = "sarif" }
+                new CliEnumValue { MemberName = "Sarif", CliValue = "sarif" },
+                new CliEnumValue { MemberName = "Junit", CliValue = "junit" }
             ],
             Description = "Output format for Hadolint results"
         };
@@ -137,95 +138,122 @@ public partial class HadolintCliScraper : CliScraperBase
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Find "Available options:" section
-        var optionsSectionMatch = OptionsSectionPattern().Match(helpText);
-        string section;
-        if (optionsSectionMatch.Success)
-        {
-            var sectionStart = optionsSectionMatch.Index + optionsSectionMatch.Length;
-            section = helpText.Substring(sectionStart);
-        }
-        else
-        {
-            section = helpText;
-        }
+        var lines = GetOptionsSection(helpText).Split('\n');
 
-        var lines = section.Split('\n');
-
-        foreach (var line in lines)
+        for (var lineIndex = 0; lineIndex < lines.Length; lineIndex++)
         {
-            var match = HadolintOptionPattern().Match(line);
+            var match = HadolintOptionPattern().Match(lines[lineIndex]);
             if (!match.Success)
             {
                 continue;
             }
 
-            var shortForm = match.Groups["short"].Value.Trim();
-            var longForm = match.Groups["long"].Value.Trim();
-            var valueHint = match.Groups["value"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
-
-            if (string.IsNullOrEmpty(longForm))
+            var description = AccumulateDescription(lines, ref lineIndex, match);
+            var option = CreateOption(match, description, formatEnum, thresholdEnum);
+            if (option is not null && seenOptions.Add(option.SwitchName))
             {
-                continue;
+                options.Add(option);
             }
-
-            if (seenOptions.Contains(longForm))
-            {
-                continue;
-            }
-
-            seenOptions.Add(longForm);
-
-            var propertyName = NormalizePropertyName(longForm);
-            if (propertyName is null)
-            {
-                continue;
-            }
-
-            var isFlag = string.IsNullOrEmpty(valueHint);
-            var csharpType = isFlag ? "bool?" : "string?";
-            CliEnumDefinition? enumDef = null;
-
-            // Check for enum-type options
-            if (propertyName == "Format")
-            {
-                csharpType = "HadolintFormat?";
-                enumDef = formatEnum;
-            }
-            else if (propertyName == "FailureThreshold")
-            {
-                csharpType = "HadolintFailureThreshold?";
-                enumDef = thresholdEnum;
-            }
-
-            // Check for array-type options
-            var isArray = longForm == "--ignore" || longForm == "--trusted-registry";
-            if (isArray)
-            {
-                csharpType = "IEnumerable<string>?";
-            }
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = longForm,
-                ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
-                IsFlag = isFlag,
-                IsRequired = false,
-                AcceptsMultipleValues = isArray,
-                IsKeyValue = false,
-                IsNumeric = false,
-                ValueSeparator = " ",
-                EnumDefinition = enumDef,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
         }
 
         return options;
     }
+
+    private static string GetOptionsSection(string helpText)
+    {
+        var match = OptionsSectionPattern().Match(helpText);
+        return match.Success ? helpText[(match.Index + match.Length)..] : helpText;
+    }
+
+    private static string AccumulateDescription(string[] lines, ref int lineIndex, Match match)
+    {
+        var descriptionParts = new List<string>();
+        var inlineDescription = match.Groups["desc"].Value.Trim();
+        if (!string.IsNullOrEmpty(inlineDescription))
+        {
+            descriptionParts.Add(inlineDescription);
+        }
+
+        var optionIndentation = GetIndentation(lines[lineIndex]);
+        while (lineIndex + 1 < lines.Length)
+        {
+            var nextLine = lines[lineIndex + 1];
+            var continuation = nextLine.Trim();
+            if (string.IsNullOrEmpty(continuation)
+                || continuation.StartsWith('-')
+                || GetIndentation(nextLine) <= optionIndentation)
+            {
+                break;
+            }
+
+            descriptionParts.Add(continuation);
+            lineIndex++;
+        }
+
+        return string.Join(' ', descriptionParts);
+    }
+
+    private CliOptionDefinition? CreateOption(
+        Match match,
+        string description,
+        CliEnumDefinition formatEnum,
+        CliEnumDefinition thresholdEnum)
+    {
+        var shortForm = match.Groups["short"].Value.Trim();
+        var longForm = match.Groups["long"].Value.Trim();
+        var propertyName = NormalizePropertyName(longForm);
+        if (propertyName is null)
+        {
+            return null;
+        }
+
+        var isFlag = string.IsNullOrEmpty(match.Groups["value"].Value);
+        var isArray = IsRepeatableOption(longForm);
+        var (csharpType, enumDefinition) = GetOptionType(propertyName, isFlag, isArray, formatEnum, thresholdEnum);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = longForm,
+            ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = false,
+            AcceptsMultipleValues = isArray,
+            IsKeyValue = false,
+            IsNumeric = false,
+            ValueSeparator = " ",
+            EnumDefinition = enumDefinition,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+        };
+    }
+
+    private static (string CSharpType, CliEnumDefinition? EnumDefinition) GetOptionType(
+        string propertyName,
+        bool isFlag,
+        bool isArray,
+        CliEnumDefinition formatEnum,
+        CliEnumDefinition thresholdEnum)
+    {
+        if (isArray)
+        {
+            return ("IEnumerable<string>?", null);
+        }
+
+        return propertyName switch
+        {
+            "Format" => ("HadolintFormat?", formatEnum),
+            "FailureThreshold" => ("HadolintFailureThreshold?", thresholdEnum),
+            _ => (isFlag ? "bool?" : "string?", null)
+        };
+    }
+
+    private static bool IsRepeatableOption(string longForm) => longForm is
+        "--error" or "--warning" or "--info" or "--style" or "--ignore" or
+        "--trusted-registry" or "--require-label";
+
+    private static int GetIndentation(string line) => line.Length - line.TrimStart().Length;
 
     /// <summary>
     /// Checks if help text indicates the command has options.
@@ -249,7 +277,7 @@ public partial class HadolintCliScraper : CliScraperBase
     ///   -c,--config FILENAME     Use FILENAME as configuration file
     ///   --no-fail                Don't exit with failure code
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),)?(?<long>--[\w-]+)(?:\s+(?<value>[A-Z]+))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:\s+(?<value>[A-Z]+)(?:\s+\([^)]+\))?)?(?:[ \t]{2,}(?<desc>.*))?[ \t]*\r?$", RegexOptions.Multiline)]
     private static partial Regex HadolintOptionPattern();
 
     #endregion

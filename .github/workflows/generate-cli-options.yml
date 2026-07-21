@@ -293,7 +293,7 @@ jobs:
       - name: Install Hadolint
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'hadolint'
         run: |
-          wget -O hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
+          wget -O hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-linux-x86_64
           chmod +x hadolint
           sudo mv hadolint /usr/local/bin/
 
