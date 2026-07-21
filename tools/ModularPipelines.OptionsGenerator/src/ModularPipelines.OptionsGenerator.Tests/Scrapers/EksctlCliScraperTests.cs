@@ -75,6 +75,28 @@ public class EksctlCliScraperTests
     }
 
     [Test]
+    public async Task Boolean_Value_Options_Are_Not_Secrets()
+    {
+        const string helpText = """
+            Enable secrets encryption
+
+            Usage: eksctl utils enable-secrets-encryption [flags]
+
+            Flags:
+                  --encrypt-existing-secrets   Encrypt all existing Kubernetes secrets (default true)
+            """;
+
+        var command = await new TestEksctlCliScraper().Parse(
+            ["eksctl", "utils", "enable-secrets-encryption"],
+            helpText);
+        var option = command!.Options.Single(x => x.SwitchName == "--encrypt-existing-secrets");
+
+        await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.IsSecret).IsFalse();
+    }
+
+    [Test]
     public async Task Corrects_Well_Known_Policies_Missing_Type_Hint()
     {
         const string helpText = """

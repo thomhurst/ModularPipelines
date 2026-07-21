@@ -1,3 +1,4 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.Eksctl.Enums;
 using ModularPipelines.Eksctl.Options;
 using ModularPipelines.Helpers.Internal;
@@ -94,6 +95,20 @@ public class EksctlOptionsTests
             "--enable-types=api",
             "--enable-types=controllerManager",
         ]);
+    }
+
+    [Test]
+    public async Task EncryptExistingSecrets_Is_A_Boolean_Not_A_Secret()
+    {
+        var arguments = BuildArguments(new EksctlUtilsEnableSecretsEncryptionOptions
+        {
+            EncryptExistingSecrets = false,
+        });
+        var property = typeof(EksctlUtilsEnableSecretsEncryptionOptions)
+            .GetProperty(nameof(EksctlUtilsEnableSecretsEncryptionOptions.EncryptExistingSecrets));
+
+        await Assert.That(arguments).IsEquivalentTo(["--encrypt-existing-secrets=false"]);
+        await Assert.That(property!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsFalse();
     }
 
     private List<string> BuildArguments(object options)

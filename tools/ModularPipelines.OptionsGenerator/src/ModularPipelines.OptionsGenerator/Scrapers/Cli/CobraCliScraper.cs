@@ -235,7 +235,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var className = GenerateClassName([ToolName, ..commandParts]);
+        var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find Flags, Options, and Global Flags sections
         var flagsSections = ExtractFlagsSections(helpText);
@@ -332,7 +332,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     IsNumeric = isInteger || isFloat,
                     ValueSeparator = separator,
                     EnumDefinition = enumDef,
-                    IsSecret = IsSecretOption(propertyName, isFlag)
+                    IsSecret = !isBoolean && IsSecretOption(propertyName, isFlag)
                 });
             }
         }
