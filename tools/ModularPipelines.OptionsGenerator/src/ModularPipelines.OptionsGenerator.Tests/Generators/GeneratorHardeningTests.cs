@@ -16,6 +16,7 @@ public class GeneratorHardeningTests
         string parentClassName,
         string[]? commandParts = null,
         string? subDomainGroup = null,
+        string? commandGroupIdentifierOverride = null,
         IReadOnlyList<CliEnumDefinition>? enums = null) =>
         new()
         {
@@ -26,6 +27,7 @@ public class GeneratorHardeningTests
             ToolNamespacePrefix = "Tool",
             Options = [],
             SubDomainGroup = subDomainGroup,
+            CommandGroupIdentifierOverride = commandGroupIdentifierOverride,
             Enums = enums ?? [],
         };
 
@@ -61,7 +63,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task NormalizeCommandClassNames_Renames_Root_Command_Colliding_With_SubDomain_Service()
+    public async Task NormalizeCommandClassNames_Leaves_Executable_Parent_Options_Stable()
     {
         var commands = GeneratorUtils.NormalizeCommandClassNames(
         [
@@ -73,7 +75,7 @@ public class GeneratorHardeningTests
                 subDomainGroup: "ApplicationSet"),
         ]);
 
-        await Assert.That(commands[0].ClassName).IsEqualTo("ToolApplicationSetExecuteOptions");
+        await Assert.That(commands[0].ClassName).IsEqualTo("ToolApplicationSetOptions");
         await Assert.That(commands[1].ClassName).IsEqualTo("ToolApplicationSetGetOptions");
     }
 
@@ -82,23 +84,29 @@ public class GeneratorHardeningTests
     {
         var commands = GeneratorUtils.NormalizeCommandClassNames(
         [
-            Command("ToolApplicationSetOptions", "ToolOptions", ["appset"]),
-            Command("ToolApplicationSetExecuteOptions", "ToolOptions", ["appset", "execute"], "ApplicationSet"),
-            Command("ToolApplicationSetGetOptions", "ToolOptions", ["appset", "get"], "ApplicationSet"),
+            Command("ToolOptions", "ToolOptions", ["tool"]),
+            Command("ToolExecuteOptions", "ToolOptions", ["execute"]),
         ]);
 
-        await Assert.That(commands[0].ClassName).IsEqualTo("ToolApplicationSetExecuteExecuteOptions");
-        await Assert.That(commands[1].ClassName).IsEqualTo("ToolApplicationSetExecuteOptions");
+        await Assert.That(commands[0].ClassName).IsEqualTo("ToolExecuteExecuteOptions");
+        await Assert.That(commands[1].ClassName).IsEqualTo("ToolExecuteOptions");
     }
 
     [Test]
     public async Task SubDomain_Generators_Preserve_Compound_PascalCase()
     {
-        var tool = Tool(Command(
-            "ToolApplicationSetGetOptions",
-            "ToolOptions",
-            ["appset", "get"],
-            subDomainGroup: "ApplicationSet"));
+        var tool = Tool(
+            Command(
+                "ToolApplicationSetOptions",
+                "ToolOptions",
+                ["appset"],
+                commandGroupIdentifierOverride: "ApplicationSet"),
+            Command(
+                "ToolApplicationSetGetOptions",
+                "ToolOptions",
+                ["appset", "get"],
+                subDomainGroup: "ApplicationSet",
+                commandGroupIdentifierOverride: "ApplicationSet"));
 
         var subDomainFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
         var interfaceFiles = await new ServiceInterfaceGenerator().GenerateAsync(tool);
@@ -106,9 +114,28 @@ public class GeneratorHardeningTests
         var registrationFiles = await new DependencyRegistrationGenerator().GenerateAsync(tool);
 
         await Assert.That(subDomainFiles.Single().RelativePath).EndsWith("ToolApplicationSet.Generated.cs");
+        await Assert.That(subDomainFiles.Single().Content).Contains("ToolApplicationSetOptions? options = null");
         await Assert.That(interfaceFiles.Single().Content).Contains("ToolApplicationSet ApplicationSet { get; }");
+        await Assert.That(interfaceFiles.Single().Content).DoesNotContain("Appset(");
         await Assert.That(implementationFiles.Single().Content).Contains("ToolApplicationSet ApplicationSet { get; }");
         await Assert.That(registrationFiles.Single().Content).Contains("TryAddScoped<ToolApplicationSet>()");
+        await Assert.That(GeneratorUtils.GetNonCollidingRootCommands(tool)).IsEmpty();
+    }
+
+    [Test]
+    public async Task SubDomain_Generators_Preserve_Legacy_Casing_Without_Override()
+    {
+        var tool = Tool(Command(
+            "ToolWorkspaceAddOnsGetOptions",
+            "ToolOptions",
+            ["workspace-add-ons", "get"],
+            subDomainGroup: "WorkspaceAddOns"));
+
+        var subDomainFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
+        var interfaceFiles = await new ServiceInterfaceGenerator().GenerateAsync(tool);
+
+        await Assert.That(subDomainFiles.Single().RelativePath).EndsWith("ToolWorkspaceaddons.Generated.cs");
+        await Assert.That(interfaceFiles.Single().Content).Contains("ToolWorkspaceaddons Workspaceaddons { get; }");
     }
 
     #endregion

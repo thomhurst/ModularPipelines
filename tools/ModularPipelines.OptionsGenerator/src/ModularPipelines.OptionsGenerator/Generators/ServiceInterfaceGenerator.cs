@@ -59,11 +59,12 @@ public class ServiceInterfaceGenerator : ICodeGenerator
 
             foreach (var subDomain in subDomains)
             {
-                var subDomainClassName = $"{tool.NamespacePrefix}{subDomain}";
+                var subDomainIdentifier = GeneratorUtils.GetSubDomainIdentifier(tool, subDomain);
+                var subDomainClassName = $"{tool.NamespacePrefix}{subDomainIdentifier}";
                 sb.AppendLine($"    /// <summary>");
                 sb.AppendLine($"    /// Gets the {subDomain.ToLowerInvariant()} sub-domain service.");
                 sb.AppendLine($"    /// </summary>");
-                sb.AppendLine($"    {subDomainClassName} {subDomain} {{ get; }}");
+                sb.AppendLine($"    {subDomainClassName} {subDomainIdentifier} {{ get; }}");
                 sb.AppendLine();
             }
 

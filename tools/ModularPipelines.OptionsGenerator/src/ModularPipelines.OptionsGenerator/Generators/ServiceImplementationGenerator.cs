@@ -48,7 +48,9 @@ public class ServiceImplementationGenerator : ICodeGenerator
         var interfaceName = $"I{tool.NamespacePrefix}";
 
         // Check if we have sub-domains
-        var subDomains = tool.SubDomainGroups.ToList();
+        var subDomains = tool.SubDomainGroups
+            .Select(group => GeneratorUtils.GetSubDomainIdentifier(tool, group))
+            .ToList();
 
         // Class documentation
         sb.AppendLine("/// <summary>");

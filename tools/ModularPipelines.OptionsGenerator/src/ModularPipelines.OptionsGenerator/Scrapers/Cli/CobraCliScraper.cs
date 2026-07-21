@@ -134,8 +134,15 @@ public abstract partial class CobraCliScraper : CliScraperBase
             return Task.FromResult<CliCommandDefinition?>(null);
         }
 
-        // Get the first subcommand for grouping
-        var subDomain = commandParts.Length > 1 ? NormalizeCommandIdentifier(commandParts[0]) : null;
+        // Get the first subcommand for grouping. Record only tool-specific identifier
+        // overrides so shared generators preserve existing public names for other tools.
+        var commandGroupIdentifier = NormalizeCommandIdentifier(commandParts[0]);
+        var commandGroupIdentifierOverride = commandGroupIdentifier.Equals(
+            ToPascalCase(commandParts[0]),
+            StringComparison.Ordinal)
+            ? null
+            : commandGroupIdentifier;
+        var subDomain = commandParts.Length > 1 ? commandGroupIdentifier : null;
 
         // Parse description from synopsis or first line
         var description = ExtractDescription(helpText);
@@ -166,6 +173,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             Options = options,
             PositionalArguments = positionalArgs,
             SubDomainGroup = subDomain,
+            CommandGroupIdentifierOverride = commandGroupIdentifierOverride,
             Enums = enums
         };
 

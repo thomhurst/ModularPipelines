@@ -54,8 +54,7 @@ public class CommandTreeNode
         string subDomain,
         IReadOnlyList<CliCommandDefinition> commands)
     {
-        // SubDomainGroup is already normalized by the scraper. Re-normalizing it would
-        // collapse compound identifiers such as ApplicationSet to Applicationset.
+        // The caller resolves legacy casing or an explicit scraper override.
         var rootClassName = $"{toolPrefix}{subDomain}";
 
         var root = new CommandTreeNode

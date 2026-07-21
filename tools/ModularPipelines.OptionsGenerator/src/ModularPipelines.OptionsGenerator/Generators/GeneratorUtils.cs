@@ -519,20 +519,14 @@ public static partial class GeneratorUtils
     }
 
     /// <summary>
-    /// Renames command options classes that collide with another generated type. This covers
-    /// single-command tools whose command class matches their global-options base, and root
-    /// commands whose options class matches the service class generated for their subdomain.
+    /// Renames command options classes that share their name with the parent global-options
+    /// class. The allocated fallback is guaranteed not to collide with another command class.
     /// </summary>
     public static IReadOnlyList<CliCommandDefinition> NormalizeCommandClassNames(IReadOnlyList<CliCommandDefinition> commands)
     {
         ArgumentNullException.ThrowIfNull(commands);
 
-        var subDomainClassNames = commands
-            .Where(c => c.SubDomainGroup is not null)
-            .Select(c => $"{c.ToolNamespacePrefix}{c.SubDomainGroup}Options")
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-
-        if (!commands.Any(command => NeedsClassNameNormalization(command, subDomainClassNames)))
+        if (!commands.Any(command => NeedsClassNameNormalization(command)))
         {
             return commands;
         }
@@ -544,7 +538,7 @@ public static partial class GeneratorUtils
 
         foreach (var command in commands)
         {
-            if (!NeedsClassNameNormalization(command, subDomainClassNames))
+            if (!NeedsClassNameNormalization(command))
             {
                 normalizedCommands.Add(command);
                 continue;
@@ -569,12 +563,12 @@ public static partial class GeneratorUtils
         ArgumentNullException.ThrowIfNull(tool);
 
         var subDomainNames = new HashSet<string>(
-            tool.SubDomainGroups,
+            tool.SubDomainGroups.Select(group => GetSubDomainIdentifier(tool, group)),
             StringComparer.OrdinalIgnoreCase);
 
         var rootCommands = tool.Commands
             .Where(c => c.SubDomainGroup is null)
-            .Where(c => !subDomainNames.Contains(GenerateMethodNameFromCommandParts(c.CommandParts)))
+            .Where(c => !subDomainNames.Contains(GetCommandGroupIdentifier(c)))
             .ToList();
 
         // Distinct commands can normalize to the same method name (e.g. "build-server"
@@ -596,29 +590,49 @@ public static partial class GeneratorUtils
         return rootCommands;
     }
 
-    private static bool NeedsClassNameNormalization(
-        CliCommandDefinition command,
-        IReadOnlySet<string> subDomainClassNames)
+    /// <summary>
+    /// Gets the generated identifier for a sub-domain while preserving legacy casing unless
+    /// the scraper supplied an explicit tool-specific override.
+    /// </summary>
+    public static string GetSubDomainIdentifier(CliToolDefinition tool, string subDomainGroup)
     {
-        return string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase)
-               || (command.SubDomainGroup is null
-                   && command.CommandParts.Length == 1
-                   && subDomainClassNames.Contains(command.ClassName));
+        ArgumentNullException.ThrowIfNull(tool);
+        ArgumentException.ThrowIfNullOrWhiteSpace(subDomainGroup);
+
+        var overrides = tool.Commands
+            .Where(command => string.Equals(
+                command.SubDomainGroup,
+                subDomainGroup,
+                StringComparison.OrdinalIgnoreCase))
+            .Select(command => command.CommandGroupIdentifierOverride)
+            .Where(identifier => identifier is not null)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        return overrides.Count switch
+        {
+            0 => ToPascalCase(subDomainGroup),
+            1 => overrides[0]!,
+            _ => throw new InvalidOperationException(
+                $"The {tool.ToolName} scraper produced conflicting identifiers for sub-domain " +
+                $"'{subDomainGroup}': {string.Join(", ", overrides)}.")
+        };
     }
+
+    private static string GetCommandGroupIdentifier(CliCommandDefinition command) =>
+        command.CommandGroupIdentifierOverride
+        ?? GenerateMethodNameFromCommandParts(command.CommandParts);
+
+    private static bool NeedsClassNameNormalization(CliCommandDefinition command) =>
+        string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase);
 
     private static string AllocateExecuteClassName(
         CliCommandDefinition command,
         ISet<string> occupiedClassNames)
     {
-        var collidingName = string.Equals(
-            command.ClassName,
-            command.ParentClassName,
-            StringComparison.OrdinalIgnoreCase)
-            ? command.ParentClassName
-            : command.ClassName;
-        var baseName = collidingName.EndsWith("Options", StringComparison.Ordinal)
-            ? collidingName[..^"Options".Length]
-            : collidingName;
+        var baseName = command.ParentClassName.EndsWith("Options", StringComparison.Ordinal)
+            ? command.ParentClassName[..^"Options".Length]
+            : command.ParentClassName;
         var suffix = "Execute";
         var candidate = $"{baseName}{suffix}Options";
 

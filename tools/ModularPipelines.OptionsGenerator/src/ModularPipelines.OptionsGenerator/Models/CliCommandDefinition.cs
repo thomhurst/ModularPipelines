@@ -62,6 +62,12 @@ public record CliCommandDefinition
     public string? SubDomainGroup { get; init; }
 
     /// <summary>
+    /// Optional generated identifier for the command's first segment when a tool-specific
+    /// compound name cannot be inferred from the CLI spelling.
+    /// </summary>
+    public string? CommandGroupIdentifierOverride { get; init; }
+
+    /// <summary>
     /// Enums that need to be generated for this command's options.
     /// </summary>
     public IReadOnlyList<CliEnumDefinition> Enums { get; init; } = [];
