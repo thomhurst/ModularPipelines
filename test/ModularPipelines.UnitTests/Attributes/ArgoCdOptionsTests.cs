@@ -206,6 +206,22 @@ public class ArgoCdOptionsTests
     }
 
     [Test]
+    public async Task Sync_Options_Render_As_Repeated_Options()
+    {
+        var arguments = BuildArguments(new ArgoCdAppCreateOptions("my-app")
+        {
+            SyncOption = ["CreateNamespace=true", "PruneLast=true"],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "my-app",
+            "--sync-option=CreateNamespace=true",
+            "--sync-option=PruneLast=true",
+        ]);
+    }
+
+    [Test]
     public async Task Configure_Renders_Explicit_False_For_Prompts_Enabled()
     {
         var arguments = BuildArguments(new ArgoCdConfigureOptions

@@ -238,6 +238,15 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         switchName == "--prompts-enabled"
         || base.IsBooleanValueOption(commandParts, switchName, description);
 
+    protected override string NormalizeOptionTypeHint(
+        string[] commandParts,
+        string switchName,
+        string typeHint,
+        string description) =>
+        switchName == "--sync-option"
+            ? "stringArray"
+            : base.NormalizeOptionTypeHint(commandParts, switchName, typeHint, description);
+
     protected override string NormalizeOptionDescription(string description) =>
         UnixHomeDirectoryPattern().Replace(
             WindowsHomeDirectoryPattern().Replace(description, "<home>"),
