@@ -38,7 +38,7 @@ public record ArgoCdAppDiffOptions(
     /// <summary>
     /// Return non-zero exit code when there is a diff. May also return non-zero exit code if there is an error. (default true)
     /// </summary>
-    [CliFlag("--exit-code")]
+    [CliOption("--exit-code", Format = OptionFormat.EqualsSeparated)]
     public bool? ExitCode { get; set; }
 
     /// <summary>

@@ -84,6 +84,43 @@ public class ArgoCdCliScraperTests
         await Assert.That(arguments[1].PropertyName).IsEqualTo("Id");
     }
 
+    [Test]
+    public async Task Slash_Separated_Metavariable_Is_One_Positional_Argument()
+    {
+        var scraper = new TestArgoCdCliScraper();
+        var parsedArguments = scraper.ParseArguments(
+            "Usage:\n  argocd admin settings rbac can ROLE/SUBJECT ACTION RESOURCE [SUB-RESOURCE] [flags]");
+        var arguments = scraper.ApplyFix(["admin", "settings", "rbac", "can"], parsedArguments);
+
+        await Assert.That(arguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["RoleSubject", "Action", "Resource", "SubResource"]);
+        await Assert.That(arguments.Take(3).All(argument => argument.IsRequired)).IsTrue();
+        await Assert.That(arguments[3].IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Default_True_Boolean_Is_Value_Option()
+    {
+        const string helpText = """
+            Implement bulk project role update.
+
+            Usage:
+              argocd admin proj update-role-policy PROJECT-GLOB MODIFICATION ACTION [flags]
+
+            Flags:
+                  --dry-run   Dry run (default true)
+            """;
+
+        var command = await new TestArgoCdCliScraper().Parse(
+            ["argocd", "admin", "proj", "update-role-policy"],
+            helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--dry-run");
+
+        await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.ValueSeparator).IsEqualTo("=");
+    }
+
     private sealed class TestArgoCdCliScraper : ArgoCdCliScraper
     {
         public TestArgoCdCliScraper()
@@ -106,5 +143,8 @@ public class ArgoCdCliScraperTests
             string[] commandParts,
             IReadOnlyList<CliPositionalArgument> positionalArguments) =>
             ApplyPositionalArgumentFixes(commandParts, positionalArguments);
+
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(commandPath, helpText, CancellationToken.None);
     }
 }

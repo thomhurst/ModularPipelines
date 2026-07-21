@@ -297,9 +297,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 var actualType = NormalizeTypeHint(typeHint, hasDefaultValue);
 
                 var isBoolean = string.IsNullOrEmpty(actualType) || IsKnownBooleanType(actualType);
-                var isDefaultTrueBoolean = isBoolean && hasDefaultValue &&
-                    typeHint.Equals("true", StringComparison.OrdinalIgnoreCase);
-                var isFlag = isBoolean && !isDefaultTrueBoolean;
+            var isDefaultTrueBoolean = isBoolean && hasDefaultValue &&
+                                       typeHint.Equals("true", StringComparison.OrdinalIgnoreCase);
+            var isFlag = isBoolean && !isDefaultTrueBoolean;
                 var isInteger = IsKnownIntegerType(actualType);
                 var isFloat = IsKnownFloatType(actualType);
                 var isDuration = IsKnownDurationType(actualType);
