@@ -38,6 +38,12 @@ public record AnsibleExecuteOptions(
     public string? ConnectionPasswordFile { get; set; }
 
     /// <summary>
+    /// clear the fact cache for every host in inventory
+    /// </summary>
+    [CliFlag("--flush-cache")]
+    public bool? FlushCache { get; set; }
+
+    /// <summary>
     /// outputs a list of matching hosts; does not execute anything else
     /// </summary>
     [CliFlag("--list-hosts")]

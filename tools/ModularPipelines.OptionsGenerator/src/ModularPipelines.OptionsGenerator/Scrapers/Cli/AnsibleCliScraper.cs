@@ -144,17 +144,43 @@ public partial class AnsibleCliScraper : CliScraperBase
         var optionParts = specification.Split(
             ',',
             StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-        var longOption = optionParts.FirstOrDefault(part => part.StartsWith("--", StringComparison.Ordinal));
-        var longForm = longOption is null ? null : GetOptionName(longOption);
-        var propertyName = longForm is null ? null : NormalizePropertyName(longForm);
-        if (longForm is null || propertyName is null)
+        var longForm = GetLongForm(optionParts);
+        if (longForm is null || NormalizePropertyName(longForm) is not { } propertyName)
         {
             return null;
         }
 
-        var shortOption = optionParts.FirstOrDefault(part =>
-            part.StartsWith('-') && !part.StartsWith("--", StringComparison.Ordinal));
         var valueHint = optionParts.Select(GetValueHint).FirstOrDefault(value => value is not null);
+        return CreateOption(
+            longForm,
+            GetShortForm(optionParts),
+            propertyName,
+            valueHint,
+            description);
+    }
+
+    private static string? GetLongForm(IEnumerable<string> optionParts)
+    {
+        var option = optionParts.FirstOrDefault(part => part.StartsWith("--", StringComparison.Ordinal));
+        return option is null ? null : GetOptionName(option);
+    }
+
+    private static string? GetShortForm(IEnumerable<string> optionParts)
+    {
+        var option = optionParts.FirstOrDefault(IsShortOption);
+        return option is null ? null : GetOptionName(option);
+    }
+
+    private static bool IsShortOption(string option) =>
+        option.StartsWith('-') && !option.StartsWith("--", StringComparison.Ordinal);
+
+    private static CliOptionDefinition CreateOption(
+        string longForm,
+        string? shortForm,
+        string propertyName,
+        string? valueHint,
+        string description)
+    {
         var isFlag = valueHint is null;
         var isCountedFlag = isFlag && longForm == "--verbose";
         var acceptsMultipleValues = !isFlag && description.Contains(
@@ -165,7 +191,7 @@ public partial class AnsibleCliScraper : CliScraperBase
         return new CliOptionDefinition
         {
             SwitchName = longForm,
-            ShortForm = shortOption is null ? null : GetOptionName(shortOption),
+            ShortForm = shortForm,
             PropertyName = propertyName,
             CSharpType = GetCSharpType(isFlag, isCountedFlag, acceptsMultipleValues, isNumeric),
             Description = description,

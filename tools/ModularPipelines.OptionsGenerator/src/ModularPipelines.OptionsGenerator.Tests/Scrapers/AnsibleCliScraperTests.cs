@@ -18,6 +18,7 @@ public class AnsibleCliScraperTests
                                 specified multiple times.
           --become-password-file BECOME_PASSWORD_FILE, --become-pass-file BECOME_PASSWORD_FILE
                                 Become password file
+          --flush-cache         clear the fact cache for every host in inventory
           -B SECONDS, --background SECONDS
                                 run asynchronously, failing after X seconds
           -C, --check           don't make any changes
@@ -41,7 +42,7 @@ public class AnsibleCliScraperTests
         var command = await new TestAnsibleCliScraper().Parse(HelpText);
 
         await Assert.That(command).IsNotNull();
-        await Assert.That(command!.Options).Count().IsEqualTo(9);
+        await Assert.That(command!.Options).Count().IsEqualTo(10);
 
         var background = GetOption(command, "--background");
         await Assert.That(background.ShortForm).IsEqualTo("-B");
@@ -51,6 +52,9 @@ public class AnsibleCliScraperTests
         var check = GetOption(command, "--check");
         await Assert.That(check.ShortForm).IsEqualTo("-C");
         await Assert.That(check.IsFlag).IsTrue();
+
+        var flushCache = GetOption(command, "--flush-cache");
+        await Assert.That(flushCache.IsFlag).IsTrue();
 
         var verbose = GetOption(command, "--verbose");
         await Assert.That(verbose.IsFlag).IsTrue();
