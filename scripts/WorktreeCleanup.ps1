@@ -10,6 +10,53 @@
 #     system-wide; the `\\?\` extended-length Remove-Item is kept as a fallback for
 #     environments where that config is missing.
 
+function Test-IsLinkedWorktree {
+    param([Parameter(Mandatory)][string]$Path)
+
+    # A primary checkout has a .git directory. A linked worktree has a .git file,
+    # including when reached through a symlink or junction. Requiring that marker
+    # avoids path-text comparisons and refuses arbitrary directories fail-closed.
+    $marker = Join-Path $Path '.git'
+    if (-not (Test-Path -LiteralPath $marker -PathType Leaf)) { return $false }
+
+    $firstLine = Get-Content -LiteralPath $marker -TotalCount 1 -ErrorAction SilentlyContinue
+    return $firstLine -match '^gitdir:\s*\S+'
+}
+
+function Test-SameNativePath {
+    param(
+        [Parameter(Mandatory)][string]$Left,
+        [Parameter(Mandatory)][string]$Right
+    )
+
+    try {
+        $leftPath = [IO.Path]::GetFullPath($Left).TrimEnd([char[]]@('/', '\'))
+        $rightPath = [IO.Path]::GetFullPath($Right).TrimEnd([char[]]@('/', '\'))
+        $comparison = if ($IsWindows) { [StringComparison]::OrdinalIgnoreCase } else { [StringComparison]::Ordinal }
+        return [string]::Equals($leftPath, $rightPath, $comparison)
+    }
+    catch {
+        return $false
+    }
+}
+
+function Select-MergeCleanupWorktree {
+    param(
+        [string]$ValidatedWorktree,
+        [string]$CurrentBranchWorktree,
+        [switch]$WasExplicit,
+        [switch]$IdentityValid
+    )
+
+    if (-not $ValidatedWorktree -or -not $IdentityValid) { return $null }
+    if ($WasExplicit) { return $ValidatedWorktree }
+    if (-not $CurrentBranchWorktree) { return $null }
+    if (Test-SameNativePath -Left $ValidatedWorktree -Right $CurrentBranchWorktree) {
+        return $ValidatedWorktree
+    }
+    return $null
+}
+
 function Remove-MergedWorktree {
     [CmdletBinding()]
     param(
@@ -20,6 +67,13 @@ function Remove-MergedWorktree {
 
     if (-not (Test-Path -LiteralPath $Worktree)) {
         git -C $Repo worktree prune
+        return
+    }
+
+    # Only linked worktrees are valid deletion targets. This rejects the primary
+    # checkout even through a filesystem alias before any git or recursive delete.
+    if (-not (Test-IsLinkedWorktree -Path $Worktree)) {
+        Write-Host "WARNING: refusing to remove primary checkout or non-linked worktree $Label : $Worktree"
         return
     }
 

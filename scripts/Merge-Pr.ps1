@@ -35,6 +35,15 @@ $repoArgs = @(); if ($Repo) { $repoArgs = @('--repo', $Repo) }
 
 function Fail([string]$msg) { [Console]::Error.WriteLine("MERGE ABORTED #${Pr} -- $msg"); exit 1 }
 
+function Find-WorktreeForBranch([string]$RepoPath, [string]$Branch) {
+    $current = $null
+    foreach ($line in (git -C $RepoPath worktree list --porcelain)) {
+        if ($line -like 'worktree *') { $current = $line.Substring(9) }
+        elseif ($line -eq "branch refs/heads/$Branch") { return $current }
+    }
+    return $null
+}
+
 # --- 1. Gate: the pure predicate decides. No merge unless it exits 0. -----------
 & pwsh (Join-Path $PSScriptRoot 'Assert-PrGreen.ps1') -Pr $Pr @repoArgs
 if ($LASTEXITCODE -ne 0) { Fail "Assert-PrGreen denied (exit $LASTEXITCODE). Not merging." }
@@ -49,31 +58,74 @@ $headRef = $headRef.Trim()
 $mainRepo = ((git worktree list --porcelain) | Where-Object { $_ -like 'worktree *' } |
     Select-Object -First 1) -replace '^worktree ', ''
 
+# Resolve cleanup before merging. If another process checked the PR branch out in the
+# primary checkout, abort while the PR is still open instead of risking that checkout.
+$worktreeWasExplicit = -not [string]::IsNullOrWhiteSpace($Worktree)
+if (-not $worktreeWasExplicit) {
+    $Worktree = Find-WorktreeForBranch -RepoPath $mainRepo -Branch $headRef
+    if ($Worktree -and -not (Test-Path -LiteralPath $Worktree)) {
+        git -C $mainRepo worktree prune
+        $Worktree = Find-WorktreeForBranch -RepoPath $mainRepo -Branch $headRef
+    }
+}
+$worktreeIdentityToken = $null
+$worktreeIdentityFile = $null
+if ($Worktree) {
+    if (-not (Test-IsLinkedWorktree -Path $Worktree)) {
+        Fail "PR branch '$headRef' is not in an isolated linked worktree. Move it out of the primary checkout first."
+    }
+
+    $worktreeGitDirectory = git -C $Worktree rev-parse --absolute-git-dir 2>$null
+    if ($LASTEXITCODE -ne 0 -or -not $worktreeGitDirectory) {
+        Fail "could not resolve linked-worktree identity for '$Worktree'"
+    }
+    $worktreeIdentityToken = [guid]::NewGuid().ToString('N')
+    $worktreeIdentityFile = Join-Path $worktreeGitDirectory.Trim() ".modularpipelines-merge-$worktreeIdentityToken"
+    Set-Content -LiteralPath $worktreeIdentityFile -Value $worktreeIdentityToken -NoNewline
+}
+
 # --- 2. Merge. -----------------------------------------------------------------
 gh pr merge $Pr @repoArgs --squash
-if ($LASTEXITCODE -ne 0) { Fail "gh pr merge failed (exit $LASTEXITCODE). Worktree untouched." }
+$mergeExitCode = $LASTEXITCODE
+if ($mergeExitCode -ne 0) {
+    if ($worktreeIdentityFile) { Remove-Item -LiteralPath $worktreeIdentityFile -Force -ErrorAction SilentlyContinue }
+    Fail "gh pr merge failed (exit $mergeExitCode). Worktree untouched."
+}
 Write-Host "Merged #${Pr} ($headRef)."
 
 # --- 3. Remove the PR's worktree. ----------------------------------------------
-if (-not $Worktree) {
-    # Find the worktree whose checked-out branch matches the PR head branch.
-    $wt = $null; $cur = $null
-    foreach ($line in (git -C $mainRepo worktree list --porcelain)) {
-        if ($line -like 'worktree *') { $cur = $line.Substring(9) }
-        elseif ($line -eq "branch refs/heads/$headRef") { $wt = $cur; break }
-    }
-    $Worktree = $wt
+# Re-resolve after the merge for auto-discovered paths, but only remove the exact linked
+# worktree validated above. The private identity token disappears if that worktree is
+# removed/recreated, preventing a replacement worktree from becoming the target.
+$currentBranchWorktree = Find-WorktreeForBranch -RepoPath $mainRepo -Branch $headRef
+$currentIdentityToken = if ($worktreeIdentityFile -and (Test-Path -LiteralPath $worktreeIdentityFile -PathType Leaf)) {
+    Get-Content -LiteralPath $worktreeIdentityFile -Raw -ErrorAction SilentlyContinue
 }
-if (-not $Worktree) {
+$identityValid = [bool]$worktreeIdentityToken -and $currentIdentityToken -eq $worktreeIdentityToken
+$cleanupWorktree = Select-MergeCleanupWorktree `
+    -ValidatedWorktree $Worktree `
+    -CurrentBranchWorktree $currentBranchWorktree `
+    -WasExplicit:$worktreeWasExplicit `
+    -IdentityValid:$identityValid
+
+if ($worktreeIdentityFile) {
+    Remove-Item -LiteralPath $worktreeIdentityFile -Force -ErrorAction SilentlyContinue
+}
+
+if (-not $Worktree -and -not $currentBranchWorktree) {
     Write-Host "No isolated worktree found for branch '$headRef' (nothing to remove)."
     git -C $mainRepo worktree prune
+} elseif (-not $cleanupWorktree) {
+    Write-Host "WARNING: merged #${Pr}, but the validated worktree identity changed. Preserving worktree and branches."
+    git -C $mainRepo worktree prune
+    exit 0
 } else {
-    Remove-MergedWorktree -Repo $mainRepo -Worktree $Worktree -Label "#${Pr}"
+    Remove-MergedWorktree -Repo $mainRepo -Worktree $cleanupWorktree -Label "#${Pr}"
 
     # A dirty worktree is intentionally preserved. Its local and remote branches are
     # also preserved so uncommitted work retains an upstream recovery point.
-    if (Test-Path -LiteralPath $Worktree) {
-        Write-Host "Preserving branches for worktree #${Pr}: $Worktree"
+    if (Test-Path -LiteralPath $cleanupWorktree) {
+        Write-Host "Preserving branches for worktree #${Pr}: $cleanupWorktree"
         exit 0
     }
 }
