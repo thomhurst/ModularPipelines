@@ -60,17 +60,13 @@ internal class CoordinatedTextWriter : TextWriter
     public override void WriteLine(string? value)
     {
         var message = value ?? string.Empty;
-        var obfuscated = _secretObfuscator.Obfuscate(message, null);
 
-        if (!_shouldBuffer())
+        lock (_lineBufferLock)
         {
-            // Progress not running - write directly
-            _realConsole.WriteLine(obfuscated);
-            return;
+            _lineBuffer.Append(message);
+            WriteCompletedLine(_lineBuffer.ToString());
+            _lineBuffer.Clear();
         }
-
-        // Progress is active - buffer the output
-        RouteToBuffer(obfuscated);
     }
 
     /// <inheritdoc />
@@ -87,26 +83,18 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
-        var obfuscated = _secretObfuscator.Obfuscate(value, null);
-
-        if (!_shouldBuffer())
-        {
-            // Progress not running - write directly
-            _realConsole.Write(obfuscated);
-            return;
-        }
-
-        // Progress is active - accumulate until newline
+        // Accumulate raw text until newline so secrets split across multiple
+        // Write calls are masked as one value.
         lock (_lineBufferLock)
         {
-            foreach (var c in obfuscated)
+            foreach (var c in value)
             {
                 if (c == '\n')
                 {
                     // Flush the line
                     var line = _lineBuffer.ToString().TrimEnd('\r');
                     _lineBuffer.Clear();
-                    RouteToBuffer(line);
+                    WriteCompletedLine(line);
                 }
                 else
                 {
@@ -148,6 +136,20 @@ internal class CoordinatedTextWriter : TextWriter
         }
     }
 
+    private void WriteCompletedLine(string line)
+    {
+        var obfuscated = _secretObfuscator.Obfuscate(line, null);
+
+        if (_shouldBuffer())
+        {
+            RouteToBuffer(obfuscated);
+        }
+        else
+        {
+            _realConsole.WriteLine(obfuscated);
+        }
+    }
+
     /// <inheritdoc />
     public override void Flush()
     {
@@ -158,14 +160,15 @@ internal class CoordinatedTextWriter : TextWriter
             {
                 var line = _lineBuffer.ToString();
                 _lineBuffer.Clear();
+                var obfuscated = _secretObfuscator.Obfuscate(line, null);
 
                 if (_shouldBuffer())
                 {
-                    RouteToBuffer(line);
+                    RouteToBuffer(obfuscated);
                 }
                 else
                 {
-                    _realConsole.Write(line);
+                    _realConsole.Write(obfuscated);
                 }
             }
         }
