@@ -101,8 +101,16 @@ public partial class YarnCliScraper : CliScraperBase
         _yarnProjectDir = Path.Combine(Path.GetTempPath(), $"yarn-scraper-{Guid.NewGuid():N}");
         Directory.CreateDirectory(_yarnProjectDir);
 
+        var versionResult = await Executor.ExecuteAsync(ExecutablePath, "--version", cancellationToken);
+        var version = versionResult.StandardOutput.Trim();
+        var packageManager = YarnVersionPattern().IsMatch(version)
+            ? $",\"packageManager\":\"yarn@{version}\""
+            : string.Empty;
         var packageJson = Path.Combine(_yarnProjectDir, "package.json");
-        await File.WriteAllTextAsync(packageJson, "{\"name\":\"yarn-scraper-temp\",\"packageManager\":\"yarn@4.0.0\"}", cancellationToken);
+        await File.WriteAllTextAsync(
+            packageJson,
+            $"{{\"name\":\"yarn-scraper-temp\"{packageManager}}}",
+            cancellationToken);
 
         Logger.LogDebug("[yarn] Created temporary project context at {Dir}", _yarnProjectDir);
     }
@@ -115,6 +123,9 @@ public partial class YarnCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Yarn";
 
+    protected override string ExecutablePath => OperatingSystem.IsWindows()
+        ? ResolveWindowsExecutablePath()
+        : ToolName;
 
     /// <summary>
     /// Skip utility commands.
@@ -667,6 +678,17 @@ public partial class YarnCliScraper : CliScraperBase
                helpText.Contains("--");
     }
 
+    private static string ResolveWindowsExecutablePath()
+    {
+        var pathDirectories = Environment.GetEnvironmentVariable("PATH")?
+            .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries) ?? [];
+
+        return pathDirectories
+                   .Select(directory => Path.Combine(directory.Trim('"'), "yarn.cmd"))
+                   .FirstOrDefault(File.Exists)
+               ?? "yarn.cmd";
+    }
+
     #region Regex Patterns
 
     // ===== Clipanion-style patterns (Yarn Berry v2+/v4+) =====
@@ -753,7 +775,7 @@ public partial class YarnCliScraper : CliScraperBase
     /// <summary>
     /// Matches subcommand lines: "  command    description"
     /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)\s{2,}", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s{2,}(?:-\s*)?(?<name>[\w-]+)(?:\s{2,}|\s*$)", RegexOptions.Multiline)]
     private static partial Regex SubcommandLinePattern();
 
     /// <summary>
@@ -763,6 +785,9 @@ public partial class YarnCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s*(?:(?<short>-\w),)?(?<long>--[\w-]+)\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex YarnOptionPattern();
+
+    [GeneratedRegex(@"^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$")]
+    private static partial Regex YarnVersionPattern();
 
     #endregion
 }

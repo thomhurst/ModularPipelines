@@ -487,9 +487,9 @@ public partial class AwsCliScraper : CliScraperBase
 
     /// <summary>
     /// Matches AWS command lines in AVAILABLE SERVICES/COMMANDS sections.
-    /// Format: "       o command-name"
+    /// Formats: "       o command-name" or "* command-name".
     /// </summary>
-    [GeneratedRegex(@"^\s+o\s+(?<name>[\w-]+)", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:o|\*)\s+(?<name>[\w-]+)", RegexOptions.Multiline)]
     private static partial Regex AwsCommandPattern();
 
     /// <summary>

@@ -886,7 +886,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// <summary>
     /// Matches "Flags:" or "Global Flags:" section headers.
     /// </summary>
-    [GeneratedRegex(@"(?:Global\s+)?Flags:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:Global\s+)?Flags:?\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex FlagsSectionPattern();
 
     /// <summary>
@@ -919,7 +919,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// <summary>
     /// Matches usage line.
     /// </summary>
-    [GeneratedRegex(@"Usage:\s*\n?\s*(?<usage>[^\n]+)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^Usage:?\s*\n?\s*(?<usage>[^\n]+)", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex UsageLinePattern();
 
     /// <summary>
@@ -963,7 +963,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         // Valid Cobra command help always has "Usage:" section
-        if (!helpText.Contains("Usage:"))
+        if (!Regex.IsMatch(helpText, @"^Usage:?\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline))
         {
             return false;
         }

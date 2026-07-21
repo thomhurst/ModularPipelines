@@ -33,9 +33,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         // Disable pagers for CLI tools - many CLIs use pagers by default which hang in non-interactive mode
         startInfo.Environment["AWS_PAGER"] = "";    // AWS CLI
         startInfo.Environment["GIT_PAGER"] = "";    // Git
-        startInfo.Environment["PAGER"] = "";        // Generic pager (used by many tools)
         startInfo.Environment["NO_COLOR"] = "1";    // Disable color output which can cause parsing issues
-        startInfo.Environment["TERM"] = "dumb";     // Simple terminal mode
 
         try
         {
@@ -63,6 +61,15 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             var stderr = await stderrTask;
 
             _logger.LogDebug("Command completed with exit code {ExitCode}", process.ExitCode);
+            if (process.ExitCode != 0)
+            {
+                _logger.LogWarning(
+                    "Command failed: {Command} {Arguments} (exit code {ExitCode}). stderr: {StandardError}",
+                    command,
+                    arguments,
+                    process.ExitCode,
+                    stderr);
+            }
 
             return new CliCommandResult
             {
