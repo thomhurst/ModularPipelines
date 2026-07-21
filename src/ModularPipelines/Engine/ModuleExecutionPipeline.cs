@@ -441,12 +441,19 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         Exception exception,
         IModuleLogger logger)
     {
-        logger.LogDebug("Module failed. Cancelling the pipeline");
         ((IInternalModuleLogger)logger).SetException(exception);
 
         var moduleFailedException = new ModuleFailedException(executionContext.ModuleType, exception);
 
-        _engineCancellationToken.CancelWithException(moduleFailedException);
+        if (moduleContext.Services.Options.ExecutionMode == ExecutionMode.StopOnFirstException)
+        {
+            logger.LogDebug("Module failed. Cancelling the pipeline");
+            _engineCancellationToken.CancelWithException(moduleFailedException);
+        }
+        else
+        {
+            logger.LogDebug("Module failed. Waiting for all modules to complete");
+        }
 
         executionContext.SetException(moduleFailedException);
         throw moduleFailedException;
