@@ -58,6 +58,13 @@ public partial class EksctlCliScraper : CobraCliScraper
             ? "string"
             : base.NormalizeOptionTypeHint(commandParts, switchName, typeHint, description);
 
+    protected override string NormalizeOptionDescription(string description)
+    {
+        var normalized = VolatileGeneratedExamplePattern()
+            .Replace(description, " (generated if unspecified)");
+        return VolatilePathExamplePattern().Replace(normalized, string.Empty);
+    }
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>
@@ -68,4 +75,10 @@ public partial class EksctlCliScraper : CobraCliScraper
 
     [GeneratedRegex(@"^\s*eksctl (?<path>[\w-]+(?: [\w-]+)*) {2,}", RegexOptions.Multiline)]
     private static partial Regex EksctlCommandLinePattern();
+
+    [GeneratedRegex(@" \(generated if unspecified, e\.g\. ""[^""]+""\)")]
+    private static partial Regex VolatileGeneratedExamplePattern();
+
+    [GeneratedRegex(@", e\.g\. ""[^""]+""$")]
+    private static partial Regex VolatilePathExamplePattern();
 }

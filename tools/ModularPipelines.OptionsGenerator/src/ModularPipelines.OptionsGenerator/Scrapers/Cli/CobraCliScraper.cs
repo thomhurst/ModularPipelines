@@ -274,6 +274,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 // Accumulate multi-line descriptions
                 // Look ahead for continuation lines that are indented but don't start with a dash
                 i = AccumulateMultiLineDescription(lines, i, ref description);
+                description = NormalizeOptionDescription(description);
 
                 if (string.IsNullOrEmpty(longForm))
                 {
@@ -299,8 +300,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 actualType = NormalizeOptionTypeHint(commandParts, longForm, actualType, description);
 
                 var isBoolean = string.IsNullOrEmpty(actualType) || IsKnownBooleanType(actualType);
-                var isDefaultTrueBoolean = isBoolean && hasDefaultValue &&
-                    typeHint.Equals("true", StringComparison.OrdinalIgnoreCase);
+                var isDefaultTrueBoolean = isBoolean &&
+                    ((hasDefaultValue && typeHint.Equals("true", StringComparison.OrdinalIgnoreCase)) ||
+                     description.Contains("(default true)", StringComparison.OrdinalIgnoreCase));
                 var isFlag = isBoolean && !isDefaultTrueBoolean;
                 var isInteger = IsKnownIntegerType(actualType);
                 var isFloat = IsKnownFloatType(actualType);
@@ -388,6 +390,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
         string switchName,
         string typeHint,
         string description) => typeHint;
+
+    /// <summary>
+    /// Applies tool-specific normalization before option descriptions are generated.
+    /// </summary>
+    protected virtual string NormalizeOptionDescription(string description) => description;
 
     /// <summary>
     /// Extracts the Flags and Global Flags sections from help text.

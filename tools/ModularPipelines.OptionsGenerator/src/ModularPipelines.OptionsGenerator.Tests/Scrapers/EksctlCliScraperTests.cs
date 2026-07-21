@@ -96,6 +96,27 @@ public class EksctlCliScraperTests
         await Assert.That(option.ValueSeparator).IsEqualTo("=");
     }
 
+    [Test]
+    public async Task Removes_Volatile_Generated_Examples_From_Descriptions()
+    {
+        const string helpText = """
+            Create a cluster
+
+            Usage: eksctl create cluster [flags]
+
+            Flags:
+                  --name string   EKS cluster name (generated if unspecified, e.g. "unique-unicorn-123")
+            """;
+
+        var command = await new TestEksctlCliScraper().Parse(
+            ["eksctl", "create", "cluster"],
+            helpText);
+        var option = command!.Options.Single(x => x.SwitchName == "--name");
+
+        await Assert.That(option.Description)
+            .IsEqualTo("EKS cluster name (generated if unspecified)");
+    }
+
     private sealed class TestEksctlCliScraper : EksctlCliScraper
     {
         public TestEksctlCliScraper()

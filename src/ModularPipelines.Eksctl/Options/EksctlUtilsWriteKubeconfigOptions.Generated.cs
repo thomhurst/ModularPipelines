@@ -63,7 +63,7 @@ public record EksctlUtilsWriteKubeconfigOptions : EksctlOptions
     public bool? SetKubeconfigContext { get; set; }
 
     /// <summary>
-    /// save kubeconfig file by cluster name, e.g. "C:\\Users\\thomh\\.kube/eksctl/clusters/&lt;name&gt;"
+    /// save kubeconfig file by cluster name
     /// </summary>
     [CliFlag("--auto-kubeconfig")]
     public bool? AutoKubeconfig { get; set; }
