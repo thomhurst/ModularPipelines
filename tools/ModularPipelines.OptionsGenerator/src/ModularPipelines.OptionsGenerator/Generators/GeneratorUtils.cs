@@ -564,9 +564,27 @@ public static partial class GeneratorUtils
             tool.SubDomainGroups.Select(ToPascalCase),
             StringComparer.OrdinalIgnoreCase);
 
-        return tool.Commands
+        var rootCommands = tool.Commands
             .Where(c => c.SubDomainGroup is null)
             .Where(c => !subDomainNames.Contains(GenerateMethodNameFromCommandParts(c.CommandParts)))
             .ToList();
+
+        // Distinct commands can normalize to the same method name (e.g. "build-server"
+        // and "build_server" both become BuildServer). Emitting both would produce
+        // duplicate members the duplicate-path check cannot see, so fail loudly here.
+        var duplicateMethodNames = rootCommands
+            .GroupBy(c => GenerateMethodNameFromCommandParts(c.CommandParts), StringComparer.OrdinalIgnoreCase)
+            .Where(g => g.Count() > 1)
+            .Select(g => $"{g.Key} ({string.Join(", ", g.Select(c => c.FullCommand))})")
+            .ToList();
+
+        if (duplicateMethodNames.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"Multiple {tool.ToolName} commands normalize to the same method name: " +
+                $"{string.Join("; ", duplicateMethodNames)}. Rename or exclude one in the scraper.");
+        }
+
+        return rootCommands;
     }
 }

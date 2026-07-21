@@ -190,7 +190,7 @@ public class GeneratorHardeningTests
     #region Enum deduplication
 
     [Test]
-    public async Task AllEnums_Deduplicates_Case_Insensitively()
+    public async Task Case_Variant_Enum_Names_Fail_The_Duplicate_Path_Check()
     {
         CliEnumDefinition EnumDef(string name) => new()
         {
@@ -202,7 +202,44 @@ public class GeneratorHardeningTests
             Command("ToolAOptions", "ToolOptions", ["a"], enums: [EnumDef("ToolAppSetLogformat")]),
             Command("ToolBOptions", "ToolOptions", ["b"], enums: [EnumDef("ToolAppsetLogformat")]));
 
-        await Assert.That(tool.AllEnums.Count).IsEqualTo(1);
+        // Case-variant enum names are a scraper bug. AllEnums keeps both (dropping one
+        // would leave dangling type references), and the duplicate-path check turns the
+        // resulting file collision into a loud failure.
+        await Assert.That(tool.AllEnums.Count).IsEqualTo(2);
+
+        var enumFiles = await new EnumGenerator().GenerateAsync(tool);
+
+        await Assert.That(() => GeneratorUtils.EnsureNoDuplicateFilePaths(enumFiles))
+            .Throws<InvalidOperationException>();
+    }
+
+    #endregion
+
+    #region Duplicate command detection
+
+    [Test]
+    public async Task GetNonCollidingRootCommands_Throws_When_Commands_Normalize_To_The_Same_Method_Name()
+    {
+        var tool = Tool(
+            Command("ToolBuildServerOptions", "ToolOptions", ["build-server"]),
+            Command("ToolBuildServer2Options", "ToolOptions", ["build_server"]));
+
+        await Assert.That(() => GeneratorUtils.GetNonCollidingRootCommands(tool))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("BuildServer");
+    }
+
+    [Test]
+    public async Task SubDomainClassGenerator_Throws_On_Duplicate_Parent_Command_Definitions()
+    {
+        var tool = Tool(
+            Command("ToolNetworkCreateOptions", "ToolOptions", ["network", "create"], subDomainGroup: "network"),
+            Command("ToolNetworkOptions", "ToolOptions", ["network"]),
+            Command("ToolNetwork2Options", "ToolOptions", ["Network"]));
+
+        await Assert.That(() => new SubDomainClassGenerator().GenerateAsync(tool))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("network");
     }
 
     #endregion

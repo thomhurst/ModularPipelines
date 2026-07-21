@@ -40,9 +40,26 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         // Find root commands that match sub-domain names (e.g., "helm completion")
         // These will be added as Execute() methods on the sub-domain class
-        var parentCommands = tool.Commands
+        var singlePartRootCommands = tool.Commands
             .Where(c => c.SubDomainGroup is null && c.CommandParts.Length == 1)
-            .DistinctBy(c => c.CommandParts[0], StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        // Duplicate definitions of the same command are a scraper bug; picking an
+        // arbitrary survivor would silently generate Execute() from the wrong options.
+        var duplicateParentNames = singlePartRootCommands
+            .GroupBy(c => c.CommandParts[0], StringComparer.OrdinalIgnoreCase)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .ToList();
+
+        if (duplicateParentNames.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"The {tool.ToolName} scraper produced multiple definitions for the same root command(s): " +
+                $"{string.Join(", ", duplicateParentNames)}. Fix the scraper to emit each command once.");
+        }
+
+        var parentCommands = singlePartRootCommands
             .ToDictionary(c => c.CommandParts[0], StringComparer.OrdinalIgnoreCase);
 
         foreach (var subDomain in tool.SubDomainGroups)

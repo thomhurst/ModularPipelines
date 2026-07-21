@@ -246,8 +246,9 @@ public class CodeGeneratorOrchestrator
     /// <summary>
     /// Runs all generators for a tool and writes the results to disk.
     /// All files are generated in memory and validated for path collisions before anything
-    /// on disk is touched, so a scraping or generation failure can never leave a package
-    /// half-cleaned or partially written.
+    /// on disk is touched, so a scraping or generation failure never mutates the package.
+    /// Not crash-atomic: an I/O failure during the write loop itself can still leave
+    /// partial output, which the post-generation compile check catches.
     /// </summary>
     private async Task GenerateForToolAsync(
         CliToolDefinition tool,
