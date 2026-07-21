@@ -2,6 +2,7 @@ using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Execution;
@@ -52,6 +53,45 @@ public class ModuleTimeoutTests : TestBase
             await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken);
             return TestConstants.TestString;
         }
+    }
+
+    private class PipelineDefaultTimeoutModule : Module<string>
+    {
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
+            return TestConstants.TestString;
+        }
+    }
+
+    [Test]
+    public async Task Default_Module_Timeout_Is_Thirty_Minutes()
+    {
+        var options = new PipelineOptions();
+
+        await Assert.That(options.DefaultModuleTimeout).IsEqualTo(TimeSpan.FromMinutes(30));
+    }
+
+    [Test]
+    public async Task Pipeline_Default_Module_Timeout_Is_Applied()
+    {
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
+            .ConfigurePipelineOptions((_, options) => options.DefaultModuleTimeout = TimeSpan.FromMilliseconds(10))
+            .AddModule<PipelineDefaultTimeoutModule>()
+            .ExecutePipelineAsync());
+
+        var timeoutException = exception.InnerException as ModuleTimeoutException;
+        await Assert.That(timeoutException).IsNotNull();
+        await Assert.That(timeoutException!.ConfiguredTimeout).IsEqualTo(TimeSpan.FromMilliseconds(10));
+    }
+
+    [Test]
+    public async Task Zero_Pipeline_Default_Module_Timeout_Disables_Timeout()
+    {
+        await Assert.That(async () => await TestPipelineHostBuilder.Create()
+            .ConfigurePipelineOptions((_, options) => options.DefaultModuleTimeout = TimeSpan.Zero)
+            .AddModule<PipelineDefaultTimeoutModule>()
+            .ExecutePipelineAsync()).ThrowsNothing();
     }
 
     [Test]

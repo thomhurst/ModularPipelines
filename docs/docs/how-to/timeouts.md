@@ -4,7 +4,17 @@ title: Timeouts
 
 # Timeouts
 
-When creating modules, you can set a timeout per module using the `Configure()` method. You can set this to any timespan you like. Just bear in mind some build runners, like GitHub Actions, have their own timeouts, so extending past these won't help.
+Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use `TimeSpan.Zero` to disable it:
+
+```csharp
+var builder = Pipeline.CreateBuilder();
+builder.Options.DefaultModuleTimeout = TimeSpan.FromHours(2);
+
+// Disable the default. Per-module timeouts still apply.
+builder.Options.DefaultModuleTimeout = TimeSpan.Zero;
+```
+
+You can override the pipeline default for one module using `Configure()`. Bear in mind some build runners, like GitHub Actions, have their own timeouts, so extending past these won't help.
 
 ## Using ModuleConfiguration
 
@@ -45,7 +55,8 @@ public class ResilientModule : Module<CommandResult>
 ## Timeout Behavior
 
 When a timeout occurs:
+
 - The `CancellationToken` passed to `ExecuteAsync` will be cancelled
-- The module will fail with a `TimeoutException`
+- The module will fail with a `ModuleTimeoutException`
 - If retry policies are configured, the module may be retried
 - If `WithIgnoreFailures()` is configured, the pipeline will continue despite the timeout
