@@ -93,30 +93,40 @@ public static class ModuleDependencyValidator
     private static void ValidateCircularDependencies(HashSet<Type> moduleTypes)
     {
         // Build dependency graph
-        var dependencyGraph = new Dictionary<Type, List<Type>>();
+        var dependencyGraph = new Dictionary<Type, HashSet<Type>>();
 
         foreach (var moduleType in moduleTypes)
         {
             var dependencies = ModuleDependencyResolver.GetDependencies(moduleType, moduleTypes)
                 .Where(d => moduleTypes.Contains(d.DependencyType))
                 .Select(d => d.DependencyType)
-                .ToList();
+                .ToHashSet();
 
             dependencyGraph[moduleType] = dependencies;
         }
 
+        ValidateCircularDependencies(dependencyGraph);
+    }
+
+    /// <summary>
+    /// Validates a dependency graph that may have been extended at runtime.
+    /// </summary>
+    /// <param name="dependencyGraph">The declared dependencies keyed by registered module type.</param>
+    /// <exception cref="DependencyCollisionException">Thrown when circular dependencies are detected.</exception>
+    internal static void ValidateCircularDependencies(IReadOnlyDictionary<Type, HashSet<Type>> dependencyGraph)
+    {
         // Detect cycles using DFS with coloring
         // White (0) = not visited, Gray (1) = in current path, Black (2) = fully processed
         var colors = new Dictionary<Type, int>();
         var parent = new Dictionary<Type, Type?>();
 
-        foreach (var moduleType in moduleTypes)
+        foreach (var moduleType in dependencyGraph.Keys)
         {
             colors[moduleType] = 0;
             parent[moduleType] = null;
         }
 
-        foreach (var moduleType in moduleTypes)
+        foreach (var moduleType in dependencyGraph.Keys)
         {
             if (colors[moduleType] == 0)
             {
@@ -144,7 +154,7 @@ public static class ModuleDependencyValidator
     /// </summary>
     private static Type? DetectCycleDfs(
         Type current,
-        Dictionary<Type, List<Type>> graph,
+        IReadOnlyDictionary<Type, HashSet<Type>> graph,
         Dictionary<Type, int> colors,
         Dictionary<Type, Type?> parent)
     {
@@ -154,6 +164,12 @@ public static class ModuleDependencyValidator
         {
             foreach (var dependency in dependencies)
             {
+                // Dependencies not yet registered cannot participate in a cycle.
+                if (!colors.ContainsKey(dependency))
+                {
+                    continue;
+                }
+
                 if (colors[dependency] == 1)
                 {
                     // Found a cycle - dependency is currently being processed
