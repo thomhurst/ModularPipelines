@@ -10,8 +10,8 @@ using ModularPipelines.Build.Modules.LocalMachine;
 using ModularPipelines.Build.Modules.UnitTests;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Distributed.Artifacts.S3.Extensions;
-using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Discovery.Redis;
+using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.SignalR.Extensions;
 using ModularPipelines.Extensions;
 using Octokit;
@@ -56,7 +56,7 @@ builder.Services
     .AddModule<PushVersionTagModule>()
     .AddPipelineModuleHooks<MyModuleHooks>();
 
-BuildPipelineConfiguration.ConfigureDistributedMode(builder);
+await BuildPipelineConfiguration.ConfigureDistributedModeAsync(builder);
 
 builder.Services.AddSingleton<IGitHubClient>(sp =>
 {
@@ -95,8 +95,8 @@ else if (!builder.Environment.IsDevelopment())
     builder.Services.AddModule<UploadPackagesToNugetModule>()
         .AddModule<CreateReleaseModule>();
 }
-// else: CI Development mode (PR builds) - don't register local NuGet or production upload modules
 
+// else: CI Development mode (PR builds) - don't register local NuGet or production upload modules
 var pipelineSettings = builder.Configuration.GetSection("Pipeline").Get<PipelineSettings>() ?? new PipelineSettings();
 builder.Options.DefaultRetryCount = pipelineSettings.DefaultRetryCount;
 
@@ -114,7 +114,7 @@ await pipeline.RunAsync();
 
 file static class BuildPipelineConfiguration
 {
-    public static void ConfigureDistributedMode(PipelineBuilder builder)
+    public static async Task ConfigureDistributedModeAsync(PipelineBuilder builder)
     {
         var redisRestUrl = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_URL");
         var redisRestToken = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_TOKEN");
@@ -122,6 +122,11 @@ file static class BuildPipelineConfiguration
         var totalInstances = int.TryParse(Environment.GetEnvironmentVariable("TOTAL_INSTANCES"), out var total) ? total : 1;
 
         if (string.IsNullOrEmpty(redisRestUrl) || string.IsNullOrEmpty(redisRestToken) || totalInstances <= 1)
+        {
+            return;
+        }
+
+        if (!await IsRedisDiscoveryAvailableAsync(redisRestUrl, redisRestToken))
         {
             return;
         }
@@ -144,6 +149,31 @@ file static class BuildPipelineConfiguration
         });
 
         ConfigureArtifactStore(builder);
+    }
+
+    private static async Task<bool> IsRedisDiscoveryAvailableAsync(string restUrl, string restToken)
+    {
+        try
+        {
+            using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
+            client.DefaultRequestHeaders.Authorization = new("Bearer", restToken);
+            using var response = await client.GetAsync($"{restUrl.TrimEnd('/')}/ping");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            System.Diagnostics.Trace.TraceWarning(
+                $"Redis discovery preflight returned HTTP {(int) response.StatusCode}; distributed mode disabled.");
+        }
+        catch (Exception exception)
+        {
+            System.Diagnostics.Trace.TraceWarning(
+                $"Redis discovery preflight failed ({exception.GetType().Name}); distributed mode disabled.");
+        }
+
+        return false;
     }
 
     private static void ConfigureArtifactStore(PipelineBuilder builder)
