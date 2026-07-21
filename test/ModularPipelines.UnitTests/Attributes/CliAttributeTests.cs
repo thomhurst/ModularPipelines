@@ -149,6 +149,15 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Repeats_Counted_CliFlag()
+    {
+        var options = new TestCliOptionsWithCountedFlag { Verbose = 3 };
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(new[] { "--verbose", "--verbose", "--verbose" });
+    }
+
+    [Test]
     public async Task Parser_Handles_CliOption_With_Space_Separator()
     {
         var options = new TestCliOptionsWithOption { Namespace = "default" };
@@ -250,6 +259,12 @@ public class CliAttributeTests
     {
         [CliFlag("--debug")]
         public bool? Debug { get; set; }
+    }
+
+    private record TestCliOptionsWithCountedFlag
+    {
+        [CliFlag("--verbose")]
+        public int? Verbose { get; set; }
     }
 
     private record TestCliOptionsWithOption

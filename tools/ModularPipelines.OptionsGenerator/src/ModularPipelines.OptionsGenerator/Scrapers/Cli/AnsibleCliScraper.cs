@@ -111,21 +111,7 @@ public partial class AnsibleCliScraper : CliScraperBase
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-        // Find "optional arguments:" or "options:" section
-        var optionsSectionMatch = OptionsSectionPattern().Match(helpText);
-        string section;
-        if (optionsSectionMatch.Success)
-        {
-            var sectionStart = optionsSectionMatch.Index + optionsSectionMatch.Length;
-            section = helpText.Substring(sectionStart);
-        }
-        else
-        {
-            section = helpText;
-        }
-
-        var lines = section.Split('\n');
+        var lines = GetOptionsSection(helpText).Split('\n');
 
         for (var i = 0; i < lines.Length; i++)
         {
@@ -135,61 +121,66 @@ public partial class AnsibleCliScraper : CliScraperBase
                 continue;
             }
 
-            var optionParts = match.Groups["spec"].Value
-                .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-            var longOption = optionParts.FirstOrDefault(part => part.StartsWith("--", StringComparison.Ordinal));
-            if (longOption is null)
-            {
-                continue;
-            }
-
-            var shortOption = optionParts.FirstOrDefault(part =>
-                part.StartsWith("-", StringComparison.Ordinal) &&
-                !part.StartsWith("--", StringComparison.Ordinal));
-            var longForm = GetOptionName(longOption);
-            var shortForm = shortOption is null ? null : GetOptionName(shortOption);
-            var valueHint = optionParts
-                .Select(GetValueHint)
-                .FirstOrDefault(value => value is not null);
             var description = match.Groups["desc"].Value.Trim();
             i = AccumulateMultiLineDescription(lines, i, ref description);
-
-            if (!seenOptions.Add(longForm))
+            var option = ParseOption(match.Groups["spec"].Value, description);
+            if (option is not null && seenOptions.Add(option.SwitchName))
             {
-                continue;
+                options.Add(option);
             }
-
-            var propertyName = NormalizePropertyName(longForm);
-            if (propertyName is null)
-            {
-                continue;
-            }
-
-            var isFlag = valueHint is null;
-            var acceptsMultipleValues = !isFlag && description.Contains(
-                "specified multiple times",
-                StringComparison.OrdinalIgnoreCase);
-            var isNumeric = !isFlag && IsNumericOption(longForm);
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = longForm,
-                ShortForm = shortForm,
-                PropertyName = propertyName,
-                CSharpType = GetCSharpType(isFlag, acceptsMultipleValues, isNumeric),
-                Description = description,
-                IsFlag = isFlag,
-                IsRequired = false,
-                AcceptsMultipleValues = acceptsMultipleValues,
-                IsKeyValue = false,
-                IsNumeric = isNumeric,
-                ValueSeparator = " ",
-                EnumDefinition = null,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
         }
 
         return options;
+    }
+
+    private static string GetOptionsSection(string helpText)
+    {
+        var match = OptionsSectionPattern().Match(helpText);
+        return match.Success ? helpText[(match.Index + match.Length)..] : helpText;
+    }
+
+    private CliOptionDefinition? ParseOption(string specification, string description)
+    {
+        var optionParts = specification.Split(
+            ',',
+            StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        var longOption = optionParts.FirstOrDefault(part => part.StartsWith("--", StringComparison.Ordinal));
+        var longForm = longOption is null ? null : GetOptionName(longOption);
+        var propertyName = longForm is null ? null : NormalizePropertyName(longForm);
+        if (longForm is null || propertyName is null)
+        {
+            return null;
+        }
+
+        var shortOption = optionParts.FirstOrDefault(part =>
+            part.StartsWith('-') && !part.StartsWith("--", StringComparison.Ordinal));
+        var valueHint = optionParts.Select(GetValueHint).FirstOrDefault(value => value is not null);
+        var isFlag = valueHint is null;
+        var isCountedFlag = isFlag && longForm == "--verbose";
+        var acceptsMultipleValues = !isFlag && description.Contains(
+            "specified multiple times",
+            StringComparison.OrdinalIgnoreCase);
+        var isNumeric = !isFlag && IsNumericOption(longForm);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = longForm,
+            ShortForm = shortOption is null ? null : GetOptionName(shortOption),
+            PropertyName = propertyName,
+            CSharpType = GetCSharpType(isFlag, isCountedFlag, acceptsMultipleValues, isNumeric),
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = false,
+            AcceptsMultipleValues = acceptsMultipleValues,
+            IsKeyValue = false,
+            IsNumeric = isNumeric,
+            ValueSeparator = " ",
+            EnumDefinition = null,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
+            ValidationConstraints = isCountedFlag
+                ? new CliValidationConstraints { MinValue = 0, MaxValue = 6 }
+                : null,
+        };
     }
 
     private static string GetOptionName(string option) => option.Split(' ', 2)[0];
@@ -207,8 +198,17 @@ public partial class AnsibleCliScraper : CliScraperBase
         "--task-timeout" or
         "--timeout";
 
-    private static string GetCSharpType(bool isFlag, bool acceptsMultipleValues, bool isNumeric)
+    private static string GetCSharpType(
+        bool isFlag,
+        bool isCountedFlag,
+        bool acceptsMultipleValues,
+        bool isNumeric)
     {
+        if (isCountedFlag)
+        {
+            return "int?";
+        }
+
         if (isFlag)
         {
             return "bool?";

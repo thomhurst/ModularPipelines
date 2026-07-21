@@ -54,6 +54,9 @@ public class AnsibleCliScraperTests
 
         var verbose = GetOption(command, "--verbose");
         await Assert.That(verbose.IsFlag).IsTrue();
+        await Assert.That(verbose.CSharpType).IsEqualTo("int?");
+        await Assert.That(verbose.ValidationConstraints!.MinValue).IsEqualTo(0);
+        await Assert.That(verbose.ValidationConstraints.MaxValue).IsEqualTo(6);
 
         var extraVariables = GetOption(command, "--extra-vars");
         await Assert.That(extraVariables.CSharpType).IsEqualTo("IEnumerable<string>?");

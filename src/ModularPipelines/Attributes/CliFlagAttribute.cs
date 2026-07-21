@@ -3,7 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 namespace ModularPipelines.Attributes;
 
 /// <summary>
-/// Defines a boolean CLI flag that is included when true and omitted when false/null.
+/// Defines a boolean or counted CLI flag. Boolean flags are included when true;
+/// counted flags are repeated the specified number of times.
 /// </summary>
 /// <example>
 /// <code>
@@ -12,6 +13,9 @@ namespace ModularPipelines.Attributes;
 ///
 /// [CliFlag("--verbose")]
 /// public bool? Verbose { get; set; }
+///
+/// [CliFlag("--verbose", ShortForm = "-v")]
+/// public int? Verbosity { get; set; }
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]

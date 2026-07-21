@@ -7,6 +7,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Ansible.Options;
@@ -179,7 +180,8 @@ public record AnsibleExecuteOptions(
     /// Causes Ansible to print more debug messages. Adding multiple -v will increase the verbosity, the builtin plugins currently evaluate up to -vvvvvv. A reasonable level to start is -vvv, connection debugging might require -vvvv. This argument may be specified multiple times.
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
+    [Range(0, 6)]
+    public int? Verbose { get; set; }
 
     /// <summary>
     /// privilege escalation method to use (default=sudo), use `ansible-doc -t become -l` to list valid choices.

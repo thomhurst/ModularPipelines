@@ -19,6 +19,7 @@ public class AnsibleOptionsTests
             ExtraVars = ["environment=staging", "@vars.yml"],
             Inventory = ["hosts.ini", "dynamic.yml"],
             ModuleName = "ping",
+            Verbose = 3,
         });
 
         await Assert.That(arguments).IsEquivalentTo(
@@ -31,6 +32,7 @@ public class AnsibleOptionsTests
             "--inventory", "hosts.ini",
             "--inventory", "dynamic.yml",
             "--module-name", "ping",
+            "--verbose", "--verbose", "--verbose",
         ]);
     }
 
