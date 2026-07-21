@@ -139,7 +139,8 @@ jobs:
 
       # Clean up legacy manual files before generation
       # Only delete specific service interface/implementation files that will be replaced
-      - name: Clean up legacy files
+      - name: Pack API baseline and clean up legacy files
+        id: package
         if: steps.should-run.outputs.run == 'true'
         run: |
           # Map tool to package directory and namespace prefix
@@ -201,24 +202,34 @@ jobs:
           )
 
           IFS=':' read -r PACKAGE PREFIX <<< "${TOOL_MAP[${{ matrix.tool }}]}"
-          if [ -n "$PACKAGE" ]; then
-            PKG_DIR="src/$PACKAGE"
-            if [ -d "$PKG_DIR" ]; then
-              echo "Cleaning up legacy files in $PKG_DIR for prefix $PREFIX..."
-
-              # Only delete specific service interface/implementation files (not all I*.cs files)
-              # These are the exact files the generator will create in Services/
-              rm -f "$PKG_DIR/I${PREFIX}.cs" 2>/dev/null || true
-              rm -f "$PKG_DIR/${PREFIX}.cs" 2>/dev/null || true
-
-              # Delete only this tool's generated service files. Packages such as
-              # ModularPipelines.Java contain services for multiple CLI tools.
-              rm -f "$PKG_DIR/Services/I${PREFIX}.Generated.cs" 2>/dev/null || true
-              rm -f "$PKG_DIR/Services/${PREFIX}.Generated.cs" 2>/dev/null || true
-
-              echo "Cleanup complete for $PACKAGE"
-            fi
+          if [ -z "$PACKAGE" ]; then
+            echo "No package mapping exists for ${{ matrix.tool }}" >&2
+            exit 1
           fi
+
+          PKG_DIR="src/$PACKAGE"
+          PROJECT="$PKG_DIR/$PACKAGE.csproj"
+          if [ ! -f "$PROJECT" ]; then
+            echo "Package project not found: $PROJECT" >&2
+            exit 1
+          fi
+
+          echo "package=$PACKAGE" >> "$GITHUB_OUTPUT"
+          dotnet pack "$PROJECT" -c Release --output "$RUNNER_TEMP/api-baseline"
+
+          echo "Cleaning up legacy files in $PKG_DIR for prefix $PREFIX..."
+
+          # Only delete specific service interface/implementation files (not all I*.cs files)
+          # These are the exact files the generator will create in Services/
+          rm -f "$PKG_DIR/I${PREFIX}.cs" 2>/dev/null || true
+          rm -f "$PKG_DIR/${PREFIX}.cs" 2>/dev/null || true
+
+          # Delete only this tool's generated service files. Packages such as
+          # ModularPipelines.Java contain services for multiple CLI tools.
+          rm -f "$PKG_DIR/Services/I${PREFIX}.Generated.cs" 2>/dev/null || true
+          rm -f "$PKG_DIR/Services/${PREFIX}.Generated.cs" 2>/dev/null || true
+
+          echo "Cleanup complete for $PACKAGE"
 
       # Install CLI tools needed for CLI-first scraping
       - name: Install Helm
@@ -543,9 +554,15 @@ jobs:
       - name: Run Generator for ${{ matrix.tool }}
         if: steps.should-run.outputs.run == 'true'
         run: |
+          set -o pipefail
           dotnet run -c Release -- \
             --tools "${{ matrix.tool }}" \
-            --output-dir "${{ github.workspace }}"
+            --output-dir "${{ github.workspace }}" | tee "$RUNNER_TEMP/generator-output.log"
+
+          if ! grep -Eq -- '- Files generated: [1-9][0-9]*$' "$RUNNER_TEMP/generator-output.log"; then
+            echo "Generator produced zero files for ${{ matrix.tool }}" >&2
+            exit 1
+          fi
         working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
 
       - name: Check for changes
@@ -569,6 +586,17 @@ jobs:
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
         run: dotnet build ModularPipelines.sln -c Release
 
+      - name: Validate generated API compatibility
+        id: api-compat
+        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
+        continue-on-error: true
+        run: |
+          PACKAGE="${{ steps.package.outputs.package }}"
+          dotnet pack "src/$PACKAGE/$PACKAGE.csproj" -c Release --output "$RUNNER_TEMP/api-current"
+          pwsh -File tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedApiCompatibility.ps1 \
+            -BaselineDirectory "$RUNNER_TEMP/api-baseline" \
+            -CurrentDirectory "$RUNNER_TEMP/api-current"
+
       - name: Create Pull Request for ${{ matrix.tool }}
         id: create-pr
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
@@ -590,6 +618,7 @@ jobs:
 
             ## Verification
             - [x] Solution builds successfully
+            - API compatibility gate: **${{ steps.api-compat.outcome }}**
 
             ---
             🤖 Generated with ModularPipelines.OptionsGenerator
@@ -603,10 +632,16 @@ jobs:
           committer: thomhurst <9139608+thomhurst@users.noreply.github.com>
 
       - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number
+        if: steps.create-pr.outputs.pull-request-number && steps.api-compat.outcome == 'success'
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
         env:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
+
+      - name: Report breaking generated API
+        if: steps.api-compat.outcome == 'failure'
+        run: |
+          echo "Generated API is not backward compatible. Auto-merge was not enabled." >&2
+          exit 1
 
   # Generate options for Windows-only tools
   generate-windows:
@@ -670,7 +705,8 @@ jobs:
 
       # Clean up legacy manual files before generation
       # Only delete specific service interface/implementation files that will be replaced
-      - name: Clean up legacy files
+      - name: Pack API baseline and clean up legacy files
+        id: package
         if: steps.should-run.outputs.run == 'true'
         shell: pwsh
         run: |
@@ -681,38 +717,49 @@ jobs:
           }
 
           $toolInfo = $toolMap["${{ matrix.tool }}"]
-          if ($toolInfo) {
-            $package = $toolInfo.Package
-            $prefix = $toolInfo.Prefix
-            $pkgDir = "src/$package"
-            if (Test-Path $pkgDir) {
-              Write-Host "Cleaning up legacy files in $pkgDir for prefix $prefix..."
-
-              # Only delete specific service interface/implementation files (not all I*.cs files)
-              # These are the exact files the generator will create in Services/
-              $interfaceFile = Join-Path $pkgDir "I$prefix.cs"
-              $implFile = Join-Path $pkgDir "$prefix.cs"
-
-              if (Test-Path $interfaceFile) {
-                Remove-Item $interfaceFile -Force -ErrorAction SilentlyContinue
-                Write-Host "Removed $interfaceFile"
-              }
-              if (Test-Path $implFile) {
-                Remove-Item $implFile -Force -ErrorAction SilentlyContinue
-                Write-Host "Removed $implFile"
-              }
-
-              # Delete only this tool's generated service files. A package may
-              # contain services for multiple CLI tools.
-              $servicesDir = Join-Path $pkgDir "Services"
-              if (Test-Path $servicesDir) {
-                Remove-Item (Join-Path $servicesDir "I$prefix.Generated.cs") -Force -ErrorAction SilentlyContinue
-                Remove-Item (Join-Path $servicesDir "$prefix.Generated.cs") -Force -ErrorAction SilentlyContinue
-              }
-
-              Write-Host "Cleanup complete for $package"
-            }
+          if (-not $toolInfo) {
+            throw "No package mapping exists for ${{ matrix.tool }}"
           }
+
+          $package = $toolInfo.Package
+          $prefix = $toolInfo.Prefix
+          $pkgDir = "src/$package"
+          $project = "$pkgDir/$package.csproj"
+          if (-not (Test-Path -LiteralPath $project -PathType Leaf)) {
+            throw "Package project not found: $project"
+          }
+
+          "package=$package" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          dotnet pack $project -c Release --output "$env:RUNNER_TEMP/api-baseline"
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to pack API baseline for $package"
+          }
+
+          Write-Host "Cleaning up legacy files in $pkgDir for prefix $prefix..."
+
+          # Only delete specific service interface/implementation files (not all I*.cs files)
+          # These are the exact files the generator will create in Services/
+          $interfaceFile = Join-Path $pkgDir "I$prefix.cs"
+          $implFile = Join-Path $pkgDir "$prefix.cs"
+
+          if (Test-Path $interfaceFile) {
+            Remove-Item $interfaceFile -Force -ErrorAction SilentlyContinue
+            Write-Host "Removed $interfaceFile"
+          }
+          if (Test-Path $implFile) {
+            Remove-Item $implFile -Force -ErrorAction SilentlyContinue
+            Write-Host "Removed $implFile"
+          }
+
+          # Delete only this tool's generated service files. A package may
+          # contain services for multiple CLI tools.
+          $servicesDir = Join-Path $pkgDir "Services"
+          if (Test-Path $servicesDir) {
+            Remove-Item (Join-Path $servicesDir "I$prefix.Generated.cs") -Force -ErrorAction SilentlyContinue
+            Remove-Item (Join-Path $servicesDir "$prefix.Generated.cs") -Force -ErrorAction SilentlyContinue
+          }
+
+          Write-Host "Cleanup complete for $package"
 
       - name: Install Chocolatey
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'choco'
@@ -737,9 +784,17 @@ jobs:
         if: steps.should-run.outputs.run == 'true'
         shell: pwsh
         run: |
-          dotnet run -c Release -- `
+          $generatorOutput = dotnet run -c Release -- `
             --tools "${{ matrix.tool }}" `
-            --output-dir "${{ github.workspace }}"
+            --output-dir "${{ github.workspace }}" 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/generator-output.log"
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "Generator failed for ${{ matrix.tool }}"
+          }
+
+          if (-not ($generatorOutput | Select-String -Pattern '- Files generated: [1-9][0-9]*' -Quiet)) {
+            throw "Generator produced zero files for ${{ matrix.tool }}"
+          }
         working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
 
       - name: Check for changes
@@ -766,6 +821,22 @@ jobs:
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
         run: dotnet build ModularPipelines.sln -c Release
 
+      - name: Validate generated API compatibility
+        id: api-compat
+        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $package = "${{ steps.package.outputs.package }}"
+          dotnet pack "src/$package/$package.csproj" -c Release --output "$env:RUNNER_TEMP/api-current"
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to pack current API for $package"
+          }
+
+          tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedApiCompatibility.ps1 `
+            -BaselineDirectory "$env:RUNNER_TEMP/api-baseline" `
+            -CurrentDirectory "$env:RUNNER_TEMP/api-current"
+
       - name: Create Pull Request for ${{ matrix.tool }}
         id: create-pr
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
@@ -787,6 +858,7 @@ jobs:
 
             ## Verification
             - [x] Solution builds successfully
+            - API compatibility gate: **${{ steps.api-compat.outcome }}**
 
             ---
             🤖 Generated with ModularPipelines.OptionsGenerator
@@ -800,8 +872,13 @@ jobs:
           committer: thomhurst <9139608+thomhurst@users.noreply.github.com>
 
       - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number
+        if: steps.create-pr.outputs.pull-request-number && steps.api-compat.outcome == 'success'
         shell: pwsh
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
         env:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
+
+      - name: Report breaking generated API
+        if: steps.api-compat.outcome == 'failure'
+        shell: pwsh
+        run: throw "Generated API is not backward compatible. Auto-merge was not enabled."
