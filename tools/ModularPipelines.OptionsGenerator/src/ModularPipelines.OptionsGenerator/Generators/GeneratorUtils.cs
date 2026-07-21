@@ -575,7 +575,7 @@ public static partial class GeneratorUtils
         ArgumentNullException.ThrowIfNull(tool);
 
         var subDomainNames = new HashSet<string>(
-            tool.SubDomainGroups.Select(ToPascalCase),
+            tool.SubDomainGroups,
             StringComparer.OrdinalIgnoreCase);
 
         var rootCommands = tool.Commands

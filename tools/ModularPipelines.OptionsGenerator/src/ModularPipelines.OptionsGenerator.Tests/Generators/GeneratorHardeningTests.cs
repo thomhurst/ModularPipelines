@@ -77,6 +77,26 @@ public class GeneratorHardeningTests
         await Assert.That(commands[1].ClassName).IsEqualTo("ToolApplicationSetGetOptions");
     }
 
+    [Test]
+    public async Task SubDomain_Generators_Preserve_Compound_PascalCase()
+    {
+        var tool = Tool(Command(
+            "ToolApplicationSetGetOptions",
+            "ToolOptions",
+            ["appset", "get"],
+            subDomainGroup: "ApplicationSet"));
+
+        var subDomainFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
+        var interfaceFiles = await new ServiceInterfaceGenerator().GenerateAsync(tool);
+        var implementationFiles = await new ServiceImplementationGenerator().GenerateAsync(tool);
+        var registrationFiles = await new DependencyRegistrationGenerator().GenerateAsync(tool);
+
+        await Assert.That(subDomainFiles.Single().RelativePath).EndsWith("ToolApplicationSet.Generated.cs");
+        await Assert.That(interfaceFiles.Single().Content).Contains("ToolApplicationSet ApplicationSet { get; }");
+        await Assert.That(implementationFiles.Single().Content).Contains("ToolApplicationSet ApplicationSet { get; }");
+        await Assert.That(registrationFiles.Single().Content).Contains("TryAddScoped<ToolApplicationSet>()");
+    }
+
     #endregion
 
     #region EnsureNoDuplicateFilePaths

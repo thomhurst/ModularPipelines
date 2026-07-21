@@ -59,7 +59,7 @@ public class ServiceInterfaceGenerator : ICodeGenerator
 
             foreach (var subDomain in subDomains)
             {
-                var pascalSubDomain = GeneratorUtils.ToPascalCase(subDomain);
+                var pascalSubDomain = subDomain;
                 var subDomainClassName = $"{tool.NamespacePrefix}{pascalSubDomain}";
                 sb.AppendLine($"    /// <summary>");
                 sb.AppendLine($"    /// Gets the {subDomain.ToLowerInvariant()} sub-domain service.");

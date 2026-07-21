@@ -54,7 +54,9 @@ public class CommandTreeNode
         string subDomain,
         IReadOnlyList<CliCommandDefinition> commands)
     {
-        var pascalSubDomain = ToPascalCase(subDomain);
+        // SubDomainGroup is already normalized by the scraper. Re-normalizing it would
+        // collapse compound identifiers such as ApplicationSet to Applicationset.
+        var pascalSubDomain = subDomain;
         var rootClassName = $"{toolPrefix}{pascalSubDomain}";
 
         var root = new CommandTreeNode
