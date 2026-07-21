@@ -14,24 +14,33 @@ using ModularPipelines.ArgoCd.Enums;
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// Switch between contexts
+/// Executes resource action using the lua script configured in the 'resource.customizations' field of 'argocd-cm' ConfigMap and outputs updated fields
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("context")]
-public record ArgoCdContextOptions : ArgoCdOptions
+[CliSubCommand("admin", "settings", "resource-overrides", "run-action")]
+public record ArgoCdAdminSettingsResourceOverridesRunActionOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ResourceYamlPath,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Action
+) : ArgoCdOptions
 {
     /// <summary>
-    /// Delete the context instead of switching to it
-    /// </summary>
-    [CliFlag("--delete")]
-    public bool? Delete { get; set; }
-
-    /// <summary>
-    /// help for context
+    /// help for run-action
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Action parameters (e.g. --param key1=value1)
+    /// </summary>
+    [CliOption("--param", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Param { get; set; }
+
+    /// <summary>
+    /// Path to local argocd-cm.yaml file
+    /// </summary>
+    [CliOption("--argocd-cm-path", Format = OptionFormat.EqualsSeparated)]
+    public string? ArgocdCmPath { get; set; }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -40,11 +49,48 @@ public record ArgoCdContextOptions : ArgoCdOptions
     public string? ArgocdContext { get; set; }
 
     /// <summary>
+    /// Path to local argocd-secret.yaml file
+    /// </summary>
+    [SecretValue]
+    [CliOption("--argocd-secret-path", Format = OptionFormat.EqualsSeparated)]
+    public string? ArgocdSecretPath { get; set; }
+
+    /// <summary>
+    /// Username to impersonate for the operation
+    /// </summary>
+    [CliOption("--as", Format = OptionFormat.EqualsSeparated)]
+    public string? As { get; set; }
+
+    /// <summary>
+    /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+    /// </summary>
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? AsGroup { get; set; }
+
+    /// <summary>
+    /// UID to impersonate for the operation
+    /// </summary>
+    [CliOption("--as-uid", Format = OptionFormat.EqualsSeparated)]
+    public string? AsUid { get; set; }
+
+    /// <summary>
     /// Authentication token; set this or the ARGOCD_AUTH_TOKEN environment variable
     /// </summary>
     [SecretValue]
     [CliOption("--auth-token", Format = OptionFormat.EqualsSeparated)]
     public string? AuthToken { get; set; }
+
+    /// <summary>
+    /// Path to a cert file for the certificate authority
+    /// </summary>
+    [CliOption("--certificate-authority", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificateAuthority { get; set; }
+
+    /// <summary>
+    /// Path to a client certificate file for TLS
+    /// </summary>
+    [CliOption("--client-certificate", Format = OptionFormat.EqualsSeparated)]
+    public string? ClientCertificate { get; set; }
 
     /// <summary>
     /// Client certificate file
@@ -59,10 +105,28 @@ public record ArgoCdContextOptions : ArgoCdOptions
     public string? ClientCrtKey { get; set; }
 
     /// <summary>
+    /// Path to a client key file for TLS
+    /// </summary>
+    [CliOption("--client-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ClientKey { get; set; }
+
+    /// <summary>
+    /// The name of the kubeconfig cluster to use
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
     /// Path to Argo CD config (default "&lt;home&gt;/.config/argocd/config")
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }
+
+    /// <summary>
+    /// The name of the kubeconfig context to use
+    /// </summary>
+    [CliOption("--context", Format = OptionFormat.EqualsSeparated)]
+    public string? Context { get; set; }
 
     /// <summary>
     /// Name of the Argo CD Application controller; set this or the ARGOCD_APPLICATION_CONTROLLER_NAME environment variable when the controller's name label differs from the default, for example when installing via the Helm chart (default "argocd-application-controller")
@@ -75,6 +139,12 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// </summary>
     [CliFlag("--core")]
     public bool? Core { get; set; }
+
+    /// <summary>
+    /// If true, opt-out of response compression for all requests to the server
+    /// </summary>
+    [CliFlag("--disable-compression")]
+    public bool? DisableCompression { get; set; }
 
     /// <summary>
     /// Enables gRPC-web protocol. Useful if Argo CD server is behind proxy which does not support HTTP2.
@@ -107,22 +177,53 @@ public record ArgoCdContextOptions : ArgoCdOptions
     public bool? Insecure { get; set; }
 
     /// <summary>
+    /// If true, the server's certificate will not be checked for validity. This will make your HTTPS connections insecure
+    /// </summary>
+    [CliFlag("--insecure-skip-tls-verify")]
+    public bool? InsecureSkipTlsVerify { get; set; }
+
+    /// <summary>
     /// Directs the command to the given kube-context
     /// </summary>
     [CliOption("--kube-context", Format = OptionFormat.EqualsSeparated)]
     public string? KubeContext { get; set; }
 
     /// <summary>
+    /// Path to a kube config. Only required if out-of-cluster
+    /// </summary>
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
+    public string? Kubeconfig { get; set; }
+
+    /// <summary>
+    /// Indicates that config map and secret should be loaded from cluster unless local file path is provided
+    /// </summary>
+    [CliFlag("--load-cluster-settings")]
+    public bool? LoadClusterSettings { get; set; }
+
+    /// <summary>
     /// Set the logging format. One of: json|text (default "json")
     /// </summary>
     [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLogformat? Logformat { get; set; }
+    public ArgoCdAdminSettingsResourceOverridesRunActionLogformat? Logformat { get; set; }
 
     /// <summary>
     /// Set the logging level. One of: debug|info|warn|error (default "info")
     /// </summary>
     [CliOption("--loglevel", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLoglevel? Loglevel { get; set; }
+    public ArgoCdAdminSettingsResourceOverridesRunActionLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// If present, the namespace scope for this CLI request
+    /// </summary>
+    [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
+    /// Password for basic authentication to the API server
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
 
     /// <summary>
     /// Disable TLS
@@ -149,6 +250,12 @@ public record ArgoCdContextOptions : ArgoCdOptions
     public bool? PromptsEnabled { get; set; }
 
     /// <summary>
+    /// If provided, this URL will be used to connect via proxy
+    /// </summary>
+    [CliOption("--proxy-url", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxyUrl { get; set; }
+
+    /// <summary>
     /// Enable this if the application controller is configured with redis compression enabled. (possible values: gzip, none) (default "gzip")
     /// </summary>
     [CliOption("--redis-compress", Format = OptionFormat.EqualsSeparated)]
@@ -173,7 +280,13 @@ public record ArgoCdContextOptions : ArgoCdOptions
     public string? RepoServerName { get; set; }
 
     /// <summary>
-    /// Argo CD server address
+    /// The length of time to wait before giving up on a single server request. Non-zero values should contain a corresponding time unit (e.g. 1s, 2m, 3h). A value of zero means don't timeout requests. (default "0")
+    /// </summary>
+    [CliOption("--request-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestTimeout { get; set; }
+
+    /// <summary>
+    /// The address and port of the Kubernetes API server
     /// </summary>
     [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
     public string? Server { get; set; }
@@ -190,7 +303,29 @@ public record ArgoCdContextOptions : ArgoCdOptions
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? ContextName { get; set; }
+    /// <summary>
+    /// If provided, this name will be used to validate server certificate. If this is not provided, hostname used to contact the server is used.
+    /// </summary>
+    [CliOption("--tls-server-name", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsServerName { get; set; }
+
+    /// <summary>
+    /// Bearer token for authentication to the API server
+    /// </summary>
+    [SecretValue]
+    [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
+    public string? Token { get; set; }
+
+    /// <summary>
+    /// The name of the kubeconfig user to use
+    /// </summary>
+    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
+    public string? User { get; set; }
+
+    /// <summary>
+    /// Username for basic authentication to the API server
+    /// </summary>
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
+    public string? Username { get; set; }
 
 }

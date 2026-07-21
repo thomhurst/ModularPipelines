@@ -14,21 +14,18 @@ using ModularPipelines.ArgoCd.Enums;
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// Switch between contexts
+/// Disable manual sync for a sync window. Requires ID which can be found by running "argocd proj windows list PROJECT"
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("context")]
-public record ArgoCdContextOptions : ArgoCdOptions
+[CliSubCommand("proj", "windows", "disable-manual-sync")]
+public record ArgoCdProjWindowsDisableManualSyncOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Project,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Id
+) : ArgoCdOptions
 {
     /// <summary>
-    /// Delete the context instead of switching to it
-    /// </summary>
-    [CliFlag("--delete")]
-    public bool? Delete { get; set; }
-
-    /// <summary>
-    /// help for context
+    /// help for disable-manual-sync
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
@@ -116,13 +113,13 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// Set the logging format. One of: json|text (default "json")
     /// </summary>
     [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLogformat? Logformat { get; set; }
+    public ArgoCdProjWindowsDisableManualSyncLogformat? Logformat { get; set; }
 
     /// <summary>
     /// Set the logging level. One of: debug|info|warn|error (default "info")
     /// </summary>
     [CliOption("--loglevel", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLoglevel? Loglevel { get; set; }
+    public ArgoCdProjWindowsDisableManualSyncLoglevel? Loglevel { get; set; }
 
     /// <summary>
     /// Disable TLS
@@ -189,8 +186,5 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? ContextName { get; set; }
 
 }

@@ -98,6 +98,13 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
+        if (commandParts is ["context"])
+        {
+            return positionalArguments
+                .Select(argument => argument with { PropertyName = "ContextName" })
+                .ToList();
+        }
+
         if (commandParts is ["app", "sync"] or ["app", "wait"])
         {
             return

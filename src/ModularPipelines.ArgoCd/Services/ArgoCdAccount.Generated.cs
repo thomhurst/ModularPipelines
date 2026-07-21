@@ -166,5 +166,20 @@ public class ArgoCdAccount
         return await _command.ExecuteCommandLineTool(options ?? new ArgoCdAccountSessionTokenOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// This command can be used to update the password of the currently logged on
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdatePassword(
+        ArgoCdAccountUpdatePasswordOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdAccountUpdatePasswordOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

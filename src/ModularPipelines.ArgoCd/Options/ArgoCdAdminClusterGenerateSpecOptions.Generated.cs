@@ -9,29 +9,171 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.ArgoCd.Options;
+using ModularPipelines.Models;
 using ModularPipelines.ArgoCd.Enums;
 
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// Switch between contexts
+/// Generate declarative config for a cluster
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("context")]
-public record ArgoCdContextOptions : ArgoCdOptions
+[CliSubCommand("admin", "cluster", "generate-spec")]
+public record ArgoCdAdminClusterGenerateSpecOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Context
+) : ArgoCdOptions
 {
     /// <summary>
-    /// Delete the context instead of switching to it
+    /// Set metadata annotations (e.g. --annotation key=value)
     /// </summary>
-    [CliFlag("--delete")]
-    public bool? Delete { get; set; }
+    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Annotation { get; set; }
 
     /// <summary>
-    /// help for context
+    /// AWS Cluster name if set then aws cli eks token command will be used to access cluster
+    /// </summary>
+    [CliOption("--aws-cluster-name", Format = OptionFormat.EqualsSeparated)]
+    public string? AwsClusterName { get; set; }
+
+    /// <summary>
+    /// Optional AWS profile. If set then AWS IAM Authenticator uses this profile to perform cluster operations instead of the default AWS credential provider chain.
+    /// </summary>
+    [CliOption("--aws-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? AwsProfile { get; set; }
+
+    /// <summary>
+    /// Optional AWS role arn. If set then AWS IAM Authenticator assumes a role to perform cluster operations instead of the default AWS credential provider chain.
+    /// </summary>
+    [CliOption("--aws-role-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? AwsRoleArn { get; set; }
+
+    /// <summary>
+    /// Authentication token that should be used to access K8S API server
+    /// </summary>
+    [SecretValue]
+    [CliOption("--bearer-token", Format = OptionFormat.EqualsSeparated)]
+    public string? BearerToken { get; set; }
+
+    /// <summary>
+    /// Cluster endpoint to use. Can be one of the following: 'kubeconfig', 'kube-public', or 'internal'.
+    /// </summary>
+    [CliOption("--cluster-endpoint", Format = OptionFormat.EqualsSeparated)]
+    public string? ClusterEndpoint { get; set; }
+
+    /// <summary>
+    /// Indicates if cluster level resources should be managed. The setting is used only if list of managed namespaces is not empty.
+    /// </summary>
+    [CliFlag("--cluster-resources")]
+    public bool? ClusterResources { get; set; }
+
+    /// <summary>
+    /// Bypasses automatic GZip compression requests to the server
+    /// </summary>
+    [CliFlag("--disable-compression")]
+    public bool? DisableCompression { get; set; }
+
+    /// <summary>
+    /// Command to run to provide client credentials to the cluster. You may need to build a custom ArgoCD image to ensure the command is available at runtime.
+    /// </summary>
+    [CliOption("--exec-command", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecCommand { get; set; }
+
+    /// <summary>
+    /// Preferred input version of the ExecInfo for the --exec-command executable
+    /// </summary>
+    [CliOption("--exec-command-api-version", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecCommandApiVersion { get; set; }
+
+    /// <summary>
+    /// Arguments to supply to the --exec-command executable
+    /// </summary>
+    [CliOption("--exec-command-args", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ExecCommandArgs { get; set; }
+
+    /// <summary>
+    /// Environment vars to set when running the --exec-command executable (default [])
+    /// </summary>
+    [CliOption("--exec-command-env", Format = OptionFormat.EqualsSeparated)]
+    public KeyValue[]? ExecCommandEnv { get; set; }
+
+    /// <summary>
+    /// Text shown to the user when the --exec-command executable doesn't seem to be present
+    /// </summary>
+    [CliOption("--exec-command-install-hint", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecCommandInstallHint { get; set; }
+
+    /// <summary>
+    /// Generate authentication token that should be used to access K8S API server
+    /// </summary>
+    [CliFlag("--generate-bearer-token")]
+    public bool? GenerateBearerToken { get; set; }
+
+    /// <summary>
+    /// help for generate-spec
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Indicates Argo CD resides inside this cluster and should connect using the internal k8s hostname (kubernetes.default.svc)
+    /// </summary>
+    [CliFlag("--in-cluster")]
+    public bool? InCluster { get; set; }
+
+    /// <summary>
+    /// use a particular kubeconfig file
+    /// </summary>
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
+    public string? Kubeconfig { get; set; }
+
+    /// <summary>
+    /// Set metadata labels (e.g. --label key=value)
+    /// </summary>
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Label { get; set; }
+
+    /// <summary>
+    /// Overwrite the cluster name
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// List of namespaces which are allowed to manage
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Namespace { get; set; }
+
+    /// <summary>
+    /// Output format. One of: json|yaml (default "yaml")
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    public ArgoCdAdminClusterGenerateSpecOutput? Output { get; set; }
+
+    /// <summary>
+    /// project of the cluster
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// System namespace service account to use for kubernetes resource management. If not set then default "argocd-manager" SA will be used (default "argocd-manager")
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Cluster shard number; inferred from hostname if not set (default -1)
+    /// </summary>
+    [CliOption("--shard", Format = OptionFormat.EqualsSeparated)]
+    public int? Shard { get; set; }
+
+    /// <summary>
+    /// Use different system namespace (default "kube-system")
+    /// </summary>
+    [CliOption("--system-namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? SystemNamespace { get; set; }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -116,13 +258,13 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// Set the logging format. One of: json|text (default "json")
     /// </summary>
     [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLogformat? Logformat { get; set; }
+    public ArgoCdAdminClusterGenerateSpecLogformat? Logformat { get; set; }
 
     /// <summary>
     /// Set the logging level. One of: debug|info|warn|error (default "info")
     /// </summary>
     [CliOption("--loglevel", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdContextLoglevel? Loglevel { get; set; }
+    public ArgoCdAdminClusterGenerateSpecLoglevel? Loglevel { get; set; }
 
     /// <summary>
     /// Disable TLS
@@ -189,8 +331,5 @@ public record ArgoCdContextOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? ContextName { get; set; }
 
 }

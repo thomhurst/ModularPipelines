@@ -24,6 +24,7 @@ public class ArgoCdAdmin
     private ArgoCdAdminCluster? _cluster;
     private ArgoCdAdminNotifications? _notifications;
     private ArgoCdAdminProj? _proj;
+    private ArgoCdAdminRepo? _repo;
     private ArgoCdAdminSettings? _settings;
 
     /// <summary>
@@ -55,6 +56,11 @@ public class ArgoCdAdmin
     /// argocd proj sub-commands.
     /// </summary>
     public ArgoCdAdminProj Proj => _proj ??= new ArgoCdAdminProj(_command);
+
+    /// <summary>
+    /// argocd repo sub-commands.
+    /// </summary>
+    public ArgoCdAdminRepo Repo => _repo ??= new ArgoCdAdminRepo(_command);
 
     /// <summary>
     /// argocd settings sub-commands.
@@ -141,18 +147,18 @@ public class ArgoCdAdmin
     }
 
     /// <summary>
-    /// Manage repositories configuration
+    /// Ensure the Redis password exists, creating a new one if necessary.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Repo(
-        ArgoCdAdminRepoOptions? options = null,
+    public virtual async Task<CommandResult> RedisInitialPassword(
+        ArgoCdAdminRedisInitialPasswordOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdAdminRepoOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdAdminRedisInitialPasswordOptions(), executionOptions, cancellationToken);
     }
 
     #endregion
