@@ -279,7 +279,7 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     /// Enable performance tracking. Set to 'false' to disable. If set to 'true', data is stored to a `liquibase-TIMESTAMP.jfr` file in your working directory. Any other value will enable tracking and be used as the name of the file to write the data to. DEFAULT: false
     /// </summary>
     [CliOption("--monitor-performance", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? MonitorPerformance { get; set; }
+    public virtual string? MonitorPerformance { get; set; }
 
     /// <summary>
     /// Number of bytes needed to store one character (depends on database's character encoding) DEFAULT: 1

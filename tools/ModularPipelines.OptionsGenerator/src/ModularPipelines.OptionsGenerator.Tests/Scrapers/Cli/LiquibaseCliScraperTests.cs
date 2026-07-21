@@ -67,6 +67,20 @@ public class LiquibaseCliScraperTests
     }
 
     [Test]
+    public async Task Monitor_Performance_Accepts_Boolean_Or_Filename_Values()
+    {
+        const string helpText = """
+                  --monitor-performance=PARAM   Enable performance monitoring. DEFAULT: false
+            """;
+
+        var option = _scraper.ParseLiquibaseOptions(helpText).Single();
+
+        await Assert.That(option.SwitchName).IsEqualTo("--monitor-performance");
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.IsFlag).IsFalse();
+    }
+
+    [Test]
     public async Task ParseCommand_Preserves_Multiline_Description()
     {
         const string helpText = """

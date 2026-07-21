@@ -52,6 +52,18 @@ public class LiquibaseOptionsTests : TestBase
         await Assert.That(passwordProperty!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
     }
 
+    [Test]
+    public async Task Monitor_Performance_Renders_A_Filename()
+    {
+        var result = await GetResult(new LiquibaseUpdateOptions("changelog.xml", "jdbc:h2:mem:test")
+        {
+            MonitorPerformance = "perf.jfr",
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "liquibase --monitor-performance=perf.jfr update --changelog-file=changelog.xml --url=jdbc:h2:mem:test");
+    }
+
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
     {
         var command = await GetService<ICommand>();
