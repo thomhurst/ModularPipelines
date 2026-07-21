@@ -93,7 +93,7 @@ internal sealed class Command : ICommand, ICommandContext
             tool = resolvedTool;
         }
 
-        var command = Cli.Wrap(tool).WithArguments(parsedArgs);
+        var command = CliCommandFactory.Create(tool, parsedArgs, execOpts);
 
         if (execOpts.WorkingDirectory != null)
         {

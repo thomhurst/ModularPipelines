@@ -85,4 +85,33 @@ public class ProcessCliCommandExecutorTests
             }
         }
     }
+
+    [Test]
+    public async Task Executes_Quoted_Windows_Batch_Arguments()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var tempDirectory = Path.Combine(Path.GetTempPath(), "mp command script tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(tempDirectory);
+        var scriptPath = Path.Combine(tempDirectory, "echo argument.cmd");
+
+        try
+        {
+            await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %~1\r\n");
+            var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+
+            var result = await executor.ExecuteAsync(scriptPath, "\"hello world\"");
+
+            await Assert.That(result.ExitCode).IsEqualTo(0)
+                .Because($"stdout: {result.StandardOutput}; stderr: {result.StandardError}");
+            await Assert.That(result.StandardOutput.Trim()).IsEqualTo("hello world");
+        }
+        finally
+        {
+            Directory.Delete(tempDirectory, recursive: true);
+        }
+    }
 }

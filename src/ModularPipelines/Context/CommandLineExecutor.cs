@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CliWrap;
 using CliWrap.Buffered;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using CommandResult = ModularPipelines.Models.CommandResult;
@@ -19,8 +20,7 @@ internal sealed class CommandLineExecutor : ICommandLineExecutor
         CommandExecutionOptions? options = null,
         CancellationToken cancellationToken = default)
     {
-        var command = Cli.Wrap(commandLine.Tool)
-            .WithArguments(commandLine.Arguments);
+        var command = CliCommandFactory.Create(commandLine.Tool, commandLine.Arguments, options);
 
         var workingDirectory = Environment.CurrentDirectory;
         IReadOnlyDictionary<string, string?> environmentVariables = EmptyEnvironmentVariables;

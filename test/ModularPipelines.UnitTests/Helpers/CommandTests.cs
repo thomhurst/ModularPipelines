@@ -56,4 +56,44 @@ public class CommandTests : TestBase
 
         await Assert.That(moduleResult.ValueOrDefault!.Trim()).IsEqualTo(TestConstants.TestString);
     }
+
+    [Test]
+    public async Task ExecuteCommandLineTool_Resolves_Windows_Command_Scripts_From_Path()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var tempDirectory = Path.Combine(Path.GetTempPath(), "mp runtime command tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(tempDirectory);
+        var scriptPath = Path.Combine(tempDirectory, "mp-runtime-test.cmd");
+
+        try
+        {
+            await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %~1\r\n");
+            var command = await GetService<ICommand>();
+
+            var result = await command.ExecuteCommandLineTool(
+                new GenericCommandLineToolOptions("mp-runtime-test")
+                {
+                    Arguments = ["hello world"],
+                },
+                new CommandExecutionOptions
+                {
+                    EnvironmentVariables = new Dictionary<string, string?>
+                    {
+                        ["PATH"] = tempDirectory,
+                        ["PATHEXT"] = ".COM;.EXE;.BAT;.CMD",
+                    },
+                });
+
+            await Assert.That(result.ExitCode).IsEqualTo(0);
+            await Assert.That(result.StandardOutput.Trim()).IsEqualTo("hello world");
+        }
+        finally
+        {
+            Directory.Delete(tempDirectory, recursive: true);
+        }
+    }
 }

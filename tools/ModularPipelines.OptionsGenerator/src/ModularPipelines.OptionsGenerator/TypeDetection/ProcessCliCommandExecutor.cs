@@ -205,7 +205,6 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
         .Select(pathDirectory => pathDirectory.Trim('"'))
         ?? [];
-
     public async Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default)
     {
         try
