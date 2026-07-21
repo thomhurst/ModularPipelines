@@ -170,10 +170,15 @@ public partial class HadolintCliScraper : CliScraperBase
                 descriptionParts.Add(inlineDescription);
             }
 
+            var optionIndentation = lines[lineIndex].Length - lines[lineIndex].TrimStart().Length;
             while (lineIndex + 1 < lines.Length)
             {
-                var continuation = lines[lineIndex + 1].Trim();
-                if (string.IsNullOrEmpty(continuation) || continuation.StartsWith('-'))
+                var nextLine = lines[lineIndex + 1];
+                var continuation = nextLine.Trim();
+                var continuationIndentation = nextLine.Length - nextLine.TrimStart().Length;
+                if (string.IsNullOrEmpty(continuation)
+                    || continuation.StartsWith('-')
+                    || continuationIndentation <= optionIndentation)
                 {
                     break;
                 }

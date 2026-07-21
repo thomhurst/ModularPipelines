@@ -29,15 +29,19 @@ public class HadolintCliScraperTests
                                        A required label schema
               -t,--failure-threshold THRESHOLD
                                        Minimum failure severity
+            Examples:
+              hadolint Dockerfile
             """;
 
-        var command = await new TestHadolintCliScraper().Parse(helpText.Replace("\n", "\r\n"));
+        var command = await new TestHadolintCliScraper().Parse(helpText.ReplaceLineEndings("\r\n"));
 
         await Assert.That(GetOption(command, "--file-path-in-report").CSharpType).IsEqualTo("string?");
         await Assert.That(GetOption(command, "--file-path-in-report").Description)
             .IsEqualTo("The file path referenced in the generated report.");
         await Assert.That(GetOption(command, "--failure-threshold").CSharpType)
             .IsEqualTo("HadolintFailureThreshold?");
+        await Assert.That(GetOption(command, "--failure-threshold").Description)
+            .IsEqualTo("Minimum failure severity");
 
         string[] repeatableOptions =
         [

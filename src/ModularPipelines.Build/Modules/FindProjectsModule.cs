@@ -34,6 +34,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
             Sourcy.DotNet.Projects.ModularPipelines_Git,
             Sourcy.DotNet.Projects.ModularPipelines_GitHub,
             Sourcy.DotNet.Projects.ModularPipelines_Google,
+            Sourcy.DotNet.Projects.ModularPipelines_Hadolint,
             Sourcy.DotNet.Projects.ModularPipelines_Helm,
             Sourcy.DotNet.Projects.ModularPipelines_Kubernetes,
             Sourcy.DotNet.Projects.ModularPipelines_MicrosoftTeams,
