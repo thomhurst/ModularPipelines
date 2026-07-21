@@ -41,6 +41,31 @@ function global:git {
 try {
     . $cleanupScript
 
+    $explicitSelection = Select-MergeCleanupWorktree `
+        -ValidatedWorktree $isolatedRoot `
+        -CurrentBranchWorktree $null `
+        -WasExplicit `
+        -IdentityValid
+    if ($explicitSelection -ne $isolatedRoot) {
+        throw 'Explicit worktree override was not preserved for cleanup.'
+    }
+
+    $replacementRoot = Join-Path $testRoot 'replacement'
+    $replacementSelection = Select-MergeCleanupWorktree `
+        -ValidatedWorktree $isolatedRoot `
+        -CurrentBranchWorktree $replacementRoot `
+        -IdentityValid
+    if ($null -ne $replacementSelection) {
+        throw 'A replacement worktree was selected for cleanup.'
+    }
+
+    $invalidIdentitySelection = Select-MergeCleanupWorktree `
+        -ValidatedWorktree $isolatedRoot `
+        -CurrentBranchWorktree $isolatedRoot
+    if ($null -ne $invalidIdentitySelection) {
+        throw 'A worktree with a changed identity was selected for cleanup.'
+    }
+
     $primarySpelling = if ($IsWindows) { ($primaryRoot + '\').ToUpperInvariant() } else { $primaryRoot + '/' }
     $output = Remove-MergedWorktree -Repo $primaryRoot -Worktree $primarySpelling -Label '#test' 6>&1
 

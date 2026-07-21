@@ -23,6 +23,40 @@ function Test-IsLinkedWorktree {
     return $firstLine -match '^gitdir:\s*\S+'
 }
 
+function Test-SameNativePath {
+    param(
+        [Parameter(Mandatory)][string]$Left,
+        [Parameter(Mandatory)][string]$Right
+    )
+
+    try {
+        $leftPath = [IO.Path]::GetFullPath($Left).TrimEnd([char[]]@('/', '\'))
+        $rightPath = [IO.Path]::GetFullPath($Right).TrimEnd([char[]]@('/', '\'))
+        $comparison = if ($IsWindows) { [StringComparison]::OrdinalIgnoreCase } else { [StringComparison]::Ordinal }
+        return [string]::Equals($leftPath, $rightPath, $comparison)
+    }
+    catch {
+        return $false
+    }
+}
+
+function Select-MergeCleanupWorktree {
+    param(
+        [string]$ValidatedWorktree,
+        [string]$CurrentBranchWorktree,
+        [switch]$WasExplicit,
+        [switch]$IdentityValid
+    )
+
+    if (-not $ValidatedWorktree -or -not $IdentityValid) { return $null }
+    if ($WasExplicit) { return $ValidatedWorktree }
+    if (-not $CurrentBranchWorktree) { return $null }
+    if (Test-SameNativePath -Left $ValidatedWorktree -Right $CurrentBranchWorktree) {
+        return $ValidatedWorktree
+    }
+    return $null
+}
+
 function Remove-MergedWorktree {
     [CmdletBinding()]
     param(

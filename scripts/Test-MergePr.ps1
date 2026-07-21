@@ -48,4 +48,18 @@ if ($postMergeScript -match '(?m)^\s*Fail\s+') {
     throw 'Post-merge cleanup must warn rather than report that the merge was aborted.'
 }
 
+if ($script -notmatch '\$worktreeWasExplicit') {
+    throw 'Merge-Pr must preserve whether -Worktree was explicitly supplied.'
+}
+
+if ($script -notmatch '\$worktreeIdentityToken') {
+    throw 'Merge-Pr must retain an identity token for the validated worktree.'
+}
+
+$stalePruneIndex = $script.IndexOf('worktree prune')
+$linkedGuardCallIndex = $script.IndexOf('Test-IsLinkedWorktree -Path $Worktree')
+if ($stalePruneIndex -lt 0 -or $stalePruneIndex -gt $linkedGuardCallIndex) {
+    throw 'Stale worktree registrations must be pruned before linked-worktree validation.'
+}
+
 Write-Output 'OK Merge-Pr command ordering and post-merge failure semantics passed.'
