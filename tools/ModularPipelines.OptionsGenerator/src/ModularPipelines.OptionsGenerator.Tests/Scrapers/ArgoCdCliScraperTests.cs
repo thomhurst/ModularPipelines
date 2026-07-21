@@ -19,7 +19,8 @@ public class ArgoCdCliScraperTests
     [Test]
     public async Task Cobra_Usage_Parses_Bare_Required_And_Bracketed_Optional_Arguments()
     {
-        var arguments = TestArgoCdCliScraper.ParseArguments(
+        var scraper = new TestArgoCdCliScraper();
+        var arguments = scraper.ParseArguments(
             "Usage:\n  argocd app rollback APPNAME [ID] [flags]");
 
         await Assert.That(arguments).Count().IsEqualTo(2);
@@ -27,6 +28,16 @@ public class ArgoCdCliScraperTests
         await Assert.That(arguments[0].IsRequired).IsTrue();
         await Assert.That(arguments[1].PropertyName).IsEqualTo("Id");
         await Assert.That(arguments[1].IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Shared_Cobra_Parser_Does_Not_Parse_Bare_Kubectl_Qualifier_Tokens()
+    {
+        var scraper = new TestArgoCdCliScraper();
+        var arguments = scraper.ParseBaseArguments(
+            "Usage:\n  kubectl get TYPE[.VERSION][.GROUP]/NAME [flags]");
+
+        await Assert.That(arguments).IsEmpty();
     }
 
     [Test]
@@ -43,10 +54,28 @@ public class ArgoCdCliScraperTests
     }
 
     [Test]
+    [Arguments("generate", "File", "string")]
+    [Arguments("delete", "ApplicationSetNames", "IEnumerable<string>")]
+    public async Task Appset_Commands_Add_Required_Arguments_Omitted_By_Help(
+        string command,
+        string propertyName,
+        string csharpType)
+    {
+        var scraper = new TestArgoCdCliScraper();
+
+        var arguments = scraper.ApplyFix(["appset", command], []);
+
+        await Assert.That(arguments).Count().IsEqualTo(1);
+        await Assert.That(arguments[0].PropertyName).IsEqualTo(propertyName);
+        await Assert.That(arguments[0].CSharpType).IsEqualTo(csharpType);
+        await Assert.That(arguments[0].IsRequired).IsTrue();
+    }
+
+    [Test]
     public async Task Positional_Argument_Compound_Names_Are_Normalized()
     {
         var scraper = new TestArgoCdCliScraper();
-        var parsedArguments = TestArgoCdCliScraper.ParseArguments(
+        var parsedArguments = scraper.ParseArguments(
             "Usage:\n  argocd app rollback APPNAME [ID] [flags]");
 
         var arguments = scraper.ApplyFix(["app", "rollback"], parsedArguments);
@@ -67,8 +96,11 @@ public class ArgoCdCliScraperTests
 
         public string NormalizeIdentifier(string commandPart) => NormalizeCommandIdentifier(commandPart);
 
-        public static IReadOnlyList<CliPositionalArgument> ParseArguments(string helpText) =>
+        public IReadOnlyList<CliPositionalArgument> ParseArguments(string helpText) =>
             ParsePositionalArguments(helpText);
+
+        public IReadOnlyList<CliPositionalArgument> ParseBaseArguments(string helpText) =>
+            base.ParsePositionalArguments(helpText);
 
         public IReadOnlyList<CliPositionalArgument> ApplyFix(
             string[] commandParts,

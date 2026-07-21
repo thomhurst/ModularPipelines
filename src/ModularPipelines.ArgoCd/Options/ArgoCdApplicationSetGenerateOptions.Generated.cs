@@ -19,7 +19,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appset", "generate")]
-public record ArgoCdApplicationSetGenerateOptions : ArgoCdOptions
+public record ArgoCdApplicationSetGenerateOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string File
+) : ArgoCdOptions
 {
     /// <summary>
     /// help for generate
@@ -59,7 +61,7 @@ public record ArgoCdApplicationSetGenerateOptions : ArgoCdOptions
     public string? ClientCrtKey { get; set; }
 
     /// <summary>
-    /// Path to Argo CD config (default "~/.config/argocd/config")
+    /// Path to Argo CD config (default "C:\\Users\\thomh/.config/argocd/config")
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }

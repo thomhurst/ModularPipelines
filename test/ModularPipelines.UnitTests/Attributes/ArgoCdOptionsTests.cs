@@ -54,6 +54,39 @@ public class ArgoCdOptionsTests
     }
 
     [Test]
+    public async Task ApplicationSetDelete_Renders_Multiple_Names()
+    {
+        var arguments = BuildArguments(new ArgoCdApplicationSetDeleteOptions(["first", "second"])
+        {
+            Wait = true,
+            Yes = true,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "first",
+            "second",
+            "--wait",
+            "--yes",
+        ]);
+    }
+
+    [Test]
+    public async Task ApplicationSetGenerate_Renders_File()
+    {
+        var arguments = BuildArguments(new ArgoCdApplicationSetGenerateOptions("apps.yaml")
+        {
+            Output = ArgoCdApplicationSetGenerateOutput.Json,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "apps.yaml",
+            "--output=json",
+        ]);
+    }
+
+    [Test]
     public async Task Credential_Options_Are_Marked_As_Secrets()
     {
         var authToken = typeof(ArgoCdAppGetOptions).GetProperty(nameof(ArgoCdAppGetOptions.AuthToken));

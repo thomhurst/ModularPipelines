@@ -14,12 +14,12 @@ using ModularPipelines.ArgoCd.Enums;
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// Manage projects
+/// Manage cluster credentials
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("proj")]
-public record ArgoCdProjExecuteOptions : ArgoCdOptions
+[CliSubCommand("cluster")]
+public record ArgoCdClusterOptions : ArgoCdOptions
 {
     /// <summary>
     /// Username to impersonate for the operation
@@ -76,7 +76,7 @@ public record ArgoCdProjExecuteOptions : ArgoCdOptions
     public bool? DisableCompression { get; set; }
 
     /// <summary>
-    /// help for proj
+    /// help for cluster
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
@@ -169,7 +169,7 @@ public record ArgoCdProjExecuteOptions : ArgoCdOptions
     public string? ClientCrtKey { get; set; }
 
     /// <summary>
-    /// Path to Argo CD config (default "~/.config/argocd/config")
+    /// Path to Argo CD config (default "C:\\Users\\thomh/.config/argocd/config")
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }
@@ -226,13 +226,13 @@ public record ArgoCdProjExecuteOptions : ArgoCdOptions
     /// Set the logging format. One of: json|text (default "json")
     /// </summary>
     [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdProjLogformat? Logformat { get; set; }
+    public ArgoCdClusterLogformat? Logformat { get; set; }
 
     /// <summary>
     /// Set the logging level. One of: debug|info|warn|error (default "info")
     /// </summary>
     [CliOption("--loglevel", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdProjLoglevel? Loglevel { get; set; }
+    public ArgoCdClusterLoglevel? Loglevel { get; set; }
 
     /// <summary>
     /// Disable TLS
