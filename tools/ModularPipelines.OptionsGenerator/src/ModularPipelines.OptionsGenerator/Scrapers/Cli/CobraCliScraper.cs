@@ -795,10 +795,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
     private static partial Regex SectionHeaderPattern();
 
     /// <summary>
-    /// Matches subcommand lines: "  command    description"
+    /// Matches subcommand lines with or without indentation: "  command    description"
+    /// or "command    description".
     /// Also handles Docker's asterisk markers for extensions: "  buildx*    description"
     /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)\*?\s{2,}", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?<name>[\w-]+)\*?\s{2,}", RegexOptions.Multiline)]
     private static partial Regex SubcommandLinePattern();
 
     /// <summary>
