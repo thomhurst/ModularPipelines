@@ -10,6 +10,18 @@
 #     system-wide; the `\\?\` extended-length Remove-Item is kept as a fallback for
 #     environments where that config is missing.
 
+function Test-SameWorktreePath {
+    param(
+        [Parameter(Mandatory)][string]$Left,
+        [Parameter(Mandatory)][string]$Right
+    )
+
+    $trimChars = [char[]]@([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar)
+    $leftPath = [IO.Path]::GetFullPath($Left).TrimEnd($trimChars)
+    $rightPath = [IO.Path]::GetFullPath($Right).TrimEnd($trimChars)
+    return $leftPath.Equals($rightPath, [System.StringComparison]::OrdinalIgnoreCase)
+}
+
 function Remove-MergedWorktree {
     [CmdletBinding()]
     param(
@@ -20,6 +32,14 @@ function Remove-MergedWorktree {
 
     if (-not (Test-Path -LiteralPath $Worktree)) {
         git -C $Repo worktree prune
+        return
+    }
+
+    # Never remove the checkout used to administer worktrees. Besides being invalid
+    # for `git worktree remove`, allowing this to reach the recursive fallback would
+    # delete the primary checkout and any untracked user files in it.
+    if (Test-SameWorktreePath -Left $Repo -Right $Worktree) {
+        Write-Host "WARNING: refusing to remove primary checkout $Label : $Worktree"
         return
     }
 

@@ -49,14 +49,9 @@ $headRef = $headRef.Trim()
 $mainRepo = ((git worktree list --porcelain) | Where-Object { $_ -like 'worktree *' } |
     Select-Object -First 1) -replace '^worktree ', ''
 
-# --- 2. Merge. -----------------------------------------------------------------
-gh pr merge $Pr @repoArgs --squash
-if ($LASTEXITCODE -ne 0) { Fail "gh pr merge failed (exit $LASTEXITCODE). Worktree untouched." }
-Write-Host "Merged #${Pr} ($headRef)."
-
-# --- 3. Remove the PR's worktree. ----------------------------------------------
+# Resolve cleanup before merging. If another process checked the PR branch out in the
+# primary checkout, abort while the PR is still open instead of risking that checkout.
 if (-not $Worktree) {
-    # Find the worktree whose checked-out branch matches the PR head branch.
     $wt = $null; $cur = $null
     foreach ($line in (git -C $mainRepo worktree list --porcelain)) {
         if ($line -like 'worktree *') { $cur = $line.Substring(9) }
@@ -64,6 +59,18 @@ if (-not $Worktree) {
     }
     $Worktree = $wt
 }
+if ($Worktree) {
+    if (Test-SameWorktreePath -Left $mainRepo -Right $Worktree) {
+        Fail "PR branch '$headRef' is checked out in the primary checkout '$mainRepo'. Move it to an isolated worktree first."
+    }
+}
+
+# --- 2. Merge. -----------------------------------------------------------------
+gh pr merge $Pr @repoArgs --squash
+if ($LASTEXITCODE -ne 0) { Fail "gh pr merge failed (exit $LASTEXITCODE). Worktree untouched." }
+Write-Host "Merged #${Pr} ($headRef)."
+
+# --- 3. Remove the PR's worktree. ----------------------------------------------
 if (-not $Worktree) {
     Write-Host "No isolated worktree found for branch '$headRef' (nothing to remove)."
     git -C $mainRepo worktree prune

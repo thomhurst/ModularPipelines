@@ -12,6 +12,11 @@ if ($mergeMatch.Value -match '--delete-branch') {
     throw 'gh pr merge must not delete a branch before its worktree is removed.'
 }
 
+$primaryGuardIndex = $script.IndexOf("is checked out in the primary checkout")
+if ($primaryGuardIndex -lt 0 -or $primaryGuardIndex -gt $mergeMatch.Index) {
+    throw 'Primary-checkout cleanup guard must run before gh pr merge.'
+}
+
 $cleanupIndex = $script.IndexOf('Remove-MergedWorktree', $mergeMatch.Index)
 $remoteDeleteIndex = $script.IndexOf('push origin --delete', $mergeMatch.Index)
 $localDeleteIndex = $script.IndexOf('branch -D', $mergeMatch.Index)
