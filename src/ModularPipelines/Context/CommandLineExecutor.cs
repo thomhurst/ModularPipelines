@@ -39,12 +39,7 @@ internal sealed class CommandLineExecutor : ICommandLineExecutor
 
         if (options?.CommandLineCredentials is not null)
         {
-            var credentials = options.CommandLineCredentials;
-            command = command.WithCredentials(new Credentials(
-                credentials.Domain,
-                credentials.UserName,
-                credentials.Password,
-                credentials.LoadUserProfile));
+            command = command.WithCredentials(options.CommandLineCredentials.ToCliWrapCredentials());
         }
 
         var timeout = options?.ExecutionTimeout ?? TimeSpan.FromMinutes(30);

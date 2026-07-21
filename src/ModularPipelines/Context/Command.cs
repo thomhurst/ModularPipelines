@@ -99,12 +99,7 @@ internal sealed class Command : ICommand, ICommandContext
 
         if (execOpts.CommandLineCredentials != null)
         {
-            var credentials = execOpts.CommandLineCredentials;
-            command = command.WithCredentials(new Credentials(
-                credentials.Domain,
-                credentials.UserName,
-                credentials.Password,
-                credentials.LoadUserProfile));
+            command = command.WithCredentials(execOpts.CommandLineCredentials.ToCliWrapCredentials());
         }
 
         if (execOpts.InternalDryRun)
