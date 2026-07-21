@@ -69,7 +69,7 @@ public class RedisDistributedCoordinatorTests
                 It.IsAny<RedisKey[]?>(),
                 It.IsAny<RedisValue[]?>(),
                 It.IsAny<CommandFlags>()))
-            .ReturnsAsync(RedisResult.Create((RedisValue)json));
+            .ReturnsAsync(RedisResult.Create((RedisValue) json));
 
         var result = await _coordinator.DequeueModuleAsync(
             new HashSet<string>(), CancellationToken.None);
@@ -123,7 +123,7 @@ public class RedisDistributedCoordinatorTests
 
         _dbMock.Verify(db => db.HashSetAsync(
             _keys.Results,
-            (RedisValue)"Test.Module",
+            (RedisValue) "Test.Module",
             It.Is<RedisValue>(v => v.ToString().Contains("Test.Module")),
             It.IsAny<When>(),
             It.IsAny<CommandFlags>()), Times.Once);
@@ -140,7 +140,7 @@ public class RedisDistributedCoordinatorTests
         var serializedResult = CreateResult("Test.Module");
         var json = JsonSerializer.Serialize(serializedResult, JsonOptions);
 
-        _dbMock.Setup(db => db.HashGetAsync(_keys.Results, (RedisValue)"Test.Module", It.IsAny<CommandFlags>()))
+        _dbMock.Setup(db => db.HashGetAsync(_keys.Results, (RedisValue) "Test.Module", It.IsAny<CommandFlags>()))
             .ReturnsAsync(json);
 
         var result = await _coordinator.WaitForResultAsync("Test.Module", CancellationToken.None);
@@ -158,7 +158,7 @@ public class RedisDistributedCoordinatorTests
 
         _dbMock.Verify(db => db.HashSetAsync(
             _keys.Workers,
-            (RedisValue)"1",
+            (RedisValue) "1",
             It.Is<RedisValue>(v => v.ToString().Contains("\"WorkerIndex\":1")),
             It.IsAny<When>(),
             It.IsAny<CommandFlags>()), Times.Once);

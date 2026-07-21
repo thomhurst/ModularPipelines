@@ -47,7 +47,7 @@ public class ModuleCompletionSourceApplicatorTests
         await Assert.That(applied).IsTrue();
 
         // The ResultTask should now be completed with the applied result
-        var moduleResult = await ((IModule)module).ResultTask;
+        var moduleResult = await ((IModule) module).ResultTask;
         await Assert.That(moduleResult).IsNotNull();
         await Assert.That(moduleResult!.IsSuccess).IsTrue();
     }
@@ -70,7 +70,7 @@ public class ModuleCompletionSourceApplicatorTests
         await Assert.That(applied1).IsTrue();
         await Assert.That(applied2).IsFalse();
 
-        var moduleResult = await ((IModule)module).ResultTask;
+        var moduleResult = await ((IModule) module).ResultTask;
         await Assert.That(moduleResult).IsNotNull();
         await Assert.That(moduleResult!.ModuleName).IsEqualTo("TestModule");
     }

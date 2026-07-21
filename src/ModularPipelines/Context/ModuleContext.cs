@@ -27,7 +27,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         IModuleLogger logger)
     {
         _pipelineContext = pipelineContext;
-        _internalContext = (IInternalPipelineContext)pipelineContext;
+        _internalContext = (IInternalPipelineContext) pipelineContext;
         _currentModule = currentModule;
         _executionContext = executionContext;
         _logger = logger;

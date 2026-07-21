@@ -53,7 +53,7 @@ public abstract class Module<T> : IModule, ITaggedModule
 
     /// <inheritdoc />
     Task<IModuleResult> IModule.ResultTask => CompletionSource.Task.ContinueWith(
-        static t => (IModuleResult)t.Result, TaskContinuationOptions.ExecuteSynchronously);
+        static t => (IModuleResult) t.Result, TaskContinuationOptions.ExecuteSynchronously);
 
     /// <inheritdoc />
     Type IModule.ResultType => typeof(T);
@@ -286,7 +286,7 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// <inheritdoc />
     bool IModule.TrySetDistributedResult(IModuleResult result)
     {
-        return CompletionSource.TrySetResult((ModuleResult<T?>)result);
+        return CompletionSource.TrySetResult((ModuleResult<T?>) result);
     }
 
     /// <summary>

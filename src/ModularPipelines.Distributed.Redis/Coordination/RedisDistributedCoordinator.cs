@@ -228,7 +228,7 @@ return nil";
         var capsJson = JsonSerializer.Serialize(workerCapabilities.ToArray());
         var result = await _database.ScriptEvaluateAsync(
             ScanAndClaimScript,
-            [(RedisKey)_keys.WorkQueue],
+            [(RedisKey) _keys.WorkQueue],
             [capsJson]);
 
         if (result.IsNull)

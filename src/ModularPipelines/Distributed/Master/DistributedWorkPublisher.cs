@@ -57,7 +57,7 @@ internal class DistributedWorkPublisher(
             MatrixTarget: null, // TODO(matrix): Set by MatrixModuleExpander when wired up
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfig(
-                TimeoutSeconds: config.Timeout is not null ? (int?)config.Timeout.Value.TotalSeconds : null,
+                TimeoutSeconds: config.Timeout is not null ? (int?) config.Timeout.Value.TotalSeconds : null,
                 RetryCount: 0, // Retry policies are Polly IAsyncPolicy factories, not portable across processes
                 AlwaysRun: config.AlwaysRun
             ),

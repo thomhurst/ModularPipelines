@@ -63,7 +63,7 @@ public class RedisArtifactStoreTests
         _mockDb.Setup(db => db.StringGetAsync(
             It.Is<RedisKey>(k => k.ToString().Contains("artifacts:data:art1") && !k.ToString().Contains("chunk")),
             It.IsAny<CommandFlags>()))
-            .ReturnsAsync((RedisValue)data);
+            .ReturnsAsync((RedisValue) data);
 
         await using var result = await _store.DownloadAsync(reference, CancellationToken.None);
         using var ms = new MemoryStream();

@@ -100,7 +100,7 @@ public class DependencyResultPropagationTests
         }
 
         // Assert — GetModule<DependencyModule> should now resolve (ResultTask completes)
-        var moduleResult = await ((IModule)depModule).ResultTask;
+        var moduleResult = await ((IModule) depModule).ResultTask;
         await Assert.That(moduleResult).IsNotNull();
         await Assert.That(moduleResult!.IsSuccess).IsTrue();
     }

@@ -294,14 +294,14 @@ public abstract record ModuleResult<T> : ModuleResult
         Func<T, TResult> onSuccess,
         Func<Exception, TResult> onFailure,
         Func<SkipDecision, TResult> onSkipped) => this switch
-    {
-        Success s => onSuccess(s.Value),
-        Failure f => onFailure(f.Exception),
-        Skipped sk => onSkipped(sk.Decision),
-        FailureWrapper fw => onFailure(fw.Exception),
-        SkippedWrapper sw => onSkipped(sw.Decision),
-        _ => throw new InvalidOperationException("Unknown result type")
-    };
+        {
+            Success s => onSuccess(s.Value),
+            Failure f => onFailure(f.Exception),
+            Skipped sk => onSkipped(sk.Decision),
+            FailureWrapper fw => onFailure(fw.Exception),
+            SkippedWrapper sw => onSkipped(sw.Decision),
+            _ => throw new InvalidOperationException("Unknown result type")
+        };
 
     /// <summary>
     /// Executes one of three actions based on the outcome.
@@ -620,7 +620,7 @@ internal sealed class ModuleResultJsonConverterFactory : JsonConverterFactory
         }
 
         var converterType = typeof(ModuleResultJsonConverter<>).MakeGenericType(valueType);
-        return (JsonConverter?)Activator.CreateInstance(converterType);
+        return (JsonConverter?) Activator.CreateInstance(converterType);
     }
 }
 
@@ -861,14 +861,14 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         return discriminator switch
         {
             "Success" => new ModuleResult<T>.Success(value!)
-                {
-                    ModuleName = moduleName,
-                    ModuleTypeName = moduleTypeName,
-                    ModuleDuration = moduleDuration,
-                    ModuleStart = moduleStart,
-                    ModuleEnd = moduleEnd,
-                    ModuleStatus = moduleStatus
-                },
+            {
+                ModuleName = moduleName,
+                ModuleTypeName = moduleTypeName,
+                ModuleDuration = moduleDuration,
+                ModuleStart = moduleStart,
+                ModuleEnd = moduleEnd,
+                ModuleStatus = moduleStatus
+            },
             "Failure" => exception is not null
                 ? new ModuleResult<T>.FailureWrapper(new ModuleResult.Failure(exception)
                 {

@@ -432,14 +432,14 @@ public sealed class PipelineBuilder
                 d.ServiceType == typeof(IConfigureOptions<DistributedOptions>) &&
                 d.ImplementationInstance is IConfigureOptions<DistributedOptions>))
             {
-                ((IConfigureOptions<DistributedOptions>)descriptor.ImplementationInstance!).Configure(opts);
+                ((IConfigureOptions<DistributedOptions>) descriptor.ImplementationInstance!).Configure(opts);
             }
 
             foreach (var descriptor in services.Where(d =>
                 d.ServiceType == typeof(IPostConfigureOptions<DistributedOptions>) &&
                 d.ImplementationInstance is IPostConfigureOptions<DistributedOptions>))
             {
-                ((IPostConfigureOptions<DistributedOptions>)descriptor.ImplementationInstance!).PostConfigure(string.Empty, opts);
+                ((IPostConfigureOptions<DistributedOptions>) descriptor.ImplementationInstance!).PostConfigure(string.Empty, opts);
             }
 
             return opts;

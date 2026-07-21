@@ -90,7 +90,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
 
         if (!data.IsNull)
         {
-            return new MemoryStream((byte[])data!);
+            return new MemoryStream((byte[]) data!);
         }
 
         // Try chunked
@@ -105,7 +105,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
                 break;
             }
 
-            var bytes = (byte[])chunk!;
+            var bytes = (byte[]) chunk!;
             ms.Write(bytes, 0, bytes.Length);
             chunkIndex++;
         }
