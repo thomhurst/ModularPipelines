@@ -31,6 +31,11 @@ using ModularPipelines.Options;
 using ModularPipelines.Options.Validators;
 using ModularPipelines.Validation;
 using ModularPipelines.Console;
+using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Artifacts;
+using ModularPipelines.Distributed.Configuration;
+using ModularPipelines.Distributed.Coordination;
+using ModularPipelines.Distributed.Serialization;
 using Vertical.SpectreLogger;
 using Vertical.SpectreLogger.Options;
 
@@ -53,6 +58,7 @@ internal static class DependencyInjectionSetup
         RegisterAttributeEventServices(services);
         RegisterUtilityServices(services);
         RegisterValidationServices(services);
+        RegisterDistributedServices(services);
     }
 
     /// <summary>
@@ -170,39 +176,39 @@ internal static class DependencyInjectionSetup
             .AddScoped<IPowershell, Powershell>()
             .AddScoped<IBash, Bash>()
             // Register domain context interfaces (forwarding to existing implementations)
-            .AddScoped<ICommandContext>(sp => (ICommandContext)sp.GetRequiredService<ModularPipelines.Context.ICommand>())
-            .AddScoped<IBashContext>(sp => (IBashContext)sp.GetRequiredService<IBash>())
-            .AddScoped<IPowerShellContext>(sp => (IPowerShellContext)sp.GetRequiredService<IPowershell>())
+            .AddScoped<ICommandContext>(sp => (ICommandContext) sp.GetRequiredService<ModularPipelines.Context.ICommand>())
+            .AddScoped<IBashContext>(sp => (IBashContext) sp.GetRequiredService<IBash>())
+            .AddScoped<IPowerShellContext>(sp => (IPowerShellContext) sp.GetRequiredService<IPowershell>())
             .AddScoped<ModularPipelines.Context.Domains.IShellContext, ModularPipelines.Context.Domains.Implementations.ShellContext>()
             // Register Files domain context interfaces
-            .AddScoped<IZipContext>(sp => (IZipContext)sp.GetRequiredService<IZip>())
-            .AddScoped<IChecksumContext>(sp => (IChecksumContext)sp.GetRequiredService<IChecksum>())
+            .AddScoped<IZipContext>(sp => (IZipContext) sp.GetRequiredService<IZip>())
+            .AddScoped<IChecksumContext>(sp => (IChecksumContext) sp.GetRequiredService<IChecksum>())
             .AddScoped<IFilesContext, FilesContext>()
             // Register Data domain context interfaces
-            .AddSingleton<IJsonContext>(sp => (IJsonContext)sp.GetRequiredService<IJson>())
-            .AddSingleton<IXmlContext>(sp => (IXmlContext)sp.GetRequiredService<IXml>())
-            .AddSingleton<IYamlContext>(sp => (IYamlContext)sp.GetRequiredService<IYaml>())
-            .AddSingleton<IBase64Context>(sp => (IBase64Context)sp.GetRequiredService<IBase64>())
-            .AddSingleton<IHexContext>(sp => (IHexContext)sp.GetRequiredService<IHex>())
+            .AddSingleton<IJsonContext>(sp => (IJsonContext) sp.GetRequiredService<IJson>())
+            .AddSingleton<IXmlContext>(sp => (IXmlContext) sp.GetRequiredService<IXml>())
+            .AddSingleton<IYamlContext>(sp => (IYamlContext) sp.GetRequiredService<IYaml>())
+            .AddSingleton<IBase64Context>(sp => (IBase64Context) sp.GetRequiredService<IBase64>())
+            .AddSingleton<IHexContext>(sp => (IHexContext) sp.GetRequiredService<IHex>())
             .AddSingleton<IDataContext, DataContext>()
             .AddScoped<IEnvironmentContext, EnvironmentContext>()
             // Register Environment domain context interfaces
-            .AddSingleton<IEnvironmentVariablesContext>(sp => (IEnvironmentVariablesContext)sp.GetRequiredService<IEnvironmentVariables>())
+            .AddSingleton<IEnvironmentVariablesContext>(sp => (IEnvironmentVariablesContext) sp.GetRequiredService<IEnvironmentVariables>())
             .AddSingleton<IBuildSystemContext, BuildSystemContext>()
             .AddScoped<IEnvironmentDomainContext, EnvironmentDomainContext>()
             // Register Installers domain context interfaces
-            .AddScoped<IWindowsInstallerContext>(sp => (IWindowsInstallerContext)sp.GetRequiredService<IWindowsInstaller>())
-            .AddScoped<ILinuxInstallerContext>(sp => (ILinuxInstallerContext)sp.GetRequiredService<ILinuxInstaller>())
-            .AddScoped<IMacInstallerContext>(sp => (IMacInstallerContext)sp.GetRequiredService<IMacInstaller>())
-            .AddScoped<IPredefinedInstallersContext>(sp => (IPredefinedInstallersContext)sp.GetRequiredService<IPredefinedInstallers>())
+            .AddScoped<IWindowsInstallerContext>(sp => (IWindowsInstallerContext) sp.GetRequiredService<IWindowsInstaller>())
+            .AddScoped<ILinuxInstallerContext>(sp => (ILinuxInstallerContext) sp.GetRequiredService<ILinuxInstaller>())
+            .AddScoped<IMacInstallerContext>(sp => (IMacInstallerContext) sp.GetRequiredService<IMacInstaller>())
+            .AddScoped<IPredefinedInstallersContext>(sp => (IPredefinedInstallersContext) sp.GetRequiredService<IPredefinedInstallers>())
             .AddScoped<IInstallersContext, InstallersContext>()
             // Register Network domain context interfaces
-            .AddScoped<IHttpContext>(sp => (IHttpContext)sp.GetRequiredService<IHttp>())
-            .AddScoped<IDownloaderContext>(sp => (IDownloaderContext)sp.GetRequiredService<IDownloader>())
+            .AddScoped<IHttpContext>(sp => (IHttpContext) sp.GetRequiredService<IHttp>())
+            .AddScoped<IDownloaderContext>(sp => (IDownloaderContext) sp.GetRequiredService<IDownloader>())
             .AddScoped<INetworkContext, NetworkContext>()
             // Register Security domain context interfaces
-            .AddScoped<ICertificatesContext>(sp => (ICertificatesContext)sp.GetRequiredService<ICertificates>())
-            .AddSingleton<IHasherContext>(sp => (IHasherContext)sp.GetRequiredService<IHasher>())
+            .AddScoped<ICertificatesContext>(sp => (ICertificatesContext) sp.GetRequiredService<ICertificates>())
+            .AddSingleton<IHasherContext>(sp => (IHasherContext) sp.GetRequiredService<IHasher>())
             .AddScoped<ISecurityContext, SecurityContext>()
             // Register Services domain context
             .AddScoped<IServicesContext, ServicesContext>()
@@ -385,5 +391,29 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineValidator, OptionsValidator>()
             .AddSingleton<IPipelineValidator, DependencyValidator>()
             .AddSingleton<IPipelineValidator, ModuleConfigurationValidator>();
+    }
+
+    /// <summary>
+    /// Registers distributed execution infrastructure with in-memory defaults.
+    /// These are always available; when distributed mode is not enabled, they are harmless no-ops.
+    /// The actual executor replacement happens in <see cref="PipelineBuilder"/> when TotalInstances > 1.
+    /// </summary>
+    private static void RegisterDistributedServices(IServiceCollection services)
+    {
+        // Always-on defaults (TryAdd so user/extension can override)
+        services.Configure<DistributedOptions>(_ => { });
+        services.Configure<ArtifactOptions>(_ => { });
+        services.TryAddSingleton<IDistributedCoordinator, InMemoryDistributedCoordinator>();
+        services.TryAddSingleton<IDistributedArtifactStore, InMemoryDistributedArtifactStore>();
+
+        // Serialization (always available)
+        services.TryAddSingleton<ModuleTypeRegistry>();
+        services.TryAddSingleton(sp => new ModuleResultSerializer(sp.GetRequiredService<ModuleTypeRegistry>()));
+
+        // Artifact lifecycle manager (handles [ProducesArtifact]/[ConsumesArtifact])
+        services.TryAddSingleton<ArtifactLifecycleManager>();
+
+        // Role detection
+        services.TryAddSingleton<RoleDetector>();
     }
 }

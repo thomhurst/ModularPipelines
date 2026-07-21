@@ -27,7 +27,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         IModuleLogger logger)
     {
         _pipelineContext = pipelineContext;
-        _internalContext = (IInternalPipelineContext)pipelineContext;
+        _internalContext = (IInternalPipelineContext) pipelineContext;
         _currentModule = currentModule;
         _executionContext = executionContext;
         _logger = logger;
@@ -75,6 +75,13 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         }
 
         return _internalContext.GetModule<TModule>();
+    }
+
+    public string? GetMatrixTarget()
+    {
+        // Matrix target is stored as a service in the module's DI scope.
+        // If not present, this module is not an expanded matrix instance.
+        return _executionContext.MatrixTarget;
     }
 
     public async Task<T> SubModule<T>(string name, Func<Task<T>> action)
