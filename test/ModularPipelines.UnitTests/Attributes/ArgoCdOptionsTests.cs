@@ -277,6 +277,21 @@ public class ArgoCdOptionsTests
     }
 
     [Test]
+    public async Task CertAddTls_Preserves_ServerName_Option()
+    {
+        var arguments = BuildArguments(new ArgoCdCertAddTlsOptions("repository.example")
+        {
+            ServerName = "argocd.example",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "repository.example",
+            "--server-name=argocd.example",
+        ]);
+    }
+
+    [Test]
     public async Task ProjAddDestination_Preserves_Name_Flag()
     {
         var arguments = BuildArguments(new ArgoCdProjAddDestinationOptions(

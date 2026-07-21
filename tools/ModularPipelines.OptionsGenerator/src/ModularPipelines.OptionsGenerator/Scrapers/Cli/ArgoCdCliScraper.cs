@@ -162,6 +162,14 @@ public partial class ArgoCdCliScraper : CobraCliScraper
                         : NormalizePositionalArgumentName(argument.PropertyName),
                 })
                 .ToList(),
+            ["cert", "add-tls"] => positionalArguments
+                .Select(argument => argument with
+                {
+                    PropertyName = argument.PropertyName == "Servername"
+                        ? "RepositoryServerName"
+                        : NormalizePositionalArgumentName(argument.PropertyName),
+                })
+                .ToList(),
             ["cluster", "get"] or ["cluster", "rm"] or ["cluster", "rotate-auth"] =>
             [
                 RequiredArgument(

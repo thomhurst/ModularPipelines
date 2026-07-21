@@ -745,11 +745,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
         string description) =>
         description.Contains("(default true)", StringComparison.OrdinalIgnoreCase);
 
-    /// <summary>
-    /// Applies tool-specific normalization before option descriptions are generated.
-    /// </summary>
-    protected virtual string NormalizeOptionDescription(string description) => description;
-
     #region Type Detection - HashSet-based for extensibility
 
     /// <summary>
