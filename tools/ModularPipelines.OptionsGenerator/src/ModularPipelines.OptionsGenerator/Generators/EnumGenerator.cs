@@ -36,7 +36,7 @@ public class EnumGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeader(sb);
 
         sb.AppendLine("using System.CodeDom.Compiler;");
-        sb.AppendLine("using System.ComponentModel;");
+        sb.AppendLine("using ModularPipelines.Attributes;");
         sb.AppendLine();
 
         // Namespace
@@ -67,10 +67,10 @@ public class EnumGenerator : ICodeGenerator
                 sb.AppendLine("    /// </summary>");
             }
 
-            // Add Description attribute with the CLI value for serialization
+            // Add the attribute consumed by CommandArgumentBuilder at runtime.
             // Escape special characters in the CLI value for use in string literal
             var escapedCliValue = EscapeStringLiteral(value.CliValue);
-            sb.AppendLine($"    [Description(\"{escapedCliValue}\")]");
+            sb.AppendLine($"    [EnumValue(\"{escapedCliValue}\")]");
             sb.AppendLine($"    {value.MemberName}{(isLast ? "" : ",")}");
 
             if (!isLast)
@@ -135,7 +135,7 @@ public class EnumGenerator : ICodeGenerator
                     // Escape other control characters and Unicode line/paragraph separators
                     if (char.IsControl(c) || c == '\u2028' || c == '\u2029')
                     {
-                        sb.Append($"\\u{(int)c:X4}");
+                        sb.Append($"\\u{(int) c:X4}");
                     }
                     else
                     {
