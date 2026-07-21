@@ -116,6 +116,7 @@ public class ArgoCdCliScraperTests
     }
 
     [Test]
+    [Arguments("delete")]
     [Arguments("sync")]
     [Arguments("wait")]
     public async Task App_Commands_Parse_Optional_Application_Name_Alternatives(string command)
@@ -130,6 +131,60 @@ public class ArgoCdCliScraperTests
         await Assert.That(arguments[0].PropertyName).IsEqualTo("ApplicationNames");
         await Assert.That(arguments[0].CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(arguments[0].IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Repo_Rm_Uses_Required_Repository_Collection()
+    {
+        var scraper = new TestArgoCdCliScraper();
+        var parsedArguments = scraper.ParseArguments(
+            "Usage:\n  argocd repo rm REPO ... [flags]");
+
+        var arguments = scraper.ApplyFix(["repo", "rm"], parsedArguments);
+
+        await Assert.That(arguments).Count().IsEqualTo(1);
+        await Assert.That(arguments[0].PropertyName).IsEqualTo("Repositories");
+        await Assert.That(arguments[0].CSharpType).IsEqualTo("IEnumerable<string>");
+        await Assert.That(arguments[0].IsRequired).IsTrue();
+    }
+
+    [Test]
+    public async Task Cluster_Set_Operand_Does_Not_Hide_Name_Option()
+    {
+        const string helpText = """
+            Set cluster information.
+
+            Usage:
+              argocd cluster set NAME [flags]
+
+            Flags:
+                  --name string   Overwrite the cluster name
+            """;
+
+        var command = await new TestArgoCdCliScraper().Parse(["argocd", "cluster", "set"], helpText);
+
+        await Assert.That(command!.PositionalArguments.Single().PropertyName).IsEqualTo("ClusterName");
+        await Assert.That(command.Options.Select(option => option.PropertyName)).Contains("Name");
+    }
+
+    [Test]
+    public async Task Int64_Slice_Option_Is_Repeatable()
+    {
+        const string helpText = """
+            Sync an application.
+
+            Usage:
+              argocd app sync [APPNAME... | -l selector] [flags]
+
+            Flags:
+                  --source-positions int64Slice   List of source positions (default [])
+            """;
+
+        var command = await new TestArgoCdCliScraper().Parse(["argocd", "app", "sync"], helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--source-positions");
+
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(option.AcceptsMultipleValues).IsTrue();
     }
 
     [Test]

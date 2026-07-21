@@ -19,9 +19,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "delete")]
-public record ArgoCdAppDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ApplicationName
-) : ArgoCdOptions
+public record ArgoCdAppDeleteOptions : ArgoCdOptions
 {
     /// <summary>
     /// Namespace where the application will be deleted from
@@ -221,5 +219,11 @@ public record ArgoCdAppDeleteOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// Optional application names to target.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public IEnumerable<string>? ApplicationNames { get; set; }
 
 }
