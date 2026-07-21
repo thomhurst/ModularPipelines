@@ -88,8 +88,8 @@ public partial class AnsibleCliScraper : CliScraperBase
                 {
                     PropertyName = "Pattern",
                     PlaceholderName = "pattern",
-                    CSharpType = "string?",
-                    IsRequired = false,
+                    CSharpType = "string",
+                    IsRequired = true,
                     PositionIndex = 0,
                     Description = "Host pattern"
                 }
@@ -127,30 +127,37 @@ public partial class AnsibleCliScraper : CliScraperBase
 
         var lines = section.Split('\n');
 
-        foreach (var line in lines)
+        for (var i = 0; i < lines.Length; i++)
         {
-            var match = AnsibleOptionPattern().Match(line);
+            var match = AnsibleOptionPattern().Match(lines[i].TrimEnd('\r'));
             if (!match.Success)
             {
                 continue;
             }
 
-            var shortForm = match.Groups["short"].Value.Trim();
-            var longForm = match.Groups["long"].Value.Trim();
-            var valueHint = match.Groups["value"].Value.Trim();
+            var optionParts = match.Groups["spec"].Value
+                .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            var longOption = optionParts.FirstOrDefault(part => part.StartsWith("--", StringComparison.Ordinal));
+            if (longOption is null)
+            {
+                continue;
+            }
+
+            var shortOption = optionParts.FirstOrDefault(part =>
+                part.StartsWith("-", StringComparison.Ordinal) &&
+                !part.StartsWith("--", StringComparison.Ordinal));
+            var longForm = GetOptionName(longOption);
+            var shortForm = shortOption is null ? null : GetOptionName(shortOption);
+            var valueHint = optionParts
+                .Select(GetValueHint)
+                .FirstOrDefault(value => value is not null);
             var description = match.Groups["desc"].Value.Trim();
+            i = AccumulateMultiLineDescription(lines, i, ref description);
 
-            if (string.IsNullOrEmpty(longForm))
+            if (!seenOptions.Add(longForm))
             {
                 continue;
             }
-
-            if (seenOptions.Contains(longForm))
-            {
-                continue;
-            }
-
-            seenOptions.Add(longForm);
 
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
@@ -158,27 +165,24 @@ public partial class AnsibleCliScraper : CliScraperBase
                 continue;
             }
 
-            var isFlag = string.IsNullOrEmpty(valueHint);
-            var csharpType = isFlag ? "bool?" : "string?";
-
-            // Handle common array-type options
-            if (longForm is "--extra-vars" or "-e" or "--limit" or "-l" or "--tags" or "-t" or "--skip-tags")
-            {
-                csharpType = "IEnumerable<string>?";
-            }
+            var isFlag = valueHint is null;
+            var acceptsMultipleValues = !isFlag && description.Contains(
+                "specified multiple times",
+                StringComparison.OrdinalIgnoreCase);
+            var isNumeric = !isFlag && IsNumericOption(longForm);
 
             options.Add(new CliOptionDefinition
             {
                 SwitchName = longForm,
-                ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
+                ShortForm = shortForm,
                 PropertyName = propertyName,
-                CSharpType = csharpType,
+                CSharpType = GetCSharpType(isFlag, acceptsMultipleValues, isNumeric),
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
-                AcceptsMultipleValues = csharpType.Contains("IEnumerable"),
+                AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
-                IsNumeric = false,
+                IsNumeric = isNumeric,
                 ValueSeparator = " ",
                 EnumDefinition = null,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
@@ -186,6 +190,67 @@ public partial class AnsibleCliScraper : CliScraperBase
         }
 
         return options;
+    }
+
+    private static string GetOptionName(string option) => option.Split(' ', 2)[0];
+
+    private static string? GetValueHint(string option)
+    {
+        var parts = option.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+        return parts.Length == 2 ? parts[1] : null;
+    }
+
+    private static bool IsNumericOption(string optionName) => optionName is
+        "--background" or
+        "--forks" or
+        "--poll" or
+        "--task-timeout" or
+        "--timeout";
+
+    private static string GetCSharpType(bool isFlag, bool acceptsMultipleValues, bool isNumeric)
+    {
+        if (isFlag)
+        {
+            return "bool?";
+        }
+
+        if (acceptsMultipleValues)
+        {
+            return "IEnumerable<string>?";
+        }
+
+        return isNumeric ? "int?" : "string?";
+    }
+
+    private static int AccumulateMultiLineDescription(
+        string[] lines,
+        int currentIndex,
+        ref string description)
+    {
+        var descriptionParts = new List<string>();
+        if (!string.IsNullOrEmpty(description))
+        {
+            descriptionParts.Add(description);
+        }
+
+        var nextIndex = currentIndex + 1;
+        while (nextIndex < lines.Length)
+        {
+            var nextLine = lines[nextIndex].TrimEnd('\r');
+            var trimmedLine = nextLine.Trim();
+            if (trimmedLine.Length == 0 ||
+                AnsibleOptionPattern().IsMatch(nextLine) ||
+                nextLine.Length == nextLine.TrimStart().Length)
+            {
+                break;
+            }
+
+            descriptionParts.Add(trimmedLine);
+            nextIndex++;
+        }
+
+        description = string.Join(" ", descriptionParts);
+        return nextIndex - 1;
     }
 
     /// <summary>
@@ -205,12 +270,12 @@ public partial class AnsibleCliScraper : CliScraperBase
     private static partial Regex OptionsSectionPattern();
 
     /// <summary>
-    /// Matches ansible-style option lines:
+    /// Matches ansible-style option specifications and an optional inline description:
     ///   -h, --help            show this help message
-    ///   -v, --verbose         verbose mode
     ///   -i INVENTORY, --inventory INVENTORY
+    ///   --vault-id VAULT_IDS
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--[\w-]+)(?:\s+(?<value>[A-Z_]+)(?:,\s+--[\w-]+\s+[A-Z_]+)?)?\s*(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^ {2}(?<spec>-\S(?:.*?\S)?)(?:\s{2,}(?<desc>\S.*))?$")]
     private static partial Regex AnsibleOptionPattern();
 
     #endregion
