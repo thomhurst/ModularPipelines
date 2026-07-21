@@ -29,7 +29,6 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Validators;
-using ModularPipelines.Engine.State;
 using ModularPipelines.Validation;
 using ModularPipelines.Console;
 using Vertical.SpectreLogger;
@@ -321,10 +320,7 @@ internal static class DependencyInjectionSetup
 
             // Module scheduling components (SRP extraction from ModuleScheduler)
             .AddSingleton<Engine.Scheduling.IModuleConstraintEvaluator, Engine.Scheduling.ModuleConstraintEvaluator>()
-            .AddSingleton<Engine.Scheduling.ISchedulerStatusReporter, Engine.Scheduling.SchedulerStatusReporter>()
-
-            // Immutable state management (Issue #1997)
-            .AddSingleton<IModuleStateStore, ModuleStateStore>();
+            .AddSingleton<Engine.Scheduling.ISchedulerStatusReporter, Engine.Scheduling.SchedulerStatusReporter>();
     }
 
     /// <summary>

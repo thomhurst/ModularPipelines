@@ -10,22 +10,12 @@ namespace ModularPipelines.Engine.State;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This design consolidates the previously separate <c>ModuleState</c> (scheduler-level)
-/// and <c>ModuleExecutionContext</c> (execution-level) into a single source of truth.
-/// </para>
-/// <para>
-/// <b>Thread Safety:</b> All state objects are immutable records. State transitions
-/// create new instances, enabling lock-free concurrent access via compare-and-swap.
-/// </para>
-/// <para>
-/// <b>State Machine Transitions:</b>
-/// <code>
-/// Pending → Queued → Running → Completed/Failed/Skipped
-///    ↑         │
-///    └─────────┘ (constraint failure resets to Pending)
-/// </code>
+/// This is an unused legacy model retained only for source and binary compatibility.
+/// Runtime scheduling uses the state types in the parent <c>ModularPipelines.Engine</c>
+/// namespace.
 /// </para>
 /// </remarks>
+[Obsolete("This legacy state model is unused and will be removed in the next major version.")]
 public abstract record ModuleExecutionPhase
 {
     /// <summary>

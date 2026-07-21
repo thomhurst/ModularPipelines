@@ -8,14 +8,12 @@ namespace ModularPipelines.Engine.State;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This record combines identity, execution phase, and constraint information
-/// into a single immutable object. State transitions create new snapshots,
-/// enabling lock-free concurrent access.
-/// </para>
-/// <para>
-/// <b>Thread Safety:</b> Fully immutable. Safe to read from any thread without synchronization.
+/// This is an unused legacy model retained only for source and binary compatibility.
+/// Runtime scheduling uses the state types in the parent <c>ModularPipelines.Engine</c>
+/// namespace.
 /// </para>
 /// </remarks>
+[Obsolete("This legacy state model is unused and will be removed in the next major version.")]
 public sealed record ModuleStateSnapshot
 {
     /// <summary>
