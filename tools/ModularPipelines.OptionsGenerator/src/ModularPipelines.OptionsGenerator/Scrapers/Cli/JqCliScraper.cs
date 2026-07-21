@@ -31,6 +31,7 @@ public partial class JqCliScraper : CliScraperBase
             ["--indent"] = 1,
             ["--library-path"] = 1,
             ["--rawfile"] = 2,
+            ["--run-tests"] = 1,
             ["--slurpfile"] = 2
         };
 
@@ -42,6 +43,7 @@ public partial class JqCliScraper : CliScraperBase
             ["--indent"] = "n",
             ["--library-path"] = "dir",
             ["--rawfile"] = "name file",
+            ["--run-tests"] = "[filename]",
             ["--slurpfile"] = "name file"
         };
 
@@ -109,6 +111,7 @@ public partial class JqCliScraper : CliScraperBase
         var description = "jq - lightweight and flexible command-line JSON processor";
 
         var options = ParseOptions(helpText);
+        AddDocumentedOptions(options);
 
         var command = new CliCommandDefinition
         {
@@ -196,6 +199,7 @@ public partial class JqCliScraper : CliScraperBase
             {
                 SwitchName = longForm,
                 ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
+                PreferShortForm = longForm == "--library-path",
                 PropertyName = propertyName,
                 CSharpType = DetermineCSharpType(isFlag, isPair, isNumeric, acceptsMultipleValues),
                 Description = description.TrimEnd(';'),
@@ -211,6 +215,31 @@ public partial class JqCliScraper : CliScraperBase
         }
 
         return options;
+    }
+
+    private static void AddDocumentedOptions(List<CliOptionDefinition> options)
+    {
+        if (options.All(x => x.SwitchName != "--run-tests"))
+        {
+            options.Add(new CliOptionDefinition
+            {
+                SwitchName = "--run-tests",
+                PropertyName = "RunTests",
+                CSharpType = "string?",
+                Description = "Run jq tests from the specified file",
+                IsFlag = false
+            });
+        }
+
+        // jq -h omits the POSIX end-of-options marker documented by its manual.
+        options.Add(new CliOptionDefinition
+        {
+            SwitchName = "--",
+            PropertyName = "EndOfOptions",
+            CSharpType = "bool?",
+            Description = "Stop processing options so filters beginning with a dash are treated as positional arguments",
+            IsFlag = true
+        });
     }
 
     private static string RemoveDisplayedOperands(string longForm, string optionTail)

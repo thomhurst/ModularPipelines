@@ -132,7 +132,7 @@ public record JqExecuteOptions : JqOptions
     /// <summary>
     /// search modules from the directory
     /// </summary>
-    [CliOption("--library-path", ShortForm = "-L", AllowMultiple = true)]
+    [CliOption("--library-path", ShortForm = "-L", PreferShortForm = true, AllowMultiple = true)]
     public IEnumerable<string>? LibraryPath { get; set; }
 
     /// <summary>
@@ -200,6 +200,18 @@ public record JqExecuteOptions : JqOptions
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Run jq tests from the specified file
+    /// </summary>
+    [CliOption("--run-tests")]
+    public string? RunTests { get; set; }
+
+    /// <summary>
+    /// Stop processing options so filters beginning with a dash are treated as positional arguments
+    /// </summary>
+    [CliFlag("--")]
+    public bool? EndOfOptions { get; set; }
 
     /// <summary>
     /// The jq filter expression to apply

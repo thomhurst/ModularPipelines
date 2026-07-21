@@ -58,6 +58,26 @@ public class JqOptionsTests
         ]);
     }
 
+    [Test]
+    public async Task Renders_Portable_Library_Path_And_Documented_Trailing_Options()
+    {
+        var arguments = BuildArguments(new JqExecuteOptions
+        {
+            LibraryPath = ["modules"],
+            RunTests = "tests.jq",
+            EndOfOptions = true,
+            Filter = "-1",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "-L", "modules",
+            "--run-tests", "tests.jq",
+            "--",
+            "-1",
+        ]);
+    }
+
     private List<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());

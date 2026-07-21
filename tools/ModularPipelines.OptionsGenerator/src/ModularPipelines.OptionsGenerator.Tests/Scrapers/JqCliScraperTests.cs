@@ -16,6 +16,7 @@ public class JqCliScraperTests
                                     the single input value;
               --indent n            use n spaces for indentation (max 7 spaces);
           -f, --from-file           load the filter from a file;
+          -L, --library-path dir    search modules from the directory;
               --arg name value      set $name to the string value;
               --slurpfile name file set $name to an array of JSON values read
                                     from the file;
@@ -26,7 +27,7 @@ public class JqCliScraperTests
     {
         var command = await new TestJqCliScraper().Parse(HelpText);
 
-        await Assert.That(command.Options).Count().IsEqualTo(6);
+        await Assert.That(command.Options).Count().IsEqualTo(9);
 
         var nullInput = command.Options.Single(x => x.PropertyName == "NullInput");
         await Assert.That(nullInput.ShortForm).IsEqualTo("-n");
@@ -47,6 +48,16 @@ public class JqCliScraperTests
 
         var slurpFile = command.Options.Single(x => x.PropertyName == "SlurpFile");
         await Assert.That(slurpFile.Description).Contains("from the file");
+
+        var libraryPath = command.Options.Single(x => x.PropertyName == "LibraryPath");
+        await Assert.That(libraryPath.PreferShortForm).IsTrue();
+
+        var runTests = command.Options.Single(x => x.PropertyName == "RunTests");
+        await Assert.That(runTests.CSharpType).IsEqualTo("string?");
+
+        var endOfOptions = command.Options.Single(x => x.PropertyName == "EndOfOptions");
+        await Assert.That(endOfOptions.SwitchName).IsEqualTo("--");
+        await Assert.That(endOfOptions.IsFlag).IsTrue();
     }
 
     [Test]

@@ -16,6 +16,11 @@ public record CliOptionDefinition
     public string? ShortForm { get; init; }
 
     /// <summary>
+    /// Whether generated attributes should render the short form when available.
+    /// </summary>
+    public bool PreferShortForm { get; init; }
+
+    /// <summary>
     /// Generated C# property name.
     /// </summary>
     public required string PropertyName { get; init; }

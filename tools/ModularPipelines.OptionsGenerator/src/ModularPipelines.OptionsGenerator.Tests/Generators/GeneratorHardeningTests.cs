@@ -62,6 +62,26 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task Options_Class_Emits_Preferred_Short_Form()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--library-path",
+            ShortForm = "-L",
+            PreferShortForm = true,
+            PropertyName = "LibraryPath",
+            CSharpType = "IEnumerable<string>?",
+            AcceptsMultipleValues = true,
+        };
+        var tool = Tool(Command("ToolExecuteOptions", "ToolOptions", options: [option]));
+
+        var generatedFile = (await new OptionsClassGenerator().GenerateAsync(tool)).Single();
+
+        await Assert.That(generatedFile.Content)
+            .Contains("[CliOption(\"--library-path\", ShortForm = \"-L\", PreferShortForm = true, AllowMultiple = true)]");
+    }
+
+    [Test]
     public async Task NormalizeCommandClassNames_Renames_Command_Sharing_Base_Class_Name()
     {
         var commands = GeneratorUtils.NormalizeCommandClassNames(
