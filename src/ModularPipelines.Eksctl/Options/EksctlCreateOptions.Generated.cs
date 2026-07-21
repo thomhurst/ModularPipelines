@@ -13,12 +13,12 @@ using ModularPipelines.Eksctl.Options;
 namespace ModularPipelines.Eksctl.Options;
 
 /// <summary>
-/// Update resource(s)
+/// Create resource(s)
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("update")]
-public record EksctlUpdateExecuteOptions : EksctlOptions
+[CliSubCommand("create")]
+public record EksctlCreateOptions : EksctlOptions
 {
     /// <summary>
     /// toggle colorized logs (valid options: true, false, fabulous) (default "true")

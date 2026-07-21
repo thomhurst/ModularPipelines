@@ -296,6 +296,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
                 var actualType = NormalizeTypeHint(typeHint, hasDefaultValue);
 
+                actualType = NormalizeOptionTypeHint(commandParts, longForm, actualType, description);
+
                 var isBoolean = string.IsNullOrEmpty(actualType) || IsKnownBooleanType(actualType);
                 var isDefaultTrueBoolean = isBoolean && hasDefaultValue &&
                     typeHint.Equals("true", StringComparison.OrdinalIgnoreCase);
@@ -377,6 +379,15 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// Determines whether an option's documented values form a closed set.
     /// </summary>
     protected virtual bool ShouldGenerateEnum(string[] commandParts, string switchName) => true;
+
+    /// <summary>
+    /// Applies tool-specific corrections when CLI help omits or misreports an option type.
+    /// </summary>
+    protected virtual string NormalizeOptionTypeHint(
+        string[] commandParts,
+        string switchName,
+        string typeHint,
+        string description) => typeHint;
 
     /// <summary>
     /// Extracts the Flags and Global Flags sections from help text.

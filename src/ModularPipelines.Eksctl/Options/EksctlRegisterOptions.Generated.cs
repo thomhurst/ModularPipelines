@@ -13,12 +13,12 @@ using ModularPipelines.Eksctl.Options;
 namespace ModularPipelines.Eksctl.Options;
 
 /// <summary>
-/// Associate resources with a cluster
+/// Register a non-EKS cluster
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("associate")]
-public record EksctlAssociateExecuteOptions : EksctlOptions
+[CliSubCommand("register")]
+public record EksctlRegisterOptions : EksctlOptions
 {
     /// <summary>
     /// toggle colorized logs (valid options: true, false, fabulous) (default "true")

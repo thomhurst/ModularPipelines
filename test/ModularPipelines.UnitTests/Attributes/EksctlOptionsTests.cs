@@ -62,6 +62,18 @@ public class EksctlOptionsTests
     }
 
     [Test]
+    public async Task CreatePodIdentityAssociation_Renders_Well_Known_Policies_Value()
+    {
+        var arguments = BuildArguments(new EksctlCreatePodidentityassociationOptions
+        {
+            WellKnownPolicies = "autoScaler,externalDNS",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            ["--well-known-policies=autoScaler,externalDNS"]);
+    }
+
+    [Test]
     public async Task UpdateClusterLogging_Renders_Repeated_Enum_Values()
     {
         var arguments = BuildArguments(new EksctlUtilsUpdateClusterLoggingOptions

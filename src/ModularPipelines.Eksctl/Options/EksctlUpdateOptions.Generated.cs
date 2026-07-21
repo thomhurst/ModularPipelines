@@ -13,12 +13,12 @@ using ModularPipelines.Eksctl.Options;
 namespace ModularPipelines.Eksctl.Options;
 
 /// <summary>
-/// eksctl set labels                          Create or overwrite labels for managed nodegroups
+/// Update resource(s)
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("set")]
-public record EksctlSetExecuteOptions : EksctlOptions
+[CliSubCommand("update")]
+public record EksctlUpdateOptions : EksctlOptions
 {
     /// <summary>
     /// toggle colorized logs (valid options: true, false, fabulous) (default "true")

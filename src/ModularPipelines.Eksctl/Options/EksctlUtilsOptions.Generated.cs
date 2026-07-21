@@ -13,12 +13,12 @@ using ModularPipelines.Eksctl.Options;
 namespace ModularPipelines.Eksctl.Options;
 
 /// <summary>
-/// Deregister a non-EKS cluster
+/// Various utils
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("deregister")]
-public record EksctlDeregisterExecuteOptions : EksctlOptions
+[CliSubCommand("utils")]
+public record EksctlUtilsOptions : EksctlOptions
 {
     /// <summary>
     /// toggle colorized logs (valid options: true, false, fabulous) (default "true")

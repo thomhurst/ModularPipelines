@@ -22,7 +22,7 @@ namespace ModularPipelines.Eksctl.Options;
 public record EksctlCreateClusterOptions : EksctlOptions
 {
     /// <summary>
-    /// EKS cluster name (generated if unspecified, e.g. "amazing-creature-1784663251")
+    /// EKS cluster name (generated if unspecified, e.g. "beautiful-sculpture-1784669419")
     /// </summary>
     [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Name { get; set; }
@@ -88,7 +88,7 @@ public record EksctlCreateClusterOptions : EksctlOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// name of the nodegroup (generated if unspecified, e.g. "ng-89ae55c9")
+    /// name of the nodegroup (generated if unspecified, e.g. "ng-30c8bf6f")
     /// </summary>
     [CliOption("--nodegroup-name", Format = OptionFormat.EqualsSeparated)]
     public string? NodegroupName { get; set; }
@@ -418,7 +418,7 @@ public record EksctlCreateClusterOptions : EksctlOptions
     public bool? SetKubeconfigContext { get; set; }
 
     /// <summary>
-    /// save kubeconfig file by cluster name, e.g. "C:\\Users\\thomh\\.kube/eksctl/clusters/amazing-creature-1784663251"
+    /// save kubeconfig file by cluster name, e.g. "C:\\Users\\thomh\\.kube/eksctl/clusters/beautiful-sculpture-1784669419"
     /// </summary>
     [CliFlag("--auto-kubeconfig")]
     public bool? AutoKubeconfig { get; set; }

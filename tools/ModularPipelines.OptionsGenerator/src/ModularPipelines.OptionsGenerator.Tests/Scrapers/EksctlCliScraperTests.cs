@@ -74,6 +74,28 @@ public class EksctlCliScraperTests
         await Assert.That(option.ValueSeparator).IsEqualTo("=");
     }
 
+    [Test]
+    public async Task Corrects_Well_Known_Policies_Missing_Type_Hint()
+    {
+        const string helpText = """
+            Create a pod identity association
+
+            Usage: eksctl create podidentityassociation [flags]
+
+            Flags:
+                  --well-known-policies   Used to attach common IAM policies
+            """;
+
+        var command = await new TestEksctlCliScraper().Parse(
+            ["eksctl", "create", "podidentityassociation"],
+            helpText);
+        var option = command!.Options.Single(x => x.SwitchName == "--well-known-policies");
+
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.ValueSeparator).IsEqualTo("=");
+    }
+
     private sealed class TestEksctlCliScraper : EksctlCliScraper
     {
         public TestEksctlCliScraper()

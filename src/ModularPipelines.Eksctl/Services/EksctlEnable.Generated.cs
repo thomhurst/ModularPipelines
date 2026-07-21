@@ -39,11 +39,11 @@ public class EksctlEnable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        EksctlEnableExecuteOptions? options = null,
+        EksctlEnableOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlEnableExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new EksctlEnableOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -48,6 +48,16 @@ public partial class EksctlCliScraper : CobraCliScraper
         }
     }
 
+    protected override string NormalizeOptionTypeHint(
+        string[] commandParts,
+        string switchName,
+        string typeHint,
+        string description) =>
+        commandParts is ["create", "podidentityassociation"]
+        && switchName == "--well-known-policies"
+            ? "string"
+            : base.NormalizeOptionTypeHint(commandParts, switchName, typeHint, description);
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>

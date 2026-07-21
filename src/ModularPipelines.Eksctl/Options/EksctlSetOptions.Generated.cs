@@ -13,12 +13,12 @@ using ModularPipelines.Eksctl.Options;
 namespace ModularPipelines.Eksctl.Options;
 
 /// <summary>
-/// Disassociate resources from a cluster
+/// eksctl set labels                          Create or overwrite labels for managed nodegroups
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("disassociate")]
-public record EksctlDisassociateExecuteOptions : EksctlOptions
+[CliSubCommand("set")]
+public record EksctlSetOptions : EksctlOptions
 {
     /// <summary>
     /// toggle colorized logs (valid options: true, false, fabulous) (default "true")

@@ -94,7 +94,7 @@ public record EksctlCreateNodegroupOptions : EksctlOptions
     public bool? SkipOutdatedAddonsCheck { get; set; }
 
     /// <summary>
-    /// name of the new nodegroup (generated if unspecified, e.g. "ng-d400298d")
+    /// name of the new nodegroup (generated if unspecified, e.g. "ng-847ff5c7")
     /// </summary>
     [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Name { get; set; }

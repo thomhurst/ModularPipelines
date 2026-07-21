@@ -84,8 +84,8 @@ public record EksctlCreatePodidentityassociationOptions : EksctlOptions
     /// <summary>
     /// Used to attach common IAM policies
     /// </summary>
-    [CliFlag("--well-known-policies")]
-    public bool? WellKnownPolicies { get; set; }
+    [CliOption("--well-known-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? WellKnownPolicies { get; set; }
 
     /// <summary>
     /// AWS tags to attach to the PodIdentityAssosciation. List of comma separated KV pairs "k1=v1,k2=v2" (default [])
