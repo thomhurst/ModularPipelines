@@ -43,6 +43,10 @@ public class HadolintCliScraperTests
         await Assert.That(GetOption(command, "--failure-threshold").Description)
             .IsEqualTo("Minimum failure severity");
 
+        var junitValue = GetOption(command, "--format").EnumDefinition!.Values
+            .Single(value => value.MemberName == "Junit");
+        await Assert.That(junitValue.CliValue).IsEqualTo("junit");
+
         string[] repeatableOptions =
         [
             "--error", "--warning", "--info", "--style", "--ignore",

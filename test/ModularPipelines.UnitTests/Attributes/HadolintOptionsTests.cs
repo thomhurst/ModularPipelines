@@ -47,6 +47,17 @@ public class HadolintOptionsTests
             ["--format", "gitlab_codeclimate"]);
     }
 
+    [Test]
+    public async Task Format_Renders_Junit_Wire_Value()
+    {
+        var arguments = BuildArguments(new HadolintExecuteOptions
+        {
+            Format = HadolintFormat.Junit,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["--format", "junit"]);
+    }
+
     private List<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());

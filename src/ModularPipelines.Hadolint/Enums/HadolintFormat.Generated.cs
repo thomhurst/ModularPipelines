@@ -39,5 +39,8 @@ public enum HadolintFormat
     Sonarqube,
 
     [EnumValue("sarif")]
-    Sarif
+    Sarif,
+
+    [EnumValue("junit")]
+    Junit
 }
