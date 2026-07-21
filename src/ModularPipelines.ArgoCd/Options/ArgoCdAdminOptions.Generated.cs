@@ -14,134 +14,30 @@ using ModularPipelines.ArgoCd.Enums;
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// Manage cluster credentials
+/// Contains a set of commands useful for Argo CD administrators and requires direct Kubernetes access
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cluster")]
-public record ArgoCdClusterExecuteOptions : ArgoCdOptions
+[CliSubCommand("admin")]
+public record ArgoCdAdminOptions : ArgoCdOptions
 {
     /// <summary>
-    /// Username to impersonate for the operation
-    /// </summary>
-    [CliOption("--as", Format = OptionFormat.EqualsSeparated)]
-    public string? As { get; set; }
-
-    /// <summary>
-    /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
-    /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? AsGroup { get; set; }
-
-    /// <summary>
-    /// UID to impersonate for the operation
-    /// </summary>
-    [CliOption("--as-uid", Format = OptionFormat.EqualsSeparated)]
-    public string? AsUid { get; set; }
-
-    /// <summary>
-    /// Path to a cert file for the certificate authority
-    /// </summary>
-    [CliOption("--certificate-authority", Format = OptionFormat.EqualsSeparated)]
-    public string? CertificateAuthority { get; set; }
-
-    /// <summary>
-    /// Path to a client certificate file for TLS
-    /// </summary>
-    [CliOption("--client-certificate", Format = OptionFormat.EqualsSeparated)]
-    public string? ClientCertificate { get; set; }
-
-    /// <summary>
-    /// Path to a client key file for TLS
-    /// </summary>
-    [CliOption("--client-key", Format = OptionFormat.EqualsSeparated)]
-    public string? ClientKey { get; set; }
-
-    /// <summary>
-    /// The name of the kubeconfig cluster to use
-    /// </summary>
-    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
-    public string? Cluster { get; set; }
-
-    /// <summary>
-    /// The name of the kubeconfig context to use
-    /// </summary>
-    [CliOption("--context", Format = OptionFormat.EqualsSeparated)]
-    public string? Context { get; set; }
-
-    /// <summary>
-    /// If true, opt-out of response compression for all requests to the server
-    /// </summary>
-    [CliFlag("--disable-compression")]
-    public bool? DisableCompression { get; set; }
-
-    /// <summary>
-    /// help for cluster
+    /// help for admin
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// If true, the server's certificate will not be checked for validity. This will make your HTTPS connections insecure
+    /// Set the logging format. One of: json|text (default "json")
     /// </summary>
-    [CliFlag("--insecure-skip-tls-verify")]
-    public bool? InsecureSkipTlsVerify { get; set; }
+    [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]
+    public ArgoCdAdminLogformat? Logformat { get; set; }
 
     /// <summary>
-    /// Path to a kube config. Only required if out-of-cluster
+    /// Set the logging level. One of: debug|info|warn|error (default "info")
     /// </summary>
-    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
-
-    /// <summary>
-    /// If present, the namespace scope for this CLI request
-    /// </summary>
-    [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
-    public string? Namespace { get; set; }
-
-    /// <summary>
-    /// Password for basic authentication to the API server
-    /// </summary>
-    [SecretValue]
-    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
-    public string? Password { get; set; }
-
-    /// <summary>
-    /// If provided, this URL will be used to connect via proxy
-    /// </summary>
-    [CliOption("--proxy-url", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyUrl { get; set; }
-
-    /// <summary>
-    /// The length of time to wait before giving up on a single server request. Non-zero values should contain a corresponding time unit (e.g. 1s, 2m, 3h). A value of zero means don't timeout requests. (default "0")
-    /// </summary>
-    [CliOption("--request-timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? RequestTimeout { get; set; }
-
-    /// <summary>
-    /// If provided, this name will be used to validate server certificate. If this is not provided, hostname used to contact the server is used.
-    /// </summary>
-    [CliOption("--tls-server-name", Format = OptionFormat.EqualsSeparated)]
-    public string? TlsServerName { get; set; }
-
-    /// <summary>
-    /// Bearer token for authentication to the API server
-    /// </summary>
-    [SecretValue]
-    [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
-    public string? Token { get; set; }
-
-    /// <summary>
-    /// The name of the kubeconfig user to use
-    /// </summary>
-    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
-    public string? User { get; set; }
-
-    /// <summary>
-    /// Username for basic authentication to the API server
-    /// </summary>
-    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
-    public string? Username { get; set; }
+    [CliOption("--loglevel", Format = OptionFormat.EqualsSeparated)]
+    public ArgoCdAdminLoglevel? Loglevel { get; set; }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -169,7 +65,7 @@ public record ArgoCdClusterExecuteOptions : ArgoCdOptions
     public string? ClientCrtKey { get; set; }
 
     /// <summary>
-    /// Path to Argo CD config (default "~/.config/argocd/config")
+    /// Path to Argo CD config (default "C:\\Users\\thomh/.config/argocd/config")
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }
@@ -221,18 +117,6 @@ public record ArgoCdClusterExecuteOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--kube-context", Format = OptionFormat.EqualsSeparated)]
     public string? KubeContext { get; set; }
-
-    /// <summary>
-    /// Set the logging format. One of: json|text (default "json")
-    /// </summary>
-    [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdClusterLogformat? Logformat { get; set; }
-
-    /// <summary>
-    /// Set the logging level. One of: debug|info|warn|error (default "info")
-    /// </summary>
-    [CliOption("--loglevel", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdClusterLoglevel? Loglevel { get; set; }
 
     /// <summary>
     /// Disable TLS

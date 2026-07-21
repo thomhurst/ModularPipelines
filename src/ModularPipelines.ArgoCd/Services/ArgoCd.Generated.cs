@@ -88,15 +88,6 @@ internal partial class ArgoCd : IArgoCd
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Appset(
-        ArgoCdApplicationSetExecuteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdApplicationSetExecuteOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> Configure(
         ArgoCdConfigureOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

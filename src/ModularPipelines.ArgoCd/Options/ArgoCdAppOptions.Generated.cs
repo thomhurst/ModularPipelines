@@ -19,7 +19,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app")]
-public record ArgoCdAppExecuteOptions : ArgoCdOptions
+public record ArgoCdAppOptions : ArgoCdOptions
 {
     /// <summary>
     /// Username to impersonate for the operation
@@ -169,7 +169,7 @@ public record ArgoCdAppExecuteOptions : ArgoCdOptions
     public string? ClientCrtKey { get; set; }
 
     /// <summary>
-    /// Path to Argo CD config (default "~/.config/argocd/config")
+    /// Path to Argo CD config (default "C:\\Users\\thomh/.config/argocd/config")
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }

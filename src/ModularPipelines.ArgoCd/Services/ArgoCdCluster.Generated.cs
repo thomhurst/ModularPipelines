@@ -39,11 +39,11 @@ public class ArgoCdCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        ArgoCdClusterExecuteOptions? options = null,
+        ArgoCdClusterOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdClusterExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new ArgoCdClusterOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

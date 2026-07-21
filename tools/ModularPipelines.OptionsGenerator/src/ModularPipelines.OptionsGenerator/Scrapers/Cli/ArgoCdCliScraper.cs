@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -46,6 +47,50 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             : base.NormalizeCommandIdentifier(commandPart);
 
     /// <summary>
+    /// Argo CD renders required operands as bare uppercase names. Keep that parsing
+    /// local so other Cobra tools retain the conservative bracketed-operand parser.
+    /// </summary>
+    protected override List<CliPositionalArgument> ParsePositionalArguments(string helpText)
+    {
+        var usageLine = helpText
+            .Split('\n')
+            .Select(line => line.Trim())
+            .FirstOrDefault(line => line.StartsWith("argocd ", StringComparison.Ordinal));
+
+        if (usageLine is null)
+        {
+            return [];
+        }
+
+        var arguments = new List<CliPositionalArgument>();
+        foreach (Match match in ArgoCdPositionalArgumentPattern().Matches(usageLine))
+        {
+            var argumentName = match.Groups["name"].Value;
+            var propertyName = NormalizePropertyName(argumentName);
+            if (propertyName is null)
+            {
+                continue;
+            }
+
+            var isRequired = !match.Value.StartsWith('[');
+            var isMultiple = match.Groups["multiple"].Success;
+            var csharpType = isMultiple ? "IEnumerable<string>?" : "string?";
+
+            arguments.Add(new CliPositionalArgument
+            {
+                PropertyName = propertyName,
+                PlaceholderName = argumentName,
+                CSharpType = isRequired ? csharpType.TrimEnd('?') : csharpType,
+                IsRequired = isRequired,
+                PositionIndex = arguments.Count,
+                Description = null,
+            });
+        }
+
+        return arguments;
+    }
+
+    /// <summary>
     /// The appset create usage line omits its required file arguments even though the
     /// command accepts one or more filenames or URLs.
     /// </summary>
@@ -53,20 +98,23 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
-        if (commandParts is ["appset", "create"] && positionalArguments.Count == 0)
+        if (positionalArguments.Count == 0)
         {
-            return
-            [
-                new CliPositionalArgument
-                {
-                    PropertyName = "Files",
-                    PlaceholderName = "FILE",
-                    CSharpType = "IEnumerable<string>",
-                    IsRequired = true,
-                    PositionIndex = 0,
-                    Description = "One or more ApplicationSet filenames or URLs.",
-                },
-            ];
+            var missingArguments = commandParts switch
+            {
+                ["appset", "create"] => RequiredArgument(
+                    "Files", "FILE", "IEnumerable<string>", "One or more ApplicationSet filenames or URLs."),
+                ["appset", "generate"] => RequiredArgument(
+                    "File", "FILE", "string", "ApplicationSet filename or URL."),
+                ["appset", "delete"] => RequiredArgument(
+                    "ApplicationSetNames", "APPSETNAME", "IEnumerable<string>", "One or more ApplicationSet names."),
+                _ => null,
+            };
+
+            if (missingArguments is not null)
+            {
+                return [missingArguments];
+            }
         }
 
         return positionalArguments
@@ -76,6 +124,20 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             })
             .ToList();
     }
+
+    private static CliPositionalArgument RequiredArgument(
+        string propertyName,
+        string placeholderName,
+        string csharpType,
+        string description) => new()
+        {
+            PropertyName = propertyName,
+            PlaceholderName = placeholderName,
+            CSharpType = csharpType,
+            IsRequired = true,
+            PositionIndex = 0,
+            Description = description,
+        };
 
     private static string NormalizePositionalArgumentName(string propertyName) => propertyName switch
     {
@@ -95,4 +157,7 @@ public partial class ArgoCdCliScraper : CobraCliScraper
     {
         "--help", "-h", "--version", "help", "completion", "version"
     };
+
+    [GeneratedRegex(@"(?<![\w<\[])(?:<(?<name>[A-Z][A-Z0-9_-]*)(?<multiple>\.\.\.)?>|\[(?<name>[A-Z][A-Z0-9_-]*)(?<multiple>\.\.\.)?\]|(?<name>[A-Z][A-Z0-9_-]*)(?<multiple>\.\.\.)?)(?![\w>\]])")]
+    private static partial Regex ArgoCdPositionalArgumentPattern();
 }
