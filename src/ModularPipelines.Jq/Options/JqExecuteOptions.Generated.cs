@@ -202,10 +202,16 @@ public record JqExecuteOptions : JqOptions
     public bool? Help { get; set; }
 
     /// <summary>
+    /// Run jq tests from standard input
+    /// </summary>
+    [CliFlag("--run-tests")]
+    public bool? RunTests { get; set; }
+
+    /// <summary>
     /// Run jq tests from the specified file
     /// </summary>
     [CliOption("--run-tests")]
-    public string? RunTests { get; set; }
+    public string? RunTestsFile { get; set; }
 
     /// <summary>
     /// Stop processing options so filters beginning with a dash are treated as positional arguments

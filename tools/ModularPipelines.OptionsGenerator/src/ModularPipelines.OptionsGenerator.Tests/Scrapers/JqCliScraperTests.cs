@@ -27,7 +27,7 @@ public class JqCliScraperTests
     {
         var command = await new TestJqCliScraper().Parse(HelpText);
 
-        await Assert.That(command.Options).Count().IsEqualTo(9);
+        await Assert.That(command.Options).Count().IsEqualTo(10);
 
         var nullInput = command.Options.Single(x => x.PropertyName == "NullInput");
         await Assert.That(nullInput.ShortForm).IsEqualTo("-n");
@@ -53,7 +53,12 @@ public class JqCliScraperTests
         await Assert.That(libraryPath.PreferShortForm).IsTrue();
 
         var runTests = command.Options.Single(x => x.PropertyName == "RunTests");
-        await Assert.That(runTests.CSharpType).IsEqualTo("string?");
+        await Assert.That(runTests.CSharpType).IsEqualTo("bool?");
+        await Assert.That(runTests.IsFlag).IsTrue();
+
+        var runTestsFile = command.Options.Single(x => x.PropertyName == "RunTestsFile");
+        await Assert.That(runTestsFile.CSharpType).IsEqualTo("string?");
+        await Assert.That(runTestsFile.IsFlag).IsFalse();
 
         var endOfOptions = command.Options.Single(x => x.PropertyName == "EndOfOptions");
         await Assert.That(endOfOptions.SwitchName).IsEqualTo("--");

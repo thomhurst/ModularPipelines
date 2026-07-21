@@ -219,17 +219,33 @@ public partial class JqCliScraper : CliScraperBase
 
     private static void AddDocumentedOptions(List<CliOptionDefinition> options)
     {
-        if (options.All(x => x.SwitchName != "--run-tests"))
+        var runTestsIndex = options.FindIndex(x => x.SwitchName == "--run-tests");
+        var runTests = new CliOptionDefinition
         {
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = "--run-tests",
-                PropertyName = "RunTests",
-                CSharpType = "string?",
-                Description = "Run jq tests from the specified file",
-                IsFlag = false
-            });
+            SwitchName = "--run-tests",
+            PropertyName = "RunTests",
+            CSharpType = "bool?",
+            Description = "Run jq tests from standard input",
+            IsFlag = true
+        };
+
+        if (runTestsIndex < 0)
+        {
+            options.Add(runTests);
         }
+        else
+        {
+            options[runTestsIndex] = runTests;
+        }
+
+        options.Add(new CliOptionDefinition
+        {
+            SwitchName = "--run-tests",
+            PropertyName = "RunTestsFile",
+            CSharpType = "string?",
+            Description = "Run jq tests from the specified file",
+            IsFlag = false
+        });
 
         // jq -h omits the POSIX end-of-options marker documented by its manual.
         options.Add(new CliOptionDefinition

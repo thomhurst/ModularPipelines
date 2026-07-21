@@ -64,7 +64,7 @@ public class JqOptionsTests
         var arguments = BuildArguments(new JqExecuteOptions
         {
             LibraryPath = ["modules"],
-            RunTests = "tests.jq",
+            RunTestsFile = "tests.jq",
             EndOfOptions = true,
             Filter = "-1",
         });
@@ -76,6 +76,14 @@ public class JqOptionsTests
             "--",
             "-1",
         ]);
+    }
+
+    [Test]
+    public async Task Renders_Bare_RunTests_For_Standard_Input()
+    {
+        var arguments = BuildArguments(new JqExecuteOptions { RunTests = true });
+
+        await Assert.That(arguments).IsEquivalentTo(["--run-tests"]);
     }
 
     private List<string> BuildArguments(object options)
