@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzGroup
 {
     private readonly ICommand _command;
-    private AzGroupLock _lock;
+    private AzGroupLock? _lock;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzGroup"/> class.

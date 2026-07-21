@@ -20,11 +20,11 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiStack
 {
     private readonly ICommand _command;
-    private PulumiStackDrift _drift;
-    private PulumiStackHistory _history;
-    private PulumiStackSchedule _schedule;
-    private PulumiStackTag _tag;
-    private PulumiStackWebhook _webhook;
+    private PulumiStackDrift? _drift;
+    private PulumiStackHistory? _history;
+    private PulumiStackSchedule? _schedule;
+    private PulumiStackTag? _tag;
+    private PulumiStackWebhook? _webhook;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiStack"/> class.

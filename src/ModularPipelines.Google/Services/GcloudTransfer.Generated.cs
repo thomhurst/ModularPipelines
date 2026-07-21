@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudTransfer
 {
     private readonly ICommand _command;
-    private GcloudTransferAgentPools _agentPools;
-    private GcloudTransferAgents _agents;
-    private GcloudTransferJobs _jobs;
-    private GcloudTransferOperations _operations;
+    private GcloudTransferAgentPools? _agentPools;
+    private GcloudTransferAgents? _agents;
+    private GcloudTransferJobs? _jobs;
+    private GcloudTransferOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudTransfer"/> class.

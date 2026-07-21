@@ -20,21 +20,21 @@ namespace ModularPipelines.Azure.Services;
 public class AzAcr
 {
     private readonly ICommand _command;
-    private AzAcrCache _cache;
-    private AzAcrConnectedRegistry _connectedRegistry;
-    private AzAcrCredential _credential;
-    private AzAcrCredentialSet _credentialSet;
-    private AzAcrEncryption _encryption;
-    private AzAcrIdentity _identity;
-    private AzAcrNetworkRule _networkRule;
-    private AzAcrPrivateEndpointConnection _privateEndpointConnection;
-    private AzAcrPrivateLinkResource _privateLinkResource;
-    private AzAcrReplication _replication;
-    private AzAcrRepository _repository;
-    private AzAcrScopeMap _scopeMap;
-    private AzAcrTask _task;
-    private AzAcrToken _token;
-    private AzAcrWebhook _webhook;
+    private AzAcrCache? _cache;
+    private AzAcrConnectedRegistry? _connectedRegistry;
+    private AzAcrCredential? _credential;
+    private AzAcrCredentialSet? _credentialSet;
+    private AzAcrEncryption? _encryption;
+    private AzAcrIdentity? _identity;
+    private AzAcrNetworkRule? _networkRule;
+    private AzAcrPrivateEndpointConnection? _privateEndpointConnection;
+    private AzAcrPrivateLinkResource? _privateLinkResource;
+    private AzAcrReplication? _replication;
+    private AzAcrRepository? _repository;
+    private AzAcrScopeMap? _scopeMap;
+    private AzAcrTask? _task;
+    private AzAcrToken? _token;
+    private AzAcrWebhook? _webhook;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAcr"/> class.

@@ -20,13 +20,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkVnetGateway
 {
     private readonly ICommand _command;
-    private AzNetworkVnetGatewayAad _aad;
-    private AzNetworkVnetGatewayIdentity _identity;
-    private AzNetworkVnetGatewayIpsecPolicy _ipsecPolicy;
-    private AzNetworkVnetGatewayMigration _migration;
-    private AzNetworkVnetGatewayRevokedCert _revokedCert;
-    private AzNetworkVnetGatewayRootCert _rootCert;
-    private AzNetworkVnetGatewayVpnClient _vpnClient;
+    private AzNetworkVnetGatewayAad? _aad;
+    private AzNetworkVnetGatewayIdentity? _identity;
+    private AzNetworkVnetGatewayIpsecPolicy? _ipsecPolicy;
+    private AzNetworkVnetGatewayMigration? _migration;
+    private AzNetworkVnetGatewayRevokedCert? _revokedCert;
+    private AzNetworkVnetGatewayRootCert? _rootCert;
+    private AzNetworkVnetGatewayVpnClient? _vpnClient;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkVnetGateway"/> class.

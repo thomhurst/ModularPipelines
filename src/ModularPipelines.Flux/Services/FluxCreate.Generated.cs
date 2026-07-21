@@ -20,9 +20,9 @@ namespace ModularPipelines.Flux.Services;
 public class FluxCreate
 {
     private readonly ICommand _command;
-    private FluxCreateImage _image;
-    private FluxCreateSecret _secret;
-    private FluxCreateSource _source;
+    private FluxCreateImage? _image;
+    private FluxCreateSecret? _secret;
+    private FluxCreateSource? _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxCreate"/> class.

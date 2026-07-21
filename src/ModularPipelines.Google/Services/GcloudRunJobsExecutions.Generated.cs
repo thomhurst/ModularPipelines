@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudRunJobsExecutions
 {
     private readonly ICommand _command;
-    private GcloudRunJobsExecutionsTasks _tasks;
+    private GcloudRunJobsExecutionsTasks? _tasks;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRunJobsExecutions"/> class.

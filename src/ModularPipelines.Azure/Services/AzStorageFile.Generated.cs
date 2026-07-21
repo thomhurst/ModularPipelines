@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzStorageFile
 {
     private readonly ICommand _command;
-    private AzStorageFileCopy _copy;
-    private AzStorageFileHardLink _hardLink;
-    private AzStorageFileMetadata _metadata;
-    private AzStorageFileSymbolicLink _symbolicLink;
+    private AzStorageFileCopy? _copy;
+    private AzStorageFileHardLink? _hardLink;
+    private AzStorageFileMetadata? _metadata;
+    private AzStorageFileSymbolicLink? _symbolicLink;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageFile"/> class.

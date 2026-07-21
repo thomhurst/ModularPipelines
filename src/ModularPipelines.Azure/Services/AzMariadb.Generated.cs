@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzMariadb
 {
     private readonly ICommand _command;
-    private AzMariadbDb _db;
-    private AzMariadbServer _server;
-    private AzMariadbServerLogs _serverLogs;
+    private AzMariadbDb? _db;
+    private AzMariadbServer? _server;
+    private AzMariadbServerLogs? _serverLogs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMariadb"/> class.

@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudFirebaseTest
 {
     private readonly ICommand _command;
-    private GcloudFirebaseTestAndroid _android;
-    private GcloudFirebaseTestIos _ios;
-    private GcloudFirebaseTestNetworkProfiles _networkProfiles;
+    private GcloudFirebaseTestAndroid? _android;
+    private GcloudFirebaseTestIos? _ios;
+    private GcloudFirebaseTestNetworkProfiles? _networkProfiles;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirebaseTest"/> class.

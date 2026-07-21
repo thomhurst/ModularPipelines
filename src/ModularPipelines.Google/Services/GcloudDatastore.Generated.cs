@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDatastore
 {
     private readonly ICommand _command;
-    private GcloudDatastoreIndexes _indexes;
-    private GcloudDatastoreOperations _operations;
+    private GcloudDatastoreIndexes? _indexes;
+    private GcloudDatastoreOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatastore"/> class.

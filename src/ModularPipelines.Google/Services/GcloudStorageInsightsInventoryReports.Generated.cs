@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudStorageInsightsInventoryReports
 {
     private readonly ICommand _command;
-    private GcloudStorageInsightsInventoryReportsDetails _details;
+    private GcloudStorageInsightsInventoryReportsDetails? _details;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudStorageInsightsInventoryReports"/> class.

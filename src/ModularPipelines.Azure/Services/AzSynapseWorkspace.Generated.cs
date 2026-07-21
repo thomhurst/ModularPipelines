@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzSynapseWorkspace
 {
     private readonly ICommand _command;
-    private AzSynapseWorkspaceFirewallRule _firewallRule;
-    private AzSynapseWorkspaceKey _key;
-    private AzSynapseWorkspaceManagedIdentity _managedIdentity;
+    private AzSynapseWorkspaceFirewallRule? _firewallRule;
+    private AzSynapseWorkspaceKey? _key;
+    private AzSynapseWorkspaceManagedIdentity? _managedIdentity;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseWorkspace"/> class.

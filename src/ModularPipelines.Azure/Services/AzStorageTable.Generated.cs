@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzStorageTable
 {
     private readonly ICommand _command;
-    private AzStorageTablePolicy _policy;
+    private AzStorageTablePolicy? _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageTable"/> class.

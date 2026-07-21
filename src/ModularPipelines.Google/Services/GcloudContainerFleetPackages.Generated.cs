@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerFleetPackages
 {
     private readonly ICommand _command;
-    private GcloudContainerFleetPackagesResourceBundles _resourceBundles;
-    private GcloudContainerFleetPackagesRollouts _rollouts;
+    private GcloudContainerFleetPackagesResourceBundles? _resourceBundles;
+    private GcloudContainerFleetPackagesRollouts? _rollouts;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerFleetPackages"/> class.

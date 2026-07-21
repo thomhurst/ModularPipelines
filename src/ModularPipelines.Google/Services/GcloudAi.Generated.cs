@@ -20,18 +20,18 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAi
 {
     private readonly ICommand _command;
-    private GcloudAiCustomJobs _customJobs;
-    private GcloudAiEndpoints _endpoints;
-    private GcloudAiHpTuningJobs _hpTuningJobs;
-    private GcloudAiIndexEndpoints _indexEndpoints;
-    private GcloudAiIndexes _indexes;
-    private GcloudAiModelGarden _modelGarden;
-    private GcloudAiModelMonitoringJobs _modelMonitoringJobs;
-    private GcloudAiModels _models;
-    private GcloudAiOperations _operations;
-    private GcloudAiPersistentResources _persistentResources;
-    private GcloudAiTensorboards _tensorboards;
-    private GcloudAiTuningJobs _tuningJobs;
+    private GcloudAiCustomJobs? _customJobs;
+    private GcloudAiEndpoints? _endpoints;
+    private GcloudAiHpTuningJobs? _hpTuningJobs;
+    private GcloudAiIndexEndpoints? _indexEndpoints;
+    private GcloudAiIndexes? _indexes;
+    private GcloudAiModelGarden? _modelGarden;
+    private GcloudAiModelMonitoringJobs? _modelMonitoringJobs;
+    private GcloudAiModels? _models;
+    private GcloudAiOperations? _operations;
+    private GcloudAiPersistentResources? _persistentResources;
+    private GcloudAiTensorboards? _tensorboards;
+    private GcloudAiTuningJobs? _tuningJobs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAi"/> class.

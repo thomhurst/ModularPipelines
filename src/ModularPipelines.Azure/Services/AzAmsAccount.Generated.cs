@@ -20,11 +20,11 @@ namespace ModularPipelines.Azure.Services;
 public class AzAmsAccount
 {
     private readonly ICommand _command;
-    private AzAmsAccountEncryption _encryption;
-    private AzAmsAccountIdentity _identity;
-    private AzAmsAccountMru _mru;
-    private AzAmsAccountSp _sp;
-    private AzAmsAccountStorage _storage;
+    private AzAmsAccountEncryption? _encryption;
+    private AzAmsAccountIdentity? _identity;
+    private AzAmsAccountMru? _mru;
+    private AzAmsAccountSp? _sp;
+    private AzAmsAccountStorage? _storage;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAmsAccount"/> class.

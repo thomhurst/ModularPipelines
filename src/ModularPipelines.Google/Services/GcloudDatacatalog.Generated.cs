@@ -20,11 +20,11 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDatacatalog
 {
     private readonly ICommand _command;
-    private GcloudDatacatalogEntries _entries;
-    private GcloudDatacatalogEntryGroups _entryGroups;
-    private GcloudDatacatalogTags _tags;
-    private GcloudDatacatalogTagTemplates _tagTemplates;
-    private GcloudDatacatalogTaxonomies _taxonomies;
+    private GcloudDatacatalogEntries? _entries;
+    private GcloudDatacatalogEntryGroups? _entryGroups;
+    private GcloudDatacatalogTags? _tags;
+    private GcloudDatacatalogTagTemplates? _tagTemplates;
+    private GcloudDatacatalogTaxonomies? _taxonomies;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatacatalog"/> class.

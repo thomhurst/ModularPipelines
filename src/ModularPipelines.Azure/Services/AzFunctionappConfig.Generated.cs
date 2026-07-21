@@ -20,11 +20,11 @@ namespace ModularPipelines.Azure.Services;
 public class AzFunctionappConfig
 {
     private readonly ICommand _command;
-    private AzFunctionappConfigAccessRestriction _accessRestriction;
-    private AzFunctionappConfigAppsettings _appsettings;
-    private AzFunctionappConfigContainer _container;
-    private AzFunctionappConfigHostname _hostname;
-    private AzFunctionappConfigSsl _ssl;
+    private AzFunctionappConfigAccessRestriction? _accessRestriction;
+    private AzFunctionappConfigAppsettings? _appsettings;
+    private AzFunctionappConfigContainer? _container;
+    private AzFunctionappConfigHostname? _hostname;
+    private AzFunctionappConfigSsl? _ssl;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzFunctionappConfig"/> class.

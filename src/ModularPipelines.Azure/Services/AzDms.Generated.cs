@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzDms
 {
     private readonly ICommand _command;
-    private AzDmsProject _project;
+    private AzDmsProject? _project;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDms"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitorLogAnalyticsCluster
 {
     private readonly ICommand _command;
-    private AzMonitorLogAnalyticsClusterIdentity _identity;
+    private AzMonitorLogAnalyticsClusterIdentity? _identity;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorLogAnalyticsCluster"/> class.

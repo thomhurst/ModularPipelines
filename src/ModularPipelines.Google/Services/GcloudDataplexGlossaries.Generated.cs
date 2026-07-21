@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataplexGlossaries
 {
     private readonly ICommand _command;
-    private GcloudDataplexGlossariesCategories _categories;
-    private GcloudDataplexGlossariesTerms _terms;
+    private GcloudDataplexGlossariesCategories? _categories;
+    private GcloudDataplexGlossariesTerms? _terms;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataplexGlossaries"/> class.

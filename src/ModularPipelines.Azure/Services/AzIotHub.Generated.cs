@@ -20,11 +20,11 @@ namespace ModularPipelines.Azure.Services;
 public class AzIotHub
 {
     private readonly ICommand _command;
-    private AzIotHubCertificate _certificate;
-    private AzIotHubConsumerGroup _consumerGroup;
-    private AzIotHubIdentity _identity;
-    private AzIotHubMessageEnrichment _messageEnrichment;
-    private AzIotHubPolicy _policy;
+    private AzIotHubCertificate? _certificate;
+    private AzIotHubConsumerGroup? _consumerGroup;
+    private AzIotHubIdentity? _identity;
+    private AzIotHubMessageEnrichment? _messageEnrichment;
+    private AzIotHubPolicy? _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzIotHub"/> class.

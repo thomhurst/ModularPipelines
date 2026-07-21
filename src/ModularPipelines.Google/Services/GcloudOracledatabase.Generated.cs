@@ -20,32 +20,32 @@ namespace ModularPipelines.Google.Services;
 public class GcloudOracledatabase
 {
     private readonly ICommand _command;
-    private GcloudOracledatabaseAutonomousDatabaseBackups _autonomousDatabaseBackups;
-    private GcloudOracledatabaseAutonomousDatabaseCharacterSets _autonomousDatabaseCharacterSets;
-    private GcloudOracledatabaseAutonomousDatabases _autonomousDatabases;
-    private GcloudOracledatabaseAutonomousDbVersions _autonomousDbVersions;
-    private GcloudOracledatabaseCloudExadataInfrastructures _cloudExadataInfrastructures;
-    private GcloudOracledatabaseCloudVmClusters _cloudVmClusters;
-    private GcloudOracledatabaseDatabaseCharacterSets _databaseCharacterSets;
-    private GcloudOracledatabaseDatabases _databases;
-    private GcloudOracledatabaseDbSystemInitialStorageSizes _dbSystemInitialStorageSizes;
-    private GcloudOracledatabaseDbSystems _dbSystems;
-    private GcloudOracledatabaseDbSystemShapes _dbSystemShapes;
-    private GcloudOracledatabaseDbVersions _dbVersions;
-    private GcloudOracledatabaseEntitlements _entitlements;
-    private GcloudOracledatabaseExadbVmClusters _exadbVmClusters;
-    private GcloudOracledatabaseExascaleDbStorageVaults _exascaleDbStorageVaults;
-    private GcloudOracledatabaseGiVersions _giVersions;
-    private GcloudOracledatabaseGoldengateConnectionAssignments _goldengateConnectionAssignments;
-    private GcloudOracledatabaseGoldengateConnections _goldengateConnections;
-    private GcloudOracledatabaseGoldengateConnectionTypes _goldengateConnectionTypes;
-    private GcloudOracledatabaseGoldengateDeploymentEnvironments _goldengateDeploymentEnvironments;
-    private GcloudOracledatabaseGoldengateDeployments _goldengateDeployments;
-    private GcloudOracledatabaseGoldengateDeploymentTypes _goldengateDeploymentTypes;
-    private GcloudOracledatabaseGoldengateDeploymentVersions _goldengateDeploymentVersions;
-    private GcloudOracledatabaseOdbNetworks _odbNetworks;
-    private GcloudOracledatabaseOperations _operations;
-    private GcloudOracledatabasePluggableDatabases _pluggableDatabases;
+    private GcloudOracledatabaseAutonomousDatabaseBackups? _autonomousDatabaseBackups;
+    private GcloudOracledatabaseAutonomousDatabaseCharacterSets? _autonomousDatabaseCharacterSets;
+    private GcloudOracledatabaseAutonomousDatabases? _autonomousDatabases;
+    private GcloudOracledatabaseAutonomousDbVersions? _autonomousDbVersions;
+    private GcloudOracledatabaseCloudExadataInfrastructures? _cloudExadataInfrastructures;
+    private GcloudOracledatabaseCloudVmClusters? _cloudVmClusters;
+    private GcloudOracledatabaseDatabaseCharacterSets? _databaseCharacterSets;
+    private GcloudOracledatabaseDatabases? _databases;
+    private GcloudOracledatabaseDbSystemInitialStorageSizes? _dbSystemInitialStorageSizes;
+    private GcloudOracledatabaseDbSystems? _dbSystems;
+    private GcloudOracledatabaseDbSystemShapes? _dbSystemShapes;
+    private GcloudOracledatabaseDbVersions? _dbVersions;
+    private GcloudOracledatabaseEntitlements? _entitlements;
+    private GcloudOracledatabaseExadbVmClusters? _exadbVmClusters;
+    private GcloudOracledatabaseExascaleDbStorageVaults? _exascaleDbStorageVaults;
+    private GcloudOracledatabaseGiVersions? _giVersions;
+    private GcloudOracledatabaseGoldengateConnectionAssignments? _goldengateConnectionAssignments;
+    private GcloudOracledatabaseGoldengateConnections? _goldengateConnections;
+    private GcloudOracledatabaseGoldengateConnectionTypes? _goldengateConnectionTypes;
+    private GcloudOracledatabaseGoldengateDeploymentEnvironments? _goldengateDeploymentEnvironments;
+    private GcloudOracledatabaseGoldengateDeployments? _goldengateDeployments;
+    private GcloudOracledatabaseGoldengateDeploymentTypes? _goldengateDeploymentTypes;
+    private GcloudOracledatabaseGoldengateDeploymentVersions? _goldengateDeploymentVersions;
+    private GcloudOracledatabaseOdbNetworks? _odbNetworks;
+    private GcloudOracledatabaseOperations? _operations;
+    private GcloudOracledatabasePluggableDatabases? _pluggableDatabases;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudOracledatabase"/> class.

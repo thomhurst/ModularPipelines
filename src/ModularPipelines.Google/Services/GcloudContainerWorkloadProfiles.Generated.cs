@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerWorkloadProfiles
 {
     private readonly ICommand _command;
-    private GcloudContainerWorkloadProfilesManifests _manifests;
+    private GcloudContainerWorkloadProfilesManifests? _manifests;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerWorkloadProfiles"/> class.

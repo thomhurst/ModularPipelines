@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudSourcemanager
 {
     private readonly ICommand _command;
-    private GcloudSourcemanagerInstances _instances;
-    private GcloudSourcemanagerLocations _locations;
-    private GcloudSourcemanagerOperations _operations;
-    private GcloudSourcemanagerRepos _repos;
+    private GcloudSourcemanagerInstances? _instances;
+    private GcloudSourcemanagerLocations? _locations;
+    private GcloudSourcemanagerOperations? _operations;
+    private GcloudSourcemanagerRepos? _repos;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSourcemanager"/> class.

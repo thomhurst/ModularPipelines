@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzAksNodepool
 {
     private readonly ICommand _command;
-    private AzAksNodepoolManualScale _manualScale;
-    private AzAksNodepoolSnapshot _snapshot;
+    private AzAksNodepoolManualScale? _manualScale;
+    private AzAksNodepoolSnapshot? _snapshot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAksNodepool"/> class.

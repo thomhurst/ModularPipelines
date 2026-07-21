@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetappVolumes
 {
     private readonly ICommand _command;
-    private GcloudNetappVolumesQuotaRules _quotaRules;
-    private GcloudNetappVolumesReplications _replications;
-    private GcloudNetappVolumesSnapshots _snapshots;
+    private GcloudNetappVolumesQuotaRules? _quotaRules;
+    private GcloudNetappVolumesReplications? _replications;
+    private GcloudNetappVolumesSnapshots? _snapshots;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetappVolumes"/> class.

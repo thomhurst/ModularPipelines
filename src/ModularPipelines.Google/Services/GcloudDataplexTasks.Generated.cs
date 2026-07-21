@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataplexTasks
 {
     private readonly ICommand _command;
-    private GcloudDataplexTasksJobs _jobs;
+    private GcloudDataplexTasksJobs? _jobs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataplexTasks"/> class.

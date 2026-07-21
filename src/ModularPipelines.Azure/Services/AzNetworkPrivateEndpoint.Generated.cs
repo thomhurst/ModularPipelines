@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkPrivateEndpoint
 {
     private readonly ICommand _command;
-    private AzNetworkPrivateEndpointAsg _asg;
-    private AzNetworkPrivateEndpointDnsZoneGroup _dnsZoneGroup;
-    private AzNetworkPrivateEndpointIpConfig _ipConfig;
+    private AzNetworkPrivateEndpointAsg? _asg;
+    private AzNetworkPrivateEndpointDnsZoneGroup? _dnsZoneGroup;
+    private AzNetworkPrivateEndpointIpConfig? _ipConfig;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkPrivateEndpoint"/> class.

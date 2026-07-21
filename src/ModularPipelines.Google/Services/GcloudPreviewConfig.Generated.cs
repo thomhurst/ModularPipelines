@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPreviewConfig
 {
     private readonly ICommand _command;
-    private GcloudPreviewConfigConfigurations _configurations;
+    private GcloudPreviewConfigConfigurations? _configurations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewConfig"/> class.

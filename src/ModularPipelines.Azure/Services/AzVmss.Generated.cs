@@ -20,15 +20,15 @@ namespace ModularPipelines.Azure.Services;
 public class AzVmss
 {
     private readonly ICommand _command;
-    private AzVmssApplication _application;
-    private AzVmssDiagnostics _diagnostics;
-    private AzVmssDisk _disk;
-    private AzVmssEncryption _encryption;
-    private AzVmssExtension _extension;
-    private AzVmssIdentity _identity;
-    private AzVmssNic _nic;
-    private AzVmssRollingUpgrade _rollingUpgrade;
-    private AzVmssRunCommand _runCommand;
+    private AzVmssApplication? _application;
+    private AzVmssDiagnostics? _diagnostics;
+    private AzVmssDisk? _disk;
+    private AzVmssEncryption? _encryption;
+    private AzVmssExtension? _extension;
+    private AzVmssIdentity? _identity;
+    private AzVmssNic? _nic;
+    private AzVmssRollingUpgrade? _rollingUpgrade;
+    private AzVmssRunCommand? _runCommand;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzVmss"/> class.

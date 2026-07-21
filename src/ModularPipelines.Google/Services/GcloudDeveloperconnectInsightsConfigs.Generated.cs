@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDeveloperconnectInsightsConfigs
 {
     private readonly ICommand _command;
-    private GcloudDeveloperconnectInsightsConfigsDeploymentEvents _deploymentEvents;
+    private GcloudDeveloperconnectInsightsConfigsDeploymentEvents? _deploymentEvents;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDeveloperconnectInsightsConfigs"/> class.

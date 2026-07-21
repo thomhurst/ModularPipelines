@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworkconnectivityMulticloudDataTransferConfigs
 {
     private readonly ICommand _command;
-    private GcloudNetworkconnectivityMulticloudDataTransferConfigsDestinations _destinations;
+    private GcloudNetworkconnectivityMulticloudDataTransferConfigsDestinations? _destinations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityMulticloudDataTransferConfigs"/> class.

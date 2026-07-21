@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDns
 {
     private readonly ICommand _command;
-    private GcloudDnsDnsKeys _dnsKeys;
-    private GcloudDnsManagedZones _managedZones;
-    private GcloudDnsOperations _operations;
-    private GcloudDnsPolicies _policies;
-    private GcloudDnsProjectInfo _projectInfo;
-    private GcloudDnsRecordSets _recordSets;
-    private GcloudDnsResponsePolicies _responsePolicies;
+    private GcloudDnsDnsKeys? _dnsKeys;
+    private GcloudDnsManagedZones? _managedZones;
+    private GcloudDnsOperations? _operations;
+    private GcloudDnsPolicies? _policies;
+    private GcloudDnsProjectInfo? _projectInfo;
+    private GcloudDnsRecordSets? _recordSets;
+    private GcloudDnsResponsePolicies? _responsePolicies;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDns"/> class.

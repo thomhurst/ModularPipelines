@@ -20,12 +20,12 @@ namespace ModularPipelines.Azure.Services;
 public class AzEventhubsNamespace
 {
     private readonly ICommand _command;
-    private AzEventhubsNamespaceApplicationGroup _applicationGroup;
-    private AzEventhubsNamespaceEncryption _encryption;
-    private AzEventhubsNamespaceIdentity _identity;
-    private AzEventhubsNamespaceNetworkRuleSet _networkRuleSet;
-    private AzEventhubsNamespacePrivateEndpointConnection _privateEndpointConnection;
-    private AzEventhubsNamespaceSchemaRegistry _schemaRegistry;
+    private AzEventhubsNamespaceApplicationGroup? _applicationGroup;
+    private AzEventhubsNamespaceEncryption? _encryption;
+    private AzEventhubsNamespaceIdentity? _identity;
+    private AzEventhubsNamespaceNetworkRuleSet? _networkRuleSet;
+    private AzEventhubsNamespacePrivateEndpointConnection? _privateEndpointConnection;
+    private AzEventhubsNamespaceSchemaRegistry? _schemaRegistry;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventhubsNamespace"/> class.

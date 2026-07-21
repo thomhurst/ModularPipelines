@@ -20,12 +20,12 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworkconnectivitySpokes
 {
     private readonly ICommand _command;
-    private GcloudNetworkconnectivitySpokesGateways _gateways;
-    private GcloudNetworkconnectivitySpokesLinkedInterconnectAttachments _linkedInterconnectAttachments;
-    private GcloudNetworkconnectivitySpokesLinkedProducerVpcNetwork _linkedProducerVpcNetwork;
-    private GcloudNetworkconnectivitySpokesLinkedRouterAppliances _linkedRouterAppliances;
-    private GcloudNetworkconnectivitySpokesLinkedVpcNetwork _linkedVpcNetwork;
-    private GcloudNetworkconnectivitySpokesLinkedVpnTunnels _linkedVpnTunnels;
+    private GcloudNetworkconnectivitySpokesGateways? _gateways;
+    private GcloudNetworkconnectivitySpokesLinkedInterconnectAttachments? _linkedInterconnectAttachments;
+    private GcloudNetworkconnectivitySpokesLinkedProducerVpcNetwork? _linkedProducerVpcNetwork;
+    private GcloudNetworkconnectivitySpokesLinkedRouterAppliances? _linkedRouterAppliances;
+    private GcloudNetworkconnectivitySpokesLinkedVpcNetwork? _linkedVpcNetwork;
+    private GcloudNetworkconnectivitySpokesLinkedVpnTunnels? _linkedVpnTunnels;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkconnectivitySpokes"/> class.

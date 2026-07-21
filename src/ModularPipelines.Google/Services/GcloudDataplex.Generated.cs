@@ -20,19 +20,19 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataplex
 {
     private readonly ICommand _command;
-    private GcloudDataplexAspectTypes _aspectTypes;
-    private GcloudDataplexAssets _assets;
-    private GcloudDataplexContext _context;
-    private GcloudDataplexDatascans _datascans;
-    private GcloudDataplexEncryptionConfig _encryptionConfig;
-    private GcloudDataplexEntries _entries;
-    private GcloudDataplexEntryGroups _entryGroups;
-    private GcloudDataplexEntryTypes _entryTypes;
-    private GcloudDataplexGlossaries _glossaries;
-    private GcloudDataplexLakes _lakes;
-    private GcloudDataplexMetadataJobs _metadataJobs;
-    private GcloudDataplexTasks _tasks;
-    private GcloudDataplexZones _zones;
+    private GcloudDataplexAspectTypes? _aspectTypes;
+    private GcloudDataplexAssets? _assets;
+    private GcloudDataplexContext? _context;
+    private GcloudDataplexDatascans? _datascans;
+    private GcloudDataplexEncryptionConfig? _encryptionConfig;
+    private GcloudDataplexEntries? _entries;
+    private GcloudDataplexEntryGroups? _entryGroups;
+    private GcloudDataplexEntryTypes? _entryTypes;
+    private GcloudDataplexGlossaries? _glossaries;
+    private GcloudDataplexLakes? _lakes;
+    private GcloudDataplexMetadataJobs? _metadataJobs;
+    private GcloudDataplexTasks? _tasks;
+    private GcloudDataplexZones? _zones;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataplex"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudIamWorkforcePoolsProvidersScimTenants
 {
     private readonly ICommand _command;
-    private GcloudIamWorkforcePoolsProvidersScimTenantsTokens _tokens;
+    private GcloudIamWorkforcePoolsProvidersScimTenantsTokens? _tokens;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIamWorkforcePoolsProvidersScimTenants"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAccesscontextmanagerLevels
 {
     private readonly ICommand _command;
-    private GcloudAccesscontextmanagerLevelsConditions _conditions;
+    private GcloudAccesscontextmanagerLevelsConditions? _conditions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAccesscontextmanagerLevels"/> class.

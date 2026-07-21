@@ -20,16 +20,16 @@ namespace ModularPipelines.Azure.Services;
 public class AzCosmosdb
 {
     private readonly ICommand _command;
-    private AzCosmosdbCassandra _cassandra;
-    private AzCosmosdbGremlin _gremlin;
-    private AzCosmosdbKeys _keys;
-    private AzCosmosdbMongodb _mongodb;
-    private AzCosmosdbPostgres _postgres;
-    private AzCosmosdbPrivateEndpointConnection _privateEndpointConnection;
-    private AzCosmosdbRestorableDatabaseAccount _restorableDatabaseAccount;
-    private AzCosmosdbService _service;
-    private AzCosmosdbSql _sql;
-    private AzCosmosdbTable _table;
+    private AzCosmosdbCassandra? _cassandra;
+    private AzCosmosdbGremlin? _gremlin;
+    private AzCosmosdbKeys? _keys;
+    private AzCosmosdbMongodb? _mongodb;
+    private AzCosmosdbPostgres? _postgres;
+    private AzCosmosdbPrivateEndpointConnection? _privateEndpointConnection;
+    private AzCosmosdbRestorableDatabaseAccount? _restorableDatabaseAccount;
+    private AzCosmosdbService? _service;
+    private AzCosmosdbSql? _sql;
+    private AzCosmosdbTable? _table;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdb"/> class.

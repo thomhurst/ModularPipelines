@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworksecuritySecurityProfiles
 {
     private readonly ICommand _command;
-    private GcloudNetworksecuritySecurityProfilesCustomIntercept _customIntercept;
-    private GcloudNetworksecuritySecurityProfilesCustomMirroring _customMirroring;
-    private GcloudNetworksecuritySecurityProfilesThreatPrevention _threatPrevention;
-    private GcloudNetworksecuritySecurityProfilesUrlFiltering _urlFiltering;
+    private GcloudNetworksecuritySecurityProfilesCustomIntercept? _customIntercept;
+    private GcloudNetworksecuritySecurityProfilesCustomMirroring? _customMirroring;
+    private GcloudNetworksecuritySecurityProfilesThreatPrevention? _threatPrevention;
+    private GcloudNetworksecuritySecurityProfilesUrlFiltering? _urlFiltering;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecurityProfiles"/> class.

@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzSynapseIntegrationRuntime
 {
     private readonly ICommand _command;
-    private AzSynapseIntegrationRuntimeManaged _managed;
-    private AzSynapseIntegrationRuntimeSelfHosted _selfHosted;
+    private AzSynapseIntegrationRuntimeManaged? _managed;
+    private AzSynapseIntegrationRuntimeSelfHosted? _selfHosted;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseIntegrationRuntime"/> class.

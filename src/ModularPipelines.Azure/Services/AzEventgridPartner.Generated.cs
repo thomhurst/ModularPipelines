@@ -20,12 +20,12 @@ namespace ModularPipelines.Azure.Services;
 public class AzEventgridPartner
 {
     private readonly ICommand _command;
-    private AzEventgridPartnerConfiguration _configuration;
-    private AzEventgridPartnerDestination _destination;
-    private AzEventgridPartnerNamespace _namespace;
-    private AzEventgridPartnerRegistration _registration;
-    private AzEventgridPartnerTopic _topic;
-    private AzEventgridPartnerVerifiedPartner _verifiedPartner;
+    private AzEventgridPartnerConfiguration? _configuration;
+    private AzEventgridPartnerDestination? _destination;
+    private AzEventgridPartnerNamespace? _namespace;
+    private AzEventgridPartnerRegistration? _registration;
+    private AzEventgridPartnerTopic? _topic;
+    private AzEventgridPartnerVerifiedPartner? _verifiedPartner;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventgridPartner"/> class.

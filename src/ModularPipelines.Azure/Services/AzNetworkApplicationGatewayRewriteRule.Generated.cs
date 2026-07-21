@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkApplicationGatewayRewriteRule
 {
     private readonly ICommand _command;
-    private AzNetworkApplicationGatewayRewriteRuleCondition _condition;
-    private AzNetworkApplicationGatewayRewriteRuleSet _set;
+    private AzNetworkApplicationGatewayRewriteRuleCondition? _condition;
+    private AzNetworkApplicationGatewayRewriteRuleSet? _set;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGatewayRewriteRule"/> class.

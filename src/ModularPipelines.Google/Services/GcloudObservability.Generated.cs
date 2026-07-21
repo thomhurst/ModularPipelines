@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudObservability
 {
     private readonly ICommand _command;
-    private GcloudObservabilityScopes _scopes;
-    private GcloudObservabilityTraceScopes _traceScopes;
+    private GcloudObservabilityScopes? _scopes;
+    private GcloudObservabilityTraceScopes? _traceScopes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudObservability"/> class.

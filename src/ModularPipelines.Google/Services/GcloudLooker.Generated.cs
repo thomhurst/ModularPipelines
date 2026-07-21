@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudLooker
 {
     private readonly ICommand _command;
-    private GcloudLookerBackups _backups;
-    private GcloudLookerInstances _instances;
-    private GcloudLookerOperations _operations;
-    private GcloudLookerRegions _regions;
+    private GcloudLookerBackups? _backups;
+    private GcloudLookerInstances? _instances;
+    private GcloudLookerOperations? _operations;
+    private GcloudLookerRegions? _regions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudLooker"/> class.

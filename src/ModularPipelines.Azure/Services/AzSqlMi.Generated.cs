@@ -20,14 +20,14 @@ namespace ModularPipelines.Azure.Services;
 public class AzSqlMi
 {
     private readonly ICommand _command;
-    private AzSqlMiAdvancedThreatProtectionSetting _advancedThreatProtectionSetting;
-    private AzSqlMiDtc _dtc;
-    private AzSqlMiKey _key;
-    private AzSqlMiLink _link;
-    private AzSqlMiPartnerCert _partnerCert;
-    private AzSqlMiServerConfigurationOption _serverConfigurationOption;
-    private AzSqlMiStartStopSchedule _startStopSchedule;
-    private AzSqlMiTdeKey _tdeKey;
+    private AzSqlMiAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
+    private AzSqlMiDtc? _dtc;
+    private AzSqlMiKey? _key;
+    private AzSqlMiLink? _link;
+    private AzSqlMiPartnerCert? _partnerCert;
+    private AzSqlMiServerConfigurationOption? _serverConfigurationOption;
+    private AzSqlMiStartStopSchedule? _startStopSchedule;
+    private AzSqlMiTdeKey? _tdeKey;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlMi"/> class.

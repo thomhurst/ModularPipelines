@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAccesscontextmanager
 {
     private readonly ICommand _command;
-    private GcloudAccesscontextmanagerAuthorizedOrgs _authorizedOrgs;
-    private GcloudAccesscontextmanagerCloudBindings _cloudBindings;
-    private GcloudAccesscontextmanagerLevels _levels;
-    private GcloudAccesscontextmanagerPerimeters _perimeters;
-    private GcloudAccesscontextmanagerPolicies _policies;
-    private GcloudAccesscontextmanagerSupportedPermissions _supportedPermissions;
-    private GcloudAccesscontextmanagerSupportedServices _supportedServices;
+    private GcloudAccesscontextmanagerAuthorizedOrgs? _authorizedOrgs;
+    private GcloudAccesscontextmanagerCloudBindings? _cloudBindings;
+    private GcloudAccesscontextmanagerLevels? _levels;
+    private GcloudAccesscontextmanagerPerimeters? _perimeters;
+    private GcloudAccesscontextmanagerPolicies? _policies;
+    private GcloudAccesscontextmanagerSupportedPermissions? _supportedPermissions;
+    private GcloudAccesscontextmanagerSupportedServices? _supportedServices;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAccesscontextmanager"/> class.

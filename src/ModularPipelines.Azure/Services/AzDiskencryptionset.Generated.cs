@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzDiskencryptionset
 {
     private readonly ICommand _command;
-    private AzDiskencryptionsetIdentity _identity;
+    private AzDiskencryptionsetIdentity? _identity;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDiskencryptionset"/> class.

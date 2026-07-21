@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkTrafficManager
 {
     private readonly ICommand _command;
-    private AzNetworkTrafficManagerEndpoint _endpoint;
-    private AzNetworkTrafficManagerProfile _profile;
+    private AzNetworkTrafficManagerEndpoint? _endpoint;
+    private AzNetworkTrafficManagerProfile? _profile;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkTrafficManager"/> class.

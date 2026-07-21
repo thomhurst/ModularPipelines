@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudFirestoreIndexes
 {
     private readonly ICommand _command;
-    private GcloudFirestoreIndexesComposite _composite;
-    private GcloudFirestoreIndexesFields _fields;
+    private GcloudFirestoreIndexesComposite? _composite;
+    private GcloudFirestoreIndexesFields? _fields;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirestoreIndexes"/> class.

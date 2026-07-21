@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComputeOsConfigOsPolicyAssignments
 {
     private readonly ICommand _command;
-    private GcloudComputeOsConfigOsPolicyAssignmentsOperations _operations;
+    private GcloudComputeOsConfigOsPolicyAssignmentsOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeOsConfigOsPolicyAssignments"/> class.

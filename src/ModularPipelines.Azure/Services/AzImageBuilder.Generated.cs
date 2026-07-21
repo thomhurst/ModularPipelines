@@ -20,13 +20,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzImageBuilder
 {
     private readonly ICommand _command;
-    private AzImageBuilderCustomizer _customizer;
-    private AzImageBuilderErrorHandler _errorHandler;
-    private AzImageBuilderIdentity _identity;
-    private AzImageBuilderOptimizer _optimizer;
-    private AzImageBuilderOutput _output;
-    private AzImageBuilderTrigger _trigger;
-    private AzImageBuilderValidator _validator;
+    private AzImageBuilderCustomizer? _customizer;
+    private AzImageBuilderErrorHandler? _errorHandler;
+    private AzImageBuilderIdentity? _identity;
+    private AzImageBuilderOptimizer? _optimizer;
+    private AzImageBuilderOutput? _output;
+    private AzImageBuilderTrigger? _trigger;
+    private AzImageBuilderValidator? _validator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzImageBuilder"/> class.

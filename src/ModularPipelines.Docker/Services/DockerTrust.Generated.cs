@@ -20,8 +20,8 @@ namespace ModularPipelines.Docker.Services;
 public class DockerTrust
 {
     private readonly ICommand _command;
-    private DockerTrustKey _key;
-    private DockerTrustSigner _signer;
+    private DockerTrustKey? _key;
+    private DockerTrustSigner? _signer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerTrust"/> class.

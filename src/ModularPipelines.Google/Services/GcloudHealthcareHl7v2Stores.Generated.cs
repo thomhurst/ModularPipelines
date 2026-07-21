@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudHealthcareHl7v2Stores
 {
     private readonly ICommand _command;
-    private GcloudHealthcareHl7v2StoresExport _export;
-    private GcloudHealthcareHl7v2StoresImport _import;
+    private GcloudHealthcareHl7v2StoresExport? _export;
+    private GcloudHealthcareHl7v2StoresImport? _import;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudHealthcareHl7v2Stores"/> class.

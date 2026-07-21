@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudFirestoreBackups
 {
     private readonly ICommand _command;
-    private GcloudFirestoreBackupsSchedules _schedules;
+    private GcloudFirestoreBackupsSchedules? _schedules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirestoreBackups"/> class.

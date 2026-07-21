@@ -20,9 +20,9 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiPolicy
 {
     private readonly ICommand _command;
-    private PulumiPolicyCompliance _compliance;
-    private PulumiPolicyGroup _group;
-    private PulumiPolicyIssue _issue;
+    private PulumiPolicyCompliance? _compliance;
+    private PulumiPolicyGroup? _group;
+    private PulumiPolicyIssue? _issue;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiPolicy"/> class.

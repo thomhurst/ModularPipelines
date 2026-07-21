@@ -20,8 +20,8 @@ namespace ModularPipelines.Flux.Services;
 public class FluxReconcile
 {
     private readonly ICommand _command;
-    private FluxReconcileImage _image;
-    private FluxReconcileSource _source;
+    private FluxReconcileImage? _image;
+    private FluxReconcileSource? _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxReconcile"/> class.

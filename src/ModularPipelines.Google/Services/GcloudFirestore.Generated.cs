@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Services;
 public class GcloudFirestore
 {
     private readonly ICommand _command;
-    private GcloudFirestoreBackups _backups;
-    private GcloudFirestoreDatabases _databases;
-    private GcloudFirestoreFields _fields;
-    private GcloudFirestoreIndexes _indexes;
-    private GcloudFirestoreLocations _locations;
-    private GcloudFirestoreOperations _operations;
-    private GcloudFirestoreUserCreds _userCreds;
+    private GcloudFirestoreBackups? _backups;
+    private GcloudFirestoreDatabases? _databases;
+    private GcloudFirestoreFields? _fields;
+    private GcloudFirestoreIndexes? _indexes;
+    private GcloudFirestoreLocations? _locations;
+    private GcloudFirestoreOperations? _operations;
+    private GcloudFirestoreUserCreds? _userCreds;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirestore"/> class.

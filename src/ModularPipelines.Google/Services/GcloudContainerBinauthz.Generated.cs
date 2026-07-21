@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerBinauthz
 {
     private readonly ICommand _command;
-    private GcloudContainerBinauthzAttestations _attestations;
-    private GcloudContainerBinauthzAttestors _attestors;
-    private GcloudContainerBinauthzPolicy _policy;
+    private GcloudContainerBinauthzAttestations? _attestations;
+    private GcloudContainerBinauthzAttestors? _attestors;
+    private GcloudContainerBinauthzPolicy? _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerBinauthz"/> class.

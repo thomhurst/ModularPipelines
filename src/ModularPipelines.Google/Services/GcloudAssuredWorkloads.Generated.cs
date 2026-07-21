@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAssuredWorkloads
 {
     private readonly ICommand _command;
-    private GcloudAssuredWorkloadsViolations _violations;
+    private GcloudAssuredWorkloadsViolations? _violations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAssuredWorkloads"/> class.

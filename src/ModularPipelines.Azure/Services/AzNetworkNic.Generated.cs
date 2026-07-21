@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkNic
 {
     private readonly ICommand _command;
-    private AzNetworkNicIpConfig _ipConfig;
+    private AzNetworkNicIpConfig? _ipConfig;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkNic"/> class.

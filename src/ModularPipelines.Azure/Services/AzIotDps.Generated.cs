@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzIotDps
 {
     private readonly ICommand _command;
-    private AzIotDpsCertificate _certificate;
-    private AzIotDpsLinkedHub _linkedHub;
-    private AzIotDpsPolicy _policy;
+    private AzIotDpsCertificate? _certificate;
+    private AzIotDpsLinkedHub? _linkedHub;
+    private AzIotDpsPolicy? _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzIotDps"/> class.

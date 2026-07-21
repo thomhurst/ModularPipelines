@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDesigncenterSpaces
 {
     private readonly ICommand _command;
-    private GcloudDesigncenterSpacesApplications _applications;
-    private GcloudDesigncenterSpacesApplicationTemplates _applicationTemplates;
-    private GcloudDesigncenterSpacesCatalogs _catalogs;
-    private GcloudDesigncenterSpacesSharedTemplates _sharedTemplates;
+    private GcloudDesigncenterSpacesApplications? _applications;
+    private GcloudDesigncenterSpacesApplicationTemplates? _applicationTemplates;
+    private GcloudDesigncenterSpacesCatalogs? _catalogs;
+    private GcloudDesigncenterSpacesSharedTemplates? _sharedTemplates;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDesigncenterSpaces"/> class.

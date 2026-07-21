@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudScheduler
 {
     private readonly ICommand _command;
-    private GcloudSchedulerCmekConfig _cmekConfig;
-    private GcloudSchedulerJobs _jobs;
-    private GcloudSchedulerLocations _locations;
-    private GcloudSchedulerOperations _operations;
+    private GcloudSchedulerCmekConfig? _cmekConfig;
+    private GcloudSchedulerJobs? _jobs;
+    private GcloudSchedulerLocations? _locations;
+    private GcloudSchedulerOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudScheduler"/> class.

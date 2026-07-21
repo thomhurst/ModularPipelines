@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzFunctionappLog
 {
     private readonly ICommand _command;
-    private AzFunctionappLogDeployment _deployment;
+    private AzFunctionappLogDeployment? _deployment;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzFunctionappLog"/> class.

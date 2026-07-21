@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudGeminiDataSharingWithGoogleSettings
 {
     private readonly ICommand _command;
-    private GcloudGeminiDataSharingWithGoogleSettingsSettingBindings _settingBindings;
+    private GcloudGeminiDataSharingWithGoogleSettingsSettingBindings? _settingBindings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudGeminiDataSharingWithGoogleSettings"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzAcrConnectedRegistry
 {
     private readonly ICommand _command;
-    private AzAcrConnectedRegistryPermissions _permissions;
+    private AzAcrConnectedRegistryPermissions? _permissions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAcrConnectedRegistry"/> class.

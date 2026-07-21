@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzCosmosdbMongodbRole
 {
     private readonly ICommand _command;
-    private AzCosmosdbMongodbRoleDefinition _definition;
+    private AzCosmosdbMongodbRoleDefinition? _definition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbMongodbRole"/> class.

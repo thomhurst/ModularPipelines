@@ -20,13 +20,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkLb
 {
     private readonly ICommand _command;
-    private AzNetworkLbAddressPool _addressPool;
-    private AzNetworkLbFrontendIp _frontendIp;
-    private AzNetworkLbInboundNatPool _inboundNatPool;
-    private AzNetworkLbInboundNatRule _inboundNatRule;
-    private AzNetworkLbOutboundRule _outboundRule;
-    private AzNetworkLbProbe _probe;
-    private AzNetworkLbRule _rule;
+    private AzNetworkLbAddressPool? _addressPool;
+    private AzNetworkLbFrontendIp? _frontendIp;
+    private AzNetworkLbInboundNatPool? _inboundNatPool;
+    private AzNetworkLbInboundNatRule? _inboundNatRule;
+    private AzNetworkLbOutboundRule? _outboundRule;
+    private AzNetworkLbProbe? _probe;
+    private AzNetworkLbRule? _rule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkLb"/> class.

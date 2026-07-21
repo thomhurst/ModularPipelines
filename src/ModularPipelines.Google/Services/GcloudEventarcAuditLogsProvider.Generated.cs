@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudEventarcAuditLogsProvider
 {
     private readonly ICommand _command;
-    private GcloudEventarcAuditLogsProviderMethodNames _methodNames;
-    private GcloudEventarcAuditLogsProviderServiceNames _serviceNames;
+    private GcloudEventarcAuditLogsProviderMethodNames? _methodNames;
+    private GcloudEventarcAuditLogsProviderServiceNames? _serviceNames;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEventarcAuditLogsProvider"/> class.

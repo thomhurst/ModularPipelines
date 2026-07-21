@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudOracledatabaseOdbNetworks
 {
     private readonly ICommand _command;
-    private GcloudOracledatabaseOdbNetworksOdbSubnets _odbSubnets;
+    private GcloudOracledatabaseOdbNetworksOdbSubnets? _odbSubnets;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudOracledatabaseOdbNetworks"/> class.

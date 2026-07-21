@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudRunWorkerPools
 {
     private readonly ICommand _command;
-    private GcloudRunWorkerPoolsLogs _logs;
-    private GcloudRunWorkerPoolsRevisions _revisions;
+    private GcloudRunWorkerPoolsLogs? _logs;
+    private GcloudRunWorkerPoolsRevisions? _revisions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRunWorkerPools"/> class.

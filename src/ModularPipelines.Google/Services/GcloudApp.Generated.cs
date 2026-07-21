@@ -20,16 +20,16 @@ namespace ModularPipelines.Google.Services;
 public class GcloudApp
 {
     private readonly ICommand _command;
-    private GcloudAppDomainMappings _domainMappings;
-    private GcloudAppFirewallRules _firewallRules;
-    private GcloudAppInstances _instances;
-    private GcloudAppLogs _logs;
-    private GcloudAppOperations _operations;
-    private GcloudAppRegions _regions;
-    private GcloudAppRuntimes _runtimes;
-    private GcloudAppServices _services;
-    private GcloudAppSslCertificates _sslCertificates;
-    private GcloudAppVersions _versions;
+    private GcloudAppDomainMappings? _domainMappings;
+    private GcloudAppFirewallRules? _firewallRules;
+    private GcloudAppInstances? _instances;
+    private GcloudAppLogs? _logs;
+    private GcloudAppOperations? _operations;
+    private GcloudAppRegions? _regions;
+    private GcloudAppRuntimes? _runtimes;
+    private GcloudAppServices? _services;
+    private GcloudAppSslCertificates? _sslCertificates;
+    private GcloudAppVersions? _versions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApp"/> class.

@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzSfManagedNodeType
 {
     private readonly ICommand _command;
-    private AzSfManagedNodeTypeNode _node;
-    private AzSfManagedNodeTypeVmExtension _vmExtension;
+    private AzSfManagedNodeTypeNode? _node;
+    private AzSfManagedNodeTypeVmExtension? _vmExtension;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSfManagedNodeType"/> class.

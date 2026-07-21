@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudEdgecloud
 {
     private readonly ICommand _command;
-    private GcloudEdgecloudContainer _container;
-    private GcloudEdgecloudNetworking _networking;
+    private GcloudEdgecloudContainer? _container;
+    private GcloudEdgecloudNetworking? _networking;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEdgecloud"/> class.

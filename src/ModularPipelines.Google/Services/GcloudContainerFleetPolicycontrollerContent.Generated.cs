@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerFleetPolicycontrollerContent
 {
     private readonly ICommand _command;
-    private GcloudContainerFleetPolicycontrollerContentBundles _bundles;
-    private GcloudContainerFleetPolicycontrollerContentTemplates _templates;
+    private GcloudContainerFleetPolicycontrollerContentBundles? _bundles;
+    private GcloudContainerFleetPolicycontrollerContentTemplates? _templates;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerFleetPolicycontrollerContent"/> class.

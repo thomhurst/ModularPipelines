@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzSqlVm
 {
     private readonly ICommand _command;
-    private AzSqlVmGroup _group;
+    private AzSqlVmGroup? _group;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlVm"/> class.

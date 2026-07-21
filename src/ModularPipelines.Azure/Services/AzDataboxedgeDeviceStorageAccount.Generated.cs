@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzDataboxedgeDeviceStorageAccount
 {
     private readonly ICommand _command;
-    private AzDataboxedgeDeviceStorageAccountContainer _container;
+    private AzDataboxedgeDeviceStorageAccountContainer? _container;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDataboxedgeDeviceStorageAccount"/> class.

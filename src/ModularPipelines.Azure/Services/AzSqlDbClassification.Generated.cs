@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzSqlDbClassification
 {
     private readonly ICommand _command;
-    private AzSqlDbClassificationRecommendation _recommendation;
+    private AzSqlDbClassificationRecommendation? _recommendation;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlDbClassification"/> class.

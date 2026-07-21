@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzCosmosdbCassandraKeyspace
 {
     private readonly ICommand _command;
-    private AzCosmosdbCassandraKeyspaceThroughput _throughput;
+    private AzCosmosdbCassandraKeyspaceThroughput? _throughput;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbCassandraKeyspace"/> class.

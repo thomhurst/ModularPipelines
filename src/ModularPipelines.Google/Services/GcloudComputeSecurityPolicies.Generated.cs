@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComputeSecurityPolicies
 {
     private readonly ICommand _command;
-    private GcloudComputeSecurityPoliciesRules _rules;
+    private GcloudComputeSecurityPoliciesRules? _rules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeSecurityPolicies"/> class.

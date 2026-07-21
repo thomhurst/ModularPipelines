@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzLogicappDeployment
 {
     private readonly ICommand _command;
-    private AzLogicappDeploymentSource _source;
+    private AzLogicappDeploymentSource? _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzLogicappDeployment"/> class.

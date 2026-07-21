@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzFeature
 {
     private readonly ICommand _command;
-    private AzFeatureRegistration _registration;
+    private AzFeatureRegistration? _registration;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzFeature"/> class.

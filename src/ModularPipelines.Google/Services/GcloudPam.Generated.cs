@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPam
 {
     private readonly ICommand _command;
-    private GcloudPamEntitlements _entitlements;
-    private GcloudPamGrants _grants;
-    private GcloudPamOperations _operations;
+    private GcloudPamEntitlements? _entitlements;
+    private GcloudPamGrants? _grants;
+    private GcloudPamOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPam"/> class.

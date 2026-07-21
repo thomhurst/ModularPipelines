@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzDeployment
 {
     private readonly ICommand _command;
-    private AzDeploymentGroup _group;
-    private AzDeploymentMg _mg;
-    private AzDeploymentSub _sub;
-    private AzDeploymentTenant _tenant;
+    private AzDeploymentGroup? _group;
+    private AzDeploymentMg? _mg;
+    private AzDeploymentSub? _sub;
+    private AzDeploymentTenant? _tenant;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDeployment"/> class.

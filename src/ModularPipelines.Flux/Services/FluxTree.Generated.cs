@@ -20,7 +20,7 @@ namespace ModularPipelines.Flux.Services;
 public class FluxTree
 {
     private readonly ICommand _command;
-    private FluxTreeArtifact _artifact;
+    private FluxTreeArtifact? _artifact;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxTree"/> class.

@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzSfManagedCluster
 {
     private readonly ICommand _command;
-    private AzSfManagedClusterClientCertificate _clientCertificate;
-    private AzSfManagedClusterNetworkSecurityRule _networkSecurityRule;
+    private AzSfManagedClusterClientCertificate? _clientCertificate;
+    private AzSfManagedClusterNetworkSecurityRule? _networkSecurityRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSfManagedCluster"/> class.

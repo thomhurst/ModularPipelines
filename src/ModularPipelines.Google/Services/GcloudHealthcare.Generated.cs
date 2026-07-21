@@ -20,12 +20,12 @@ namespace ModularPipelines.Google.Services;
 public class GcloudHealthcare
 {
     private readonly ICommand _command;
-    private GcloudHealthcareConsentStores _consentStores;
-    private GcloudHealthcareDatasets _datasets;
-    private GcloudHealthcareDicomStores _dicomStores;
-    private GcloudHealthcareFhirStores _fhirStores;
-    private GcloudHealthcareHl7v2Stores _hl7v2Stores;
-    private GcloudHealthcareOperations _operations;
+    private GcloudHealthcareConsentStores? _consentStores;
+    private GcloudHealthcareDatasets? _datasets;
+    private GcloudHealthcareDicomStores? _dicomStores;
+    private GcloudHealthcareFhirStores? _fhirStores;
+    private GcloudHealthcareHl7v2Stores? _hl7v2Stores;
+    private GcloudHealthcareOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudHealthcare"/> class.

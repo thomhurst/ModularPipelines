@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetappfilesSnapshot
 {
     private readonly ICommand _command;
-    private AzNetappfilesSnapshotPolicy _policy;
+    private AzNetappfilesSnapshotPolicy? _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetappfilesSnapshot"/> class.

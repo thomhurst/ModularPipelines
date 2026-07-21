@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudServicehealth
 {
     private readonly ICommand _command;
-    private GcloudServicehealthEvents _events;
-    private GcloudServicehealthOrganizationEvents _organizationEvents;
-    private GcloudServicehealthOrganizationImpacts _organizationImpacts;
+    private GcloudServicehealthEvents? _events;
+    private GcloudServicehealthOrganizationEvents? _organizationEvents;
+    private GcloudServicehealthOrganizationImpacts? _organizationImpacts;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudServicehealth"/> class.

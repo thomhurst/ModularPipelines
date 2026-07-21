@@ -20,11 +20,11 @@ namespace ModularPipelines.Google.Services;
 public class GcloudCompliancemanager
 {
     private readonly ICommand _command;
-    private GcloudCompliancemanagerCloudControlDeployments _cloudControlDeployments;
-    private GcloudCompliancemanagerCloudControls _cloudControls;
-    private GcloudCompliancemanagerFrameworkDeployments _frameworkDeployments;
-    private GcloudCompliancemanagerFrameworks _frameworks;
-    private GcloudCompliancemanagerOperations _operations;
+    private GcloudCompliancemanagerCloudControlDeployments? _cloudControlDeployments;
+    private GcloudCompliancemanagerCloudControls? _cloudControls;
+    private GcloudCompliancemanagerFrameworkDeployments? _frameworkDeployments;
+    private GcloudCompliancemanagerFrameworks? _frameworks;
+    private GcloudCompliancemanagerOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudCompliancemanager"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetappfilesAccountBackupVault
 {
     private readonly ICommand _command;
-    private AzNetappfilesAccountBackupVaultBackup _backup;
+    private AzNetappfilesAccountBackupVaultBackup? _backup;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetappfilesAccountBackupVault"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComputeInstancesOpsAgents
 {
     private readonly ICommand _command;
-    private GcloudComputeInstancesOpsAgentsPolicies _policies;
+    private GcloudComputeInstancesOpsAgentsPolicies? _policies;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeInstancesOpsAgents"/> class.

@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPreviewComputeResourcePolicies
 {
     private readonly ICommand _command;
-    private GcloudPreviewComputeResourcePoliciesCreate _create;
-    private GcloudPreviewComputeResourcePoliciesUpdate _update;
+    private GcloudPreviewComputeResourcePoliciesCreate? _create;
+    private GcloudPreviewComputeResourcePoliciesUpdate? _update;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeResourcePolicies"/> class.

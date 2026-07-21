@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkLbAddressPool
 {
     private readonly ICommand _command;
-    private AzNetworkLbAddressPoolAddress _address;
+    private AzNetworkLbAddressPoolAddress? _address;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkLbAddressPool"/> class.

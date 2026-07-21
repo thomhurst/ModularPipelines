@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzSqlMidb
 {
     private readonly ICommand _command;
-    private AzSqlMidbAdvancedThreatProtectionSetting _advancedThreatProtectionSetting;
-    private AzSqlMidbCopy _copy;
-    private AzSqlMidbLogReplay _logReplay;
-    private AzSqlMidbMove _move;
+    private AzSqlMidbAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
+    private AzSqlMidbCopy? _copy;
+    private AzSqlMidbLogReplay? _logReplay;
+    private AzSqlMidbMove? _move;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlMidb"/> class.

@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComputeTpusTpuVm
 {
     private readonly ICommand _command;
-    private GcloudComputeTpusTpuVmAcceleratorTypes _acceleratorTypes;
-    private GcloudComputeTpusTpuVmServiceIdentity _serviceIdentity;
-    private GcloudComputeTpusTpuVmVersions _versions;
+    private GcloudComputeTpusTpuVmAcceleratorTypes? _acceleratorTypes;
+    private GcloudComputeTpusTpuVmServiceIdentity? _serviceIdentity;
+    private GcloudComputeTpusTpuVmVersions? _versions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeTpusTpuVm"/> class.

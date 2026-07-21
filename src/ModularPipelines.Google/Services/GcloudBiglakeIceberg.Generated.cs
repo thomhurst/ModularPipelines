@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBiglakeIceberg
 {
     private readonly ICommand _command;
-    private GcloudBiglakeIcebergCatalogs _catalogs;
-    private GcloudBiglakeIcebergNamespaces _namespaces;
-    private GcloudBiglakeIcebergTables _tables;
+    private GcloudBiglakeIcebergCatalogs? _catalogs;
+    private GcloudBiglakeIcebergNamespaces? _namespaces;
+    private GcloudBiglakeIcebergTables? _tables;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBiglakeIceberg"/> class.

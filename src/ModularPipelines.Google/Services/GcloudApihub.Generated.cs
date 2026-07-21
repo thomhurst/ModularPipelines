@@ -20,19 +20,19 @@ namespace ModularPipelines.Google.Services;
 public class GcloudApihub
 {
     private readonly ICommand _command;
-    private GcloudApihubAddons _addons;
-    private GcloudApihubApiHubInstances _apiHubInstances;
-    private GcloudApihubApis _apis;
-    private GcloudApihubAttributes _attributes;
-    private GcloudApihubCurations _curations;
-    private GcloudApihubDependencies _dependencies;
-    private GcloudApihubDeployments _deployments;
-    private GcloudApihubDiscoveredApiObservations _discoveredApiObservations;
-    private GcloudApihubExternalApis _externalApis;
-    private GcloudApihubHostProjectRegistrations _hostProjectRegistrations;
-    private GcloudApihubOperations _operations;
-    private GcloudApihubPlugins _plugins;
-    private GcloudApihubRuntimeProjectAttachments _runtimeProjectAttachments;
+    private GcloudApihubAddons? _addons;
+    private GcloudApihubApiHubInstances? _apiHubInstances;
+    private GcloudApihubApis? _apis;
+    private GcloudApihubAttributes? _attributes;
+    private GcloudApihubCurations? _curations;
+    private GcloudApihubDependencies? _dependencies;
+    private GcloudApihubDeployments? _deployments;
+    private GcloudApihubDiscoveredApiObservations? _discoveredApiObservations;
+    private GcloudApihubExternalApis? _externalApis;
+    private GcloudApihubHostProjectRegistrations? _hostProjectRegistrations;
+    private GcloudApihubOperations? _operations;
+    private GcloudApihubPlugins? _plugins;
+    private GcloudApihubRuntimeProjectAttachments? _runtimeProjectAttachments;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApihub"/> class.

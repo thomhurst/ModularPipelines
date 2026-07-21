@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComputeInstances
 {
     private readonly ICommand _command;
-    private GcloudComputeInstancesBulk _bulk;
-    private GcloudComputeInstancesNetworkInterfaces _networkInterfaces;
-    private GcloudComputeInstancesOpsAgents _opsAgents;
-    private GcloudComputeInstancesOsInventory _osInventory;
+    private GcloudComputeInstancesBulk? _bulk;
+    private GcloudComputeInstancesNetworkInterfaces? _networkInterfaces;
+    private GcloudComputeInstancesOpsAgents? _opsAgents;
+    private GcloudComputeInstancesOsInventory? _osInventory;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeInstances"/> class.

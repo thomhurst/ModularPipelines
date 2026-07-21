@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudColab
 {
     private readonly ICommand _command;
-    private GcloudColabExecutions _executions;
-    private GcloudColabRuntimes _runtimes;
-    private GcloudColabRuntimeTemplates _runtimeTemplates;
-    private GcloudColabSchedules _schedules;
+    private GcloudColabExecutions? _executions;
+    private GcloudColabRuntimes? _runtimes;
+    private GcloudColabRuntimeTemplates? _runtimeTemplates;
+    private GcloudColabSchedules? _schedules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudColab"/> class.

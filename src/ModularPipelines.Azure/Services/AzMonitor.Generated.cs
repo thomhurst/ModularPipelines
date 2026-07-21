@@ -20,15 +20,15 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitor
 {
     private readonly ICommand _command;
-    private AzMonitorAccount _account;
-    private AzMonitorActionGroup _actionGroup;
-    private AzMonitorActivityLog _activityLog;
-    private AzMonitorAutoscale _autoscale;
-    private AzMonitorDashboard _dashboard;
-    private AzMonitorDiagnosticSettings _diagnosticSettings;
-    private AzMonitorLogAnalytics _logAnalytics;
-    private AzMonitorLogProfiles _logProfiles;
-    private AzMonitorMetrics _metrics;
+    private AzMonitorAccount? _account;
+    private AzMonitorActionGroup? _actionGroup;
+    private AzMonitorActivityLog? _activityLog;
+    private AzMonitorAutoscale? _autoscale;
+    private AzMonitorDashboard? _dashboard;
+    private AzMonitorDiagnosticSettings? _diagnosticSettings;
+    private AzMonitorLogAnalytics? _logAnalytics;
+    private AzMonitorLogProfiles? _logProfiles;
+    private AzMonitorMetrics? _metrics;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitor"/> class.

@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworkmanagementNetworkMonitoringProviders
 {
     private readonly ICommand _command;
-    private GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints _monitoringPoints;
-    private GcloudNetworkmanagementNetworkMonitoringProvidersNetworkPaths _networkPaths;
-    private GcloudNetworkmanagementNetworkMonitoringProvidersWebPaths _webPaths;
+    private GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints? _monitoringPoints;
+    private GcloudNetworkmanagementNetworkMonitoringProvidersNetworkPaths? _networkPaths;
+    private GcloudNetworkmanagementNetworkMonitoringProvidersWebPaths? _webPaths;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkmanagementNetworkMonitoringProviders"/> class.

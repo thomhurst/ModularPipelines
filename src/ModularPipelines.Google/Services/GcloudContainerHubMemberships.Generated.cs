@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerHubMemberships
 {
     private readonly ICommand _command;
-    private GcloudContainerHubMembershipsBindings _bindings;
-    private GcloudContainerHubMembershipsSupportAccess _supportAccess;
+    private GcloudContainerHubMembershipsBindings? _bindings;
+    private GcloudContainerHubMembershipsSupportAccess? _supportAccess;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerHubMemberships"/> class.

@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzRelay
 {
     private readonly ICommand _command;
-    private AzRelayHyco _hyco;
-    private AzRelayNamespace _namespace;
-    private AzRelayWcfrelay _wcfrelay;
+    private AzRelayHyco? _hyco;
+    private AzRelayNamespace? _namespace;
+    private AzRelayWcfrelay? _wcfrelay;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRelay"/> class.

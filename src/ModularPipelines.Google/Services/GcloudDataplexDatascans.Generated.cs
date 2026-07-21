@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataplexDatascans
 {
     private readonly ICommand _command;
-    private GcloudDataplexDatascansCreate _create;
-    private GcloudDataplexDatascansJobs _jobs;
-    private GcloudDataplexDatascansUpdate _update;
+    private GcloudDataplexDatascansCreate? _create;
+    private GcloudDataplexDatascansJobs? _jobs;
+    private GcloudDataplexDatascansUpdate? _update;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataplexDatascans"/> class.

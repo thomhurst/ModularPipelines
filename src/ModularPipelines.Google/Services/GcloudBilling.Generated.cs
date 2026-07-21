@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBilling
 {
     private readonly ICommand _command;
-    private GcloudBillingAccounts _accounts;
-    private GcloudBillingBudgets _budgets;
-    private GcloudBillingProjects _projects;
+    private GcloudBillingAccounts? _accounts;
+    private GcloudBillingBudgets? _budgets;
+    private GcloudBillingProjects? _projects;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBilling"/> class.

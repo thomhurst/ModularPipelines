@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzImage
 {
     private readonly ICommand _command;
-    private AzImageBuilder _builder;
+    private AzImageBuilder? _builder;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzImage"/> class.

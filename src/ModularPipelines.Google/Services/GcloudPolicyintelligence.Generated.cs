@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPolicyintelligence
 {
     private readonly ICommand _command;
-    private GcloudPolicyintelligenceSimulate _simulate;
-    private GcloudPolicyintelligenceTroubleshootPolicy _troubleshootPolicy;
+    private GcloudPolicyintelligenceSimulate? _simulate;
+    private GcloudPolicyintelligenceTroubleshootPolicy? _troubleshootPolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPolicyintelligence"/> class.

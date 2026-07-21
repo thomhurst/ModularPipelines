@@ -20,11 +20,11 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMemorystore
 {
     private readonly ICommand _command;
-    private GcloudMemorystoreAclPolicies _aclPolicies;
-    private GcloudMemorystoreBackupCollections _backupCollections;
-    private GcloudMemorystoreInstances _instances;
-    private GcloudMemorystoreLocations _locations;
-    private GcloudMemorystoreOperations _operations;
+    private GcloudMemorystoreAclPolicies? _aclPolicies;
+    private GcloudMemorystoreBackupCollections? _backupCollections;
+    private GcloudMemorystoreInstances? _instances;
+    private GcloudMemorystoreLocations? _locations;
+    private GcloudMemorystoreOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMemorystore"/> class.

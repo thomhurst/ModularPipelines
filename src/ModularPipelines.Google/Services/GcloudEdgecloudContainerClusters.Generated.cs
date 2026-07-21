@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudEdgecloudContainerClusters
 {
     private readonly ICommand _command;
-    private GcloudEdgecloudContainerClustersNodePools _nodePools;
+    private GcloudEdgecloudContainerClustersNodePools? _nodePools;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEdgecloudContainerClusters"/> class.

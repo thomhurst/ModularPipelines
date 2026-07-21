@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPreviewComputeSoleTenancy
 {
     private readonly ICommand _command;
-    private GcloudPreviewComputeSoleTenancyNodeGroups _nodeGroups;
-    private GcloudPreviewComputeSoleTenancyNodeTemplates _nodeTemplates;
-    private GcloudPreviewComputeSoleTenancyNodeTypes _nodeTypes;
+    private GcloudPreviewComputeSoleTenancyNodeGroups? _nodeGroups;
+    private GcloudPreviewComputeSoleTenancyNodeTemplates? _nodeTemplates;
+    private GcloudPreviewComputeSoleTenancyNodeTypes? _nodeTypes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeSoleTenancy"/> class.

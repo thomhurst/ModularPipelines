@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNotebooks
 {
     private readonly ICommand _command;
-    private GcloudNotebooksEnvironments _environments;
-    private GcloudNotebooksInstances _instances;
-    private GcloudNotebooksLocations _locations;
-    private GcloudNotebooksRuntimes _runtimes;
+    private GcloudNotebooksEnvironments? _environments;
+    private GcloudNotebooksInstances? _instances;
+    private GcloudNotebooksLocations? _locations;
+    private GcloudNotebooksRuntimes? _runtimes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNotebooks"/> class.

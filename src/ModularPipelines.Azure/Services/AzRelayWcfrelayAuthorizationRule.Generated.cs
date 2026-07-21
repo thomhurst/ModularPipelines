@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzRelayWcfrelayAuthorizationRule
 {
     private readonly ICommand _command;
-    private AzRelayWcfrelayAuthorizationRuleKeys _keys;
+    private AzRelayWcfrelayAuthorizationRuleKeys? _keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRelayWcfrelayAuthorizationRule"/> class.

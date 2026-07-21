@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkNsg
 {
     private readonly ICommand _command;
-    private AzNetworkNsgRule _rule;
+    private AzNetworkNsgRule? _rule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkNsg"/> class.

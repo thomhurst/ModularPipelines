@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudLustre
 {
     private readonly ICommand _command;
-    private GcloudLustreInstances _instances;
-    private GcloudLustreOperations _operations;
+    private GcloudLustreInstances? _instances;
+    private GcloudLustreOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudLustre"/> class.

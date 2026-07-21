@@ -20,10 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzBackupVault
 {
     private readonly ICommand _command;
-    private AzBackupVaultBackupProperties _backupProperties;
-    private AzBackupVaultEncryption _encryption;
-    private AzBackupVaultIdentity _identity;
-    private AzBackupVaultResourceGuardMapping _resourceGuardMapping;
+    private AzBackupVaultBackupProperties? _backupProperties;
+    private AzBackupVaultEncryption? _encryption;
+    private AzBackupVaultIdentity? _identity;
+    private AzBackupVaultResourceGuardMapping? _resourceGuardMapping;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBackupVault"/> class.

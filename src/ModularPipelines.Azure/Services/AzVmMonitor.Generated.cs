@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzVmMonitor
 {
     private readonly ICommand _command;
-    private AzVmMonitorLog _log;
+    private AzVmMonitorLog? _log;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzVmMonitor"/> class.

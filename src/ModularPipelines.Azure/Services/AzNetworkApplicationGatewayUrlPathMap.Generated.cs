@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkApplicationGatewayUrlPathMap
 {
     private readonly ICommand _command;
-    private AzNetworkApplicationGatewayUrlPathMapRule _rule;
+    private AzNetworkApplicationGatewayUrlPathMapRule? _rule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGatewayUrlPathMap"/> class.

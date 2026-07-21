@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzCosmosdbMongodbDatabase
 {
     private readonly ICommand _command;
-    private AzCosmosdbMongodbDatabaseThroughput _throughput;
+    private AzCosmosdbMongodbDatabaseThroughput? _throughput;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbMongodbDatabase"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerHubWorkloadIdentity
 {
     private readonly ICommand _command;
-    private GcloudContainerHubWorkloadIdentityScopeTenancyPool _scopeTenancyPool;
+    private GcloudContainerHubWorkloadIdentityScopeTenancyPool? _scopeTenancyPool;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerHubWorkloadIdentity"/> class.

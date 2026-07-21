@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudActivedirectory
 {
     private readonly ICommand _command;
-    private GcloudActivedirectoryDomains _domains;
-    private GcloudActivedirectoryOperations _operations;
-    private GcloudActivedirectoryPeerings _peerings;
+    private GcloudActivedirectoryDomains? _domains;
+    private GcloudActivedirectoryOperations? _operations;
+    private GcloudActivedirectoryPeerings? _peerings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudActivedirectory"/> class.

@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzContainerappIngress
 {
     private readonly ICommand _command;
-    private AzContainerappIngressAccessRestriction _accessRestriction;
-    private AzContainerappIngressCors _cors;
-    private AzContainerappIngressTraffic _traffic;
+    private AzContainerappIngressAccessRestriction? _accessRestriction;
+    private AzContainerappIngressCors? _cors;
+    private AzContainerappIngressTraffic? _traffic;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainerappIngress"/> class.

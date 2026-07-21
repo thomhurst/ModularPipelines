@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzBatchAccountNetworkProfile
 {
     private readonly ICommand _command;
-    private AzBatchAccountNetworkProfileNetworkRule _networkRule;
+    private AzBatchAccountNetworkProfileNetworkRule? _networkRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBatchAccountNetworkProfile"/> class.

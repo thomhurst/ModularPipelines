@@ -20,7 +20,7 @@ namespace ModularPipelines.Podman.Services;
 public class PodmanSystem
 {
     private readonly ICommand _command;
-    private PodmanSystemConnection _connection;
+    private PodmanSystemConnection? _connection;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PodmanSystem"/> class.

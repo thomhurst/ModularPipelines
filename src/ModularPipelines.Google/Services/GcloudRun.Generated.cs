@@ -20,14 +20,14 @@ namespace ModularPipelines.Google.Services;
 public class GcloudRun
 {
     private readonly ICommand _command;
-    private GcloudRunCompose _compose;
-    private GcloudRunDomainMappings _domainMappings;
-    private GcloudRunJobs _jobs;
-    private GcloudRunMultiRegionServices _multiRegionServices;
-    private GcloudRunRegions _regions;
-    private GcloudRunRevisions _revisions;
-    private GcloudRunServices _services;
-    private GcloudRunWorkerPools _workerPools;
+    private GcloudRunCompose? _compose;
+    private GcloudRunDomainMappings? _domainMappings;
+    private GcloudRunJobs? _jobs;
+    private GcloudRunMultiRegionServices? _multiRegionServices;
+    private GcloudRunRegions? _regions;
+    private GcloudRunRevisions? _revisions;
+    private GcloudRunServices? _services;
+    private GcloudRunWorkerPools? _workerPools;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRun"/> class.

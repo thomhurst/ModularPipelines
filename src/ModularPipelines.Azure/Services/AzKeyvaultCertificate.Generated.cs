@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzKeyvaultCertificate
 {
     private readonly ICommand _command;
-    private AzKeyvaultCertificateContact _contact;
-    private AzKeyvaultCertificateIssuer _issuer;
-    private AzKeyvaultCertificatePending _pending;
+    private AzKeyvaultCertificateContact? _contact;
+    private AzKeyvaultCertificateIssuer? _issuer;
+    private AzKeyvaultCertificatePending? _pending;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzKeyvaultCertificate"/> class.

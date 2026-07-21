@@ -20,12 +20,12 @@ namespace ModularPipelines.Azure.Services;
 public class AzContainerappEnv
 {
     private readonly ICommand _command;
-    private AzContainerappEnvCertificate _certificate;
-    private AzContainerappEnvHttpRouteConfig _httpRouteConfig;
-    private AzContainerappEnvLogs _logs;
-    private AzContainerappEnvPremiumIngress _premiumIngress;
-    private AzContainerappEnvStorage _storage;
-    private AzContainerappEnvWorkloadProfile _workloadProfile;
+    private AzContainerappEnvCertificate? _certificate;
+    private AzContainerappEnvHttpRouteConfig? _httpRouteConfig;
+    private AzContainerappEnvLogs? _logs;
+    private AzContainerappEnvPremiumIngress? _premiumIngress;
+    private AzContainerappEnvStorage? _storage;
+    private AzContainerappEnvWorkloadProfile? _workloadProfile;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainerappEnv"/> class.

@@ -20,15 +20,15 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDeploy
 {
     private readonly ICommand _command;
-    private GcloudDeployAutomationRuns _automationRuns;
-    private GcloudDeployAutomations _automations;
-    private GcloudDeployCustomTargetTypes _customTargetTypes;
-    private GcloudDeployDeliveryPipelines _deliveryPipelines;
-    private GcloudDeployDeployPolicies _deployPolicies;
-    private GcloudDeployJobRuns _jobRuns;
-    private GcloudDeployReleases _releases;
-    private GcloudDeployRollouts _rollouts;
-    private GcloudDeployTargets _targets;
+    private GcloudDeployAutomationRuns? _automationRuns;
+    private GcloudDeployAutomations? _automations;
+    private GcloudDeployCustomTargetTypes? _customTargetTypes;
+    private GcloudDeployDeliveryPipelines? _deliveryPipelines;
+    private GcloudDeployDeployPolicies? _deployPolicies;
+    private GcloudDeployJobRuns? _jobRuns;
+    private GcloudDeployReleases? _releases;
+    private GcloudDeployRollouts? _rollouts;
+    private GcloudDeployTargets? _targets;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDeploy"/> class.

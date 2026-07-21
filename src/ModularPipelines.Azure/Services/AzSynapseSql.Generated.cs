@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzSynapseSql
 {
     private readonly ICommand _command;
-    private AzSynapseSqlAdAdmin _adAdmin;
-    private AzSynapseSqlAuditPolicy _auditPolicy;
-    private AzSynapseSqlPool _pool;
+    private AzSynapseSqlAdAdmin? _adAdmin;
+    private AzSynapseSqlAuditPolicy? _auditPolicy;
+    private AzSynapseSqlPool? _pool;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseSql"/> class.

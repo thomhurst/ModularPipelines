@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudServices
 {
     private readonly ICommand _command;
-    private GcloudServicesApiKeys _apiKeys;
-    private GcloudServicesOperations _operations;
-    private GcloudServicesPeeredDnsDomains _peeredDnsDomains;
-    private GcloudServicesVpcPeerings _vpcPeerings;
+    private GcloudServicesApiKeys? _apiKeys;
+    private GcloudServicesOperations? _operations;
+    private GcloudServicesPeeredDnsDomains? _peeredDnsDomains;
+    private GcloudServicesVpcPeerings? _vpcPeerings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudServices"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzStorageAccountBlobServiceProperties
 {
     private readonly ICommand _command;
-    private AzStorageAccountBlobServicePropertiesCorsRule _corsRule;
+    private AzStorageAccountBlobServicePropertiesCorsRule? _corsRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageAccountBlobServiceProperties"/> class.

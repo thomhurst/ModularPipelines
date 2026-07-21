@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkExpressRouteGateway
 {
     private readonly ICommand _command;
-    private AzNetworkExpressRouteGatewayConnection _connection;
+    private AzNetworkExpressRouteGatewayConnection? _connection;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkExpressRouteGateway"/> class.

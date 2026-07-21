@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMlSpeech
 {
     private readonly ICommand _command;
-    private GcloudMlSpeechOperations _operations;
+    private GcloudMlSpeechOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMlSpeech"/> class.

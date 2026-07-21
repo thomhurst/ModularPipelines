@@ -20,9 +20,9 @@ namespace ModularPipelines.Flux.Services;
 public class FluxGet
 {
     private readonly ICommand _command;
-    private FluxGetArtifacts _artifacts;
-    private FluxGetImages _images;
-    private FluxGetSources _sources;
+    private FluxGetArtifacts? _artifacts;
+    private FluxGetImages? _images;
+    private FluxGetSources? _sources;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxGet"/> class.

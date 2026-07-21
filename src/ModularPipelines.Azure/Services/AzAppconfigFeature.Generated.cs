@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzAppconfigFeature
 {
     private readonly ICommand _command;
-    private AzAppconfigFeatureFilter _filter;
+    private AzAppconfigFeatureFilter? _filter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAppconfigFeature"/> class.

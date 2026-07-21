@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudOracledatabaseCloudExadataInfrastructures
 {
     private readonly ICommand _command;
-    private GcloudOracledatabaseCloudExadataInfrastructuresDbServers _dbServers;
+    private GcloudOracledatabaseCloudExadataInfrastructuresDbServers? _dbServers;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudOracledatabaseCloudExadataInfrastructures"/> class.

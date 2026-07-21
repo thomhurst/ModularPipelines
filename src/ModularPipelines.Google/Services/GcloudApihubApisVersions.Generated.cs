@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudApihubApisVersions
 {
     private readonly ICommand _command;
-    private GcloudApihubApisVersionsOperations _operations;
-    private GcloudApihubApisVersionsSpecs _specs;
+    private GcloudApihubApisVersionsOperations? _operations;
+    private GcloudApihubApisVersionsSpecs? _specs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApihubApisVersions"/> class.

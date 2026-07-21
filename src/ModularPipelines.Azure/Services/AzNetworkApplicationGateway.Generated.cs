@@ -20,28 +20,28 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkApplicationGateway
 {
     private readonly ICommand _command;
-    private AzNetworkApplicationGatewayAddressPool _addressPool;
-    private AzNetworkApplicationGatewayAuthCert _authCert;
-    private AzNetworkApplicationGatewayClientCert _clientCert;
-    private AzNetworkApplicationGatewayFrontendIp _frontendIp;
-    private AzNetworkApplicationGatewayFrontendPort _frontendPort;
-    private AzNetworkApplicationGatewayHttpListener _httpListener;
-    private AzNetworkApplicationGatewayHttpSettings _httpSettings;
-    private AzNetworkApplicationGatewayIdentity _identity;
-    private AzNetworkApplicationGatewayListener _listener;
-    private AzNetworkApplicationGatewayProbe _probe;
-    private AzNetworkApplicationGatewayRedirectConfig _redirectConfig;
-    private AzNetworkApplicationGatewayRewriteRule _rewriteRule;
-    private AzNetworkApplicationGatewayRootCert _rootCert;
-    private AzNetworkApplicationGatewayRoutingRule _routingRule;
-    private AzNetworkApplicationGatewayRule _rule;
-    private AzNetworkApplicationGatewaySettings _settings;
-    private AzNetworkApplicationGatewaySslCert _sslCert;
-    private AzNetworkApplicationGatewaySslPolicy _sslPolicy;
-    private AzNetworkApplicationGatewaySslProfile _sslProfile;
-    private AzNetworkApplicationGatewayUrlPathMap _urlPathMap;
-    private AzNetworkApplicationGatewayWafConfig _wafConfig;
-    private AzNetworkApplicationGatewayWafPolicy _wafPolicy;
+    private AzNetworkApplicationGatewayAddressPool? _addressPool;
+    private AzNetworkApplicationGatewayAuthCert? _authCert;
+    private AzNetworkApplicationGatewayClientCert? _clientCert;
+    private AzNetworkApplicationGatewayFrontendIp? _frontendIp;
+    private AzNetworkApplicationGatewayFrontendPort? _frontendPort;
+    private AzNetworkApplicationGatewayHttpListener? _httpListener;
+    private AzNetworkApplicationGatewayHttpSettings? _httpSettings;
+    private AzNetworkApplicationGatewayIdentity? _identity;
+    private AzNetworkApplicationGatewayListener? _listener;
+    private AzNetworkApplicationGatewayProbe? _probe;
+    private AzNetworkApplicationGatewayRedirectConfig? _redirectConfig;
+    private AzNetworkApplicationGatewayRewriteRule? _rewriteRule;
+    private AzNetworkApplicationGatewayRootCert? _rootCert;
+    private AzNetworkApplicationGatewayRoutingRule? _routingRule;
+    private AzNetworkApplicationGatewayRule? _rule;
+    private AzNetworkApplicationGatewaySettings? _settings;
+    private AzNetworkApplicationGatewaySslCert? _sslCert;
+    private AzNetworkApplicationGatewaySslPolicy? _sslPolicy;
+    private AzNetworkApplicationGatewaySslProfile? _sslProfile;
+    private AzNetworkApplicationGatewayUrlPathMap? _urlPathMap;
+    private AzNetworkApplicationGatewayWafConfig? _wafConfig;
+    private AzNetworkApplicationGatewayWafPolicy? _wafPolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGateway"/> class.

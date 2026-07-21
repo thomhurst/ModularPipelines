@@ -20,14 +20,14 @@ namespace ModularPipelines.Azure.Services;
 public class AzSqlServer
 {
     private readonly ICommand _command;
-    private AzSqlServerAdvancedThreatProtectionSetting _advancedThreatProtectionSetting;
-    private AzSqlServerAuditPolicy _auditPolicy;
-    private AzSqlServerDnsAlias _dnsAlias;
-    private AzSqlServerFirewallRule _firewallRule;
-    private AzSqlServerIpv6FirewallRule _ipv6FirewallRule;
-    private AzSqlServerMsSupport _msSupport;
-    private AzSqlServerTdeKey _tdeKey;
-    private AzSqlServerVnetRule _vnetRule;
+    private AzSqlServerAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
+    private AzSqlServerAuditPolicy? _auditPolicy;
+    private AzSqlServerDnsAlias? _dnsAlias;
+    private AzSqlServerFirewallRule? _firewallRule;
+    private AzSqlServerIpv6FirewallRule? _ipv6FirewallRule;
+    private AzSqlServerMsSupport? _msSupport;
+    private AzSqlServerTdeKey? _tdeKey;
+    private AzSqlServerVnetRule? _vnetRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlServer"/> class.

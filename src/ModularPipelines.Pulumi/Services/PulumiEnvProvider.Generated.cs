@@ -20,8 +20,8 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiEnvProvider
 {
     private readonly ICommand _command;
-    private PulumiEnvProviderAwsLogin _awsLogin;
-    private PulumiEnvProviderGcpLogin _gcpLogin;
+    private PulumiEnvProviderAwsLogin? _awsLogin;
+    private PulumiEnvProviderGcpLogin? _gcpLogin;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiEnvProvider"/> class.

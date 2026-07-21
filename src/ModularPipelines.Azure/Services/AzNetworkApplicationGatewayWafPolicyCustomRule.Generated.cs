@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkApplicationGatewayWafPolicyCustomRule
 {
     private readonly ICommand _command;
-    private AzNetworkApplicationGatewayWafPolicyCustomRuleMatchCondition _matchCondition;
+    private AzNetworkApplicationGatewayWafPolicyCustomRuleMatchCondition? _matchCondition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGatewayWafPolicyCustomRule"/> class.

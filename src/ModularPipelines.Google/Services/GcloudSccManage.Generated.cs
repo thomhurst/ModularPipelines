@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudSccManage
 {
     private readonly ICommand _command;
-    private GcloudSccManageCustomModules _customModules;
-    private GcloudSccManageServices _services;
+    private GcloudSccManageCustomModules? _customModules;
+    private GcloudSccManageServices? _services;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSccManage"/> class.

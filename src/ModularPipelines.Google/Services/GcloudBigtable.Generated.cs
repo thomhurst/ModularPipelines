@@ -20,17 +20,17 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBigtable
 {
     private readonly ICommand _command;
-    private GcloudBigtableAppProfiles _appProfiles;
-    private GcloudBigtableAuthorizedViews _authorizedViews;
-    private GcloudBigtableBackups _backups;
-    private GcloudBigtableClusters _clusters;
-    private GcloudBigtableHotTablets _hotTablets;
-    private GcloudBigtableInstances _instances;
-    private GcloudBigtableLogicalViews _logicalViews;
-    private GcloudBigtableMaterializedViews _materializedViews;
-    private GcloudBigtableOperations _operations;
-    private GcloudBigtableSchemaBundles _schemaBundles;
-    private GcloudBigtableTables _tables;
+    private GcloudBigtableAppProfiles? _appProfiles;
+    private GcloudBigtableAuthorizedViews? _authorizedViews;
+    private GcloudBigtableBackups? _backups;
+    private GcloudBigtableClusters? _clusters;
+    private GcloudBigtableHotTablets? _hotTablets;
+    private GcloudBigtableInstances? _instances;
+    private GcloudBigtableLogicalViews? _logicalViews;
+    private GcloudBigtableMaterializedViews? _materializedViews;
+    private GcloudBigtableOperations? _operations;
+    private GcloudBigtableSchemaBundles? _schemaBundles;
+    private GcloudBigtableTables? _tables;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBigtable"/> class.

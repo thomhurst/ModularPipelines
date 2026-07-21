@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBuildsTriggers
 {
     private readonly ICommand _command;
-    private GcloudBuildsTriggersCreate _create;
-    private GcloudBuildsTriggersUpdate _update;
+    private GcloudBuildsTriggersCreate? _create;
+    private GcloudBuildsTriggersUpdate? _update;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBuildsTriggers"/> class.

@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzKeyvaultRole
 {
     private readonly ICommand _command;
-    private AzKeyvaultRoleAssignment _assignment;
-    private AzKeyvaultRoleDefinition _definition;
+    private AzKeyvaultRoleAssignment? _assignment;
+    private AzKeyvaultRoleDefinition? _definition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzKeyvaultRole"/> class.

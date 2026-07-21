@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudIdentity
 {
     private readonly ICommand _command;
-    private GcloudIdentityGroups _groups;
+    private GcloudIdentityGroups? _groups;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIdentity"/> class.

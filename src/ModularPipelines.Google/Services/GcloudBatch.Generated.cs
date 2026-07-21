@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBatch
 {
     private readonly ICommand _command;
-    private GcloudBatchJobs _jobs;
-    private GcloudBatchTasks _tasks;
+    private GcloudBatchJobs? _jobs;
+    private GcloudBatchTasks? _tasks;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBatch"/> class.

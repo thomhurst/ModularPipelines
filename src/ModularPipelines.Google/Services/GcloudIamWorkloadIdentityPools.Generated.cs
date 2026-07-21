@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudIamWorkloadIdentityPools
 {
     private readonly ICommand _command;
-    private GcloudIamWorkloadIdentityPoolsManagedIdentities _managedIdentities;
-    private GcloudIamWorkloadIdentityPoolsNamespaces _namespaces;
-    private GcloudIamWorkloadIdentityPoolsOperations _operations;
-    private GcloudIamWorkloadIdentityPoolsProviders _providers;
+    private GcloudIamWorkloadIdentityPoolsManagedIdentities? _managedIdentities;
+    private GcloudIamWorkloadIdentityPoolsNamespaces? _namespaces;
+    private GcloudIamWorkloadIdentityPoolsOperations? _operations;
+    private GcloudIamWorkloadIdentityPoolsProviders? _providers;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIamWorkloadIdentityPools"/> class.

@@ -20,17 +20,17 @@ namespace ModularPipelines.Azure.Services;
 public class AzKeyvault
 {
     private readonly ICommand _command;
-    private AzKeyvaultBackup _backup;
-    private AzKeyvaultCertificate _certificate;
-    private AzKeyvaultKey _key;
-    private AzKeyvaultNetworkRule _networkRule;
-    private AzKeyvaultPrivateEndpointConnection _privateEndpointConnection;
-    private AzKeyvaultPrivateLinkResource _privateLinkResource;
-    private AzKeyvaultRegion _region;
-    private AzKeyvaultRestore _restore;
-    private AzKeyvaultRole _role;
-    private AzKeyvaultSecret _secret;
-    private AzKeyvaultSecurityDomain _securityDomain;
+    private AzKeyvaultBackup? _backup;
+    private AzKeyvaultCertificate? _certificate;
+    private AzKeyvaultKey? _key;
+    private AzKeyvaultNetworkRule? _networkRule;
+    private AzKeyvaultPrivateEndpointConnection? _privateEndpointConnection;
+    private AzKeyvaultPrivateLinkResource? _privateLinkResource;
+    private AzKeyvaultRegion? _region;
+    private AzKeyvaultRestore? _restore;
+    private AzKeyvaultRole? _role;
+    private AzKeyvaultSecret? _secret;
+    private AzKeyvaultSecurityDomain? _securityDomain;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzKeyvault"/> class.

@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPreviewComputeInstanceGroupsManaged
 {
     private readonly ICommand _command;
-    private GcloudPreviewComputeInstanceGroupsManagedAllInstancesConfig _allInstancesConfig;
-    private GcloudPreviewComputeInstanceGroupsManagedInstanceConfigs _instanceConfigs;
-    private GcloudPreviewComputeInstanceGroupsManagedResizeRequests _resizeRequests;
-    private GcloudPreviewComputeInstanceGroupsManagedRollingAction _rollingAction;
+    private GcloudPreviewComputeInstanceGroupsManagedAllInstancesConfig? _allInstancesConfig;
+    private GcloudPreviewComputeInstanceGroupsManagedInstanceConfigs? _instanceConfigs;
+    private GcloudPreviewComputeInstanceGroupsManagedResizeRequests? _resizeRequests;
+    private GcloudPreviewComputeInstanceGroupsManagedRollingAction? _rollingAction;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeInstanceGroupsManaged"/> class.

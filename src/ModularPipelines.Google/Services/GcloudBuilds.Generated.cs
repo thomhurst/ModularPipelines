@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBuilds
 {
     private readonly ICommand _command;
-    private GcloudBuildsConnections _connections;
-    private GcloudBuildsRepositories _repositories;
-    private GcloudBuildsTriggers _triggers;
-    private GcloudBuildsWorkerPools _workerPools;
+    private GcloudBuildsConnections? _connections;
+    private GcloudBuildsRepositories? _repositories;
+    private GcloudBuildsTriggers? _triggers;
+    private GcloudBuildsWorkerPools? _workerPools;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBuilds"/> class.

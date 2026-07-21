@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkRouteTable
 {
     private readonly ICommand _command;
-    private AzNetworkRouteTableRoute _route;
+    private AzNetworkRouteTableRoute? _route;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkRouteTable"/> class.

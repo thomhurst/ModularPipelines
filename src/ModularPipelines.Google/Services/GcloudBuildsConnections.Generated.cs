@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBuildsConnections
 {
     private readonly ICommand _command;
-    private GcloudBuildsConnectionsCreate _create;
-    private GcloudBuildsConnectionsUpdate _update;
+    private GcloudBuildsConnectionsCreate? _create;
+    private GcloudBuildsConnectionsUpdate? _update;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBuildsConnections"/> class.

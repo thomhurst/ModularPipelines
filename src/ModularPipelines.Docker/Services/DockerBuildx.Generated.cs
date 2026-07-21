@@ -20,10 +20,10 @@ namespace ModularPipelines.Docker.Services;
 public class DockerBuildx
 {
     private readonly ICommand _command;
-    private DockerBuildxDap _dap;
-    private DockerBuildxHistory _history;
-    private DockerBuildxImagetools _imagetools;
-    private DockerBuildxPolicy _policy;
+    private DockerBuildxDap? _dap;
+    private DockerBuildxHistory? _history;
+    private DockerBuildxImagetools? _imagetools;
+    private DockerBuildxPolicy? _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerBuildx"/> class.

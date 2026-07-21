@@ -20,13 +20,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzSqlDb
 {
     private readonly ICommand _command;
-    private AzSqlDbAdvancedThreatProtectionSetting _advancedThreatProtectionSetting;
-    private AzSqlDbClassification _classification;
-    private AzSqlDbGeoBackup _geoBackup;
-    private AzSqlDbLtrBackup _ltrBackup;
-    private AzSqlDbLtrPolicy _ltrPolicy;
-    private AzSqlDbReplica _replica;
-    private AzSqlDbStrPolicy _strPolicy;
+    private AzSqlDbAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
+    private AzSqlDbClassification? _classification;
+    private AzSqlDbGeoBackup? _geoBackup;
+    private AzSqlDbLtrBackup? _ltrBackup;
+    private AzSqlDbLtrPolicy? _ltrPolicy;
+    private AzSqlDbReplica? _replica;
+    private AzSqlDbStrPolicy? _strPolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlDb"/> class.

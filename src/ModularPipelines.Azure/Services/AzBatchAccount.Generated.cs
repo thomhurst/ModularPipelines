@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzBatchAccount
 {
     private readonly ICommand _command;
-    private AzBatchAccountIdentity _identity;
-    private AzBatchAccountKeys _keys;
-    private AzBatchAccountNetworkProfile _networkProfile;
+    private AzBatchAccountIdentity? _identity;
+    private AzBatchAccountKeys? _keys;
+    private AzBatchAccountNetworkProfile? _networkProfile;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBatchAccount"/> class.

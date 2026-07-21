@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudServicedirectory
 {
     private readonly ICommand _command;
-    private GcloudServicedirectoryEndpoints _endpoints;
-    private GcloudServicedirectoryLocations _locations;
-    private GcloudServicedirectoryNamespaces _namespaces;
-    private GcloudServicedirectoryServices _services;
+    private GcloudServicedirectoryEndpoints? _endpoints;
+    private GcloudServicedirectoryLocations? _locations;
+    private GcloudServicedirectoryNamespaces? _namespaces;
+    private GcloudServicedirectoryServices? _services;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudServicedirectory"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudGeminiCodeToolsSettings
 {
     private readonly ICommand _command;
-    private GcloudGeminiCodeToolsSettingsSettingBindings _settingBindings;
+    private GcloudGeminiCodeToolsSettingsSettingBindings? _settingBindings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudGeminiCodeToolsSettings"/> class.

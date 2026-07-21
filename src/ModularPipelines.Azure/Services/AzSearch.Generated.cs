@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzSearch
 {
     private readonly ICommand _command;
-    private AzSearchPrivateEndpointConnection _privateEndpointConnection;
-    private AzSearchService _service;
-    private AzSearchSharedPrivateLinkResource _sharedPrivateLinkResource;
+    private AzSearchPrivateEndpointConnection? _privateEndpointConnection;
+    private AzSearchService? _service;
+    private AzSearchSharedPrivateLinkResource? _sharedPrivateLinkResource;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSearch"/> class.

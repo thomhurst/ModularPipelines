@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzAdSp
 {
     private readonly ICommand _command;
-    private AzAdSpCredential _credential;
+    private AzAdSpCredential? _credential;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAdSp"/> class.

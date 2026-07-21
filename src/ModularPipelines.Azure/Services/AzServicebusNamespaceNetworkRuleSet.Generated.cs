@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzServicebusNamespaceNetworkRuleSet
 {
     private readonly ICommand _command;
-    private AzServicebusNamespaceNetworkRuleSetIpRule _ipRule;
-    private AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule _virtualNetworkRule;
+    private AzServicebusNamespaceNetworkRuleSetIpRule? _ipRule;
+    private AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule? _virtualNetworkRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzServicebusNamespaceNetworkRuleSet"/> class.

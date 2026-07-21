@@ -20,15 +20,15 @@ namespace ModularPipelines.Azure.Services;
 public class AzAks
 {
     private readonly ICommand _command;
-    private AzAksApprouting _approuting;
-    private AzAksCommand _commandSubGroup;
-    private AzAksMaintenanceconfiguration _maintenanceconfiguration;
-    private AzAksMesh _mesh;
-    private AzAksNamespace _namespace;
-    private AzAksNodepool _nodepool;
-    private AzAksOidcIssuer _oidcIssuer;
-    private AzAksSafeguards _safeguards;
-    private AzAksTrustedaccess _trustedaccess;
+    private AzAksApprouting? _approuting;
+    private AzAksCommand? _commandSubGroup;
+    private AzAksMaintenanceconfiguration? _maintenanceconfiguration;
+    private AzAksMesh? _mesh;
+    private AzAksNamespace? _namespace;
+    private AzAksNodepool? _nodepool;
+    private AzAksOidcIssuer? _oidcIssuer;
+    private AzAksSafeguards? _safeguards;
+    private AzAksTrustedaccess? _trustedaccess;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAks"/> class.

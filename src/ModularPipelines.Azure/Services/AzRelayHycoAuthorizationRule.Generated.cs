@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzRelayHycoAuthorizationRule
 {
     private readonly ICommand _command;
-    private AzRelayHycoAuthorizationRuleKeys _keys;
+    private AzRelayHycoAuthorizationRuleKeys? _keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRelayHycoAuthorizationRule"/> class.

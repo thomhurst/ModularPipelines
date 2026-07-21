@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudVmwarePrivateCloudsNsx
 {
     private readonly ICommand _command;
-    private GcloudVmwarePrivateCloudsNsxCredentials _credentials;
+    private GcloudVmwarePrivateCloudsNsxCredentials? _credentials;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmwarePrivateCloudsNsx"/> class.

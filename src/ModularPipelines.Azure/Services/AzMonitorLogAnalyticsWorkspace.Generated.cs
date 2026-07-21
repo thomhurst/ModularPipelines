@@ -20,12 +20,12 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitorLogAnalyticsWorkspace
 {
     private readonly ICommand _command;
-    private AzMonitorLogAnalyticsWorkspaceDataExport _dataExport;
-    private AzMonitorLogAnalyticsWorkspaceIdentity _identity;
-    private AzMonitorLogAnalyticsWorkspaceLinkedService _linkedService;
-    private AzMonitorLogAnalyticsWorkspaceLinkedStorage _linkedStorage;
-    private AzMonitorLogAnalyticsWorkspaceSavedSearch _savedSearch;
-    private AzMonitorLogAnalyticsWorkspaceTable _table;
+    private AzMonitorLogAnalyticsWorkspaceDataExport? _dataExport;
+    private AzMonitorLogAnalyticsWorkspaceIdentity? _identity;
+    private AzMonitorLogAnalyticsWorkspaceLinkedService? _linkedService;
+    private AzMonitorLogAnalyticsWorkspaceLinkedStorage? _linkedStorage;
+    private AzMonitorLogAnalyticsWorkspaceSavedSearch? _savedSearch;
+    private AzMonitorLogAnalyticsWorkspaceTable? _table;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorLogAnalyticsWorkspace"/> class.

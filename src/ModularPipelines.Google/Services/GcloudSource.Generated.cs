@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudSource
 {
     private readonly ICommand _command;
-    private GcloudSourceProjectConfigs _projectConfigs;
-    private GcloudSourceRepos _repos;
+    private GcloudSourceProjectConfigs? _projectConfigs;
+    private GcloudSourceRepos? _repos;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSource"/> class.

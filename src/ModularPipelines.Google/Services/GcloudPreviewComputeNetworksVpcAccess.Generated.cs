@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPreviewComputeNetworksVpcAccess
 {
     private readonly ICommand _command;
-    private GcloudPreviewComputeNetworksVpcAccessConnectors _connectors;
-    private GcloudPreviewComputeNetworksVpcAccessLocations _locations;
-    private GcloudPreviewComputeNetworksVpcAccessOperations _operations;
+    private GcloudPreviewComputeNetworksVpcAccessConnectors? _connectors;
+    private GcloudPreviewComputeNetworksVpcAccessLocations? _locations;
+    private GcloudPreviewComputeNetworksVpcAccessOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeNetworksVpcAccess"/> class.

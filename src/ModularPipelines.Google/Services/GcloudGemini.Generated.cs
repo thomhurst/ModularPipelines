@@ -20,15 +20,15 @@ namespace ModularPipelines.Google.Services;
 public class GcloudGemini
 {
     private readonly ICommand _command;
-    private GcloudGeminiCodeRepositoryIndexes _codeRepositoryIndexes;
-    private GcloudGeminiCodeToolsSettings _codeToolsSettings;
-    private GcloudGeminiDataSharingWithGoogleSettings _dataSharingWithGoogleSettings;
-    private GcloudGeminiGdaObservabilitySettings _gdaObservabilitySettings;
-    private GcloudGeminiGeminiGcpEnablementSettings _geminiGcpEnablementSettings;
-    private GcloudGeminiGibqObservabilitySettings _gibqObservabilitySettings;
-    private GcloudGeminiLoggingSettings _loggingSettings;
-    private GcloudGeminiOperations _operations;
-    private GcloudGeminiReleaseChannelSettings _releaseChannelSettings;
+    private GcloudGeminiCodeRepositoryIndexes? _codeRepositoryIndexes;
+    private GcloudGeminiCodeToolsSettings? _codeToolsSettings;
+    private GcloudGeminiDataSharingWithGoogleSettings? _dataSharingWithGoogleSettings;
+    private GcloudGeminiGdaObservabilitySettings? _gdaObservabilitySettings;
+    private GcloudGeminiGeminiGcpEnablementSettings? _geminiGcpEnablementSettings;
+    private GcloudGeminiGibqObservabilitySettings? _gibqObservabilitySettings;
+    private GcloudGeminiLoggingSettings? _loggingSettings;
+    private GcloudGeminiOperations? _operations;
+    private GcloudGeminiReleaseChannelSettings? _releaseChannelSettings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudGemini"/> class.

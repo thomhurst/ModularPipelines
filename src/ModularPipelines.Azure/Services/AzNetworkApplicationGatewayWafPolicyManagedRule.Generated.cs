@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkApplicationGatewayWafPolicyManagedRule
 {
     private readonly ICommand _command;
-    private AzNetworkApplicationGatewayWafPolicyManagedRuleException _exception;
-    private AzNetworkApplicationGatewayWafPolicyManagedRuleExclusion _exclusion;
-    private AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSet _ruleSet;
+    private AzNetworkApplicationGatewayWafPolicyManagedRuleException? _exception;
+    private AzNetworkApplicationGatewayWafPolicyManagedRuleExclusion? _exclusion;
+    private AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSet? _ruleSet;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGatewayWafPolicyManagedRule"/> class.

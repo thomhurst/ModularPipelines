@@ -20,20 +20,20 @@ namespace ModularPipelines.Azure.Services;
 public class AzSecurity
 {
     private readonly ICommand _command;
-    private AzSecurityAdaptiveApplicationControls _adaptiveApplicationControls;
-    private AzSecurityAlert _alert;
-    private AzSecurityAlertsSuppressionRule _alertsSuppressionRule;
-    private AzSecurityAssessment _assessment;
-    private AzSecurityAssessmentMetadata _assessmentMetadata;
-    private AzSecurityAutomation _automation;
-    private AzSecurityAutomationActionEventHub _automationActionEventHub;
-    private AzSecurityAutomationRuleSet _automationRuleSet;
-    private AzSecurityAutomationSource _automationSource;
-    private AzSecurityIotSolution _iotSolution;
-    private AzSecurityJitPolicy _jitPolicy;
-    private AzSecurityPricing _pricing;
-    private AzSecuritySubAssessment _subAssessment;
-    private AzSecurityTask _task;
+    private AzSecurityAdaptiveApplicationControls? _adaptiveApplicationControls;
+    private AzSecurityAlert? _alert;
+    private AzSecurityAlertsSuppressionRule? _alertsSuppressionRule;
+    private AzSecurityAssessment? _assessment;
+    private AzSecurityAssessmentMetadata? _assessmentMetadata;
+    private AzSecurityAutomation? _automation;
+    private AzSecurityAutomationActionEventHub? _automationActionEventHub;
+    private AzSecurityAutomationRuleSet? _automationRuleSet;
+    private AzSecurityAutomationSource? _automationSource;
+    private AzSecurityIotSolution? _iotSolution;
+    private AzSecurityJitPolicy? _jitPolicy;
+    private AzSecurityPricing? _pricing;
+    private AzSecuritySubAssessment? _subAssessment;
+    private AzSecurityTask? _task;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSecurity"/> class.

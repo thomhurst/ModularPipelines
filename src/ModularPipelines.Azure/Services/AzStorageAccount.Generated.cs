@@ -20,16 +20,16 @@ namespace ModularPipelines.Azure.Services;
 public class AzStorageAccount
 {
     private readonly ICommand _command;
-    private AzStorageAccountBlobServiceProperties _blobServiceProperties;
-    private AzStorageAccountEncryptionScope _encryptionScope;
-    private AzStorageAccountFileServiceProperties _fileServiceProperties;
-    private AzStorageAccountHnsMigration _hnsMigration;
-    private AzStorageAccountKeys _keys;
-    private AzStorageAccountLocalUser _localUser;
-    private AzStorageAccountMigration _migration;
-    private AzStorageAccountNetworkRule _networkRule;
-    private AzStorageAccountNetworkSecurityPerimeterConfiguration _networkSecurityPerimeterConfiguration;
-    private AzStorageAccountOrPolicy _orPolicy;
+    private AzStorageAccountBlobServiceProperties? _blobServiceProperties;
+    private AzStorageAccountEncryptionScope? _encryptionScope;
+    private AzStorageAccountFileServiceProperties? _fileServiceProperties;
+    private AzStorageAccountHnsMigration? _hnsMigration;
+    private AzStorageAccountKeys? _keys;
+    private AzStorageAccountLocalUser? _localUser;
+    private AzStorageAccountMigration? _migration;
+    private AzStorageAccountNetworkRule? _networkRule;
+    private AzStorageAccountNetworkSecurityPerimeterConfiguration? _networkSecurityPerimeterConfiguration;
+    private AzStorageAccountOrPolicy? _orPolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageAccount"/> class.

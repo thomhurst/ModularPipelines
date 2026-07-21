@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzAppservice
 {
     private readonly ICommand _command;
-    private AzAppserviceAse _ase;
-    private AzAppservicePlan _plan;
+    private AzAppserviceAse? _ase;
+    private AzAppservicePlan? _plan;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAppservice"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDomains
 {
     private readonly ICommand _command;
-    private GcloudDomainsRegistrations _registrations;
+    private GcloudDomainsRegistrations? _registrations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDomains"/> class.

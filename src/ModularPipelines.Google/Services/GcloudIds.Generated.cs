@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudIds
 {
     private readonly ICommand _command;
-    private GcloudIdsEndpoints _endpoints;
+    private GcloudIdsEndpoints? _endpoints;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIds"/> class.

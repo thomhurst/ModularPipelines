@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDatastream
 {
     private readonly ICommand _command;
-    private GcloudDatastreamConnectionProfiles _connectionProfiles;
-    private GcloudDatastreamLocations _locations;
-    private GcloudDatastreamObjects _objects;
-    private GcloudDatastreamOperations _operations;
-    private GcloudDatastreamPrivateConnections _privateConnections;
-    private GcloudDatastreamRoutes _routes;
-    private GcloudDatastreamStreams _streams;
+    private GcloudDatastreamConnectionProfiles? _connectionProfiles;
+    private GcloudDatastreamLocations? _locations;
+    private GcloudDatastreamObjects? _objects;
+    private GcloudDatastreamOperations? _operations;
+    private GcloudDatastreamPrivateConnections? _privateConnections;
+    private GcloudDatastreamRoutes? _routes;
+    private GcloudDatastreamStreams? _streams;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatastream"/> class.

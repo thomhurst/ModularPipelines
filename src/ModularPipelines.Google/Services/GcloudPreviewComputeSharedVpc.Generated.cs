@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPreviewComputeSharedVpc
 {
     private readonly ICommand _command;
-    private GcloudPreviewComputeSharedVpcAssociatedProjects _associatedProjects;
-    private GcloudPreviewComputeSharedVpcOrganizations _organizations;
+    private GcloudPreviewComputeSharedVpcAssociatedProjects? _associatedProjects;
+    private GcloudPreviewComputeSharedVpcOrganizations? _organizations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeSharedVpc"/> class.

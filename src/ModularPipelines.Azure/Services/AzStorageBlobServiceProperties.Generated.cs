@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzStorageBlobServiceProperties
 {
     private readonly ICommand _command;
-    private AzStorageBlobServicePropertiesDeletePolicy _deletePolicy;
+    private AzStorageBlobServicePropertiesDeletePolicy? _deletePolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageBlobServiceProperties"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBackupdrBackups
 {
     private readonly ICommand _command;
-    private GcloudBackupdrBackupsRestore _restore;
+    private GcloudBackupdrBackupsRestore? _restore;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBackupdrBackups"/> class.

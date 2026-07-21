@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudSchedulerJobs
 {
     private readonly ICommand _command;
-    private GcloudSchedulerJobsCreate _create;
-    private GcloudSchedulerJobsUpdate _update;
+    private GcloudSchedulerJobsCreate? _create;
+    private GcloudSchedulerJobsUpdate? _update;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSchedulerJobs"/> class.

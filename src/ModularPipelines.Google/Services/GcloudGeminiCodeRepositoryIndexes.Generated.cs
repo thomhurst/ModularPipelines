@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudGeminiCodeRepositoryIndexes
 {
     private readonly ICommand _command;
-    private GcloudGeminiCodeRepositoryIndexesRepositoryGroups _repositoryGroups;
+    private GcloudGeminiCodeRepositoryIndexesRepositoryGroups? _repositoryGroups;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudGeminiCodeRepositoryIndexes"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzServicebusTopicSubscription
 {
     private readonly ICommand _command;
-    private AzServicebusTopicSubscriptionRule _rule;
+    private AzServicebusTopicSubscriptionRule? _rule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzServicebusTopicSubscription"/> class.

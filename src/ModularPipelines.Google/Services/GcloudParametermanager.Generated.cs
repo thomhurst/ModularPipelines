@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudParametermanager
 {
     private readonly ICommand _command;
-    private GcloudParametermanagerParameters _parameters;
+    private GcloudParametermanagerParameters? _parameters;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudParametermanager"/> class.

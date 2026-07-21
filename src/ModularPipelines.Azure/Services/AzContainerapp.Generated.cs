@@ -20,21 +20,21 @@ namespace ModularPipelines.Azure.Services;
 public class AzContainerapp
 {
     private readonly ICommand _command;
-    private AzContainerappAuth _auth;
-    private AzContainerappCompose _compose;
-    private AzContainerappConnection _connection;
-    private AzContainerappEnv _env;
-    private AzContainerappGithubAction _githubAction;
-    private AzContainerappHostname _hostname;
-    private AzContainerappIdentity _identity;
-    private AzContainerappIngress _ingress;
-    private AzContainerappJob _job;
-    private AzContainerappLogs _logs;
-    private AzContainerappRegistry _registry;
-    private AzContainerappReplica _replica;
-    private AzContainerappRevision _revision;
-    private AzContainerappSecret _secret;
-    private AzContainerappSsl _ssl;
+    private AzContainerappAuth? _auth;
+    private AzContainerappCompose? _compose;
+    private AzContainerappConnection? _connection;
+    private AzContainerappEnv? _env;
+    private AzContainerappGithubAction? _githubAction;
+    private AzContainerappHostname? _hostname;
+    private AzContainerappIdentity? _identity;
+    private AzContainerappIngress? _ingress;
+    private AzContainerappJob? _job;
+    private AzContainerappLogs? _logs;
+    private AzContainerappRegistry? _registry;
+    private AzContainerappReplica? _replica;
+    private AzContainerappRevision? _revision;
+    private AzContainerappSecret? _secret;
+    private AzContainerappSsl? _ssl;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainerapp"/> class.

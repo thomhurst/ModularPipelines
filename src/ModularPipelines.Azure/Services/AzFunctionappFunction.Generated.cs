@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzFunctionappFunction
 {
     private readonly ICommand _command;
-    private AzFunctionappFunctionKeys _keys;
+    private AzFunctionappFunctionKeys? _keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzFunctionappFunction"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzIdentity
 {
     private readonly ICommand _command;
-    private AzIdentityFederatedCredential _federatedCredential;
+    private AzIdentityFederatedCredential? _federatedCredential;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzIdentity"/> class.

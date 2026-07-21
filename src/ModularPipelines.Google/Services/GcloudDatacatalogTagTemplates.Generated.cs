@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDatacatalogTagTemplates
 {
     private readonly ICommand _command;
-    private GcloudDatacatalogTagTemplatesFields _fields;
+    private GcloudDatacatalogTagTemplatesFields? _fields;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatacatalogTagTemplates"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComponents
 {
     private readonly ICommand _command;
-    private GcloudComponentsRepositories _repositories;
+    private GcloudComponentsRepositories? _repositories;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComponents"/> class.

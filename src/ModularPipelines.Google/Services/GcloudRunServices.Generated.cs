@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudRunServices
 {
     private readonly ICommand _command;
-    private GcloudRunServicesLogs _logs;
+    private GcloudRunServicesLogs? _logs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRunServices"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzCosmosdbGremlinGraph
 {
     private readonly ICommand _command;
-    private AzCosmosdbGremlinGraphThroughput _throughput;
+    private AzCosmosdbGremlinGraphThroughput? _throughput;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbGremlinGraph"/> class.

@@ -20,17 +20,17 @@ namespace ModularPipelines.Azure.Services;
 public class AzBackup
 {
     private readonly ICommand _command;
-    private AzBackupContainer _container;
-    private AzBackupDeletedVault _deletedVault;
-    private AzBackupItem _item;
-    private AzBackupJob _job;
-    private AzBackupPolicy _policy;
-    private AzBackupProtectableItem _protectableItem;
-    private AzBackupProtection _protection;
-    private AzBackupRecoveryconfig _recoveryconfig;
-    private AzBackupRecoverypoint _recoverypoint;
-    private AzBackupRestore _restore;
-    private AzBackupVault _vault;
+    private AzBackupContainer? _container;
+    private AzBackupDeletedVault? _deletedVault;
+    private AzBackupItem? _item;
+    private AzBackupJob? _job;
+    private AzBackupPolicy? _policy;
+    private AzBackupProtectableItem? _protectableItem;
+    private AzBackupProtection? _protection;
+    private AzBackupRecoveryconfig? _recoveryconfig;
+    private AzBackupRecoverypoint? _recoverypoint;
+    private AzBackupRestore? _restore;
+    private AzBackupVault? _vault;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBackup"/> class.

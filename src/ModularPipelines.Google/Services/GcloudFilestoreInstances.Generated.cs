@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudFilestoreInstances
 {
     private readonly ICommand _command;
-    private GcloudFilestoreInstancesSnapshots _snapshots;
+    private GcloudFilestoreInstancesSnapshots? _snapshots;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFilestoreInstances"/> class.

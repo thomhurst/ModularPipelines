@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzCosmosdbTable
 {
     private readonly ICommand _command;
-    private AzCosmosdbTableRestorableTable _restorableTable;
-    private AzCosmosdbTableThroughput _throughput;
+    private AzCosmosdbTableRestorableTable? _restorableTable;
+    private AzCosmosdbTableThroughput? _throughput;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbTable"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDeveloperconnectConnections
 {
     private readonly ICommand _command;
-    private GcloudDeveloperconnectConnectionsGitRepositoryLinks _gitRepositoryLinks;
+    private GcloudDeveloperconnectConnectionsGitRepositoryLinks? _gitRepositoryLinks;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDeveloperconnectConnections"/> class.

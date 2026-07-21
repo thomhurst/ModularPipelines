@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudComputeDisks
 {
     private readonly ICommand _command;
-    private GcloudComputeDisksBulk _bulk;
+    private GcloudComputeDisksBulk? _bulk;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeDisks"/> class.

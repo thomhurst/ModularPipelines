@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDnsRecordSets
 {
     private readonly ICommand _command;
-    private GcloudDnsRecordSetsChanges _changes;
-    private GcloudDnsRecordSetsTransaction _transaction;
+    private GcloudDnsRecordSetsChanges? _changes;
+    private GcloudDnsRecordSetsTransaction? _transaction;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDnsRecordSets"/> class.

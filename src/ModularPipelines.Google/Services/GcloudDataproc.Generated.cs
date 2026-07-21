@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataproc
 {
     private readonly ICommand _command;
-    private GcloudDataprocAutoscalingPolicies _autoscalingPolicies;
-    private GcloudDataprocBatches _batches;
-    private GcloudDataprocClusters _clusters;
-    private GcloudDataprocJobs _jobs;
-    private GcloudDataprocNodeGroups _nodeGroups;
-    private GcloudDataprocOperations _operations;
-    private GcloudDataprocWorkflowTemplates _workflowTemplates;
+    private GcloudDataprocAutoscalingPolicies? _autoscalingPolicies;
+    private GcloudDataprocBatches? _batches;
+    private GcloudDataprocClusters? _clusters;
+    private GcloudDataprocJobs? _jobs;
+    private GcloudDataprocNodeGroups? _nodeGroups;
+    private GcloudDataprocOperations? _operations;
+    private GcloudDataprocWorkflowTemplates? _workflowTemplates;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataproc"/> class.

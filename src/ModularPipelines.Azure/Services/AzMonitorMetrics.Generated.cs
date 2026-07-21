@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitorMetrics
 {
     private readonly ICommand _command;
-    private AzMonitorMetricsAlert _alert;
+    private AzMonitorMetricsAlert? _alert;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorMetrics"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzHdinsightAutoscale
 {
     private readonly ICommand _command;
-    private AzHdinsightAutoscaleCondition _condition;
+    private AzHdinsightAutoscaleCondition? _condition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzHdinsightAutoscale"/> class.

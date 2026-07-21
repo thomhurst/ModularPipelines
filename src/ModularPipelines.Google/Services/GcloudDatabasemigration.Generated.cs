@@ -20,12 +20,12 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDatabasemigration
 {
     private readonly ICommand _command;
-    private GcloudDatabasemigrationConnectionProfiles _connectionProfiles;
-    private GcloudDatabasemigrationConversionWorkspaces _conversionWorkspaces;
-    private GcloudDatabasemigrationMigrationJobs _migrationJobs;
-    private GcloudDatabasemigrationObjects _objects;
-    private GcloudDatabasemigrationOperations _operations;
-    private GcloudDatabasemigrationPrivateConnections _privateConnections;
+    private GcloudDatabasemigrationConnectionProfiles? _connectionProfiles;
+    private GcloudDatabasemigrationConversionWorkspaces? _conversionWorkspaces;
+    private GcloudDatabasemigrationMigrationJobs? _migrationJobs;
+    private GcloudDatabasemigrationObjects? _objects;
+    private GcloudDatabasemigrationOperations? _operations;
+    private GcloudDatabasemigrationPrivateConnections? _privateConnections;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatabasemigration"/> class.

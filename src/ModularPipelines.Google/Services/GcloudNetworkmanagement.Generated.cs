@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworkmanagement
 {
     private readonly ICommand _command;
-    private GcloudNetworkmanagementConnectivityTests _connectivityTests;
-    private GcloudNetworkmanagementNetworkMonitoringProviders _networkMonitoringProviders;
-    private GcloudNetworkmanagementOperations _operations;
-    private GcloudNetworkmanagementVpcFlowLogsConfigs _vpcFlowLogsConfigs;
+    private GcloudNetworkmanagementConnectivityTests? _connectivityTests;
+    private GcloudNetworkmanagementNetworkMonitoringProviders? _networkMonitoringProviders;
+    private GcloudNetworkmanagementOperations? _operations;
+    private GcloudNetworkmanagementVpcFlowLogsConfigs? _vpcFlowLogsConfigs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkmanagement"/> class.

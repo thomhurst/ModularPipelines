@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzImageBuilderOutput
 {
     private readonly ICommand _command;
-    private AzImageBuilderOutputVersioning _versioning;
+    private AzImageBuilderOutputVersioning? _versioning;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzImageBuilderOutput"/> class.

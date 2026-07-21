@@ -20,7 +20,7 @@ namespace ModularPipelines.Pulumi.Services;
 public class PulumiConfig
 {
     private readonly ICommand _command;
-    private PulumiConfigEnv _env;
+    private PulumiConfigEnv? _env;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiConfig"/> class.

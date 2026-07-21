@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzCosmosdbMongodbUser
 {
     private readonly ICommand _command;
-    private AzCosmosdbMongodbUserDefinition _definition;
+    private AzCosmosdbMongodbUserDefinition? _definition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbMongodbUser"/> class.

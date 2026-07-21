@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzAksApprouting
 {
     private readonly ICommand _command;
-    private AzAksApproutingGateway _gateway;
-    private AzAksApproutingZone _zone;
+    private AzAksApproutingGateway? _gateway;
+    private AzAksApproutingZone? _zone;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAksApprouting"/> class.

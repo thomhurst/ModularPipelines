@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkNicIpConfig
 {
     private readonly ICommand _command;
-    private AzNetworkNicIpConfigAddressPool _addressPool;
-    private AzNetworkNicIpConfigInboundNatRule _inboundNatRule;
+    private AzNetworkNicIpConfigAddressPool? _addressPool;
+    private AzNetworkNicIpConfigInboundNatRule? _inboundNatRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkNicIpConfig"/> class.

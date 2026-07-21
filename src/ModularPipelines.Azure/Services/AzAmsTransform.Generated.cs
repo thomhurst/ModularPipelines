@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzAmsTransform
 {
     private readonly ICommand _command;
-    private AzAmsTransformOutput _output;
+    private AzAmsTransformOutput? _output;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAmsTransform"/> class.

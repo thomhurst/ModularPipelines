@@ -20,14 +20,14 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkPrivateDnsRecordSet
 {
     private readonly ICommand _command;
-    private AzNetworkPrivateDnsRecordSetA _a;
-    private AzNetworkPrivateDnsRecordSetAaaa _aaaa;
-    private AzNetworkPrivateDnsRecordSetCname _cname;
-    private AzNetworkPrivateDnsRecordSetMx _mx;
-    private AzNetworkPrivateDnsRecordSetPtr _ptr;
-    private AzNetworkPrivateDnsRecordSetSoa _soa;
-    private AzNetworkPrivateDnsRecordSetSrv _srv;
-    private AzNetworkPrivateDnsRecordSetTxt _txt;
+    private AzNetworkPrivateDnsRecordSetA? _a;
+    private AzNetworkPrivateDnsRecordSetAaaa? _aaaa;
+    private AzNetworkPrivateDnsRecordSetCname? _cname;
+    private AzNetworkPrivateDnsRecordSetMx? _mx;
+    private AzNetworkPrivateDnsRecordSetPtr? _ptr;
+    private AzNetworkPrivateDnsRecordSetSoa? _soa;
+    private AzNetworkPrivateDnsRecordSetSrv? _srv;
+    private AzNetworkPrivateDnsRecordSetTxt? _txt;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkPrivateDnsRecordSet"/> class.

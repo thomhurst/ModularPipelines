@@ -20,9 +20,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzCognitiveservicesAccount
 {
     private readonly ICommand _command;
-    private AzCognitiveservicesAccountDeployment _deployment;
-    private AzCognitiveservicesAccountNetworkRule _networkRule;
-    private AzCognitiveservicesAccountProject _project;
+    private AzCognitiveservicesAccountDeployment? _deployment;
+    private AzCognitiveservicesAccountNetworkRule? _networkRule;
+    private AzCognitiveservicesAccountProject? _project;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCognitiveservicesAccount"/> class.

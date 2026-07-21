@@ -20,14 +20,14 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerAiProfiles
 {
     private readonly ICommand _command;
-    private GcloudContainerAiProfilesBenchmarks _benchmarks;
-    private GcloudContainerAiProfilesManifests _manifests;
-    private GcloudContainerAiProfilesModels _models;
-    private GcloudContainerAiProfilesModelServers _modelServers;
-    private GcloudContainerAiProfilesModelServerVersions _modelServerVersions;
-    private GcloudContainerAiProfilesServingStacks _servingStacks;
-    private GcloudContainerAiProfilesServingStackVersions _servingStackVersions;
-    private GcloudContainerAiProfilesUseCase _useCase;
+    private GcloudContainerAiProfilesBenchmarks? _benchmarks;
+    private GcloudContainerAiProfilesManifests? _manifests;
+    private GcloudContainerAiProfilesModels? _models;
+    private GcloudContainerAiProfilesModelServers? _modelServers;
+    private GcloudContainerAiProfilesModelServerVersions? _modelServerVersions;
+    private GcloudContainerAiProfilesServingStacks? _servingStacks;
+    private GcloudContainerAiProfilesServingStackVersions? _servingStackVersions;
+    private GcloudContainerAiProfilesUseCase? _useCase;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerAiProfiles"/> class.

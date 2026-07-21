@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudContainerVmware
 {
     private readonly ICommand _command;
-    private GcloudContainerVmwareAdminClusters _adminClusters;
-    private GcloudContainerVmwareClusters _clusters;
-    private GcloudContainerVmwareNodePools _nodePools;
-    private GcloudContainerVmwareOperations _operations;
+    private GcloudContainerVmwareAdminClusters? _adminClusters;
+    private GcloudContainerVmwareClusters? _clusters;
+    private GcloudContainerVmwareNodePools? _nodePools;
+    private GcloudContainerVmwareOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerVmware"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzSfManagedService
 {
     private readonly ICommand _command;
-    private AzSfManagedServiceLoadMetrics _loadMetrics;
+    private AzSfManagedServiceLoadMetrics? _loadMetrics;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSfManagedService"/> class.

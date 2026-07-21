@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudStorageBuckets
 {
     private readonly ICommand _command;
-    private GcloudStorageBucketsAnywhereCaches _anywhereCaches;
-    private GcloudStorageBucketsNotifications _notifications;
+    private GcloudStorageBucketsAnywhereCaches? _anywhereCaches;
+    private GcloudStorageBucketsNotifications? _notifications;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudStorageBuckets"/> class.

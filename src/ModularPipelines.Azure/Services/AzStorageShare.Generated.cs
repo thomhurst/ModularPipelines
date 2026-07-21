@@ -20,8 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzStorageShare
 {
     private readonly ICommand _command;
-    private AzStorageShareMetadata _metadata;
-    private AzStorageSharePolicy _policy;
+    private AzStorageShareMetadata? _metadata;
+    private AzStorageSharePolicy? _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageShare"/> class.

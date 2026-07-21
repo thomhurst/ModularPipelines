@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudResourcemanagerTags
 {
     private readonly ICommand _command;
-    private GcloudResourcemanagerTagsBindings _bindings;
-    private GcloudResourcemanagerTagsHolds _holds;
-    private GcloudResourcemanagerTagsKeys _keys;
-    private GcloudResourcemanagerTagsValues _values;
+    private GcloudResourcemanagerTagsBindings? _bindings;
+    private GcloudResourcemanagerTagsHolds? _holds;
+    private GcloudResourcemanagerTagsKeys? _keys;
+    private GcloudResourcemanagerTagsValues? _values;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudResourcemanagerTags"/> class.

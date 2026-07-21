@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudEndpoints
 {
     private readonly ICommand _command;
-    private GcloudEndpointsConfigs _configs;
-    private GcloudEndpointsOperations _operations;
-    private GcloudEndpointsServices _services;
+    private GcloudEndpointsConfigs? _configs;
+    private GcloudEndpointsOperations? _operations;
+    private GcloudEndpointsServices? _services;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEndpoints"/> class.

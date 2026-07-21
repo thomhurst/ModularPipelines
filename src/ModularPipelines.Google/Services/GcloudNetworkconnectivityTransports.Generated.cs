@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudNetworkconnectivityTransports
 {
     private readonly ICommand _command;
-    private GcloudNetworkconnectivityTransportsRemoteProfiles _remoteProfiles;
+    private GcloudNetworkconnectivityTransportsRemoteProfiles? _remoteProfiles;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityTransports"/> class.

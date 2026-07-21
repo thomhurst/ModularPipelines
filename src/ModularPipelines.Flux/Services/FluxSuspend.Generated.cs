@@ -20,8 +20,8 @@ namespace ModularPipelines.Flux.Services;
 public class FluxSuspend
 {
     private readonly ICommand _command;
-    private FluxSuspendImage _image;
-    private FluxSuspendSource _source;
+    private FluxSuspendImage? _image;
+    private FluxSuspendSource? _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxSuspend"/> class.

@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzStorageAccountOrPolicy
 {
     private readonly ICommand _command;
-    private AzStorageAccountOrPolicyRule _rule;
+    private AzStorageAccountOrPolicyRule? _rule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageAccountOrPolicy"/> class.

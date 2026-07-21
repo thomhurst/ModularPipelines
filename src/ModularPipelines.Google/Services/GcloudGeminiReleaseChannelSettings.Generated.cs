@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudGeminiReleaseChannelSettings
 {
     private readonly ICommand _command;
-    private GcloudGeminiReleaseChannelSettingsSettingBindings _settingBindings;
+    private GcloudGeminiReleaseChannelSettingsSettingBindings? _settingBindings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudGeminiReleaseChannelSettings"/> class.

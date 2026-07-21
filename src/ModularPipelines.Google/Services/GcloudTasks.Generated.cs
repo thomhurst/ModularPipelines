@@ -20,9 +20,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudTasks
 {
     private readonly ICommand _command;
-    private GcloudTasksCmekConfig _cmekConfig;
-    private GcloudTasksLocations _locations;
-    private GcloudTasksQueues _queues;
+    private GcloudTasksCmekConfig? _cmekConfig;
+    private GcloudTasksLocations? _locations;
+    private GcloudTasksQueues? _queues;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudTasks"/> class.

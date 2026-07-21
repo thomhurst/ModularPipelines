@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzCosmosdbCassandraTable
 {
     private readonly ICommand _command;
-    private AzCosmosdbCassandraTableThroughput _throughput;
+    private AzCosmosdbCassandraTableThroughput? _throughput;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbCassandraTable"/> class.

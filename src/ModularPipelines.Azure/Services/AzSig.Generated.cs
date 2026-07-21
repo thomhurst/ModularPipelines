@@ -20,13 +20,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzSig
 {
     private readonly ICommand _command;
-    private AzSigGalleryApplication _galleryApplication;
-    private AzSigIdentity _identity;
-    private AzSigImageDefinition _imageDefinition;
-    private AzSigImageVersion _imageVersion;
-    private AzSigInVmAccessControlProfile _inVmAccessControlProfile;
-    private AzSigInVmAccessControlProfileVersion _inVmAccessControlProfileVersion;
-    private AzSigShare _share;
+    private AzSigGalleryApplication? _galleryApplication;
+    private AzSigIdentity? _identity;
+    private AzSigImageDefinition? _imageDefinition;
+    private AzSigImageVersion? _imageVersion;
+    private AzSigInVmAccessControlProfile? _inVmAccessControlProfile;
+    private AzSigInVmAccessControlProfileVersion? _inVmAccessControlProfileVersion;
+    private AzSigShare? _share;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSig"/> class.

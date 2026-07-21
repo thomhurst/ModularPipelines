@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzSynapseKusto
 {
     private readonly ICommand _command;
-    private AzSynapseKustoPool _pool;
+    private AzSynapseKustoPool? _pool;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseKusto"/> class.

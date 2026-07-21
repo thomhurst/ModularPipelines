@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudAccesscontextmanagerPerimeters
 {
     private readonly ICommand _command;
-    private GcloudAccesscontextmanagerPerimetersDryRun _dryRun;
+    private GcloudAccesscontextmanagerPerimetersDryRun? _dryRun;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAccesscontextmanagerPerimeters"/> class.

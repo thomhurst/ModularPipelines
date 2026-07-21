@@ -20,11 +20,11 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetappfilesVolume
 {
     private readonly ICommand _command;
-    private AzNetappfilesVolumeBucket _bucket;
-    private AzNetappfilesVolumeExportPolicy _exportPolicy;
-    private AzNetappfilesVolumeQuotaRule _quotaRule;
-    private AzNetappfilesVolumeRansomwareReport _ransomwareReport;
-    private AzNetappfilesVolumeReplication _replication;
+    private AzNetappfilesVolumeBucket? _bucket;
+    private AzNetappfilesVolumeExportPolicy? _exportPolicy;
+    private AzNetappfilesVolumeQuotaRule? _quotaRule;
+    private AzNetappfilesVolumeRansomwareReport? _ransomwareReport;
+    private AzNetappfilesVolumeReplication? _replication;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetappfilesVolume"/> class.

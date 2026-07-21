@@ -20,10 +20,10 @@ namespace ModularPipelines.Google.Services;
 public class GcloudRecommender
 {
     private readonly ICommand _command;
-    private GcloudRecommenderInsights _insights;
-    private GcloudRecommenderInsightTypeConfig _insightTypeConfig;
-    private GcloudRecommenderRecommendations _recommendations;
-    private GcloudRecommenderRecommenderConfig _recommenderConfig;
+    private GcloudRecommenderInsights? _insights;
+    private GcloudRecommenderInsightTypeConfig? _insightTypeConfig;
+    private GcloudRecommenderRecommendations? _recommendations;
+    private GcloudRecommenderRecommenderConfig? _recommenderConfig;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRecommender"/> class.

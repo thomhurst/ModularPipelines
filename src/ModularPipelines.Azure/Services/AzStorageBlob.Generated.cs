@@ -20,12 +20,12 @@ namespace ModularPipelines.Azure.Services;
 public class AzStorageBlob
 {
     private readonly ICommand _command;
-    private AzStorageBlobCopy _copy;
-    private AzStorageBlobImmutabilityPolicy _immutabilityPolicy;
-    private AzStorageBlobIncrementalCopy _incrementalCopy;
-    private AzStorageBlobLease _lease;
-    private AzStorageBlobMetadata _metadata;
-    private AzStorageBlobServiceProperties _serviceProperties;
+    private AzStorageBlobCopy? _copy;
+    private AzStorageBlobImmutabilityPolicy? _immutabilityPolicy;
+    private AzStorageBlobIncrementalCopy? _incrementalCopy;
+    private AzStorageBlobLease? _lease;
+    private AzStorageBlobMetadata? _metadata;
+    private AzStorageBlobServiceProperties? _serviceProperties;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageBlob"/> class.

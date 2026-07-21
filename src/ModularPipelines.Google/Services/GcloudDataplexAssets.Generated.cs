@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDataplexAssets
 {
     private readonly ICommand _command;
-    private GcloudDataplexAssetsActions _actions;
+    private GcloudDataplexAssetsActions? _actions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataplexAssets"/> class.

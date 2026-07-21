@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBms
 {
     private readonly ICommand _command;
-    private GcloudBmsInstances _instances;
-    private GcloudBmsNetworks _networks;
-    private GcloudBmsNfsShares _nfsShares;
-    private GcloudBmsOperations _operations;
-    private GcloudBmsOsImages _osImages;
-    private GcloudBmsSshKeys _sshKeys;
-    private GcloudBmsVolumes _volumes;
+    private GcloudBmsInstances? _instances;
+    private GcloudBmsNetworks? _networks;
+    private GcloudBmsNfsShares? _nfsShares;
+    private GcloudBmsOperations? _operations;
+    private GcloudBmsOsImages? _osImages;
+    private GcloudBmsSshKeys? _sshKeys;
+    private GcloudBmsVolumes? _volumes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBms"/> class.

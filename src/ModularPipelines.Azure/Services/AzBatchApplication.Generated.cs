@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzBatchApplication
 {
     private readonly ICommand _command;
-    private AzBatchApplicationPackage _package;
+    private AzBatchApplicationPackage? _package;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBatchApplication"/> class.

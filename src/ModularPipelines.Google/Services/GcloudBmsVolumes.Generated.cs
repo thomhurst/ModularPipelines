@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBmsVolumes
 {
     private readonly ICommand _command;
-    private GcloudBmsVolumesLuns _luns;
-    private GcloudBmsVolumesSnapshots _snapshots;
+    private GcloudBmsVolumesLuns? _luns;
+    private GcloudBmsVolumesSnapshots? _snapshots;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBmsVolumes"/> class.

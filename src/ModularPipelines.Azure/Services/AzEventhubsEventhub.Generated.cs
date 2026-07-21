@@ -20,7 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzEventhubsEventhub
 {
     private readonly ICommand _command;
-    private AzEventhubsEventhubConsumerGroup _consumerGroup;
+    private AzEventhubsEventhubConsumerGroup? _consumerGroup;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventhubsEventhub"/> class.

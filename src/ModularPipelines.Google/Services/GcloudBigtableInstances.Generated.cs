@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudBigtableInstances
 {
     private readonly ICommand _command;
-    private GcloudBigtableInstancesTables _tables;
+    private GcloudBigtableInstancesTables? _tables;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBigtableInstances"/> class.
