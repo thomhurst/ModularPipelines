@@ -54,6 +54,17 @@ public class TrivyOptionsTests
     }
 
     [Test]
+    public async Task Plugin_Upgrade_Renders_Each_Selected_Plugin()
+    {
+        var arguments = BuildArguments(new TrivyPluginUpgradeOptions
+        {
+            PluginNames = ["first", "second"],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["first", "second"]);
+    }
+
+    [Test]
     public async Task Credential_Options_Are_Marked_As_Secrets()
     {
         var password = typeof(TrivyImageOptions).GetProperty(nameof(TrivyImageOptions.Password));

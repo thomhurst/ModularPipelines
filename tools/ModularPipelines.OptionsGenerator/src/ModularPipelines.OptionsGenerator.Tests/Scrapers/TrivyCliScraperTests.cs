@@ -90,6 +90,27 @@ public class TrivyCliScraperTests
         await Assert.That(command.Options.Single(x => x.SwitchName == "--password").IsSecret).IsTrue();
     }
 
+    [Test]
+    public async Task Plugin_Upgrade_Accepts_Multiple_Optional_Names()
+    {
+        const string helpText = """
+            Upgrade installed plugins to newer versions
+
+            Usage:
+              trivy plugin upgrade [PLUGIN_NAMES]
+
+            Flags:
+              -h, --help   help for upgrade
+            """;
+
+        var command = await new TestTrivyCliScraper().Parse(["trivy", "plugin", "upgrade"], helpText);
+        var positional = command!.PositionalArguments.Single();
+
+        await Assert.That(positional.PropertyName).IsEqualTo("PluginNames");
+        await Assert.That(positional.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(positional.IsRequired).IsFalse();
+    }
+
     private sealed class TestTrivyCliScraper : TrivyCliScraper
     {
         public TestTrivyCliScraper()

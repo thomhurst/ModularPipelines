@@ -81,6 +81,6 @@ public record TrivyPluginUpgradeOptions : TrivyOptions
     public bool? Version { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? PluginNames { get; set; }
+    public IEnumerable<string>? PluginNames { get; set; }
 
 }
