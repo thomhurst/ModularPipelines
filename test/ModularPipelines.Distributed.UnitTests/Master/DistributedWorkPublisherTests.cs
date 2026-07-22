@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
@@ -36,6 +37,17 @@ public class DistributedWorkPublisherTests
         protected internal override Task<int> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult(42);
+    }
+
+    private class FluentConsumerModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<DependencyModule>()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            Context.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("consumed");
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]
@@ -85,6 +97,26 @@ public class DistributedWorkPublisherTests
         // Assert
         await Assert.That(assignment.DependencyResults).IsNotNull();
         await Assert.That(assignment.DependencyResults!.Count).IsEqualTo(1);
+        await Assert.That(assignment.DependencyResults[0].ModuleTypeName).IsEqualTo(typeof(DependencyModule).FullName!);
+    }
+
+    [Test]
+    public async Task CreateAssignment_Includes_Fluent_DependencyResults()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DependencyModule));
+        typeRegistry.Register(typeof(FluentConsumerModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var depResult = CreateSuccessResult(new DepResult { Value = "from-dep" }, "DependencyModule");
+        resultRegistry.RegisterResult(typeof(DependencyModule), depResult);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new FluentConsumerModule());
+
+        await Assert.That(assignment.DependencyResults).IsNotNull();
+        await Assert.That(assignment.DependencyResults!).HasSingleItem();
         await Assert.That(assignment.DependencyResults[0].ModuleTypeName).IsEqualTo(typeof(DependencyModule).FullName!);
     }
 

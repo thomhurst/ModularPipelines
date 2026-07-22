@@ -48,7 +48,7 @@ internal class DistributedWorkPublisher(
 
         var config = module.Configuration;
 
-        var dependencyResults = GatherDependencyResults(moduleType);
+        var dependencyResults = GatherDependencyResults(module);
 
         return new ModuleAssignment(
             ModuleTypeName: moduleType.FullName!,
@@ -85,13 +85,13 @@ internal class DistributedWorkPublisher(
     private const int CompressionThresholdBytes = 64 * 1024;
 
     /// <summary>
-    /// Gathers serialized results for all dependencies declared via <c>[DependsOn&lt;T&gt;]</c>.
+    /// Gathers serialized results for all dependencies in the module's canonical configuration.
     /// The scheduler guarantees that all dependencies have completed before a module becomes ready,
     /// so all results are guaranteed to be in the registry.
     /// </summary>
-    private IReadOnlyList<SerializedModuleResult>? GatherDependencyResults(Type moduleType)
+    private IReadOnlyList<SerializedModuleResult>? GatherDependencyResults(IModule module)
     {
-        var dependencies = ModuleDependencyResolver.GetDependencies(moduleType).ToList();
+        var dependencies = ModuleDependencyResolver.GetConfiguredDependencies(module).ToList();
         if (dependencies.Count == 0)
         {
             return null;
