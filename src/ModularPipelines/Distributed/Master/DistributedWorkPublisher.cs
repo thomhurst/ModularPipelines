@@ -4,6 +4,7 @@ using System.Text;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Distributed.Master;
@@ -12,12 +13,16 @@ internal class DistributedWorkPublisher(
     IDistributedCoordinator coordinator,
     ModuleTypeRegistry typeRegistry,
     ModuleResultSerializer serializer,
-    IModuleResultRegistry resultRegistry)
+    IModuleResultRegistry resultRegistry,
+    IModuleDependencyRegistry? dependencyRegistry = null,
+    IModuleMetadataRegistry? metadataRegistry = null)
 {
     private readonly IDistributedCoordinator _coordinator = coordinator;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
+    private readonly IModuleDependencyRegistry? _dependencyRegistry = dependencyRegistry;
+    private readonly IModuleMetadataRegistry? _metadataRegistry = metadataRegistry;
 
     public ModuleAssignment CreateAssignment(IModule module)
     {
@@ -48,7 +53,7 @@ internal class DistributedWorkPublisher(
 
         var config = module.Configuration;
 
-        var dependencyResults = GatherDependencyResults(moduleType);
+        var dependencyResults = GatherDependencyResults(module);
 
         return new ModuleAssignment(
             ModuleTypeName: moduleType.FullName!,
@@ -85,13 +90,20 @@ internal class DistributedWorkPublisher(
     private const int CompressionThresholdBytes = 64 * 1024;
 
     /// <summary>
-    /// Gathers serialized results for all dependencies declared via <c>[DependsOn&lt;T&gt;]</c>.
+    /// Gathers serialized results for all dependencies resolved by the canonical dependency resolver.
     /// The scheduler guarantees that all dependencies have completed before a module becomes ready,
     /// so all results are guaranteed to be in the registry.
     /// </summary>
-    private IReadOnlyList<SerializedModuleResult>? GatherDependencyResults(Type moduleType)
+    private IReadOnlyList<SerializedModuleResult>? GatherDependencyResults(IModule module)
     {
-        var dependencies = ModuleDependencyResolver.GetDependencies(moduleType).ToList();
+        var dependencies = ModuleDependencyResolver
+            .GetAllDependencies(
+                module,
+                _typeRegistry.GetRegisteredModuleTypes(),
+                _dependencyRegistry,
+                _metadataRegistry)
+            .DistinctBy(dependency => dependency.DependencyType)
+            .ToList();
         if (dependencies.Count == 0)
         {
             return null;

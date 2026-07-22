@@ -33,11 +33,12 @@ public sealed class RunIfAnyAttribute<T> : Attribute, IConditionAttribute
     public ConditionLogic Logic => ConditionLogic.Any;
 
     /// <inheritdoc />
-    public async Task<bool> EvaluateAsync(IPipelineHookContext context)
-    {
-        var condition = new T();
-        return await condition.EvaluateAsync(context);
-    }
+    public Task<bool> EvaluateAsync(IPipelineHookContext context) =>
+        EvaluateAsync(context, CancellationToken.None);
+
+    /// <inheritdoc />
+    public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken) =>
+        RunConditionEvaluator.EvaluateAnyAsync([static () => new T()], context, cancellationToken);
 
     /// <inheritdoc />
     public string ConditionNames => typeof(T).Name;
@@ -57,15 +58,12 @@ public sealed class RunIfAnyAttribute<T1, T2> : Attribute, IConditionAttribute
     public ConditionLogic Logic => ConditionLogic.Any;
 
     /// <inheritdoc />
-    public async Task<bool> EvaluateAsync(IPipelineHookContext context)
-    {
-        if (await new T1().EvaluateAsync(context))
-        {
-            return true;
-        }
+    public Task<bool> EvaluateAsync(IPipelineHookContext context) =>
+        EvaluateAsync(context, CancellationToken.None);
 
-        return await new T2().EvaluateAsync(context);
-    }
+    /// <inheritdoc />
+    public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken) =>
+        RunConditionEvaluator.EvaluateAnyAsync([static () => new T1(), static () => new T2()], context, cancellationToken);
 
     /// <inheritdoc />
     public string ConditionNames => $"{typeof(T1).Name}, {typeof(T2).Name}";
@@ -87,20 +85,15 @@ public sealed class RunIfAnyAttribute<T1, T2, T3> : Attribute, IConditionAttribu
     public ConditionLogic Logic => ConditionLogic.Any;
 
     /// <inheritdoc />
-    public async Task<bool> EvaluateAsync(IPipelineHookContext context)
-    {
-        if (await new T1().EvaluateAsync(context))
-        {
-            return true;
-        }
+    public Task<bool> EvaluateAsync(IPipelineHookContext context) =>
+        EvaluateAsync(context, CancellationToken.None);
 
-        if (await new T2().EvaluateAsync(context))
-        {
-            return true;
-        }
-
-        return await new T3().EvaluateAsync(context);
-    }
+    /// <inheritdoc />
+    public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken) =>
+        RunConditionEvaluator.EvaluateAnyAsync(
+            [static () => new T1(), static () => new T2(), static () => new T3()],
+            context,
+            cancellationToken);
 
     /// <inheritdoc />
     public string ConditionNames => $"{typeof(T1).Name}, {typeof(T2).Name}, {typeof(T3).Name}";
@@ -124,25 +117,15 @@ public sealed class RunIfAnyAttribute<T1, T2, T3, T4> : Attribute, IConditionAtt
     public ConditionLogic Logic => ConditionLogic.Any;
 
     /// <inheritdoc />
-    public async Task<bool> EvaluateAsync(IPipelineHookContext context)
-    {
-        if (await new T1().EvaluateAsync(context))
-        {
-            return true;
-        }
+    public Task<bool> EvaluateAsync(IPipelineHookContext context) =>
+        EvaluateAsync(context, CancellationToken.None);
 
-        if (await new T2().EvaluateAsync(context))
-        {
-            return true;
-        }
-
-        if (await new T3().EvaluateAsync(context))
-        {
-            return true;
-        }
-
-        return await new T4().EvaluateAsync(context);
-    }
+    /// <inheritdoc />
+    public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken) =>
+        RunConditionEvaluator.EvaluateAnyAsync(
+            [static () => new T1(), static () => new T2(), static () => new T3(), static () => new T4()],
+            context,
+            cancellationToken);
 
     /// <inheritdoc />
     public string ConditionNames => $"{typeof(T1).Name}, {typeof(T2).Name}, {typeof(T3).Name}, {typeof(T4).Name}";

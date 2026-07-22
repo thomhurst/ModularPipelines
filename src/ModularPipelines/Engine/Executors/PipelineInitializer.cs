@@ -11,6 +11,7 @@ internal class PipelineInitializer : IPipelineInitializer
     private readonly IDependencyDetector _dependencyDetector;
     private readonly IRequirementChecker _requirementsChecker;
     private readonly ModuleRetriever _moduleRetriever;
+    private readonly IDependencyChainProvider _dependencyChainProvider;
     private readonly IConsolePrinter _consolePrinter;
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IBuildSystemDetector _buildSystemDetector;
@@ -20,6 +21,7 @@ internal class PipelineInitializer : IPipelineInitializer
 
     public PipelineInitializer(IConsolePrinter consolePrinter,
         ModuleRetriever moduleRetriever,
+        IDependencyChainProvider dependencyChainProvider,
         IRequirementChecker requirementsChecker,
         IDependencyDetector dependencyDetector,
         IPipelineSetupExecutor pipelineSetupExecutor,
@@ -29,6 +31,7 @@ internal class PipelineInitializer : IPipelineInitializer
     {
         _consolePrinter = consolePrinter;
         _moduleRetriever = moduleRetriever;
+        _dependencyChainProvider = dependencyChainProvider;
         _requirementsChecker = requirementsChecker;
         _dependencyDetector = dependencyDetector;
         _pipelineSetupExecutor = pipelineSetupExecutor;
@@ -37,12 +40,12 @@ internal class PipelineInitializer : IPipelineInitializer
         _logger = logger;
     }
 
-    public async Task<OrganizedModules> Initialize()
+    public async Task<OrganizedModules> Initialize(CancellationToken cancellationToken = default)
     {
-        return _organizedModules ??= await InitializeInternal().ConfigureAwait(false);
+        return _organizedModules ??= await InitializeInternal(cancellationToken).ConfigureAwait(false);
     }
 
-    private async Task<OrganizedModules> InitializeInternal()
+    private async Task<OrganizedModules> InitializeInternal(CancellationToken cancellationToken)
     {
         _consolePrinter.PrintLogo();
 
@@ -53,13 +56,15 @@ internal class PipelineInitializer : IPipelineInitializer
 
         await _pipelineFileWriter.WritePipelineFiles().ConfigureAwait(false);
 
-        _dependencyDetector.Check();
-
         await _pipelineSetupExecutor.OnPipelineStartAsync().ConfigureAwait(false);
 
         await _requirementsChecker.CheckRequirementsAsync().ConfigureAwait(false);
 
-        return await _moduleRetriever.GetOrganizedModules().ConfigureAwait(false);
+        var organizedModules = await _moduleRetriever.GetOrganizedModules(cancellationToken).ConfigureAwait(false);
+        _dependencyChainProvider.Initialize(organizedModules.AllModules);
+        _dependencyDetector.Check();
+
+        return organizedModules;
     }
 
     private void PrintEnvironmentVariables()

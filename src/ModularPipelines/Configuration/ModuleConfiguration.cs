@@ -1,4 +1,6 @@
+using System.Collections.Frozen;
 using ModularPipelines.Context;
+using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using Polly;
 
@@ -106,4 +108,35 @@ public sealed class ModuleConfiguration
     /// or null if no after-execution hook is configured.
     /// </value>
     public Func<IModuleContext, Task>? OnAfterExecute { get; init; }
+
+    /// <summary>
+    /// Gets the keys that prevent this module from running in parallel with modules using the same keys.
+    /// An empty collection prevents all parallel execution; <see langword="null"/> allows parallel execution.
+    /// </summary>
+    public IReadOnlyList<string>? ParallelConstraintKeys { get; init; }
+
+    /// <summary>
+    /// Gets the scheduling priority, or <see langword="null"/> to use normal priority.
+    /// </summary>
+    public ModulePriority? Priority { get; init; }
+
+    /// <summary>
+    /// Gets the resource-usage hint, or <see langword="null"/> to use the default execution type.
+    /// </summary>
+    public ExecutionType? ExecutionType { get; init; }
+
+    /// <summary>
+    /// Gets module tags used by metadata-based dependency selection.
+    /// </summary>
+    public IReadOnlySet<string> Tags { get; init; } = FrozenSet<string>.Empty;
+
+    /// <summary>
+    /// Gets the module category used by filtering and metadata-based dependency selection.
+    /// </summary>
+    public string? Category { get; init; }
+
+    /// <summary>
+    /// Gets dependencies declared through fluent configuration, legacy overrides, or attributes.
+    /// </summary>
+    internal IReadOnlyList<DeclaredDependency> Dependencies { get; init; } = [];
 }

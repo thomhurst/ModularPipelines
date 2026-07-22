@@ -66,6 +66,11 @@ public class MyModule : Module<FileInfo>
         .WithTimeout(TimeSpan.FromMinutes(5))
         .WithRetryCount(3)
         .WithSkipWhen(() => !File.Exists("important.json"))
+        .WithPriority(ModulePriority.High)
+        .WithExecutionHint(ExecutionType.IoIntensive)
+        .WithTags("build", "critical")
+        .WithCategory("build")
+        .DependsOn<RestoreModule>()
         .WithIgnoreFailures()
         .WithAlwaysRun()
         .Build();
@@ -91,6 +96,17 @@ public class MyModule : Module<FileInfo>
 | `.WithAlwaysRun()` | Run even if the pipeline has failed |
 | `.WithBeforeExecute(...)` | Hook to run before execution |
 | `.WithAfterExecute(...)` | Hook to run after execution |
+| `.WithNotInParallel(...)` | Prevent parallel execution globally or for matching constraint keys |
+| `.WithPriority(ModulePriority)` | Set scheduler priority |
+| `.WithExecutionHint(ExecutionType)` | Select CPU, I/O, or default concurrency limits |
+| `.WithTags(...)` | Add tags used by metadata-based dependencies |
+| `.WithCategory(string)` | Set the module category |
+| `.DependsOn<TModule>()` | Add a required dependency |
+| `.DependsOnOptional<TModule>()` | Add an optional dependency |
+
+The fluent configuration is the canonical runtime model. Existing attributes such as
+`[Priority]`, `[ExecutionHint]`, `[NotInParallel]`, `[ModuleTag]`, `[ModuleCategory]`, and
+`[DependsOn<T>]` remain supported as declarative sugar and are merged into the same model.
 
 ## Lifecycle Hooks
 

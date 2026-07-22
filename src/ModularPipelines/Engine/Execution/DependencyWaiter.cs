@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -23,10 +22,7 @@ internal class DependencyWaiter : IDependencyWaiter
     /// <inheritdoc />
     public async Task WaitForDependenciesAsync(ModuleState moduleState, IModuleScheduler scheduler, IServiceProvider scopedServiceProvider)
     {
-        // Get both attribute-based and programmatic dependencies
-        var dependencies = GetAllDependencies(moduleState);
-
-        foreach (var (dependencyType, optional) in dependencies)
+        foreach (var (dependencyType, optional) in moduleState.Dependencies)
         {
             var dependencyTask = scheduler.GetModuleCompletionTask(dependencyType);
 
@@ -39,7 +35,7 @@ internal class DependencyWaiter : IDependencyWaiter
                 catch (Exception e) when (moduleState.Module.ModuleRunType == ModuleRunType.AlwaysRun)
                 {
                     var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleState.ModuleType);
-                    var depLogger = (IModuleLogger)scopedServiceProvider.GetRequiredService(loggerType);
+                    var depLogger = (IModuleLogger) scopedServiceProvider.GetRequiredService(loggerType);
                     _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
                         $"{dependencyType.Name} threw an exception when {moduleState.ModuleType.Name} was waiting for it as a dependency",
                         e));
@@ -55,24 +51,6 @@ internal class DependencyWaiter : IDependencyWaiter
                               $"  2. Use '[DependsOn<{dependencyType.Name}>(Optional = true)]' if this dependency is optional";
                 throw new ModuleNotRegisteredException(message, null);
             }
-        }
-    }
-
-    /// <summary>
-    /// Gets all dependencies for a module, combining attribute-based and programmatic dependencies.
-    /// </summary>
-    private static IEnumerable<(Type DependencyType, bool Optional)> GetAllDependencies(ModuleState moduleState)
-    {
-        // Attribute-based dependencies
-        foreach (var dep in ModuleDependencyResolver.GetDependencies(moduleState.ModuleType))
-        {
-            yield return dep;
-        }
-
-        // Programmatic dependencies from DeclareDependencies method
-        foreach (var dep in ModuleDependencyResolver.GetProgrammaticDependencies(moduleState.Module))
-        {
-            yield return dep;
         }
     }
 }

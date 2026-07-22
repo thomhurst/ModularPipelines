@@ -4,6 +4,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
 using ModularPipelines.Validation;
 
 
@@ -74,6 +75,52 @@ public class ValidationTests
     {
         protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("success");
+    }
+
+    private class FluentMissingDependencyModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("missing");
+    }
+
+    private class ModuleWithFluentMissingDependency : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<FluentMissingDependencyModule>()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("success");
+    }
+
+    private class FluentSelfReferencingModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<FluentSelfReferencingModule>()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("self");
+    }
+
+    private class FluentCycleModuleA : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<FluentCycleModuleB>()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("a");
+    }
+
+    private class FluentCycleModuleB : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<FluentCycleModuleA>()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("b");
     }
 
     [Test]
@@ -170,6 +217,51 @@ public class ValidationTests
             e.Category == ValidationErrorCategory.Dependency &&
             e.Message.Contains("MissingModule"));
         await Assert.That(hasDependencyError).IsFalse();
+    }
+
+    [Test]
+    public async Task BuildAsync_WithFluentMissingDependency_ThrowsValidationException()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<ModuleWithFluentMissingDependency>();
+
+        await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
+    }
+
+    [Test]
+    public async Task ValidateAsync_Rejects_Fluent_Missing_Dependency()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<ModuleWithFluentMissingDependency>();
+
+        await AssertDependencyValidationError(builder);
+    }
+
+    [Test]
+    public async Task ValidateAsync_Rejects_Fluent_Self_Dependency()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<FluentSelfReferencingModule>();
+
+        await AssertDependencyValidationError(builder);
+    }
+
+    [Test]
+    public async Task ValidateAsync_Rejects_Fluent_Cycle()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.Services
+            .AddModule<FluentCycleModuleA>()
+            .AddModule<FluentCycleModuleB>();
+
+        await AssertDependencyValidationError(builder);
+    }
+
+    private static async Task AssertDependencyValidationError(PipelineBuilder builder)
+    {
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors).Contains(error => error.Category == ValidationErrorCategory.Dependency);
     }
 
     [Test]

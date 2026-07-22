@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
@@ -53,6 +54,17 @@ public class ModuleSchedulerDynamicCycleTests
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(IndependentDynamicModule));
+    }
+
+    private class FluentExistingModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<IndependentDynamicModule>()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(FluentExistingModule));
     }
 
     private class CompletedDependencyModule : Module<string>
@@ -117,6 +129,26 @@ public class ModuleSchedulerDynamicCycleTests
         await Assert.That(() => scheduler.AddModule(new DynamicPredicateModule()))
             .Throws<DependencyCollisionException>();
         await Assert.That(scheduler.GetModuleState(typeof(DynamicPredicateModule))).IsNull();
+        await Assert.That(scheduler.GetModuleState(typeof(ExistingPredicateModule))!.Dependencies
+            .ContainsKey(typeof(DynamicPredicateModule))).IsFalse();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task AddModule_DoesNotChangeActiveModuleDependencies(bool executing)
+    {
+        using var scheduler = CreateScheduler();
+        scheduler.InitializeModules([new ExistingPredicateModule()]);
+        var existingState = scheduler.GetModuleState(typeof(ExistingPredicateModule))!;
+        existingState.State = executing ? ModuleExecutionState.Executing : ModuleExecutionState.Queued;
+
+        scheduler.AddModule(new DynamicPredicateModule());
+
+        await Assert.That(existingState.Dependencies.ContainsKey(typeof(DynamicPredicateModule))).IsFalse();
+        await Assert.That(existingState.UnresolvedDependencies).DoesNotContain(typeof(DynamicPredicateModule));
+        await Assert.That(scheduler.GetModuleState(typeof(DynamicPredicateModule))!.UnresolvedDependencies)
+            .Contains(typeof(ExistingPredicateModule));
     }
 
     [Test]
@@ -157,6 +189,19 @@ public class ModuleSchedulerDynamicCycleTests
         scheduler.AddModule(new IndependentDynamicModule());
 
         var existingState = scheduler.GetModuleState(typeof(ExistingPredicateModule));
+        await Assert.That(existingState).IsNotNull();
+        await Assert.That(existingState!.UnresolvedDependencies).Contains(typeof(IndependentDynamicModule));
+    }
+
+    [Test]
+    public async Task AddModule_ReconcilesExistingFluentDependencies()
+    {
+        using var scheduler = CreateScheduler();
+        scheduler.InitializeModules([new FluentExistingModule()]);
+
+        scheduler.AddModule(new IndependentDynamicModule());
+
+        var existingState = scheduler.GetModuleState(typeof(FluentExistingModule));
         await Assert.That(existingState).IsNotNull();
         await Assert.That(existingState!.UnresolvedDependencies).Contains(typeof(IndependentDynamicModule));
     }

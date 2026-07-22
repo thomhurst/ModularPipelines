@@ -125,12 +125,13 @@ internal class ModuleScheduler : IModuleScheduler
         {
             var moduleType = state.ModuleType;
 
-            // Use cached metadata to avoid repeated reflection lookups
-            var metadata = ModuleMetadataCache.GetMetadata(moduleType);
+            var configuration = state.Module.Configuration;
+            var parallelConstraintKeys = configuration.ParallelConstraintKeys
+                                         ?? moduleType.GetCustomAttribute<NotInParallelAttribute>(inherit: true)?.ConstraintKeys;
 
-            if (metadata.NotInParallelAttribute != null)
+            if (parallelConstraintKeys is { } constraintKeys)
             {
-                if (metadata.NotInParallelAttribute.ConstraintKeys.Length == 0)
+                if (constraintKeys.Count == 0)
                 {
                     state.RequiresSequentialExecution = true;
                     _logger.LogDebug(
@@ -139,7 +140,7 @@ internal class ModuleScheduler : IModuleScheduler
                 }
                 else
                 {
-                    state.RequiredLockKeys = metadata.NotInParallelAttribute.ConstraintKeys;
+                    state.RequiredLockKeys = [.. constraintKeys];
                     _logger.LogDebug(
                         "Module {ModuleName} requires locks: {Keys}",
                         moduleType.Name,
@@ -147,20 +148,22 @@ internal class ModuleScheduler : IModuleScheduler
                 }
             }
 
-            // Read priority attribute
-            if (metadata.PriorityAttribute != null)
+            var priority = configuration.Priority
+                           ?? moduleType.GetCustomAttribute<PriorityAttribute>(inherit: true)?.Priority;
+            if (priority is { } modulePriority)
             {
-                state.Priority = metadata.PriorityAttribute.Priority;
+                state.Priority = modulePriority;
                 _logger.LogDebug(
                     "Module {ModuleName} has priority: {Priority}",
                     moduleType.Name,
                     state.Priority);
             }
 
-            // Read execution hint attribute
-            if (metadata.ExecutionHintAttribute != null)
+            var executionType = configuration.ExecutionType
+                                ?? moduleType.GetCustomAttribute<ExecutionHintAttribute>(inherit: true)?.ExecutionType;
+            if (executionType is { } moduleExecutionType)
             {
-                state.ExecutionType = metadata.ExecutionHintAttribute.ExecutionType;
+                state.ExecutionType = moduleExecutionType;
                 _logger.LogDebug(
                     "Module {ModuleName} has execution type: {ExecutionType}",
                     moduleType.Name,
@@ -173,15 +176,23 @@ internal class ModuleScheduler : IModuleScheduler
             // - Predicate-based dependencies (DependsOnModulesWithTag, DependsOnModulesInCategory, DependsOnModulesWithAttribute)
             // - Programmatic dependencies from DeclareDependencies method
             // - Dynamic dependencies from registration events
-            var dependencies = GetAllDependenciesIncludingPredicate(state.Module, availableModuleTypes).ToArray();
+            var dependencies = ModuleDependencyResolver.GetAllDependencies(
+                state.Module,
+                availableModuleTypes,
+                _dependencyRegistry,
+                _metadataRegistry).ToArray();
             _dependencyGraph[moduleType] = dependencies.Select(x => x.DependencyType).ToHashSet();
 
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
             {
+                RecordDependency(state, dependencyType, ignoreIfNotRegistered);
+
                 if (_moduleStates.TryGetValue(dependencyType, out var dependencyState))
                 {
-                    state.UnresolvedDependencies.Add(dependencyType);
-                    dependencyState.DependentModules.Add(state);
+                    if (state.UnresolvedDependencies.Add(dependencyType))
+                    {
+                        dependencyState.DependentModules.Add(state);
+                    }
                 }
                 else if (!ignoreIfNotRegistered)
                 {
@@ -197,34 +208,6 @@ internal class ModuleScheduler : IModuleScheduler
             "Initialized {Count} modules for scheduling with total of {DependencyCount} dependencies",
             _moduleStates.Count,
             _moduleStates.Values.Sum(x => x.UnresolvedDependencies.Count));
-    }
-
-    /// <summary>
-    /// Gets all dependencies for a module including predicate-based dependencies.
-    /// </summary>
-    private IEnumerable<(Type DependencyType, bool Optional)> GetAllDependenciesIncludingPredicate(
-        IModule module,
-        IReadOnlyList<Type> availableModuleTypes)
-    {
-        var moduleType = module.GetType();
-
-        // Static dependencies from attributes (including DependsOnAllModulesInheritingFrom and predicate-based)
-        foreach (var dep in ModuleDependencyResolver.GetDependencies(moduleType, availableModuleTypes, _metadataRegistry))
-        {
-            yield return dep;
-        }
-
-        // Programmatic dependencies from DeclareDependencies method
-        foreach (var dep in ModuleDependencyResolver.GetProgrammaticDependencies(module))
-        {
-            yield return dep;
-        }
-
-        // Dynamic dependencies from registration
-        foreach (var dynamicDep in _dependencyRegistry.GetDynamicDependencies(moduleType))
-        {
-            yield return (dynamicDep, false);
-        }
     }
 
     /// <summary>
@@ -252,19 +235,30 @@ internal class ModuleScheduler : IModuleScheduler
             _metadataRegistry.FinalizeMetadata(moduleType, module);
 
             var availableModuleTypes = _moduleStates.Keys.Append(moduleType).ToArray();
-            var newModuleDependencies = GetAllDependenciesIncludingPredicate(module, availableModuleTypes).ToArray();
+            var newModuleDependencies = ModuleDependencyResolver.GetAllDependencies(
+                module,
+                availableModuleTypes,
+                _dependencyRegistry,
+                _metadataRegistry).ToArray();
             var declaredDependenciesByType = _dependencyGraph.ToDictionary(
                 pair => pair.Key,
                 pair => new HashSet<Type>(pair.Value));
-            Type[] newlyAvailableModuleTypes = [moduleType];
+            var newlyResolvedDependenciesByType = new Dictionary<Type, (Type DependencyType, bool Optional)[]>();
 
             foreach (var existingModuleType in _moduleStates.Keys)
             {
-                var newlyResolvedDependencies = ModuleDependencyResolver
-                    .GetDependencies(existingModuleType, newlyAvailableModuleTypes, _metadataRegistry)
+                var newlyResolvedDependencies = ModuleDependencyResolver.GetAllDependencies(
+                        _moduleStates[existingModuleType].Module,
+                        availableModuleTypes,
+                        _dependencyRegistry,
+                        _metadataRegistry)
                     .Where(dependency => dependency.DependencyType == moduleType)
-                    .Select(dependency => dependency.DependencyType);
-                declaredDependenciesByType[existingModuleType].UnionWith(newlyResolvedDependencies);
+                    .ToArray();
+
+                newlyResolvedDependenciesByType[existingModuleType] = newlyResolvedDependencies;
+
+                declaredDependenciesByType[existingModuleType]
+                    .UnionWith(newlyResolvedDependencies.Select(dependency => dependency.DependencyType));
             }
 
             declaredDependenciesByType[moduleType] = newModuleDependencies
@@ -281,6 +275,25 @@ internal class ModuleScheduler : IModuleScheduler
                     : new HashSet<Type>());
 
             ModuleDependencyValidator.ValidateCircularDependencies(candidateGraph);
+
+            foreach (var (existingModuleType, newlyResolvedDependencies) in newlyResolvedDependenciesByType)
+            {
+                var existingState = _moduleStates[existingModuleType];
+                if (existingState.State != ModuleExecutionState.Pending)
+                {
+                    continue;
+                }
+
+                foreach (var (dependencyType, optional) in newlyResolvedDependencies)
+                {
+                    RecordDependency(existingState, dependencyType, optional);
+                }
+            }
+
+            foreach (var (dependencyType, optional) in newModuleDependencies)
+            {
+                RecordDependency(state, dependencyType, optional);
+            }
 
             _moduleStates[moduleType] = state;
             _dependencyGraph.Clear();
@@ -354,6 +367,13 @@ internal class ModuleScheduler : IModuleScheduler
                 dependencyState.DependentModules.Add(dependentState);
             }
         }
+    }
+
+    private static void RecordDependency(ModuleState state, Type dependencyType, bool optional)
+    {
+        state.Dependencies[dependencyType] = state.Dependencies.TryGetValue(dependencyType, out var existingOptional)
+            ? existingOptional && optional
+            : optional;
     }
 
     /// <summary>
