@@ -270,7 +270,48 @@ public partial class LiquibaseCliScraper : CliScraperBase
     }
 
     /// <inheritdoc />
-    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) => ParseOptions(helpText);
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText)
+    {
+        var options = ParseOptions(helpText);
+        AddDocumentedDatabricksOptions(options);
+        return options;
+    }
+
+    private static void AddDocumentedDatabricksOptions(List<CliOptionDefinition> options)
+    {
+        AddOrReplace(options, new CliOptionDefinition
+        {
+            SwitchName = "--databricks-diff-tblproperties-exclude-patterns",
+            PropertyName = "DatabricksDiffTblPropertiesExcludePatterns",
+            CSharpType = "string?",
+            Description = "Comma-separated TBLPROPERTIES key prefixes to exclude from Databricks diff operations.",
+            IsFlag = false,
+            ValueSeparator = "=",
+        });
+
+        AddOrReplace(options, new CliOptionDefinition
+        {
+            SwitchName = "--databricks-diff-tblproperties-ignore-all",
+            PropertyName = "DatabricksDiffTblPropertiesIgnoreAll",
+            CSharpType = "bool?",
+            Description = "Ignore all TBLPROPERTIES during Databricks diff operations.",
+            IsFlag = false,
+            ValueSeparator = "=",
+        });
+    }
+
+    private static void AddOrReplace(List<CliOptionDefinition> options, CliOptionDefinition option)
+    {
+        var existingIndex = options.FindIndex(
+            existing => existing.SwitchName.Equals(option.SwitchName, StringComparison.OrdinalIgnoreCase));
+        if (existingIndex < 0)
+        {
+            options.Add(option);
+            return;
+        }
+
+        options[existingIndex] = option;
+    }
 
     private static CliOptionDefinition CreateDefineOption(string? description)
     {

@@ -81,6 +81,26 @@ public class LiquibaseCliScraperTests
     }
 
     [Test]
+    public async Task Global_Options_Include_Documented_Databricks_Diff_Filters()
+    {
+        const string helpText = """
+                  --databricks-diff-tblproperties-exclude-patterns=PARAM   Excluded TBLPROPERTIES
+            """;
+        var options = _scraper.ParseLiquibaseGlobalOptions(helpText);
+
+        var excludePatterns = options.Single(
+            option => option.SwitchName == "--databricks-diff-tblproperties-exclude-patterns");
+        await Assert.That(excludePatterns.PropertyName).IsEqualTo("DatabricksDiffTblPropertiesExcludePatterns");
+        await Assert.That(excludePatterns.CSharpType).IsEqualTo("string?");
+        await Assert.That(excludePatterns.IsFlag).IsFalse();
+
+        var ignoreAll = options.Single(
+            option => option.SwitchName == "--databricks-diff-tblproperties-ignore-all");
+        await Assert.That(ignoreAll.CSharpType).IsEqualTo("bool?");
+        await Assert.That(ignoreAll.IsFlag).IsFalse();
+    }
+
+    [Test]
     public async Task ParseCommand_Preserves_Multiline_Description()
     {
         const string helpText = """
@@ -126,7 +146,13 @@ public class LiquibaseCliScraperTests
 
         var tool = scraper.CreateToolDefinition();
         await Assert.That(tool.GlobalOptions.Select(option => option.SwitchName))
-            .IsEquivalentTo(["--search-path", "--log-level"]);
+            .IsEquivalentTo(
+            [
+                "--search-path",
+                "--log-level",
+                "--databricks-diff-tblproperties-exclude-patterns",
+                "--databricks-diff-tblproperties-ignore-all",
+            ]);
         await Assert.That(commands.Count).IsEqualTo(1);
         await Assert.That(commands[0].Options.Select(option => option.SwitchName))
             .IsEquivalentTo(["--changelog-file"]);
@@ -138,6 +164,9 @@ public class LiquibaseCliScraperTests
         public IEnumerable<string> ParseSubcommands(string helpText) => ExtractSubcommands(helpText);
 
         public List<CliOptionDefinition> ParseLiquibaseOptions(string helpText) => ParseOptions(helpText);
+
+        public IReadOnlyList<CliOptionDefinition> ParseLiquibaseGlobalOptions(string helpText) =>
+            ParseGlobalOptions(helpText);
 
         public Task<CliCommandDefinition?> ParseLiquibaseCommand(string[] commandPath, string helpText) =>
             ParseCommandAsync(commandPath, helpText, CancellationToken.None);

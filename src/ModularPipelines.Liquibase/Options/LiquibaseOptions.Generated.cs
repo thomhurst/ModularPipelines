@@ -108,6 +108,18 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     public virtual string? DatabaseClass { get; set; }
 
     /// <summary>
+    /// Comma-separated TBLPROPERTIES key prefixes to exclude from Databricks diff operations.
+    /// </summary>
+    [CliOption("--databricks-diff-tblproperties-exclude-patterns", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? DatabricksDiffTblPropertiesExcludePatterns { get; set; }
+
+    /// <summary>
+    /// Ignore all TBLPROPERTIES during Databricks diff operations.
+    /// </summary>
+    [CliOption("--databricks-diff-tblproperties-ignore-all", Format = OptionFormat.EqualsSeparated)]
+    public virtual bool? DatabricksDiffTblPropertiesIgnoreAll { get; set; }
+
+    /// <summary>
     /// The DDL_LOCK_TIMEOUT parameter indicates the number of seconds a DDL command should wait for the locks to become available before throwing the resource busy error message. This applies only to Oracle databases.
     /// </summary>
     [CliOption("--ddl-lock-timeout", Format = OptionFormat.EqualsSeparated)]
