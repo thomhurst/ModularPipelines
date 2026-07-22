@@ -192,6 +192,21 @@ public class GeneratorHardeningTests
         await Assert.That(interfaceFiles.Single().Content).Contains("ToolWorkspaceaddons Workspaceaddons { get; }");
     }
 
+    [Test]
+    public async Task SubDomainClassGenerator_Exposes_Nested_Parent_Command()
+    {
+        var tool = Tool(
+            Command("ToolVexOptions", "ToolOptions", ["vex"]),
+            Command("ToolVexRepoOptions", "ToolOptions", ["vex", "repo"], subDomainGroup: "vex"),
+            Command("ToolVexRepoDownloadOptions", "ToolOptions", ["vex", "repo", "download"], subDomainGroup: "vex"));
+
+        var subDomainFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
+        var repoService = subDomainFiles.Single(file => file.RelativePath.EndsWith("ToolVexRepo.Generated.cs"));
+
+        await Assert.That(repoService.Content).Contains("ToolVexRepoOptions? options = null");
+        await Assert.That(repoService.Content).Contains("public virtual async Task<CommandResult> Execute(");
+    }
+
     #endregion
 
     #region Positional argument deduplication

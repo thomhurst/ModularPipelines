@@ -32,6 +32,21 @@ public class TrivyVexRepo
     #region Commands
 
     /// <summary>
+    /// Manage VEX repositories
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Execute(
+        TrivyVexRepoOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new TrivyVexRepoOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Downloads enabled VEX repositories. If specific repository names are provided as arguments, only those repositories will be downloaded. Otherwise, all enabled repositories are downloaded.
     /// </summary>
     /// <param name="options">The command options.</param>
