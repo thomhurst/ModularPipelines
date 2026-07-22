@@ -18,7 +18,7 @@ internal static class BranchConditionHelper
         string logMessageFormat)
     {
         var currentBranchName = pipelineContext.Git().Information.BranchName;
-        pipelineContext.Logger.LogDebug(logMessageFormat, currentBranchName, expectedBranchName);
+        pipelineContext.Logger.LogDebug(logMessageFormat, GetDisplayBranchName(currentBranchName), expectedBranchName);
         return currentBranchName == expectedBranchName;
     }
 
@@ -31,7 +31,12 @@ internal static class BranchConditionHelper
         string logMessageFormat)
     {
         var currentBranchName = pipelineContext.Git().Information.BranchName;
-        pipelineContext.Logger.LogDebug(logMessageFormat, currentBranchName, expectedPrefix);
+        pipelineContext.Logger.LogDebug(logMessageFormat, GetDisplayBranchName(currentBranchName), expectedPrefix);
         return currentBranchName?.StartsWith(expectedPrefix) ?? false;
+    }
+
+    private static string GetDisplayBranchName(string? branchName)
+    {
+        return string.IsNullOrWhiteSpace(branchName) ? "(detached)" : branchName;
     }
 }
