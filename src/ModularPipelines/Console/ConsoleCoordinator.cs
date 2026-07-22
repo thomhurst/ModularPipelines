@@ -37,6 +37,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     private readonly IBuildSystemFormatterProvider _formatterProvider;
     private readonly IResultsPrinter _resultsPrinter;
     private readonly ISecretObfuscator _secretObfuscator;
+    private readonly ISecretProvider _secretProvider;
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILoggerFactory _loggerFactory;
     private readonly IBuildSystemDetector _buildSystemDetector;
@@ -70,6 +71,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         IBuildSystemFormatterProvider formatterProvider,
         IResultsPrinter resultsPrinter,
         ISecretObfuscator secretObfuscator,
+        ISecretProvider secretProvider,
         IOptions<PipelineOptions> options,
         ILoggerFactory loggerFactory,
         IBuildSystemDetector buildSystemDetector,
@@ -79,6 +81,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _formatterProvider = formatterProvider;
         _resultsPrinter = resultsPrinter;
         _secretObfuscator = secretObfuscator;
+        _secretProvider = secretProvider;
         _options = options;
         _loggerFactory = loggerFactory;
         _buildSystemDetector = buildSystemDetector;
@@ -129,13 +132,15 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                     this,
                     _originalConsoleOut,
                     () => _isProgressActive && !_outputCoordinator.IsFlushing,
-                    _secretObfuscator);
+                    _secretObfuscator,
+                    _secretProvider);
 
                 _coordinatedError = new CoordinatedTextWriter(
                     this,
                     _originalConsoleError,
                     () => _isProgressActive && !_outputCoordinator.IsFlushing,
-                    _secretObfuscator);
+                    _secretObfuscator,
+                    _secretProvider);
 
                 System.Console.SetOut(_coordinatedOut);
                 System.Console.SetError(_coordinatedError);

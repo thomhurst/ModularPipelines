@@ -82,7 +82,8 @@ public class SecretMaskingPatternTests
             coordinator.Object,
             new StringWriter(),
             () => true,
-            obfuscator);
+            obfuscator,
+            provider);
 
         writer.Write("split-");
         writer.WriteLine("secret");
@@ -102,12 +103,81 @@ public class SecretMaskingPatternTests
             Mock.Of<IConsoleCoordinator>(),
             realConsole,
             () => false,
-            CreateObfuscator(provider));
+            CreateObfuscator(provider),
+            provider);
 
         writer.Write("split-");
         writer.WriteLine("secret");
 
         await Assert.That(realConsole.ToString()).IsEqualTo($"**********{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_WithoutNewline_IsImmediate()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("split-secret");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("Enter value: ");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("Enter value: ");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_OnlyRetainsPotentialSecretPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("split-secret");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("before split-");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("before ");
+
+        writer.Write("secret after");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("before ********** after");
+    }
+
+    [Test]
+    public async Task PartialLine_Keeps_Its_Original_Destination_When_Buffering_Starts()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("split-secret");
+        var realConsole = new StringWriter();
+        var outputBuffer = new Mock<IModuleOutputBuffer>();
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetUnattributedBuffer()).Returns(outputBuffer.Object);
+        var shouldBuffer = false;
+
+        using var writer = new CoordinatedTextWriter(
+            coordinator.Object,
+            realConsole,
+            () => shouldBuffer,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("split-");
+        shouldBuffer = true;
+        writer.WriteLine("secret");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo($"**********{Environment.NewLine}");
+        outputBuffer.Verify(x => x.WriteLine(It.IsAny<string>()), Times.Never);
     }
 
     private static SecretProvider CreateProvider(
