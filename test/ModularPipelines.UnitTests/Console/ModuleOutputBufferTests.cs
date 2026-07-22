@@ -46,6 +46,21 @@ public class ModuleOutputBufferTests
         await Assert.That(groupEnd).IsGreaterThan(directOutput);
     }
 
+    [Test]
+    public async Task Flush_Renders_Markup_For_Direct_Output()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new QueuedLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("[green]direct output[/]");
+
+        await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("direct output");
+        await Assert.That(output).DoesNotContain("[green]");
+    }
+
     private static ModuleOutputBuffer CreateBufferWithStructuredLog()
     {
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));

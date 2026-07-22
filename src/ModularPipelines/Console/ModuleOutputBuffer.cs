@@ -3,6 +3,7 @@ using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
+using Spectre.Console;
 
 namespace ModularPipelines.Console;
 
@@ -121,12 +122,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             exception = _exception;
         }
 
+        var directConsole = CreateDirectConsole(console);
+
         // Write section header (CI group start)
         var header = FormatHeader(exception);
         var startCommand = formatter.GetStartBlockCommand(header);
         if (startCommand != null)
         {
-            WriteDirect(console, loggerControl.SynchronizationLock, startCommand);
+            WriteDirect(directConsole, console, loggerControl.SynchronizationLock, startCommand);
         }
 
         // Write all buffered output
@@ -143,7 +146,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                     hasPendingLogEvents = false;
                 }
 
-                WriteDirect(console, loggerControl.SynchronizationLock, output.StringValue);
+                WriteDirect(directConsole, console, loggerControl.SynchronizationLock, output.StringValue);
             }
             else if (output.LogEvent.HasValue)
             {
@@ -188,7 +191,22 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         return $"{_moduleName} \u2713 ({durationText})";
     }
 
-    private static void WriteDirect(TextWriter console, object synchronizationLock, string? value)
+    private static IAnsiConsole CreateDirectConsole(TextWriter writer)
+    {
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(writer),
+        });
+        console.Profile.Width = AnsiConsole.Profile.Width;
+        console.Profile.Capabilities = AnsiConsole.Profile.Capabilities;
+        return console;
+    }
+
+    private static void WriteDirect(
+        IAnsiConsole directConsole,
+        TextWriter console,
+        object synchronizationLock,
+        string? value)
     {
         if (string.IsNullOrEmpty(value))
         {
@@ -197,7 +215,15 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         lock (synchronizationLock)
         {
-            console.WriteLine(value);
+            try
+            {
+                directConsole.MarkupLine(value);
+            }
+            catch (Exception)
+            {
+                // CI workflow commands and arbitrary output can contain brackets that are not Spectre markup.
+                console.WriteLine(value);
+            }
         }
     }
 }
