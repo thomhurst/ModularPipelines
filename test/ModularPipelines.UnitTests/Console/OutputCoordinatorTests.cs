@@ -117,17 +117,43 @@ public class OutputCoordinatorTests
         await Assert.That(completedTask).IsSameReferenceAs(ownerFlush);
     }
 
-    private static OutputCoordinator CreateCoordinator(ILoggerFactory loggerFactory)
+    [Test]
+    public async Task ImmediateFlush_UnexpectedProcessorFailureDoesNotWedgeQueue()
     {
         var formatterProvider = new Mock<IBuildSystemFormatterProvider>();
-        formatterProvider.Setup(x => x.GetFormatter()).Returns(new DefaultFormatter());
+        formatterProvider.SetupSequence(x => x.GetFormatter())
+            .Throws<InvalidOperationException>()
+            .Returns(new DefaultFormatter());
+        var coordinator = CreateCoordinator(
+            new ConsoleWritingLoggerFactory(TextWriter.Null),
+            formatterProvider.Object);
+        var abandonedBuffer = new CancellingOutputBuffer();
+        var recoveredBuffer = new CancellingOutputBuffer();
+
+        await coordinator.EnqueueAndFlushAsync(abandonedBuffer).WaitAsync(TimeSpan.FromSeconds(1));
+        await coordinator.EnqueueAndFlushAsync(recoveredBuffer).WaitAsync(TimeSpan.FromSeconds(1));
+
+        await Assert.That(abandonedBuffer.FlushCount).IsEqualTo(0);
+        await Assert.That(recoveredBuffer.FlushCount).IsEqualTo(1);
+    }
+
+    private static OutputCoordinator CreateCoordinator(
+        ILoggerFactory loggerFactory,
+        IBuildSystemFormatterProvider? formatterProvider = null)
+    {
+        if (formatterProvider is null)
+        {
+            var formatterProviderMock = new Mock<IBuildSystemFormatterProvider>();
+            formatterProviderMock.Setup(x => x.GetFormatter()).Returns(new DefaultFormatter());
+            formatterProvider = formatterProviderMock.Object;
+        }
 
         var serviceProvider = new Mock<IServiceProvider>();
         var loggerControl = new Mock<ISpectreConsoleLoggerControl>();
         loggerControl.SetupGet(x => x.SynchronizationLock).Returns(new object());
 
         return new OutputCoordinator(
-            formatterProvider.Object,
+            formatterProvider,
             loggerFactory,
             serviceProvider.Object,
             loggerControl.Object);

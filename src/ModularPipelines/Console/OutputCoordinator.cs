@@ -202,62 +202,103 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
     private async Task ProcessQueueAsync()
     {
-        var formatter = _formatterProvider.GetFormatter();
-
-        while (true)
+        try
         {
+            var formatter = _formatterProvider.GetFormatter();
             PendingFlush? pending;
 
-            lock (_queueLock)
+            while ((pending = DequeuePendingFlush()) is not null)
             {
-                if (_pendingQueue.Count == 0)
-                {
-                    _isProcessingQueue = false;
-                    return;
-                }
-
-                pending = _pendingQueue.Dequeue();
+                await ProcessPendingFlushAsync(pending, formatter).ConfigureAwait(false);
+            }
+        }
+        catch (Exception ex)
+        {
+            foreach (var pending in DrainPendingFlushes())
+            {
+                pending.CompletionSource.TrySetResult();
             }
 
+            _logger.LogError(ex, "Output queue processing terminated unexpectedly");
+        }
+        finally
+        {
+            if (ReleaseQueueOwnership())
+            {
+                _ = ProcessQueueAsync();
+            }
+        }
+    }
+
+    private PendingFlush? DequeuePendingFlush()
+    {
+        lock (_queueLock)
+        {
+            return _pendingQueue.Count == 0 ? null : _pendingQueue.Dequeue();
+        }
+    }
+
+    private async Task ProcessPendingFlushAsync(PendingFlush pending, IBuildSystemFormatter formatter)
+    {
+        try
+        {
+            var cancellationToken = pending.CancellationToken;
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
             {
-                var cancellationToken = pending.CancellationToken;
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    pending.CompletionSource.TrySetCanceled(cancellationToken);
-                    continue;
-                }
-
-                await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+                await _progressController.PauseAsync().ConfigureAwait(false);
                 try
                 {
-                    await _progressController.PauseAsync().ConfigureAwait(false);
-                    try
-                    {
-                        await FlushBufferAsync(pending.Buffer, formatter, cancellationToken).ConfigureAwait(false);
-                    }
-                    finally
-                    {
-                        await _progressController.ResumeAsync().ConfigureAwait(false);
-                    }
+                    await FlushBufferAsync(pending.Buffer, formatter, cancellationToken).ConfigureAwait(false);
                 }
                 finally
                 {
-                    _writeLock.Release();
+                    await _progressController.ResumeAsync().ConfigureAwait(false);
                 }
+            }
+            finally
+            {
+                _writeLock.Release();
+            }
 
-                pending.CompletionSource.TrySetResult();
-            }
-            catch (OperationCanceledException ex)
+            pending.CompletionSource.TrySetResult();
+        }
+        catch (OperationCanceledException ex)
+        {
+            pending.CompletionSource.TrySetCanceled(ex.CancellationToken);
+        }
+        catch (Exception ex)
+        {
+            // Log error but don't fail - module execution already succeeded
+            _logger.LogError(ex, "Failed to flush output for {ModuleType}", pending.Buffer.ModuleType.Name);
+            pending.CompletionSource.TrySetResult();
+        }
+    }
+
+    private PendingFlush[] DrainPendingFlushes()
+    {
+        lock (_queueLock)
+        {
+            var pending = _pendingQueue.ToArray();
+            _pendingQueue.Clear();
+            return pending;
+        }
+    }
+
+    private bool ReleaseQueueOwnership()
+    {
+        lock (_queueLock)
+        {
+            _isProcessingQueue = false;
+            if (_pendingQueue.Count == 0)
             {
-                pending.CompletionSource.TrySetCanceled(ex.CancellationToken);
+                return false;
             }
-            catch (Exception ex)
-            {
-                // Log error but don't fail - module execution already succeeded
-                _logger.LogError(ex, "Failed to flush output for {ModuleType}", pending.Buffer.ModuleType.Name);
-                pending.CompletionSource.TrySetResult();
-            }
+
+            _isProcessingQueue = true;
+            return true;
         }
     }
 
