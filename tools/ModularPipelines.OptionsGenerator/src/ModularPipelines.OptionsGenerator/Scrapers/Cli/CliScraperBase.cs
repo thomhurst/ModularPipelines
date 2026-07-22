@@ -18,6 +18,12 @@ public abstract partial class CliScraperBase : ICliScraper
     protected readonly IHelpTextCache HelpCache;
     protected readonly ILogger Logger;
 
+    /// <summary>
+    /// Global options parsed from the root help text. These are emitted on the generated
+    /// base options class and placed before subcommands at execution time.
+    /// </summary>
+    protected IReadOnlyList<CliOptionDefinition> GlobalOptions { get; private set; } = [];
+
     #region Abstract Properties - Must Implement
 
     /// <summary>
@@ -271,11 +277,8 @@ public abstract partial class CliScraperBase : ICliScraper
         WorkCoordinator coordinator,
         CancellationToken cancellationToken)
     {
-        // Safety check: prevent infinite loops by limiting command depth
-        if (path.Length > MaxCommandDepth)
+        if (ShouldSkipDeepPath(path))
         {
-            Logger.LogWarning("Skipping command path that exceeds max depth ({MaxDepth}): {Path}",
-                MaxCommandDepth, string.Join(" ", path));
             return;
         }
 
@@ -285,49 +288,95 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
-        // Check if this command should be skipped based on help text content
-        if (ShouldSkipBasedOnHelpText(helpText))
+        if (path.Length == 1)
         {
-            var cmdPath = string.Join(" ", path);
-            Logger.LogDebug("Skipping command based on help text filter: {Command}", cmdPath);
+            GlobalOptions = ParseGlobalOptions(helpText);
+        }
+
+        if (ShouldSkipPath(path, helpText))
+        {
             return;
         }
 
-        // Extract subcommands first to determine if this is a single-command tool
         var subcommands = ExtractSubcommands(helpText).ToList();
-        var isSingleCommandTool = path.Length == 1 && subcommands.Count == 0;
+        LogMissingRootSubcommands(path, helpText, subcommands);
+        await ParseAndWriteCommandAsync(path, helpText, subcommands, commandChannel, cancellationToken);
+        await EnqueueSubcommandsAsync(path, subcommands, workChannel, coordinator, cancellationToken);
+    }
 
-        // Log diagnostic info when no subcommands found at root level
-        if (path.Length == 1 && subcommands.Count == 0)
+    private bool ShouldSkipDeepPath(string[] path)
+    {
+        if (path.Length <= MaxCommandDepth)
         {
-            Logger.LogWarning(
-                "[{Tool}] No subcommands extracted from root help text. Help text length: {Length} chars. First 500 chars: {Preview}",
-                ToolName,
-                helpText.Length,
-                helpText.Length > 500 ? helpText[..500] : helpText);
+            return false;
         }
 
-        // If this command has options, parse and write to channel
-        // Parse if: (1) it's a subcommand (path.Length > 1), OR (2) it's a single-command tool with no subcommands
-        if (HasOptions(helpText) && (path.Length > 1 || isSingleCommandTool))
+        Logger.LogWarning("Skipping command path that exceeds max depth ({MaxDepth}): {Path}",
+            MaxCommandDepth, string.Join(" ", path));
+        return true;
+    }
+
+    private bool ShouldSkipPath(string[] path, string helpText)
+    {
+        if (!ShouldSkipBasedOnHelpText(helpText))
         {
-            try
-            {
-                var command = await ParseCommandAsync(path, helpText, cancellationToken);
-                if (command is not null)
-                {
-                    await commandChannel.Writer.WriteAsync(command, cancellationToken);
-                }
-            }
-            catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
-            {
-                var cmdPath = string.Join(" ", path);
-                Logger.LogWarning(ex, "Failed to parse command: {Command}", cmdPath);
-            }
+            return false;
         }
 
-        // Enqueue subcommands for parallel processing
-        // IMPORTANT: Increment BEFORE adding to channel to avoid race conditions
+        Logger.LogDebug("Skipping command based on help text filter: {Command}", string.Join(" ", path));
+        return true;
+    }
+
+    private void LogMissingRootSubcommands(
+        string[] path,
+        string helpText,
+        IReadOnlyCollection<string> subcommands)
+    {
+        if (path.Length != 1 || subcommands.Count != 0)
+        {
+            return;
+        }
+
+        Logger.LogWarning(
+            "[{Tool}] No subcommands extracted from root help text. Help text length: {Length} chars. First 500 chars: {Preview}",
+            ToolName,
+            helpText.Length,
+            helpText.Length > 500 ? helpText[..500] : helpText);
+    }
+
+    private async Task ParseAndWriteCommandAsync(
+        string[] path,
+        string helpText,
+        IReadOnlyCollection<string> subcommands,
+        Channel<CliCommandDefinition> commandChannel,
+        CancellationToken cancellationToken)
+    {
+        if (!HasOptions(helpText) || (path.Length == 1 && subcommands.Count > 0))
+        {
+            return;
+        }
+
+        try
+        {
+            var command = await ParseCommandAsync(path, helpText, cancellationToken);
+            if (command is not null)
+            {
+                await commandChannel.Writer.WriteAsync(command, cancellationToken);
+            }
+        }
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        {
+            Logger.LogWarning(ex, "Failed to parse command: {Command}", string.Join(" ", path));
+        }
+    }
+
+    private async Task EnqueueSubcommandsAsync(
+        string[] path,
+        IEnumerable<string> subcommands,
+        Channel<string[]> workChannel,
+        WorkCoordinator coordinator,
+        CancellationToken cancellationToken)
+    {
         foreach (var subcommand in subcommands)
         {
             if (IsSkippableSubcommand(subcommand))
@@ -336,6 +385,7 @@ public abstract partial class CliScraperBase : ICliScraper
             }
 
             var childPath = path.Append(subcommand).ToArray();
+            // Increment before writing to avoid completing the work queue before the child is visible.
             coordinator.IncrementWork();
             await workChannel.Writer.WriteAsync(childPath, cancellationToken);
         }
@@ -353,6 +403,7 @@ public abstract partial class CliScraperBase : ICliScraper
             TargetNamespace = TargetNamespace,
             OutputDirectory = OutputDirectory,
             Commands = [],
+            GlobalOptions = GlobalOptions,
             Errors = []
         };
     }
@@ -420,6 +471,11 @@ public abstract partial class CliScraperBase : ICliScraper
     #endregion
 
     #region Virtual Hooks - Can Override
+
+    /// <summary>
+    /// Parses options from root help that must appear before a subcommand.
+    /// </summary>
+    protected virtual IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) => [];
 
     /// <summary>
     /// Checks if help text indicates the command has options/flags.

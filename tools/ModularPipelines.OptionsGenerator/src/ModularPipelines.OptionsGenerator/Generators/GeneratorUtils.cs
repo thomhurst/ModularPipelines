@@ -282,6 +282,10 @@ public static partial class GeneratorUtils
         {
             optionParts.Add("Format = OptionFormat.ColonSeparated");
         }
+        else if (option.ValueSeparator == string.Empty)
+        {
+            optionParts.Add("Format = OptionFormat.NoSeparator");
+        }
         else if (option.ValueSeparator != " " && !string.IsNullOrEmpty(option.ValueSeparator))
         {
             optionParts.Add($"CustomSeparator = \"{option.ValueSeparator}\"");

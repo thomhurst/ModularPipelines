@@ -28,6 +28,8 @@ public class CodeGeneratorOrchestratorTests
 
         public IReadOnlyList<CliCommandDefinition> Commands { get; init; } = [];
 
+        public IReadOnlyList<CliOptionDefinition> GlobalOptions { get; init; } = [];
+
         public Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default) => Task.FromResult(Available);
 
         public async IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(
@@ -48,6 +50,7 @@ public class CodeGeneratorOrchestratorTests
             TargetNamespace = TargetNamespace,
             OutputDirectory = OutputDirectory,
             Commands = [],
+            GlobalOptions = GlobalOptions,
         };
     }
 
@@ -281,6 +284,46 @@ public class CodeGeneratorOrchestratorTests
             await Assert.That(File.Exists(Path.Combine(documentationDirectory, "fake.md"))).IsTrue();
             await Assert.That(File.Exists(staleGeneratedFile)).IsFalse();
             await Assert.That(File.Exists(handWrittenFile)).IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Successful_Generation_Preserves_Global_Options()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(outputRoot);
+
+        try
+        {
+            var globalOption = new CliOptionDefinition
+            {
+                SwitchName = "--search-path",
+                PropertyName = "SearchPath",
+                CSharpType = "string?",
+            };
+            var scraper = new FakeCliScraper
+            {
+                Commands = [FakeCommand()],
+                GlobalOptions = [globalOption],
+            };
+            IReadOnlyList<CliOptionDefinition>? generatedGlobalOptions = null;
+            var generator = new FakeGenerator
+            {
+                OnGenerate = tool =>
+                {
+                    generatedGlobalOptions = tool.GlobalOptions;
+                    return [];
+                },
+            };
+
+            var result = await Orchestrator(scraper, generator).GenerateAsync("fake", outputRoot);
+
+            await Assert.That(result.HasErrors).IsFalse();
+            await Assert.That(generatedGlobalOptions).IsEquivalentTo([globalOption]);
         }
         finally
         {

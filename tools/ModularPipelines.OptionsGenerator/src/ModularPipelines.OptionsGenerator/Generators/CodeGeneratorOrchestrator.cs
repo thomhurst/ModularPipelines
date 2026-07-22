@@ -217,13 +217,14 @@ public class CodeGeneratorOrchestrator
 
         _logger.LogInformation("Using CLI scraper for {Tool}", cliScraper.ToolName);
 
-        var toolDefinition = cliScraper.CreateToolDefinition();
         var allCommands = new List<CliCommandDefinition>();
 
         await foreach (var command in cliScraper.ScrapeAsync(cancellationToken))
         {
             allCommands.Add(command);
         }
+
+        var toolDefinition = cliScraper.CreateToolDefinition();
 
         _logger.LogInformation("Scraped {Count} commands for {Tool}", allCommands.Count, cliScraper.ToolName);
 
@@ -242,6 +243,7 @@ public class CodeGeneratorOrchestrator
             TargetNamespace = toolDefinition.TargetNamespace,
             OutputDirectory = toolDefinition.OutputDirectory,
             Commands = allCommands,
+            GlobalOptions = toolDefinition.GlobalOptions,
             Errors = []
         };
 

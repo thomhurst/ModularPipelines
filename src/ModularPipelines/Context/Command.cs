@@ -19,30 +19,18 @@ namespace ModularPipelines.Context;
 internal sealed class Command : ICommand, ICommandContext
 {
     private readonly ICommandLogger _commandLogger;
-    private readonly ICommandModelProvider _commandModelProvider;
-    private readonly ICommandArgumentBuilder _commandArgumentBuilder;
-    private readonly IPlaceholderHandler _placeholderHandler;
-    private readonly ICommandPartsProvider _commandPartsProvider;
-    private readonly IToolResolver _toolResolver;
+    private readonly ICommandLineBuilder _commandLineBuilder;
     private readonly ISecretProvider _secretProvider;
     private readonly ISecretRegistry _secretRegistry;
 
     public Command(
         ICommandLogger commandLogger,
-        ICommandModelProvider commandModelProvider,
-        ICommandArgumentBuilder commandArgumentBuilder,
-        IPlaceholderHandler placeholderHandler,
-        ICommandPartsProvider commandPartsProvider,
-        IToolResolver toolResolver,
+        ICommandLineBuilder commandLineBuilder,
         ISecretProvider secretProvider,
         ISecretRegistry secretRegistry)
     {
         _commandLogger = commandLogger;
-        _commandModelProvider = commandModelProvider;
-        _commandArgumentBuilder = commandArgumentBuilder;
-        _placeholderHandler = placeholderHandler;
-        _commandPartsProvider = commandPartsProvider;
-        _toolResolver = toolResolver;
+        _commandLineBuilder = commandLineBuilder;
         _secretProvider = secretProvider;
         _secretRegistry = secretRegistry;
     }
@@ -54,32 +42,11 @@ internal sealed class Command : ICommand, ICommandContext
     {
         var execOpts = executionOptions ?? new CommandExecutionOptions();
 
-        var optionsObject = GetOptionsObject(options);
-        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(optionsObject));
+        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(options));
 
-        // Get subcommand parts and handle placeholder replacement
-        var rawCommandParts = _commandPartsProvider.GetRawCommandParts(optionsObject);
-        var precedingArgs = _placeholderHandler.ReplacePlaceholders(rawCommandParts, optionsObject);
-
-        // Build arguments from the command model using the new services
-        var commandModel = _commandModelProvider.GetCommandModel(optionsObject.GetType());
-        var propertyArgs = _commandArgumentBuilder.BuildArguments(commandModel, optionsObject);
-
-        // Combine: preceding args (subcommands) + property args
-        var parsedArgs = precedingArgs.Concat(propertyArgs).ToList();
-
-        // Add any manual arguments passed via options.Arguments
-        var resolvedTool = _toolResolver.ResolveTool(options)
-            ?? throw new InvalidOperationException($"No tool specified for {options.GetType().Name}. Add [CliTool] attribute to the options class.");
-        var manualArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), resolvedTool)
-            ? options.Arguments?.Skip(1).ToList() : options.Arguments?.ToList()) ?? new List<string>();
-        parsedArgs.AddRange(manualArgs);
-
-        if (options.RunSettings != null)
-        {
-            parsedArgs.Add("--");
-            parsedArgs.AddRange(options.RunSettings);
-        }
+        var commandLine = _commandLineBuilder.Build(options);
+        var resolvedTool = commandLine.Tool;
+        var parsedArgs = commandLine.Arguments.ToList();
 
         string tool;
         if (execOpts.Sudo)
@@ -121,11 +88,6 @@ internal sealed class Command : ICommand, ICommandContext
         }
 
         return await Of(command, options, execOpts, cancellationToken).ConfigureAwait(false);
-    }
-
-    private static object GetOptionsObject(CommandLineToolOptions options)
-    {
-        return options;
     }
 
     private async Task<CommandResult> Of(
