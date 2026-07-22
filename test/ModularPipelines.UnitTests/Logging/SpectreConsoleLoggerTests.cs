@@ -19,6 +19,7 @@ public class SpectreConsoleLoggerTests
 
         var output = writer.ToString();
         await Assert.That(output).Contains("One log entry");
+        await Assert.That(output).EndsWith(Environment.NewLine);
         await Assert.That(output).DoesNotContain(Environment.NewLine + Environment.NewLine);
     }
 
