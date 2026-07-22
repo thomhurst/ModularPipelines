@@ -190,6 +190,57 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrites_Mask_MultilineSecrets_SplitAcrossLines()
+    {
+        var secret = $"private-key-line-1{Environment.NewLine}private-key-line-2";
+        var provider = CreateProvider(out _);
+        provider.AddSecret(secret);
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.WriteLine("private-key-line-1");
+
+        await Assert.That(realConsole.ToString()).IsEmpty();
+
+        writer.WriteLine("private-key-line-2");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo($"**********{Environment.NewLine}");
+    }
+
+    [Test]
+    public void BufferedConsoleWrites_Mask_MultilineSecrets_SplitAcrossLines()
+    {
+        var secret = $"private-key-line-1{Environment.NewLine}private-key-line-2";
+        var provider = CreateProvider(out _);
+        provider.AddSecret(secret);
+        var outputBuffer = new Mock<IModuleOutputBuffer>();
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetUnattributedBuffer()).Returns(outputBuffer.Object);
+
+        using var writer = new CoordinatedTextWriter(
+            coordinator.Object,
+            new StringWriter(),
+            () => true,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.WriteLine("private-key-line-1");
+
+        outputBuffer.Verify(x => x.WriteLine(It.IsAny<string>()), Times.Never);
+
+        writer.WriteLine("private-key-line-2");
+
+        outputBuffer.Verify(x => x.WriteLine("**********"), Times.Once);
+        outputBuffer.Verify(x => x.WriteLine(It.Is<string>(value => value.Contains("private-key"))), Times.Never);
+    }
+
+    [Test]
     public async Task DirectConsoleWrite_WithoutNewline_IsImmediate()
     {
         var provider = CreateProvider(out _);

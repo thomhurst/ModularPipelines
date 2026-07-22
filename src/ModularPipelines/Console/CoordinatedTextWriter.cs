@@ -37,6 +37,7 @@ internal class CoordinatedTextWriter : TextWriter
     private bool? _lineBufferShouldBuffer;
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="CoordinatedTextWriter"/> class.
     /// Initializes a new coordinated text writer.
     /// </summary>
     /// <param name="coordinator">The console coordinator.</param>
@@ -124,39 +125,17 @@ internal class CoordinatedTextWriter : TextWriter
 
     private void WriteCore(string value, bool appendNewLine)
     {
-        var requestedBufferMode = _shouldBuffer();
-        var patterns = GetSecretPatterns();
-        value = ObfuscateCompleteMultilinePatterns(value, patterns);
-        var segmentStart = 0;
-        var newlineIndex = value.IndexOf('\n', segmentStart);
-
-        while (newlineIndex >= 0)
-        {
-            var shouldBuffer = GetBufferMode(requestedBufferMode);
-            _lineBuffer.Append(value, segmentStart, newlineIndex - segmentStart);
-
-            if (!shouldBuffer)
-            {
-                FlushSafeDirectOutput(patterns);
-            }
-
-            WriteCompletedLine(shouldBuffer);
-            segmentStart = newlineIndex + 1;
-            newlineIndex = value.IndexOf('\n', segmentStart);
-        }
-
-        var finalBufferMode = GetBufferMode(requestedBufferMode);
-        _lineBuffer.Append(value, segmentStart, value.Length - segmentStart);
-
-        if (!finalBufferMode)
-        {
-            FlushSafeDirectOutput(patterns);
-        }
+        var shouldBuffer = GetBufferMode(_shouldBuffer());
+        _lineBuffer.Append(value);
 
         if (appendNewLine)
         {
-            WriteCompletedLine(finalBufferMode);
+            _lineBuffer.Append(Environment.NewLine);
         }
+
+        var patterns = GetSecretPatterns();
+        ObfuscateCompletePatterns(patterns);
+        FlushSafeOutput(patterns, shouldBuffer);
     }
 
     private bool GetBufferMode(bool requestedBufferMode)
@@ -176,59 +155,96 @@ internal class CoordinatedTextWriter : TextWriter
             .OrderByDescending(pattern => pattern.Length)
             .ToArray();
 
-    private string ObfuscateCompleteMultilinePatterns(string value, IReadOnlyList<string> patterns)
+    private void ObfuscateCompletePatterns(IReadOnlyList<string> patterns)
     {
-        foreach (var pattern in patterns)
+        if (_lineBuffer.Length == 0 || patterns.Count == 0)
         {
-            if (pattern.IndexOfAny(['\r', '\n']) < 0 || !value.Contains(pattern, StringComparison.OrdinalIgnoreCase))
-            {
-                continue;
-            }
-
-            var obfuscatedPattern = _secretObfuscator.Obfuscate(pattern, null);
-            value = value.Replace(pattern, obfuscatedPattern, StringComparison.OrdinalIgnoreCase);
-        }
-
-        return value;
-    }
-
-    private void FlushSafeDirectOutput(IReadOnlyList<string> patterns)
-    {
-        if (patterns.Count == 0)
-        {
-            FlushDirectPrefix(_lineBuffer.Length);
             return;
         }
 
-        while (_lineBuffer.Length > 0)
-        {
-            var pending = _lineBuffer.ToString();
-            var match = FindFirstPattern(pending, patterns);
-            if (match.Index >= 0)
-            {
-                if (match.Index == 0 && GetPotentialPatternPrefixLength(pending, patterns) == pending.Length)
-                {
-                    return;
-                }
+        var pending = _lineBuffer.ToString();
+        var output = new StringBuilder(pending.Length);
+        var searchIndex = 0;
+        var replaced = false;
 
-                FlushDirectPrefix(match.Index > 0 ? match.Index : match.Length);
-                continue;
+        while (searchIndex < pending.Length)
+        {
+            var match = FindFirstPattern(pending, patterns, searchIndex);
+            if (match.Index < 0)
+            {
+                output.Append(pending, searchIndex, pending.Length - searchIndex);
+                break;
             }
 
-            var retainedLength = GetPotentialPatternPrefixLength(pending, patterns);
-            FlushDirectPrefix(pending.Length - retainedLength);
-            return;
+            var matchReachesEnd = match.Index + match.Length == pending.Length;
+            if (matchReachesEnd
+                && GetPotentialPatternPrefixLength(pending, patterns) == pending.Length - match.Index)
+            {
+                output.Append(pending, searchIndex, pending.Length - searchIndex);
+                break;
+            }
+
+            output.Append(pending, searchIndex, match.Index - searchIndex);
+            var secret = pending.Substring(match.Index, match.Length);
+            output.Append(_secretObfuscator.Obfuscate(secret, null));
+            searchIndex = match.Index + match.Length;
+            replaced = true;
+        }
+
+        if (replaced)
+        {
+            _lineBuffer.Clear();
+            _lineBuffer.Append(output);
         }
     }
 
-    private static (int Index, int Length) FindFirstPattern(string input, IReadOnlyList<string> patterns)
+    private void FlushSafeOutput(IReadOnlyList<string> patterns, bool shouldBuffer)
+    {
+        var retainedLength = patterns.Count == 0
+            ? 0
+            : GetPotentialPatternPrefixLength(_lineBuffer.ToString(), patterns);
+
+        FlushSafePrefix(_lineBuffer.Length - retainedLength, shouldBuffer);
+
+        if (_lineBuffer.Length == 0)
+        {
+            _lineBufferShouldBuffer = null;
+        }
+    }
+
+    private void FlushSafePrefix(int safeLength, bool shouldBuffer)
+    {
+        while (safeLength > 0)
+        {
+            var newlineIndex = _lineBuffer.ToString(0, safeLength).IndexOf('\n');
+            if (newlineIndex < 0)
+            {
+                break;
+            }
+
+            var line = _lineBuffer.ToString(0, newlineIndex).TrimEnd('\r');
+            _lineBuffer.Remove(0, newlineIndex + 1);
+            safeLength -= newlineIndex + 1;
+            WriteCompletedLine(line, shouldBuffer);
+        }
+
+        if (!shouldBuffer)
+        {
+            FlushDirectPrefix(safeLength);
+        }
+    }
+
+    private static (int Index, int Length) FindFirstPattern(
+        string input,
+        IReadOnlyList<string> patterns,
+        int startIndex)
     {
         var firstIndex = -1;
         var longestMatch = 0;
 
         foreach (var pattern in patterns)
         {
-            var index = input.IndexOf(pattern, StringComparison.OrdinalIgnoreCase);
+            var index = input.IndexOf(pattern, startIndex, StringComparison.OrdinalIgnoreCase);
             if (index >= 0 && (firstIndex < 0 || index < firstIndex || (index == firstIndex && pattern.Length > longestMatch)))
             {
                 firstIndex = index;
@@ -269,11 +285,8 @@ internal class CoordinatedTextWriter : TextWriter
         _realConsole.Write(_secretObfuscator.Obfuscate(output, null));
     }
 
-    private void WriteCompletedLine(bool shouldBuffer)
+    private void WriteCompletedLine(string line, bool shouldBuffer)
     {
-        var line = _lineBuffer.ToString().TrimEnd('\r');
-        _lineBuffer.Clear();
-        _lineBufferShouldBuffer = null;
         var obfuscated = _secretObfuscator.Obfuscate(line, null);
 
         if (shouldBuffer)
@@ -315,7 +328,10 @@ internal class CoordinatedTextWriter : TextWriter
         {
             if (_lineBuffer.Length > 0)
             {
-                FlushPartialLine(_lineBufferShouldBuffer ?? _shouldBuffer());
+                var shouldBuffer = _lineBufferShouldBuffer ?? _shouldBuffer();
+                ObfuscateCompletePatterns(GetSecretPatterns());
+                FlushSafePrefix(_lineBuffer.Length, shouldBuffer);
+                FlushPartialLine(shouldBuffer);
                 _lineBufferShouldBuffer = null;
             }
         }
