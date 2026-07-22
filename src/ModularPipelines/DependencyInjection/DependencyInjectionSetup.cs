@@ -107,8 +107,8 @@ internal static class DependencyInjectionSetup
         config.Theme = new SpectreTheme()
             .WithPlaceholders(placeholders =>
             {
-                placeholders.ForName("Output", Style.Plain);
-                placeholders.ForName("Error", Style.Plain);
+                placeholders.ForName("CommandOutput", Style.Plain);
+                placeholders.ForName("CommandError", Style.Plain);
             });
     }
 
