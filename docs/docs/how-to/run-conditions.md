@@ -30,8 +30,9 @@ public class DeployModule : Module<None>
 - `[RunIfAny<T1, T2>]` runs when at least one condition is `true`.
 
 Multiple condition attributes are evaluated in this order: `SkipIf`, `RunIfAll`, then
-`RunIfAny`. They are converted into the module's `ModuleConfiguration` and evaluated in the
-same execution stage as fluent `.WithSkipWhen(...)` conditions.
+`RunIfAny`. Attribute conditions run during module discovery and register a skipped result
+directly. Fluent `.WithSkipWhen(...)` conditions run later in the execution pipeline and invoke
+the skipped hooks and lifecycle notifications.
 
 Built-in platform attributes remain available, including `[RunOnLinux]`, `[RunOnWindows]`,
 `[RunOnMacOS]`, and their `*Only` variants.

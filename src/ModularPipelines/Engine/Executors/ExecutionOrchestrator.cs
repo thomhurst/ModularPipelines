@@ -106,7 +106,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         _threadPoolConfigurator.Configure();
 
-        var organizedModules = await _pipelineInitializer.Initialize().ConfigureAwait(false);
+        var organizedModules = await _pipelineInitializer.Initialize(cancellationToken).ConfigureAwait(false);
 
         // Register skipped results for ignored modules (via Category/RunCondition)
         await _ignoredModuleResultRegistrar.RegisterIgnoredModuleResultsAsync(organizedModules.IgnoredModules).ConfigureAwait(false);

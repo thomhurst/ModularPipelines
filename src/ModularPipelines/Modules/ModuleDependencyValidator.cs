@@ -12,6 +12,55 @@ namespace ModularPipelines.Modules;
 public static class ModuleDependencyValidator
 {
     /// <summary>
+    /// Validates registered module instances, including dependencies declared through fluent configuration.
+    /// </summary>
+    /// <param name="registeredModules">The registered module instances.</param>
+    public static void Validate(IEnumerable<IModule> registeredModules)
+    {
+        var modulesByType = registeredModules
+            .GroupBy(module => module.GetType())
+            .ToDictionary(group => group.Key, group => group.First());
+        var moduleTypes = modulesByType.Keys.ToHashSet();
+        if (moduleTypes.Count == 0)
+        {
+            return;
+        }
+
+        var dependenciesByModule = modulesByType.ToDictionary(
+            pair => pair.Key,
+            pair => GetConfiguredDependencies(pair.Value, moduleTypes));
+
+        foreach (var (moduleType, dependencies) in dependenciesByModule)
+        {
+            foreach (var (dependencyType, optional) in dependencies)
+            {
+                if (dependencyType == moduleType)
+                {
+                    throw new ModuleReferencingSelfException(
+                        $"Module '{moduleType.Name}' cannot reference itself. " +
+                        "A module cannot depend on its own result.");
+                }
+
+                if (!optional && !moduleTypes.Contains(dependencyType))
+                {
+                    throw new ModuleNotRegisteredException(
+                        $"Module '{moduleType.Name}' requires '{dependencyType.Name}', " +
+                        $"but '{dependencyType.Name}' is not registered and could not be auto-registered. " +
+                        "Either register the dependency module or make the dependency optional.", null);
+                }
+            }
+        }
+
+        var dependencyGraph = dependenciesByModule.ToDictionary(
+            pair => pair.Key,
+            pair => pair.Value
+                .Where(dependency => moduleTypes.Contains(dependency.DependencyType))
+                .Select(dependency => dependency.DependencyType)
+                .ToHashSet());
+        ValidateCircularDependencies(dependencyGraph);
+    }
+
+    /// <summary>
     /// Validates all registered module dependencies.
     /// </summary>
     /// <param name="registeredModuleTypes">The types of all registered modules.</param>
@@ -36,6 +85,19 @@ public static class ModuleDependencyValidator
         ValidateSelfReferences(moduleTypes);
         ValidateMissingDependencies(moduleTypes);
         ValidateCircularDependencies(moduleTypes);
+    }
+
+    private static HashSet<(Type DependencyType, bool Optional)> GetConfiguredDependencies(
+        IModule module,
+        HashSet<Type> moduleTypes)
+    {
+        return [.. ModuleDependencyResolver.GetDependencies(module.GetType(), moduleTypes)
+            .Concat(module.Configuration.Dependencies.Select(dependency =>
+                (DependencyType: dependency.ModuleType, Optional: dependency.IsOptional)))
+            .GroupBy(dependency => dependency.DependencyType)
+            .Select(group => (
+                DependencyType: group.Key,
+                Optional: group.All(dependency => dependency.Optional)))];
     }
 
     /// <summary>

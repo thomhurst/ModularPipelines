@@ -86,8 +86,6 @@ internal sealed class PipelineImpl : IPipeline
     private static void ValidateModuleDependencies(IServiceProvider services)
     {
         var modules = services.GetServices<IModule>();
-        var moduleTypes = modules.Select(m => m.GetType());
-
-        ModuleDependencyValidator.Validate(moduleTypes);
+        ModuleDependencyValidator.Validate(modules);
     }
 }
