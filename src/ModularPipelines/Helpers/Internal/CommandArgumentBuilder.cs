@@ -135,7 +135,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         {
             CliOptionValuePair pair => [pair],
             IEnumerable<CliOptionValuePair> pairCollection => pairCollection,
-            _ => null
+            _ => null,
         };
 
         if (pairs is null)
