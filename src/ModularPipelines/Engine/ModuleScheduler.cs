@@ -278,9 +278,15 @@ internal class ModuleScheduler : IModuleScheduler
 
             foreach (var (existingModuleType, newlyResolvedDependencies) in newlyResolvedDependenciesByType)
             {
+                var existingState = _moduleStates[existingModuleType];
+                if (existingState.State != ModuleExecutionState.Pending)
+                {
+                    continue;
+                }
+
                 foreach (var (dependencyType, optional) in newlyResolvedDependencies)
                 {
-                    RecordDependency(_moduleStates[existingModuleType], dependencyType, optional);
+                    RecordDependency(existingState, dependencyType, optional);
                 }
             }
 

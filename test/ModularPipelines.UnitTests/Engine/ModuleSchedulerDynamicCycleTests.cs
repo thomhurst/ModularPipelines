@@ -134,6 +134,24 @@ public class ModuleSchedulerDynamicCycleTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task AddModule_DoesNotChangeActiveModuleDependencies(bool executing)
+    {
+        using var scheduler = CreateScheduler();
+        scheduler.InitializeModules([new ExistingPredicateModule()]);
+        var existingState = scheduler.GetModuleState(typeof(ExistingPredicateModule))!;
+        existingState.State = executing ? ModuleExecutionState.Executing : ModuleExecutionState.Queued;
+
+        scheduler.AddModule(new DynamicPredicateModule());
+
+        await Assert.That(existingState.Dependencies.ContainsKey(typeof(DynamicPredicateModule))).IsFalse();
+        await Assert.That(existingState.UnresolvedDependencies).DoesNotContain(typeof(DynamicPredicateModule));
+        await Assert.That(scheduler.GetModuleState(typeof(DynamicPredicateModule))!.UnresolvedDependencies)
+            .Contains(typeof(ExistingPredicateModule));
+    }
+
+    [Test]
     public async Task AddModule_WhenDependencyAlreadyCompleted_IsReady()
     {
         using var scheduler = CreateScheduler();
