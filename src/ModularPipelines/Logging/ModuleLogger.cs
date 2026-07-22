@@ -112,13 +112,12 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
                 return;
             }
 
-            _formattedLogValuesObfuscator.TryObfuscateValues(state!);
-
-            var mappedFormatter = MapFormatter(formatter);
+            var obfuscatedState = _formattedLogValuesObfuscator.TryObfuscateValues(state!);
+            var mappedFormatter = MapFormatter(formatter, state);
 
             // Write to buffer for ordered module output during pipeline execution
             // Output will be flushed to console and loggers when the module completes
-            _buffer.AddLogEvent(logLevel, eventId, state!, exception, mappedFormatter);
+            _buffer.AddLogEvent(logLevel, eventId, obfuscatedState, exception, mappedFormatter);
 
             LastLogWritten = DateTime.UtcNow;
         }
@@ -212,16 +211,18 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         _buffer.WriteLine(obfuscated);
     }
 
-    private Func<object, Exception?, string> MapFormatter<TState>(Func<TState, Exception?, string>? formatter)
+    private Func<object, Exception?, string> MapFormatter<TState>(
+        Func<TState, Exception?, string>? formatter,
+        TState originalState)
     {
         if (formatter is null)
         {
             return (_, _) => string.Empty;
         }
 
-        return (o, exception) =>
+        return (_, exception) =>
         {
-            var formattedString = formatter.Invoke((TState) o, exception);
+            var formattedString = formatter.Invoke(originalState, exception);
             return _secretObfuscator.Obfuscate(formattedString, null) ?? string.Empty;
         };
     }

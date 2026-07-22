@@ -39,6 +39,6 @@ internal static class TimeSpanFormatter
 
     private static string Hours(TimeSpan timeSpan)
     {
-        return timeSpan.Hours.ToString("0") + "h";
+        return ((long) timeSpan.TotalHours).ToString("0") + "h";
     }
 }
