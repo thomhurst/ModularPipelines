@@ -160,6 +160,26 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task SecretPropertyAccessor_PreservesTwoValueDeconstruct()
+    {
+        Func<object, object?> expectedGetter = value => value;
+        var accessor = new SecretPropertyAccessor("Token", expectedGetter, ["token"]);
+        var deconstruct = typeof(SecretPropertyAccessor).GetMethod(
+            nameof(SecretPropertyAccessor.Deconstruct),
+        [
+            typeof(string).MakeByRefType(),
+            typeof(Func<object, object?>).MakeByRefType(),
+        ]);
+
+        await Assert.That(deconstruct).IsNotNull();
+
+        accessor.Deconstruct(out var propertyName, out var getter);
+
+        await Assert.That(propertyName).IsEqualTo("Token");
+        await Assert.That(getter).IsEqualTo(expectedGetter);
+    }
+
+    [Test]
     public async Task InaccessibleProperties_MarkGeneratedMetadataIncomplete()
     {
         var commandMetadataFound = GeneratedCommandMetadata.TryGet(

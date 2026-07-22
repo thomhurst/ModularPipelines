@@ -49,10 +49,22 @@ public sealed record SecretPropertyAccessor(
     IReadOnlyList<string>? SecretValueKeys = null)
 {
     /// <summary>
+    /// Initialises a new instance of the <see cref="SecretPropertyAccessor"/> class.
     /// Preserves the constructor emitted by source generators built before key-filtered secrets were supported.
     /// </summary>
     public SecretPropertyAccessor(string propertyName, Func<object, object?> getter)
         : this(propertyName, getter, null)
     {
+    }
+
+    /// <summary>
+    /// Preserves the two-value deconstructor emitted before key-filtered secrets were supported.
+    /// </summary>
+    /// <param name="propertyName">The property name.</param>
+    /// <param name="getter">The property value accessor.</param>
+    public void Deconstruct(out string propertyName, out Func<object, object?> getter)
+    {
+        propertyName = PropertyName;
+        getter = Getter;
     }
 }
