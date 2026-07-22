@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.BuildSystemFormatters;
 using ModularPipelines.Options;
 using Moq;
 
@@ -134,6 +135,15 @@ public class SecretMaskingPatternTests
         writer.WriteLine("def");
 
         await Assert.That(realConsole.ToString()).IsEqualTo($"**********{Environment.NewLine}");
+    }
+
+    [Test]
+    [Arguments("a%b", "::add-mask::a%25b")]
+    [Arguments("line 1\r\nline 2", "::add-mask::line 1%0D%0Aline 2")]
+    [Arguments("a%25b", "::add-mask::a%2525b")]
+    public async Task GitHubActionsMaskCommand_EscapesWorkflowCommandData(string value, string expected)
+    {
+        await Assert.That(new GitHubActionsFormatter().GetMaskSecretCommand(value)).IsEqualTo(expected);
     }
 
     [Test]
