@@ -13,18 +13,30 @@ using ModularPipelines.Kind.Options;
 namespace ModularPipelines.Kind.Options;
 
 /// <summary>
-/// Lists existing kind clusters by their name
+/// Loads docker image from archive into all or specified nodes by name
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("get", "clusters")]
-public record KindGetClustersOptions : KindOptions
+[CliSubCommand("load", "image-archive")]
+public record KindLoadImageArchiveOptions : KindOptions
 {
     /// <summary>
-    /// help for clusters
+    /// help for image-archive
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// the cluster context name (default "kind")
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// comma separated list of nodes to load images into
+    /// </summary>
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Nodes { get; set; }
 
     /// <summary>
     /// silence all stderr output

@@ -6,28 +6,28 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kind.Enums;
 
 /// <summary>
 /// Allowed values for the --type option.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum KindBuildNodeImageType
 {
-    [Description("url")]
+    [EnumValue("url")]
     Url,
 
-    [Description("file")]
+    [EnumValue("file")]
     File,
 
-    [Description("release")]
+    [EnumValue("release")]
     Release,
 
-    [Description("ci")]
+    [EnumValue("ci")]
     Ci,
 
-    [Description("source' as the type of build")]
+    [EnumValue("source' as the type of build")]
     SourceAsTheTypeOfBuild
 }

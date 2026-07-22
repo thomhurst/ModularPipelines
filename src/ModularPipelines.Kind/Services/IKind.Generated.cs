@@ -15,7 +15,7 @@ namespace ModularPipelines.Kind.Services;
 /// <summary>
 /// Generated interface for kind CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IKind
 {
     #region Sub-domain Services

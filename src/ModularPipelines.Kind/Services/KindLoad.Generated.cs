@@ -16,7 +16,7 @@ namespace ModularPipelines.Kind.Services;
 /// <summary>
 /// kind load commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class KindLoad
 {
     private readonly ICommand _command;
@@ -59,6 +59,21 @@ public class KindLoad
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Loads docker image from archive into all or specified nodes by name
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ImageArchive(
+        KindLoadImageArchiveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new KindLoadImageArchiveOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

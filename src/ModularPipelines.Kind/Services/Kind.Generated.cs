@@ -16,7 +16,7 @@ namespace ModularPipelines.Kind.Services;
 /// <summary>
 /// Generated implementation for kind CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Kind : IKind
 {
     private readonly ICommand _command;

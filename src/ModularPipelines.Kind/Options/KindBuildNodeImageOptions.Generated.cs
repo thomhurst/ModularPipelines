@@ -16,7 +16,7 @@ namespace ModularPipelines.Kind.Options;
 /// <summary>
 /// Build the node image which contains Kubernetes build artifacts and other kind requirements.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("build", "node-image")]
 public record KindBuildNodeImageOptions : KindOptions

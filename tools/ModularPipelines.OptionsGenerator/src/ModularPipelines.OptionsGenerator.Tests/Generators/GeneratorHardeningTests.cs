@@ -140,6 +140,40 @@ public class GeneratorHardeningTests
 
     #endregion
 
+    #region Positional argument deduplication
+
+    [Test]
+    public async Task OptionsClassGenerator_Deduplicates_Required_And_Optional_Positionals()
+    {
+        var command = Command("ToolLoadOptions", "ToolOptions") with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Image",
+                    CSharpType = "string",
+                    PositionIndex = 0,
+                    IsRequired = true,
+                },
+                new CliPositionalArgument
+                {
+                    PropertyName = "Image",
+                    CSharpType = "string?",
+                    PositionIndex = 1,
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(generated).Contains("[property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Image");
+        await Assert.That(generated).DoesNotContain("public string? Image { get; set; }");
+        await Assert.That(generated.Split("CliArgument(")).Count().IsEqualTo(2);
+    }
+
+    #endregion
+
     #region Compatibility properties
 
     [Test]
