@@ -68,10 +68,12 @@ internal interface IModuleOutputBuffer
     /// <param name="console">The console to write to.</param>
     /// <param name="formatter">The CI-specific formatter for log groups.</param>
     /// <param name="logger">The logger for structured log output.</param>
-    /// <param name="loggerControl">Coordinates queued log rendering with direct console writes.</param>
+    /// <param name="loggerControl">Coordinates log rendering with direct console writes.</param>
+    /// <param name="cancellationToken">Cancellation token for the flush operation.</param>
     Task FlushToAsync(
         TextWriter console,
         IBuildSystemFormatter formatter,
         ILogger logger,
-        ISpectreConsoleLoggerControl loggerControl);
+        ISpectreConsoleLoggerControl loggerControl,
+        CancellationToken cancellationToken = default);
 }

@@ -8,10 +8,10 @@ namespace ModularPipelines.UnitTests.Console;
 public class ModuleOutputBufferTests
 {
     [Test]
-    public async Task Flush_Waits_For_Queued_Logs_Before_Group_End()
+    public async Task Flush_Writes_Structured_Logs_Before_Group_End()
     {
         var writer = new StringWriter();
-        var loggerControl = new QueuedLoggerControl(writer);
+        var loggerControl = new SynchronousLoggerControl(writer);
         var buffer = CreateBufferWithStructuredLog();
 
         await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
@@ -25,10 +25,10 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task Flush_Waits_For_Queued_Logs_Before_Direct_Output_And_Group_End()
+    public async Task Flush_Preserves_Structured_And_Direct_Output_Order()
     {
         var writer = new StringWriter();
-        var loggerControl = new QueuedLoggerControl(writer);
+        var loggerControl = new SynchronousLoggerControl(writer);
         var buffer = CreateBufferWithStructuredLog();
         buffer.WriteLine("direct output");
 
@@ -50,7 +50,7 @@ public class ModuleOutputBufferTests
     public async Task Flush_Renders_Markup_For_Direct_Output()
     {
         var writer = new StringWriter();
-        var loggerControl = new QueuedLoggerControl(writer);
+        var loggerControl = new SynchronousLoggerControl(writer);
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
         buffer.WriteLine("[green]direct output[/]");
 
@@ -59,6 +59,60 @@ public class ModuleOutputBufferTests
         var output = writer.ToString();
         await Assert.That(output).Contains("direct output");
         await Assert.That(output).DoesNotContain("[green]");
+    }
+
+    [Test]
+    public async Task Flush_Keeps_Concurrent_Logs_Outside_Module_Group()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = CreateBufferWithStructuredLog();
+        Task? outsideLog = null;
+        using var gateAttemptCompleted = new ManualResetEventSlim();
+        loggerControl.AfterLog = () =>
+        {
+            outsideLog = Task.Run(() =>
+            {
+                if (!loggerControl.TryWrite("outside log", TimeSpan.FromMilliseconds(100)))
+                {
+                    gateAttemptCompleted.Set();
+                    loggerControl.Write("outside log");
+                }
+                else
+                {
+                    gateAttemptCompleted.Set();
+                }
+            });
+            gateAttemptCompleted.Wait();
+        };
+
+        await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
+        await outsideLog!;
+
+        var output = writer.ToString();
+        var groupEnd = output.IndexOf("::endgroup::", StringComparison.Ordinal);
+        var outside = output.IndexOf("outside log", StringComparison.Ordinal);
+
+        await Assert.That(groupEnd).IsGreaterThanOrEqualTo(0);
+        await Assert.That(outside).IsGreaterThan(groupEnd);
+    }
+
+    [Test]
+    public async Task Flush_Observes_Cancellation()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = CreateBufferWithStructuredLog();
+        using var cancellationTokenSource = new CancellationTokenSource();
+        await cancellationTokenSource.CancelAsync();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                cancellationTokenSource.Token));
     }
 
     private static ModuleOutputBuffer CreateBufferWithStructuredLog()
@@ -73,11 +127,11 @@ public class ModuleOutputBufferTests
         return buffer;
     }
 
-    private sealed class QueuedLoggerControl(TextWriter writer) : ILogger, ISpectreConsoleLoggerControl
+    private sealed class SynchronousLoggerControl(TextWriter writer) : ILogger, ISpectreConsoleLoggerControl
     {
-        private readonly Queue<string> _pendingMessages = new();
-
         public object SynchronizationLock { get; } = new();
+
+        public Action? AfterLog { get; set; }
 
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull
@@ -92,20 +146,36 @@ public class ModuleOutputBufferTests
             Exception? exception,
             Func<TState, Exception?, string> formatter)
         {
-            _pendingMessages.Enqueue(formatter(state, exception));
+            Write(formatter(state, exception));
+            AfterLog?.Invoke();
         }
 
-        public Task FlushAsync(CancellationToken cancellationToken = default)
+        public void Write(string message)
         {
             lock (SynchronizationLock)
             {
-                while (_pendingMessages.TryDequeue(out var message))
-                {
-                    writer.WriteLine(message);
-                }
+                writer.WriteLine(message);
+            }
+        }
+
+        public bool TryWrite(string message, TimeSpan timeout)
+        {
+            if (!Monitor.TryEnter(SynchronizationLock, timeout))
+            {
+                return false;
             }
 
-            return Task.CompletedTask;
+            try
+            {
+                writer.WriteLine(message);
+                return true;
+            }
+            finally
+            {
+                Monitor.Exit(SynchronizationLock);
+            }
         }
+
+        public Task FlushAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 }

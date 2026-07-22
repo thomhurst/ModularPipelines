@@ -144,7 +144,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                     break;
                 }
 
-                await FlushBufferAsync(output.Buffer, formatter).ConfigureAwait(false);
+                await FlushBufferAsync(output.Buffer, formatter, cancellationToken).ConfigureAwait(false);
             }
         }
         finally
@@ -218,7 +218,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                     await _progressController.PauseAsync().ConfigureAwait(false);
                     try
                     {
-                        await FlushBufferAsync(pending.Buffer, formatter).ConfigureAwait(false);
+                        await FlushBufferAsync(pending.Buffer, formatter, cancellationToken).ConfigureAwait(false);
                     }
                     finally
                     {
@@ -245,13 +245,16 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         }
     }
 
-    private Task FlushBufferAsync(IModuleOutputBuffer buffer, IBuildSystemFormatter formatter)
+    private Task FlushBufferAsync(
+        IModuleOutputBuffer buffer,
+        IBuildSystemFormatter formatter,
+        CancellationToken cancellationToken)
     {
         var loggerType = typeof(ILogger<>).MakeGenericType(buffer.ModuleType);
         var moduleLogger = (ILogger)_serviceProvider.GetService(loggerType)
                            ?? _loggerFactory.CreateLogger(buffer.ModuleType);
 
-        return buffer.FlushToAsync(_console, formatter, moduleLogger, _loggerControl);
+        return buffer.FlushToAsync(_console, formatter, moduleLogger, _loggerControl, cancellationToken);
     }
 
     private sealed class PendingFlush

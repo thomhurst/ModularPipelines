@@ -13,6 +13,16 @@ namespace ModularPipelines.UnitTests.Logging;
 public class SpectreConsoleLoggerTests
 {
     [Test]
+    public async Task Configuration_Uses_Synchronous_Output()
+    {
+        var options = new SpectreConsoleLoggerOptions();
+
+        DependencyInjectionSetup.ConfigureSpectreConsoleLogger(options, AnsiConsole.Console);
+
+        await Assert.That(options.WriteMode).IsEqualTo(WriteMode.Synchronous);
+    }
+
+    [Test]
     public async Task Terminates_Each_Log_Entry_Once()
     {
         var writer = new StringWriter();
