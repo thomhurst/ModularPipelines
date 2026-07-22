@@ -228,6 +228,11 @@ public class GeneratedCliRenderingSnapshotTests
             return new KeyValue("key", isSecret ? "secret-value" : "value");
         }
 
+        if (type == typeof(CliOptionValuePair))
+        {
+            return new CliOptionValuePair("key", isSecret ? "secret-value" : "value");
+        }
+
         if (type.IsEnum)
         {
             return Enum.GetValues(type).GetValue(0)
