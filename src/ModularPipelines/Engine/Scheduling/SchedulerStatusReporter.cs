@@ -40,6 +40,8 @@ internal class SchedulerStatusReporter : ISchedulerStatusReporter
     public void LogStatusIfIntervalElapsed(ModuleStateQueries stateQueries, ReaderWriterLockSlim stateLock)
     {
         var now = _timeProvider.GetUtcNow();
+        SchedulerStatusSnapshot snapshot;
+
         lock (_statusLock)
         {
             if (now - _lastStatusCheckTime < StatusCheckInterval)
@@ -48,30 +50,30 @@ internal class SchedulerStatusReporter : ISchedulerStatusReporter
             }
 
             _lastStatusCheckTime = now;
-        }
 
-        // Consolidate all state queries under a single read lock to reduce contention
-        SchedulerStatusSnapshot snapshot;
+            if (!_logger.IsEnabled(LogLevel.Debug))
+            {
+                return;
+            }
 
-        stateLock.EnterReadLock();
-        try
-        {
-            snapshot = new SchedulerStatusSnapshot(
-                stateQueries.GetStatistics(),
-                string.Join(", ", stateQueries.GetPendingModules()
-                    .Select(FormatModuleWithDependencyCount)
-                    .Order(StringComparer.Ordinal)),
-                string.Join(", ", stateQueries.GetExecutingModules()
-                    .Select(m => m.ModuleType.Name)
-                    .Order(StringComparer.Ordinal)));
-        }
-        finally
-        {
-            stateLock.ExitReadLock();
-        }
+            // Consolidate all state queries under a single read lock to reduce contention
+            stateLock.EnterReadLock();
+            try
+            {
+                snapshot = new SchedulerStatusSnapshot(
+                    stateQueries.GetStatistics(),
+                    string.Join(", ", stateQueries.GetPendingModules()
+                        .Select(FormatModuleWithDependencyCount)
+                        .Order(StringComparer.Ordinal)),
+                    string.Join(", ", stateQueries.GetExecutingModules()
+                        .Select(m => FormatModuleType(m.ModuleType))
+                        .Order(StringComparer.Ordinal)));
+            }
+            finally
+            {
+                stateLock.ExitReadLock();
+            }
 
-        lock (_statusLock)
-        {
             if (snapshot == _lastSnapshot)
             {
                 return;
@@ -102,8 +104,10 @@ internal class SchedulerStatusReporter : ISchedulerStatusReporter
 
     private static string FormatModuleWithDependencyCount(ModuleState m)
     {
-        return $"{m.ModuleType.Name} (deps: {m.UnresolvedDependencies.Count})";
+        return $"{FormatModuleType(m.ModuleType)} (deps: {m.UnresolvedDependencies.Count})";
     }
+
+    private static string FormatModuleType(Type moduleType) => moduleType.FullName ?? moduleType.Name;
 
     private sealed record SchedulerStatusSnapshot(
         ModuleStateStatistics Statistics,

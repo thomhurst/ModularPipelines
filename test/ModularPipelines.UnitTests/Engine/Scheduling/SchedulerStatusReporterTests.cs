@@ -71,6 +71,29 @@ public class SchedulerStatusReporterTests
         await Assert.That(logger.Messages[^1]).Contains("deps: 0");
     }
 
+    [Test]
+    public async Task Different_Module_With_Same_Simple_Name_Is_Logged()
+    {
+        var firstState = CreateModuleState(typeof(FirstContainer.SameNameModule), ModuleExecutionState.Executing);
+        var states = new ConcurrentDictionary<Type, ModuleState>(
+            [new(typeof(FirstContainer.SameNameModule), firstState)]);
+        var logger = new RecordingLogger<SchedulerStatusReporter>();
+        var timeProvider = new FakeTimeProvider(StartTime);
+        var reporter = new SchedulerStatusReporter(logger, timeProvider);
+        var stateQueries = new ModuleStateQueries(states);
+        using var stateLock = new ReaderWriterLockSlim();
+
+        reporter.LogStatusIfIntervalElapsed(stateQueries, stateLock);
+        states.TryRemove(typeof(FirstContainer.SameNameModule), out _);
+        var secondState = CreateModuleState(typeof(SecondContainer.SameNameModule), ModuleExecutionState.Executing);
+        states[typeof(SecondContainer.SameNameModule)] = secondState;
+        timeProvider.Advance(TimeSpan.FromSeconds(15));
+        reporter.LogStatusIfIntervalElapsed(stateQueries, stateLock);
+
+        await Assert.That(logger.Messages).Count().IsEqualTo(4);
+        await Assert.That(logger.Messages[^1]).Contains(typeof(SecondContainer.SameNameModule).FullName!);
+    }
+
     private static ModuleState CreateModuleState(Type moduleType, ModuleExecutionState executionState)
     {
         return new ModuleState(new Mock<IModule>().Object, moduleType)
@@ -84,6 +107,16 @@ public class SchedulerStatusReporterTests
     private sealed class PendingModule;
 
     private sealed class DependencyModule;
+
+    private sealed class FirstContainer
+    {
+        public sealed class SameNameModule;
+    }
+
+    private sealed class SecondContainer
+    {
+        public sealed class SameNameModule;
+    }
 
     private sealed class RecordingLogger<T> : ILogger<T>
     {
