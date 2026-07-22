@@ -33,6 +33,4 @@ internal sealed class DelegatingAnsiConsole : IAnsiConsole
     public void WriteAnsi(Action<AnsiWriter> action) => Console.WriteAnsi(action);
 
     public void Write(IRenderable renderable) => Console.Write(renderable);
-
-    public void WriteAnsi(Action<AnsiWriter> action) => Console.WriteAnsi(action);
 }

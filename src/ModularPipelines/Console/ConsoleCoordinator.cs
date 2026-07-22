@@ -436,7 +436,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     {
         var settings = new AnsiConsoleSettings
         {
-            Out = new AnsiConsoleOutput(output)
+            Out = new AnsiConsoleOutput(output),
         };
 
         if (isKnownBuildAgent)
