@@ -147,6 +147,36 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    [Arguments("abcdef", "cde", "abcde", "f")]
+    [Arguments("abc\ndef", "c\nde", "abc\nde", "f")]
+    public async Task DirectConsoleWrites_Retain_WholePrefix_Before_InnerSecretMatch(
+        string longerSecret,
+        string innerSecret,
+        string firstChunk,
+        string secondChunk)
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret(longerSecret);
+        provider.AddSecret(innerSecret);
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write(firstChunk);
+
+        await Assert.That(realConsole.ToString()).IsEmpty();
+
+        writer.Write(secondChunk);
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("**********");
+    }
+
+    [Test]
     [Arguments("a%b", "::add-mask::a%25b")]
     [Arguments("line 1\r\nline 2", "::add-mask::line 1%0D%0Aline 2")]
     [Arguments("a%25b", "::add-mask::a%2525b")]

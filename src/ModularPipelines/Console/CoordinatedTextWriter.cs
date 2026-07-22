@@ -141,7 +141,7 @@ internal class CoordinatedTextWriter : TextWriter
     private LineBufferState GetLineBufferState()
     {
         var moduleType = ModuleLogger.CurrentModuleType.Value;
-        var key = (object?)moduleType ?? UnattributedContext;
+        var key = (object?) moduleType ?? UnattributedContext;
 
         if (!_lineBuffers.TryGetValue(key, out var state))
         {
@@ -180,6 +180,8 @@ internal class CoordinatedTextWriter : TextWriter
         var output = new StringBuilder(pending.Length);
         var searchIndex = 0;
         var replaced = false;
+        var retainedPrefixLength = GetPotentialPatternPrefixLength(pending, patterns);
+        var retainedPrefixStart = pending.Length - retainedPrefixLength;
 
         while (searchIndex < pending.Length)
         {
@@ -190,9 +192,8 @@ internal class CoordinatedTextWriter : TextWriter
                 break;
             }
 
-            var matchReachesEnd = match.Index + match.Length == pending.Length;
-            if (matchReachesEnd
-                && GetPotentialPatternPrefixLength(pending, patterns) == pending.Length - match.Index)
+            if (retainedPrefixLength > 0
+                && match.Index + match.Length > retainedPrefixStart)
             {
                 output.Append(pending, searchIndex, pending.Length - searchIndex);
                 break;
