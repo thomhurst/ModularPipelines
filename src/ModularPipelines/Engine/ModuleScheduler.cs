@@ -586,7 +586,7 @@ internal class ModuleScheduler : IModuleScheduler
             // Sort by priority descending so higher priority modules are queued first
             var potentiallyReadyModules = _moduleStates.Values
                 .Where(m => m.IsReadyToExecute)
-                .OrderByDescending(m => (int)m.Priority)
+                .OrderByDescending(m => (int) m.Priority)
                 .ToArray();
 
             // Take immutable snapshot of already-active modules (queued or executing)
@@ -665,5 +665,4 @@ internal class ModuleScheduler : IModuleScheduler
             modulesToQueue.Count,
             string.Join(", ", modulesToQueue.Select(m => m.ModuleType.Name)));
     }
-
 }
