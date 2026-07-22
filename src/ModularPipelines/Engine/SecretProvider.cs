@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Initialization.Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
@@ -32,7 +33,10 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
     private readonly IOptionsProvider _optionsProvider;
     private readonly IBuildSystemSecretMasker _buildSystemSecretMasker;
     private readonly IOptions<SecretMaskingOptions> _maskingOptions;
+    private readonly ILogger<SecretProvider> _logger;
     private readonly ConcurrentDictionary<string, byte> _secrets = new();
+    private readonly ConcurrentDictionary<string, byte> _nativeMaskPatterns = new();
+    private readonly ConcurrentDictionary<string, byte> _shortSecretWarnings = new();
     private readonly object _initLock = new();
 
     private volatile bool _initialized;
@@ -50,11 +54,13 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
     public SecretProvider(
         IOptionsProvider optionsProvider,
         IBuildSystemSecretMasker buildSystemSecretMasker,
-        IOptions<SecretMaskingOptions> maskingOptions)
+        IOptions<SecretMaskingOptions> maskingOptions,
+        ILogger<SecretProvider> logger)
     {
         _optionsProvider = optionsProvider;
         _buildSystemSecretMasker = buildSystemSecretMasker;
         _maskingOptions = maskingOptions;
+        _logger = logger;
     }
 
     /// <inheritdoc />
@@ -65,19 +71,27 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             return;
         }
 
-        var options = _maskingOptions.Value;
+        var patterns = SecretMaskingPatternGenerator.Generate(secret);
+        RegisterNativeMaskPatterns(patterns);
 
-        // Check minimum length requirement
-        if (secret.Length < options.MinimumSecretLength)
+        var minimumLength = Math.Max(1, _maskingOptions.Value.MinimumSecretLength);
+        if (secret.Length < minimumLength)
         {
+            if (_shortSecretWarnings.TryAdd(secret, 0))
+            {
+                _logger.LogWarning(
+                    "A secret with length {SecretLength} is shorter than MinimumSecretLength {MinimumSecretLength}. " +
+                    "Framework log masking is disabled for this value; native build-system masking was requested.",
+                    secret.Length,
+                    minimumLength);
+            }
+
             return;
         }
 
-        // TryAdd returns false if already exists, providing thread-safe deduplication
-        if (_secrets.TryAdd(secret, 0))
+        foreach (var pattern in patterns)
         {
-            // Register with build system for native masking (only for new secrets)
-            _buildSystemSecretMasker.MaskSecrets([secret]);
+            _secrets.TryAdd(pattern, 0);
         }
     }
 
@@ -93,7 +107,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
     /// <inheritdoc />
     public void AddSecrets(params string?[] secrets)
     {
-        AddSecrets((IEnumerable<string?>)secrets);
+        AddSecrets((IEnumerable<string?>) secrets);
     }
 
     public IEnumerable<string> GetSecretsInObject(object? value)
@@ -109,13 +123,11 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             secretProperties = ReflectionAccessorsCache.GetOrAdd(type, GetSecretProperties);
         }
 
-        var options = _maskingOptions.Value;
-
         foreach (var property in secretProperties)
         {
             var secret = property.Getter(value)?.ToString();
 
-            if (!string.IsNullOrWhiteSpace(secret) && secret.Length >= options.MinimumSecretLength)
+            if (!string.IsNullOrWhiteSpace(secret))
             {
                 yield return secret;
             }
@@ -140,18 +152,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
                 return Task.CompletedTask;
             }
 
-            var secretsFromOptions = GetSecrets(_optionsProvider.GetOptions()).ToList();
-
-            foreach (var secret in secretsFromOptions)
-            {
-                _secrets.TryAdd(secret, 0);
-            }
-
-            // Register all discovered secrets with build system in a single batch
-            if (secretsFromOptions.Count > 0)
-            {
-                _buildSystemSecretMasker.MaskSecrets(secretsFromOptions);
-            }
+            AddSecrets(GetSecrets(_optionsProvider.GetOptions()));
 
             _initialized = true;
         }
@@ -177,6 +178,15 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             {
                 yield return secret;
             }
+        }
+    }
+
+    private void RegisterNativeMaskPatterns(IEnumerable<string> patterns)
+    {
+        var newPatterns = patterns.Where(pattern => _nativeMaskPatterns.TryAdd(pattern, 0)).ToArray();
+        if (newPatterns.Length > 0)
+        {
+            _buildSystemSecretMasker.MaskSecrets(newPatterns);
         }
     }
 }

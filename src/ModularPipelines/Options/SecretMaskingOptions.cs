@@ -54,8 +54,9 @@ public record SecretMaskingOptions
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Secrets shorter than this length are ignored to prevent excessive false positives.
+    /// Secrets shorter than this length are excluded from framework substring masking to prevent excessive false positives.
     /// For example, a 1-character secret like "a" would mask all "a" characters in output.
+    /// A warning is logged, and native build-system masking is still requested when supported.
     /// </para>
     /// <para>
     /// The default value of 1 ensures all non-empty secrets are masked, maintaining backward

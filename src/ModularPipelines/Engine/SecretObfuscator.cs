@@ -27,18 +27,15 @@ namespace ModularPipelines.Engine;
 /// <threadsafety static="true" instance="true"/>
 internal class SecretObfuscator : ISecretObfuscator, IInitializer
 {
-    private readonly IBuildSystemSecretMasker _buildSystemSecretMasker;
     private readonly ISecretProvider _secretProvider;
     private readonly IOptions<SecretMaskingOptions> _maskingOptions;
 
     public int Order => int.MaxValue;
 
     public SecretObfuscator(
-        IBuildSystemSecretMasker buildSystemSecretMasker,
         ISecretProvider secretProvider,
         IOptions<SecretMaskingOptions> maskingOptions)
     {
-        _buildSystemSecretMasker = buildSystemSecretMasker;
         _secretProvider = secretProvider;
         _maskingOptions = maskingOptions;
     }
@@ -64,13 +61,16 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         var maskValue = string.IsNullOrWhiteSpace(options.MaskValue) ? "**********" : options.MaskValue;
         var caseInsensitive = options.CaseInsensitive;
 
-        var secretsFromExtraObject = _secretProvider.GetSecretsInObject(optionsObject);
+        var minimumLength = Math.Max(1, options.MinimumSecretLength);
+        var secretsFromExtraObject = _secretProvider.GetSecretsInObject(optionsObject)
+            .Where(secret => secret.Length >= minimumLength)
+            .SelectMany(SecretMaskingPatternGenerator.Generate);
 
         // Combine all secrets and sort by length (longest first) to ensure
         // longer secrets are replaced before shorter ones that might be substrings
         var allSecrets = _secretProvider.Secrets
             .Concat(secretsFromExtraObject)
-            .Where(s => !string.IsNullOrWhiteSpace(s) && s.Length >= options.MinimumSecretLength)
+            .Where(s => !string.IsNullOrWhiteSpace(s))
             .Distinct(caseInsensitive ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal)
             .OrderByDescending(s => s.Length)
             .ToList();

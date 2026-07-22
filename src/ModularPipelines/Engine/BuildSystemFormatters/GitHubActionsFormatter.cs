@@ -24,5 +24,13 @@ internal class GitHubActionsFormatter : IBuildSystemFormatter
 
     public string GetEndBlockCommand(string name) => "::endgroup::";
 
-    public string GetMaskSecretCommand(string secret) => $"::add-mask::{secret}";
+    public string GetMaskSecretCommand(string secret) => $"::add-mask::{EscapeCommandData(secret)}";
+
+    private static string EscapeCommandData(string value)
+    {
+        return value
+            .Replace("%", "%25", StringComparison.Ordinal)
+            .Replace("\r", "%0D", StringComparison.Ordinal)
+            .Replace("\n", "%0A", StringComparison.Ordinal);
+    }
 }
