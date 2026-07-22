@@ -113,6 +113,37 @@ public class ModuleOutputBufferTests
                 loggerControl,
                 loggerControl,
                 cancellationTokenSource.Token));
+
+        await Assert.That(buffer.HasOutput).IsTrue();
+    }
+
+    [Test]
+    public async Task Flush_Cancellation_Closes_Group_And_Retains_Unrendered_Output()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = CreateBufferWithStructuredLog();
+        buffer.WriteLine("remaining output");
+        using var cancellationTokenSource = new CancellationTokenSource();
+        loggerControl.AfterLog = cancellationTokenSource.Cancel;
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                cancellationTokenSource.Token));
+
+        var cancelledOutput = writer.ToString();
+        await Assert.That(cancelledOutput.IndexOf("::endgroup::", StringComparison.Ordinal))
+            .IsGreaterThan(cancelledOutput.IndexOf("structured log", StringComparison.Ordinal));
+        await Assert.That(buffer.HasOutput).IsTrue();
+
+        await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
+
+        await Assert.That(writer.ToString()).Contains("remaining output");
+        await Assert.That(buffer.HasOutput).IsFalse();
     }
 
     private static ModuleOutputBuffer CreateBufferWithStructuredLog()

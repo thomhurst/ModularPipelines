@@ -124,52 +124,89 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
 
         var directConsole = CreateDirectConsole(console);
+        var renderedCount = 0;
 
-        lock (loggerControl.SynchronizationLock)
+        try
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            // Keep the synchronization gate for the complete group. MEL.Spectre uses
-            // synchronous rendering, so unrelated logger calls cannot enter this group.
-            var header = FormatHeader(exception);
-            var startCommand = formatter.GetStartBlockCommand(header);
-            if (startCommand != null)
+            lock (loggerControl.SynchronizationLock)
             {
-                WriteDirect(directConsole, console, startCommand);
-            }
+                var header = FormatHeader(exception);
+                var startCommand = formatter.GetStartBlockCommand(header);
+                var endCommand = formatter.GetEndBlockCommand(header);
+                var groupStarted = false;
+                var flushCompleted = false;
 
-            foreach (var output in outputs)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-
-                if (output.IsString)
+                try
                 {
-                    WriteDirect(directConsole, console, output.StringValue);
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    // Keep the synchronization gate for the complete group. MEL.Spectre uses
+                    // synchronous rendering, so unrelated logger calls cannot enter this group.
+                    if (startCommand != null)
+                    {
+                        WriteDirect(directConsole, console, startCommand);
+                        groupStarted = true;
+                    }
+
+                    foreach (var output in outputs)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        if (output.IsString)
+                        {
+                            WriteDirect(directConsole, console, output.StringValue);
+                        }
+                        else if (output.LogEvent.HasValue)
+                        {
+                            var logEvent = output.LogEvent.Value;
+
+                            // Synchronous MEL.Spectre rendering preserves this buffer's position
+                            // while other providers (for example file logging) still receive the event.
+                            logger.Log(logEvent.Level, logEvent.EventId, logEvent.State, logEvent.Exception,
+                                (state, ex) => logEvent.Formatter(state, ex));
+                        }
+
+                        renderedCount++;
+                    }
+
+                    cancellationToken.ThrowIfCancellationRequested();
+                    flushCompleted = true;
                 }
-                else if (output.LogEvent.HasValue)
+                finally
                 {
-                    var logEvent = output.LogEvent.Value;
+                    if (groupStarted && endCommand != null)
+                    {
+                        console.WriteLine(endCommand);
+                    }
 
-                    // Synchronous MEL.Spectre rendering preserves this buffer's position
-                    // while other providers (for example file logging) still receive the event.
-                    logger.Log(logEvent.Level, logEvent.EventId, logEvent.State, logEvent.Exception,
-                        (state, ex) => logEvent.Formatter(state, ex));
+                    if (groupStarted || flushCompleted)
+                    {
+                        // Add blank line between module sections for visual separation.
+                        console.WriteLine();
+                    }
                 }
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var endCommand = formatter.GetEndBlockCommand(header);
-            if (endCommand != null)
-            {
-                console.WriteLine(endCommand);
-            }
-
-            // Add blank line between module sections for visual separation
-            console.WriteLine();
+        }
+        catch (OperationCanceledException)
+        {
+            RestoreUnrenderedOutputs(outputs, renderedCount);
+            throw;
         }
 
         return Task.CompletedTask;
+    }
+
+    private void RestoreUnrenderedOutputs(List<BufferedOutput> outputs, int renderedCount)
+    {
+        if (renderedCount >= outputs.Count)
+        {
+            return;
+        }
+
+        lock (_lock)
+        {
+            _outputs.InsertRange(0, outputs.Skip(renderedCount));
+        }
     }
 
     private string FormatHeader(Exception? exception)
