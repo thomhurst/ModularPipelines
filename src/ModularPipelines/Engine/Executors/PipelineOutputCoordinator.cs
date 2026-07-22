@@ -105,10 +105,14 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
             // 1. Stop progress display FIRST (ends buffering phase)
             await _printProgressExecutor.DisposeAsync().ConfigureAwait(false);
 
-            // 2. Flush deferred module output (in completion order)
+            // 2. Flush retained console fragments into their original module buffers
+            // before those buffers are drained.
+            await _consoleCoordinator.FlushPendingWritesAsync().ConfigureAwait(false);
+
+            // 3. Flush deferred module output (in completion order)
             await _outputCoordinator.FlushDeferredAsync().ConfigureAwait(false);
 
-            // 3. Flush any unattributed output from coordinator
+            // 4. Flush any unattributed output from coordinator
             _consoleCoordinator.FlushModuleOutput();
         }
     }

@@ -297,6 +297,28 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     public IModuleOutputBuffer GetUnattributedBuffer() => _unattributedBuffer;
 
     /// <inheritdoc />
+    public async Task FlushPendingWritesAsync()
+    {
+        CoordinatedTextWriter? output;
+        CoordinatedTextWriter? error;
+        lock (_phaseLock)
+        {
+            output = _coordinatedOut;
+            error = _coordinatedError;
+        }
+
+        if (output is not null)
+        {
+            await output.FlushAsync().ConfigureAwait(false);
+        }
+
+        if (error is not null && !ReferenceEquals(error, output))
+        {
+            await error.FlushAsync().ConfigureAwait(false);
+        }
+    }
+
+    /// <inheritdoc />
     public void FlushModuleOutput()
     {
         // Output is now flushed immediately when modules complete.

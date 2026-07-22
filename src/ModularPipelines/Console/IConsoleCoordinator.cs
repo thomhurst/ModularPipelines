@@ -72,6 +72,11 @@ internal interface IConsoleCoordinator : IAsyncDisposable
     IModuleOutputBuffer GetUnattributedBuffer();
 
     /// <summary>
+    /// Flushes retained fragments from the intercepted output and error writers.
+    /// </summary>
+    Task FlushPendingWritesAsync();
+
+    /// <summary>
     /// Flushes any remaining unattributed output.
     /// Module output is flushed immediately when modules complete.
     /// </summary>
