@@ -21,12 +21,12 @@ public abstract class BuildSolutionOnPlatformModule : Module<CommandResult>
     }
 }
 
-[RunOnWindowsOnly]
+[RequiresCapability("windows")]
 public sealed class BuildSolutionOnWindowsModule : BuildSolutionOnPlatformModule
 {
 }
 
-[RunOnMacOSOnly]
+[RequiresCapability("macos")]
 public sealed class BuildSolutionOnMacOSModule : BuildSolutionOnPlatformModule
 {
 }
