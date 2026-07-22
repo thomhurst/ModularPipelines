@@ -293,8 +293,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<Engine.Execution.IAlwaysRunHandler, Engine.Execution.AlwaysRunHandler>()
 
             // Module scheduling components (SRP extraction from ModuleScheduler)
-            .AddSingleton<Engine.Scheduling.IModuleConstraintEvaluator, Engine.Scheduling.ModuleConstraintEvaluator>()
-            .AddSingleton<Engine.Scheduling.ISchedulerStatusReporter, Engine.Scheduling.SchedulerStatusReporter>();
+            .AddSingleton<Engine.Scheduling.IModuleConstraintEvaluator, Engine.Scheduling.ModuleConstraintEvaluator>();
     }
 
     /// <summary>

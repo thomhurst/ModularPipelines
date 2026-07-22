@@ -18,7 +18,7 @@ internal class ModuleSchedulerFactory : IModuleSchedulerFactory
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IMetricsCollector _metricsCollector;
     private readonly IModuleConstraintEvaluator _constraintEvaluator;
-    private readonly ISchedulerStatusReporter _statusReporter;
+    private readonly ILoggerFactory _loggerFactory;
 
     public ModuleSchedulerFactory(
         ILogger<ModuleScheduler> logger,
@@ -28,7 +28,7 @@ internal class ModuleSchedulerFactory : IModuleSchedulerFactory
         IModuleMetadataRegistry metadataRegistry,
         IMetricsCollector metricsCollector,
         IModuleConstraintEvaluator constraintEvaluator,
-        ISchedulerStatusReporter statusReporter)
+        ILoggerFactory loggerFactory)
     {
         _logger = logger;
         _timeProvider = timeProvider;
@@ -37,11 +37,23 @@ internal class ModuleSchedulerFactory : IModuleSchedulerFactory
         _metadataRegistry = metadataRegistry;
         _metricsCollector = metricsCollector;
         _constraintEvaluator = constraintEvaluator;
-        _statusReporter = statusReporter;
+        _loggerFactory = loggerFactory;
     }
 
     public IModuleScheduler Create()
     {
-        return new ModuleScheduler(_logger, _timeProvider, _schedulerOptions, _dependencyRegistry, _metadataRegistry, _metricsCollector, _constraintEvaluator, _statusReporter);
+        var statusReporter = new SchedulerStatusReporter(
+            _loggerFactory.CreateLogger<SchedulerStatusReporter>(),
+            _timeProvider);
+
+        return new ModuleScheduler(
+            _logger,
+            _timeProvider,
+            _schedulerOptions,
+            _dependencyRegistry,
+            _metadataRegistry,
+            _metricsCollector,
+            _constraintEvaluator,
+            statusReporter);
     }
 }

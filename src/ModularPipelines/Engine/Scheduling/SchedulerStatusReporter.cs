@@ -4,7 +4,7 @@ using ModularPipelines.Helpers;
 namespace ModularPipelines.Engine.Scheduling;
 
 /// <summary>
-/// Reports scheduler status at regular intervals for diagnostic purposes.
+/// Reports scheduler status changes at regular check intervals for diagnostic purposes.
 /// </summary>
 /// <remarks>
 /// This class encapsulates the periodic status logging responsibility
@@ -16,12 +16,14 @@ namespace ModularPipelines.Engine.Scheduling;
 /// </remarks>
 internal class SchedulerStatusReporter : ISchedulerStatusReporter
 {
-    private static readonly TimeSpan StatusLogInterval = TimeSpan.FromSeconds(15);
+    private static readonly TimeSpan StatusCheckInterval = TimeSpan.FromSeconds(15);
 
     private readonly ILogger<SchedulerStatusReporter> _logger;
     private readonly TimeProvider _timeProvider;
+    private readonly object _statusLock = new();
 
-    private DateTimeOffset _lastStatusLogTime;
+    private DateTimeOffset _lastStatusCheckTime;
+    private SchedulerStatusSnapshot? _lastSnapshot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SchedulerStatusReporter"/> class.
@@ -38,50 +40,77 @@ internal class SchedulerStatusReporter : ISchedulerStatusReporter
     public void LogStatusIfIntervalElapsed(ModuleStateQueries stateQueries, ReaderWriterLockSlim stateLock)
     {
         var now = _timeProvider.GetUtcNow();
-        if (now - _lastStatusLogTime < StatusLogInterval)
-        {
-            return;
-        }
+        SchedulerStatusSnapshot snapshot;
 
-        _lastStatusLogTime = now;
-
-        // Consolidate all state queries under a single read lock to reduce contention
-        ModuleStateStatistics stats;
-        ModuleState[] pending;
-        ModuleState[] executing;
-
-        stateLock.EnterReadLock();
-        try
+        lock (_statusLock)
         {
-            stats = stateQueries.GetStatistics();
-            pending = stateQueries.GetPendingModules().ToArray();
-            executing = stateQueries.GetExecutingModules().ToArray();
-        }
-        finally
-        {
-            stateLock.ExitReadLock();
+            if (now - _lastStatusCheckTime < StatusCheckInterval)
+            {
+                return;
+            }
+
+            _lastStatusCheckTime = now;
+
+            if (!_logger.IsEnabled(LogLevel.Debug))
+            {
+                return;
+            }
+
+            // Consolidate all state queries under a single read lock to reduce contention
+            stateLock.EnterReadLock();
+            try
+            {
+                snapshot = new SchedulerStatusSnapshot(
+                    stateQueries.GetStatistics(),
+                    string.Join(", ", stateQueries.GetPendingModules()
+                        .Select(FormatModuleWithDependencyCount)
+                        .Order(StringComparer.Ordinal)),
+                    string.Join(", ", stateQueries.GetExecutingModules()
+                        .Select(m => FormatModuleType(m.ModuleType))
+                        .Order(StringComparer.Ordinal)));
+            }
+            finally
+            {
+                stateLock.ExitReadLock();
+            }
+
+            if (snapshot == _lastSnapshot)
+            {
+                return;
+            }
+
+            _lastSnapshot = snapshot;
         }
 
         // All logging outside lock to avoid holding lock during I/O
         _logger.LogDebug(
             "Scheduler waiting: Total={Total}, Queued={Queued}, Executing={Executing}, Completed={Completed}, Pending={Pending}",
-            stats.Total, stats.Queued, stats.Executing, stats.Completed, stats.Pending);
+            snapshot.Statistics.Total,
+            snapshot.Statistics.Queued,
+            snapshot.Statistics.Executing,
+            snapshot.Statistics.Completed,
+            snapshot.Statistics.Pending);
 
-        if (pending.Length > 0)
+        if (snapshot.PendingModules.Length > 0)
         {
-            _logger.LogDebug("Pending modules: {Modules}",
-                string.Join(", ", pending.Select(FormatModuleWithDependencyCount)));
+            _logger.LogDebug("Pending modules: {Modules}", snapshot.PendingModules);
         }
 
-        if (executing.Length > 0)
+        if (snapshot.ExecutingModules.Length > 0)
         {
-            _logger.LogDebug("Executing modules: {Modules}",
-                string.Join(", ", executing.Select(m => m.ModuleType.Name)));
+            _logger.LogDebug("Executing modules: {Modules}", snapshot.ExecutingModules);
         }
     }
 
     private static string FormatModuleWithDependencyCount(ModuleState m)
     {
-        return $"{m.ModuleType.Name} (deps: {m.UnresolvedDependencies.Count})";
+        return $"{FormatModuleType(m.ModuleType)} (deps: {m.UnresolvedDependencies.Count})";
     }
+
+    private static string FormatModuleType(Type moduleType) => moduleType.FullName ?? moduleType.Name;
+
+    private sealed record SchedulerStatusSnapshot(
+        ModuleStateStatistics Statistics,
+        string PendingModules,
+        string ExecutingModules);
 }
