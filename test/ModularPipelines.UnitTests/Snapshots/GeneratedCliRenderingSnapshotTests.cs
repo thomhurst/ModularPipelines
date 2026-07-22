@@ -65,7 +65,7 @@ public class GeneratedCliRenderingSnapshotTests
 
     private static PackageSnapshot CreatePackageSnapshot(System.Reflection.Assembly assembly)
     {
-        var modelProvider = new CommandModelProvider();
+        var modelProvider = new DeterministicCommandModelProvider();
         var commandBuilder = new CommandLineBuilder(
             new ToolResolver(),
             new CommandPartsProvider(),
@@ -76,6 +76,7 @@ public class GeneratedCliRenderingSnapshotTests
         var propertyCount = 0;
         var secretPropertyCount = 0;
         var renderedArgumentCount = 0;
+        var typeHashes = new SortedDictionary<string, string>(StringComparer.Ordinal);
         var originalCulture = CultureInfo.CurrentCulture;
 
         try
@@ -91,6 +92,7 @@ public class GeneratedCliRenderingSnapshotTests
             {
                 var options = (CommandLineToolOptions) RuntimeHelpers.GetUninitializedObject(optionType);
                 var commandModel = modelProvider.GetCommandModel(optionType);
+                var typeCorpus = new StringBuilder();
 
                 foreach (var part in commandModel)
                 {
@@ -104,10 +106,10 @@ public class GeneratedCliRenderingSnapshotTests
                 var commandLine = commandBuilder.Build(options);
                 renderedArgumentCount += commandLine.Arguments.Count;
 
-                corpus.Append(optionType.FullName).Append('|');
+                typeCorpus.Append(optionType.FullName).Append('|');
                 foreach (var part in commandModel)
                 {
-                    corpus.Append(part.GetType().Name)
+                    typeCorpus.Append(part.GetType().Name)
                         .Append(':')
                         .Append(part.Property.Name)
                         .Append(':')
@@ -117,16 +119,19 @@ public class GeneratedCliRenderingSnapshotTests
                         .Append(';');
                 }
 
-                corpus.Append('|').Append(commandLine).Append('\n');
+                typeCorpus.Append('|').Append(commandLine).Append('\n');
+                var serializedType = typeCorpus.ToString();
+                corpus.Append(serializedType);
+                typeHashes.Add(optionType.FullName!, Hash(serializedType));
             }
 
-            var hash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(corpus.ToString()))).ToLowerInvariant();
             return new PackageSnapshot(
                 optionTypes.Length,
                 propertyCount,
                 secretPropertyCount,
                 renderedArgumentCount,
-                hash);
+                Hash(corpus.ToString()),
+                typeHashes);
         }
         finally
         {
@@ -140,6 +145,9 @@ public class GeneratedCliRenderingSnapshotTests
                && type.IsAssignableTo(typeof(CommandLineToolOptions))
                && type.GetCustomAttribute<GeneratedCodeAttribute>()?.Tool == "ModularPipelines.OptionsGenerator";
     }
+
+    private static string Hash(string value) =>
+        Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(value))).ToLowerInvariant();
 
     private static object CreateRepresentativeValue(Type propertyType, bool isSecret)
     {
@@ -231,10 +239,23 @@ public class GeneratedCliRenderingSnapshotTests
         return JsonSerializer.Serialize(snapshots, JsonOptions).ReplaceLineEndings("\n") + "\n";
     }
 
+    private sealed class DeterministicCommandModelProvider : ICommandModelProvider
+    {
+        private readonly CommandModelProvider _inner = new();
+
+        public IReadOnlyList<PropertyCommandLinePart> GetCommandModel(Type optionsType) =>
+            _inner.GetCommandModel(optionsType)
+                .OrderBy(part => part.Property.Name, StringComparer.Ordinal)
+                .ThenBy(part => part.Property.DeclaringType?.FullName, StringComparer.Ordinal)
+                .ThenBy(part => part.GetType().Name, StringComparer.Ordinal)
+                .ToArray();
+    }
+
     private sealed record PackageSnapshot(
         int Options,
         int Properties,
         int SecretProperties,
         int RenderedArguments,
-        string Sha256);
+        string Sha256,
+        SortedDictionary<string, string> TypeSha256);
 }
