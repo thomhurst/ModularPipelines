@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
@@ -53,6 +54,17 @@ public class ModuleSchedulerDynamicCycleTests
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(IndependentDynamicModule));
+    }
+
+    private class FluentExistingModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<IndependentDynamicModule>()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(FluentExistingModule));
     }
 
     private class CompletedDependencyModule : Module<string>
@@ -157,6 +169,19 @@ public class ModuleSchedulerDynamicCycleTests
         scheduler.AddModule(new IndependentDynamicModule());
 
         var existingState = scheduler.GetModuleState(typeof(ExistingPredicateModule));
+        await Assert.That(existingState).IsNotNull();
+        await Assert.That(existingState!.UnresolvedDependencies).Contains(typeof(IndependentDynamicModule));
+    }
+
+    [Test]
+    public async Task AddModule_ReconcilesExistingFluentDependencies()
+    {
+        using var scheduler = CreateScheduler();
+        scheduler.InitializeModules([new FluentExistingModule()]);
+
+        scheduler.AddModule(new IndependentDynamicModule());
+
+        var existingState = scheduler.GetModuleState(typeof(FluentExistingModule));
         await Assert.That(existingState).IsNotNull();
         await Assert.That(existingState!.UnresolvedDependencies).Contains(typeof(IndependentDynamicModule));
     }

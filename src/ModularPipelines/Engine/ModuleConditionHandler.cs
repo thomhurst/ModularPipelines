@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -13,19 +14,24 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 {
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly IPipelineContextProvider _pipelineContextProvider;
+    private readonly IModuleMetadataRegistry _metadataRegistry;
 
     public ModuleConditionHandler(
         IOptions<PipelineOptions> pipelineOptions,
-        IPipelineContextProvider pipelineContextProvider)
+        IPipelineContextProvider pipelineContextProvider,
+        IModuleMetadataRegistry metadataRegistry)
     {
         _pipelineOptions = pipelineOptions;
         _pipelineContextProvider = pipelineContextProvider;
+        _metadataRegistry = metadataRegistry;
     }
 
     public async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var category = module.Configuration.Category;
+        var moduleType = module.GetType();
+        _metadataRegistry.FinalizeMetadata(moduleType, module);
+        var category = _metadataRegistry.GetCategory(moduleType);
 
         if (IsIgnoreCategory(category))
         {
@@ -37,7 +43,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return (true, SkipDecision.Skip("The module was not in a runnable category"));
         }
 
-        var conditionResult = await IsRunnableCondition(module.GetType(), cancellationToken).ConfigureAwait(false);
+        var conditionResult = await IsRunnableCondition(moduleType, cancellationToken).ConfigureAwait(false);
         return conditionResult.IsRunnable
             ? (false, null)
             : (true, conditionResult.SkipDecision);

@@ -170,7 +170,11 @@ internal class ModuleScheduler : IModuleScheduler
             // - Predicate-based dependencies (DependsOnModulesWithTag, DependsOnModulesInCategory, DependsOnModulesWithAttribute)
             // - Programmatic dependencies from DeclareDependencies method
             // - Dynamic dependencies from registration events
-            var dependencies = GetAllDependenciesIncludingPredicate(state.Module, availableModuleTypes).ToArray();
+            var dependencies = ModuleDependencyResolver.GetAllDependencies(
+                state.Module,
+                availableModuleTypes,
+                _dependencyRegistry,
+                _metadataRegistry).ToArray();
             _dependencyGraph[moduleType] = dependencies.Select(x => x.DependencyType).ToHashSet();
 
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
@@ -201,34 +205,6 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <summary>
-    /// Gets all dependencies for a module including predicate-based dependencies.
-    /// </summary>
-    private IEnumerable<(Type DependencyType, bool Optional)> GetAllDependenciesIncludingPredicate(
-        IModule module,
-        IReadOnlyList<Type> availableModuleTypes)
-    {
-        var moduleType = module.GetType();
-
-        // Canonical dependencies from fluent configuration, legacy declarations, and direct attributes.
-        foreach (var dep in ModuleDependencyResolver.GetConfiguredDependencies(module))
-        {
-            yield return dep;
-        }
-
-        // Dependencies selected from the available module set by base type or metadata.
-        foreach (var dep in ModuleDependencyResolver.GetSelectorDependencies(moduleType, availableModuleTypes, _metadataRegistry))
-        {
-            yield return dep;
-        }
-
-        // Dynamic dependencies from registration
-        foreach (var dynamicDep in _dependencyRegistry.GetDynamicDependencies(moduleType))
-        {
-            yield return (dynamicDep, false);
-        }
-    }
-
-    /// <summary>
     /// Adds a new module dynamically (e.g., SubModule discovered during execution).
     /// </summary>
     public void AddModule(IModule module)
@@ -253,16 +229,22 @@ internal class ModuleScheduler : IModuleScheduler
             _metadataRegistry.FinalizeMetadata(moduleType, module);
 
             var availableModuleTypes = _moduleStates.Keys.Append(moduleType).ToArray();
-            var newModuleDependencies = GetAllDependenciesIncludingPredicate(module, availableModuleTypes).ToArray();
+            var newModuleDependencies = ModuleDependencyResolver.GetAllDependencies(
+                module,
+                availableModuleTypes,
+                _dependencyRegistry,
+                _metadataRegistry).ToArray();
             var declaredDependenciesByType = _dependencyGraph.ToDictionary(
                 pair => pair.Key,
                 pair => new HashSet<Type>(pair.Value));
-            Type[] newlyAvailableModuleTypes = [moduleType];
 
             foreach (var existingModuleType in _moduleStates.Keys)
             {
-                var newlyResolvedDependencies = ModuleDependencyResolver
-                    .GetDependencies(existingModuleType, newlyAvailableModuleTypes, _metadataRegistry)
+                var newlyResolvedDependencies = ModuleDependencyResolver.GetAllDependencies(
+                        _moduleStates[existingModuleType].Module,
+                        availableModuleTypes,
+                        _dependencyRegistry,
+                        _metadataRegistry)
                     .Where(dependency => dependency.DependencyType == moduleType)
                     .ToArray();
 

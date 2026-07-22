@@ -33,6 +33,8 @@ internal static class ModuleConfigurationAttributeAdapter
             .Concat(declaredDependencies)
             .Concat(configured.Dependencies)
             .GroupBy(dependency => dependency.ModuleType)
+            // Conflicting declarations use the strictest scheduling contract:
+            // a required/conditional dependency wins over an optional/lazy declaration.
             .Select(group => group.Any(dependency => !dependency.IsOptional)
                 ? group.First(dependency => !dependency.IsOptional)
                 : group.First())
