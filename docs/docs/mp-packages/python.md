@@ -39,4 +39,4 @@ public class UsePipModule : SyncModule
 }
 ```
 
-Generated CLI command pages in this section list every available command and its options record.
+The package exposes generated options records for its supported CLI commands.
