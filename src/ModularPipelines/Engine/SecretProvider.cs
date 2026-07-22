@@ -5,6 +5,7 @@ using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
@@ -110,6 +111,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         AddSecrets((IEnumerable<string?>) secrets);
     }
 
+    [RequiresUnreferencedCode("Calls ModularPipelines.Engine.SecretProvider.GetSecretProperties(Type)")]
     public IEnumerable<string> GetSecretsInObject(object? value)
     {
         if (value is null)
@@ -125,11 +127,42 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 
         foreach (var property in secretProperties)
         {
-            var secret = property.Getter(value)?.ToString();
+            foreach (var secret in GetSecretsFromProperty(property, value))
+            {
+                yield return secret;
+            }
+        }
+    }
 
+    private static IEnumerable<string> GetSecretsFromProperty(
+        SecretPropertyAccessor property,
+        object value)
+    {
+        var propertyValue = property.Getter(value);
+        var secretValueKeys = property.SecretValueKeys ?? Array.Empty<string>();
+
+        if (secretValueKeys.Count == 0)
+        {
+            var secret = propertyValue?.ToString();
             if (!string.IsNullOrWhiteSpace(secret))
             {
                 yield return secret;
+            }
+
+            yield break;
+        }
+
+        if (propertyValue is not IEnumerable<KeyValue> keyValues)
+        {
+            yield break;
+        }
+
+        foreach (var keyValue in keyValues)
+        {
+            if (secretValueKeys.Contains(keyValue.Key, StringComparer.OrdinalIgnoreCase) &&
+                !string.IsNullOrWhiteSpace(keyValue.Value))
+            {
+                yield return keyValue.Value;
             }
         }
     }
@@ -166,10 +199,14 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Concat(type.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
             .Where(m => m.GetCustomAttribute<SecretValueAttribute>() is not null)
-            .Select(property => new SecretPropertyAccessor(property.Name, property.GetValue))
+            .Select(property => new SecretPropertyAccessor(
+                property.Name,
+                property.GetValue,
+                property.GetCustomAttribute<SecretValueAttribute>()!.Keys))
             .ToArray();
     }
 
+    [RequiresUnreferencedCode("Calls ModularPipelines.Engine.SecretProvider.GetSecretsInObject(Object)")]
     private IEnumerable<string> GetSecrets(IEnumerable<object?> options)
     {
         foreach (var option in options)

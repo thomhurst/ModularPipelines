@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Helpers.Internal;
 
 namespace ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -28,7 +29,18 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         _logger.LogDebug("Executing: {Command} {Arguments} (WorkingDir: {WorkingDir})", command, arguments, workingDirectory ?? "default");
 
         var executablePath = ResolveExecutablePath(command);
-        var startInfo = CreateStartInfo(executablePath, arguments, workingDirectory);
+        if (executablePath is null && OperatingSystem.IsWindows() && WindowsCommandResolver.IsCommandScript(command))
+        {
+            _logger.LogWarning("Windows command script not found: {Command}", command);
+            return new CliCommandResult
+            {
+                StandardOutput = string.Empty,
+                StandardError = $"Command not found: {command}",
+                ExitCode = -1
+            };
+        }
+
+        var startInfo = CreateStartInfo(executablePath ?? command, arguments, workingDirectory);
 
         // Disable pagers for CLI tools - many CLIs use pagers by default which hang in non-interactive mode
         startInfo.Environment["AWS_PAGER"] = "";    // AWS CLI
@@ -100,40 +112,26 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         }
     }
 
-    private static string ResolveExecutablePath(string command) => ResolveExecutablePath(
+    private static string? ResolveExecutablePath(string command) => ResolveExecutablePath(
         command,
         Environment.GetEnvironmentVariable("PATH"),
         Environment.GetEnvironmentVariable("PATHEXT"),
-        OperatingSystem.IsWindows());
+        OperatingSystem.IsWindows(),
+        Environment.CurrentDirectory);
 
-    internal static string ResolveExecutablePath(
+    internal static string? ResolveExecutablePath(
         string command,
         string? searchPath,
         string? pathExtensions,
-        bool isWindows)
+        bool isWindows,
+        string? processDirectory = null)
     {
-        if (!isWindows || Path.IsPathRooted(command) || Path.HasExtension(command))
+        if (!isWindows)
         {
             return ResolveFromPath(command, searchPath) ?? command;
         }
 
-        var extensions = pathExtensions?
-            .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
-            ?? [".COM", ".EXE", ".BAT", ".CMD"];
-
-        foreach (var pathDirectory in GetPathDirectories(searchPath))
-        {
-            foreach (var extension in extensions)
-            {
-                var candidate = Path.Combine(pathDirectory, command + extension.ToLowerInvariant());
-                if (File.Exists(candidate))
-                {
-                    return Path.GetFullPath(candidate);
-                }
-            }
-        }
-
-        return command;
+        return WindowsCommandResolver.Resolve(command, processDirectory, searchPath, pathExtensions, isWindows: true);
     }
 
     internal static ProcessStartInfo CreateStartInfo(
@@ -143,9 +141,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         bool? isWindows = null,
         string? commandInterpreter = null)
     {
-        var extension = Path.GetExtension(executablePath);
         var useCommandInterpreter = (isWindows ?? OperatingSystem.IsWindows())
-            && IsCommandScript(extension);
+            && WindowsCommandResolver.IsCommandScript(executablePath);
 
         var startInfo = new ProcessStartInfo
         {
@@ -168,10 +165,6 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
 
         return startInfo;
     }
-
-    private static bool IsCommandScript(string extension) =>
-        extension.Equals(".bat", StringComparison.OrdinalIgnoreCase)
-        || extension.Equals(".cmd", StringComparison.OrdinalIgnoreCase);
 
     private static string BuildCommandInterpreterArguments(string executablePath, string arguments)
     {
