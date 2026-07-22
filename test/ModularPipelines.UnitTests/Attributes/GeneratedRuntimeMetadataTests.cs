@@ -69,6 +69,17 @@ internal sealed class GeneratedOverrideSecretDerived : GeneratedOverrideSecretBa
     public string? OwnSecret { get; init; }
 }
 
+internal record GeneratedOverrideCommandBase : CommandLineToolOptions
+{
+    [CliFlag("--verbose")]
+    public virtual bool? Verbose { get; init; }
+}
+
+internal sealed record GeneratedOverrideCommandDerived : GeneratedOverrideCommandBase
+{
+    public override bool? Verbose { get; init; }
+}
+
 public class GeneratedRuntimeMetadataTests
 {
     [Test]
@@ -101,6 +112,19 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(option.Getter(options)).IsEqualTo(options.Output);
         await Assert.That(option.Attribute.GetSeparator()).IsEqualTo("=");
         await Assert.That(option.Attribute.AllowMultiple).IsTrue();
+    }
+
+    [Test]
+    public async Task CommandMetadata_PreservesAttributesFromOverriddenProperties()
+    {
+        var found = GeneratedCommandMetadata.TryGet(typeof(GeneratedOverrideCommandDerived), out var model);
+        var options = new GeneratedOverrideCommandDerived { Verbose = true };
+
+        await Assert.That(found).IsTrue();
+        var flag = model.OfType<FlagPart>().Single();
+        await Assert.That(flag.PropertyName).IsEqualTo(nameof(GeneratedOverrideCommandDerived.Verbose));
+        await Assert.That(flag.Attribute.Name).IsEqualTo("--verbose");
+        await Assert.That((bool) flag.Getter(options)!).IsTrue();
     }
 
     [Test]

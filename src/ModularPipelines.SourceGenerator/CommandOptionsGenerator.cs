@@ -83,7 +83,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     continue;
                 }
 
-                var attribute = property.GetAttributes().FirstOrDefault(IsCommandAttribute);
+                var attribute = FindAttribute(property, IsCommandAttribute);
                 if (attribute is null)
                 {
                     continue;
@@ -117,7 +117,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             foreach (var property in current.GetMembers().OfType<IPropertySymbol>())
             {
                 if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name)
-                    || !HasSecretAttribute(property))
+                    || FindAttribute(property, attribute => IsAttribute(attribute, SecretValueAttributeFullName)) is null)
                 {
                     continue;
                 }
@@ -136,17 +136,20 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return new PropertyCollection(properties.ToImmutable(), isComplete, hasAttributes);
     }
 
-    private static bool HasSecretAttribute(IPropertySymbol property)
+    private static AttributeData? FindAttribute(
+        IPropertySymbol property,
+        Func<AttributeData, bool> predicate)
     {
         for (var current = property; current is not null; current = current.OverriddenProperty)
         {
-            if (current.GetAttributes().Any(attribute => IsAttribute(attribute, SecretValueAttributeFullName)))
+            var attribute = current.GetAttributes().FirstOrDefault(predicate);
+            if (attribute is not null)
             {
-                return true;
+                return attribute;
             }
         }
 
-        return false;
+        return null;
     }
 
     private static PropertyMetadata CreatePropertyMetadata(IPropertySymbol property, AttributeData attribute)
