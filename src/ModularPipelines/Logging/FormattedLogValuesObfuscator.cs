@@ -41,7 +41,7 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
         for (var index = 0; index < values.Count; index++)
         {
             var property = values[index];
-            if (property.Value is null || property.Key.Equals("{OriginalFormat}", StringComparison.Ordinal))
+            if (property.Value is null)
             {
                 continue;
             }
