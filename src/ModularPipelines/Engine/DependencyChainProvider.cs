@@ -59,10 +59,12 @@ internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
         var availableModuleTypes = allModules.Select(m => m.Module.GetType()).ToArray();
 
         // Pass the metadata registry as IDependencyContext for predicate-based dependencies
-        var dependencies = ModuleDependencyResolver.GetDependencies(
-            moduleDependencyModel.Module.GetType(),
-            availableModuleTypes,
-            _metadataRegistry);
+        var dependencies = ModuleDependencyResolver
+            .GetConfiguredDependencies(moduleDependencyModel.Module)
+            .Concat(ModuleDependencyResolver.GetSelectorDependencies(
+                moduleDependencyModel.Module.GetType(),
+                availableModuleTypes,
+                _metadataRegistry));
 
         foreach (var (dependencyType, _) in dependencies)
         {

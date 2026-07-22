@@ -72,6 +72,36 @@ public class UnifiedModuleConfigurationIntegrationTests
         }
     }
 
+    private sealed class SelfDependentModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<SelfDependentModule>()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("self-dependent");
+    }
+
+    private sealed class CircularDependencyModuleA : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<CircularDependencyModuleB>()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("a");
+    }
+
+    private sealed class CircularDependencyModuleB : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<CircularDependencyModuleA>()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("b");
+    }
+
     [Before(Test)]
     public void ClearExecutionOrder()
     {
@@ -102,5 +132,24 @@ public class UnifiedModuleConfigurationIntegrationTests
 
         await Assert.ThrowsAsync<ModuleFailedException>(() => pipeline.ExecutePipelineAsync());
         await Assert.That(ExecutionOrder).DoesNotContain("selector-consumer");
+    }
+
+    [Test]
+    public async Task Fluent_Self_Dependency_Is_Rejected_Before_Execution()
+    {
+        var pipeline = TestPipelineHostBuilder.Create()
+            .AddModule<SelfDependentModule>();
+
+        await Assert.ThrowsAsync<ModuleReferencingSelfException>(() => pipeline.ExecutePipelineAsync());
+    }
+
+    [Test]
+    public async Task Fluent_Circular_Dependencies_Are_Rejected_Before_Execution()
+    {
+        var pipeline = TestPipelineHostBuilder.Create()
+            .AddModule<CircularDependencyModuleA>()
+            .AddModule<CircularDependencyModuleB>();
+
+        await Assert.ThrowsAsync<DependencyCollisionException>(() => pipeline.ExecutePipelineAsync());
     }
 }
