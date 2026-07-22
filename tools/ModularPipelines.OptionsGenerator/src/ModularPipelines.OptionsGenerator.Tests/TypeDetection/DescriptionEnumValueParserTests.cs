@@ -54,14 +54,15 @@ public class DescriptionEnumValueParserTests
     }
 
     [Test]
-    [Arguments("Output format. One of: (json, yaml, xml)")]
-    [Arguments("Accepted values: [json, yaml, xml].")]
-    public async Task TryParse_Accepts_Wrapped_Explicit_Values(string description)
+    [Arguments("Output format. One of: (json, yaml, xml)", "json,yaml,xml")]
+    [Arguments("Accepted values: [json, yaml, xml].", "json,yaml,xml")]
+    [Arguments("Compression (possible values: gzip, none)", "gzip,none")]
+    public async Task TryParse_Accepts_Wrapped_Explicit_Values(string description, string expectedValues)
     {
         var result = DescriptionEnumValueParser.TryParse(description);
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.Values).IsEquivalentTo(new[] { "json", "yaml", "xml" });
+        await Assert.That(result!.Values).IsEquivalentTo(expectedValues.Split(','));
         await Assert.That(result.MatchKind).IsEqualTo(DescriptionEnumMatchKind.Explicit);
     }
 }

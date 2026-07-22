@@ -32,6 +32,11 @@ public class OptionTypeDetectionResult
     public string[]? EnumValues { get; init; }
 
     /// <summary>
+    /// Gets a value indicating whether the detected value type is repeatable.
+    /// </summary>
+    public bool AcceptsMultipleValues { get; init; }
+
+    /// <summary>
     /// Creates a result indicating the detector could not determine the type.
     /// </summary>
     public static OptionTypeDetectionResult Unknown(string source) => new()

@@ -125,7 +125,13 @@ public class OptionTypeEnhancer
 
                 // Use existing enum def or newly created one
                 var effectiveEnumDef = enumDef ?? option.EnumDefinition;
-                var newCSharpType = CliTypeMapper.ToCSharpType(result.Type, effectiveEnumDef);
+                var acceptsMultipleValues = result.Type == CliOptionType.StringList
+                    || (result.Type == CliOptionType.Enum
+                        && (result.AcceptsMultipleValues || option.AcceptsMultipleValues));
+                var detectedCSharpType = CliTypeMapper.ToCSharpType(result.Type, effectiveEnumDef);
+                var newCSharpType = result.Type == CliOptionType.Enum && acceptsMultipleValues
+                    ? $"IEnumerable<{detectedCSharpType.TrimEnd('?')}>?"
+                    : detectedCSharpType;
                 var newIsFlag = result.Type == CliOptionType.Bool;
 
                 // Only update if the detection changed the type
@@ -146,7 +152,7 @@ public class OptionTypeEnhancer
                         CSharpType = newCSharpType,
                         IsFlag = newIsFlag,
                         IsNumeric = result.Type == CliOptionType.Int || result.Type == CliOptionType.Decimal,
-                        AcceptsMultipleValues = result.Type == CliOptionType.StringList,
+                        AcceptsMultipleValues = acceptsMultipleValues,
                         IsKeyValue = result.Type == CliOptionType.KeyValue,
                         ValueSeparator = newIsFlag ? " " : "=",
                         EnumDefinition = effectiveEnumDef

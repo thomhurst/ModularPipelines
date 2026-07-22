@@ -454,6 +454,20 @@ public class HeuristicTypeDetectorTests
     }
 
     [Test]
+    public async Task DetectType_Preserves_Repeatability_For_Allowed_Values()
+    {
+        var context = CreateContext(
+            "--sort",
+            description: "May be repeated or comma-separated. Possible values: ascending, descending.");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.Enum);
+        await Assert.That(result.AcceptsMultipleValues).IsTrue();
+        await Assert.That(result.EnumValues).IsEquivalentTo(["ascending", "descending"]);
+    }
+
+    [Test]
     public async Task DetectType_Returns_Enum_For_Structured_Accepted_Values()
     {
         var context = CreateContext("--format", acceptedValues: "table|json|yaml");

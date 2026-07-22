@@ -205,6 +205,7 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
         var description = context.Description?.ToLowerInvariant() ?? "";
         var defaultValue = context.DefaultValue?.ToLowerInvariant() ?? "";
         var acceptedValues = context.AcceptedValues?.ToLowerInvariant() ?? "";
+        var acceptsMultipleValues = MultiValueDescriptionPatterns.Any(pattern => description.Contains(pattern));
 
         // Check default value first
         if (!string.IsNullOrEmpty(defaultValue))
@@ -228,14 +229,17 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
                 return CreateResult(CliOptionType.Bool, "Accepted values indicate boolean");
             }
 
-            var enumResult = TryCreateEnumResult(context.AcceptedValues!, "Accepted values");
+            var enumResult = TryCreateEnumResult(
+                context.AcceptedValues!,
+                "Accepted values",
+                acceptsMultipleValues);
             if (enumResult is not null)
             {
                 return enumResult;
             }
         }
 
-        var descriptionEnumResult = TryDetectEnumFromDescription(context.Description);
+        var descriptionEnumResult = TryDetectEnumFromDescription(context.Description, acceptsMultipleValues);
         if (descriptionEnumResult is not null)
         {
             return descriptionEnumResult;
@@ -248,7 +252,7 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
 
         // Check for strong value-indicating patterns FIRST (before boolean checks)
         // These patterns override any potential boolean detection based on name alone
-        if (MultiValueDescriptionPatterns.Any(p => description.Contains(p)))
+        if (acceptsMultipleValues)
         {
             return CreateResult(CliOptionType.StringList, "Description indicates multi-value option", 80);
         }
@@ -330,24 +334,32 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
                && values.All(value => BooleanLiteralValues.Contains(value, StringComparer.OrdinalIgnoreCase));
     }
 
-    private OptionTypeDetectionResult? TryDetectEnumFromDescription(string? description)
+    private OptionTypeDetectionResult? TryDetectEnumFromDescription(string? description, bool acceptsMultipleValues)
     {
         var match = DescriptionEnumValueParser.TryParse(description);
         return match?.MatchKind switch
         {
-            DescriptionEnumMatchKind.Explicit => CreateEnumResult(match.Values, "Explicit allowed values", 95),
-            DescriptionEnumMatchKind.ContextualParenthesized => CreateEnumResult(match.Values, "Parenthesized allowed values", 85),
+            DescriptionEnumMatchKind.Explicit => CreateEnumResult(match.Values, "Explicit allowed values", 95, acceptsMultipleValues),
+            DescriptionEnumMatchKind.ContextualParenthesized => CreateEnumResult(match.Values, "Parenthesized allowed values", 85, acceptsMultipleValues),
             _ => null
         };
     }
 
-    private OptionTypeDetectionResult? TryCreateEnumResult(string valuesText, string reason, int confidence = 95)
+    private OptionTypeDetectionResult? TryCreateEnumResult(
+        string valuesText,
+        string reason,
+        bool acceptsMultipleValues,
+        int confidence = 95)
     {
         var values = DescriptionEnumValueParser.TryParseValues(valuesText);
-        return values is null ? null : CreateEnumResult(values, reason, confidence);
+        return values is null ? null : CreateEnumResult(values, reason, confidence, acceptsMultipleValues);
     }
 
-    private OptionTypeDetectionResult CreateEnumResult(string[] values, string reason, int confidence)
+    private OptionTypeDetectionResult CreateEnumResult(
+        string[] values,
+        string reason,
+        int confidence,
+        bool acceptsMultipleValues)
     {
         _logger.LogDebug(
             "Heuristic detection: Enum - {Reason}: {Values} (confidence: {Confidence})",
@@ -361,7 +373,8 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
             Confidence = confidence,
             Source = Name,
             Notes = $"{reason}: {string.Join(", ", values)}",
-            EnumValues = values
+            EnumValues = values,
+            AcceptsMultipleValues = acceptsMultipleValues
         };
     }
 
