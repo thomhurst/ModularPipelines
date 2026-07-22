@@ -36,6 +36,25 @@ internal sealed record IncompleteGeneratedMetadataOptions : CommandLineToolOptio
     private string HiddenSecret => "hidden-secret";
 }
 
+[CliTool("control-character-test")]
+internal sealed record ControlCharacterMetadataOptions : CommandLineToolOptions
+{
+    [CliOption("--value\0", ShortForm = "-\b", CustomSeparator = "\f\v")]
+    public string? Value { get; init; }
+}
+
+internal class GeneratedSecretBase
+{
+    [SecretValue]
+    public string? BaseSecret { get; init; }
+}
+
+internal sealed class GeneratedDerivedSecret : GeneratedSecretBase
+{
+    [SecretValue]
+    public string? DerivedSecret { get; init; }
+}
+
 public class GeneratedRuntimeMetadataTests
 {
     [Test]
@@ -61,7 +80,7 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(argument.Attribute.Name).IsEqualTo("<FILE>");
 
         var flag = model.OfType<FlagPart>().Single();
-        await Assert.That(flag.Getter(options)).IsEqualTo(true);
+        await Assert.That((bool) flag.Getter(options)!).IsTrue();
         await Assert.That(flag.Attribute.GetEffectiveName()).IsEqualTo("-v");
 
         var option = model.OfType<OptionPart>().Single();
@@ -104,5 +123,67 @@ public class GeneratedRuntimeMetadataTests
 
         await Assert.That(model.Select(part => part.PropertyName))
             .IsEquivalentTo(["Visible", "Hidden"]);
+    }
+
+    [Test]
+    public async Task CommandMetadata_EscapesControlCharactersInAttributeValues()
+    {
+        var found = GeneratedCommandMetadata.TryGet(typeof(ControlCharacterMetadataOptions), out var model);
+        var option = model.OfType<OptionPart>().Single();
+
+        await Assert.That(found).IsTrue();
+        await Assert.That(option.Attribute.Name).IsEqualTo("--value\0");
+        await Assert.That(option.Attribute.ShortForm).IsEqualTo("-\b");
+        await Assert.That(option.Attribute.CustomSeparator).IsEqualTo("\f\v");
+    }
+
+    [Test]
+    public async Task SecretMetadata_FlattensInheritedProperties()
+    {
+        var found = GeneratedSecretMetadata.TryGetAccessors(typeof(GeneratedDerivedSecret), out var accessors);
+
+        await Assert.That(found).IsTrue();
+        await Assert.That(accessors.Select(x => x.PropertyName))
+            .IsEquivalentTo([nameof(GeneratedSecretBase.BaseSecret), nameof(GeneratedDerivedSecret.DerivedSecret)]);
+    }
+
+    [Test]
+    public async Task MissingExactSecretMetadata_UsesReflectionFallback()
+    {
+        var found = GeneratedSecretMetadata.TryGetAccessors(typeof(UngeneratedDerivedSecret), out _);
+
+        await Assert.That(found).IsFalse();
+    }
+
+    [Test]
+    public async Task DuplicateCommandMetadataRegistration_Throws()
+    {
+        GeneratedCommandMetadata.Register(typeof(DuplicateCommandMetadataType), []);
+
+        await Assert.That(() => GeneratedCommandMetadata.Register(typeof(DuplicateCommandMetadataType), []))
+            .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task DuplicateSecretMetadataRegistration_Throws()
+    {
+        GeneratedSecretMetadata.Register(typeof(DuplicateSecretMetadataType), []);
+
+        await Assert.That(() => GeneratedSecretMetadata.Register(typeof(DuplicateSecretMetadataType), []))
+            .Throws<InvalidOperationException>();
+    }
+
+    private sealed class UngeneratedDerivedSecret : GeneratedSecretBase
+    {
+        [SecretValue]
+        public string? DerivedSecret { get; init; }
+    }
+
+    private sealed class DuplicateCommandMetadataType
+    {
+    }
+
+    private sealed class DuplicateSecretMetadataType
+    {
     }
 }

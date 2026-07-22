@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.ComponentModel;
 
 namespace ModularPipelines.Helpers.Internal;
 
@@ -12,12 +13,16 @@ public static class GeneratedCommandMetadata
     /// <summary>
     /// Registers the generated command model for an options type.
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Register(
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> model,
         bool isComplete = true)
     {
-        Models[optionsType] = new CommandMetadata(model, isComplete);
+        if (!Models.TryAdd(optionsType, new CommandMetadata(model, isComplete)))
+        {
+            throw new InvalidOperationException($"Command metadata is already registered for {optionsType}.");
+        }
     }
 
     internal static bool TryGet(Type optionsType, out IReadOnlyList<PropertyCommandLinePart> model)

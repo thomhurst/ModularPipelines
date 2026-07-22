@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using System.Text;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ModularPipelines.SourceGenerator;
@@ -21,7 +22,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         var metadata = context.SyntaxProvider
             .CreateSyntaxProvider(
-                static (node, _) => node is TypeDeclarationSyntax,
+                static (node, _) => node is ClassDeclarationSyntax
+                    || (node is RecordDeclarationSyntax record
+                        && !record.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword)),
                 static (generatorContext, _) => GetTypeMetadata(generatorContext))
             .Where(static item => item is not null)
             .Select(static (item, _) => item!);
@@ -105,25 +108,29 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         IAssemblySymbol currentAssembly)
     {
         var properties = ImmutableArray.CreateBuilder<PropertyMetadata>();
+        var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
         var isComplete = true;
         var hasAttributes = false;
 
-        foreach (var property in type.GetMembers().OfType<IPropertySymbol>())
+        for (var current = type; current is not null; current = current.BaseType)
         {
-            if (property.IsStatic || property.GetMethod is null
-                || !property.GetAttributes().Any(attribute => IsAttribute(attribute, SecretValueAttributeFullName)))
+            foreach (var property in current.GetMembers().OfType<IPropertySymbol>())
             {
-                continue;
-            }
+                if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name)
+                    || !property.GetAttributes().Any(attribute => IsAttribute(attribute, SecretValueAttributeFullName)))
+                {
+                    continue;
+                }
 
-            hasAttributes = true;
-            if (!IsPropertyAccessible(property, currentAssembly))
-            {
-                isComplete = false;
-                continue;
-            }
+                hasAttributes = true;
+                if (!IsPropertyAccessible(property, currentAssembly))
+                {
+                    isComplete = false;
+                    continue;
+                }
 
-            properties.Add(new PropertyMetadata(property.Name, PropertyKind.Secret, null, null, false, 0, 0, null));
+                properties.Add(new PropertyMetadata(property.Name, PropertyKind.Secret, null, null, false, 0, 0, null));
+            }
         }
 
         return new PropertyCollection(properties.ToImmutable(), isComplete, hasAttributes);
@@ -345,12 +352,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static string NullableLiteral(string? value) => value is null ? "null" : Literal(value);
 
     private static string Literal(string value) =>
-        "\"" + value
-            .Replace("\\", "\\\\")
-            .Replace("\"", "\\\"")
-            .Replace("\r", "\\r")
-            .Replace("\n", "\\n")
-            .Replace("\t", "\\t") + "\"";
+        global::Microsoft.CodeAnalysis.CSharp.SymbolDisplay.FormatLiteral(value, quote: true);
 
     private sealed record TypeMetadata(
         string TypeName,

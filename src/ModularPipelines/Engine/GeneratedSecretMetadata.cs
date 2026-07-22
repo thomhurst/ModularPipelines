@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.ComponentModel;
 
 namespace ModularPipelines.Engine;
 
@@ -12,36 +13,28 @@ public static class GeneratedSecretMetadata
     /// <summary>
     /// Registers generated secret accessors for a declaring type.
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Register(
         Type declaringType,
         IReadOnlyList<SecretPropertyAccessor> accessors,
         bool isComplete = true)
     {
-        Accessors[declaringType] = new SecretMetadata(accessors, isComplete);
+        if (!Accessors.TryAdd(declaringType, new SecretMetadata(accessors, isComplete)))
+        {
+            throw new InvalidOperationException($"Secret metadata is already registered for {declaringType}.");
+        }
     }
 
     internal static bool TryGetAccessors(Type type, out IReadOnlyList<SecretPropertyAccessor> accessors)
     {
-        var generatedAccessors = new List<SecretPropertyAccessor>();
-        var found = false;
-
-        for (var current = type; current is not null; current = current.BaseType)
+        if (Accessors.TryGetValue(type, out var metadata) && metadata.IsComplete)
         {
-            if (Accessors.TryGetValue(current, out var metadata))
-            {
-                if (!metadata.IsComplete)
-                {
-                    accessors = Array.Empty<SecretPropertyAccessor>();
-                    return false;
-                }
-
-                found = true;
-                generatedAccessors.AddRange(metadata.Accessors);
-            }
+            accessors = metadata.Accessors;
+            return true;
         }
 
-        accessors = generatedAccessors;
-        return found;
+        accessors = Array.Empty<SecretPropertyAccessor>();
+        return false;
     }
 
     private sealed record SecretMetadata(IReadOnlyList<SecretPropertyAccessor> Accessors, bool IsComplete);
