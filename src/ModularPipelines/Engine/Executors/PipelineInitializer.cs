@@ -64,20 +64,20 @@ internal class PipelineInitializer : IPipelineInitializer
 
     private void PrintEnvironmentVariables()
     {
-        var environmentVariables = FormatEnvironmentVariables(Environment.GetEnvironmentVariables());
-
-        _logger.LogTrace("Environment variables:\r\n{EnvironmentVariables}", environmentVariables);
+        _logger.LogTrace(
+            "Environment variables:\r\n{EnvironmentVariables}",
+            FormatEnvironmentVariables(Environment.GetEnvironmentVariables()));
     }
 
     internal static string FormatEnvironmentVariables(IDictionary variables)
     {
-        var output = new StringBuilder();
+        var environmentVariables = new StringBuilder();
 
         foreach (DictionaryEntry environmentVariable in variables)
         {
-            output.AppendLine($"{environmentVariable.Key}: {environmentVariable.Value}");
+            environmentVariables.AppendLine($"{environmentVariable.Key}: {environmentVariable.Value}");
         }
 
-        return output.ToString();
+        return environmentVariables.ToString();
     }
 }
