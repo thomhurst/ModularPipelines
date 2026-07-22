@@ -5,6 +5,8 @@ namespace ModularPipelines.Helpers.Internal;
 
 internal static class CliCommandFactory
 {
+    private const string InternalEnvironmentVariablePrefix = "MODULAR_PIPELINES_CMD_";
+
     public static Command Create(
         string tool,
         IEnumerable<string> arguments,
@@ -28,7 +30,7 @@ internal static class CliCommandFactory
             }
         }
 
-        var variablePrefix = $"MODULAR_PIPELINES_CMD_{Guid.NewGuid():N}_";
+        var variablePrefix = $"{InternalEnvironmentVariablePrefix}{Guid.NewGuid():N}_";
         var variableNames = new List<string>(argumentList.Count + 1);
         AddCommandValue(environmentVariables, variableNames, $"{variablePrefix}TOOL", commandScript);
 
@@ -90,4 +92,7 @@ internal static class CliCommandFactory
             .FirstOrDefault(pair => string.Equals(pair.Key, name, StringComparison.OrdinalIgnoreCase))
             .Value;
     }
+
+    internal static bool IsInternalEnvironmentVariable(string name) =>
+        name.StartsWith(InternalEnvironmentVariablePrefix, StringComparison.OrdinalIgnoreCase);
 }

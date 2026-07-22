@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -90,6 +91,9 @@ public class CommandTests : TestBase
 
             await Assert.That(result.ExitCode).IsEqualTo(0);
             await Assert.That(result.StandardOutput.Trim()).IsEqualTo("hello world");
+            await Assert.That(result.EnvironmentVariables["PATH"]).IsEqualTo(tempDirectory);
+            await Assert.That(result.EnvironmentVariables.Keys.Any(key =>
+                key.StartsWith("MODULAR_PIPELINES_CMD_", StringComparison.OrdinalIgnoreCase))).IsFalse();
         }
         finally
         {
@@ -134,7 +138,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    public async Task ExecuteCommandLineTool_Resolves_Relative_Windows_Command_Script_Before_Changing_Working_Directory()
+    public async Task ExecuteCommandLineTool_Resolves_Extensionless_Relative_Windows_Command_Script()
     {
         if (!OperatingSystem.IsWindows())
         {
@@ -151,14 +155,28 @@ public class CommandTests : TestBase
         {
             await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %CD%\r\n");
             var command = await GetService<ICommand>();
+            var relativeToolPath = Path.ChangeExtension(
+                Path.GetRelativePath(Environment.CurrentDirectory, scriptPath),
+                null);
+
+            var resolvedScript = WindowsCommandResolver.Resolve(
+                relativeToolPath,
+                Environment.CurrentDirectory,
+                pathExtensions: ".COM;.EXE;.BAT;.CMD",
+                isWindows: true);
 
             var result = await command.ExecuteCommandLineTool(
-                new GenericCommandLineToolOptions(Path.GetRelativePath(Environment.CurrentDirectory, scriptPath)),
+                new GenericCommandLineToolOptions(relativeToolPath),
                 new CommandExecutionOptions
                 {
                     WorkingDirectory = tempDirectory,
+                    EnvironmentVariables = new Dictionary<string, string?>
+                    {
+                        ["PATHEXT"] = ".COM;.EXE;.BAT;.CMD",
+                    },
                 });
 
+            await Assert.That(resolvedScript).IsEqualTo(Path.GetFullPath(scriptPath));
             await Assert.That(result.ExitCode).IsEqualTo(0);
             await Assert.That(result.StandardOutput.Trim()).IsEqualTo(tempDirectory);
             await Assert.That(result.StandardError).IsEmpty();

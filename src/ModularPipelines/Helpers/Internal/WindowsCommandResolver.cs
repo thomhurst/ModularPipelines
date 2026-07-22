@@ -21,16 +21,18 @@ internal static class WindowsCommandResolver
         }
 
         var baseDirectory = Path.GetFullPath(processDirectory ?? Environment.CurrentDirectory);
+        var effectivePathExtensions =
+            pathExtensions ?? Environment.GetEnvironmentVariable("PATHEXT") ?? DefaultPathExtensions;
         if (IsPath(command))
         {
-            return ResolvePath(command, baseDirectory);
+            return ResolvePath(command, baseDirectory, effectivePathExtensions);
         }
 
         var resolutionKey = new ResolutionKey(
             command,
             baseDirectory,
             searchPath ?? Environment.GetEnvironmentVariable("PATH") ?? string.Empty,
-            pathExtensions ?? Environment.GetEnvironmentVariable("PATHEXT") ?? DefaultPathExtensions);
+            effectivePathExtensions);
 
         return ResolveNamedCommand(resolutionKey);
     }
@@ -107,10 +109,21 @@ internal static class WindowsCommandResolver
         || command.Contains(Path.DirectorySeparatorChar)
         || command.Contains(Path.AltDirectorySeparatorChar);
 
-    private static string? ResolvePath(string command, string processDirectory)
+    private static string? ResolvePath(string command, string processDirectory, string pathExtensions)
     {
         var fullPath = Path.GetFullPath(command, processDirectory);
-        return File.Exists(fullPath) ? fullPath : null;
+        if (File.Exists(fullPath))
+        {
+            return fullPath;
+        }
+
+        if (Path.HasExtension(fullPath))
+        {
+            return null;
+        }
+
+        return GetCommandNames(fullPath, pathExtensions)
+            .FirstOrDefault(File.Exists);
     }
 
     private readonly record struct ResolutionKey(

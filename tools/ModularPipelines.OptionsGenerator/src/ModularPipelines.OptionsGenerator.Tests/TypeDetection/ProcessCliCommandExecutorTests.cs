@@ -40,6 +40,36 @@ public class ProcessCliCommandExecutorTests
     }
 
     [Test]
+    public async Task Resolves_Pathext_For_Explicit_Extensionless_Path()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "mp-cli-executor-tests", Guid.NewGuid().ToString("N"));
+        var scriptDirectory = Path.Combine(root, "scripts");
+        var scriptPath = Path.Combine(scriptDirectory, "tool.cmd");
+
+        try
+        {
+            Directory.CreateDirectory(scriptDirectory);
+            await File.WriteAllTextAsync(scriptPath, string.Empty);
+
+            var resolved = ProcessCliCommandExecutor.ResolveExecutablePath(
+                Path.Combine("scripts", "tool"),
+                searchPath: string.Empty,
+                pathExtensions: ".CMD",
+                isWindows: true,
+                processDirectory: root);
+
+            await Assert.That(resolved).IsEqualTo(Path.GetFullPath(scriptPath));
+        }
+        finally
+        {
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, recursive: true);
+            }
+        }
+    }
+
+    [Test]
     public async Task Uses_Command_Interpreter_For_Windows_Batch_Files()
     {
         var startInfo = ProcessCliCommandExecutor.CreateStartInfo(

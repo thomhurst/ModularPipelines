@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using CliWrap;
+using ModularPipelines.Helpers.Internal;
 
 namespace ModularPipelines.Models;
 
@@ -46,14 +47,14 @@ public record CommandResult
     {
         CommandInput = command.ToString();
         WorkingDirectory = command.WorkingDirPath;
-        EnvironmentVariables = command.EnvironmentVariables;
+        EnvironmentVariables = GetPublicEnvironmentVariables(command);
     }
 
     internal CommandResult(Command command, CliWrap.CommandResult commandResult, string standardOutput, string standardError)
     {
         CommandInput = command.ToString();
         WorkingDirectory = command.WorkingDirPath;
-        EnvironmentVariables = command.EnvironmentVariables;
+        EnvironmentVariables = GetPublicEnvironmentVariables(command);
 
         StandardOutput = standardOutput;
         StandardError = standardError;
@@ -62,6 +63,16 @@ public record CommandResult
         Duration = commandResult.RunTime;
 
         ExitCode = commandResult.ExitCode;
+    }
+
+    private static IReadOnlyDictionary<string, string?> GetPublicEnvironmentVariables(Command command)
+    {
+        var environmentVariables = command.EnvironmentVariables;
+        return environmentVariables.Keys.Any(CliCommandFactory.IsInternalEnvironmentVariable)
+            ? environmentVariables
+                .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
+                .ToDictionary(StringComparer.OrdinalIgnoreCase)
+            : environmentVariables;
     }
 
     /// <summary>
