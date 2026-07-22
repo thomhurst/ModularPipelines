@@ -3,7 +3,6 @@ using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
-using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Build;
@@ -23,10 +22,10 @@ public static class GitHelpers
         await context.Git().Commands.Config(new GitConfigOptions
         {
             Local = true,
-            Arguments = new List<string>
-            {
+            Arguments =
+            [
                 "user.name", settings.GitUserName,
-            },
+            ],
         }, cancellationToken: cancellationToken);
     }
 
@@ -37,71 +36,20 @@ public static class GitHelpers
         await context.Git().Commands.Config(new GitConfigOptions
         {
             Local = true,
-            Arguments = new List<string>
-            {
-                "user.email", settings.GitUserEmail,
-            },
-        }, cancellationToken: cancellationToken);
-    }
-
-    public static async Task CheckoutBranch(IModuleContext context, string branchName, CancellationToken cancellationToken)
-    {
-        var settings = GetGitHubSettings(context);
-        var token = settings.StandardToken;
-
-        await context.Git().Commands.Remote(new GitRemoteOptions
-        {
             Arguments =
             [
-                "set-url", "origin",
-                $"https://x-access-token:{token}@github.com/{settings.RepositoryOwner}/{settings.RepositoryName}"
+                "user.email", settings.GitUserEmail,
             ],
-        }, null, cancellationToken);
-
-        await context.Git().Commands.Fetch(new GitFetchOptions(), cancellationToken: cancellationToken);
-
-        await context.Git().Commands
-            .Checkout(new GitCheckoutOptions(branchName), cancellationToken: cancellationToken);
-    }
-
-    public static async Task CommitAndPush(IModuleContext context, string? branchToPushTo, string message, string token,
-        CancellationToken cancellationToken)
-    {
-        var settings = GetGitHubSettings(context);
-
-        await context.Git().Commands.Pull(cancellationToken: cancellationToken);
-
-        await context.Git().Commands.Add(new GitAddOptions
-        {
-            All = true,
-        }, cancellationToken: cancellationToken);
-
-        await context.Git().Commands.Commit(new GitCommitOptions
-        {
-            Message = message,
-        }, cancellationToken: cancellationToken);
-
-        var author = context.GitHub().EnvironmentVariables.Actor ?? settings.RepositoryOwner;
-
-        var arguments = new List<string> { $"https://x-access-token:{token}@github.com/{author}/{settings.RepositoryName}.git" };
-
-        if (!string.IsNullOrEmpty(branchToPushTo))
-        {
-            arguments.Add(branchToPushTo);
-        }
-
-        await context.Git().Commands.Push(new GitPushOptions
-        {
-            Arguments = arguments,
         }, cancellationToken: cancellationToken);
     }
 
-    public static async Task<bool> HasUncommittedChanges(IModuleContext context)
+    public static async Task<bool> HasUncommittedChanges(IModuleContext context, IEnumerable<string> paths)
     {
         var result = await context.Git().Commands.Diff(
             new GitDiffOptions
             {
                 Quiet = true,
+                Arguments = ["--", .. paths],
             },
             new CommandExecutionOptions
             {
