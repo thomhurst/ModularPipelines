@@ -3,6 +3,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
@@ -51,6 +52,26 @@ public class UnifiedModuleConfigurationIntegrationTests
         }
     }
 
+    private sealed class FailingTaggedModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTags("failing")
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => throw new InvalidOperationException("Expected test failure");
+    }
+
+    [DependsOnModulesWithTag("failing")]
+    private sealed class FailingTagConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            ExecutionOrder.Enqueue("selector-consumer");
+            return Task.FromResult<string?>("consumer");
+        }
+    }
+
     [Before(Test)]
     public void ClearExecutionOrder()
     {
@@ -70,5 +91,16 @@ public class UnifiedModuleConfigurationIntegrationTests
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
         await Assert.That(ExecutionOrder).IsEquivalentTo(new[] { "dependency", "configured", "consumer" });
+    }
+
+    [Test]
+    public async Task Selector_Dependency_Failure_Prevents_Consumer_Execution()
+    {
+        var pipeline = TestPipelineHostBuilder.Create()
+            .AddModule<FailingTaggedModule>()
+            .AddModule<FailingTagConsumerModule>();
+
+        await Assert.ThrowsAsync<ModuleFailedException>(() => pipeline.ExecutePipelineAsync());
+        await Assert.That(ExecutionOrder).DoesNotContain("selector-consumer");
     }
 }
