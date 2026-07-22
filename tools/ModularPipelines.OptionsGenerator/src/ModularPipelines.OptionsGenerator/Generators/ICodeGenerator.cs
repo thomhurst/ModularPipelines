@@ -14,6 +14,31 @@ public interface ICodeGenerator
 }
 
 /// <summary>
+/// Describes generated output that can be reconciled after a successful run.
+/// </summary>
+public interface IGeneratedFileCleanupProvider
+{
+    /// <summary>
+    /// Returns cleanup rules based on every tool currently registered with the generator.
+    /// </summary>
+    IEnumerable<GeneratedFileCleanupRule> GetCleanupRules(IReadOnlyCollection<string> toolNames);
+}
+
+/// <summary>
+/// Defines one directory of generated files and the names that should remain there.
+/// </summary>
+public record GeneratedFileCleanupRule
+{
+    public required string RelativeDirectory { get; init; }
+
+    public required string SearchPattern { get; init; }
+
+    public required string GeneratedMarker { get; init; }
+
+    public required IReadOnlySet<string> ExpectedFileNames { get; init; }
+}
+
+/// <summary>
 /// Represents a generated file.
 /// </summary>
 public record GeneratedFile

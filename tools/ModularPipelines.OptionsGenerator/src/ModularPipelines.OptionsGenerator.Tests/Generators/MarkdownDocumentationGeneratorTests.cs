@@ -44,6 +44,12 @@ public class MarkdownDocumentationGeneratorTests
             .IsEqualTo("docs/docs/mp-packages/cli/fake-cli.md");
         await Assert.That(files[0].Content).Contains("dotnet add package ModularPipelines.Fake");
         await Assert.That(files[0].Content).Contains("context.Fake()");
+        await Assert.That(files[0].Content).Contains("using ModularPipelines.Context;");
+        await Assert.That(files[0].Content).Contains("using ModularPipelines.Models;");
+        await Assert.That(files[0].Content).Contains("using ModularPipelines.Modules;");
+        await Assert.That(files[0].Content).Contains("Module<CommandResult>");
+        await Assert.That(files[0].Content).Contains("Task<CommandResult?> ExecuteAsync");
+        await Assert.That(files[0].Content).Contains("return await context.Fake()");
         await Assert.That(files[0].Content).Contains("| `fake-cli run` | `FakeRunOptions` |");
         await Assert.That(files[0].Content).Contains("new FakeRunOptions(\"value\")");
     }

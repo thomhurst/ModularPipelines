@@ -184,6 +184,16 @@ public class CodeGeneratorOrchestrator
             }
         }
 
+        if (!result.HasErrors)
+        {
+            var registeredToolNames = _htmlScrapers.Select(scraper => scraper.ToolName)
+                .Concat(_cliScrapers.Select(scraper => scraper.ToolName))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+
+            CleanupReconciledGeneratedFiles(outputDirectory, registeredToolNames);
+        }
+
         return result;
     }
 
@@ -323,6 +333,47 @@ public class CodeGeneratorOrchestrator
         }
 
         await File.WriteAllTextAsync(path, content, cancellationToken);
+    }
+
+    private void CleanupReconciledGeneratedFiles(
+        string outputDirectory,
+        IReadOnlyCollection<string> registeredToolNames)
+    {
+        foreach (var provider in _generators.OfType<IGeneratedFileCleanupProvider>())
+        {
+            foreach (var rule in provider.GetCleanupRules(registeredToolNames))
+            {
+                var directory = Path.Combine(outputDirectory, rule.RelativeDirectory);
+                if (!Directory.Exists(directory))
+                {
+                    continue;
+                }
+
+                foreach (var file in Directory.GetFiles(directory, rule.SearchPattern, SearchOption.TopDirectoryOnly))
+                {
+                    if (rule.ExpectedFileNames.Contains(Path.GetFileName(file)) || !FileContainsMarker(file, rule.GeneratedMarker))
+                    {
+                        continue;
+                    }
+
+                    DeleteFileIfExists(file);
+                }
+            }
+        }
+    }
+
+    private static bool FileContainsMarker(string filePath, string marker)
+    {
+        using var reader = new StreamReader(filePath);
+        for (var lineNumber = 0; lineNumber < 10 && reader.ReadLine() is { } line; lineNumber++)
+        {
+            if (line.Contains(marker, StringComparison.Ordinal))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>
