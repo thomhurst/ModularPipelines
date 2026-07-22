@@ -1,5 +1,6 @@
 using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using MEL.Spectre;
+using MEL.Spectre.Theme;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -103,6 +104,12 @@ internal static class DependencyInjectionSetup
         config.Template = "[{Level:u4}] {Message}{NewLine}{Exception}";
         config.ExceptionFormats = ExceptionFormats.Default;
         config.AllowMarkupInMessageTemplate = true;
+        config.Theme = new SpectreTheme()
+            .WithPlaceholders(placeholders =>
+            {
+                placeholders.ForName("Output", Style.Plain);
+                placeholders.ForName("Error", Style.Plain);
+            });
     }
 
     /// <summary>

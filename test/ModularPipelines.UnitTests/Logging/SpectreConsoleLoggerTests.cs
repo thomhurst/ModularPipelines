@@ -9,6 +9,19 @@ namespace ModularPipelines.UnitTests.Logging;
 public class SpectreConsoleLoggerTests
 {
     [Test]
+    public async Task Leaves_Command_Output_Unstyled()
+    {
+        var options = new SpectreConsoleLoggerOptions();
+
+        DependencyInjectionSetup.ConfigureSpectreConsoleLogger(options);
+
+        await Assert.That(options.Theme.Placeholders.Resolve("Output", "build output"))
+            .IsEqualTo(Style.Plain);
+        await Assert.That(options.Theme.Placeholders.Resolve("Error", "build error"))
+            .IsEqualTo(Style.Plain);
+    }
+
+    [Test]
     public async Task Renders_Markup_Level_And_Exception_Details()
     {
         var writer = new StringWriter();
