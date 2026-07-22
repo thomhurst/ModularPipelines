@@ -45,6 +45,15 @@ public partial interface ITrivy
     #region Commands
 
     /// <summary>
+    /// Remove cached files
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> Clean(TrivyCleanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Scan config files for misconfigurations
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -65,22 +65,37 @@ public class TrivyOptionsTests
     }
 
     [Test]
+    public async Task Clean_Renders_Cache_Selection_Flags()
+    {
+        var arguments = BuildArguments(new TrivyCleanOptions
+        {
+            ScanCache = true,
+            VulnDb = true,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["--scan-cache", "--vuln-db"]);
+    }
+
+    [Test]
     public async Task Plugin_Run_Renders_Trailing_Plugin_Arguments()
     {
         var arguments = BuildArguments(new TrivyPluginRunOptions("kubectl")
         {
             PluginArguments = ["pod", "your-pod", "--", "--exit-code", "1"],
+            Quiet = true,
         });
 
         await Assert.That(arguments).IsEquivalentTo(
         [
             "kubectl",
+            "--quiet",
             "pod",
             "your-pod",
             "--",
             "--exit-code",
             "1",
         ]);
+        await Assert.That(arguments.IndexOf("--quiet")).IsLessThan(arguments.IndexOf("--"));
     }
 
     [Test]

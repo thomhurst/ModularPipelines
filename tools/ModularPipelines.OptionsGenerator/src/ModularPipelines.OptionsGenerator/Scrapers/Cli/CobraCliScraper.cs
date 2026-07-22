@@ -536,47 +536,68 @@ public abstract partial class CobraCliScraper : CliScraperBase
             return CreateEnumDefinition(propertyName, className, descriptionMatch.Values);
         }
 
-        var allowedValuesMatch = AllowedValuesPattern().Match(description);
-        if (allowedValuesMatch.Success)
+        return TryCreateEnumDefinition(
+                   propertyName,
+                   className,
+                   AllowedValuesPattern().Match(description),
+                   minimumValues: 2,
+                   maximumValues: 20,
+                   validateValues: true)
+               ?? TryCreateEnumDefinition(
+                   propertyName,
+                   className,
+                   OneOfPattern().Match(description),
+                   minimumValues: 1,
+                   maximumValues: int.MaxValue,
+                   validateValues: false)
+               ?? TryCreateEnumDefinition(
+                   propertyName,
+                   className,
+                   ParenthesizedValuesPattern().Match(description),
+                   minimumValues: 2,
+                   maximumValues: 10,
+                   validateValues: true)
+               ?? TryCreateEnumDefinitionFromTypeHint(propertyName, className, typeHint);
+    }
+
+    private static CliEnumDefinition? TryCreateEnumDefinition(
+        string propertyName,
+        string className,
+        Match match,
+        int minimumValues,
+        int maximumValues,
+        bool validateValues)
+    {
+        if (!match.Success)
         {
-            var values = ParseEnumValues(allowedValuesMatch.Groups["values"].Value);
-            if (values.Length is >= 2 and <= 20 && values.All(IsValidEnumValue))
-            {
-                return CreateEnumDefinition(propertyName, className, values);
-            }
+            return null;
         }
 
-        var oneOfMatch = OneOfPattern().Match(description);
-        if (oneOfMatch.Success)
+        var values = ParseEnumValues(match.Groups["values"].Value);
+        if (values.Length < minimumValues
+            || values.Length > maximumValues
+            || (validateValues && !values.All(IsValidEnumValue)))
         {
-            var values = ParseEnumValues(oneOfMatch.Groups["values"].Value);
-            if (values.Length > 0)
-            {
-                return CreateEnumDefinition(propertyName, className, values);
-            }
+            return null;
         }
 
-        var parenthesizedValuesMatch = ParenthesizedValuesPattern().Match(description);
-        if (parenthesizedValuesMatch.Success)
+        return CreateEnumDefinition(propertyName, className, values);
+    }
+
+    private static CliEnumDefinition? TryCreateEnumDefinitionFromTypeHint(
+        string propertyName,
+        string className,
+        string typeHint)
+    {
+        if (!typeHint.Contains('|'))
         {
-            var values = ParseEnumValues(parenthesizedValuesMatch.Groups["values"].Value);
-            if (values.Length is >= 2 and <= 10 && values.All(IsValidEnumValue))
-            {
-                return CreateEnumDefinition(propertyName, className, values);
-            }
+            return null;
         }
 
-        // Type hint contains pipe-separated values.
-        if (typeHint.Contains('|'))
-        {
-            var values = ParseEnumValues(typeHint);
-            if (values.Length >= 2 && values.All(IsValidEnumValue))
-            {
-                return CreateEnumDefinition(propertyName, className, values);
-            }
-        }
-
-        return null;
+        var values = ParseEnumValues(typeHint);
+        return values.Length >= 2 && values.All(IsValidEnumValue)
+            ? CreateEnumDefinition(propertyName, className, values)
+            : null;
     }
 
     private static string[] ParseEnumValues(string valuesText)

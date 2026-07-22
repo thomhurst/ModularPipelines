@@ -58,6 +58,15 @@ internal partial class Trivy : ITrivy
     #region Commands
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> Clean(
+        TrivyCleanOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new TrivyCleanOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> Config(
         TrivyConfigOptions options,
         CommandExecutionOptions? executionOptions = null,

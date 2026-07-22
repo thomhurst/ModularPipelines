@@ -13,20 +13,48 @@ using ModularPipelines.Trivy.Options;
 namespace ModularPipelines.Trivy.Options;
 
 /// <summary>
-/// Run a plugin on the fly
+/// Remove cached files
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("plugin", "run")]
-public record TrivyPluginRunOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Source
-) : TrivyOptions
+[CliSubCommand("clean")]
+public record TrivyCleanOptions : TrivyOptions
 {
     /// <summary>
-    /// help for run
+    /// remove all caches
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliFlag("--all", ShortForm = "-a")]
+    public bool? All { get; set; }
+
+    /// <summary>
+    /// remove checks bundle
+    /// </summary>
+    [CliFlag("--checks-bundle")]
+    public bool? ChecksBundle { get; set; }
+
+    /// <summary>
+    /// remove Java database
+    /// </summary>
+    [CliFlag("--java-db")]
+    public bool? JavaDb { get; set; }
+
+    /// <summary>
+    /// remove scan cache (container and VM image analysis results)
+    /// </summary>
+    [CliFlag("--scan-cache")]
+    public bool? ScanCache { get; set; }
+
+    /// <summary>
+    /// remove VEX repositories
+    /// </summary>
+    [CliFlag("--vex-repo")]
+    public bool? VexRepo { get; set; }
+
+    /// <summary>
+    /// remove vulnerability database
+    /// </summary>
+    [CliFlag("--vuln-db")]
+    public bool? VulnDb { get; set; }
 
     /// <summary>
     /// Path to PEM-encoded CA certificate file
@@ -81,8 +109,5 @@ public record TrivyPluginRunOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
-
-    [CliArgument(1)]
-    public IEnumerable<string>? PluginArguments { get; set; }
 
 }

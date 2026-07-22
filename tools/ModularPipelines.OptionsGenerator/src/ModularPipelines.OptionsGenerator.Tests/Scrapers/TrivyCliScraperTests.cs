@@ -54,6 +54,14 @@ public class TrivyCliScraperTests
     }
 
     [Test]
+    public async Task Clean_Command_Is_Not_Skipped()
+    {
+        var scraper = new TestTrivyCliScraper();
+
+        await Assert.That(scraper.Skips("clean")).IsFalse();
+    }
+
+    [Test]
     public async Task Image_Help_Parses_Target_Types_And_Secrets()
     {
         const string helpText = """
@@ -134,6 +142,7 @@ public class TrivyCliScraperTests
         await Assert.That(positionals[1].CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(positionals[1].IsRequired).IsFalse();
         await Assert.That(positionals[1].PositionIndex).IsEqualTo(1);
+        await Assert.That(positionals[1].Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
     }
 
     [Test]
@@ -168,6 +177,8 @@ public class TrivyCliScraperTests
         }
 
         public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+
+        public bool Skips(string subcommand) => IsSkippableSubcommand(subcommand);
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(commandPath, helpText, CancellationToken.None);

@@ -55,7 +55,7 @@ public partial class TrivyCliScraper : CobraCliScraper
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version", "clean"
+        "--help", "-h", "--version", "help", "completion", "version"
     };
 
     protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
@@ -64,36 +64,12 @@ public partial class TrivyCliScraper : CobraCliScraper
     {
         if (commandParts is ["plugin", "upgrade"] or ["vex", "repo", "download"])
         {
-            var defaultArgument = commandParts is ["plugin", "upgrade"]
-                ? OptionalArgument("PluginNames", "PLUGIN_NAMES")
-                : OptionalArgument("RepoNames", "REPO_NAMES");
-            var arguments = positionalArguments.Count > 0
-                ? positionalArguments
-                : [defaultArgument];
-
-            return arguments
-                .Select(argument => argument with
-                {
-                    CSharpType = "IEnumerable<string>?",
-                    IsRequired = false,
-                })
-                .ToList();
+            return CreateOptionalNameArguments(commandParts, positionalArguments);
         }
 
         if (commandParts is ["plugin", "run"])
         {
-            var sourceArgument = positionalArguments.FirstOrDefault()
-                                 ?? RequiredArgument("Source", "NAME | URL | FILE_PATH");
-
-            return
-            [
-                sourceArgument with { PositionIndex = 0 },
-                OptionalArgument("PluginArguments", "PLUGIN_ARGUMENTS") with
-                {
-                    CSharpType = "IEnumerable<string>?",
-                    PositionIndex = 1,
-                },
-            ];
+            return CreatePluginRunArguments(positionalArguments);
         }
 
         if (commandParts is ["image"] && positionalArguments.Count > 0)
@@ -108,7 +84,52 @@ public partial class TrivyCliScraper : CobraCliScraper
             return positionalArguments;
         }
 
-        return commandParts switch
+        return CreateMissingPositionalArguments(commandParts, positionalArguments);
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> CreateOptionalNameArguments(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        var defaultArgument = commandParts is ["plugin", "upgrade"]
+            ? OptionalArgument("PluginNames", "PLUGIN_NAMES")
+            : OptionalArgument("RepoNames", "REPO_NAMES");
+        var arguments = positionalArguments.Count > 0
+            ? positionalArguments
+            : [defaultArgument];
+
+        return arguments
+            .Select(argument => argument with
+            {
+                CSharpType = "IEnumerable<string>?",
+                IsRequired = false,
+            })
+            .ToList();
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> CreatePluginRunArguments(
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        var sourceArgument = positionalArguments.Count > 0
+            ? positionalArguments[0]
+            : RequiredArgument("Source", "NAME | URL | FILE_PATH");
+
+        return
+        [
+            sourceArgument with { PositionIndex = 0 },
+            OptionalArgument("PluginArguments", "PLUGIN_ARGUMENTS") with
+            {
+                CSharpType = "IEnumerable<string>?",
+                Placement = PositionalArgumentPosition.AfterOptions,
+                PositionIndex = 1,
+            },
+        ];
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> CreateMissingPositionalArguments(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) =>
+        commandParts switch
         {
             ["config"] => [RequiredArgument("Directory", "DIR")],
             ["filesystem"] => [RequiredArgument("Path", "PATH")],
@@ -128,7 +149,6 @@ public partial class TrivyCliScraper : CobraCliScraper
                 [RequiredArgument("Server", "SERVER")],
             _ => positionalArguments,
         };
-    }
 
     protected override string NormalizeOptionDescription(string description) =>
         UserHomeDirectoryPattern().Replace(description, "<home>");
