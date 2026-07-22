@@ -204,24 +204,26 @@ internal class ModuleStateTracker : IModuleStateTracker
         _metricsCollector.RecordModuleCompleted(moduleType, completionTime, success, wasSkipped, status);
         _metricsCollector.RecordConcurrencySnapshot(executingCount, completionTime);
 
-        // Logging outside lock - use plain text, not markup (markup causes double-escaping issues)
-        _logger.LogDebug(
-            "Module {ModuleName} completed with lock keys: {Keys} (Active: Q={Queued}, E={Executing})",
+        var lockKeys = state.RequiredLockKeys.Length == 0
+            ? "(none)"
+            : string.Join(", ", state.RequiredLockKeys);
+        var executionTime = state.ExecutionStartTime.HasValue
+            ? completionTime - state.ExecutionStartTime.Value
+            : (TimeSpan?) null;
+        var completionLog = new ModuleCompletionLogState(
             state.ModuleType.Name,
-            string.Join(", ", state.RequiredLockKeys),
+            executionTime,
+            lockKeys,
             queuedCount,
             executingCount);
 
-        var moduleName = state.ModuleType.Name;
-
-        if (state.ExecutionStartTime.HasValue && state.CompletionTime.HasValue)
-        {
-            var executionTime = state.CompletionTime.Value - state.ExecutionStartTime.Value;
-            _logger.LogDebug(
-                "Module {ModuleName} completed after {ExecutionTime}ms",
-                moduleName,
-                executionTime.TotalMilliseconds);
-        }
+        // Logging outside lock - use plain text, not markup (markup causes double-escaping issues)
+        _logger.Log(
+            LogLevel.Debug,
+            default,
+            completionLog,
+            null,
+            static (state, _) => state.Message);
 
         // Log dependent module updates outside lock
         LogDependentModuleUpdates(state, dependentUpdates);
@@ -262,7 +264,10 @@ internal class ModuleStateTracker : IModuleStateTracker
         }
 
         // Logging outside lock
-        _logger.LogDebug("Cancelling {Count} pending/queued modules due to pipeline cancellation (excluding AlwaysRun modules)", cancelledModules.Count);
+        if (cancelledModules.Count > 0)
+        {
+            _logger.LogDebug("Cancelling {Count} pending/queued modules due to pipeline cancellation (excluding AlwaysRun modules)", cancelledModules.Count);
+        }
 
         foreach (var (moduleState, originalState) in cancelledModules)
         {

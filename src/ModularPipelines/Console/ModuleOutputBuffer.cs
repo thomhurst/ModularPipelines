@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
+using ModularPipelines.Helpers;
 using Spectre.Console;
 
 namespace ModularPipelines.Console;
@@ -157,16 +158,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private string FormatHeader(Exception? exception)
     {
         var duration = DateTime.UtcNow - _startTimeUtc;
-        var durationStr = duration.TotalSeconds >= 60
-            ? $"{duration.TotalMinutes:F1}m"
-            : $"{duration.TotalSeconds:F1}s";
+        var durationText = duration.ToDisplayString();
 
         if (exception != null)
         {
-            return $"{_moduleName} \u2717 ({durationStr}) - {exception.GetType().Name}";
+            return $"{_moduleName} \u2717 ({durationText}) - {exception.GetType().Name}";
         }
 
-        return $"{_moduleName} \u2713 ({durationStr})";
+        return $"{_moduleName} \u2713 ({durationText})";
     }
 
     private static void WriteWithMarkup(string? value)

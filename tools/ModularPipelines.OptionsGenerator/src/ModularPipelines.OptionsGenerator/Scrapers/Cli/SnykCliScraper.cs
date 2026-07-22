@@ -24,9 +24,32 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class SnykCliScraper : CliScraperBase
 {
+    private static readonly HashSet<string> NumericOptions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--detection-depth",
+        "--max-depth",
+        "--nested-jars-depth",
+    };
+
+    private static readonly HashSet<string> ValueOptionsWithoutHelpPlaceholders = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--config-dir",
+        "--dotnet-target-framework",
+        "--fetch-tfstate-headers",
+        "--filter",
+        "--json-file-output",
+        "--packages-folder",
+        "--repo",
+        "--tf-lockfile",
+        "--tf-provider-version",
+        "--tfc-endpoint",
+        "--tfc-token",
+    };
+
     public SnykCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<SnykCliScraper> logger)
         : base(executor, helpCache, logger)
     {
+        ExecutablePath = ResolveExecutablePath();
     }
 
     public override string ToolName => "snyk";
@@ -36,6 +59,25 @@ public partial class SnykCliScraper : CliScraperBase
     public override string TargetNamespace => "ModularPipelines.Snyk";
 
     public override string OutputDirectory => "src/ModularPipelines.Snyk";
+
+    protected override string ExecutablePath { get; }
+
+    protected override int MaxParallelism => 4;
+
+    public override async IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(
+        [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in base.ScrapeAsync(cancellationToken))
+        {
+            commands.Add(command);
+        }
+
+        foreach (var command in DisambiguateEnumNames(commands))
+        {
+            yield return command;
+        }
+    }
 
     /// <summary>
     /// Skip utility commands.
@@ -53,56 +95,47 @@ public partial class SnykCliScraper : CliScraperBase
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Normalize line endings for consistent parsing
         var normalizedText = helpText.Replace("\r\n", "\n").Replace("\r", "\n");
 
-        // Find "Commands:" section
-        var commandsSectionMatch = CommandsSectionPattern().Match(normalizedText);
-        if (!commandsSectionMatch.Success)
+        if (AvailableCommandsPattern().IsMatch(normalizedText))
         {
-            Logger.LogWarning("[snyk] No Commands section found in help text. Pattern: CommandsSectionPattern");
-            return subcommands;
+            AddMatches(RootCommandPattern().Matches(normalizedText));
         }
-
-        Logger.LogDebug("[snyk] Found Commands section at index {Index}", commandsSectionMatch.Index);
-
-        var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
-        var sectionEnd = normalizedText.Length;
-
-        // Find where this section ends
-        var nextSection = NextSectionPattern().Match(normalizedText, sectionStart);
-        if (nextSection.Success)
+        else
         {
-            sectionEnd = nextSection.Index;
-        }
-
-        var section = normalizedText.Substring(sectionStart, sectionEnd - sectionStart);
-        var lines = section.Split('\n');
-
-        foreach (var line in lines)
-        {
-            // Try primary pattern
-            var match = SnykCommandLinePattern().Match(line);
-            if (!match.Success)
+            var groupMatch = GroupOverviewPattern().Match(normalizedText);
+            if (groupMatch.Success)
             {
-                // Try fallback pattern for standard indented format
-                match = FallbackCommandLinePattern().Match(line);
+                var groupName = groupMatch.Groups["group"].Value;
+                AddMatches(GroupCommandPattern().Matches(normalizedText)
+                    .Cast<Match>()
+                    .Where(x => x.Groups["group"].Value.Equals(groupName, StringComparison.OrdinalIgnoreCase)));
             }
+            else if (AibomOverviewPattern().IsMatch(normalizedText))
+            {
+                AddMatches(AibomCommandPattern().Matches(normalizedText).Cast<Match>());
+            }
+            else if (SbomOverviewPattern().IsMatch(normalizedText))
+            {
+                subcommands.Add("test");
+            }
+        }
 
-            if (match.Success)
+        Logger.LogInformation("[snyk] Extracted {Count} subcommands", subcommands.Count);
+        return subcommands;
+
+        void AddMatches(IEnumerable<Match> matches)
+        {
+            foreach (var match in matches)
             {
                 var commandName = match.Groups["command"].Value.Trim();
                 if (!string.IsNullOrEmpty(commandName) &&
-                    !commandName.Contains(' ') &&
                     seenCommands.Add(commandName))
                 {
                     subcommands.Add(commandName);
                 }
             }
         }
-
-        Logger.LogInformation("[snyk] Extracted {Count} subcommands", subcommands.Count);
-        return subcommands;
     }
 
     /// <summary>
@@ -122,6 +155,14 @@ public partial class SnykCliScraper : CliScraperBase
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
+        AddDocumentedOptions(commandParts, options);
+        var positionalArguments = GetPositionalArguments(commandParts);
+        var enums = options
+            .Where(x => x.EnumDefinition is not null)
+            .Select(x => x.EnumDefinition!)
+            .GroupBy(x => x.EnumName, StringComparer.OrdinalIgnoreCase)
+            .Select(x => x.First())
+            .ToList();
 
         var className = GenerateClassName(commandPath);
 
@@ -135,9 +176,9 @@ public partial class SnykCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://docs.snyk.io/snyk-cli/commands",
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments = positionalArguments,
             SubDomainGroup = null,
-            Enums = []
+            Enums = enums
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
@@ -191,110 +232,285 @@ public partial class SnykCliScraper : CliScraperBase
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Find "Options:" section
         var optionsMatch = OptionsSectionPattern().Match(helpText);
         if (!optionsMatch.Success)
         {
-            // Try to find options anywhere in the text
-            var lines = helpText.Split('\n');
-            ParseOptionLines(lines, options, seenOptions);
-            return options;
+            ParseOptionLines(helpText.Split('\n'), options, seenOptions);
         }
-
-        var sectionStart = optionsMatch.Index + optionsMatch.Length;
-        var sectionEnd = helpText.Length;
-
-        var nextSection = NextSectionPattern().Match(helpText, sectionStart);
-        if (nextSection.Success)
+        else
         {
-            sectionEnd = nextSection.Index;
+            var sectionStart = optionsMatch.Index + optionsMatch.Length;
+            var nextSection = NextSectionPattern().Match(helpText, sectionStart);
+            var sectionEnd = nextSection.Success ? nextSection.Index : helpText.Length;
+            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            ParseOptionLines(section.Split('\n'), options, seenOptions);
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
-        ParseOptionLines(section.Split('\n'), options, seenOptions);
+        if (DebugOptionPattern().IsMatch(helpText) && seenOptions.Add("-d"))
+        {
+            options.Add(new CliOptionDefinition
+            {
+                SwitchName = "-d",
+                PropertyName = "Debug",
+                CSharpType = "bool?",
+                Description = "Output debug logs.",
+                IsFlag = true,
+                ValueSeparator = " ",
+            });
+        }
 
         return options;
     }
 
-    private void ParseOptionLines(string[] lines, List<CliOptionDefinition> options, HashSet<string> seenOptions)
+    private void ParseOptionLines(
+        string[] lines,
+        List<CliOptionDefinition> options,
+        HashSet<string> seenOptions)
     {
+        var optionIndentation = lines
+            .Where(IsOptionHeading)
+            .Select(GetIndentation)
+            .DefaultIfEmpty(-1)
+            .Min();
+
         for (var i = 0; i < lines.Length; i++)
         {
             var line = lines[i];
 
-            var match = SnykOptionPattern().Match(line);
-            if (!match.Success)
+            if (!IsOptionHeading(line) || !HasOptionHeadingIndentation(lines, i, optionIndentation))
             {
                 continue;
             }
 
-            var longForm = match.Groups["long"].Value.Trim();
-            var valueHint = match.Groups["value"].Value.Trim();
-
-            if (string.IsNullOrEmpty(longForm))
-            {
-                continue;
-            }
-
-            if (seenOptions.Contains(longForm))
-            {
-                continue;
-            }
-
-            seenOptions.Add(longForm);
-
-            var propertyName = NormalizePropertyName(longForm);
-            if (propertyName is null)
-            {
-                continue;
-            }
-
-            // Get description from next lines or inline
             var description = ExtractOptionDescription(lines, i);
-
-            var isFlag = string.IsNullOrEmpty(valueHint);
-            var csharpType = isFlag ? "bool?" : "string?";
-
-            // Check for enum values in value hint
-            CliEnumDefinition? enumDef = null;
-            if (!string.IsNullOrEmpty(valueHint) && valueHint.Contains('|'))
+            var proseIndex = line.IndexOf(". See ", StringComparison.OrdinalIgnoreCase);
+            var optionHeading = proseIndex >= 0 ? line[..proseIndex] : line;
+            foreach (Match match in SnykOptionPattern().Matches(optionHeading))
             {
-                var values = valueHint.Split('|', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(v => v.Trim())
-                    .ToArray();
-                if (values.Length >= 2)
+                var longForm = match.Groups["long"].Value.Trim();
+                var valueHint = match.Groups["value"].Value.Trim().Trim('<', '>', '[', ']');
+
+                if (!seenOptions.Add(longForm))
                 {
-                    enumDef = new CliEnumDefinition
+                    continue;
+                }
+
+                var propertyName = NormalizePropertyName(longForm);
+                if (propertyName is null)
+                {
+                    continue;
+                }
+
+                var isNumeric = NumericOptions.Contains(longForm);
+                var isFlag = string.IsNullOrEmpty(valueHint)
+                    && !isNumeric
+                    && !ValueOptionsWithoutHelpPlaceholders.Contains(longForm);
+                var isBoolean = IsBooleanValueHint(valueHint);
+                var csharpType = isFlag || isBoolean ? "bool?" : isNumeric ? "int?" : "string?";
+
+                CliEnumDefinition? enumDef = null;
+                if (!isBoolean && !string.IsNullOrEmpty(valueHint) && valueHint.Contains('|'))
+                {
+                    var values = valueHint.Split('|', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(v => v.Trim())
+                        .ToArray();
+                    if (values.Length >= 2)
                     {
-                        EnumName = $"Snyk{propertyName}",
-                        Values = values.Select(v => new CliEnumValue
+                        enumDef = new CliEnumDefinition
                         {
-                            MemberName = ToPascalCase(v.Replace("-", "")),
-                            CliValue = v
-                        }).ToList(),
-                        Description = $"Allowed values for --{longForm.TrimStart('-')}"
-                    };
-                    csharpType = $"{enumDef.EnumName}?";
+                            EnumName = $"Snyk{propertyName}",
+                            Values = values.Select(v => new CliEnumValue
+                            {
+                                MemberName = GeneratorUtils.ToEnumMemberName(v),
+                                CliValue = v
+                            }).ToList(),
+                            Description = $"Allowed values for --{longForm.TrimStart('-')}"
+                        };
+                        csharpType = $"{enumDef.EnumName}?";
+                    }
+                }
+
+                options.Add(new CliOptionDefinition
+                {
+                    SwitchName = longForm,
+                    ShortForm = null,
+                    PropertyName = propertyName,
+                    CSharpType = csharpType,
+                    Description = description,
+                    IsFlag = isFlag,
+                    IsRequired = description?.Contains("Required.", StringComparison.OrdinalIgnoreCase) == true,
+                    AcceptsMultipleValues = false,
+                    IsKeyValue = false,
+                    IsNumeric = isNumeric,
+                    ValueSeparator = isFlag ? " " : "=",
+                    EnumDefinition = enumDef,
+                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                        || longForm.Equals("--fetch-tfstate-headers", StringComparison.OrdinalIgnoreCase)
+                });
+            }
+        }
+    }
+
+    private static void AddDocumentedOptions(
+        string[] commandParts,
+        List<CliOptionDefinition> options)
+    {
+        switch (string.Join(' ', commandParts))
+        {
+            case "sbom":
+                AddOptionIfMissing(
+                    options,
+                    "--allow-incomplete-sbom",
+                    "AllowIncompleteSbom",
+                    "bool?",
+                    "Continue generating an SBOM when some projects fail to resolve",
+                    isFlag: true);
+                break;
+            case "container sbom":
+                AddOptionIfMissing(options, "--org", "Org", "string?", "Snyk Organization ID");
+                AddOptionIfMissing(
+                    options,
+                    "--exclude-app-vulns",
+                    "ExcludeAppVulns",
+                    "bool?",
+                    "Exclude application vulnerabilities",
+                    isFlag: true);
+                AddOptionIfMissing(
+                    options,
+                    "--exclude-node-modules",
+                    "ExcludeNodeModules",
+                    "bool?",
+                    "Exclude node_modules scanning",
+                    isFlag: true);
+                AddOptionIfMissing(
+                    options,
+                    "--nested-jars-depth",
+                    "NestedJarsDepth",
+                    "int?",
+                    "Maximum nested JAR extraction depth",
+                    isNumeric: true);
+                AddOptionIfMissing(options, "--username", "Username", "string?", "Container registry username");
+                AddOptionIfMissing(options, "--password", "Password", "string?", "Container registry password", isSecret: true);
+                break;
+        }
+    }
+
+    private static void AddOptionIfMissing(
+        List<CliOptionDefinition> options,
+        string switchName,
+        string propertyName,
+        string csharpType,
+        string description,
+        bool isFlag = false,
+        bool isNumeric = false,
+        bool isSecret = false)
+    {
+        if (options.Any(x => x.SwitchName.Equals(switchName, StringComparison.OrdinalIgnoreCase)))
+        {
+            return;
+        }
+
+        options.Add(new CliOptionDefinition
+        {
+            SwitchName = switchName,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            Description = description,
+            IsFlag = isFlag,
+            IsNumeric = isNumeric,
+            ValueSeparator = isFlag ? " " : "=",
+            IsSecret = isSecret,
+        });
+    }
+
+    private static bool IsBooleanValueHint(string valueHint)
+    {
+        var values = valueHint.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        return values.Length == 2 &&
+               values.Contains("true", StringComparer.OrdinalIgnoreCase) &&
+               values.Contains("false", StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static List<CliPositionalArgument> GetPositionalArguments(string[] commandParts)
+    {
+        return string.Join(' ', commandParts) switch
+        {
+            "auth" =>
+            [
+                CreatePositional("ApiToken", "API_TOKEN", "Snyk API token", isRequired: false, isSecret: true)
+            ],
+            "test" or "monitor" =>
+            [
+                CreatePositional("Target", "TARGET", "Package, version, or repository target to scan", isRequired: false)
+            ],
+            "container test" or "container monitor" or "container sbom" =>
+            [
+                CreatePositional("Image", "IMAGE", "Container image to scan", isRequired: true)
+            ],
+            "iac test" =>
+            [
+                CreatePositional("Path", "PATH", "Infrastructure as Code path to scan", isRequired: false)
+            ],
+            "code test" =>
+            [
+                CreatePositional("Path", "PATH", "Source code path to scan", isRequired: false)
+            ],
+            "sbom" =>
+            [
+                CreatePositional("TargetDirectory", "TARGET_DIRECTORY", "Project directory to scan", isRequired: false)
+            ],
+            "policy" =>
+            [
+                CreatePositional("PathToPolicyFile", "PATH_TO_POLICY_FILE", "Path to the Snyk policy file", isRequired: false)
+            ],
+            _ => []
+        };
+    }
+
+    private static CliPositionalArgument CreatePositional(
+        string propertyName,
+        string placeholderName,
+        string description,
+        bool isRequired,
+        bool isSecret = false)
+    {
+        return new CliPositionalArgument
+        {
+            PropertyName = propertyName,
+            PlaceholderName = placeholderName,
+            CSharpType = "string?",
+            Description = description,
+            IsRequired = isRequired,
+            IsSecret = isSecret,
+            PositionIndex = 0,
+            Placement = PositionalArgumentPosition.BeforeOptions,
+        };
+    }
+
+    internal static string ResolveExecutablePath(string? searchPath = null, bool? isWindows = null)
+    {
+        if (!(isWindows ?? OperatingSystem.IsWindows()))
+        {
+            return "snyk";
+        }
+
+        var pathDirectories = (searchPath ?? Environment.GetEnvironmentVariable("PATH"))?
+            .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            ?? [];
+
+        foreach (var pathDirectory in pathDirectories)
+        {
+            foreach (var executableName in new[] { "snyk.exe", "snyk.cmd" })
+            {
+                var candidate = Path.Combine(pathDirectory.Trim('"'), executableName);
+                if (File.Exists(candidate))
+                {
+                    return Path.GetFullPath(candidate);
                 }
             }
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = longForm,
-                ShortForm = null,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
-                IsFlag = isFlag,
-                IsRequired = false,
-                AcceptsMultipleValues = false,
-                IsKeyValue = false,
-                IsNumeric = false,
-                ValueSeparator = isFlag ? " " : "=",
-                EnumDefinition = enumDef,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
         }
+
+        return "snyk";
     }
 
     private static string? ExtractOptionDescription(string[] lines, int currentIndex)
@@ -305,17 +521,115 @@ public partial class SnykCliScraper : CliScraperBase
 
         while (nextIndex < lines.Length)
         {
-            var line = lines[nextIndex].Trim();
-            if (string.IsNullOrWhiteSpace(line) || line.StartsWith("--"))
+            var line = lines[nextIndex];
+            if (string.IsNullOrWhiteSpace(line) || IsOptionHeading(line))
             {
                 break;
             }
 
-            descParts.Add(line);
+            descParts.Add(line.Trim());
             nextIndex++;
         }
 
         return descParts.Count > 0 ? string.Join(" ", descParts) : null;
+    }
+
+    private static bool IsOptionHeading(string line)
+    {
+        return line.TrimStart().TrimStart('[').StartsWith("--", StringComparison.Ordinal);
+    }
+
+    private static int GetIndentation(string line)
+    {
+        return line.Length - line.TrimStart().Length;
+    }
+
+    private static bool HasOptionHeadingIndentation(string[] lines, int index, int standardIndentation)
+    {
+        var indentation = GetIndentation(lines[index]);
+        if (indentation == standardIndentation)
+        {
+            return true;
+        }
+
+        if (indentation < standardIndentation || index == 0 || !string.IsNullOrWhiteSpace(lines[index - 1]))
+        {
+            return false;
+        }
+
+        return lines
+            .Skip(index + 1)
+            .FirstOrDefault(line => !string.IsNullOrWhiteSpace(line)) is { } nextLine
+            && GetIndentation(nextLine) > indentation;
+    }
+
+    internal static IReadOnlyList<CliCommandDefinition> DisambiguateEnumNames(
+        IReadOnlyList<CliCommandDefinition> commands)
+    {
+        var canonicalValueSets = commands
+            .SelectMany(command => command.Options)
+            .Where(option => option.EnumDefinition is not null)
+            .GroupBy(option => option.EnumDefinition!.EnumName, StringComparer.OrdinalIgnoreCase)
+            .Select(group => new
+            {
+                group.Key,
+                ValueSets = group
+                    .GroupBy(option => GetEnumValueSet(option.EnumDefinition!), StringComparer.OrdinalIgnoreCase)
+                    .ToList(),
+            })
+            .Where(group => group.ValueSets.Count > 1)
+            .ToDictionary(
+                group => group.Key,
+                group => group.ValueSets
+                    .OrderByDescending(valueSet => valueSet.Count())
+                    .ThenByDescending(valueSet => valueSet.First().EnumDefinition!.Values.Count)
+                    .ThenBy(valueSet => valueSet.Key, StringComparer.OrdinalIgnoreCase)
+                    .First()
+                    .Key,
+                StringComparer.OrdinalIgnoreCase);
+
+        return commands.Select(command =>
+        {
+            var enumPrefix = command.ClassName.EndsWith("Options", StringComparison.Ordinal)
+                ? command.ClassName[..^"Options".Length]
+                : command.ClassName;
+            var options = command.Options.Select(option =>
+            {
+                var enumDefinition = option.EnumDefinition;
+                if (enumDefinition is null ||
+                    !canonicalValueSets.TryGetValue(enumDefinition.EnumName, out var canonicalValueSet) ||
+                    string.Equals(GetEnumValueSet(enumDefinition), canonicalValueSet, StringComparison.OrdinalIgnoreCase))
+                {
+                    return option;
+                }
+
+                var enumName = $"{enumPrefix}{option.PropertyName}";
+                return option with
+                {
+                    CSharpType = option.CSharpType.Replace(enumDefinition.EnumName, enumName, StringComparison.Ordinal),
+                    EnumDefinition = enumDefinition with { EnumName = enumName },
+                };
+            }).ToList();
+
+            return command with
+            {
+                Options = options,
+                Enums = options
+                    .Where(option => option.EnumDefinition is not null)
+                    .Select(option => option.EnumDefinition!)
+                    .DistinctBy(enumDefinition => enumDefinition.EnumName, StringComparer.OrdinalIgnoreCase)
+                    .ToList(),
+            };
+        }).ToList();
+    }
+
+    private static string GetEnumValueSet(CliEnumDefinition enumDefinition)
+    {
+        return string.Join(
+            '\u001F',
+            enumDefinition.Values
+                .Select(value => value.CliValue)
+                .Order(StringComparer.OrdinalIgnoreCase));
     }
 
     /// <summary>
@@ -323,22 +637,39 @@ public partial class SnykCliScraper : CliScraperBase
     /// </summary>
     protected override bool HasOptions(string helpText)
     {
-        return helpText.Contains("--") || helpText.Contains("Options:");
+        return helpText.Contains("Usage", StringComparison.OrdinalIgnoreCase);
     }
 
     #region Regex Patterns
 
     /// <summary>
-    /// Matches "Commands:" or "Available commands:" section header.
-    /// Newer versions of snyk use "Available commands" format.
+    /// Matches the current root command section.
     /// </summary>
-    [GeneratedRegex(@"(?:Available\s+)?Commands?:\s*\n", RegexOptions.IgnoreCase)]
-    private static partial Regex CommandsSectionPattern();
+    [GeneratedRegex(@"^Available commands\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex AvailableCommandsPattern();
+
+    [GeneratedRegex(@"^\s+snyk\s+(?<command>[\w-]+)\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex RootCommandPattern();
+
+    [GeneratedRegex(@"^snyk\s+(?<group>container|iac|code|sbom)\s+commands?\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex GroupOverviewPattern();
+
+    [GeneratedRegex(@"^\s*(?:-\s+)?(?<group>container|iac|code|sbom)\s+(?<command>[\w-]+)\s*[,;]", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex GroupCommandPattern();
+
+    [GeneratedRegex(@"^SBOM\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex SbomOverviewPattern();
+
+    [GeneratedRegex(@"^AI-BOM\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex AibomOverviewPattern();
+
+    [GeneratedRegex(@"^\s*See also:\s+snyk\s+aibom\s+(?<command>[\w-]+)\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex AibomCommandPattern();
 
     /// <summary>
     /// Matches "Options:" section header.
     /// </summary>
-    [GeneratedRegex(@"Options?:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^Options?:?\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex OptionsSectionPattern();
 
     /// <summary>
@@ -348,25 +679,15 @@ public partial class SnykCliScraper : CliScraperBase
     private static partial Regex NextSectionPattern();
 
     /// <summary>
-    /// Matches Snyk command lines: "  test                   Test a project"
-    /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<command>[\w-]+)(?:\s+\[[^\]]+\])?\s{2,}", RegexOptions.Multiline)]
-    private static partial Regex SnykCommandLinePattern();
-
-    /// <summary>
-    /// Fallback pattern for command lines with simpler format: "  command    description"
-    /// Also matches format: "  command [args]    description"
-    /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<command>[\w-]+)\s+", RegexOptions.Multiline)]
-    private static partial Regex FallbackCommandLinePattern();
-
-    /// <summary>
     /// Matches Snyk-style option lines:
     /// --severity-threshold=&lt;low|medium|high|critical&gt;
     /// --json
     /// </summary>
-    [GeneratedRegex(@"^\s*(?<long>--[\w-]+)(?:=<(?<value>[^>]+)>)?", RegexOptions.Multiline)]
+    [GeneratedRegex(@"(?<long>--[\w-]+)(?:=(?:<(?<value>[^>\s]+)>?|(?<value>[^\s,]+)))?")]
     private static partial Regex SnykOptionPattern();
+
+    [GeneratedRegex(@"\bUse (?:the )?-d(?: option)?\b", RegexOptions.IgnoreCase)]
+    private static partial Regex DebugOptionPattern();
 
     #endregion
 }

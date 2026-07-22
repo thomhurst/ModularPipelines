@@ -1,4 +1,6 @@
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -45,10 +47,253 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             : base.NormalizeCommandIdentifier(commandPart);
 
     /// <summary>
+    /// Argo CD renders required operands as bare uppercase names. Keep that parsing
+    /// local so other Cobra tools retain the conservative bracketed-operand parser.
+    /// </summary>
+    protected override List<CliPositionalArgument> ParsePositionalArguments(string helpText)
+    {
+        var usageLine = helpText
+            .Split('\n')
+            .Select(line => line.Trim())
+            .FirstOrDefault(line => line.StartsWith("argocd ", StringComparison.Ordinal));
+
+        if (usageLine is null)
+        {
+            return [];
+        }
+
+        var arguments = new List<CliPositionalArgument>();
+        foreach (Match match in ArgoCdPositionalArgumentPattern().Matches(usageLine))
+        {
+            var argumentName = match.Groups["name"].Value;
+            var propertyName = NormalizePropertyName(argumentName);
+            if (propertyName is null)
+            {
+                continue;
+            }
+
+            var isRequired = !match.Value.StartsWith('[');
+            var isMultiple = match.Groups["multiple"].Success;
+            var csharpType = isMultiple ? "IEnumerable<string>?" : "string?";
+
+            arguments.Add(new CliPositionalArgument
+            {
+                PropertyName = propertyName,
+                PlaceholderName = argumentName,
+                CSharpType = isRequired ? csharpType.TrimEnd('?') : csharpType,
+                IsRequired = isRequired,
+                PositionIndex = arguments.Count,
+                Description = null,
+            });
+        }
+
+        return arguments;
+    }
+
+    /// <summary>
+    /// The appset create usage line omits its required file arguments even though the
+    /// command accepts one or more filenames or URLs.
+    /// </summary>
+    protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        var commandSpecificArguments = GetCommandSpecificArguments(commandParts, positionalArguments);
+        if (commandSpecificArguments is not null)
+        {
+            return commandSpecificArguments;
+        }
+
+        if (positionalArguments.Count == 0)
+        {
+            var missingArgument = commandParts switch
+            {
+                ["appset", "create"] => RequiredArgument(
+                    "Files", "FILE", "IEnumerable<string>", "One or more ApplicationSet filenames or URLs."),
+                ["appset", "generate"] => RequiredArgument(
+                    "Files", "FILE", "IEnumerable<string>", "One or more ApplicationSet filenames or URLs."),
+                ["appset", "delete"] => RequiredArgument(
+                    "ApplicationSetNames", "APPSETNAME", "IEnumerable<string>", "One or more ApplicationSet names."),
+                _ => null,
+            };
+
+            if (missingArgument is not null)
+            {
+                return [missingArgument];
+            }
+        }
+
+        return positionalArguments
+            .Select(argument => argument with
+            {
+                PropertyName = NormalizePositionalArgumentName(argument.PropertyName),
+            })
+            .ToList();
+    }
+
+    private static IReadOnlyList<CliPositionalArgument>? GetCommandSpecificArguments(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) => commandParts switch
+        {
+            ["context"] => positionalArguments
+                .Select(argument => argument with { PropertyName = "ContextName" })
+                .ToList(),
+            ["admin", "cluster", "kubeconfig"] => positionalArguments
+                .Select(argument => argument with
+                {
+                    CSharpType = "string?",
+                    IsRequired = false,
+                })
+                .ToList(),
+            ["app", "delete"] or ["app", "sync"] or ["app", "wait"] => [ApplicationNamesArgument()],
+            ["repo", "rm"] =>
+            [
+                RequiredArgument(
+                    "Repositories",
+                    "REPO...",
+                    "IEnumerable<string>",
+                    "One or more repository URLs."),
+            ],
+            ["cluster", "set"] => positionalArguments
+                .Select(argument => argument with
+                {
+                    PropertyName = argument.PropertyName == "Name"
+                        ? "ClusterName"
+                        : NormalizePositionalArgumentName(argument.PropertyName),
+                })
+                .ToList(),
+            ["cert", "add-tls"] => positionalArguments
+                .Select(argument => argument with
+                {
+                    PropertyName = argument.PropertyName == "Servername"
+                        ? "RepositoryServerName"
+                        : NormalizePositionalArgumentName(argument.PropertyName),
+                })
+                .ToList(),
+            ["cluster", "get"] or ["cluster", "rm"] or ["cluster", "rotate-auth"] =>
+            [
+                RequiredArgument(
+                    "ServerOrName",
+                    "SERVER/NAME",
+                    "string",
+                    "Cluster server address or configured name."),
+            ],
+            ["proj", "remove-destination"]
+                or ["proj", "add-destination-service-account"]
+                or ["proj", "remove-destination-service-account"] => positionalArguments
+                    .Select(argument => argument with
+                    {
+                        PropertyName = argument.PropertyName == "Server"
+                            ? "DestinationServer"
+                            : NormalizePositionalArgumentName(argument.PropertyName),
+                    })
+                    .ToList(),
+            ["proj", "add-destination"] => ProjectDestinationArguments(),
+            ["admin", "settings", "rbac", "can"] => RbacCanArguments(),
+            _ => null,
+        };
+
+    private static CliPositionalArgument ApplicationNamesArgument() => new()
+    {
+        PropertyName = "ApplicationNames",
+        PlaceholderName = "APPNAME...",
+        CSharpType = "IEnumerable<string>?",
+        IsRequired = false,
+        PositionIndex = 0,
+        Description = "Optional application names to target.",
+    };
+
+    private static IReadOnlyList<CliPositionalArgument> ProjectDestinationArguments() =>
+    [
+        RequiredArgument("Project", "PROJECT", "string", "Project name.", 0),
+        RequiredArgument(
+            "ServerOrName",
+            "SERVER/NAME",
+            "string",
+            "Destination server address or configured name.",
+            1),
+        RequiredArgument("Namespace", "NAMESPACE", "string", "Destination namespace.", 2),
+    ];
+
+    private static IReadOnlyList<CliPositionalArgument> RbacCanArguments() =>
+    [
+        RequiredArgument("RoleSubject", "ROLE/SUBJECT", "string", "Role or subject to check.", 0),
+        RequiredArgument("Action", "ACTION", "string", "Action to check.", 1),
+        RequiredArgument("Resource", "RESOURCE", "string", "Resource to check.", 2),
+        new CliPositionalArgument
+        {
+            PropertyName = "SubResource",
+            PlaceholderName = "SUB-RESOURCE",
+            CSharpType = "string?",
+            IsRequired = false,
+            PositionIndex = 3,
+            Description = "Optional sub-resource to check.",
+        },
+    ];
+
+    protected override bool IsBooleanValueOption(
+        string[] commandParts,
+        string switchName,
+        string description) =>
+        switchName == "--prompts-enabled"
+        || base.IsBooleanValueOption(commandParts, switchName, description);
+
+    protected override string NormalizeOptionTypeHint(
+        string[] commandParts,
+        string switchName,
+        string typeHint,
+        string description) =>
+        switchName == "--sync-option"
+            ? "stringArray"
+            : base.NormalizeOptionTypeHint(commandParts, switchName, typeHint, description);
+
+    protected override string NormalizeOptionDescription(string description) =>
+        UnixHomeDirectoryPattern().Replace(
+            WindowsHomeDirectoryPattern().Replace(description, "<home>"),
+            "<home>");
+
+    private static CliPositionalArgument RequiredArgument(
+        string propertyName,
+        string placeholderName,
+        string csharpType,
+        string description,
+        int positionIndex = 0) => new()
+        {
+            PropertyName = propertyName,
+            PlaceholderName = placeholderName,
+            CSharpType = csharpType,
+            IsRequired = true,
+            PositionIndex = positionIndex,
+            Description = description,
+        };
+
+    private static string NormalizePositionalArgumentName(string propertyName) => propertyName switch
+    {
+        "Appname" => "ApplicationName",
+        "Appsetname" => "ApplicationSetName",
+        "Keyid" => "KeyId",
+        "Policyfile" => "PolicyFile",
+        "Repourl" => "RepositoryUrl",
+        "Reposerver" => "RepositoryServer",
+        "Credsurl" => "CredentialsUrl",
+        "Servername" => "ServerName",
+        _ => propertyName,
+    };
+
+    /// <summary>
     /// Skip utility commands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
         "--help", "-h", "--version", "help", "completion", "version"
     };
+
+    [GeneratedRegex(@"(?<![\w<\[])(?:<(?<name>[A-Z][A-Z0-9_-]*)(?<multiple>\.\.\.)?>|\[(?<name>[A-Z][A-Z0-9_-]*)(?<multiple>\.\.\.)?\]|(?<name>[A-Z][A-Z0-9_-]*)(?<multiple>\.\.\.)?)(?![\w>\]])")]
+    private static partial Regex ArgoCdPositionalArgumentPattern();
+
+    [GeneratedRegex(@"(?i)[A-Z]:[\\/]+Users[\\/]+[^\\/\s\""')]+(?=[\\/]\.config[\\/]argocd[\\/]config)")]
+    private static partial Regex WindowsHomeDirectoryPattern();
+
+    [GeneratedRegex(@"/(?:home|Users)/[^/\s\""')]+(?=/\.config/argocd/config)")]
+    private static partial Regex UnixHomeDirectoryPattern();
 }

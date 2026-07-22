@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ModularPipelines.Ansible\ModularPipelines.Ansible.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.ArgoCd\ModularPipelines.ArgoCd.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Azure.Pipelines\ModularPipelines.Azure.Pipelines.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Cosign\ModularPipelines.Cosign.csproj" />
@@ -32,10 +33,13 @@
     <ProjectReference Include="..\..\src\ModularPipelines.Git\ModularPipelines.Git.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Hadolint\ModularPipelines.Hadolint.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Helm\ModularPipelines.Helm.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Java\ModularPipelines.Java.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Shellcheck\ModularPipelines.Shellcheck.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Node\ModularPipelines.Node.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Slack\ModularPipelines.Slack.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Snyk\ModularPipelines.Snyk.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.TeamCity\ModularPipelines.TeamCity.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />

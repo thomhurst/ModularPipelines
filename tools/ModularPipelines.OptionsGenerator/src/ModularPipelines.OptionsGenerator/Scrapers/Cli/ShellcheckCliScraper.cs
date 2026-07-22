@@ -19,6 +19,14 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class ShellcheckCliScraper : CliScraperBase
 {
+    private static readonly HashSet<string> RepeatableOptions = new(StringComparer.Ordinal)
+    {
+        "--enable",
+        "--exclude",
+        "--include",
+        "--source-path",
+    };
+
     public ShellcheckCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<ShellcheckCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -48,54 +56,15 @@ public partial class ShellcheckCliScraper : CliScraperBase
         string helpText,
         CancellationToken cancellationToken)
     {
-        var description = "ShellCheck - Shell script static analysis tool";
-
-        // Add enum for format option
-        var formatEnum = new CliEnumDefinition
+        var enums = new Dictionary<string, CliEnumDefinition>(StringComparer.OrdinalIgnoreCase)
         {
-            EnumName = "ShellcheckFormat",
-            Values =
-            [
-                new CliEnumValue { MemberName = "Tty", CliValue = "tty" },
-                new CliEnumValue { MemberName = "Gcc", CliValue = "gcc" },
-                new CliEnumValue { MemberName = "Checkstyle", CliValue = "checkstyle" },
-                new CliEnumValue { MemberName = "Diff", CliValue = "diff" },
-                new CliEnumValue { MemberName = "Json", CliValue = "json" },
-                new CliEnumValue { MemberName = "Json1", CliValue = "json1" },
-                new CliEnumValue { MemberName = "Quiet", CliValue = "quiet" }
-            ],
-            Description = "Output format for ShellCheck results"
+            ["--color"] = CreateEnum("ShellcheckColor", "Color output mode", "auto", "always", "never"),
+            ["--format"] = CreateEnum("ShellcheckFormat", "Output format for ShellCheck results", "checkstyle", "diff", "gcc", "json", "json1", "quiet", "tty"),
+            ["--shell"] = CreateEnum("ShellcheckShell", "Shell dialect to check against", "sh", "bash", "dash", "ksh", "busybox"),
+            ["--severity"] = CreateEnum("ShellcheckSeverity", "Minimum severity level to report", "error", "warning", "info", "style")
         };
 
-        // Add enum for shell option
-        var shellEnum = new CliEnumDefinition
-        {
-            EnumName = "ShellcheckShell",
-            Values =
-            [
-                new CliEnumValue { MemberName = "Sh", CliValue = "sh" },
-                new CliEnumValue { MemberName = "Bash", CliValue = "bash" },
-                new CliEnumValue { MemberName = "Dash", CliValue = "dash" },
-                new CliEnumValue { MemberName = "Ksh", CliValue = "ksh" }
-            ],
-            Description = "Shell dialect to check against"
-        };
-
-        // Add enum for severity option
-        var severityEnum = new CliEnumDefinition
-        {
-            EnumName = "ShellcheckSeverity",
-            Values =
-            [
-                new CliEnumValue { MemberName = "Error", CliValue = "error" },
-                new CliEnumValue { MemberName = "Warning", CliValue = "warning" },
-                new CliEnumValue { MemberName = "Info", CliValue = "info" },
-                new CliEnumValue { MemberName = "Style", CliValue = "style" }
-            ],
-            Description = "Minimum severity level to report"
-        };
-
-        var options = ParseOptions(helpText, formatEnum, shellEnum, severityEnum);
+        var options = ParseOptions(helpText, enums);
 
         var command = new CliCommandDefinition
         {
@@ -104,7 +73,7 @@ public partial class ShellcheckCliScraper : CliScraperBase
             ClassName = "ShellcheckOptions",
             ParentClassName = BaseOptionsClassName,
             ToolNamespacePrefix = NamespacePrefix,
-            Description = description,
+            Description = "ShellCheck - Shell script static analysis tool",
             DocumentationUrl = "https://github.com/koalaman/shellcheck",
             Options = options,
             PositionalArguments =
@@ -116,11 +85,12 @@ public partial class ShellcheckCliScraper : CliScraperBase
                     CSharpType = "IEnumerable<string>?",
                     IsRequired = false,
                     PositionIndex = 0,
-                    Description = "Shell script files to check"
+                    Description = "Shell script files to check",
+                    Placement = PositionalArgumentPosition.AfterOptions
                 }
             ],
             SubDomainGroup = null,
-            Enums = [formatEnum, shellEnum, severityEnum]
+            Enums = enums.Values.ToList()
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
@@ -131,9 +101,7 @@ public partial class ShellcheckCliScraper : CliScraperBase
     /// </summary>
     private List<CliOptionDefinition> ParseOptions(
         string helpText,
-        CliEnumDefinition formatEnum,
-        CliEnumDefinition shellEnum,
-        CliEnumDefinition severityEnum)
+        IReadOnlyDictionary<string, CliEnumDefinition> enums)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -150,19 +118,18 @@ public partial class ShellcheckCliScraper : CliScraperBase
 
             var shortForm = match.Groups["short"].Value.Trim();
             var longForm = match.Groups["long"].Value.Trim();
+            var valueHint = match.Groups["longValue"].Value.Trim();
+            if (string.IsNullOrEmpty(valueHint))
+            {
+                valueHint = match.Groups["longOptionalValue"].Value.Trim();
+            }
+
             var description = match.Groups["desc"].Value.Trim();
 
-            if (string.IsNullOrEmpty(longForm))
+            if (!seenOptions.Add(longForm))
             {
                 continue;
             }
-
-            if (seenOptions.Contains(longForm))
-            {
-                continue;
-            }
-
-            seenOptions.Add(longForm);
 
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
@@ -170,52 +137,76 @@ public partial class ShellcheckCliScraper : CliScraperBase
                 continue;
             }
 
-            var isFlag = !longForm.Contains('=') && !shortForm.Contains('[');
-            var csharpType = isFlag ? "bool?" : "string?";
-            CliEnumDefinition? enumDef = null;
-
-            // Check for enum-type options
-            if (propertyName == "Format")
-            {
-                csharpType = "ShellcheckFormat?";
-                enumDef = formatEnum;
-            }
-            else if (propertyName == "Shell")
-            {
-                csharpType = "ShellcheckShell?";
-                enumDef = shellEnum;
-            }
-            else if (propertyName == "Severity")
-            {
-                csharpType = "ShellcheckSeverity?";
-                enumDef = severityEnum;
-            }
-
-            // Handle array-type options
-            if (longForm.Contains("--include") || longForm.Contains("--exclude"))
-            {
-                csharpType = "IEnumerable<string>?";
-            }
+            var isFlag = string.IsNullOrEmpty(valueHint);
+            enums.TryGetValue(longForm, out var enumDefinition);
+            var isBoolean = !isFlag && valueHint.Equals("bool", StringComparison.OrdinalIgnoreCase);
+            var isNumeric = !isFlag && valueHint.Equals("NUM", StringComparison.OrdinalIgnoreCase);
+            var acceptsMultipleValues = RepeatableOptions.Contains(longForm);
+            var csharpType = DetermineCSharpType(
+                isFlag,
+                isBoolean,
+                isNumeric,
+                acceptsMultipleValues,
+                enumDefinition);
 
             options.Add(new CliOptionDefinition
             {
-                SwitchName = longForm.Split('=')[0],
-                ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm.Split('[')[0],
+                SwitchName = longForm,
+                ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
                 PropertyName = propertyName,
                 CSharpType = csharpType,
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
-                AcceptsMultipleValues = csharpType.Contains("IEnumerable"),
+                AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
-                IsNumeric = false,
+                IsNumeric = isNumeric,
                 ValueSeparator = "=",
-                EnumDefinition = enumDef,
+                EnumDefinition = enumDefinition,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
 
         return options;
+    }
+
+    private static string DetermineCSharpType(
+        bool isFlag,
+        bool isBoolean,
+        bool isNumeric,
+        bool acceptsMultipleValues,
+        CliEnumDefinition? enumDefinition)
+    {
+        if (acceptsMultipleValues)
+        {
+            return "IEnumerable<string>?";
+        }
+
+        if (enumDefinition is not null)
+        {
+            return $"{enumDefinition.EnumName}?";
+        }
+
+        if (isFlag || isBoolean)
+        {
+            return "bool?";
+        }
+
+        return isNumeric ? "int?" : "string?";
+    }
+
+    private static CliEnumDefinition CreateEnum(string name, string description, params string[] values)
+    {
+        return new CliEnumDefinition
+        {
+            EnumName = name,
+            Description = description,
+            Values = values.Select(value => new CliEnumValue
+            {
+                MemberName = ToPascalCase(value),
+                CliValue = value
+            }).ToList()
+        };
     }
 
     /// <summary>
@@ -234,7 +225,7 @@ public partial class ShellcheckCliScraper : CliScraperBase
     ///   -C[WHEN]             --color[=WHEN]       Enable color output
     ///                        --wiki-link-count=NUM  Count of wiki links (no short form)
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(?<short>-\w(?:\[[^\]]+\])?)\s+)?(?<long>--[\w-]+(?:=\w+|\[=\w+\])?)\s+(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<short>-[A-Za-z])(?:(?:\[[^\]]+\])|(?:\s+(?!--)\S+))?\s+)?(?<long>--[\w-]+)(?:(?:\[=(?<longOptionalValue>[^\]]+)\])|(?:=(?<longValue>\S+)))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex ShellcheckOptionPattern();
 
     #endregion

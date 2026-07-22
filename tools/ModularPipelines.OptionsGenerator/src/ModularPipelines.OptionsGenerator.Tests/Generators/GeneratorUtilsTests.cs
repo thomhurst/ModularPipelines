@@ -6,6 +6,16 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 
 public class GeneratorUtilsTests
 {
+    [Test]
+    public async Task GenerateAssemblyInfo_Uses_Stable_Package_Metadata()
+    {
+        var result = GeneratorUtils.GenerateAssemblyInfo("ModularPipelines.Java");
+
+        await Assert.That(result).Contains(
+            "AssemblyMetadata(\"ModularPipelines.OptionsGenerator.Package\", \"ModularPipelines.Java\")");
+        await Assert.That(result).DoesNotContain("ModularPipelines.OptionsGenerator.Tool");
+    }
+
     #region ToPascalCase Tests
 
     [Test]
@@ -184,6 +194,14 @@ public class GeneratorUtilsTests
         var result = GeneratorUtils.ToEnumMemberName("1");
 
         await Assert.That(result).IsEqualTo("Value1");
+    }
+
+    [Test]
+    public async Task ToEnumMemberName_Removes_Identifier_Punctuation()
+    {
+        var result = GeneratorUtils.ToEnumMemberName("cyclonedx1.4+json");
+
+        await Assert.That(result).IsEqualTo("Cyclonedx14Json");
     }
 
     [Test]

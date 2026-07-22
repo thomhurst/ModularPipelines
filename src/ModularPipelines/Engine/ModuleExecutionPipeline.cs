@@ -115,7 +115,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             executionContext.StartTime = DateTimeOffset.UtcNow;
             executionContext.Stopwatch.Start();
 
-            logger.LogDebug("Module {ModuleName} execution started at {StartTime}", moduleName, executionContext.StartTime);
+            logger.LogDebug(
+                "Module {ModuleName} execution started at {StartTime:O}",
+                moduleName,
+                executionContext.StartTime);
 
             // Execute with timeout and retry
             var result = await ExecuteWithPolicies(module, config, executionContext, moduleContext).ConfigureAwait(false);
@@ -130,8 +133,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
             // Save to history if applicable
             await SaveToHistory(module, moduleResult, moduleContext).ConfigureAwait(false);
-
-            logger.LogDebug("Module succeeded after {Duration}", executionContext.Duration);
 
             executionContext.SetTypedResult(moduleResult);
 

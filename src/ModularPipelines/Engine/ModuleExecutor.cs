@@ -157,11 +157,7 @@ internal class ModuleExecutor : IModuleExecutor
 
     private void RegisterCancellationCallback(CancellationTokenSource cancellationTokenSource, IModuleScheduler scheduler)
     {
-        cancellationTokenSource.Token.Register(() =>
-        {
-            _logger.LogDebug("Cancellation triggered - cancelling all pending modules");
-            scheduler.CancelPendingModules();
-        });
+        cancellationTokenSource.Token.Register(scheduler.CancelPendingModules);
     }
 
     private async Task<Exception?> ExecuteWorkerPoolAsync(

@@ -303,7 +303,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 var isDefaultTrueBoolean = isBoolean &&
                     ((hasDefaultValue && typeHint.Equals("true", StringComparison.OrdinalIgnoreCase)) ||
                      description.Contains("(default true)", StringComparison.OrdinalIgnoreCase));
-                var isFlag = isBoolean && !isDefaultTrueBoolean;
+                var isFlag = isBoolean
+                             && !isDefaultTrueBoolean
+                             && !IsBooleanValueOption(commandParts, longForm, description);
                 var isInteger = IsKnownIntegerType(actualType);
                 var isFloat = IsKnownFloatType(actualType);
                 var isDuration = IsKnownDurationType(actualType);
@@ -676,7 +678,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// <summary>
     /// Parses positional arguments from usage line.
     /// </summary>
-    private static List<CliPositionalArgument> ParsePositionalArguments(string helpText)
+    protected virtual List<CliPositionalArgument> ParsePositionalArguments(string helpText)
     {
         var args = new List<CliPositionalArgument>();
 
@@ -697,7 +699,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
         {
             var argName = match.Groups["name"].Value;
             var isRequired = match.Value.StartsWith('<'); // <NAME> is required, [NAME] is optional
-            var isMultiple = match.Value.EndsWith("...");
+            var isMultiple = match.Value.Contains("...", StringComparison.Ordinal);
 
             var propertyName = NormalizePropertyName(argName);
             if (propertyName is null)
@@ -732,6 +734,16 @@ public abstract partial class CobraCliScraper : CliScraperBase
     protected virtual IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments) => positionalArguments;
+
+    /// <summary>
+    /// Determines whether a Boolean must be emitted with an explicit value instead of
+    /// as a presence-only flag.
+    /// </summary>
+    protected virtual bool IsBooleanValueOption(
+        string[] commandParts,
+        string switchName,
+        string description) =>
+        description.Contains("(default true)", StringComparison.OrdinalIgnoreCase);
 
     #region Type Detection - HashSet-based for extensibility
 
@@ -772,7 +784,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// </summary>
     private static readonly HashSet<string> KnownArrayTypes = new(StringComparer.OrdinalIgnoreCase)
     {
-        "list", "array", "strings", "stringarray", "stringslice", "slice"
+        "list", "array", "strings", "stringarray", "stringslice", "int64slice", "slice"
     };
 
     /// <summary>
@@ -874,7 +886,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// <summary>
     /// Matches "Flags:" or "Global Flags:" section headers.
     /// </summary>
-    [GeneratedRegex(@"(?:Global\s+)?Flags:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^[ \t]*(?:Global[ \t]+)?Flags:?[ \t]*\r?$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex FlagsSectionPattern();
 
     /// <summary>
@@ -907,11 +919,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// <summary>
     /// Matches usage line.
     /// </summary>
-    [GeneratedRegex(@"Usage:\s*\n?\s*(?<usage>[^\n]+)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^[ \t]*Usage:?[ \t]*(?:\r?\n[ \t]*)?(?<usage>[^\r\n]+)", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex UsageLinePattern();
 
     /// <summary>
-    /// Matches positional arguments in usage: [NAME] or <NAME> or [NAME...].
+    /// Matches positional arguments in usage: [NAME], &lt;NAME&gt;, or [NAME...].
     /// </summary>
     [GeneratedRegex(@"[\[<](?<name>[A-Z_-]+)(?:\.\.\.)?[\]>]")]
     private static partial Regex PositionalArgPattern();
@@ -951,7 +963,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         // Valid Cobra command help always has "Usage:" section
-        if (!helpText.Contains("Usage:"))
+        var usageLineMatch = UsageLinePattern().Match(helpText);
+        if (!usageLineMatch.Success)
         {
             return false;
         }
@@ -970,15 +983,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
         if (expectedCommandParts.Length > 0)
         {
             var lastPart = expectedCommandParts[^1];
-            var usageLineMatch = UsageLinePattern().Match(helpText);
-            if (usageLineMatch.Success)
+            var usageLine = usageLineMatch.Groups["usage"].Value;
+            // The last command part should appear in the usage line
+            if (!usageLine.Contains(lastPart, StringComparison.OrdinalIgnoreCase))
             {
-                var usageLine = usageLineMatch.Groups["usage"].Value;
-                // The last command part should appear in the usage line
-                if (!usageLine.Contains(lastPart, StringComparison.OrdinalIgnoreCase))
-                {
-                    return false;
-                }
+                return false;
             }
         }
 

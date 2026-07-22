@@ -70,6 +70,13 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
             return null;
         }
 
+        // Extension methods cannot name open generic modules, and nested test/helper
+        // modules are implementation details rather than public module APIs.
+        if (typeSymbol.IsGenericType || typeSymbol.ContainingType is not null)
+        {
+            return null;
+        }
+
         // Check if this type inherits from Module<T> and get the result type
         var resultType = GetModuleResultType(typeSymbol, semanticModel.Compilation);
         if (resultType is null)

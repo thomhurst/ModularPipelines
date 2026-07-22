@@ -52,7 +52,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 continue;
             }
 
-            var rawValue = argumentPart.Property.GetValue(optionsObject);
+            var rawValue = argumentPart.Getter(optionsObject);
             if (rawValue is null)
             {
                 continue;
@@ -67,7 +67,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     {
         foreach (var part in parts)
         {
-            var rawValue = part.Property.GetValue(optionsObject);
+            var rawValue = part.Getter(optionsObject);
             if (rawValue is null)
             {
                 continue;
