@@ -27,20 +27,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     {
         _logger.LogDebug("Executing: {Command} {Arguments} (WorkingDir: {WorkingDir})", command, arguments, workingDirectory ?? "default");
 
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = command,
-            Arguments = arguments,
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            CreateNoWindow = true
-        };
-
-        if (!string.IsNullOrEmpty(workingDirectory))
-        {
-            startInfo.WorkingDirectory = workingDirectory;
-        }
+        var executablePath = ResolveExecutablePath(command);
+        var startInfo = CreateStartInfo(executablePath, arguments, workingDirectory);
 
         // Disable pagers for CLI tools - many CLIs use pagers by default which hang in non-interactive mode
         startInfo.Environment["AWS_PAGER"] = "";    // AWS CLI
@@ -104,6 +92,112 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             };
         }
     }
+
+    private static string ResolveExecutablePath(string command) => ResolveExecutablePath(
+        command,
+        Environment.GetEnvironmentVariable("PATH"),
+        Environment.GetEnvironmentVariable("PATHEXT"),
+        OperatingSystem.IsWindows());
+
+    internal static string ResolveExecutablePath(
+        string command,
+        string? searchPath,
+        string? pathExtensions,
+        bool isWindows)
+    {
+        if (!isWindows || Path.IsPathRooted(command) || Path.HasExtension(command))
+        {
+            return ResolveFromPath(command, searchPath) ?? command;
+        }
+
+        var extensions = pathExtensions?
+            .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
+            ?? [".COM", ".EXE", ".BAT", ".CMD"];
+
+        foreach (var pathDirectory in GetPathDirectories(searchPath))
+        {
+            foreach (var extension in extensions)
+            {
+                var candidate = Path.Combine(pathDirectory, command + extension.ToLowerInvariant());
+                if (File.Exists(candidate))
+                {
+                    return Path.GetFullPath(candidate);
+                }
+            }
+        }
+
+        return command;
+    }
+
+    internal static ProcessStartInfo CreateStartInfo(
+        string executablePath,
+        string arguments,
+        string? workingDirectory = null,
+        bool? isWindows = null,
+        string? commandInterpreter = null)
+    {
+        var extension = Path.GetExtension(executablePath);
+        var useCommandInterpreter = (isWindows ?? OperatingSystem.IsWindows())
+            && IsCommandScript(extension);
+
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = useCommandInterpreter
+                ? commandInterpreter ?? Environment.GetEnvironmentVariable("COMSPEC") ?? "cmd.exe"
+                : executablePath,
+            Arguments = useCommandInterpreter
+                ? BuildCommandInterpreterArguments(executablePath, arguments)
+                : arguments,
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true
+        };
+
+        if (!string.IsNullOrEmpty(workingDirectory))
+        {
+            startInfo.WorkingDirectory = workingDirectory;
+        }
+
+        return startInfo;
+    }
+
+    private static bool IsCommandScript(string extension) =>
+        extension.Equals(".bat", StringComparison.OrdinalIgnoreCase)
+        || extension.Equals(".cmd", StringComparison.OrdinalIgnoreCase);
+
+    private static string BuildCommandInterpreterArguments(string executablePath, string arguments)
+    {
+        var command = string.IsNullOrWhiteSpace(arguments)
+            ? $"\"{executablePath}\""
+            : $"\"{executablePath}\" {arguments}";
+
+        return $"/d /s /c \"{command}\"";
+    }
+
+    private static string? ResolveFromPath(string command, string? searchPath)
+    {
+        if (Path.IsPathRooted(command))
+        {
+            return File.Exists(command) ? command : null;
+        }
+
+        foreach (var pathDirectory in GetPathDirectories(searchPath))
+        {
+            var candidate = Path.Combine(pathDirectory, command);
+            if (File.Exists(candidate))
+            {
+                return Path.GetFullPath(candidate);
+            }
+        }
+
+        return null;
+    }
+
+    private static IEnumerable<string> GetPathDirectories(string? searchPath) => searchPath?
+        .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+        .Select(pathDirectory => pathDirectory.Trim('"'))
+        ?? [];
 
     public async Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default)
     {

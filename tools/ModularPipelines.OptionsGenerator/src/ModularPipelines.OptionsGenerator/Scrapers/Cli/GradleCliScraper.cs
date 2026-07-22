@@ -20,6 +20,44 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class GradleCliScraper : CliScraperBase
 {
+    private static readonly HashSet<string> ValueOptions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--configuration-cache-problems",
+        "--console",
+        "--console-unicode",
+        "--dependency-verification",
+        "--develocity-plugin-version",
+        "--develocity-url",
+        "--exclude-task",
+        "--gradle-user-home",
+        "--include-build",
+        "--init-script",
+        "--max-workers",
+        "--priority",
+        "--project-cache-dir",
+        "--project-dir",
+        "--project-prop",
+        "--system-prop",
+        "--update-locks",
+        "--warning-mode",
+        "--write-verification-metadata"
+    };
+
+    private static readonly HashSet<string> RepeatableOptions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--exclude-task",
+        "--include-build",
+        "--init-script",
+        "--project-prop",
+        "--system-prop"
+    };
+
+    private static readonly HashSet<string> KeyValueOptions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--project-prop",
+        "--system-prop"
+    };
+
     public GradleCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GradleCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -53,6 +91,10 @@ public partial class GradleCliScraper : CliScraperBase
         var description = "Gradle Build Tool - Automate building, testing, publishing, and deploying software";
 
         var options = ParseOptions(helpText);
+        var enums = options
+            .Where(x => x.EnumDefinition is not null)
+            .Select(x => x.EnumDefinition!)
+            .ToList();
 
         var command = new CliCommandDefinition
         {
@@ -64,9 +106,21 @@ public partial class GradleCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://docs.gradle.org/current/userguide/command_line_interface.html",
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Tasks",
+                    PlaceholderName = "task(s)",
+                    CSharpType = "IEnumerable<string>?",
+                    Description = "Gradle tasks to execute.",
+                    PositionIndex = 0,
+                    IsRequired = false,
+                    Placement = PositionalArgumentPosition.AfterOptions
+                }
+            ],
             SubDomainGroup = null,
-            Enums = []
+            Enums = enums
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
@@ -77,7 +131,7 @@ public partial class GradleCliScraper : CliScraperBase
     /// Format: -a, --no-rebuild                   Do not rebuild project dependencies.
     ///         --build-cache                      Enables the Gradle build cache.
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    protected List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -94,7 +148,7 @@ public partial class GradleCliScraper : CliScraperBase
                 continue;
             }
 
-            var shortForms = match.Groups["short"].Value.Trim();
+            var shortForms = match.Groups["shorts"].Value.Trim();
             var longForm = match.Groups["long"].Value.Trim();
             var description = match.Groups["desc"].Value.Trim();
 
@@ -111,6 +165,8 @@ public partial class GradleCliScraper : CliScraperBase
 
             seenOptions.Add(longForm);
 
+            i = AccumulateMultiLineDescription(lines, i, ref description);
+
             // Skip deprecated options
             if (description.Contains("[deprecated]", StringComparison.OrdinalIgnoreCase))
             {
@@ -126,12 +182,17 @@ public partial class GradleCliScraper : CliScraperBase
                 continue;
             }
 
-            // Determine if this is a flag or takes a value
-            var isFlag = !description.Contains("Specifies") &&
-                         !description.Contains("path") &&
-                         !description.Contains("file") &&
-                         !description.Contains("directory");
-            var csharpType = isFlag ? "bool?" : "string?";
+            var isFlag = !ValueOptions.Contains(longForm);
+            var acceptsMultipleValues = RepeatableOptions.Contains(longForm);
+            var isKeyValue = KeyValueOptions.Contains(longForm);
+            var enumDefinition = TryCreateEnumDefinition(longForm, propertyName, description);
+            var isNumeric = longForm == "--max-workers";
+            var csharpType = DetermineCSharpType(
+                isFlag,
+                acceptsMultipleValues,
+                isKeyValue,
+                isNumeric,
+                enumDefinition);
 
             options.Add(new CliOptionDefinition
             {
@@ -142,16 +203,102 @@ public partial class GradleCliScraper : CliScraperBase
                 Description = description.Replace("[deprecated]", "").Trim(),
                 IsFlag = isFlag,
                 IsRequired = false,
-                AcceptsMultipleValues = false,
-                IsKeyValue = longForm == "--project-prop" || longForm == "--system-prop",
-                IsNumeric = false,
-                ValueSeparator = isFlag ? " " : "=",
-                EnumDefinition = null,
+                AcceptsMultipleValues = acceptsMultipleValues,
+                IsKeyValue = isKeyValue,
+                IsNumeric = isNumeric,
+                ValueSeparator = " ",
+                EnumDefinition = enumDefinition,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
 
         return options;
+    }
+
+    private static string DetermineCSharpType(
+        bool isFlag,
+        bool acceptsMultipleValues,
+        bool isKeyValue,
+        bool isNumeric,
+        CliEnumDefinition? enumDefinition)
+    {
+        if (isFlag)
+        {
+            return "bool?";
+        }
+
+        if (enumDefinition is not null)
+        {
+            return $"{enumDefinition.EnumName}?";
+        }
+
+        if (isKeyValue)
+        {
+            return "IEnumerable<KeyValue>?";
+        }
+
+        if (acceptsMultipleValues)
+        {
+            return "IEnumerable<string>?";
+        }
+
+        return isNumeric ? "int?" : "string?";
+    }
+
+    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
+    {
+        var descriptionParts = new List<string> { description };
+        var nextIndex = currentIndex + 1;
+
+        while (nextIndex < lines.Length)
+        {
+            var nextLine = lines[nextIndex];
+            if (string.IsNullOrWhiteSpace(nextLine) || GradleOptionPattern().IsMatch(nextLine))
+            {
+                break;
+            }
+
+            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
+            if (leadingSpaces < 4)
+            {
+                break;
+            }
+
+            descriptionParts.Add(nextLine.Trim());
+            nextIndex++;
+        }
+
+        description = string.Join(" ", descriptionParts.Where(x => !string.IsNullOrWhiteSpace(x)));
+        return nextIndex - 1;
+    }
+
+    private static CliEnumDefinition? TryCreateEnumDefinition(string longForm, string propertyName, string description)
+    {
+        if (!description.Contains("Supported values", StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var values = QuotedValuePattern().Matches(description)
+            .Select(match => match.Groups["value"].Value)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        if (values.Count < 2)
+        {
+            return null;
+        }
+
+        return new CliEnumDefinition
+        {
+            EnumName = $"Gradle{propertyName}",
+            Description = $"Allowed values for {longForm}.",
+            Values = values.Select(value => new CliEnumValue
+            {
+                MemberName = ToPascalCase(value),
+                CliValue = value
+            }).ToList()
+        };
     }
 
     /// <summary>
@@ -192,10 +339,13 @@ public partial class GradleCliScraper : CliScraperBase
     /// Matches Gradle-style option lines:
     /// -a, --no-rebuild                   Do not rebuild project dependencies.
     /// -?, -h, --help                     Shows this help message.
-    ///     --build-cache                  Enables the Gradle build cache.
+    /// --build-cache                      Enables the Gradle build cache.
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>(?:-\w,?\s*)+),\s*)?(?<long>--[\w-]+)\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<long>--[\w-]+)(?<shorts>(?:,\s*-[^,\s]+)*)|(?<shorts>(?:-[^,\s]+,\s*)+)(?<long>--[\w-]+))\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex GradleOptionPattern();
+
+    [GeneratedRegex(@"'(?<value>[^']+)'")]
+    private static partial Regex QuotedValuePattern();
 
     #endregion
 }
