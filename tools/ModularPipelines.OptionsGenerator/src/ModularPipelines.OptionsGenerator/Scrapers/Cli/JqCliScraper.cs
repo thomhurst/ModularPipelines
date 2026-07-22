@@ -11,17 +11,42 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// jq uses a simple help format.
 ///
 /// jq help format (jq --help):
-/// jq - commandline JSON processor [version 1.6]
+/// jq - commandline JSON processor [version 1.8.2]
 ///
 /// Usage: jq [options...] &lt;jq filter&gt; [file...]
 ///        jq [options...] --from-file &lt;jq filter file&gt; [file...]
 ///
-///     --tab               use tabs for indentation;
-///     --arg a v           set variable $a to value &lt;v&gt;;
+///   -n, --null-input          use `null` as the single input value;
+///       --arg name value      set $name to the string value;
 ///     ...
 /// </summary>
 public partial class JqCliScraper : CliScraperBase
 {
+    private static readonly IReadOnlyDictionary<string, int> OptionOperandCounts =
+        new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--arg"] = 2,
+            ["--argjson"] = 2,
+            ["--from-file"] = 1,
+            ["--indent"] = 1,
+            ["--library-path"] = 1,
+            ["--rawfile"] = 2,
+            ["--run-tests"] = 1,
+            ["--slurpfile"] = 2
+        };
+
+    private static readonly IReadOnlyDictionary<string, string> DisplayedOperands =
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--arg"] = "name value",
+            ["--argjson"] = "name value",
+            ["--indent"] = "n",
+            ["--library-path"] = "dir",
+            ["--rawfile"] = "name file",
+            ["--run-tests"] = "[filename]",
+            ["--slurpfile"] = "name file"
+        };
+
     public JqCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<JqCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -86,6 +111,7 @@ public partial class JqCliScraper : CliScraperBase
         var description = "jq - lightweight and flexible command-line JSON processor";
 
         var options = ParseOptions(helpText);
+        AddDocumentedOptions(options);
 
         var command = new CliCommandDefinition
         {
@@ -95,7 +121,7 @@ public partial class JqCliScraper : CliScraperBase
             ParentClassName = BaseOptionsClassName,
             ToolNamespacePrefix = NamespacePrefix,
             Description = description,
-            DocumentationUrl = "https://stedolan.github.io/jq/manual/",
+            DocumentationUrl = "https://jqlang.org/manual/",
             Options = options,
             PositionalArguments =
             [
@@ -106,7 +132,8 @@ public partial class JqCliScraper : CliScraperBase
                     CSharpType = "string?",
                     IsRequired = false,
                     PositionIndex = 0,
-                    Description = "The jq filter expression to apply"
+                    Description = "The jq filter expression to apply",
+                    Placement = PositionalArgumentPosition.AfterOptions
                 },
                 new CliPositionalArgument
                 {
@@ -115,7 +142,8 @@ public partial class JqCliScraper : CliScraperBase
                     CSharpType = "IEnumerable<string>?",
                     IsRequired = false,
                     PositionIndex = 1,
-                    Description = "Input JSON files (reads from stdin if not specified)"
+                    Description = "Input JSON files or values (reads from stdin if not specified)",
+                    Placement = PositionalArgumentPosition.AfterOptions
                 }
             ],
             SubDomainGroup = null,
@@ -127,128 +155,199 @@ public partial class JqCliScraper : CliScraperBase
 
     /// <summary>
     /// Parses options from jq help text.
-    /// Format:     --tab               use tabs for indentation;
-    ///             --arg a v           set variable $a to value &lt;v&gt;;
-    ///             -r                  output raw strings, not JSON texts;
+    /// Format:   -n, --null-input          use `null` as the single input value;
+    ///               --arg name value      set $name to the string value;
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    protected List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         var lines = helpText.Split('\n');
 
-        foreach (var line in lines)
+        for (var i = 0; i < lines.Length; i++)
         {
-            // Try long form first
-            var match = JqLongOptionPattern().Match(line);
-            if (match.Success)
+            var match = JqOptionPattern().Match(lines[i]);
+            if (!match.Success)
             {
-                var longForm = match.Groups["long"].Value.Trim();
-                var description = match.Groups["desc"].Value.Trim().TrimEnd(';');
-
-                if (string.IsNullOrEmpty(longForm) || seenOptions.Contains(longForm))
-                {
-                    continue;
-                }
-
-                seenOptions.Add(longForm);
-
-                var propertyName = NormalizePropertyName(longForm);
-                if (propertyName is null)
-                {
-                    continue;
-                }
-
-                var isFlag = !line.Contains(" a ") && !line.Contains(" name ") && !line.Contains(" v ");
-                var csharpType = isFlag ? "bool?" : "string?";
-
-                options.Add(new CliOptionDefinition
-                {
-                    SwitchName = longForm,
-                    ShortForm = null,
-                    PropertyName = propertyName,
-                    CSharpType = csharpType,
-                    Description = description,
-                    IsFlag = isFlag,
-                    IsRequired = false,
-                    AcceptsMultipleValues = false,
-                    IsKeyValue = longForm == "--arg" || longForm == "--argjson",
-                    IsNumeric = false,
-                    ValueSeparator = " ",
-                    EnumDefinition = null,
-                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-                });
+                continue;
             }
-            else
+
+            var longForm = match.Groups["long"].Value.Trim();
+            if (!seenOptions.Add(longForm))
             {
-                // Try short form
-                match = JqShortOptionPattern().Match(line);
-                if (match.Success)
-                {
-                    var shortForm = match.Groups["short"].Value.Trim();
-                    var description = match.Groups["desc"].Value.Trim().TrimEnd(';');
-
-                    if (string.IsNullOrEmpty(shortForm) || seenOptions.Contains(shortForm))
-                    {
-                        continue;
-                    }
-
-                    seenOptions.Add(shortForm);
-
-                    // Map short forms to meaningful property names
-                    var propertyName = MapShortFormToPropertyName(shortForm);
-                    if (propertyName is null)
-                    {
-                        continue;
-                    }
-
-                    var isFlag = true;
-                    var csharpType = "bool?";
-
-                    options.Add(new CliOptionDefinition
-                    {
-                        SwitchName = shortForm,
-                        ShortForm = shortForm,
-                        PropertyName = propertyName,
-                        CSharpType = csharpType,
-                        Description = description,
-                        IsFlag = isFlag,
-                        IsRequired = false,
-                        AcceptsMultipleValues = false,
-                        IsKeyValue = false,
-                        IsNumeric = false,
-                        ValueSeparator = " ",
-                        EnumDefinition = null,
-                        IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-                    });
-                }
+                continue;
             }
+
+            var shortForm = match.Groups["short"].Value.Trim();
+            var operandCount = OptionOperandCounts.GetValueOrDefault(longForm);
+            var description = RemoveDisplayedOperands(longForm, match.Groups["tail"].Value);
+            i = AccumulateMultiLineDescription(lines, i, ref description);
+
+            var propertyName = NormalizeJqPropertyName(longForm);
+            if (propertyName is null)
+            {
+                continue;
+            }
+
+            var isFlag = operandCount == 0;
+            var isPair = operandCount == 2;
+            var isNumeric = longForm == "--indent";
+            var acceptsMultipleValues = isPair || longForm == "--library-path";
+
+            options.Add(new CliOptionDefinition
+            {
+                SwitchName = longForm,
+                ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
+                PreferShortForm = longForm is "--library-path" or "--binary",
+                PropertyName = propertyName,
+                CSharpType = DetermineCSharpType(isFlag, isPair, isNumeric, acceptsMultipleValues),
+                Description = description.TrimEnd(';'),
+                IsFlag = isFlag,
+                IsRequired = false,
+                AcceptsMultipleValues = acceptsMultipleValues,
+                IsKeyValue = false,
+                IsNumeric = isNumeric,
+                ValueSeparator = " ",
+                EnumDefinition = null,
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+            });
         }
 
         return options;
     }
 
-    /// <summary>
-    /// Maps jq short form options to property names.
-    /// </summary>
-    private static string? MapShortFormToPropertyName(string shortForm)
+    private static void AddDocumentedOptions(List<CliOptionDefinition> options)
     {
-        return shortForm switch
+        UpsertDocumentedOption(options, new CliOptionDefinition
         {
-            "-c" => "Compact",
-            "-r" => "RawOutput",
-            "-R" => "RawInput",
-            "-s" => "Slurp",
-            "-S" => "SortKeys",
-            "-C" => "ColorOutput",
-            "-M" => "MonochromeOutput",
-            "-a" => "AsciiOutput",
-            "-e" => "ExitStatus",
-            "-n" => "NullInput",
-            "-j" => "JoinOutput",
-            _ => null
+            SwitchName = "--run-tests",
+            PropertyName = "RunTests",
+            CSharpType = "bool?",
+            Description = "Run jq tests from standard input",
+            IsFlag = true
+        });
+
+        // jq's Linux help omits this Windows-supported option.
+        UpsertDocumentedOption(options, new CliOptionDefinition
+        {
+            SwitchName = "--binary",
+            ShortForm = "-b",
+            PreferShortForm = true,
+            PropertyName = "Binary",
+            CSharpType = "bool?",
+            Description = "Open input/output streams in binary mode",
+            IsFlag = true
+        });
+
+        options.Add(new CliOptionDefinition
+        {
+            SwitchName = "--run-tests",
+            PropertyName = "RunTestsFile",
+            CSharpType = "string?",
+            Description = "Run jq tests from the specified file",
+            IsFlag = false
+        });
+
+        // jq -h omits the POSIX end-of-options marker documented by its manual.
+        options.Add(new CliOptionDefinition
+        {
+            SwitchName = "--",
+            PropertyName = "EndOfOptions",
+            CSharpType = "bool?",
+            Description = "Stop processing options so filters beginning with a dash are treated as positional arguments",
+            IsFlag = true
+        });
+    }
+
+    private static void UpsertDocumentedOption(
+        List<CliOptionDefinition> options,
+        CliOptionDefinition documentedOption)
+    {
+        var index = options.FindIndex(option => option.PropertyName == documentedOption.PropertyName);
+        if (index < 0)
+        {
+            options.Add(documentedOption);
+        }
+        else
+        {
+            options[index] = documentedOption;
+        }
+    }
+
+    private static string RemoveDisplayedOperands(string longForm, string optionTail)
+    {
+        var trimmedTail = optionTail.TrimStart();
+        if (!DisplayedOperands.TryGetValue(longForm, out var displayedOperands) ||
+            !trimmedTail.StartsWith(displayedOperands, StringComparison.OrdinalIgnoreCase))
+        {
+            return trimmedTail.Trim();
+        }
+
+        return trimmedTail[displayedOperands.Length..].Trim();
+    }
+
+    private static string? NormalizeJqPropertyName(string longForm)
+    {
+        return longForm switch
+        {
+            "--argjson" => "ArgJson",
+            "--jsonargs" => "JsonArgs",
+            "--rawfile" => "RawFile",
+            "--slurpfile" => "SlurpFile",
+            _ => NormalizePropertyName(longForm)
         };
+    }
+
+    private static string DetermineCSharpType(
+        bool isFlag,
+        bool isPair,
+        bool isNumeric,
+        bool acceptsMultipleValues)
+    {
+        if (isFlag)
+        {
+            return "bool?";
+        }
+
+        if (isPair)
+        {
+            return "IEnumerable<CliOptionValuePair>?";
+        }
+
+        if (isNumeric)
+        {
+            return "int?";
+        }
+
+        return acceptsMultipleValues ? "IEnumerable<string>?" : "string?";
+    }
+
+    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
+    {
+        var descriptionParts = new List<string> { description };
+        var nextIndex = currentIndex + 1;
+
+        while (nextIndex < lines.Length)
+        {
+            var nextLine = lines[nextIndex];
+            if (string.IsNullOrWhiteSpace(nextLine) || JqOptionPattern().IsMatch(nextLine))
+            {
+                break;
+            }
+
+            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
+            if (leadingSpaces < 20)
+            {
+                break;
+            }
+
+            descriptionParts.Add(nextLine.Trim());
+            nextIndex++;
+        }
+
+        description = string.Join(" ", descriptionParts.Where(x => !string.IsNullOrWhiteSpace(x)));
+        return nextIndex - 1;
     }
 
     /// <summary>
@@ -262,18 +361,10 @@ public partial class JqCliScraper : CliScraperBase
     #region Regex Patterns
 
     /// <summary>
-    /// Matches jq-style long option lines:
-    ///     --tab               use tabs for indentation;
+    /// Matches jq 1.8 option lines with optional short aliases and operands.
     /// </summary>
-    [GeneratedRegex(@"^\s+(?<long>--[\w-]+)(?:\s+\w+)*\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
-    private static partial Regex JqLongOptionPattern();
-
-    /// <summary>
-    /// Matches jq-style short option lines:
-    ///     -r                  output raw strings, not JSON texts;
-    /// </summary>
-    [GeneratedRegex(@"^\s+(?<short>-\w)\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
-    private static partial Regex JqShortOptionPattern();
+    [GeneratedRegex(@"^\s+(?:(?<short>-[A-Za-z]),\s*)?(?<long>--[\w-]+)(?<tail>.*)$", RegexOptions.Multiline)]
+    private static partial Regex JqOptionPattern();
 
     #endregion
 }

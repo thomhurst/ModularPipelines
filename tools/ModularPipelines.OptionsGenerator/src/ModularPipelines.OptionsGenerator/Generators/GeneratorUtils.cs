@@ -246,6 +246,11 @@ public static partial class GeneratorUtils
                 parts.Add($"ShortForm = \"{option.ShortForm}\"");
             }
 
+            if (option.PreferShortForm)
+            {
+                parts.Add("PreferShortForm = true");
+            }
+
             return $"CliFlag({string.Join(", ", parts)})";
         }
 
@@ -255,6 +260,11 @@ public static partial class GeneratorUtils
         if (!string.IsNullOrEmpty(option.ShortForm))
         {
             optionParts.Add($"ShortForm = \"{option.ShortForm}\"");
+        }
+
+        if (option.PreferShortForm)
+        {
+            optionParts.Add("PreferShortForm = true");
         }
 
         if (option.ValueSeparator == "=")

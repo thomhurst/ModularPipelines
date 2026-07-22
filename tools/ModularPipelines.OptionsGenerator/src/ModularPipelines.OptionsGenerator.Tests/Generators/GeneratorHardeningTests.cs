@@ -17,7 +17,8 @@ public class GeneratorHardeningTests
         string[]? commandParts = null,
         string? subDomainGroup = null,
         string? commandGroupIdentifierOverride = null,
-        IReadOnlyList<CliEnumDefinition>? enums = null) =>
+        IReadOnlyList<CliEnumDefinition>? enums = null,
+        IReadOnlyList<CliOptionDefinition>? options = null) =>
         new()
         {
             FullCommand = "tool",
@@ -25,7 +26,7 @@ public class GeneratorHardeningTests
             ClassName = className,
             ParentClassName = parentClassName,
             ToolNamespacePrefix = "Tool",
-            Options = [],
+            Options = options ?? [],
             SubDomainGroup = subDomainGroup,
             CommandGroupIdentifierOverride = commandGroupIdentifierOverride,
             Enums = enums ?? [],
@@ -42,6 +43,59 @@ public class GeneratorHardeningTests
         };
 
     #region NormalizeCommandClassNames
+
+    [Test]
+    public async Task Options_Class_Imports_Models_For_Cli_Option_Value_Pairs()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arg",
+            PropertyName = "Arg",
+            CSharpType = "IEnumerable<CliOptionValuePair>?",
+            IsFlag = false,
+        };
+        var tool = Tool(Command("ToolExecuteOptions", "ToolOptions", options: [option]));
+
+        var generatedFile = (await new OptionsClassGenerator().GenerateAsync(tool)).Single();
+
+        await Assert.That(generatedFile.Content).Contains("using ModularPipelines.Models;");
+    }
+
+    [Test]
+    public async Task Global_Options_Class_Imports_Models_For_Cli_Option_Value_Pairs()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arg",
+            PropertyName = "Arg",
+            CSharpType = "IEnumerable<CliOptionValuePair>?",
+        };
+        var tool = Tool() with { GlobalOptions = [option] };
+
+        var generatedFile = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single();
+
+        await Assert.That(generatedFile.Content).Contains("using ModularPipelines.Models;");
+    }
+
+    [Test]
+    public async Task Options_Class_Emits_Preferred_Short_Form()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--library-path",
+            ShortForm = "-L",
+            PreferShortForm = true,
+            PropertyName = "LibraryPath",
+            CSharpType = "IEnumerable<string>?",
+            AcceptsMultipleValues = true,
+        };
+        var tool = Tool(Command("ToolExecuteOptions", "ToolOptions", options: [option]));
+
+        var generatedFile = (await new OptionsClassGenerator().GenerateAsync(tool)).Single();
+
+        await Assert.That(generatedFile.Content)
+            .Contains("[CliOption(\"--library-path\", ShortForm = \"-L\", PreferShortForm = true, AllowMultiple = true)]");
+    }
 
     [Test]
     public async Task NormalizeCommandClassNames_Renames_Command_Sharing_Base_Class_Name()

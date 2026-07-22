@@ -68,7 +68,7 @@ public class OptionsClassGenerator : ICodeGenerator
         // Include the existing Options namespace where the base class lives
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
 
-        if (command.Options.Any(o => o.IsKeyValue))
+        if (command.Options.Any(o => o.RequiresModelsNamespace))
         {
             sb.AppendLine("using ModularPipelines.Models;");
         }

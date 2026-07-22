@@ -16,6 +16,11 @@ public record CliOptionDefinition
     public string? ShortForm { get; init; }
 
     /// <summary>
+    /// Whether generated attributes should render the short form when available.
+    /// </summary>
+    public bool PreferShortForm { get; init; }
+
+    /// <summary>
     /// Generated C# property name.
     /// </summary>
     public required string PropertyName { get; init; }
@@ -49,6 +54,12 @@ public record CliOptionDefinition
     /// Whether this is a key-value pair option.
     /// </summary>
     public bool IsKeyValue { get; init; }
+
+    /// <summary>
+    /// Whether generated code needs the ModularPipelines.Models namespace for this option type.
+    /// </summary>
+    public bool RequiresModelsNamespace
+        => IsKeyValue || CSharpType.Contains("CliOptionValuePair", StringComparison.Ordinal);
 
     /// <summary>
     /// Whether the value is numeric.

@@ -100,6 +100,11 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
     private static void AddOption(List<string> args, OptionPart optionPart, object rawValue)
     {
+        if (TryAddOptionValuePairs(args, optionPart, rawValue))
+        {
+            return;
+        }
+
         var values = GetValues(rawValue);
 
         foreach (var value in values)
@@ -122,6 +127,31 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 args.Add($"{optionName}{separator}{value}");
             }
         }
+    }
+
+    private static bool TryAddOptionValuePairs(List<string> args, OptionPart optionPart, object rawValue)
+    {
+        var pairs = rawValue switch
+        {
+            CliOptionValuePair pair => [pair],
+            IEnumerable<CliOptionValuePair> pairCollection => pairCollection,
+            _ => null,
+        };
+
+        if (pairs is null)
+        {
+            return false;
+        }
+
+        var optionName = optionPart.Attribute.GetEffectiveName();
+        foreach (var pair in pairs)
+        {
+            args.Add(optionName);
+            args.Add(pair.First);
+            args.Add(pair.Second);
+        }
+
+        return true;
     }
 
     private static List<string> GetValues(object rawValue)
