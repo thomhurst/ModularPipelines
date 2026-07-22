@@ -148,6 +148,18 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task SecretPropertyAccessor_PreservesTwoArgumentConstructor()
+    {
+        var constructor = typeof(SecretPropertyAccessor).GetConstructor(
+        [
+            typeof(string),
+            typeof(Func<object, object?>),
+        ]);
+
+        await Assert.That(constructor).IsNotNull();
+    }
+
+    [Test]
     public async Task InaccessibleProperties_MarkGeneratedMetadataIncomplete()
     {
         var commandMetadataFound = GeneratedCommandMetadata.TryGet(

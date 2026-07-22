@@ -46,4 +46,13 @@ public static class GeneratedSecretMetadata
 public sealed record SecretPropertyAccessor(
     string PropertyName,
     Func<object, object?> Getter,
-    IReadOnlyList<string>? SecretValueKeys = null);
+    IReadOnlyList<string>? SecretValueKeys = null)
+{
+    /// <summary>
+    /// Preserves the constructor emitted by source generators built before key-filtered secrets were supported.
+    /// </summary>
+    public SecretPropertyAccessor(string propertyName, Func<object, object?> getter)
+        : this(propertyName, getter, null)
+    {
+    }
+}

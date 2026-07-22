@@ -126,33 +126,42 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 
         foreach (var property in secretProperties)
         {
-            var propertyValue = property.Getter(value);
-            var secretValueKeys = property.SecretValueKeys ?? Array.Empty<string>();
-
-            if (secretValueKeys.Count == 0)
+            foreach (var secret in GetSecretsFromProperty(property, value))
             {
-                var secret = propertyValue?.ToString();
+                yield return secret;
+            }
+        }
+    }
 
-                if (!string.IsNullOrWhiteSpace(secret))
-                {
-                    yield return secret;
-                }
+    private static IEnumerable<string> GetSecretsFromProperty(
+        SecretPropertyAccessor property,
+        object value)
+    {
+        var propertyValue = property.Getter(value);
+        var secretValueKeys = property.SecretValueKeys ?? Array.Empty<string>();
 
-                continue;
+        if (secretValueKeys.Count == 0)
+        {
+            var secret = propertyValue?.ToString();
+            if (!string.IsNullOrWhiteSpace(secret))
+            {
+                yield return secret;
             }
 
-            if (propertyValue is not IEnumerable<KeyValue> keyValues)
-            {
-                continue;
-            }
+            yield break;
+        }
 
-            foreach (var keyValue in keyValues)
+        if (propertyValue is not IEnumerable<KeyValue> keyValues)
+        {
+            yield break;
+        }
+
+        foreach (var keyValue in keyValues)
+        {
+            if (secretValueKeys.Contains(keyValue.Key, StringComparer.OrdinalIgnoreCase) &&
+                !string.IsNullOrWhiteSpace(keyValue.Value))
             {
-                if (secretValueKeys.Contains(keyValue.Key, StringComparer.OrdinalIgnoreCase) &&
-                    !string.IsNullOrWhiteSpace(keyValue.Value))
-                {
-                    yield return keyValue.Value;
-                }
+                yield return keyValue.Value;
             }
         }
     }
