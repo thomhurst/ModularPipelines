@@ -205,10 +205,14 @@ internal class ModuleStateTracker : IModuleStateTracker
         _metricsCollector.RecordConcurrencySnapshot(executingCount, completionTime);
 
         // Logging outside lock - use plain text, not markup (markup causes double-escaping issues)
+        var lockKeys = state.RequiredLockKeys.Length == 0
+            ? "(none)"
+            : string.Join(", ", state.RequiredLockKeys);
+
         _logger.LogDebug(
             "Module {ModuleName} completed with lock keys: {Keys} (Active: Q={Queued}, E={Executing})",
             state.ModuleType.Name,
-            string.Join(", ", state.RequiredLockKeys),
+            lockKeys,
             queuedCount,
             executingCount);
 
