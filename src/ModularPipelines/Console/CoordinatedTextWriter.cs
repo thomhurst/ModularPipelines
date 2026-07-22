@@ -125,7 +125,8 @@ internal class CoordinatedTextWriter : TextWriter
     private void WriteCore(string value, bool appendNewLine)
     {
         var requestedBufferMode = _shouldBuffer();
-        string[]? patterns = null;
+        var patterns = GetSecretPatterns();
+        value = ObfuscateCompleteMultilinePatterns(value, patterns);
         var segmentStart = 0;
         var newlineIndex = value.IndexOf('\n', segmentStart);
 
@@ -136,7 +137,7 @@ internal class CoordinatedTextWriter : TextWriter
 
             if (!shouldBuffer)
             {
-                FlushSafeDirectOutput(patterns ??= GetSecretPatterns());
+                FlushSafeDirectOutput(patterns);
             }
 
             WriteCompletedLine(shouldBuffer);
@@ -149,7 +150,7 @@ internal class CoordinatedTextWriter : TextWriter
 
         if (!finalBufferMode)
         {
-            FlushSafeDirectOutput(patterns ??= GetSecretPatterns());
+            FlushSafeDirectOutput(patterns);
         }
 
         if (appendNewLine)
@@ -172,7 +173,24 @@ internal class CoordinatedTextWriter : TextWriter
         _secretProvider.Secrets
             .Where(pattern => !string.IsNullOrEmpty(pattern))
             .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderByDescending(pattern => pattern.Length)
             .ToArray();
+
+    private string ObfuscateCompleteMultilinePatterns(string value, IReadOnlyList<string> patterns)
+    {
+        foreach (var pattern in patterns)
+        {
+            if (pattern.IndexOfAny(['\r', '\n']) < 0 || !value.Contains(pattern, StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            var obfuscatedPattern = _secretObfuscator.Obfuscate(pattern, null);
+            value = value.Replace(pattern, obfuscatedPattern, StringComparison.OrdinalIgnoreCase);
+        }
+
+        return value;
+    }
 
     private void FlushSafeDirectOutput(IReadOnlyList<string> patterns)
     {
