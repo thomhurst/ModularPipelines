@@ -207,70 +207,102 @@ public partial class LiquibaseCliScraper : CliScraperBase
 
         for (var i = 0; i < lines.Length; i++)
         {
-            var line = lines[i];
-            var defineMatch = LiquibaseDefinePattern().Match(line);
-            if (defineMatch.Success)
+            if (TryParseDefineOption(lines, ref i, seenOptions, out var defineOption))
             {
-                if (seenOptions.Add("-D"))
+                if (defineOption is not null)
                 {
-                    var defineDescription = defineMatch.Groups["desc"].Value.Trim();
-                    i = AccumulateMultiLineDescription(lines, i, ref defineDescription);
-                    options.Add(CreateDefineOption(CleanDescription(defineDescription)));
+                    options.Add(defineOption);
                 }
 
                 continue;
             }
 
-            var match = LiquibaseOptionPattern().Match(line);
-            if (!match.Success)
+            var option = TryParseOption(lines, ref i, seenOptions);
+            if (option is not null)
             {
-                continue;
+                options.Add(option);
             }
-
-            var shortForm = match.Groups["short"].Value.Trim();
-            var longForm = match.Groups["long"].Value.Trim();
-            var valueHint = match.Groups["value"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
-            i = AccumulateMultiLineDescription(lines, i, ref description);
-
-            if (!seenOptions.Add(longForm))
-            {
-                continue;
-            }
-
-            var propertyName = NormalizeLiquibasePropertyName(longForm);
-            if (propertyName is null)
-            {
-                continue;
-            }
-
-            var isFlag = string.IsNullOrEmpty(valueHint);
-            var isBoolean = !isFlag
-                && !BooleanDefaultExceptions.Contains(longForm)
-                && (BooleanOptions.Contains(longForm) || BooleanDefaultPattern().IsMatch(description));
-            var isNumeric = !isFlag && NumericOptions.Contains(longForm);
-            var enumDefinition = TryCreateEnumDefinition(longForm, propertyName);
-            var csharpType = DetermineCSharpType(isFlag, isBoolean, isNumeric, enumDefinition);
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = longForm,
-                ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = CleanDescription(description),
-                IsFlag = isFlag,
-                // Liquibase can satisfy required command parameters through defaults files or environment variables.
-                IsRequired = false,
-                AcceptsMultipleValues = false,
-                IsKeyValue = false,
-                IsNumeric = isNumeric,
-                ValueSeparator = "=",
-                EnumDefinition = enumDefinition,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
         }
 
         return options;
+    }
+
+    private static bool TryParseDefineOption(
+        string[] lines,
+        ref int index,
+        HashSet<string> seenOptions,
+        out CliOptionDefinition? option)
+    {
+        option = null;
+        var match = LiquibaseDefinePattern().Match(lines[index]);
+        if (!match.Success)
+        {
+            return false;
+        }
+
+        if (!seenOptions.Add("-D"))
+        {
+            return true;
+        }
+
+        var description = match.Groups["desc"].Value.Trim();
+        index = AccumulateMultiLineDescription(lines, index, ref description);
+        option = CreateDefineOption(CleanDescription(description));
+        return true;
+    }
+
+    private static CliOptionDefinition? TryParseOption(
+        string[] lines,
+        ref int index,
+        HashSet<string> seenOptions)
+    {
+        var match = LiquibaseOptionPattern().Match(lines[index]);
+        if (!match.Success)
+        {
+            return null;
+        }
+
+        var shortForm = match.Groups["short"].Value.Trim();
+        var longForm = match.Groups["long"].Value.Trim();
+        var valueHint = match.Groups["value"].Value.Trim();
+        var description = match.Groups["desc"].Value.Trim();
+        index = AccumulateMultiLineDescription(lines, index, ref description);
+
+        if (!seenOptions.Add(longForm))
+        {
+            return null;
+        }
+
+        var propertyName = NormalizeLiquibasePropertyName(longForm);
+        if (propertyName is null)
+        {
+            return null;
+        }
+
+        var isFlag = string.IsNullOrEmpty(valueHint);
+        var isBoolean = !isFlag
+            && !BooleanDefaultExceptions.Contains(longForm)
+            && (BooleanOptions.Contains(longForm) || BooleanDefaultPattern().IsMatch(description));
+        var isNumeric = !isFlag && NumericOptions.Contains(longForm);
+        var enumDefinition = TryCreateEnumDefinition(longForm, propertyName);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = longForm,
+            ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
+            PropertyName = propertyName,
+            CSharpType = DetermineCSharpType(isFlag, isBoolean, isNumeric, enumDefinition),
+            Description = CleanDescription(description),
+            IsFlag = isFlag,
+            // Liquibase can satisfy required command parameters through defaults files or environment variables.
+            IsRequired = false,
+            AcceptsMultipleValues = false,
+            IsKeyValue = false,
+            IsNumeric = isNumeric,
+            ValueSeparator = "=",
+            EnumDefinition = enumDefinition,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+        };
     }
 
     /// <inheritdoc />

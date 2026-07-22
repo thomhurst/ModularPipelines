@@ -7,5 +7,5 @@
 
 using System.Reflection;
 
-[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Tool", "liquibase")]
+[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Package", "ModularPipelines.Liquibase")]
 [assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Version", "2.0.0")]
