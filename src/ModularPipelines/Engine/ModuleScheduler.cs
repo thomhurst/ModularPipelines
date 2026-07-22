@@ -126,8 +126,10 @@ internal class ModuleScheduler : IModuleScheduler
             var moduleType = state.ModuleType;
 
             var configuration = state.Module.Configuration;
+            var parallelConstraintKeys = configuration.ParallelConstraintKeys
+                                         ?? moduleType.GetCustomAttribute<NotInParallelAttribute>(inherit: true)?.ConstraintKeys;
 
-            if (configuration.ParallelConstraintKeys is { } constraintKeys)
+            if (parallelConstraintKeys is { } constraintKeys)
             {
                 if (constraintKeys.Count == 0)
                 {
@@ -146,18 +148,22 @@ internal class ModuleScheduler : IModuleScheduler
                 }
             }
 
-            if (configuration.Priority is { } priority)
+            var priority = configuration.Priority
+                           ?? moduleType.GetCustomAttribute<PriorityAttribute>(inherit: true)?.Priority;
+            if (priority is { } modulePriority)
             {
-                state.Priority = priority;
+                state.Priority = modulePriority;
                 _logger.LogDebug(
                     "Module {ModuleName} has priority: {Priority}",
                     moduleType.Name,
                     state.Priority);
             }
 
-            if (configuration.ExecutionType is { } executionType)
+            var executionType = configuration.ExecutionType
+                                ?? moduleType.GetCustomAttribute<ExecutionHintAttribute>(inherit: true)?.ExecutionType;
+            if (executionType is { } moduleExecutionType)
             {
-                state.ExecutionType = executionType;
+                state.ExecutionType = moduleExecutionType;
                 _logger.LogDebug(
                     "Module {ModuleName} has execution type: {ExecutionType}",
                     moduleType.Name,
