@@ -28,10 +28,10 @@ public class FolderTests : TestBase
             await File.WriteAllTextAsync(Path.Combine(folder, fileName), TestConstants.TestString);
         }
 
-        await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(10);
+        await Assert.That(folder.ListFiles().ToList()).Count().IsEqualTo(10);
 
         folder.Clean();
-        await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(0);
+        await Assert.That(folder.ListFiles().ToList()).Count().IsEqualTo(0);
     }
 
     private class FindFileModule : Module<ModularPipelines.FileSystem.File>
@@ -55,10 +55,10 @@ public class FolderTests : TestBase
             Directory.CreateDirectory(Path.Combine(folder, folderName));
         }
 
-        await Assert.That(folder.ListFolders().ToList()).HasCount().EqualTo(10);
+        await Assert.That(folder.ListFolders().ToList()).Count().IsEqualTo(10);
 
         folder.Clean();
-        await Assert.That(folder.ListFolders().ToList()).HasCount().EqualTo(0);
+        await Assert.That(folder.ListFolders().ToList()).Count().IsEqualTo(0);
     }
 
     [Test]
@@ -127,7 +127,7 @@ public class FolderTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(folder.Exists).IsTrue();
-            await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(10);
+            await Assert.That(folder.ListFiles().ToList()).Count().IsEqualTo(10);
             await Assert.That(new Folder(destinationPath).Exists).IsFalse();
         }
 
@@ -138,7 +138,7 @@ public class FolderTests : TestBase
         {
             await Assert.That(new Folder(originalPath).Exists).IsFalse();
             await Assert.That(movedFolder.Exists).IsTrue();
-            await Assert.That(movedFolder.ListFiles().ToList()).HasCount().EqualTo(10);
+            await Assert.That(movedFolder.ListFiles().ToList()).Count().IsEqualTo(10);
         }
     }
 
@@ -158,7 +158,7 @@ public class FolderTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(folder.Exists).IsTrue();
-            await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(10);
+            await Assert.That(folder.ListFiles().ToList()).Count().IsEqualTo(10);
             await Assert.That(folder2.Exists).IsFalse();
         }
 
@@ -167,9 +167,9 @@ public class FolderTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(folder.Exists).IsTrue();
-            await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(10);
+            await Assert.That(folder.ListFiles().ToList()).Count().IsEqualTo(10);
             await Assert.That(folder2.Exists).IsTrue();
-            await Assert.That(folder2.ListFiles().ToList()).HasCount().EqualTo(10);
+            await Assert.That(folder2.ListFiles().ToList()).Count().IsEqualTo(10);
         }
     }
 

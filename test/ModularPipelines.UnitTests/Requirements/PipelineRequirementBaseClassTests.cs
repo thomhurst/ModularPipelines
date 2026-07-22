@@ -31,10 +31,13 @@ public class PipelineRequirementBaseClassTests
     [Test]
     public async Task Sync_Requirement_With_Fail_Throws()
     {
-        var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
-            .AddModule<DummyModule>()
-            .AddRequirement<FailingSyncRequirement>()
-            .ExecutePipelineAsync();
+        var executePipelineDelegate = async () =>
+        {
+            await TestPipelineHostBuilder.Create()
+                .AddModule<DummyModule>()
+                .AddRequirement<FailingSyncRequirement>()
+                .ExecutePipelineAsync();
+        };
 
         await Assert.That(executePipelineDelegate)
             .Throws<FailedRequirementsException>()
@@ -59,10 +62,13 @@ public class PipelineRequirementBaseClassTests
     [Test]
     public async Task Async_Requirement_With_Fail_Throws()
     {
-        var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
-            .AddModule<DummyModule>()
-            .AddRequirement<FailingAsyncRequirement>()
-            .ExecutePipelineAsync();
+        var executePipelineDelegate = async () =>
+        {
+            await TestPipelineHostBuilder.Create()
+                .AddModule<DummyModule>()
+                .AddRequirement<FailingAsyncRequirement>()
+                .ExecutePipelineAsync();
+        };
 
         await Assert.That(executePipelineDelegate)
             .Throws<FailedRequirementsException>()
@@ -87,10 +93,13 @@ public class PipelineRequirementBaseClassTests
     [Test]
     public async Task When_Helper_With_False_Fails()
     {
-        var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
-            .AddModule<DummyModule>()
-            .AddRequirement<WhenFalseRequirement>()
-            .ExecutePipelineAsync();
+        var executePipelineDelegate = async () =>
+        {
+            await TestPipelineHostBuilder.Create()
+                .AddModule<DummyModule>()
+                .AddRequirement<WhenFalseRequirement>()
+                .ExecutePipelineAsync();
+        };
 
         await Assert.That(executePipelineDelegate)
             .Throws<FailedRequirementsException>()

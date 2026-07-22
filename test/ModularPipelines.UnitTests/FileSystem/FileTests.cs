@@ -136,7 +136,7 @@ public class FileTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(plainText).IsEqualTo($"Hello{Environment.NewLine}world");
-            await Assert.That(lines).HasCount().EqualTo(2);
+            await Assert.That(lines).Count().IsEqualTo(2);
             await Assert.That(lines[0]).IsEqualTo("Hello");
             await Assert.That(lines[1]).IsEqualTo("world");
             await Assert.That(bytes).IsNotEmpty();
@@ -160,7 +160,7 @@ public class FileTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(plainText).IsEqualTo($"Hello{Environment.NewLine}world{Environment.NewLine}");
-            await Assert.That(lines).HasCount().EqualTo(2);
+            await Assert.That(lines).Count().IsEqualTo(2);
             await Assert.That(lines[0]).IsEqualTo("Hello");
             await Assert.That(lines[1]).IsEqualTo("world");
         }
@@ -295,21 +295,21 @@ public class FileTests : TestBase
     [Arguments("**/Nest1/Nest2/Nest3/Nest4/Nest5/*.txt")]
     public async Task GlobTests(string globPattern)
     {
-        var workingDirectory = new Folder(TestContext.OutputDirectory).AssertExists();
+        var workingDirectory = new Folder(TestContext.OutputDirectory!).AssertExists();
         var files = workingDirectory.GetFiles(globPattern).ToList();
-        await Assert.That(files).HasCount().EqualTo(1);
+        await Assert.That(files).Count().IsEqualTo(1);
         await Assert.That(files[0].Name).IsEqualTo("Blah.txt");
     }
 
     [Test]
     public async Task GlobTest2()
     {
-        var folder = new Folder(TestContext.OutputDirectory)
+        var folder = new Folder(TestContext.OutputDirectory!)
             .AssertExists()
             .FindFolder(x => x.Name == "Nest5")!;
 
         var files = folder.GetFiles("Blah.txt").ToList();
-        await Assert.That(files).HasCount().EqualTo(1);
+        await Assert.That(files).Count().IsEqualTo(1);
         await Assert.That(files[0].Name).IsEqualTo("Blah.txt");
     }
 

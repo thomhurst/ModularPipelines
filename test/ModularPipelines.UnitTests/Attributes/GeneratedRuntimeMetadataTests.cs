@@ -237,7 +237,7 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(found).IsTrue();
         await Assert.That(accessors.Select(x => x.PropertyName))
             .IsEquivalentTo([nameof(GeneratedOverrideSecretDerived.InheritedSecret), nameof(GeneratedOverrideSecretDerived.OwnSecret)]);
-        await Assert.That(accessors.Select(x => x.Getter(value)?.ToString()))
+        await Assert.That(accessors.Select(x => x.Getter(value)?.ToString()!))
             .IsEquivalentTo(["inherited-secret", "own-secret"]);
     }
 

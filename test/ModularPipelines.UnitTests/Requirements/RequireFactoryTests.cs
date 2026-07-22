@@ -32,10 +32,13 @@ public class RequireFactoryTests
     public async Task Require_That_With_False_Condition_Fails()
     {
         const string reason = "Custom failure reason";
-        var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
-            .AddModule<DummyModule>()
-            .AddRequirement(Require.That(_ => false, reason))
-            .ExecutePipelineAsync();
+        var executePipelineDelegate = async () =>
+        {
+            await TestPipelineHostBuilder.Create()
+                .AddModule<DummyModule>()
+                .AddRequirement(Require.That(_ => false, reason))
+                .ExecutePipelineAsync();
+        };
 
         await Assert.That(executePipelineDelegate)
             .Throws<FailedRequirementsException>()
@@ -65,14 +68,17 @@ public class RequireFactoryTests
     public async Task Require_ThatAsync_With_False_Condition_Fails()
     {
         const string reason = "Async failure reason";
-        var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
-            .AddModule<DummyModule>()
-            .AddRequirement(Require.ThatAsync(async _ =>
-            {
-                await Task.Yield();
-                return false;
-            }, reason))
-            .ExecutePipelineAsync();
+        var executePipelineDelegate = async () =>
+        {
+            await TestPipelineHostBuilder.Create()
+                .AddModule<DummyModule>()
+                .AddRequirement(Require.ThatAsync(async _ =>
+                {
+                    await Task.Yield();
+                    return false;
+                }, reason))
+                .ExecutePipelineAsync();
+        };
 
         await Assert.That(executePipelineDelegate)
             .Throws<FailedRequirementsException>()
@@ -109,10 +115,13 @@ public class RequireFactoryTests
         const string varName = "UNLIKELY_TO_EXIST_VAR_12345";
         Environment.SetEnvironmentVariable(varName, null);
 
-        var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
-            .AddModule<DummyModule>()
-            .AddRequirement(Require.EnvironmentVariable(varName))
-            .ExecutePipelineAsync();
+        var executePipelineDelegate = async () =>
+        {
+            await TestPipelineHostBuilder.Create()
+                .AddModule<DummyModule>()
+                .AddRequirement(Require.EnvironmentVariable(varName))
+                .ExecutePipelineAsync();
+        };
 
         await Assert.That(executePipelineDelegate)
             .Throws<FailedRequirementsException>()
@@ -126,10 +135,13 @@ public class RequireFactoryTests
         const string customReason = "My custom message about the var";
         Environment.SetEnvironmentVariable(varName, null);
 
-        var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
-            .AddModule<DummyModule>()
-            .AddRequirement(Require.EnvironmentVariable(varName, customReason))
-            .ExecutePipelineAsync();
+        var executePipelineDelegate = async () =>
+        {
+            await TestPipelineHostBuilder.Create()
+                .AddModule<DummyModule>()
+                .AddRequirement(Require.EnvironmentVariable(varName, customReason))
+                .ExecutePipelineAsync();
+        };
 
         await Assert.That(executePipelineDelegate)
             .Throws<FailedRequirementsException>()

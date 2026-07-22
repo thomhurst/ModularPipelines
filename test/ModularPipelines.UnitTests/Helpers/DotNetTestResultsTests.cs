@@ -98,7 +98,7 @@ public class DotNetTestResultsTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        await Assert.That(RunModule<DotNetTestWithoutFailureModule>)
+        await Assert.That(async () => { await RunModule<DotNetTestWithoutFailureModule>(); })
             .ThrowsNothing();
     }
 
@@ -106,9 +106,9 @@ public class DotNetTestResultsTests : TestBase
     public async Task Can_Parse_Trx_Manually()
     {
         await RunModule<DotNetTestWithoutFailureModule>();
-        var parsedResults = new TrxParser().ParseTrxContents(await DotNetTestWithoutFailureModule.TrxFile.ReadAsync());
+        var parsedResults = new TrxParser().ParseTrxContents(await DotNetTestWithoutFailureModule.TrxFile!.ReadAsync());
 
-        await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(4);
+        await Assert.That(parsedResults.UnitTestResults).Count().IsEqualTo(4);
     }
 
     [Test]
@@ -124,8 +124,8 @@ public class DotNetTestResultsTests : TestBase
         // IPipelineHookContext is a scoped service, so we need to create a scope
         await using var scope = host.RootServices.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<IPipelineHookContext>();
-        var parsedResults = await context.Trx().ParseTrxFile(DotNetTestWithoutFailureModule.TrxFile);
+        var parsedResults = await context.Trx().ParseTrxFile(DotNetTestWithoutFailureModule.TrxFile!);
 
-        await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(4);
+        await Assert.That(parsedResults.UnitTestResults).Count().IsEqualTo(4);
     }
 }

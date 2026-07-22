@@ -352,7 +352,7 @@ public class DirectModuleHooksTests : TestBase
 
         var result = await host.ExecutePipelineAsync();
 
-        await Assert.That(result.Modules).HasCount().EqualTo(1);
+        await Assert.That(result.Modules).Count().IsEqualTo(1);
     }
 
     #endregion
