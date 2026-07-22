@@ -63,6 +63,19 @@ public class OutputCoordinatorTests
         await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
     }
 
+    [Test]
+    public async Task ImmediateFlush_PropagatesCancellationToQueueOwner()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var buffer = new CancellingOutputBuffer(cancellationTokenSource);
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await coordinator.EnqueueAndFlushAsync(buffer, cancellationTokenSource.Token));
+
+        await Assert.That(buffer.FlushCount).IsEqualTo(1);
+    }
+
     private static OutputCoordinator CreateCoordinator(ILoggerFactory loggerFactory)
     {
         var formatterProvider = new Mock<IBuildSystemFormatterProvider>();

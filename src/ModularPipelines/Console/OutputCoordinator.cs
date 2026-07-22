@@ -194,11 +194,10 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         {
             await ProcessQueueAsync(cancellationToken).ConfigureAwait(false);
         }
-        else
-        {
-            // Wait for our buffer to be flushed by the current flusher
-            await pending.CompletionSource.Task.ConfigureAwait(false);
-        }
+
+        // Every caller observes the outcome of its own buffer. The caller that starts
+        // queue processing must not mistake a canceled flush for successful drainage.
+        await pending.CompletionSource.Task.ConfigureAwait(false);
     }
 
     private async Task ProcessQueueAsync(CancellationToken cancellationToken)
