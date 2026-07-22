@@ -180,6 +180,7 @@ internal static class ModuleDependencyResolver
 
     /// <summary>
     /// Gets all dependencies declared on a module instance, including:
+    /// - Dependencies declared by <see cref="DependsOnAttribute"/>.
     /// - Dependencies from the canonical module configuration.
     /// - Dependencies selected by base-type attributes.
     /// - Dynamic dependencies from the registry.
@@ -192,7 +193,14 @@ internal static class ModuleDependencyResolver
     {
         var moduleType = module.GetType();
 
-        foreach (var dep in GetConfiguredDependencies(module))
+        var declaredDependencies = GetDependencies(moduleType)
+            .Concat(GetConfiguredDependencies(module))
+            .GroupBy(dependency => dependency.DependencyType)
+            .Select(group => (
+                DependencyType: group.Key,
+                Optional: group.All(dependency => dependency.Optional)));
+
+        foreach (var dep in declaredDependencies)
         {
             yield return dep;
         }
