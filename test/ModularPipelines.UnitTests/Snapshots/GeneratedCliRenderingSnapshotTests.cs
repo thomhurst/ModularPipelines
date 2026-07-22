@@ -70,6 +70,34 @@ public class GeneratedCliRenderingSnapshotTests
         await Assert.That(IsGeneratedOptionsType(optionsType)).IsTrue();
     }
 
+    [Test]
+    public async Task Representative_Array_Values_Are_Distinct()
+    {
+        var values = (string[]) CreateRepresentativeValue(typeof(string[]), isSecret: false, "Values");
+
+        await Assert.That(values[0]).IsNotEqualTo(values[1]);
+    }
+
+    [Test]
+    public async Task Representative_Property_Values_Are_Distinct()
+    {
+        var first = CreateRepresentativeValue(typeof(string), isSecret: false, "First");
+        var second = CreateRepresentativeValue(typeof(string), isSecret: false, "Second");
+
+        await Assert.That(first).IsNotEqualTo(second);
+    }
+
+    [Test]
+    public async Task GeneratedPackageDiscovery_OnlyIncludesAvailableAssemblies()
+    {
+        var packageNames = GetGeneratedPackageNames(FindRepositoryRoot());
+
+        foreach (var packageName in packageNames)
+        {
+            await Assert.That(File.Exists(Path.Combine(AppContext.BaseDirectory, $"{packageName}.dll"))).IsTrue();
+        }
+    }
+
     private static SortedDictionary<string, PackageSnapshot> CreateSnapshots(string repositoryRoot)
     {
         var snapshots = new SortedDictionary<string, PackageSnapshot>(StringComparer.Ordinal);
@@ -96,12 +124,12 @@ public class GeneratedCliRenderingSnapshotTests
     {
         var configuration = new DirectoryInfo(AppContext.BaseDirectory).Parent?.Name
                             ?? throw new DirectoryNotFoundException("Could not determine the build configuration.");
-        var outputDirectory = Path.Combine(repositoryRoot, "src", packageName, "bin", configuration);
-        var assemblyPath = (Directory.Exists(outputDirectory)
-            ? Directory.EnumerateFiles(outputDirectory, $"{packageName}.dll", SearchOption.AllDirectories)
-                .FirstOrDefault()
-            : null) ?? throw new FileNotFoundException(
-                $"Could not load {packageName}. Build all repository solutions before running snapshot tests.");
+        var assemblyPath = Path.Combine(AppContext.BaseDirectory, $"{packageName}.dll");
+        if (!File.Exists(assemblyPath))
+        {
+            throw new FileNotFoundException($"Could not load built package {packageName}.", assemblyPath);
+        }
+
         var loadContext = new PackageAssemblyLoadContext(repositoryRoot, configuration, assemblyPath);
         return new LoadedPackage(loadContext.LoadFromAssemblyPath(Path.GetFullPath(assemblyPath)), loadContext);
     }
@@ -146,7 +174,7 @@ public class GeneratedCliRenderingSnapshotTests
                 {
                     var property = properties[part.PropertyName];
                     var isSecret = secretPropertyNames.Contains(part.PropertyName);
-                    property.SetValue(options, CreateRepresentativeValue(property.PropertyType, isSecret));
+                    property.SetValue(options, CreateRepresentativeValue(property.PropertyType, isSecret, part.PropertyName));
 
                     propertyCount++;
                     secretPropertyCount += isSecret ? 1 : 0;
@@ -223,65 +251,90 @@ public class GeneratedCliRenderingSnapshotTests
     private static string Hash(string value) =>
         Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(value))).ToLowerInvariant();
 
-    private static object CreateRepresentativeValue(Type propertyType, bool isSecret)
+    private static object CreateRepresentativeValue(
+        Type propertyType,
+        bool isSecret,
+        string discriminator,
+        int occurrence = 0)
     {
         var type = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+        var suffix = $"{discriminator}-{occurrence + 1}";
+        var representativeValue = $"{(isSecret ? "secret" : "value")}-{suffix}";
 
         if (type == typeof(string))
         {
-            return isSecret ? "secret-value" : "value";
+            return representativeValue;
         }
 
         if (type == typeof(bool))
         {
-            return true;
+            return occurrence % 2 == 0;
         }
 
         if (type == typeof(int))
         {
-            return 2;
+            return GetRepresentativeNumber(discriminator, occurrence);
         }
 
         if (type == typeof(double))
         {
-            return 2d;
+            return (double) GetRepresentativeNumber(discriminator, occurrence);
         }
 
         if (type == typeof(KeyValue))
         {
-            return new KeyValue("key", isSecret ? "secret-value" : "value");
+            return new KeyValue($"key-{suffix}", representativeValue);
         }
 
         if (type == typeof(CliOptionValuePair))
         {
-            return new CliOptionValuePair("key", isSecret ? "secret-value" : "value");
+            return new CliOptionValuePair($"key-{suffix}", representativeValue);
         }
 
         if (type.IsEnum)
         {
-            return Enum.GetValues(type).GetValue(0)
-                   ?? throw new InvalidOperationException($"Generated enum {type.FullName} has no values.");
+            var values = Enum.GetValues(type);
+            if (values.Length == 0)
+            {
+                throw new InvalidOperationException($"Generated enum {type.FullName} has no values.");
+            }
+
+            return values.GetValue(GetRepresentativeNumber(discriminator, occurrence) % values.Length)!;
         }
 
         if (type.IsArray)
         {
-            return CreateRepresentativeArray(type.GetElementType()!, isSecret);
+            return CreateRepresentativeArray(type.GetElementType()!, isSecret, discriminator);
         }
 
         if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
         {
-            return CreateRepresentativeArray(type.GetGenericArguments()[0], isSecret);
+            return CreateRepresentativeArray(type.GetGenericArguments()[0], isSecret, discriminator);
         }
 
         throw new NotSupportedException($"No representative CLI value is defined for {propertyType.FullName}.");
     }
 
-    private static Array CreateRepresentativeArray(Type elementType, bool isSecret)
+    private static Array CreateRepresentativeArray(Type elementType, bool isSecret, string discriminator)
     {
         var values = Array.CreateInstance(elementType, 2);
-        values.SetValue(CreateRepresentativeValue(elementType, isSecret), 0);
-        values.SetValue(CreateRepresentativeValue(elementType, isSecret), 1);
+        values.SetValue(CreateRepresentativeValue(elementType, isSecret, discriminator), 0);
+        values.SetValue(CreateRepresentativeValue(elementType, isSecret, discriminator, occurrence: 1), 1);
         return values;
+    }
+
+    private static int GetRepresentativeNumber(string discriminator, int occurrence)
+    {
+        unchecked
+        {
+            var hash = 17;
+            foreach (var character in discriminator)
+            {
+                hash = (hash * 31) + character;
+            }
+
+            return Math.Abs(hash % 10_000) + occurrence + 2;
+        }
     }
 
     private static IEnumerable<string> GetGeneratedPackageNames(string repositoryRoot)
