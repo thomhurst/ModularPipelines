@@ -4,9 +4,11 @@ using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Distributed.UnitTests.Master;
 
@@ -45,6 +47,42 @@ public class DistributedWorkPublisherTests
             .DependsOn<DependencyModule>()
             .Build();
 
+        protected internal override Task<string?> ExecuteAsync(
+            Context.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("consumed");
+    }
+
+    private abstract class SelectorDependencyBase : Module<DepResult>;
+
+    private class SelectorDependencyModule : SelectorDependencyBase
+    {
+        protected internal override Task<DepResult?> ExecuteAsync(
+            Context.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<DepResult?>(new DepResult { Value = "selected" });
+    }
+
+    [ModularPipelines.Attributes.DependsOnAllModulesInheritingFrom<SelectorDependencyBase>]
+    private class SelectorConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            Context.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("consumed");
+    }
+
+    private class TaggedDependencyModule : Module<DepResult>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTags("distributed")
+            .Build();
+
+        protected internal override Task<DepResult?> ExecuteAsync(
+            Context.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<DepResult?>(new DepResult { Value = "tagged" });
+    }
+
+    [DependsOnModulesWithTag("distributed")]
+    private class TaggedConsumerModule : Module<string>
+    {
         protected internal override Task<string?> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("consumed");
@@ -118,6 +156,61 @@ public class DistributedWorkPublisherTests
         await Assert.That(assignment.DependencyResults).IsNotNull();
         await Assert.That(assignment.DependencyResults!).HasSingleItem();
         await Assert.That(assignment.DependencyResults[0].ModuleTypeName).IsEqualTo(typeof(DependencyModule).FullName!);
+    }
+
+    [Test]
+    public async Task CreateAssignment_Includes_Selector_DependencyResults()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(SelectorDependencyModule));
+        typeRegistry.Register(typeof(SelectorConsumerModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var dependencyResult = CreateSuccessResult(new DepResult { Value = "selected" }, "SelectorDependencyModule");
+        resultRegistry.RegisterResult(typeof(SelectorDependencyModule), dependencyResult);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new SelectorConsumerModule());
+
+        await Assert.That(assignment.DependencyResults).IsNotNull();
+        await Assert.That(assignment.DependencyResults!).HasSingleItem();
+        await Assert.That(assignment.DependencyResults[0].ModuleTypeName)
+            .IsEqualTo(typeof(SelectorDependencyModule).FullName!);
+    }
+
+    [Test]
+    public async Task CreateAssignment_Includes_TagSelector_DependencyResults()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(TaggedDependencyModule));
+        typeRegistry.Register(typeof(TaggedConsumerModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var dependencyResult = CreateSuccessResult(new DepResult { Value = "tagged" }, "TaggedDependencyModule");
+        resultRegistry.RegisterResult(typeof(TaggedDependencyModule), dependencyResult);
+        var dependencyRegistry = new ModuleDependencyRegistry();
+        var metadataRegistry = new ModuleMetadataRegistry(
+            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()));
+        var dependencyModule = new TaggedDependencyModule();
+        var consumerModule = new TaggedConsumerModule();
+        metadataRegistry.FinalizeMetadata(typeof(TaggedDependencyModule), dependencyModule);
+        metadataRegistry.FinalizeMetadata(typeof(TaggedConsumerModule), consumerModule);
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry,
+            dependencyRegistry,
+            metadataRegistry);
+
+        var assignment = publisher.CreateAssignment(consumerModule);
+
+        await Assert.That(assignment.DependencyResults).IsNotNull();
+        await Assert.That(assignment.DependencyResults!).HasSingleItem();
+        await Assert.That(assignment.DependencyResults[0].ModuleTypeName)
+            .IsEqualTo(typeof(TaggedDependencyModule).FullName!);
     }
 
     [Test]
