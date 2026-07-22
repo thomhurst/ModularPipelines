@@ -326,8 +326,8 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
             .Split(acceptedValues)
             .Select(value => value.Trim(' ', '"', '\'', '`'))
             .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
-        var count = BooleanLiteralValues.Count(values.Contains);
-        return count >= 2; // At least 2 boolean-like values
+        return values.Count >= 2
+               && values.All(value => BooleanLiteralValues.Contains(value, StringComparer.OrdinalIgnoreCase));
     }
 
     private OptionTypeDetectionResult? TryDetectEnumFromDescription(string? description)

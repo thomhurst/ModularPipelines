@@ -122,6 +122,17 @@ public class HeuristicTypeDetectorTests
         await Assert.That(result.Type).IsEqualTo(CliOptionType.Bool);
     }
 
+    [Test]
+    public async Task DetectType_Returns_Enum_WhenAcceptedValuesContainNonBooleanValue()
+    {
+        var context = CreateContext("--option", acceptedValues: "on|off|auto");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.Enum);
+        await Assert.That(result.EnumValues).IsEquivalentTo(["on", "off", "auto"]);
+    }
+
     #endregion
 
     #region Boolean Detection Tests - Option Name Prefixes
