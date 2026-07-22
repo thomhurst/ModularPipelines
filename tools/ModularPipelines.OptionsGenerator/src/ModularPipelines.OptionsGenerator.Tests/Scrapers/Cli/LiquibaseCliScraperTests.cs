@@ -81,6 +81,20 @@ public class LiquibaseCliScraperTests
     }
 
     [Test]
+    public async Task Prompt_For_Non_Local_Database_Is_Boolean()
+    {
+        const string helpText = """
+                  --prompt-for-non-local-database=PARAM   Prompt before running against a non-local database
+            """;
+
+        var option = _scraper.ParseLiquibaseOptions(helpText).Single();
+
+        await Assert.That(option.SwitchName).IsEqualTo("--prompt-for-non-local-database");
+        await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        await Assert.That(option.IsFlag).IsFalse();
+    }
+
+    [Test]
     public async Task Global_Options_Include_Documented_Databricks_Diff_Filters()
     {
         const string helpText = """

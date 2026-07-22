@@ -46,6 +46,11 @@ public partial class LiquibaseCliScraper : CliScraperBase
         "--monitor-performance"
     };
 
+    private static readonly HashSet<string> BooleanOptions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--prompt-for-non-local-database"
+    };
+
     private static readonly IReadOnlyDictionary<string, string[]> EnumValues =
         new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
         {
@@ -242,7 +247,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
             var isFlag = string.IsNullOrEmpty(valueHint);
             var isBoolean = !isFlag
                 && !BooleanDefaultExceptions.Contains(longForm)
-                && BooleanDefaultPattern().IsMatch(description);
+                && (BooleanOptions.Contains(longForm) || BooleanDefaultPattern().IsMatch(description));
             var isNumeric = !isFlag && NumericOptions.Contains(longForm);
             var enumDefinition = TryCreateEnumDefinition(longForm, propertyName);
             var csharpType = DetermineCSharpType(isFlag, isBoolean, isNumeric, enumDefinition);

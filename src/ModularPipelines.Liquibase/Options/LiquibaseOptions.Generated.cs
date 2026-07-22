@@ -336,7 +336,7 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     /// Should Liquibase prompt if a non-local database is being accessed
     /// </summary>
     [CliOption("--prompt-for-non-local-database", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? PromptForNonLocalDatabase { get; set; }
+    public virtual bool? PromptForNonLocalDatabase { get; set; }
 
     /// <summary>
     /// Implementation of Properties class to provide additional driver properties
