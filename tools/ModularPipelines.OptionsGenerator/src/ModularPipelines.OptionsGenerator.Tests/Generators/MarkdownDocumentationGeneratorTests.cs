@@ -76,6 +76,61 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(files[0].Content).Contains("| `fake app get` | `FakeAppGetOptions` |");
     }
 
+    [Test]
+    public async Task GenerateAsync_UsesTheGeneratedConstructorParameterList()
+    {
+        var command = Command("fake run", "FakeRunOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--target",
+                    PropertyName = "Target",
+                    CSharpType = "int",
+                    IsRequired = true,
+                },
+            ],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "target",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+                new CliPositionalArgument
+                {
+                    PropertyName = "Files",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+                new CliPositionalArgument
+                {
+                    PropertyName = "files",
+                    CSharpType = "IEnumerable<string>",
+                    IsRequired = true,
+                },
+            ],
+        };
+        var tool = new CliToolDefinition
+        {
+            ToolName = "fake",
+            NamespacePrefix = "Fake",
+            TargetNamespace = "ModularPipelines.Fake",
+            OutputDirectory = "src/ModularPipelines.Fake",
+            Commands = [command],
+        };
+
+        var documentation = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
+        var options = await new OptionsClassGenerator().GenerateAsync(tool);
+
+        await Assert.That(documentation[0].Content).Contains("new FakeRunOptions(1, [\"value\"])");
+        await Assert.That(options[0].Content).Contains("int Target");
+        await Assert.That(options[0].Content).Contains("IEnumerable<string> Files");
+        await Assert.That(options[0].Content).DoesNotContain("string target");
+    }
+
     private static CliCommandDefinition Command(
         string fullCommand,
         string className,

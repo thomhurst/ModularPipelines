@@ -78,7 +78,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine();
 
         var rootCommands = GeneratorUtils.GetNonCollidingRootCommands(tool);
-        var command = rootCommands.FirstOrDefault();
+        var command = rootCommands.Count > 0 ? rootCommands[0] : null;
         if (command is null)
         {
             sb.AppendLine("Resolve the service in a module, then select a generated sub-domain and command from the table below:");
@@ -93,11 +93,8 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         }
 
         var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
-        var constructorArguments = command.RequiredOptions
-            .Select(option => ExampleValue(option.CSharpType))
-            .Concat(command.PositionalArguments
-                .Where(argument => argument.IsRequired)
-                .Select(argument => ExampleValue(argument.CSharpType)));
+        var constructorArguments = GeneratorUtils.GetRequiredConstructorParameters(command)
+            .Select(parameter => ExampleValue(parameter.CSharpType));
 
         sb.AppendLine("```csharp");
         sb.AppendLine("using ModularPipelines.Context;");
