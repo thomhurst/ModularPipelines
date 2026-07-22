@@ -116,6 +116,41 @@ public class ProcessCliCommandExecutorTests
     }
 
     [Test]
+    public async Task Resolves_Relative_Windows_Command_Scripts_Before_Changing_Working_Directory()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var workingDirectory = Path.Combine(Path.GetTempPath(), "mp command script tests", Guid.NewGuid().ToString("N"));
+        var scriptDirectory = Path.Combine(Environment.CurrentDirectory, $"mp-generator-relative-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(workingDirectory);
+        Directory.CreateDirectory(scriptDirectory);
+        var scriptPath = Path.Combine(scriptDirectory, "echo-working-directory.cmd");
+
+        try
+        {
+            await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %CD%\r\n");
+            var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+
+            var result = await executor.ExecuteAsync(
+                Path.GetRelativePath(Environment.CurrentDirectory, scriptPath),
+                string.Empty,
+                workingDirectory: workingDirectory);
+
+            await Assert.That(result.ExitCode).IsEqualTo(0)
+                .Because($"stdout: {result.StandardOutput}; stderr: {result.StandardError}");
+            await Assert.That(result.StandardOutput.Trim()).IsEqualTo(workingDirectory);
+        }
+        finally
+        {
+            Directory.Delete(workingDirectory, recursive: true);
+            Directory.Delete(scriptDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task IsAvailableAsync_Returns_False_For_Missing_Windows_Command_Script()
     {
         if (!OperatingSystem.IsWindows())

@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -181,20 +182,7 @@ public partial class SonarScannerCliScraper : CliScraperBase
             return "sonar-scanner";
         }
 
-        var pathDirectories = Environment.GetEnvironmentVariable("PATH")?
-            .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            ?? [];
-
-        foreach (var pathDirectory in pathDirectories)
-        {
-            var candidate = Path.Combine(pathDirectory.Trim('"'), "sonar-scanner.bat");
-            if (File.Exists(candidate))
-            {
-                return Path.GetFullPath(candidate);
-            }
-        }
-
-        return "sonar-scanner.bat";
+        return WindowsCommandResolver.Resolve("sonar-scanner") ?? "sonar-scanner.bat";
     }
 
     /// <summary>

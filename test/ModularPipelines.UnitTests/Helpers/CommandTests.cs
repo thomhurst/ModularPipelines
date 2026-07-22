@@ -169,4 +169,47 @@ public class CommandTests : TestBase
             Directory.Delete(scriptDirectory, recursive: true);
         }
     }
+
+    [Test]
+    public async Task ExecuteCommandLineTool_Resolves_Relative_Path_Entries_Before_Changing_Working_Directory()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var workingDirectory = Path.Combine(Path.GetTempPath(), "mp runtime command tests", Guid.NewGuid().ToString("N"));
+        var relativeScriptDirectory = $"mp-runtime-path-{Guid.NewGuid():N}";
+        var scriptDirectory = Path.Combine(Environment.CurrentDirectory, relativeScriptDirectory);
+        Directory.CreateDirectory(workingDirectory);
+        Directory.CreateDirectory(scriptDirectory);
+        var scriptPath = Path.Combine(scriptDirectory, "mp-runtime-path-test.cmd");
+
+        try
+        {
+            await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %CD%\r\n");
+            var command = await GetService<ICommand>();
+
+            var result = await command.ExecuteCommandLineTool(
+                new GenericCommandLineToolOptions("mp-runtime-path-test"),
+                new CommandExecutionOptions
+                {
+                    WorkingDirectory = workingDirectory,
+                    EnvironmentVariables = new Dictionary<string, string?>
+                    {
+                        ["PATH"] = relativeScriptDirectory,
+                        ["PATHEXT"] = ".COM;.EXE;.BAT;.CMD",
+                    },
+                });
+
+            await Assert.That(result.ExitCode).IsEqualTo(0);
+            await Assert.That(result.StandardOutput.Trim()).IsEqualTo(workingDirectory);
+            await Assert.That(result.StandardError).IsEmpty();
+        }
+        finally
+        {
+            Directory.Delete(workingDirectory, recursive: true);
+            Directory.Delete(scriptDirectory, recursive: true);
+        }
+    }
 }
