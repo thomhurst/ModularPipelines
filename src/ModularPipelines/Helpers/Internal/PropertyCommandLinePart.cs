@@ -5,7 +5,13 @@ namespace ModularPipelines.Helpers.Internal;
 /// <summary>
 /// Representation of a command line part tied to a property.
 /// </summary>
-public abstract record PropertyCommandLinePart(string PropertyName, Func<object, object?> Getter);
+public abstract record PropertyCommandLinePart(string PropertyName, Func<object, object?> Getter)
+{
+    /// <summary>
+    /// Gets a value indicating whether the property belongs before command parts.
+    /// </summary>
+    public bool IsGlobalOption { get; init; }
+}
 
 /// <summary>
 /// Representation of a positional argument.

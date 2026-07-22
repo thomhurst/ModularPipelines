@@ -1,4 +1,3 @@
-using ModularPipelines.Attributes;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -16,7 +15,7 @@ namespace ModularPipelines.Context;
 /// 3. Handle placeholder replacement in command parts
 /// 4. Build arguments from [CliOption], [CliFlag], and [CliArgument] attributes
 /// 5. Add manual Arguments if present
-/// 6. Add RunSettings after "--" if present
+/// 6. Add RunSettings after "--" if present.
 /// </remarks>
 internal sealed class CommandLineBuilder : ICommandLineBuilder
 {
@@ -57,8 +56,8 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
         // on a [CliGlobalOptions] base belong before the subcommand; command-specific
         // properties retain their normal position after it.
         var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
-        var globalCommandModel = commandModel.Where(IsGlobalOption).ToList();
-        var commandSpecificModel = commandModel.Where(part => !IsGlobalOption(part)).ToList();
+        var globalCommandModel = commandModel.Where(part => part.IsGlobalOption).ToList();
+        var commandSpecificModel = commandModel.Where(part => !part.IsGlobalOption).ToList();
         var globalArgs = _commandArgumentBuilder.BuildArguments(globalCommandModel, options);
         var propertyArgs = _commandArgumentBuilder.BuildArguments(commandSpecificModel, options);
 
@@ -86,7 +85,4 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
 
         return new CommandLine(tool, allArgs);
     }
-
-    private static bool IsGlobalOption(PropertyCommandLinePart part) =>
-        part.Property.DeclaringType?.IsDefined(typeof(CliGlobalOptionsAttribute), inherit: false) == true;
 }

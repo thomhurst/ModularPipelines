@@ -11,6 +11,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     private readonly ConcurrentDictionary<Type, IReadOnlyList<PropertyCommandLinePart>> _cache = new();
 
     /// <inheritdoc/>
+    [RequiresUnreferencedCode("Calls ModularPipelines.Helpers.Internal.CommandModelProvider.BuildModel(Type)")]
     public IReadOnlyList<PropertyCommandLinePart> GetCommandModel(Type optionsType)
     {
         if (GeneratedCommandMetadata.TryGet(optionsType, out var generatedModel))
@@ -31,18 +32,30 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         {
             if (property.GetCustomAttribute<CliArgumentAttribute>() is { } arg)
             {
-                parts.Add(new ArgumentPart(property.Name, property.GetValue, arg));
+                parts.Add(new ArgumentPart(property.Name, property.GetValue, arg)
+                {
+                    IsGlobalOption = IsGlobalOption(property),
+                });
             }
             else if (property.GetCustomAttribute<CliFlagAttribute>() is { } flag)
             {
-                parts.Add(new FlagPart(property.Name, property.GetValue, flag));
+                parts.Add(new FlagPart(property.Name, property.GetValue, flag)
+                {
+                    IsGlobalOption = IsGlobalOption(property),
+                });
             }
             else if (property.GetCustomAttribute<CliOptionAttribute>() is { } option)
             {
-                parts.Add(new OptionPart(property.Name, property.GetValue, option));
+                parts.Add(new OptionPart(property.Name, property.GetValue, option)
+                {
+                    IsGlobalOption = IsGlobalOption(property),
+                });
             }
         }
 
         return parts;
     }
+
+    private static bool IsGlobalOption(PropertyInfo property) =>
+        property.DeclaringType?.IsDefined(typeof(CliGlobalOptionsAttribute), inherit: false) == true;
 }
