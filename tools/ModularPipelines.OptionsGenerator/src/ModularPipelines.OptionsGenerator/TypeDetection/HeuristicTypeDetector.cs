@@ -332,31 +332,23 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
 
     private OptionTypeDetectionResult? TryDetectEnumFromDescription(string? description)
     {
-        if (string.IsNullOrWhiteSpace(description))
+        var match = DescriptionEnumValueParser.TryParse(description);
+        return match?.MatchKind switch
         {
-            return null;
-        }
-
-        var explicitValuesMatch = ExplicitValuesPattern().Match(description);
-        if (explicitValuesMatch.Success)
-        {
-            return TryCreateEnumResult(explicitValuesMatch.Groups["values"].Value, "Explicit allowed values");
-        }
-
-        var parenthesizedValuesMatch = ParenthesizedValuesPattern().Match(description);
-        return parenthesizedValuesMatch.Success
-            ? TryCreateEnumResult(parenthesizedValuesMatch.Groups["values"].Value, "Parenthesized allowed values", 85)
-            : null;
+            DescriptionEnumMatchKind.Explicit => CreateEnumResult(match.Values, "Explicit allowed values", 95),
+            DescriptionEnumMatchKind.ContextualParenthesized => CreateEnumResult(match.Values, "Parenthesized allowed values", 85),
+            _ => null
+        };
     }
 
     private OptionTypeDetectionResult? TryCreateEnumResult(string valuesText, string reason, int confidence = 95)
     {
-        var values = ParseEnumValues(valuesText);
-        if (values.Length < 2 || values.Length > 20)
-        {
-            return null;
-        }
+        var values = DescriptionEnumValueParser.TryParseValues(valuesText);
+        return values is null ? null : CreateEnumResult(values, reason, confidence);
+    }
 
+    private OptionTypeDetectionResult CreateEnumResult(string[] values, string reason, int confidence)
+    {
         _logger.LogDebug(
             "Heuristic detection: Enum - {Reason}: {Values} (confidence: {Confidence})",
             reason,
@@ -373,32 +365,6 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
         };
     }
 
-    private static string[] ParseEnumValues(string valuesText)
-    {
-        return EnumValueSeparatorPattern()
-            .Split(valuesText)
-            .Select(value => LeadingConjunctionPattern().Replace(value.Trim(), ""))
-            .Select(value => value.Trim('"', '\'', '`'))
-            .Where(value => EnumValuePattern().IsMatch(value) && value.Any(char.IsLetter))
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-    }
-
-    [GeneratedRegex("""(?:one of|valid values|allowed values|possible values|accepted values)(?:\s+are)?\s*:?\s*(?<values>[\w.+/\-'`"]+(?:\s*(?:\||,)\s*(?:or\s+|and\s+)?[\w.+/\-'`"]+)+)""", RegexOptions.IgnoreCase)]
-    private static partial Regex ExplicitValuesPattern();
-
-    [GeneratedRegex("""(?:format|type|mode)\s*\((?<values>[\w.+/\-'`"]+(?:\s*(?:\||,)\s*(?:or\s+|and\s+)?[\w.+/\-'`"]+)+)\)""", RegexOptions.IgnoreCase)]
-    private static partial Regex ParenthesizedValuesPattern();
-
-    [GeneratedRegex(@"\s*(?:\||,)\s*")]
-    private static partial Regex EnumValueSeparatorPattern();
-
     [GeneratedRegex(@"\s*(?:\||,|/)\s*")]
     private static partial Regex BooleanValueSeparatorPattern();
-
-    [GeneratedRegex(@"^(?:or|and)\s+", RegexOptions.IgnoreCase)]
-    private static partial Regex LeadingConjunctionPattern();
-
-    [GeneratedRegex(@"^[A-Za-z0-9][A-Za-z0-9_-]{0,28}$")]
-    private static partial Regex EnumValuePattern();
 }
