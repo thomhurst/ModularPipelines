@@ -52,4 +52,16 @@ public class DescriptionEnumValueParserTests
         await Assert.That(result!.Values).IsEquivalentTo(new[] { "table", "json", "yaml" });
         await Assert.That(result.MatchKind).IsEqualTo(DescriptionEnumMatchKind.Explicit);
     }
+
+    [Test]
+    [Arguments("Output format. One of: (json, yaml, xml)")]
+    [Arguments("Accepted values: [json, yaml, xml].")]
+    public async Task TryParse_Accepts_Wrapped_Explicit_Values(string description)
+    {
+        var result = DescriptionEnumValueParser.TryParse(description);
+
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.Values).IsEquivalentTo(new[] { "json", "yaml", "xml" });
+        await Assert.That(result.MatchKind).IsEqualTo(DescriptionEnumMatchKind.Explicit);
+    }
 }

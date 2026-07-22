@@ -33,6 +33,14 @@ internal static partial class DescriptionEnumValueParser
 
     public static string[]? TryParseValues(string valuesText)
     {
+        valuesText = valuesText.Trim().TrimEnd('.', ';', ':').Trim();
+        if (valuesText.Length >= 2
+            && ((valuesText[0] == '(' && valuesText[^1] == ')')
+                || (valuesText[0] == '[' && valuesText[^1] == ']')))
+        {
+            valuesText = valuesText[1..^1];
+        }
+
         var candidates = EnumValueSeparatorPattern().Split(valuesText);
         var values = new List<string>(candidates.Length);
 
