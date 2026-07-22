@@ -266,7 +266,10 @@ internal class ModuleStateTracker : IModuleStateTracker
         }
 
         // Logging outside lock
-        _logger.LogDebug("Cancelling {Count} pending/queued modules due to pipeline cancellation (excluding AlwaysRun modules)", cancelledModules.Count);
+        if (cancelledModules.Count > 0)
+        {
+            _logger.LogDebug("Cancelling {Count} pending/queued modules due to pipeline cancellation (excluding AlwaysRun modules)", cancelledModules.Count);
+        }
 
         foreach (var (moduleState, originalState) in cancelledModules)
         {
