@@ -69,13 +69,13 @@ internal static partial class DescriptionEnumValueParser
         return values is null ? null : new DescriptionEnumMatch(values, matchKind);
     }
 
-    [GeneratedRegex("""\b(?:must be one of|one of|valid values|allowed values|possible values|accepted values)\b(?:\s+are)?\s*:?\s*[\[(]?(?<values>[^\s,|)\]]+(?:\s*(?:\||,)\s*(?:or\s+|and\s+)?[^\s,|)\]]+)+)""", RegexOptions.IgnoreCase)]
+    [GeneratedRegex("""\b(?:must be one of|one of|valid values|allowed values|possible values|accepted values)\b(?:\s+are)?\s*:?\s*[\[(]?(?<values>[^\s,|)\]]+(?:(?:\s*(?:\||,)\s*(?:(?:or|and)\s+)?|\s+(?:or|and)\s+)[^\s,|)\]]+)+)""", RegexOptions.IgnoreCase)]
     private static partial Regex ExplicitValuesPattern();
 
     [GeneratedRegex("""\b(?:format|types?|mode)\b[^()\r\n]{0,40}\((?<values>[^\s,|)]+(?:\s*(?:\||,)\s*(?:or\s+|and\s+)?[^\s,|)]+)+)\)""", RegexOptions.IgnoreCase)]
     private static partial Regex ContextualParenthesizedValuesPattern();
 
-    [GeneratedRegex(@"\s*(?:\||,)\s*")]
+    [GeneratedRegex(@"\s*(?:\||,|\b(?:or|and)\b)\s*", RegexOptions.IgnoreCase)]
     private static partial Regex EnumValueSeparatorPattern();
 
     [GeneratedRegex(@"^(?:or|and)\s+", RegexOptions.IgnoreCase)]

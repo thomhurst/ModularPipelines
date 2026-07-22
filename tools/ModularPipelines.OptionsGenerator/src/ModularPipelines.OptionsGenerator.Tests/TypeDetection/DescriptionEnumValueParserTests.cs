@@ -54,6 +54,20 @@ public class DescriptionEnumValueParserTests
     }
 
     [Test]
+    [Arguments("One of: json or yaml", "json,yaml")]
+    [Arguments("Valid values are low and high", "low,high")]
+    public async Task TryParse_Accepts_Prose_Separated_Explicit_Values(
+        string description,
+        string expectedValues)
+    {
+        var result = DescriptionEnumValueParser.TryParse(description);
+
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.Values).IsEquivalentTo(expectedValues.Split(','));
+        await Assert.That(result.MatchKind).IsEqualTo(DescriptionEnumMatchKind.Explicit);
+    }
+
+    [Test]
     [Arguments("Output format. One of: (json, yaml, xml)", "json,yaml,xml")]
     [Arguments("Accepted values: [json, yaml, xml].", "json,yaml,xml")]
     [Arguments("Compression (possible values: gzip, none)", "gzip,none")]
