@@ -134,22 +134,38 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
         var formatter = _formatterProvider.GetFormatter();
 
-        await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        var nextOutputIndex = 0;
+        var lockTaken = false;
         try
         {
-            foreach (var output in toFlush)
-            {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    break;
-                }
+            await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+            lockTaken = true;
 
-                await FlushBufferAsync(output.Buffer, formatter, cancellationToken).ConfigureAwait(false);
+            for (; nextOutputIndex < toFlush.Count; nextOutputIndex++)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await FlushBufferAsync(
+                        toFlush[nextOutputIndex].Buffer,
+                        formatter,
+                        cancellationToken)
+                    .ConfigureAwait(false);
             }
+        }
+        catch (OperationCanceledException)
+        {
+            lock (_deferredLock)
+            {
+                _deferredOutputs.InsertRange(0, toFlush.Skip(nextOutputIndex));
+            }
+
+            throw;
         }
         finally
         {
-            _writeLock.Release();
+            if (lockTaken)
+            {
+                _writeLock.Release();
+            }
         }
     }
 
@@ -245,7 +261,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         }
     }
 
-    private Task FlushBufferAsync(
+    private async Task FlushBufferAsync(
         IModuleOutputBuffer buffer,
         IBuildSystemFormatter formatter,
         CancellationToken cancellationToken)
@@ -254,7 +270,10 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         var moduleLogger = (ILogger)_serviceProvider.GetService(loggerType)
                            ?? _loggerFactory.CreateLogger(buffer.ModuleType);
 
-        return buffer.FlushToAsync(_console, formatter, moduleLogger, _loggerControl, cancellationToken);
+        using var directWrite = CoordinatedTextWriter.BeginDirectWrite();
+        await buffer
+            .FlushToAsync(_console, formatter, moduleLogger, _loggerControl, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     private sealed class PendingFlush

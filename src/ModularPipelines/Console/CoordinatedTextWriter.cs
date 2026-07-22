@@ -28,6 +28,7 @@ namespace ModularPipelines.Console;
 internal class CoordinatedTextWriter : TextWriter
 {
     private static readonly object UnattributedContext = new();
+    private static readonly AsyncLocal<bool> DirectWriteScope = new();
 
     private readonly IConsoleCoordinator _coordinator;
     private readonly TextWriter _realConsole;
@@ -125,7 +126,7 @@ internal class CoordinatedTextWriter : TextWriter
     private void WriteCore(string value, bool appendNewLine)
     {
         var state = GetLineBufferState();
-        var shouldBuffer = GetBufferMode(state, _shouldBuffer());
+        var shouldBuffer = GetBufferMode(state, ShouldBuffer());
         state.Buffer.Append(value);
 
         if (appendNewLine)
@@ -343,7 +344,7 @@ internal class CoordinatedTextWriter : TextWriter
         {
             foreach (var state in _lineBuffers.Values.Where(state => state.Buffer.Length > 0))
             {
-                var shouldBuffer = state.ShouldBuffer ?? _shouldBuffer();
+                var shouldBuffer = state.ShouldBuffer ?? ShouldBuffer();
                 ObfuscateCompletePatterns(state, GetSecretPatterns());
                 FlushSafePrefix(state, state.Buffer.Length, shouldBuffer);
                 FlushPartialLine(state, shouldBuffer);
@@ -373,6 +374,15 @@ internal class CoordinatedTextWriter : TextWriter
         base.Dispose(disposing);
     }
 
+    internal static IDisposable BeginDirectWrite()
+    {
+        var previousValue = DirectWriteScope.Value;
+        DirectWriteScope.Value = true;
+        return new DirectWriteScopeRestorer(previousValue);
+    }
+
+    private bool ShouldBuffer() => !DirectWriteScope.Value && _shouldBuffer();
+
     private sealed class LineBufferState(Type? moduleType)
     {
         public Type? ModuleType { get; } = moduleType;
@@ -380,5 +390,13 @@ internal class CoordinatedTextWriter : TextWriter
         public StringBuilder Buffer { get; } = new();
 
         public bool? ShouldBuffer { get; set; }
+    }
+
+    private sealed class DirectWriteScopeRestorer(bool previousValue) : IDisposable
+    {
+        public void Dispose()
+        {
+            DirectWriteScope.Value = previousValue;
+        }
     }
 }
