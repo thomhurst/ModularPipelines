@@ -149,4 +149,10 @@ public record LiquibaseDiffOptions : LiquibaseOptions
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
+    /// <summary>
+    /// Output format. Liquibase Secure supports JSON.
+    /// </summary>
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
+    public string? Format { get; set; }
+
 }

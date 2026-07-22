@@ -84,6 +84,17 @@ public class LiquibaseOptionsTests : TestBase
     }
 
     [Test]
+    public async Task Diff_Format_Renders_As_Command_Option()
+    {
+        var result = await GetResult(new LiquibaseDiffOptions
+        {
+            Format = "json",
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo("liquibase diff --format=json");
+    }
+
+    [Test]
     public async Task Defaults_File_Can_Supply_Required_Update_Values()
     {
         var result = await GetResult(new LiquibaseUpdateOptions

@@ -134,6 +134,19 @@ public class LiquibaseCliScraperTests
     }
 
     [Test]
+    public async Task ParseCommand_Adds_Documented_Diff_Format_Option()
+    {
+        const string helpText = "Usage: liquibase diff [OPTIONS]";
+
+        var command = await _scraper.ParseLiquibaseCommand(["liquibase", "diff"], helpText);
+
+        var format = command!.Options.Single(option => option.SwitchName == "--format");
+        await Assert.That(format.PropertyName).IsEqualTo("Format");
+        await Assert.That(format.CSharpType).IsEqualTo("string?");
+        await Assert.That(format.ValueSeparator).IsEqualTo("=");
+    }
+
+    [Test]
     public async Task Scrape_Separates_Global_Options_From_Command_Options()
     {
         const string rootHelp = """

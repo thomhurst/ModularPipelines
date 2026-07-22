@@ -84,6 +84,11 @@ public partial class LiquibaseCliScraper : CliScraperBase
     protected override string ExecutablePath { get; }
 
     /// <summary>
+    /// Liquibase starts a JVM for every help request, so keep concurrent discovery memory-bounded.
+    /// </summary>
+    protected override int MaxParallelism => 2;
+
+    /// <summary>
     /// Skip utility commands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -154,6 +159,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
         var options = ParseOptions(helpText)
             .Where(option => !globalSwitches.Contains(option.SwitchName))
             .ToList();
+        AddDocumentedCommandOptions(commandParts, options);
         var enums = options
             .Where(x => x.EnumDefinition is not null)
             .Select(x => x.EnumDefinition!)
@@ -335,6 +341,28 @@ public partial class LiquibaseCliScraper : CliScraperBase
             IsFlag = false,
             ValueSeparator = "=",
             IsSecret = GeneratorUtils.IsSecretOption("DatabricksDiffTblPropertiesIgnoreAll", isFlag: false),
+        });
+    }
+
+    private static void AddDocumentedCommandOptions(
+        IReadOnlyList<string> commandParts,
+        List<CliOptionDefinition> options)
+    {
+        if (commandParts.Count != 1
+            || !commandParts[0].Equals("diff", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        AddIfMissing(options, new CliOptionDefinition
+        {
+            SwitchName = "--format",
+            PropertyName = "Format",
+            CSharpType = "string?",
+            Description = "Output format. Liquibase Secure supports JSON.",
+            IsFlag = false,
+            ValueSeparator = "=",
+            IsSecret = false,
         });
     }
 
