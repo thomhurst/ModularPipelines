@@ -27,6 +27,23 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     {
         _logger.LogDebug("Executing: {Command} {Arguments} (WorkingDir: {WorkingDir})", command, arguments, workingDirectory ?? "default");
 
+        if (OperatingSystem.IsWindows() && IsCommandScript(Path.GetExtension(command)))
+        {
+            var resolvedCommand = ResolveWindowsCommandScript(command, workingDirectory);
+            if (resolvedCommand is null)
+            {
+                _logger.LogWarning("Windows command script not found: {Command}", command);
+                return new CliCommandResult
+                {
+                    StandardOutput = string.Empty,
+                    StandardError = $"Command not found: {command}",
+                    ExitCode = -1
+                };
+            }
+
+            command = resolvedCommand;
+        }
+
         var executablePath = ResolveExecutablePath(command);
         var startInfo = CreateStartInfo(executablePath, arguments, workingDirectory);
 
@@ -201,10 +218,37 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         return null;
     }
 
+    private static string? ResolveWindowsCommandScript(string command, string? workingDirectory)
+    {
+        var searchDirectories = new List<string>();
+        var currentDirectory = workingDirectory ?? Environment.CurrentDirectory;
+
+        if (Path.IsPathRooted(command) || command.Contains(Path.DirectorySeparatorChar) || command.Contains(Path.AltDirectorySeparatorChar))
+        {
+            var candidate = Path.IsPathRooted(command) ? command : Path.Combine(currentDirectory, command);
+            return File.Exists(candidate) ? Path.GetFullPath(candidate) : null;
+        }
+
+        searchDirectories.Add(currentDirectory);
+        searchDirectories.AddRange(GetPathDirectories(Environment.GetEnvironmentVariable("PATH")));
+
+        foreach (var directory in searchDirectories)
+        {
+            var candidate = Path.Combine(directory, command);
+            if (File.Exists(candidate))
+            {
+                return Path.GetFullPath(candidate);
+            }
+        }
+
+        return null;
+    }
+
     private static IEnumerable<string> GetPathDirectories(string? searchPath) => searchPath?
         .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
         .Select(pathDirectory => pathDirectory.Trim('"'))
         ?? [];
+
     public async Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default)
     {
         try

@@ -114,4 +114,19 @@ public class ProcessCliCommandExecutorTests
             Directory.Delete(tempDirectory, recursive: true);
         }
     }
+
+    [Test]
+    public async Task IsAvailableAsync_Returns_False_For_Missing_Windows_Command_Script()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+
+        var isAvailable = await executor.IsAvailableAsync($"missing-{Guid.NewGuid():N}.cmd");
+
+        await Assert.That(isAvailable).IsFalse();
+    }
 }
