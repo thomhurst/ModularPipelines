@@ -1,8 +1,6 @@
 using System.Collections.Frozen;
 using System.Reflection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
-using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 
@@ -46,10 +44,7 @@ internal static class ModuleConfigurationAttributeAdapter
         var category = configured.Category
             ?? declaredCategory
             ?? moduleType.GetCustomAttribute<ModuleCategoryAttribute>(inherit: true)?.Category;
-        var skipCondition = CombineSkipConditions(moduleType, configured.SkipCondition);
-
-        if (skipCondition == configured.SkipCondition
-            && configured.ParallelConstraintKeys is null
+        if (configured.ParallelConstraintKeys is null
             && notInParallel is null
             && configured.Priority is null
             && priority is null
@@ -64,7 +59,7 @@ internal static class ModuleConfigurationAttributeAdapter
 
         return new ModuleConfiguration
         {
-            SkipCondition = skipCondition,
+            SkipCondition = configured.SkipCondition,
             Timeout = configured.Timeout,
             RetryPolicyFactory = configured.RetryPolicyFactory,
             IgnoreFailuresCondition = configured.IgnoreFailuresCondition,
@@ -80,97 +75,4 @@ internal static class ModuleConfigurationAttributeAdapter
             Dependencies = dependencies,
         };
     }
-
-#pragma warning disable CS0618 // Legacy conditions are adapted here to preserve compatibility.
-    private static Func<IModuleContext, Task<SkipDecision>>? CombineSkipConditions(
-        Type moduleType,
-        Func<IModuleContext, Task<SkipDecision>>? configuredCondition)
-    {
-        var conditionAttributes = moduleType
-            .GetCustomAttributes(inherit: true)
-            .OfType<IConditionAttribute>()
-            .ToArray();
-        var mandatoryLegacyConditions = moduleType
-            .GetCustomAttributes<MandatoryRunConditionAttribute>(inherit: true)
-            .ToArray();
-        var optionalLegacyConditions = moduleType
-            .GetCustomAttributes<RunConditionAttribute>(inherit: true)
-            .Except(mandatoryLegacyConditions)
-            .ToArray();
-
-        if (conditionAttributes.Length == 0
-            && mandatoryLegacyConditions.Length == 0
-            && optionalLegacyConditions.Length == 0)
-        {
-            return configuredCondition;
-        }
-
-        return async context =>
-        {
-            var pipelineContext = (IPipelineHookContext) context;
-
-            foreach (var attribute in conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.Skip))
-            {
-                if (await attribute.EvaluateAsync(pipelineContext).ConfigureAwait(false))
-                {
-                    return SkipDecision.Skip($"SkipIf<{attribute.ConditionNames}> returned true");
-                }
-            }
-
-            foreach (var attribute in conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.All))
-            {
-                if (!await attribute.EvaluateAsync(pipelineContext).ConfigureAwait(false))
-                {
-                    return SkipDecision.Skip($"RunIfAll<{attribute.ConditionNames}> not satisfied");
-                }
-            }
-
-            foreach (var attribute in conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any))
-            {
-                if (!await attribute.EvaluateAsync(pipelineContext).ConfigureAwait(false))
-                {
-                    return SkipDecision.Skip($"RunIfAny<{attribute.ConditionNames}> not satisfied");
-                }
-            }
-
-            foreach (var attribute in mandatoryLegacyConditions)
-            {
-                if (!await attribute.Condition(pipelineContext).ConfigureAwait(false))
-                {
-                    return SkipDecision.Skip($"A condition to run this module has not been met - {attribute.GetType().Name}");
-                }
-            }
-
-            if (optionalLegacyConditions.Length > 0)
-            {
-                var anyConditionMet = false;
-                foreach (var attribute in optionalLegacyConditions)
-                {
-                    if (await attribute.Condition(pipelineContext).ConfigureAwait(false))
-                    {
-                        anyConditionMet = true;
-                        break;
-                    }
-                }
-
-                if (!anyConditionMet)
-                {
-                    var names = optionalLegacyConditions.Select(attribute =>
-                        attribute.GetType().Name.Replace("Attribute", string.Empty, StringComparison.OrdinalIgnoreCase));
-                    return SkipDecision.Skip($"No run conditions were met: {string.Join(", ", names)}");
-                }
-            }
-
-            if (configuredCondition is null)
-            {
-                return SkipDecision.DoNotSkip;
-            }
-
-            var decision = await configuredCondition(context).ConfigureAwait(false);
-            return decision.ShouldSkip && decision.Reason is null
-                ? SkipDecision.Skip("Configured skip condition returned true")
-                : decision;
-        };
-    }
-#pragma warning restore CS0618
 }

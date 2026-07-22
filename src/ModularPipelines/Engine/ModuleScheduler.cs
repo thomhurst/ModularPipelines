@@ -175,10 +175,14 @@ internal class ModuleScheduler : IModuleScheduler
 
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
             {
+                RecordDependency(state, dependencyType, ignoreIfNotRegistered);
+
                 if (_moduleStates.TryGetValue(dependencyType, out var dependencyState))
                 {
-                    state.UnresolvedDependencies.Add(dependencyType);
-                    dependencyState.DependentModules.Add(state);
+                    if (state.UnresolvedDependencies.Add(dependencyType))
+                    {
+                        dependencyState.DependentModules.Add(state);
+                    }
                 }
                 else if (!ignoreIfNotRegistered)
                 {
@@ -260,8 +264,15 @@ internal class ModuleScheduler : IModuleScheduler
                 var newlyResolvedDependencies = ModuleDependencyResolver
                     .GetDependencies(existingModuleType, newlyAvailableModuleTypes, _metadataRegistry)
                     .Where(dependency => dependency.DependencyType == moduleType)
-                    .Select(dependency => dependency.DependencyType);
-                declaredDependenciesByType[existingModuleType].UnionWith(newlyResolvedDependencies);
+                    .ToArray();
+
+                foreach (var (dependencyType, optional) in newlyResolvedDependencies)
+                {
+                    RecordDependency(_moduleStates[existingModuleType], dependencyType, optional);
+                }
+
+                declaredDependenciesByType[existingModuleType]
+                    .UnionWith(newlyResolvedDependencies.Select(dependency => dependency.DependencyType));
             }
 
             declaredDependenciesByType[moduleType] = newModuleDependencies
@@ -278,6 +289,11 @@ internal class ModuleScheduler : IModuleScheduler
                     : new HashSet<Type>());
 
             ModuleDependencyValidator.ValidateCircularDependencies(candidateGraph);
+
+            foreach (var (dependencyType, optional) in newModuleDependencies)
+            {
+                RecordDependency(state, dependencyType, optional);
+            }
 
             _moduleStates[moduleType] = state;
             _dependencyGraph.Clear();
@@ -351,6 +367,13 @@ internal class ModuleScheduler : IModuleScheduler
                 dependencyState.DependentModules.Add(dependentState);
             }
         }
+    }
+
+    private static void RecordDependency(ModuleState state, Type dependencyType, bool optional)
+    {
+        state.Dependencies[dependencyType] = state.Dependencies.TryGetValue(dependencyType, out var existingOptional)
+            ? existingOptional && optional
+            : optional;
     }
 
     /// <summary>
