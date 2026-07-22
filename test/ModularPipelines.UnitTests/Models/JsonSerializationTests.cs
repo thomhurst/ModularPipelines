@@ -13,7 +13,7 @@ public class JsonSerializationTests : TestBase
 {
     public class Module1 : Module<IDictionary<string, object>>
     {
-        protected internal override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -27,7 +27,7 @@ public class JsonSerializationTests : TestBase
 
     public class Module2 : Module<IDictionary<string, object>>
     {
-        protected internal override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -41,7 +41,7 @@ public class JsonSerializationTests : TestBase
 
     public class Module3 : Module<IDictionary<string, object>>
     {
-        protected internal override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -77,7 +77,7 @@ public class JsonSerializationTests : TestBase
             await Assert.That(deserializedSummary.End).IsEqualTo(pipelineSummary.End);
             await Assert.That(deserializedSummary.TotalDuration).IsEqualTo(pipelineSummary.TotalDuration);
             // Modules are not serialized (interface types can't be deserialized)
-            await Assert.That(deserializedSummary.Modules).HasCount().EqualTo(0);
+            await Assert.That(deserializedSummary.Modules).Count().IsEqualTo(0);
         }
 
         // Verify the module result values

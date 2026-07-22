@@ -186,7 +186,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
                 .AddModule<SelfReferencingModule>()
                 .ExecutePipelineAsync());
 
-        await Assert.That(exception.InnerException).IsTypeOf<ModuleReferencingSelfException>();
+        await Assert.That(exception!.InnerException).IsTypeOf<ModuleReferencingSelfException>();
     }
 
     [Test]
@@ -197,6 +197,6 @@ public class SingleTypeParameterGetModuleTests : TestBase
                 .AddModule<UnregisteredConsumerModule>()
                 .ExecutePipelineAsync());
 
-        await Assert.That(exception.InnerException).IsTypeOf<ModuleNotRegisteredException>();
+        await Assert.That(exception!.InnerException).IsTypeOf<ModuleNotRegisteredException>();
     }
 }

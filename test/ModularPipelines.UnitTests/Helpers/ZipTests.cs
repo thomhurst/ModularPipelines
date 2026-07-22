@@ -154,7 +154,7 @@ public class ZipTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(expectedFolder.Exists).IsTrue();
-            await Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories)).HasCount().EqualTo(1);
+            await Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories)).Count().IsEqualTo(1);
         }
     }
 }

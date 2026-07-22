@@ -29,7 +29,7 @@ public class PluginRegistryTests
         var exception = await Assert.That(() => PluginRegistry.Register(plugin2))
             .Throws<InvalidOperationException>();
 
-        await Assert.That(exception.Message).Contains("already registered");
+        await Assert.That(exception!.Message).Contains("already registered");
     }
 
     [Test]
