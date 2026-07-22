@@ -12638,10 +12638,10 @@
   },
   "ModularPipelines.Snyk": {
     "options": 18,
-    "properties": 278,
+    "properties": 276,
     "secretProperties": 7,
-    "renderedArguments": 305,
-    "sha256": "b268e28768b846b822902e8bb22d1e4566941c34f4abb7c0d7404cfbecc3f829",
+    "renderedArguments": 303,
+    "sha256": "553cde15a2058ab41fb0c54f5c4df1d78802d225bc75ba70cf137b30927df328",
     "typeSha256": {
       "ModularPipelines.Snyk.Options.SnykAibomOptions": "54f322256aba488f48e29b52c3f7256ae0dcb71a2e36dc6dc1232d2dd37bbcdf",
       "ModularPipelines.Snyk.Options.SnykAibomTestOptions": "cc3b48ab2fc9b77fed0919f67d1cc5bb30e3920bb9a9ee6c6cfdc9ba81ca2987",
@@ -12656,11 +12656,11 @@
       "ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions": "9c66a1f7c0d8379395c1d33cda491fcc76984e89191276ada2c58384ae58b510",
       "ModularPipelines.Snyk.Options.SnykIgnoreOptions": "f1fe718ee317078fd99d223a7ebfe3ae47bc4813c0103045c4cc85605c8d3f27",
       "ModularPipelines.Snyk.Options.SnykLog4shellOptions": "5c1642b6fbd9accaaaf4ee99760ed875a4511d551c10d8a32813a3d5a77e6567",
-      "ModularPipelines.Snyk.Options.SnykMonitorOptions": "db3cee1b4376570df63e3754f25578766eb2321ff938d4e534b8a41c0e6d09ca",
+      "ModularPipelines.Snyk.Options.SnykMonitorOptions": "ab1684f3cf25af3b581ff82a00fc6aa224b6e95d23d5dfa6cce3df0b92f6a526",
       "ModularPipelines.Snyk.Options.SnykPolicyOptions": "4bb7378c698a8403e50d4333c49c9a09a453079f2a70948fbc38d90a95e5d521",
       "ModularPipelines.Snyk.Options.SnykSbomOptions": "43712cfcd41877cd7991ede96359c6b1ee88d3db86c8feeee2b91a73ede34483",
       "ModularPipelines.Snyk.Options.SnykSbomTestOptions": "733675e902ce493b5be2b4cf7e942b4e51b569f4f2fc39e53ca54af8d35caea2",
-      "ModularPipelines.Snyk.Options.SnykTestOptions": "50b65d14fbad00a53d5e5eaea2e811207d2ca57cfdfac2fa45fdabf15c5b60c6"
+      "ModularPipelines.Snyk.Options.SnykTestOptions": "833ff9d567c9d84277f5d9e0c0e1f9d2e26b7515577ef428a89b6c669f55fe34"
     }
   },
   "ModularPipelines.Syft": {
