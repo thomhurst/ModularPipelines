@@ -51,6 +51,15 @@ public class GeneratedCliRenderingSnapshotTests
             .Because($"Generated CLI rendering changed. Inspect {SnapshotFileName}.received.json and update the snapshot intentionally.");
     }
 
+    [Test]
+    public async Task CommandSerialization_PreservesArgumentBoundaries()
+    {
+        var separateArguments = SerializeCommandLine(new CommandLine("tool", ["--opt", "value"]));
+        var combinedArgument = SerializeCommandLine(new CommandLine("tool", ["--opt value"]));
+
+        await Assert.That(separateArguments).IsNotEqualTo(combinedArgument);
+    }
+
     private static SortedDictionary<string, PackageSnapshot> CreateSnapshots(string repositoryRoot)
     {
         var snapshots = new SortedDictionary<string, PackageSnapshot>(StringComparer.Ordinal);
@@ -66,7 +75,7 @@ public class GeneratedCliRenderingSnapshotTests
 
     private static PackageSnapshot CreatePackageSnapshot(System.Reflection.Assembly assembly)
     {
-        var modelProvider = new DeterministicCommandModelProvider();
+        var modelProvider = new CommandModelProvider();
         var commandBuilder = new CommandLineBuilder(
             new ToolResolver(),
             new CommandPartsProvider(),
@@ -127,7 +136,7 @@ public class GeneratedCliRenderingSnapshotTests
                         .Append(';');
                 }
 
-                typeCorpus.Append('|').Append(commandLine).Append('\n');
+                typeCorpus.Append('|').Append(SerializeCommandLine(commandLine)).Append('\n');
                 var serializedType = typeCorpus.ToString();
                 corpus.Append(serializedType);
                 typeHashes.Add(optionType.FullName!, Hash(serializedType));
@@ -270,16 +279,8 @@ public class GeneratedCliRenderingSnapshotTests
         return JsonSerializer.Serialize(snapshots, JsonOptions).ReplaceLineEndings("\n") + "\n";
     }
 
-    private sealed class DeterministicCommandModelProvider : ICommandModelProvider
-    {
-        private readonly CommandModelProvider _inner = new();
-
-        public IReadOnlyList<PropertyCommandLinePart> GetCommandModel(Type optionsType) =>
-            _inner.GetCommandModel(optionsType)
-                .OrderBy(part => part.PropertyName, StringComparer.Ordinal)
-                .ThenBy(part => part.GetType().Name, StringComparer.Ordinal)
-                .ToArray();
-    }
+    private static string SerializeCommandLine(CommandLine commandLine) =>
+        JsonSerializer.Serialize(commandLine, JsonOptions);
 
     private sealed record PackageSnapshot(
         int Options,
