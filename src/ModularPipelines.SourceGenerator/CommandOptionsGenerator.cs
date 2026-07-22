@@ -117,7 +117,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             foreach (var property in current.GetMembers().OfType<IPropertySymbol>())
             {
                 if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name)
-                    || !property.GetAttributes().Any(attribute => IsAttribute(attribute, SecretValueAttributeFullName)))
+                    || !HasSecretAttribute(property))
                 {
                     continue;
                 }
@@ -134,6 +134,19 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         return new PropertyCollection(properties.ToImmutable(), isComplete, hasAttributes);
+    }
+
+    private static bool HasSecretAttribute(IPropertySymbol property)
+    {
+        for (var current = property; current is not null; current = current.OverriddenProperty)
+        {
+            if (current.GetAttributes().Any(attribute => IsAttribute(attribute, SecretValueAttributeFullName)))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static PropertyMetadata CreatePropertyMetadata(IPropertySymbol property, AttributeData attribute)

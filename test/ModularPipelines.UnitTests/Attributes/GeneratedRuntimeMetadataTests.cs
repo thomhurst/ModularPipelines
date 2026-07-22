@@ -55,6 +55,20 @@ internal sealed class GeneratedDerivedSecret : GeneratedSecretBase
     public string? DerivedSecret { get; init; }
 }
 
+internal class GeneratedOverrideSecretBase
+{
+    [SecretValue]
+    public virtual string? InheritedSecret { get; init; }
+}
+
+internal sealed class GeneratedOverrideSecretDerived : GeneratedOverrideSecretBase
+{
+    public override string? InheritedSecret { get; init; }
+
+    [SecretValue]
+    public string? OwnSecret { get; init; }
+}
+
 public class GeneratedRuntimeMetadataTests
 {
     [Test]
@@ -145,6 +159,23 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(found).IsTrue();
         await Assert.That(accessors.Select(x => x.PropertyName))
             .IsEquivalentTo([nameof(GeneratedSecretBase.BaseSecret), nameof(GeneratedDerivedSecret.DerivedSecret)]);
+    }
+
+    [Test]
+    public async Task SecretMetadata_PreservesAttributesFromOverriddenProperties()
+    {
+        var found = GeneratedSecretMetadata.TryGetAccessors(typeof(GeneratedOverrideSecretDerived), out var accessors);
+        var value = new GeneratedOverrideSecretDerived
+        {
+            InheritedSecret = "inherited-secret",
+            OwnSecret = "own-secret",
+        };
+
+        await Assert.That(found).IsTrue();
+        await Assert.That(accessors.Select(x => x.PropertyName))
+            .IsEquivalentTo([nameof(GeneratedOverrideSecretDerived.InheritedSecret), nameof(GeneratedOverrideSecretDerived.OwnSecret)]);
+        await Assert.That(accessors.Select(x => x.Getter(value)?.ToString()))
+            .IsEquivalentTo(["inherited-secret", "own-secret"]);
     }
 
     [Test]
