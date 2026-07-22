@@ -4,7 +4,7 @@ title: Yarn Package
 
 # Yarn Package
 
-Strongly typed Yarn package-management commands.
+Package reserved for strongly typed Yarn package-management commands.
 
 ## Installation
 
@@ -14,29 +14,6 @@ dotnet add package ModularPipelines.Yarn
 
 Required command-line tool: `yarn`. It must be installed and available on `PATH` when the pipeline runs.
 
-## Context entry points
+## API availability
 
-Import `ModularPipelines.Yarn.Extensions`, then use this service from a module:
-
-- `context.Yarn()`
-
-## Module example
-
-```csharp
-using ModularPipelines.Yarn.Extensions;
-
-public class UseYarnModule : SyncModule
-{
-    protected override void ExecuteModule(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        var yarn = context.Yarn();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Yarn integration is ready");
-    }
-}
-```
-
-The package exposes generated options records for its supported CLI commands.
+The strongly typed context API is not available yet. This page will include context entry points and examples when the integration is implemented.
