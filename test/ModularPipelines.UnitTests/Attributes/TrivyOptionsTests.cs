@@ -65,6 +65,17 @@ public class TrivyOptionsTests
     }
 
     [Test]
+    public async Task Vex_Repo_Download_Renders_Each_Selected_Repository()
+    {
+        var arguments = BuildArguments(new TrivyVexRepoDownloadOptions
+        {
+            RepoNames = ["first", "second"],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["first", "second"]);
+    }
+
+    [Test]
     public async Task Credential_Options_Are_Marked_As_Secrets()
     {
         var password = typeof(TrivyImageOptions).GetProperty(nameof(TrivyImageOptions.Password));

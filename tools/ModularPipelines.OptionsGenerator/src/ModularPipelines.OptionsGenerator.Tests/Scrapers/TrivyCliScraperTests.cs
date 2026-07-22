@@ -111,6 +111,27 @@ public class TrivyCliScraperTests
         await Assert.That(positional.IsRequired).IsFalse();
     }
 
+    [Test]
+    public async Task Vex_Repo_Download_Accepts_Multiple_Optional_Names()
+    {
+        const string helpText = """
+            Download VEX repositories
+
+            Usage:
+              trivy vex repo download [REPO_NAMES] [flags]
+
+            Flags:
+              -h, --help   help for download
+            """;
+
+        var command = await new TestTrivyCliScraper().Parse(["trivy", "vex", "repo", "download"], helpText);
+        var positional = command!.PositionalArguments.Single();
+
+        await Assert.That(positional.PropertyName).IsEqualTo("RepoNames");
+        await Assert.That(positional.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(positional.IsRequired).IsFalse();
+    }
+
     private sealed class TestTrivyCliScraper : TrivyCliScraper
     {
         public TestTrivyCliScraper()

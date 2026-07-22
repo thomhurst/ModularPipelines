@@ -81,6 +81,6 @@ public record TrivyVexRepoDownloadOptions : TrivyOptions
     public bool? Version { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? RepoNames { get; set; }
+    public IEnumerable<string>? RepoNames { get; set; }
 
 }

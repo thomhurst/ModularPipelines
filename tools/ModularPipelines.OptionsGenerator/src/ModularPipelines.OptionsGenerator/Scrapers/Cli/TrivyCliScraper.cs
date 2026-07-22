@@ -62,13 +62,16 @@ public partial class TrivyCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
-        if (commandParts is ["plugin", "upgrade"])
+        if (commandParts is ["plugin", "upgrade"] or ["vex", "repo", "download"])
         {
-            var pluginNames = positionalArguments.Count > 0
+            var defaultArgument = commandParts is ["plugin", "upgrade"]
+                ? OptionalArgument("PluginNames", "PLUGIN_NAMES")
+                : OptionalArgument("RepoNames", "REPO_NAMES");
+            var arguments = positionalArguments.Count > 0
                 ? positionalArguments
-                : [OptionalArgument("PluginNames", "PLUGIN_NAMES")];
+                : [defaultArgument];
 
-            return pluginNames
+            return arguments
                 .Select(argument => argument with
                 {
                     CSharpType = "IEnumerable<string>?",
