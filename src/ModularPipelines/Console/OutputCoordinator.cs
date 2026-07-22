@@ -11,6 +11,8 @@ namespace ModularPipelines.Console;
 [ExcludeFromCodeCoverage]
 internal sealed class OutputCoordinator : IOutputCoordinator
 {
+    private const int MaxFlushAttempts = 2;
+
     private readonly IBuildSystemFormatterProvider _formatterProvider;
     private readonly ILoggerFactory _loggerFactory;
     private readonly IServiceProvider _serviceProvider;
@@ -247,28 +249,26 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     {
         try
         {
-            var cancellationToken = pending.CancellationToken;
-            cancellationToken.ThrowIfCancellationRequested();
-
-            await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
-            try
+            for (var attempt = 1; attempt <= MaxFlushAttempts; attempt++)
             {
-                await _progressController.PauseAsync().ConfigureAwait(false);
                 try
                 {
-                    await FlushBufferAsync(pending.Buffer, formatter, cancellationToken).ConfigureAwait(false);
+                    await FlushPendingOnceAsync(pending, formatter).ConfigureAwait(false);
+                    pending.CompletionSource.TrySetResult();
+                    return;
                 }
-                finally
+                catch (OperationCanceledException)
                 {
-                    await _progressController.ResumeAsync().ConfigureAwait(false);
+                    throw;
+                }
+                catch (Exception ex) when (attempt < MaxFlushAttempts)
+                {
+                    _logger.LogWarning(
+                        ex,
+                        "Failed to flush output for {ModuleType}; retrying",
+                        pending.Buffer.ModuleType.Name);
                 }
             }
-            finally
-            {
-                _writeLock.Release();
-            }
-
-            pending.CompletionSource.TrySetResult();
         }
         catch (OperationCanceledException ex)
         {
@@ -276,9 +276,32 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         }
         catch (Exception ex)
         {
-            // Log error but don't fail - module execution already succeeded
             _logger.LogError(ex, "Failed to flush output for {ModuleType}", pending.Buffer.ModuleType.Name);
-            pending.CompletionSource.TrySetResult();
+            pending.CompletionSource.TrySetException(ex);
+        }
+    }
+
+    private async Task FlushPendingOnceAsync(PendingFlush pending, IBuildSystemFormatter formatter)
+    {
+        var cancellationToken = pending.CancellationToken;
+        cancellationToken.ThrowIfCancellationRequested();
+
+        await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            await _progressController.PauseAsync().ConfigureAwait(false);
+            try
+            {
+                await FlushBufferAsync(pending.Buffer, formatter, cancellationToken).ConfigureAwait(false);
+            }
+            finally
+            {
+                await _progressController.ResumeAsync().ConfigureAwait(false);
+            }
+        }
+        finally
+        {
+            _writeLock.Release();
         }
     }
 

@@ -128,7 +128,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         try
         {
-            lock (loggerControl.SynchronizationLock)
+            var synchronizationLock = loggerControl.SynchronizationLock;
+            EnterSynchronizationLock(synchronizationLock, cancellationToken);
+            try
             {
                 var header = FormatHeader(exception);
                 var startCommand = formatter.GetStartBlockCommand(header);
@@ -186,6 +188,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                     }
                 }
             }
+            finally
+            {
+                Monitor.Exit(synchronizationLock);
+            }
         }
         catch
         {
@@ -194,6 +200,17 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
 
         return Task.CompletedTask;
+    }
+
+    private static void EnterSynchronizationLock(
+        object synchronizationLock,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        while (!Monitor.TryEnter(synchronizationLock, millisecondsTimeout: 50))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+        }
     }
 
     private void RestoreUnrenderedOutputs(List<BufferedOutput> outputs, int renderedCount)

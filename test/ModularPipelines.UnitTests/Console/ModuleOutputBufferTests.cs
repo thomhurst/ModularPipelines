@@ -170,6 +170,44 @@ public class ModuleOutputBufferTests
         await Assert.That(buffer.HasOutput).IsFalse();
     }
 
+    [Test]
+    public async Task Flush_CancellationInterruptsSynchronizationLockWait()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = CreateBufferWithStructuredLog();
+        var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var lockHolder = Task.Run(() =>
+        {
+            lock (loggerControl.SynchronizationLock)
+            {
+                lockAcquired.TrySetResult();
+                releaseLock.Task.GetAwaiter().GetResult();
+            }
+        });
+
+        await lockAcquired.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(100));
+        try
+        {
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+                await buffer.FlushToAsync(
+                    writer,
+                    new GitHubActionsFormatter(),
+                    loggerControl,
+                    loggerControl,
+                    cancellationTokenSource.Token));
+        }
+        finally
+        {
+            releaseLock.TrySetResult();
+            await lockHolder;
+        }
+
+        await Assert.That(buffer.HasOutput).IsTrue();
+    }
+
     private static ModuleOutputBuffer CreateBufferWithStructuredLog()
     {
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));

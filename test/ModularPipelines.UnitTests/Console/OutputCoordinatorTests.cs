@@ -165,6 +165,29 @@ public class OutputCoordinatorTests
         await Assert.That(recoveredBuffer.FlushCount).IsEqualTo(1);
     }
 
+    [Test]
+    public async Task ImmediateFlush_RetriesRestoredOutputAfterRenderingFailure()
+    {
+        var buffer = new FailingOutputBuffer(failuresBeforeSuccess: 1);
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        await coordinator.EnqueueAndFlushAsync(buffer);
+
+        await Assert.That(buffer.FlushCount).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task ImmediateFlush_PropagatesRepeatedRenderingFailure()
+    {
+        var buffer = new FailingOutputBuffer(failuresBeforeSuccess: 2);
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await coordinator.EnqueueAndFlushAsync(buffer));
+
+        await Assert.That(buffer.FlushCount).IsEqualTo(2);
+    }
+
     private static OutputCoordinator CreateCoordinator(
         ILoggerFactory loggerFactory,
         IBuildSystemFormatterProvider? formatterProvider = null)
@@ -341,6 +364,48 @@ public class OutputCoordinatorTests
         {
             FlushStarted.TrySetResult();
             ReleaseFlush.Task.Wait(TimeSpan.FromSeconds(5), cancellationToken);
+            return Task.CompletedTask;
+        }
+    }
+
+    private sealed class FailingOutputBuffer(int failuresBeforeSuccess) : IModuleOutputBuffer
+    {
+        public Type ModuleType => typeof(FailingOutputBuffer);
+
+        public bool HasOutput => true;
+
+        public int FlushCount { get; private set; }
+
+        public void WriteLine(string message)
+        {
+        }
+
+        public void AddLogEvent(
+            LogLevel level,
+            EventId eventId,
+            object state,
+            Exception? exception,
+            Func<object, Exception?, string> formatter)
+        {
+        }
+
+        public void SetException(Exception exception)
+        {
+        }
+
+        public Task FlushToAsync(
+            TextWriter console,
+            IBuildSystemFormatter formatter,
+            ILogger logger,
+            ISpectreConsoleLoggerControl loggerControl,
+            CancellationToken cancellationToken = default)
+        {
+            FlushCount++;
+            if (FlushCount <= failuresBeforeSuccess)
+            {
+                throw new InvalidOperationException("render failed");
+            }
+
             return Task.CompletedTask;
         }
     }
