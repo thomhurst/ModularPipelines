@@ -195,5 +195,4 @@ public partial class CobraHelpTypeDetector : HelpTextTypeDetectorBase
     /// </summary>
     [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:\s+(?<type>\S+))?\s{2,}", RegexOptions.Multiline)]
     private static partial Regex CobraOptionLinePattern();
-
 }
