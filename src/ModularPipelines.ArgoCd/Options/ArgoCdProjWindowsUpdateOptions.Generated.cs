@@ -70,7 +70,7 @@ public record ArgoCdProjWindowsUpdateOptions(
     /// Time zone of the sync window. (e.g. --time-zone "America/New_York") (default "UTC")
     /// </summary>
     [CliOption("--time-zone", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdProjWindowsUpdateTimeZone? TimeZone { get; set; }
+    public string? TimeZone { get; set; }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -191,7 +191,7 @@ public record ArgoCdProjWindowsUpdateOptions(
     /// Enable this if the application controller is configured with redis compression enabled. (possible values: gzip, none) (default "gzip")
     /// </summary>
     [CliOption("--redis-compress", Format = OptionFormat.EqualsSeparated)]
-    public string? RedisCompress { get; set; }
+    public ArgoCdProjWindowsUpdateRedisCompress? RedisCompress { get; set; }
 
     /// <summary>
     /// Name of the Redis HA Proxy; set this or the ARGOCD_REDIS_HAPROXY_NAME environment variable when the HA Proxy's name label differs from the default, for example when installing via the Helm chart (default "argocd-redis-ha-haproxy")

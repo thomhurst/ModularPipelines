@@ -329,6 +329,17 @@ public class ArgoCdOptionsTests
     }
 
     [Test]
+    public async Task AccountDeleteToken_Renders_Required_Id()
+    {
+        var arguments = BuildArguments(new ArgoCdAccountDeleteTokenOptions("token-id")
+        {
+            Account = "alice",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["token-id", "--account=alice"]);
+    }
+
+    [Test]
     public async Task AccountUpdatePassword_Renders_All_Values()
     {
         var arguments = BuildArguments(new ArgoCdAccountUpdatePasswordOptions

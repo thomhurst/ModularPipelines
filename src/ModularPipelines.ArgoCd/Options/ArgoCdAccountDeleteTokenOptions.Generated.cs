@@ -19,7 +19,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "delete-token")]
-public record ArgoCdAccountDeleteTokenOptions : ArgoCdOptions
+public record ArgoCdAccountDeleteTokenOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Id
+) : ArgoCdOptions
 {
     /// <summary>
     /// Account name. Defaults to the current account.
@@ -152,7 +154,7 @@ public record ArgoCdAccountDeleteTokenOptions : ArgoCdOptions
     /// Enable this if the application controller is configured with redis compression enabled. (possible values: gzip, none) (default "gzip")
     /// </summary>
     [CliOption("--redis-compress", Format = OptionFormat.EqualsSeparated)]
-    public string? RedisCompress { get; set; }
+    public ArgoCdAccountDeleteTokenRedisCompress? RedisCompress { get; set; }
 
     /// <summary>
     /// Name of the Redis HA Proxy; set this or the ARGOCD_REDIS_HAPROXY_NAME environment variable when the HA Proxy's name label differs from the default, for example when installing via the Helm chart (default "argocd-redis-ha-haproxy")

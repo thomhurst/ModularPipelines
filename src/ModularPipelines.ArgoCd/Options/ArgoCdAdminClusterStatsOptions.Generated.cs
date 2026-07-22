@@ -158,7 +158,7 @@ public record ArgoCdAdminClusterStatsOptions : ArgoCdOptions
     /// Enable compression for data sent to Redis with the required compression algorithm. (possible values: gzip, none) (default "gzip")
     /// </summary>
     [CliOption("--redis-compress", Format = OptionFormat.EqualsSeparated)]
-    public string? RedisCompress { get; set; }
+    public ArgoCdAdminClusterStatsRedisCompress? RedisCompress { get; set; }
 
     /// <summary>
     /// Skip Redis server certificate validation.
