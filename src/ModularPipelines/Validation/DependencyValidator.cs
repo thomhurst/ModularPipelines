@@ -17,17 +17,24 @@ internal class DependencyValidator : IDependencyValidator
     public ValidationResult Validate(IServiceProvider services)
     {
         var modules = services.GetServices<IModule>();
-        var moduleTypes = modules.Select(m => m.GetType());
-        return ValidateDependencies(moduleTypes);
+        return ValidateDependencies(modules);
     }
 
     /// <inheritdoc />
     public ValidationResult ValidateDependencies(IEnumerable<Type> moduleTypes)
+        => Validate(() => ModuleDependencyValidator.Validate(moduleTypes), moduleTypes.Any());
+
+    private static ValidationResult ValidateDependencies(IEnumerable<IModule> modules)
+    {
+        var moduleList = modules.ToList();
+        return Validate(() => ModuleDependencyValidator.Validate(moduleList), moduleList.Count > 0);
+    }
+
+    private static ValidationResult Validate(Action validation, bool hasModules)
     {
         var result = new ValidationResult();
-        var types = moduleTypes.ToHashSet();
 
-        if (types.Count == 0)
+        if (!hasModules)
         {
             return result;
         }
@@ -35,7 +42,7 @@ internal class DependencyValidator : IDependencyValidator
         // Delegate to ModuleDependencyValidator and convert exceptions to validation errors
         try
         {
-            ModuleDependencyValidator.Validate(types);
+            validation();
         }
         catch (ModuleReferencingSelfException ex)
         {

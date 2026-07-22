@@ -11,5 +11,5 @@ internal interface IPipelineInitializer
     /// Initializes the pipeline.
     /// </summary>
     /// <returns>The modules to run.</returns>
-    Task<OrganizedModules> Initialize();
+    Task<OrganizedModules> Initialize(CancellationToken cancellationToken = default);
 }

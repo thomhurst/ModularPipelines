@@ -33,11 +33,12 @@ public sealed class SkipIfAttribute<T> : Attribute, IConditionAttribute
     public ConditionLogic Logic => ConditionLogic.Skip;
 
     /// <inheritdoc />
-    public async Task<bool> EvaluateAsync(IPipelineHookContext context)
-    {
-        var condition = new T();
-        return await condition.EvaluateAsync(context);
-    }
+    public Task<bool> EvaluateAsync(IPipelineHookContext context) =>
+        EvaluateAsync(context, CancellationToken.None);
+
+    /// <inheritdoc />
+    public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken) =>
+        RunConditionEvaluator.EvaluateAnyAsync([new T()], context, cancellationToken);
 
     /// <inheritdoc />
     public string ConditionNames => typeof(T).Name;
@@ -57,15 +58,12 @@ public sealed class SkipIfAttribute<T1, T2> : Attribute, IConditionAttribute
     public ConditionLogic Logic => ConditionLogic.Skip;
 
     /// <inheritdoc />
-    public async Task<bool> EvaluateAsync(IPipelineHookContext context)
-    {
-        if (await new T1().EvaluateAsync(context))
-        {
-            return true;
-        }
+    public Task<bool> EvaluateAsync(IPipelineHookContext context) =>
+        EvaluateAsync(context, CancellationToken.None);
 
-        return await new T2().EvaluateAsync(context);
-    }
+    /// <inheritdoc />
+    public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken) =>
+        RunConditionEvaluator.EvaluateAnyAsync([new T1(), new T2()], context, cancellationToken);
 
     /// <inheritdoc />
     public string ConditionNames => $"{typeof(T1).Name}, {typeof(T2).Name}";

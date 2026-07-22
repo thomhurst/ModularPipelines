@@ -102,7 +102,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (await attribute.EvaluateAsync(pipelineContext).ConfigureAwait(false))
+            if (await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
             {
                 return (false, SkipDecision.Skip($"SkipIf<{attribute.ConditionNames}> returned true"));
             }
@@ -112,7 +112,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (!await attribute.EvaluateAsync(pipelineContext).ConfigureAwait(false))
+            if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
             {
                 return (false, SkipDecision.Skip($"RunIfAll<{attribute.ConditionNames}> not satisfied"));
             }
@@ -122,7 +122,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (!await attribute.EvaluateAsync(pipelineContext).ConfigureAwait(false))
+            if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
             {
                 return (false, SkipDecision.Skip($"RunIfAny<{attribute.ConditionNames}> not satisfied"));
             }
