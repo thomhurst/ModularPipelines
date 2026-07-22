@@ -342,7 +342,8 @@ jobs:
       - name: Install Snyk
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'snyk'
         run: |
-          npm install -g snyk
+          test "$(npm view snyk@1.1306.1 dist.integrity)" = "sha512-Ywt01xrkDjh5ZWRFJTL+2OXifGu3sUyD+BZ0QBTnVLgendrwt34iupgVAYcfdImmZYJRmeAwkicV5lTDrI8cLw=="
+          npm install -g snyk@1.1306.1
 
       - name: Install jq
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'jq'

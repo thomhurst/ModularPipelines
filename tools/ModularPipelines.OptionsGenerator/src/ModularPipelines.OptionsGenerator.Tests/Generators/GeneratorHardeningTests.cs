@@ -209,6 +209,37 @@ public class GeneratorHardeningTests
         await Assert.That(generated).Contains("get => NoLogo;");
     }
 
+    [Test]
+    public async Task OptionsClassGenerator_Marks_Secret_Positional_Arguments()
+    {
+        var command = Command("ToolAuthOptions", "ToolOptions", ["auth"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "RequiredToken",
+                    CSharpType = "string?",
+                    IsRequired = true,
+                    IsSecret = true,
+                    PositionIndex = 0,
+                },
+                new CliPositionalArgument
+                {
+                    PropertyName = "OptionalToken",
+                    CSharpType = "string?",
+                    IsSecret = true,
+                    PositionIndex = 1,
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(generated).Contains("[property: SecretValue, CliArgument(0");
+        await Assert.That(generated).Contains($"[SecretValue]{Environment.NewLine}    [CliArgument(1");
+    }
+
     #endregion
 
     #region EnsureNoDuplicateFilePaths

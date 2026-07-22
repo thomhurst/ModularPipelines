@@ -187,6 +187,14 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    public async Task ToEnumMemberName_Removes_Identifier_Punctuation()
+    {
+        var result = GeneratorUtils.ToEnumMemberName("cyclonedx1.4+json");
+
+        await Assert.That(result).IsEqualTo("Cyclonedx14Json");
+    }
+
+    [Test]
     public async Task ToEnumMemberName_Returns_Unknown_For_Empty()
     {
         var result = GeneratorUtils.ToEnumMemberName("");
