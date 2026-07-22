@@ -192,11 +192,11 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
         if (shouldProcess)
         {
-            await ProcessQueueAsync().ConfigureAwait(false);
+            _ = ProcessQueueAsync();
         }
 
-        // Every caller observes the outcome of its own buffer. The caller that starts
-        // queue processing must not mistake a canceled flush for successful drainage.
+        // Every caller observes only the outcome of its own buffer. Queue processing
+        // continues independently so the owner is not held behind later buffers.
         await pending.CompletionSource.Task.ConfigureAwait(false);
     }
 

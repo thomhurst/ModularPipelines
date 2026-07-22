@@ -96,6 +96,27 @@ public class OutputCoordinatorTests
         await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
     }
 
+    [Test]
+    public async Task ImmediateFlush_OwnerReturnsBeforeLaterBufferCompletes()
+    {
+        var firstBuffer = new BlockingOutputBuffer();
+        var secondBuffer = new BlockingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        var ownerFlush = coordinator.EnqueueAndFlushAsync(firstBuffer);
+        await firstBuffer.FlushStarted.Task;
+        var secondFlush = coordinator.EnqueueAndFlushAsync(secondBuffer);
+
+        firstBuffer.ReleaseFlush.TrySetResult();
+        await secondBuffer.FlushStarted.Task;
+
+        var completedTask = await Task.WhenAny(ownerFlush, Task.Delay(TimeSpan.FromSeconds(1)));
+        secondBuffer.ReleaseFlush.TrySetResult();
+        await secondFlush;
+
+        await Assert.That(completedTask).IsSameReferenceAs(ownerFlush);
+    }
+
     private static OutputCoordinator CreateCoordinator(ILoggerFactory loggerFactory)
     {
         var formatterProvider = new Mock<IBuildSystemFormatterProvider>();
