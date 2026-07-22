@@ -62,6 +62,24 @@ public class TrivyCliScraperTests
     }
 
     [Test]
+    public async Task Cache_Default_Is_Normalized_Across_Platforms()
+    {
+        var scraper = new TestTrivyCliScraper();
+        string[] descriptions =
+        [
+            @"cache directory (default ""C:\Users\runneradmin\AppData\Local\trivy"")",
+            "cache directory (default \"/home/runner/.cache/trivy\")",
+            "cache directory (default \"/Users/runner/Library/Caches/trivy\")",
+        ];
+
+        foreach (var description in descriptions)
+        {
+            await Assert.That(scraper.NormalizeDescription(description))
+                .IsEqualTo("cache directory (default \"<cache>/trivy\")");
+        }
+    }
+
+    [Test]
     public async Task Image_Help_Parses_Target_Types_And_Secrets()
     {
         const string helpText = """
@@ -179,6 +197,8 @@ public class TrivyCliScraperTests
         public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
 
         public bool Skips(string subcommand) => IsSkippableSubcommand(subcommand);
+
+        public string NormalizeDescription(string description) => NormalizeOptionDescription(description);
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(commandPath, helpText, CancellationToken.None);

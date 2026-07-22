@@ -150,8 +150,11 @@ public partial class TrivyCliScraper : CobraCliScraper
             _ => positionalArguments,
         };
 
-    protected override string NormalizeOptionDescription(string description) =>
-        UserHomeDirectoryPattern().Replace(description, "<home>");
+    protected override string NormalizeOptionDescription(string description)
+    {
+        var normalizedDescription = UserHomeDirectoryPattern().Replace(description, "<home>");
+        return TrivyCacheDirectoryPattern().Replace(normalizedDescription, "<cache>/trivy");
+    }
 
     private static CliPositionalArgument RequiredArgument(string propertyName, string placeholderName) => new()
     {
@@ -171,4 +174,7 @@ public partial class TrivyCliScraper : CobraCliScraper
 
     [GeneratedRegex(@"(?i)(?:[A-Z]:[\\/]+Users[\\/]+|/(?:home|Users)/)[^\\/\s\""')]+")]
     private static partial Regex UserHomeDirectoryPattern();
+
+    [GeneratedRegex(@"(?i)<home>(?:[\\/]+AppData[\\/]+Local|[\\/]+\.cache|[\\/]+Library[\\/]+Caches)[\\/]+trivy")]
+    private static partial Regex TrivyCacheDirectoryPattern();
 }

@@ -35,7 +35,7 @@ public record TrivyRegistryLogoutOptions(
     public string? Cacert { get; set; }
 
     /// <summary>
-    /// cache directory (default "&lt;home&gt;\\AppData\\Local\\trivy")
+    /// cache directory (default "&lt;cache&gt;/trivy")
     /// </summary>
     [CliOption("--cache-dir", Format = OptionFormat.EqualsSeparated)]
     public string? CacheDir { get; set; }
