@@ -1,16 +1,13 @@
-using System.Reflection;
 using ModularPipelines.Engine;
 
 namespace ModularPipelines.Logging;
 
 /// <summary>
-/// Handles obfuscation of values within FormattedLogValues objects using reflection.
-/// This class intercepts Microsoft.Extensions.Logging internal structures to mask secrets.
+/// Handles obfuscation of values within structured logging state.
 /// </summary>
 /// <remarks>
-/// This class uses reflection to access the internal "_values" field of FormattedLogValues,
-/// which is an implementation detail of Microsoft.Extensions.Logging. It applies secret
-/// obfuscation to all string values before they are logged, preventing sensitive data leakage.
+/// Structured values keep their original type when their string representation contains no
+/// secrets. Values containing secrets are replaced with their obfuscated string representation.
 /// </remarks>
 /// <example>
 /// <code>
@@ -25,9 +22,6 @@ namespace ModularPipelines.Logging;
 /// </example>
 internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
 {
-    private const string FormattedLogValuesTypeName = "Microsoft.Extensions.Logging.FormattedLogValues";
-    private const string ValuesFieldName = "_values";
-
     private readonly ISecretObfuscator _secretObfuscator;
 
     public FormattedLogValuesObfuscator(ISecretObfuscator secretObfuscator)
@@ -35,41 +29,35 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
         _secretObfuscator = secretObfuscator;
     }
 
-    public void TryObfuscateValues(object state)
+    public object TryObfuscateValues(object state)
     {
-        if (state?.GetType().FullName != FormattedLogValuesTypeName)
+        if (state is not IReadOnlyList<KeyValuePair<string, object?>> values)
         {
-            return;
+            return state;
         }
 
-        var valuesField = state.GetType().GetField(ValuesFieldName, BindingFlags.NonPublic | BindingFlags.Instance);
-        if (valuesField == null)
-        {
-            return;
-        }
+        KeyValuePair<string, object?>[]? obfuscatedValues = null;
 
-        var values = valuesField.GetValue(state) as object?[] ?? Array.Empty<object?>();
-
-        for (var index = 0; index < values.Length; index++)
+        for (var index = 0; index < values.Count; index++)
         {
-            var value = values[index];
-            if (value is null)
+            var property = values[index];
+            if (property.Value is null || property.Key.Equals("{OriginalFormat}", StringComparison.Ordinal))
             {
                 continue;
             }
 
-            if (value is not string valueString)
+            var originalValue = property.Value.ToString() ?? string.Empty;
+            var obfuscatedValue = _secretObfuscator.Obfuscate(originalValue, null);
+            if (obfuscatedValue.Equals(originalValue, StringComparison.Ordinal))
             {
-                if (value.GetType().IsValueType)
-                {
-                    continue;
-                }
-
-                valueString = value.ToString() ?? string.Empty;
+                continue;
             }
 
-            values[index] = _secretObfuscator.Obfuscate(valueString, null);
+            obfuscatedValues ??= values.ToArray();
+            obfuscatedValues[index] = new KeyValuePair<string, object?>(property.Key, obfuscatedValue);
         }
+
+        return obfuscatedValues ?? state;
     }
 }
 
@@ -79,8 +67,9 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
 internal interface IFormattedLogValuesObfuscator
 {
     /// <summary>
-    /// Attempts to obfuscate values within a FormattedLogValues object.
+    /// Attempts to obfuscate values within structured logging state.
     /// </summary>
     /// <param name="state">The state object to obfuscate.</param>
-    void TryObfuscateValues(object state);
+    /// <returns>The original state when unchanged; otherwise, sanitized structured state.</returns>
+    object TryObfuscateValues(object state);
 }

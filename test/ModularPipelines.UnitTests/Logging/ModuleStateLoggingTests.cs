@@ -25,8 +25,8 @@ public class ModuleStateLoggingTests
         await host.RunAsync();
         await host.DisposeAsync();
 
-        await Assert.That(logs.ToString()).Contains(
-            "Module ModuleWithoutLocks completed with lock keys: (none)");
+        await Assert.That(logs.ToString()).Contains("Module ModuleWithoutLocks completed after");
+        await Assert.That(logs.ToString()).Contains("with lock keys: (none)");
     }
 
     private sealed class ModuleWithoutLocks : Module<bool>
