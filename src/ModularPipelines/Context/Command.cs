@@ -5,6 +5,7 @@ using CliWrap.Exceptions;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using CommandResult = ModularPipelines.Models.CommandResult;
