@@ -17,6 +17,7 @@ public class JqCliScraperTests
               --indent n            use n spaces for indentation (max 7 spaces);
           -f, --from-file           load the filter from a file;
           -L, --library-path dir    search modules from the directory;
+          -b, --binary              open input/output streams in binary mode;
               --arg name value      set $name to the string value;
               --slurpfile name file set $name to an array of JSON values read
                                     from the file;
@@ -27,7 +28,7 @@ public class JqCliScraperTests
     {
         var command = await new TestJqCliScraper().Parse(HelpText);
 
-        await Assert.That(command.Options).Count().IsEqualTo(10);
+        await Assert.That(command.Options).Count().IsEqualTo(11);
 
         var nullInput = command.Options.Single(x => x.PropertyName == "NullInput");
         await Assert.That(nullInput.ShortForm).IsEqualTo("-n");
@@ -51,6 +52,9 @@ public class JqCliScraperTests
 
         var libraryPath = command.Options.Single(x => x.PropertyName == "LibraryPath");
         await Assert.That(libraryPath.PreferShortForm).IsTrue();
+
+        var binary = command.Options.Single(x => x.PropertyName == "Binary");
+        await Assert.That(binary.PreferShortForm).IsTrue();
 
         var runTests = command.Options.Single(x => x.PropertyName == "RunTests");
         await Assert.That(runTests.CSharpType).IsEqualTo("bool?");

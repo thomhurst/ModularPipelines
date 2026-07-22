@@ -62,6 +62,22 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task Global_Options_Class_Imports_Models_For_Cli_Option_Value_Pairs()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arg",
+            PropertyName = "Arg",
+            CSharpType = "IEnumerable<CliOptionValuePair>?",
+        };
+        var tool = Tool() with { GlobalOptions = [option] };
+
+        var generatedFile = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single();
+
+        await Assert.That(generatedFile.Content).Contains("using ModularPipelines.Models;");
+    }
+
+    [Test]
     public async Task Options_Class_Emits_Preferred_Short_Form()
     {
         var option = new CliOptionDefinition

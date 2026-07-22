@@ -180,7 +180,7 @@ public record JqExecuteOptions : JqOptions
     /// <summary>
     /// open input/output streams in binary mode
     /// </summary>
-    [CliFlag("--binary", ShortForm = "-b")]
+    [CliFlag("--binary", ShortForm = "-b", PreferShortForm = true)]
     public bool? Binary { get; set; }
 
     /// <summary>

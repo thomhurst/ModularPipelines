@@ -64,6 +64,7 @@ public class JqOptionsTests
         var arguments = BuildArguments(new JqExecuteOptions
         {
             LibraryPath = ["modules"],
+            Binary = true,
             RunTestsFile = "tests.jq",
             EndOfOptions = true,
             Filter = "-1",
@@ -72,6 +73,7 @@ public class JqOptionsTests
         await Assert.That(arguments).IsEquivalentTo(
         [
             "-L", "modules",
+            "-b",
             "--run-tests", "tests.jq",
             "--",
             "-1",

@@ -56,6 +56,12 @@ public record CliOptionDefinition
     public bool IsKeyValue { get; init; }
 
     /// <summary>
+    /// Whether generated code needs the ModularPipelines.Models namespace for this option type.
+    /// </summary>
+    public bool RequiresModelsNamespace
+        => IsKeyValue || CSharpType.Contains("CliOptionValuePair", StringComparison.Ordinal);
+
+    /// <summary>
     /// Whether the value is numeric.
     /// </summary>
     public bool IsNumeric { get; init; }

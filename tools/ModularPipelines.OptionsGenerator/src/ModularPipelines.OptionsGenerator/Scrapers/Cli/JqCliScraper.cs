@@ -199,7 +199,7 @@ public partial class JqCliScraper : CliScraperBase
             {
                 SwitchName = longForm,
                 ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
-                PreferShortForm = longForm == "--library-path",
+                PreferShortForm = longForm is "--library-path" or "--binary",
                 PropertyName = propertyName,
                 CSharpType = DetermineCSharpType(isFlag, isPair, isNumeric, acceptsMultipleValues),
                 Description = description.TrimEnd(';'),
