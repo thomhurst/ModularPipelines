@@ -1,10 +1,13 @@
+using System.Collections.Concurrent;
 using System.Text;
 using System.Threading.Channels;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.Engine.Scheduling;
 using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.UnitTests.Logging;
@@ -51,7 +54,52 @@ public class ModuleExecutorLoggingTests
 
         var logOutput = logs.ToString();
         await Assert.That(logOutput).DoesNotContain("Cancellation triggered");
-        await Assert.That(logOutput).DoesNotContain("Cancelling 0 pending");
         scheduler.Verify(x => x.CancelPendingModules(), Times.Once);
+    }
+
+    [Test]
+    public async Task CancelPendingModules_WithNoCancellableModules_DoesNotLogCancellation()
+    {
+        var logs = new StringBuilder();
+        var moduleStates = new ConcurrentDictionary<Type, ModuleState>();
+        var tracker = CreateModuleStateTracker(logs, moduleStates);
+
+        tracker.CancelPendingModules();
+
+        await Assert.That(logs.ToString()).DoesNotContain("Cancelling");
+    }
+
+    [Test]
+    public async Task CancelPendingModules_WithPendingModule_LogsCancellation()
+    {
+        var logs = new StringBuilder();
+        var module = new Mock<IModule>();
+        module.SetupGet(x => x.ModuleRunType).Returns(ModuleRunType.OnSuccessfulDependencies);
+        var state = new ModuleState(module.Object, typeof(IModule));
+        var moduleStates = new ConcurrentDictionary<Type, ModuleState>();
+        moduleStates[state.ModuleType] = state;
+        var tracker = CreateModuleStateTracker(logs, moduleStates);
+
+        tracker.CancelPendingModules();
+
+        await Assert.That(logs.ToString()).Contains("Cancelling 1 pending/queued modules");
+    }
+
+    private static ModuleStateTracker CreateModuleStateTracker(
+        StringBuilder logs,
+        ConcurrentDictionary<Type, ModuleState> moduleStates)
+    {
+        return new ModuleStateTracker(
+            new StringLogger<ModuleStateTracker>(logs),
+            TimeProvider.System,
+            Mock.Of<IMetricsCollector>(),
+            Mock.Of<IModuleConstraintEvaluator>(),
+            moduleStates,
+            [],
+            [],
+            new ModuleStateQueries(moduleStates),
+            new ReaderWriterLockSlim(),
+            new SemaphoreSlim(0),
+            () => false);
     }
 }
