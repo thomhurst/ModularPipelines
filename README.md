@@ -12,10 +12,11 @@
 You know the drill. You write some YAML, push it, wait for CI to start, watch it fail on a typo, fix it, push again, wait again. Repeat until you lose the will to live.
 
 YAML pipelines are:
-- **Impossible to debug locally** - "Works on my machine" but fails mysteriously in CI
-- **No compile-time safety** - Typos in variable names? Enjoy your 10-minute feedback loop
-- **Copy-paste hell** - Reusing logic means duplicating YAML and hoping you update all the copies
-- **Vendor lock-in** - Switching from GitHub Actions to Azure Pipelines? Rewrite everything
+
+* **Impossible to debug locally** - "Works on my machine" but fails mysteriously in CI
+* **No compile-time safety** - Typos in variable names? Enjoy your 10-minute feedback loop
+* **Copy-paste hell** - Reusing logic means duplicating YAML and hoping you update all the copies
+* **Vendor lock-in** - Switching from GitHub Actions to Azure Pipelines? Rewrite everything
 
 ## The Solution
 
@@ -44,24 +45,31 @@ public class PublishModule : Module<CommandResult>
 ## Why Developers Choose ModularPipelines
 
 ### Your IDE Actually Helps You
+
 Intellisense, refactoring, compile-time errors. Your pipeline code gets the same treatment as your application code. Rename a module? Your IDE updates all the references. Typo in an option? Red squiggle before you even save.
 
 ### Run Locally, Push Confidently
+
 Test your entire pipeline on your machine before pushing. No more "let me push and see if it works" commits. Debug failures in your IDE instead of reading logs from a build agent.
 
 ### Automatic Parallelization
+
 Modules declare their dependencies with attributes. ModularPipelines figures out what can run in parallel and maximizes throughput. No more manually orchestrating parallel jobs.
 
 ### Switch Build Systems Without Rewriting
+
 Your pipeline logic lives in C#, not in vendor-specific YAML. Moving from GitHub Actions to Azure Pipelines to TeamCity? Change one line - your modules stay the same.
 
 ### Full Dependency Injection
+
 Inject services, configuration, and secrets the same way you do in ASP.NET Core. Mock dependencies for testing. No more environment variable gymnastics.
 
 ### Secrets Stay Secret
+
 Secrets are automatically obfuscated in logs. No more accidentally exposing API keys in build output.
 
 ### Modules Share Data
+
 Modules return strongly-typed results that other modules can consume. No shared mutable state - just clean data flow.
 
 ```csharp
@@ -89,11 +97,13 @@ public class PublishModule : Module
 ```
 
 ### Catch Mistakes at Compile Time
+
 Built-in Roslyn analyzers catch common mistakes before you even run:
-- Missing `[DependsOn]` when calling `GetModule<T>()`
-- Circular dependencies between modules
-- Forgetting to `await` module results
-- Using `Console.Write` instead of the logging system
+
+* Missing `[DependsOn]` when calling `GetModule<T>()`
+* Circular dependencies between modules
+* Forgetting to `await` module results
+* Using `Console.Write` instead of the logging system
 
 ## [Full Documentation](https://thomhurst.github.io/ModularPipelines)
 
@@ -146,6 +156,7 @@ public class TestModule : Module<CommandResult>
 ```
 
 Run it:
+
 ```bash
 dotnet run
 ```
@@ -208,21 +219,21 @@ ModularPipelines takes a different approach: each unit of work is a self-contain
 
 ## Features at a Glance
 
-- **Parallel execution** - Automatic based on declared dependencies
-- **Module data sharing** - Strongly-typed results flow between modules
-- **Roslyn analyzers** - Catch mistakes at compile time, not runtime
-- **Conditional dependencies** - `DependsOnIf<T>()` for dynamic dependency graphs
-- **Dependency management** - Circular dependency detection built-in
-- **Strong typing** - Pass data between modules with compile-time safety
-- **Debug locally** - Set breakpoints, inspect variables, fix issues before pushing
-- **Build agent agnostic** - Same code runs on GitHub, Azure, TeamCity, or your laptop
-- **Secret obfuscation** - Automatic masking in logs
-- **Hooks** - Run code before/after any module
-- **Skip conditions** - Dynamically skip modules based on custom logic
-- **Retry policies** - Configurable retry with Polly integration
-- **Requirements validation** - Check prerequisites before running
-- **Progress reporting** - Real-time console output with parallel execution visualization
-- **Source controlled** - Your pipeline is code, version it like code
+* **Parallel execution** - Automatic based on declared dependencies
+* **Module data sharing** - Strongly-typed results flow between modules
+* **Roslyn analyzers** - Catch mistakes at compile time, not runtime
+* **Conditional dependencies** - `DependsOnIf<T>()` for dynamic dependency graphs
+* **Dependency management** - Circular dependency detection built-in
+* **Strong typing** - Pass data between modules with compile-time safety
+* **Debug locally** - Set breakpoints, inspect variables, fix issues before pushing
+* **Build agent agnostic** - Same code runs on GitHub, Azure, TeamCity, or your laptop
+* **Secret obfuscation** - Automatic masking in logs
+* **Hooks** - Run code before/after any module
+* **Skip conditions** - Dynamically skip modules based on custom logic
+* **Retry policies** - Configurable retry with Polly integration
+* **Requirements validation** - Check prerequisites before running
+* **Progress reporting** - Real-time console output with parallel execution visualization
+* **Source controlled** - Your pipeline is code, version it like code
 
 ## Breaking Changes
 
