@@ -5751,6 +5751,64 @@ so Modular Pipelines masks their values in command logs.
 
 ---
 
+## Argo CD Package
+
+
+`ModularPipelines.ArgoCd` provides strongly typed access to the Argo CD CLI, including
+applications, ApplicationSets, clusters, projects, repositories, certificates, accounts,
+and administrative commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.ArgoCd
+```
+
+The `argocd` executable must be installed and available on `PATH` when the pipeline runs.
+
+## Get an application
+
+```csharp
+using ModularPipelines.ArgoCd.Enums;
+using ModularPipelines.ArgoCd.Extensions;
+using ModularPipelines.ArgoCd.Options;
+
+var result = await context.ArgoCd().App.Get(
+    new ArgoCdAppGetOptions("guestbook")
+    {
+        AppNamespace = "argocd",
+        Output = ArgoCdAppGetOutput.Json,
+        Refresh = true,
+    },
+    cancellationToken: cancellationToken);
+```
+
+This renders the equivalent of:
+
+```shell
+argocd app get guestbook --app-namespace=argocd --output=json --refresh
+```
+
+## Create ApplicationSets
+
+```csharp
+var result = await context.ArgoCd().ApplicationSet.Create(
+    new ArgoCdApplicationSetCreateOptions(["apps.yaml", "more-apps.yaml"])
+    {
+        DryRun = true,
+        Output = ArgoCdApplicationSetCreateOutput.Yaml,
+    },
+    cancellationToken: cancellationToken);
+```
+
+## Authentication
+
+Set `AuthToken` on an options record or provide `ARGOCD_AUTH_TOKEN` to the process. Generated
+token, password, private-key, and credential properties are marked as secrets so Modular
+Pipelines masks their values in command logs.
+
+---
+
 ## Cosign Package
 
 
@@ -5991,6 +6049,150 @@ hadolint Dockerfile build/Dockerfile --format sarif --error DL3006 --ignore DL30
 
 Rule-level overrides, ignored rules, trusted registries, and required-label schemas accept
 multiple values and emit their option once per value.
+
+---
+
+## Java Package
+
+
+`ModularPipelines.Java` provides strongly typed access to Maven and Gradle build CLIs.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Java
+```
+
+The `mvn` or `gradle` executable must be installed and available on `PATH` when its service runs.
+
+## Maven
+
+```csharp
+using ModularPipelines.Java.Enums;
+using ModularPipelines.Java.Extensions;
+using ModularPipelines.Java.Options;
+using ModularPipelines.Models;
+
+var result = await context.Maven().Execute(
+    new MavenExecuteOptions
+    {
+        BatchMode = true,
+        Color = MavenColor.Never,
+        Define = [new KeyValue("skipTests", "true")],
+        GoalsAndPhases = ["clean", "verify"],
+    },
+    cancellationToken: cancellationToken);
+```
+
+This renders:
+
+```shell
+mvn --batch-mode --color never --define skipTests=true clean verify
+```
+
+## Gradle
+
+```csharp
+var result = await context.Gradle().Execute(
+    new GradleExecuteOptions
+    {
+        Console = GradleConsole.Plain,
+        ProjectProp = [new KeyValue("environment", "ci")],
+        NoDaemon = true,
+        MaxWorkers = 4,
+        Tasks = ["clean", "build"],
+    },
+    cancellationToken: cancellationToken);
+```
+
+This renders:
+
+```shell
+gradle --console plain --project-prop environment=ci --max-workers 4 --no-daemon clean build
+```
+
+Generated option records include current CLI aliases, repeatable properties, constrained enums,
+and secret annotations. Maven goals/phases and Gradle tasks are emitted after options.
+
+---
+
+## ShellCheck Package
+
+
+The `ModularPipelines.Shellcheck` package provides strongly typed access to the ShellCheck static analysis CLI.
+
+Install the package and invoke ShellCheck through the pipeline context:
+
+```csharp
+using ModularPipelines.Shellcheck.Enums;
+using ModularPipelines.Shellcheck.Extensions;
+using ModularPipelines.Shellcheck.Options;
+
+public class CheckShellScriptsModule : Module<CommandResult>
+{
+    protected override async Task<CommandResult?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        return await context.Shellcheck().Execute(
+            new ShellcheckExecuteOptions
+            {
+                Files = ["scripts/build.sh", "scripts/deploy.sh"],
+                CheckSourced = true,
+                Format = ShellcheckFormat.Gcc,
+                Severity = ShellcheckSeverity.Warning,
+                Shell = ShellcheckShell.Bash,
+            },
+            cancellationToken: cancellationToken);
+    }
+}
+```
+
+Input files are optional so standalone actions such as `--version` remain available; pass files through `Files` when analyzing scripts. Options with fixed value sets use enums, `--extended-analysis` uses a boolean, and `--wiki-link-count` uses an integer. ShellCheck must be installed and available on `PATH` when the pipeline runs.
+
+---
+
+## Snyk Package
+
+
+`ModularPipelines.Snyk` provides strongly typed access to the Snyk CLI for open-source,
+container, infrastructure-as-code, code, SBOM, and AI-BOM security workflows.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Snyk
+```
+
+The `snyk` executable must be installed and available on `PATH` when the pipeline runs.
+
+## Test a container image
+
+```csharp
+using ModularPipelines.Snyk.Enums;
+using ModularPipelines.Snyk.Extensions;
+using ModularPipelines.Snyk.Options;
+
+var result = await context.Snyk().ContainerTest(
+    new SnykContainerTestOptions("alpine:3.20")
+    {
+        SeverityThreshold = SnykSeverityThreshold.High,
+        FailOn = SnykContainerTestFailOn.Upgradable,
+    },
+    cancellationToken: cancellationToken);
+```
+
+This renders the equivalent of:
+
+```shell
+snyk container test alpine:3.20 --severity-threshold=high --fail-on=upgradable
+```
+
+## Authentication
+
+Prefer the `SNYK_TOKEN` environment variable supplied by your CI secret store. The generated
+API-token, client-secret, and password properties are marked as secrets so Modular Pipelines
+masks their values in command logs.
 
 ---
 
