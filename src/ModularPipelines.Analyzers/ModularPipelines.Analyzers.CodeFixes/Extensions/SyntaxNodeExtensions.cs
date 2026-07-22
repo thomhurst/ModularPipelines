@@ -12,7 +12,7 @@ internal static class SyntaxNodeExtensions
     {
         var compilationUnitSyntax = (CompilationUnitSyntax) documentRoot;
 
-        if (compilationUnitSyntax.Usings.Any(x => x.Name.ToFullString() == "ModularPipelines.Attributes"))
+        if (compilationUnitSyntax.Usings.Any(x => x.Name?.ToFullString() == "ModularPipelines.Attributes"))
         {
             return documentRoot;
         }
