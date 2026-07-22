@@ -4,7 +4,7 @@ title: Liquibase Package
 
 # Liquibase Package
 
-Strongly typed Liquibase database change-management commands.
+Package reserved for Liquibase database change-management commands.
 
 ## Installation
 
@@ -14,29 +14,6 @@ dotnet add package ModularPipelines.Liquibase
 
 Required command-line tool: `liquibase`. It must be installed and available on `PATH` when the pipeline runs.
 
-## Context entry points
+## API availability
 
-Import `ModularPipelines.Liquibase.Extensions`, then use this service from a module:
-
-- `context.Liquibase()`
-
-## Module example
-
-```csharp
-using ModularPipelines.Liquibase.Extensions;
-
-public class UseLiquibaseModule : SyncModule
-{
-    protected override void ExecuteModule(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        var liquibase = context.Liquibase();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Liquibase integration is ready");
-    }
-}
-```
-
-Generated CLI command pages in this section list every available command and its options record.
+The strongly typed context API is not available yet. This page will include context entry points and examples when the integration is implemented.

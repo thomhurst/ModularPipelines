@@ -4,7 +4,7 @@ title: SonarScanner Package
 
 # SonarScanner Package
 
-Strongly typed SonarScanner code-analysis commands.
+Package reserved for SonarScanner code-analysis commands.
 
 ## Installation
 
@@ -14,29 +14,6 @@ dotnet add package ModularPipelines.SonarScanner
 
 Required command-line tool: `sonar-scanner`. It must be installed and available on `PATH` when the pipeline runs.
 
-## Context entry points
+## API availability
 
-Import `ModularPipelines.SonarScanner.Extensions`, then use this service from a module:
-
-- `context.SonarScanner()`
-
-## Module example
-
-```csharp
-using ModularPipelines.SonarScanner.Extensions;
-
-public class UseSonarScannerModule : SyncModule
-{
-    protected override void ExecuteModule(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        var sonarScanner = context.SonarScanner();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("SonarScanner integration is ready");
-    }
-}
-```
-
-Generated CLI command pages in this section list every available command and its options record.
+The strongly typed context API is not available yet. This page will include context entry points and examples when the integration is implemented.

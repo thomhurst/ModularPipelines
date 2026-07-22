@@ -4,7 +4,7 @@ title: Trivy Package
 
 # Trivy Package
 
-Strongly typed Trivy vulnerability and misconfiguration scanning commands.
+Package reserved for Trivy vulnerability and misconfiguration scanning commands.
 
 ## Installation
 
@@ -14,29 +14,6 @@ dotnet add package ModularPipelines.Trivy
 
 Required command-line tool: `trivy`. It must be installed and available on `PATH` when the pipeline runs.
 
-## Context entry points
+## API availability
 
-Import `ModularPipelines.Trivy.Extensions`, then use this service from a module:
-
-- `context.Trivy()`
-
-## Module example
-
-```csharp
-using ModularPipelines.Trivy.Extensions;
-
-public class UseTrivyModule : SyncModule
-{
-    protected override void ExecuteModule(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        var trivy = context.Trivy();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Trivy integration is ready");
-    }
-}
-```
-
-Generated CLI command pages in this section list every available command and its options record.
+The strongly typed context API is not available yet. This page will include context entry points and examples when the integration is implemented.
