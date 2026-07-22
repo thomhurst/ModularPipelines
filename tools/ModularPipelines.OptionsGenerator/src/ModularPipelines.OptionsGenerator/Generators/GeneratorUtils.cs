@@ -12,6 +12,13 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 /// </summary>
 public static partial class GeneratorUtils
 {
+    internal readonly record struct RequiredConstructorParameter(
+        string PropertyName,
+        string CSharpType,
+        bool IsSecret,
+        CliOptionDefinition? Option,
+        CliPositionalArgument? PositionalArgument);
+
     /// <summary>
     /// The name of this generator tool, used in [GeneratedCode] attributes.
     /// </summary>
@@ -379,6 +386,48 @@ public static partial class GeneratorUtils
 
         return command.RequiredOptions.Count > 0 ||
                command.PositionalArguments.Any(p => p.IsRequired);
+    }
+
+    internal static IReadOnlyList<RequiredConstructorParameter> GetRequiredConstructorParameters(
+        CliCommandDefinition command)
+    {
+        ArgumentNullException.ThrowIfNull(command);
+
+        return GetRequiredConstructorParameters(
+            command,
+            CliPositionalArgument.MergeDuplicates(command.PositionalArguments));
+    }
+
+    internal static IReadOnlyList<RequiredConstructorParameter> GetRequiredConstructorParameters(
+        CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        ArgumentNullException.ThrowIfNull(command);
+        ArgumentNullException.ThrowIfNull(positionalArguments);
+
+        var parameters = command.RequiredOptions
+            .Select(option => new RequiredConstructorParameter(
+                option.PropertyName,
+                option.CSharpType,
+                option.IsSecret,
+                option,
+                null))
+            .ToList();
+        var existingNames = parameters
+            .Select(parameter => parameter.PropertyName)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        parameters.AddRange(positionalArguments
+            .Where(argument => argument.IsRequired)
+            .Where(argument => existingNames.Add(argument.PropertyName))
+            .Select(argument => new RequiredConstructorParameter(
+                argument.PropertyName,
+                argument.CSharpType,
+                argument.IsSecret,
+                null,
+                argument)));
+
+        return parameters;
     }
 
     /// <summary>

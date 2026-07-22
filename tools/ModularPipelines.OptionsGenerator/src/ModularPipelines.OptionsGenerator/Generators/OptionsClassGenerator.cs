@@ -158,33 +158,24 @@ public class OptionsClassGenerator : ICodeGenerator
         CliCommandDefinition command,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
-        var requiredOptions = command.RequiredOptions;
-        var requiredPositionals = positionalArguments.Where(p => p.IsRequired).ToList();
+        var constructorParameters = GeneratorUtils.GetRequiredConstructorParameters(command, positionalArguments);
         var existingNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        if (requiredOptions.Count > 0 || requiredPositionals.Count > 0)
+        if (constructorParameters.Count > 0)
         {
             // Use primary constructor for required parameters
             var parameters = new List<string>();
 
-            foreach (var opt in requiredOptions)
+            foreach (var parameter in constructorParameters)
             {
-                var attr = GeneratorUtils.GenerateCliAttributeString(opt);
-                var secretAttr = opt.IsSecret ? "SecretValue, " : "";
-                parameters.Add($"    [property: {secretAttr}{attr}] {opt.CSharpType.TrimEnd('?')} {opt.PropertyName}");
-                existingNames.Add(opt.PropertyName);
-            }
-
-            foreach (var pos in requiredPositionals)
-            {
-                if (existingNames.Contains(pos.PropertyName))
-                {
-                    continue; // Skip duplicate
-                }
-                var posAttr = GetPositionalAttributeString(pos);
-                var secretAttr = pos.IsSecret ? "SecretValue, " : "";
-                parameters.Add($"    [property: {secretAttr}{posAttr}] {pos.CSharpType.TrimEnd('?')} {pos.PropertyName}");
-                existingNames.Add(pos.PropertyName);
+                var attribute = parameter.Option is { } option
+                    ? GeneratorUtils.GenerateCliAttributeString(option)
+                    : GetPositionalAttributeString(parameter.PositionalArgument!);
+                var secretAttribute = parameter.IsSecret ? "SecretValue, " : "";
+                parameters.Add(
+                    $"    [property: {secretAttribute}{attribute}] " +
+                    $"{parameter.CSharpType.TrimEnd('?')} {parameter.PropertyName}");
+                existingNames.Add(parameter.PropertyName);
             }
 
             sb.AppendLine($"public record {command.ClassName}(");

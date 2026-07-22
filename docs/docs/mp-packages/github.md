@@ -8,6 +8,12 @@ The **GitHub package** offered by **Modular Pipelines**, in conjunction with the
 
 By leveraging this package, developers can more efficiently integrate their pipelines with GitHub, allowing for a smoother workflow and interaction with the platform's extensive API. The convenience afforded by this tool makes it an indispensable asset for anyone looking to automate tasks, synchronize data, or manage repositories programmatically on GitHub within their build pipelines.
 
+## Installation
+
+```shell
+dotnet add package ModularPipelines.GitHub
+```
+
 ## GitHub Client
 
 Using **Octokit** in Modular Pipelines is pretty straightforward. Simply reference the `ModularPipelines.GitHub` package, and then, in your module, access the OctoKit client using `GitHub().Client` property as (an example):

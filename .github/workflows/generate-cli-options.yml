@@ -574,8 +574,8 @@ jobs:
         if: steps.should-run.outputs.run == 'true'
         id: changes
         run: |
-          # Only stage .cs files in src/ directory - ignore any other generated artifacts
-          git add 'src/**/*.cs'
+          # Stage generated APIs and the matching CLI reference page.
+          git add 'src/**/*.cs' 'docs/docs/mp-packages/cli/*.md'
 
           # Check for actual content changes (ignore whitespace-only changes)
           if git diff --staged --quiet --ignore-all-space --ignore-blank-lines; then
@@ -807,8 +807,8 @@ jobs:
         id: changes
         shell: pwsh
         run: |
-          # Only stage .cs files in src/ directory - ignore any other generated artifacts
-          git add 'src/**/*.cs'
+          # Stage generated APIs and the matching CLI reference page.
+          git add 'src/**/*.cs' 'docs/docs/mp-packages/cli/*.md'
 
           # Check for actual content changes (ignore whitespace-only changes)
           git diff --staged --quiet --ignore-all-space --ignore-blank-lines

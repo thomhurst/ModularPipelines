@@ -6,6 +6,12 @@ title: ShellCheck Package
 
 The `ModularPipelines.Shellcheck` package provides strongly typed access to the ShellCheck static analysis CLI.
 
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Shellcheck
+```
+
 Install the package and invoke ShellCheck through the pipeline context:
 
 ```csharp
