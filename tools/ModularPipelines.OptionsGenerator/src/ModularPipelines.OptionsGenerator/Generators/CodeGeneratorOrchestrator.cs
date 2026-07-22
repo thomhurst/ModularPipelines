@@ -286,9 +286,8 @@ public class CodeGeneratorOrchestrator
         // Only after every replacement is on disk is it safe to prune stale files.
         CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory, toolDefinition.NamespacePrefix, writtenFullPaths);
 
-        // AssemblyInfo is deliberately outside collision tracking: tools sharing an
-        // output directory (kubectl + kustomize) each write the same AssemblyInfo path,
-        // and last-writer-wins is the intended behavior there.
+        // AssemblyInfo is deliberately outside collision tracking. Its metadata is
+        // package-level, so tools sharing an output directory generate identical content.
         await WriteAssemblyInfoAsync(outputDirectory, toolDefinition, cancellationToken);
         result.FilesGenerated.Add(Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
     }
@@ -336,7 +335,7 @@ public class CodeGeneratorOrchestrator
         CliToolDefinition toolDefinition,
         CancellationToken cancellationToken)
     {
-        var content = GeneratorUtils.GenerateAssemblyInfo(toolDefinition.TargetNamespace, toolDefinition.ToolName);
+        var content = GeneratorUtils.GenerateAssemblyInfo(toolDefinition.TargetNamespace);
         var path = Path.Combine(outputDirectory, toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs");
         await WriteFileAsync(path, content, cancellationToken);
     }

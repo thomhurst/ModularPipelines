@@ -5,5 +5,5 @@
 
 using System.Reflection;
 
-[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Tool", "gradle")]
+[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Package", "ModularPipelines.Java")]
 [assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Version", "2.0.0")]
