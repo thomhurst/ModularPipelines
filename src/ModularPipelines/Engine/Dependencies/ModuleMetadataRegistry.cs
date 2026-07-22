@@ -73,8 +73,12 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
 
         // Module configuration already combines attributes, overrides, and fluent metadata.
         tags.UnionWith(instance.Configuration.Tags);
+        if (instance is ITaggedModule taggedModule)
+        {
+            tags.UnionWith(taggedModule.Tags);
+        }
 
-        // 3. From registration
+        // Registration tags supplement module-provided metadata.
         if (_registrationTags.TryGetValue(moduleType, out var regTags))
         {
             tags.UnionWith(regTags);
@@ -88,7 +92,8 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
         }
         else
         {
-            category = instance.Configuration.Category;
+            category = instance.Configuration.Category
+                       ?? (instance as ITaggedModule)?.Category;
         }
 
         _finalizedMetadata[moduleType] = new ModuleMetadata(tags.ToFrozenSet(), category);

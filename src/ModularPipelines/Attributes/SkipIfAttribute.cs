@@ -38,7 +38,7 @@ public sealed class SkipIfAttribute<T> : Attribute, IConditionAttribute
 
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken) =>
-        RunConditionEvaluator.EvaluateAnyAsync([new T()], context, cancellationToken);
+        RunConditionEvaluator.EvaluateAnyAsync([static () => new T()], context, cancellationToken);
 
     /// <inheritdoc />
     public string ConditionNames => typeof(T).Name;
@@ -63,7 +63,7 @@ public sealed class SkipIfAttribute<T1, T2> : Attribute, IConditionAttribute
 
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken) =>
-        RunConditionEvaluator.EvaluateAnyAsync([new T1(), new T2()], context, cancellationToken);
+        RunConditionEvaluator.EvaluateAnyAsync([static () => new T1(), static () => new T2()], context, cancellationToken);
 
     /// <inheritdoc />
     public string ConditionNames => $"{typeof(T1).Name}, {typeof(T2).Name}";

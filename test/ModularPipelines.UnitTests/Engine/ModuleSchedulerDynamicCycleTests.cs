@@ -129,6 +129,8 @@ public class ModuleSchedulerDynamicCycleTests
         await Assert.That(() => scheduler.AddModule(new DynamicPredicateModule()))
             .Throws<DependencyCollisionException>();
         await Assert.That(scheduler.GetModuleState(typeof(DynamicPredicateModule))).IsNull();
+        await Assert.That(scheduler.GetModuleState(typeof(ExistingPredicateModule))!.Dependencies
+            .ContainsKey(typeof(DynamicPredicateModule))).IsFalse();
     }
 
     [Test]

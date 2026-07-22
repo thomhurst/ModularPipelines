@@ -237,6 +237,7 @@ internal class ModuleScheduler : IModuleScheduler
             var declaredDependenciesByType = _dependencyGraph.ToDictionary(
                 pair => pair.Key,
                 pair => new HashSet<Type>(pair.Value));
+            var newlyResolvedDependenciesByType = new Dictionary<Type, (Type DependencyType, bool Optional)[]>();
 
             foreach (var existingModuleType in _moduleStates.Keys)
             {
@@ -248,10 +249,7 @@ internal class ModuleScheduler : IModuleScheduler
                     .Where(dependency => dependency.DependencyType == moduleType)
                     .ToArray();
 
-                foreach (var (dependencyType, optional) in newlyResolvedDependencies)
-                {
-                    RecordDependency(_moduleStates[existingModuleType], dependencyType, optional);
-                }
+                newlyResolvedDependenciesByType[existingModuleType] = newlyResolvedDependencies;
 
                 declaredDependenciesByType[existingModuleType]
                     .UnionWith(newlyResolvedDependencies.Select(dependency => dependency.DependencyType));
@@ -271,6 +269,14 @@ internal class ModuleScheduler : IModuleScheduler
                     : new HashSet<Type>());
 
             ModuleDependencyValidator.ValidateCircularDependencies(candidateGraph);
+
+            foreach (var (existingModuleType, newlyResolvedDependencies) in newlyResolvedDependenciesByType)
+            {
+                foreach (var (dependencyType, optional) in newlyResolvedDependencies)
+                {
+                    RecordDependency(_moduleStates[existingModuleType], dependencyType, optional);
+                }
+            }
 
             foreach (var (dependencyType, optional) in newModuleDependencies)
             {

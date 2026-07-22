@@ -38,7 +38,7 @@ public sealed class RunIfAnyAttribute<T> : Attribute, IConditionAttribute
 
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken) =>
-        RunConditionEvaluator.EvaluateAnyAsync([new T()], context, cancellationToken);
+        RunConditionEvaluator.EvaluateAnyAsync([static () => new T()], context, cancellationToken);
 
     /// <inheritdoc />
     public string ConditionNames => typeof(T).Name;
@@ -63,7 +63,7 @@ public sealed class RunIfAnyAttribute<T1, T2> : Attribute, IConditionAttribute
 
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken) =>
-        RunConditionEvaluator.EvaluateAnyAsync([new T1(), new T2()], context, cancellationToken);
+        RunConditionEvaluator.EvaluateAnyAsync([static () => new T1(), static () => new T2()], context, cancellationToken);
 
     /// <inheritdoc />
     public string ConditionNames => $"{typeof(T1).Name}, {typeof(T2).Name}";
@@ -90,7 +90,10 @@ public sealed class RunIfAnyAttribute<T1, T2, T3> : Attribute, IConditionAttribu
 
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken) =>
-        RunConditionEvaluator.EvaluateAnyAsync([new T1(), new T2(), new T3()], context, cancellationToken);
+        RunConditionEvaluator.EvaluateAnyAsync(
+            [static () => new T1(), static () => new T2(), static () => new T3()],
+            context,
+            cancellationToken);
 
     /// <inheritdoc />
     public string ConditionNames => $"{typeof(T1).Name}, {typeof(T2).Name}, {typeof(T3).Name}";
@@ -119,7 +122,10 @@ public sealed class RunIfAnyAttribute<T1, T2, T3, T4> : Attribute, IConditionAtt
 
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken) =>
-        RunConditionEvaluator.EvaluateAnyAsync([new T1(), new T2(), new T3(), new T4()], context, cancellationToken);
+        RunConditionEvaluator.EvaluateAnyAsync(
+            [static () => new T1(), static () => new T2(), static () => new T3(), static () => new T4()],
+            context,
+            cancellationToken);
 
     /// <inheritdoc />
     public string ConditionNames => $"{typeof(T1).Name}, {typeof(T2).Name}, {typeof(T3).Name}, {typeof(T4).Name}";
