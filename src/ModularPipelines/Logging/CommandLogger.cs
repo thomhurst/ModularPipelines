@@ -92,11 +92,10 @@ internal class CommandLogger : ICommandLogger
             ? _secretObfuscator.Obfuscate(input, execOpts)
             : LoggingConstants.CommandMask;
 
-        // Build the main command line with inline metadata
-        var mainLine = new StringBuilder();
-        mainLine.Append(workingDirectory);
-        mainLine.Append("> ");
-        mainLine.Append(obfuscatedInput);
+        var commandMessage = new StringBuilder();
+        commandMessage.Append(workingDirectory);
+        commandMessage.Append("> ");
+        commandMessage.Append(obfuscatedInput);
 
         // Add inline output for short, single-line output on successful commands
         var trimmedOutput = standardOutput.Trim();
@@ -106,23 +105,22 @@ internal class CommandLogger : ICommandLogger
             && options.Verbosity >= CommandLogVerbosity.Normal
             && options.ShowStandardOutput;
 
-        if (hasShortOutput && isSuccess)
-        {
-            mainLine.Append(" → ");
-            mainLine.Append(_secretObfuscator.Obfuscate(trimmedOutput, execOpts));
-        }
+        var inlineOutput = hasShortOutput && isSuccess
+            ? $" → {_secretObfuscator.Obfuscate(trimmedOutput, execOpts)}"
+            : string.Empty;
 
         // Add status indicator and metadata
+        var commandStatus = new StringBuilder();
         if (options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExitCode || options.ShowExecutionTime)
         {
-            mainLine.Append(' ');
-            mainLine.Append(isSuccess ? '✓' : '✗');
+            commandStatus.Append(' ');
+            commandStatus.Append(isSuccess ? '✓' : '✗');
 
             var hasMetadata = false;
             if (options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExecutionTime)
             {
-                mainLine.Append(" [");
-                mainLine.Append(runTime?.ToDisplayString() ?? "?");
+                commandStatus.Append(" [");
+                commandStatus.Append(runTime?.ToDisplayString() ?? "?");
                 hasMetadata = true;
             }
 
@@ -130,25 +128,29 @@ internal class CommandLogger : ICommandLogger
             {
                 if (hasMetadata)
                 {
-                    mainLine.Append(", ");
+                    commandStatus.Append(", ");
                 }
                 else
                 {
-                    mainLine.Append(" [");
+                    commandStatus.Append(" [");
                     hasMetadata = true;
                 }
 
-                mainLine.Append("exit ");
-                mainLine.Append(exitCode);
+                commandStatus.Append("exit ");
+                commandStatus.Append(exitCode);
             }
 
             if (hasMetadata)
             {
-                mainLine.Append(']');
+                commandStatus.Append(']');
             }
         }
 
-        Logger.LogInformation("{Message}", mainLine.ToString());
+        Logger.LogInformation(
+            "{CommandMessage}{CommandOutput}{CommandStatus}",
+            commandMessage.ToString(),
+            inlineOutput,
+            commandStatus.ToString());
 
         // Log multi-line or long output on separate lines (only if not already shown inline)
         if (!hasShortOutput && !string.IsNullOrWhiteSpace(trimmedOutput)
@@ -158,7 +160,7 @@ internal class CommandLogger : ICommandLogger
             var outputToLog = execOpts?.OutputLoggingManipulator is not null
                 ? execOpts.OutputLoggingManipulator(trimmedOutput)
                 : trimmedOutput;
-            Logger.LogInformation("  ↳ {Output}", _secretObfuscator.Obfuscate(outputToLog, execOpts));
+            Logger.LogInformation("  ↳ {CommandOutput}", _secretObfuscator.Obfuscate(outputToLog, execOpts));
         }
 
         // Log errors on separate line
@@ -170,7 +172,7 @@ internal class CommandLogger : ICommandLogger
             var errorToLog = execOpts?.OutputLoggingManipulator is not null
                 ? execOpts.OutputLoggingManipulator(standardError)
                 : standardError;
-            Logger.LogWarning("  ✗ {Error}", _secretObfuscator.Obfuscate(errorToLog, execOpts));
+            Logger.LogWarning("  ✗ {CommandError}", _secretObfuscator.Obfuscate(errorToLog, execOpts));
         }
 
         // Log working directory only at Diagnostic level (separate line, indented)
