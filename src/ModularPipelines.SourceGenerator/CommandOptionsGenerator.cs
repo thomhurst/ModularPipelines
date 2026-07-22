@@ -116,8 +116,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             foreach (var property in current.GetMembers().OfType<IPropertySymbol>())
             {
-                if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name)
-                    || FindAttribute(property, attribute => IsAttribute(attribute, SecretValueAttributeFullName)) is null)
+                if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name))
+                {
+                    continue;
+                }
+
+                var secretAttribute = FindAttribute(
+                    property,
+                    attribute => IsAttribute(attribute, SecretValueAttributeFullName));
+                if (secretAttribute is null)
                 {
                     continue;
                 }
@@ -129,7 +136,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     continue;
                 }
 
-                var secretAttribute = FindAttribute(property, attribute => IsAttribute(attribute, SecretValueAttributeFullName))!;
                 properties.Add(new PropertyMetadata(
                     property.Name,
                     PropertyKind.Secret,
@@ -373,9 +379,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         return attribute.ConstructorArguments[0].Values
-            .Select(value => value.Value as string)
-            .Where(value => value is not null)
-            .Cast<string>()
+            .Select(value => value.Value)
+            .OfType<string>()
             .ToImmutableArray();
     }
 

@@ -1,6 +1,7 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers.Internal;
+using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.UnitTests.Attributes;
@@ -21,7 +22,7 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
     public string? Token { get; init; }
 
     [SecretValue("token", "password")]
-    public IReadOnlyList<ModularPipelines.Models.KeyValue>? Properties { get; init; }
+    public IReadOnlyList<KeyValue>? Properties { get; init; }
 }
 
 internal sealed record IncompleteGeneratedMetadataOptions : CommandLineToolOptions
