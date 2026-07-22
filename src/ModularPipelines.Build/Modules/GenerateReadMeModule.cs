@@ -42,7 +42,8 @@ public class GenerateReadMeModule : Module<IDictionary<string, object>>
                 $"| {moduleName} | {moduleDescription} | [![nuget](https://img.shields.io/nuget/v/{moduleName}.svg)](https://www.nuget.org/packages/{moduleName}/) |");
         }
 
-        var updatedContents = readmeTemplateContents.Replace("%%% AVAILABLE MODULES PLACEHOLDER %%%", generatedContentStringBuilder.ToString());
+        var generatedContent = generatedContentStringBuilder.ToString().TrimEnd('\r', '\n');
+        var updatedContents = readmeTemplateContents.Replace("%%% AVAILABLE MODULES PLACEHOLDER %%%", generatedContent);
 
         if (updatedContents == readMeActualOriginalContents)
         {
