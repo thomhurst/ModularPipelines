@@ -482,7 +482,7 @@ public class DynamicDependencyDeclarationTests : TestBase
 
         var deps = declaration.Dependencies;
 
-        await Assert.That(deps).HasCount().EqualTo(1);
+        await Assert.That(deps).Count().IsEqualTo(1);
         await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Required);
         await Assert.That(deps[0].IsOptional).IsEqualTo(false);
     }
@@ -495,7 +495,7 @@ public class DynamicDependencyDeclarationTests : TestBase
 
         var deps = declaration.Dependencies;
 
-        await Assert.That(deps).HasCount().EqualTo(1);
+        await Assert.That(deps).Count().IsEqualTo(1);
         await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Optional);
         await Assert.That(deps[0].IsOptional).IsEqualTo(true);
     }
@@ -508,7 +508,7 @@ public class DynamicDependencyDeclarationTests : TestBase
 
         var deps = declaration.Dependencies;
 
-        await Assert.That(deps).HasCount().EqualTo(1);
+        await Assert.That(deps).Count().IsEqualTo(1);
         await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Lazy);
         await Assert.That(deps[0].IsOptional).IsEqualTo(true);
     }
@@ -521,7 +521,7 @@ public class DynamicDependencyDeclarationTests : TestBase
 
         var deps = declaration.Dependencies;
 
-        await Assert.That(deps).HasCount().EqualTo(1);
+        await Assert.That(deps).Count().IsEqualTo(1);
         await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Conditional);
         await Assert.That(deps[0].IsOptional).IsEqualTo(false);
     }
@@ -534,7 +534,7 @@ public class DynamicDependencyDeclarationTests : TestBase
 
         var deps = declaration.Dependencies;
 
-        await Assert.That(deps).HasCount().EqualTo(0);
+        await Assert.That(deps).Count().IsEqualTo(0);
     }
 
     #endregion

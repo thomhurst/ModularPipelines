@@ -75,12 +75,12 @@ public class TrxParsingTests : TestBase
         await Assert.That(testResult.Successful).IsFalse();
 
         await Assert.That(testResult.UnitTestResults.Where(x => x.Outcome == TestOutcome.Failed))
-            .HasCount().EqualTo(1);
+            .Count().IsEqualTo(1);
 
         await Assert.That(testResult.UnitTestResults.Where(x => x.Outcome == TestOutcome.NotExecuted))
-            .HasCount().EqualTo(1);
+            .Count().IsEqualTo(1);
 
         await Assert.That(testResult.UnitTestResults.Where(x => x.Outcome == TestOutcome.Passed))
-            .HasCount().EqualTo(2);
+            .Count().IsEqualTo(2);
     }
 }

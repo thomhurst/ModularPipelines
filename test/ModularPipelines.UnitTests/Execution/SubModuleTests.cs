@@ -327,7 +327,7 @@ public class SubModuleTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleFailedException.InnerException).IsTypeOf<SubModuleFailedException>();
+            await Assert.That(moduleFailedException!.InnerException).IsTypeOf<SubModuleFailedException>();
             await Assert.That(moduleFailedException.InnerException).HasMessageEqualTo("The Sub-Module 1 has failed.");
         }
     }
@@ -340,7 +340,7 @@ public class SubModuleTests : TestBase
                 .AddModule<FailingSubModulesWithoutReturnTypeModule>()
                 .ExecutePipelineAsync());
 
-        await Assert.That(exception.InnerException).IsTypeOf<SubModuleFailedException>();
+        await Assert.That(exception!.InnerException).IsTypeOf<SubModuleFailedException>();
 
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
             await TestPipelineHostBuilder.Create()
@@ -382,7 +382,7 @@ public class SubModuleTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleFailedException.InnerException).IsTypeOf<SubModuleFailedException>();
+            await Assert.That(moduleFailedException!.InnerException).IsTypeOf<SubModuleFailedException>();
             await Assert.That(moduleFailedException.InnerException!).HasMessageEqualTo("The Sub-Module 1 has failed.");
         }
     }

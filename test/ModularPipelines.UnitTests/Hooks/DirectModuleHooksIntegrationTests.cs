@@ -265,7 +265,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
         var result = await host.ExecutePipelineAsync();
 
         // Pipeline should complete successfully
-        await Assert.That(result.Modules).HasCount().EqualTo(2);
+        await Assert.That(result.Modules).Count().IsEqualTo(2);
 
         // All modules should have succeeded
         var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();

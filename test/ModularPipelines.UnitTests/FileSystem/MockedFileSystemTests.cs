@@ -30,7 +30,7 @@ public class MockedFileSystemTests
             .ExecutePipelineAsync();
 
         // Assert
-        await Assert.That(result.Modules).HasCount().EqualTo(1);
+        await Assert.That(result.Modules).Count().IsEqualTo(1);
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
 
         // Verify module result is correct

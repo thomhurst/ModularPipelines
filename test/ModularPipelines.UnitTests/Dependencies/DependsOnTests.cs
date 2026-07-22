@@ -59,7 +59,9 @@ public class DependsOnTests : TestBase
         }
     }
 
+#pragma warning disable CS0618 // Intentionally verifies validation of the legacy non-generic attribute.
     [ModularPipelines.Attributes.DependsOn(typeof(ModuleFailedException))]
+#pragma warning restore CS0618
     private class DependsOnNonModule : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
