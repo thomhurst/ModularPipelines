@@ -261,7 +261,14 @@ internal class ModuleScheduler : IModuleScheduler
                 pair => GetAllDependenciesIncludingPredicate(pair.Value, availableModuleTypes).ToArray());
             var candidateGraph = dependenciesByType.ToDictionary(
                 pair => pair.Key,
-                pair => pair.Value.Select(dependency => dependency.DependencyType).ToHashSet());
+                pair => pair.Key == moduleType || _moduleStates[pair.Key].State == ModuleExecutionState.Pending
+                    ? pair.Value
+                        .Where(dependency =>
+                            !_moduleStates.TryGetValue(dependency.DependencyType, out var dependencyState)
+                            || dependencyState.State != ModuleExecutionState.Completed)
+                        .Select(dependency => dependency.DependencyType)
+                        .ToHashSet()
+                    : new HashSet<Type>());
 
             ModuleDependencyValidator.ValidateCircularDependencies(candidateGraph);
 

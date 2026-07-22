@@ -121,6 +121,20 @@ public class ModuleSchedulerDynamicCycleTests
     }
 
     [Test]
+    public async Task AddModule_DoesNotCreateCycleThroughCompletedDependent()
+    {
+        using var scheduler = CreateScheduler();
+        scheduler.InitializeModules([new ExistingModule()]);
+        scheduler.MarkModuleCompleted(typeof(ExistingModule), success: true);
+
+        scheduler.AddModule(new DynamicModule());
+
+        var state = scheduler.GetModuleState(typeof(DynamicModule));
+        await Assert.That(state).IsNotNull();
+        await Assert.That(state!.IsReadyToExecute).IsTrue();
+    }
+
+    [Test]
     public async Task AddModule_ReconcilesExistingPredicateDependencies()
     {
         using var scheduler = CreateScheduler();
