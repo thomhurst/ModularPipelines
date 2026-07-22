@@ -212,17 +212,6 @@ internal class ModuleStateTracker : IModuleStateTracker
             queuedCount,
             executingCount);
 
-        var moduleName = state.ModuleType.Name;
-
-        if (state.ExecutionStartTime.HasValue && state.CompletionTime.HasValue)
-        {
-            var executionTime = state.CompletionTime.Value - state.ExecutionStartTime.Value;
-            _logger.LogDebug(
-                "Module {ModuleName} completed after {ExecutionTime}ms",
-                moduleName,
-                executionTime.TotalMilliseconds);
-        }
-
         // Log dependent module updates outside lock
         LogDependentModuleUpdates(state, dependentUpdates);
 
