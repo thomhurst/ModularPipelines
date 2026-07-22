@@ -20,4 +20,12 @@ public class TimeSpanFormatterTests
 
         await Assert.That(duration.ToDisplayString()).IsEqualTo(expected);
     }
+
+    [Test]
+    public async Task ToDisplayString_IncludesDaysAsTotalHours()
+    {
+        var duration = TimeSpan.FromHours(25.5);
+
+        await Assert.That(duration.ToDisplayString()).IsEqualTo("25h & 30m");
+    }
 }

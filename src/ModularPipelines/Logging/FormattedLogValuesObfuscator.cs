@@ -58,7 +58,16 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
                 continue;
             }
 
-            var valueString = value.ToString() ?? string.Empty;
+            if (value is not string valueString)
+            {
+                if (value.GetType().IsValueType)
+                {
+                    continue;
+                }
+
+                valueString = value.ToString() ?? string.Empty;
+            }
+
             values[index] = _secretObfuscator.Obfuscate(valueString, null);
         }
     }

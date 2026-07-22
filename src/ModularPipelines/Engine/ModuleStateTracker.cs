@@ -204,17 +204,26 @@ internal class ModuleStateTracker : IModuleStateTracker
         _metricsCollector.RecordModuleCompleted(moduleType, completionTime, success, wasSkipped, status);
         _metricsCollector.RecordConcurrencySnapshot(executingCount, completionTime);
 
-        // Logging outside lock - use plain text, not markup (markup causes double-escaping issues)
         var lockKeys = state.RequiredLockKeys.Length == 0
             ? "(none)"
             : string.Join(", ", state.RequiredLockKeys);
-
-        _logger.LogDebug(
-            "Module {ModuleName} completed with lock keys: {Keys} (Active: Q={Queued}, E={Executing})",
+        var executionTime = state.ExecutionStartTime.HasValue
+            ? completionTime - state.ExecutionStartTime.Value
+            : (TimeSpan?) null;
+        var completionLog = new ModuleCompletionLogState(
             state.ModuleType.Name,
+            executionTime,
             lockKeys,
             queuedCount,
             executingCount);
+
+        // Logging outside lock - use plain text, not markup (markup causes double-escaping issues)
+        _logger.Log(
+            LogLevel.Debug,
+            default,
+            completionLog,
+            null,
+            static (state, _) => state.Message);
 
         // Log dependent module updates outside lock
         LogDependentModuleUpdates(state, dependentUpdates);
