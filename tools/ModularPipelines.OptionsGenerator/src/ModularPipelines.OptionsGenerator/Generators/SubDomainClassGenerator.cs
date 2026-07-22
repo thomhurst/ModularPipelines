@@ -111,12 +111,13 @@ public class SubDomainClassGenerator : ICodeGenerator
             }
         }
 
-        // Generate file for this node
-        // Pass parentCommand only for root nodes (depth 0), and pass excluded commands
+        // Generate the command represented by this node as Execute(). Root nodes receive
+        // their top-level command; nested nodes receive a command that collided with the
+        // child property used to reach them.
         var content = GenerateNodeClass(
             node,
             tool,
-            node.Depth == 0 ? parentCommand : null,
+            parentCommand,
             collidingCommands.Values.ToHashSet());
 
         var fileName = $"{node.ClassName}.Generated.cs";

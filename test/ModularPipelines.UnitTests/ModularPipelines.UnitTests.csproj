@@ -44,6 +44,7 @@
     <ProjectReference Include="..\..\src\ModularPipelines.SonarScanner\ModularPipelines.SonarScanner.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.TeamCity\ModularPipelines.TeamCity.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Trivy\ModularPipelines.Trivy.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
   </ItemGroup>
