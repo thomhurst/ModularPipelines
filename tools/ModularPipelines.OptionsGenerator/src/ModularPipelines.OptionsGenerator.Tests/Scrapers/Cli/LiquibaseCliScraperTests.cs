@@ -174,6 +174,38 @@ public class LiquibaseCliScraperTests
             .IsEquivalentTo(["--changelog-file"]);
     }
 
+    [Test]
+    public async Task Windows_Resolver_Prefers_Batch_Launcher()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "mp-liquibase-resolver-tests", Guid.NewGuid().ToString("N"));
+
+        try
+        {
+            Directory.CreateDirectory(root);
+            var batchLauncher = Path.Combine(root, "liquibase.bat");
+            await File.WriteAllTextAsync(batchLauncher, string.Empty);
+
+            var resolved = LiquibaseCliScraper.ResolveExecutablePath(root, isWindows: true);
+
+            await Assert.That(resolved).IsEqualTo(Path.GetFullPath(batchLauncher));
+        }
+        finally
+        {
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, recursive: true);
+            }
+        }
+    }
+
+    [Test]
+    public async Task Windows_Resolver_Falls_Back_To_Normal_Command_Name()
+    {
+        var resolved = LiquibaseCliScraper.ResolveExecutablePath(string.Empty, isWindows: true);
+
+        await Assert.That(resolved).IsEqualTo("liquibase");
+    }
+
     private sealed class TestLiquibaseCliScraper(ICliCommandExecutor? executor = null)
         : LiquibaseCliScraper(executor ?? new StubExecutor(), new StubHelpTextCache(), NullLogger<LiquibaseCliScraper>.Instance)
     {

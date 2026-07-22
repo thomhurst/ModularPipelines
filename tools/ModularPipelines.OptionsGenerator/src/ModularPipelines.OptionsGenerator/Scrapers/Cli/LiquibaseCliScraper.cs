@@ -449,14 +449,14 @@ public partial class LiquibaseCliScraper : CliScraperBase
         return string.IsNullOrEmpty(cleaned) ? null : cleaned;
     }
 
-    private static string ResolveExecutablePath()
+    internal static string ResolveExecutablePath(string? searchPath = null, bool? isWindows = null)
     {
-        if (!OperatingSystem.IsWindows())
+        if (!(isWindows ?? OperatingSystem.IsWindows()))
         {
             return "liquibase";
         }
 
-        var pathDirectories = Environment.GetEnvironmentVariable("PATH")?
+        var pathDirectories = (searchPath ?? Environment.GetEnvironmentVariable("PATH"))?
             .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             ?? [];
 
@@ -469,7 +469,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
             }
         }
 
-        return "liquibase.bat";
+        return "liquibase";
     }
 
     /// <summary>
