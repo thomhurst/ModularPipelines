@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ModularPipelines.Attributes;
 
@@ -12,9 +13,15 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     /// <inheritdoc/>
     public IReadOnlyList<PropertyCommandLinePart> GetCommandModel(Type optionsType)
     {
+        if (GeneratedCommandMetadata.TryGet(optionsType, out var generatedModel))
+        {
+            return generatedModel;
+        }
+
         return _cache.GetOrAdd(optionsType, BuildModel);
     }
 
+    [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties. Ensure ModularPipelines.SourceGenerator runs for trim-safe command models.")]
     private static IReadOnlyList<PropertyCommandLinePart> BuildModel(Type type)
     {
         var parts = new List<PropertyCommandLinePart>();
@@ -24,15 +31,15 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         {
             if (property.GetCustomAttribute<CliArgumentAttribute>() is { } arg)
             {
-                parts.Add(new ArgumentPart(property, arg));
+                parts.Add(new ArgumentPart(property.Name, property.GetValue, arg));
             }
             else if (property.GetCustomAttribute<CliFlagAttribute>() is { } flag)
             {
-                parts.Add(new FlagPart(property, flag));
+                parts.Add(new FlagPart(property.Name, property.GetValue, flag));
             }
             else if (property.GetCustomAttribute<CliOptionAttribute>() is { } option)
             {
-                parts.Add(new OptionPart(property, option));
+                parts.Add(new OptionPart(property.Name, property.GetValue, option));
             }
         }
 

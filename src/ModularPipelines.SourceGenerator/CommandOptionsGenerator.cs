@@ -1,5 +1,5 @@
 using System.Collections.Immutable;
-using System.Linq;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -7,329 +7,398 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace ModularPipelines.SourceGenerator;
 
 /// <summary>
-/// Source generator that validates CommandLineToolOptions classes
-/// and generates optimized BuildCommandLine() methods.
+/// Generates direct property-access metadata for CLI options and secrets.
 /// </summary>
 [Generator]
 public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
-    /// <summary>
-    /// The fully qualified name of the CommandLineToolOptions base class.
-    /// </summary>
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
-
-    /// <summary>
-    /// The fully qualified name of the CliToolAttribute.
-    /// </summary>
-    internal const string CliToolAttributeFullName = "ModularPipelines.Attributes.CliToolAttribute";
-
-    /// <summary>
-    /// The fully qualified name of the CliSubCommandAttribute.
-    /// </summary>
-    internal const string CliSubCommandAttributeFullName = "ModularPipelines.Attributes.CliSubCommandAttribute";
-
-    /// <summary>
-    /// The fully qualified name of the CliOptionAttribute.
-    /// </summary>
     internal const string CliOptionAttributeFullName = "ModularPipelines.Attributes.CliOptionAttribute";
-
-    /// <summary>
-    /// The fully qualified name of the CliFlagAttribute.
-    /// </summary>
     internal const string CliFlagAttributeFullName = "ModularPipelines.Attributes.CliFlagAttribute";
-
-    /// <summary>
-    /// The fully qualified name of the CliArgumentAttribute.
-    /// </summary>
     internal const string CliArgumentAttributeFullName = "ModularPipelines.Attributes.CliArgumentAttribute";
+    internal const string SecretValueAttributeFullName = "ModularPipelines.Attributes.SecretValueAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        // Create syntax provider that finds record/class declarations
-        var optionsClasses = context.SyntaxProvider
+        var metadata = context.SyntaxProvider
             .CreateSyntaxProvider(
-                predicate: static (node, _) => IsCandidate(node),
-                transform: static (ctx, _) => GetOptionsClassInfo(ctx))
-            .Where(static info => info is not null)
-            .Select(static (info, _) => info!);
+                static (node, _) => node is ClassDeclarationSyntax
+                    || (node is RecordDeclarationSyntax record
+                        && !record.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword)),
+                static (generatorContext, _) => GetTypeMetadata(generatorContext))
+            .Where(static item => item is not null)
+            .Select(static (item, _) => item!);
 
-        // Register the output
-        context.RegisterSourceOutput(optionsClasses, static (ctx, info) => GenerateCode(ctx, info));
-    }
-
-    /// <summary>
-    /// Checks if a syntax node is a potential candidate for options class discovery.
-    /// Returns true for record or class declarations.
-    /// </summary>
-    private static bool IsCandidate(SyntaxNode node)
-    {
-        return node is RecordDeclarationSyntax || node is ClassDeclarationSyntax;
-    }
-
-    /// <summary>
-    /// Extracts OptionsClassInfo from a type declaration if it inherits from CommandLineToolOptions.
-    /// </summary>
-    private static OptionsClassInfo? GetOptionsClassInfo(GeneratorSyntaxContext context)
-    {
-        var typeDeclaration = (TypeDeclarationSyntax)context.Node;
-        var semanticModel = context.SemanticModel;
-
-        // Get the declared symbol for this type
-        if (semanticModel.GetDeclaredSymbol(typeDeclaration) is not INamedTypeSymbol typeSymbol)
+        context.RegisterSourceOutput(metadata.Collect(), static (sourceContext, items) =>
         {
-            return null;
-        }
-
-        // Check if this type inherits from CommandLineToolOptions
-        if (!InheritsFromCommandLineToolOptions(typeSymbol, semanticModel.Compilation))
-        {
-            return null;
-        }
-
-        // Extract namespace
-        var namespaceName = typeSymbol.ContainingNamespace.IsGlobalNamespace
-            ? string.Empty
-            : typeSymbol.ContainingNamespace.ToDisplayString();
-
-        // Check if the type is partial
-        var isPartial = typeDeclaration.Modifiers.Any(SyntaxKind.PartialKeyword);
-
-        // Get the tool name from the type hierarchy
-        var toolName = GetToolName(typeSymbol);
-
-        // Get subcommand parts (stub - will be implemented in property extraction phase)
-        var subCommandParts = GetSubCommandParts(typeSymbol);
-
-        // Get CLI properties (stub - will be implemented in property extraction phase)
-        var properties = GetCliProperties(typeSymbol);
-
-        // Only process classes that have [CliTool] attribute OR CLI property attributes.
-        // Legacy classes without these should be silently ignored.
-        if (toolName is null && properties.Count == 0)
-        {
-            return null;
-        }
-
-        return new OptionsClassInfo(
-            Namespace: namespaceName,
-            ClassName: typeSymbol.Name,
-            ToolName: toolName,
-            SubCommandParts: subCommandParts,
-            Properties: properties,
-            IsPartial: isPartial,
-            Location: typeDeclaration.Identifier.GetLocation(),
-            BuildMethodModifier: GetBuildMethodModifier(typeSymbol, semanticModel.Compilation)
-        );
-    }
-
-    /// <summary>
-    /// Determines the modifier for the generated BuildCommandLine() method so that
-    /// derived options classes override the base method instead of hiding it (CS0108).
-    /// Base-most generated classes get "virtual "; classes whose ancestor also gets a
-    /// generated method get "override "; sealed base-most classes get no modifier.
-    /// </summary>
-    private static string GetBuildMethodModifier(INamedTypeSymbol type, Compilation compilation)
-    {
-        var commandLineType = compilation.GetTypeByMetadataName("ModularPipelines.Models.CommandLine");
-
-        for (var current = type.BaseType; current is not null; current = current.BaseType)
-        {
-            // Ancestor compiled in another assembly: its generated method is visible as metadata.
-            // Only methods a derived type in another assembly can actually hide or override matter:
-            // instance, parameterless, non-generic, and at least protected.
-            var existing = current.GetMembers("BuildCommandLine")
-                .OfType<IMethodSymbol>()
-                .FirstOrDefault(m => m.Parameters.IsEmpty
-                    && !m.IsStatic
-                    && !m.IsGenericMethod
-                    && m.DeclaredAccessibility is Accessibility.Public or Accessibility.Protected or Accessibility.ProtectedOrInternal);
-            if (existing is not null)
+            if (items.Length > 0)
             {
-                // Override only a public live slot with the matching return type — the
-                // generated method is always public, and an override cannot change the
-                // inherited accessibility. Anything else (non-virtual, sealed override,
-                // protected, different return type) must be hidden with "new" to keep the
-                // consuming project compiling. The hidden method opens a fresh virtual slot
-                // so generated descendants can still emit "override".
-                var returnsCommandLine = commandLineType is not null
-                    && SymbolEqualityComparer.Default.Equals(existing.ReturnType, commandLineType);
-                var overridable = (existing.IsVirtual || existing.IsAbstract || existing.IsOverride)
-                    && !existing.IsSealed
-                    && existing.DeclaredAccessibility == Accessibility.Public;
-                if (returnsCommandLine && overridable)
+                sourceContext.AddSource("ModularPipelines.RuntimeMetadata.g.cs", Generate(items));
+            }
+        });
+    }
+
+    private static TypeMetadata? GetTypeMetadata(GeneratorSyntaxContext context)
+    {
+        if (context.SemanticModel.GetDeclaredSymbol(context.Node) is not INamedTypeSymbol type
+            || type.IsGenericType
+            || !IsTypeAccessible(type, context.SemanticModel.Compilation.Assembly))
+        {
+            return null;
+        }
+
+        var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
+        var commandMetadata = isCommandOptions
+            ? GetCommandProperties(type, context.SemanticModel.Compilation.Assembly)
+            : PropertyCollection.Empty;
+        var secretMetadata = GetSecretProperties(type, context.SemanticModel.Compilation.Assembly);
+
+        if (!isCommandOptions && !secretMetadata.HasAttributes)
+        {
+            return null;
+        }
+
+        return new TypeMetadata(
+            type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+            isCommandOptions,
+            commandMetadata,
+            secretMetadata);
+    }
+
+    private static PropertyCollection GetCommandProperties(
+        INamedTypeSymbol type,
+        IAssemblySymbol currentAssembly)
+    {
+        var properties = new Dictionary<string, PropertyMetadata>(StringComparer.Ordinal);
+        var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
+        var isComplete = true;
+        var hasAttributes = false;
+
+        for (var current = type; current is not null; current = current.BaseType)
+        {
+            foreach (var property in current.GetMembers().OfType<IPropertySymbol>())
+            {
+                if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name))
                 {
-                    return "override ";
+                    continue;
                 }
 
-                return type.IsSealed ? "new " : "new virtual ";
-            }
-
-            // Ancestor in the current compilation: its generated method is not visible to us,
-            // so predict whether GenerateCode will emit one for it.
-            if (WouldGenerateBuildMethod(current, compilation))
-            {
-                return "override ";
-            }
-        }
-
-        return type.IsSealed ? string.Empty : "virtual ";
-    }
-
-    /// <summary>
-    /// Predicts whether GenerateCode will emit a BuildCommandLine() method for the given
-    /// source-declared type, mirroring the checks in GetOptionsClassInfo and GenerateCode.
-    /// </summary>
-    private static bool WouldGenerateBuildMethod(INamedTypeSymbol type, Compilation compilation)
-    {
-        if (!InheritsFromCommandLineToolOptions(type, compilation))
-        {
-            return false;
-        }
-
-        if (GetToolName(type) is null && GetCliProperties(type).Count == 0)
-        {
-            return false;
-        }
-
-        return IsDeclaredPartial(type);
-    }
-
-    /// <summary>
-    /// Checks whether any declaration of the type carries the partial keyword.
-    /// GenerateCode skips non-partial types, so they never receive a generated method.
-    /// </summary>
-    private static bool IsDeclaredPartial(INamedTypeSymbol type)
-    {
-        foreach (var reference in type.DeclaringSyntaxReferences)
-        {
-            if (reference.GetSyntax() is TypeDeclarationSyntax declaration
-                && declaration.Modifiers.Any(SyntaxKind.PartialKeyword))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /// <summary>
-    /// Checks if the given type inherits from CommandLineToolOptions.
-    /// Walks the base type hierarchy.
-    /// </summary>
-    private static bool InheritsFromCommandLineToolOptions(INamedTypeSymbol type, Compilation compilation)
-    {
-        var commandLineToolOptionsType = compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName);
-        if (commandLineToolOptionsType is null)
-        {
-            return false;
-        }
-
-        var current = type.BaseType;
-        while (current is not null)
-        {
-            if (SymbolEqualityComparer.Default.Equals(current, commandLineToolOptionsType))
-            {
-                return true;
-            }
-
-            current = current.BaseType;
-        }
-
-        return false;
-    }
-
-    /// <summary>
-    /// Gets the tool name from the [CliTool] attribute on the type or its base types.
-    /// </summary>
-    private static string? GetToolName(INamedTypeSymbol type)
-    {
-        var current = type;
-        while (current is not null)
-        {
-            foreach (var attribute in current.GetAttributes())
-            {
-                if (attribute.AttributeClass?.ToDisplayString() == CliToolAttributeFullName)
+                var attribute = FindAttribute(property, IsCommandAttribute);
+                if (attribute is null)
                 {
-                    // Get the first constructor argument (the tool name)
-                    if (attribute.ConstructorArguments.Length > 0 &&
-                        attribute.ConstructorArguments[0].Value is string toolName)
-                    {
-                        return toolName;
-                    }
+                    continue;
                 }
-            }
 
-            current = current.BaseType;
+                hasAttributes = true;
+                if (!IsPropertyAccessible(property, currentAssembly))
+                {
+                    isComplete = false;
+                    continue;
+                }
+
+                properties.Add(property.Name, CreatePropertyMetadata(property, attribute));
+            }
+        }
+
+        return new PropertyCollection(properties.Values.ToImmutableArray(), isComplete, hasAttributes);
+    }
+
+    private static PropertyCollection GetSecretProperties(
+        INamedTypeSymbol type,
+        IAssemblySymbol currentAssembly)
+    {
+        var properties = ImmutableArray.CreateBuilder<PropertyMetadata>();
+        var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
+        var isComplete = true;
+        var hasAttributes = false;
+
+        for (var current = type; current is not null; current = current.BaseType)
+        {
+            foreach (var property in current.GetMembers().OfType<IPropertySymbol>())
+            {
+                if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name)
+                    || FindAttribute(property, attribute => IsAttribute(attribute, SecretValueAttributeFullName)) is null)
+                {
+                    continue;
+                }
+
+                hasAttributes = true;
+                if (!IsPropertyAccessible(property, currentAssembly))
+                {
+                    isComplete = false;
+                    continue;
+                }
+
+                properties.Add(new PropertyMetadata(property.Name, PropertyKind.Secret, null, null, false, 0, 0, null));
+            }
+        }
+
+        return new PropertyCollection(properties.ToImmutable(), isComplete, hasAttributes);
+    }
+
+    private static AttributeData? FindAttribute(
+        IPropertySymbol property,
+        Func<AttributeData, bool> predicate)
+    {
+        for (var current = property; current is not null; current = current.OverriddenProperty)
+        {
+            var attribute = current.GetAttributes().FirstOrDefault(predicate);
+            if (attribute is not null)
+            {
+                return attribute;
+            }
         }
 
         return null;
     }
 
-    /// <summary>
-    /// Gets the subcommand parts from [CliSubCommand] attributes.
-    /// Stub implementation - will be completed in property extraction phase.
-    /// </summary>
-    private static IReadOnlyList<string> GetSubCommandParts(INamedTypeSymbol type)
+    private static PropertyMetadata CreatePropertyMetadata(IPropertySymbol property, AttributeData attribute)
     {
-        // Stub implementation - returns empty list
-        // Full implementation will walk the type hierarchy to collect [CliSubCommand] attributes
-        return Array.Empty<string>();
+        var attributeName = attribute.AttributeClass?.ToDisplayString();
+        if (attributeName == CliArgumentAttributeFullName)
+        {
+            return new PropertyMetadata(
+                property.Name,
+                PropertyKind.Argument,
+                GetNamedString(attribute, "Name"),
+                null,
+                false,
+                GetConstructorInt(attribute),
+                GetNamedInt(attribute, "Placement"),
+                null);
+        }
+
+        if (attributeName == CliFlagAttributeFullName)
+        {
+            return new PropertyMetadata(
+                property.Name,
+                PropertyKind.Flag,
+                GetConstructorString(attribute),
+                GetNamedString(attribute, "ShortForm"),
+                GetNamedBool(attribute, "PreferShortForm"),
+                0,
+                0,
+                null);
+        }
+
+        return new PropertyMetadata(
+            property.Name,
+            PropertyKind.Option,
+            GetConstructorString(attribute),
+            GetNamedString(attribute, "ShortForm"),
+            GetNamedBool(attribute, "PreferShortForm"),
+            GetNamedInt(attribute, "Format"),
+            GetNamedBool(attribute, "AllowMultiple") ? 1 : 0,
+            GetNamedString(attribute, "CustomSeparator"));
     }
 
-    /// <summary>
-    /// Gets the CLI properties from the type.
-    /// Stub implementation - will be completed in property extraction phase.
-    /// </summary>
-    private static IReadOnlyList<CliPropertyInfo> GetCliProperties(INamedTypeSymbol type)
+    private static string Generate(ImmutableArray<TypeMetadata> items)
     {
-        // Stub implementation - returns empty list
-        // Full implementation will scan properties for [CliOption], [CliFlag], [CliArgument] attributes
-        // and report MP0004 for properties without CLI attributes
-        return Array.Empty<CliPropertyInfo>();
+        var uniqueItems = items
+            .GroupBy(item => item.TypeName, StringComparer.Ordinal)
+            .Select(group => group.First())
+            .OrderBy(item => item.TypeName, StringComparer.Ordinal)
+            .ToList();
+        var sb = new StringBuilder();
+
+        sb.AppendLine("// <auto-generated/>");
+        sb.AppendLine("#nullable enable");
+        sb.AppendLine();
+        sb.AppendLine("namespace ModularPipelines.Generated;");
+        sb.AppendLine();
+        sb.AppendLine("internal static class RuntimeMetadataRegistration");
+        sb.AppendLine("{");
+        sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
+        sb.AppendLine("    internal static void Register()");
+        sb.AppendLine("    {");
+
+        foreach (var item in uniqueItems)
+        {
+            if (item.IsCommandOptions)
+            {
+                AppendCommandRegistration(sb, item);
+            }
+
+            if (item.SecretMetadata.HasAttributes)
+            {
+                AppendSecretRegistration(sb, item);
+            }
+        }
+
+        sb.AppendLine("    }");
+        sb.AppendLine("}");
+        return sb.ToString();
     }
 
-    /// <summary>
-    /// Generates the source code for the options class.
-    /// Validates the class and reports diagnostics.
-    /// </summary>
-    private static void GenerateCode(SourceProductionContext context, OptionsClassInfo info)
+    private static void AppendCommandRegistration(StringBuilder sb, TypeMetadata item)
     {
-        // Validate partial keyword
-        if (!info.IsPartial)
+        sb.AppendLine("        global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata.Register(");
+        sb.AppendLine($"            typeof({item.TypeName}),");
+        sb.AppendLine("            new global::ModularPipelines.Helpers.Internal.PropertyCommandLinePart[]");
+        sb.AppendLine("            {");
+
+        foreach (var property in item.CommandMetadata.Properties)
         {
-            context.ReportDiagnostic(Diagnostic.Create(
-                Diagnostics.MissingPartialKeyword,
-                info.Location,
-                info.ClassName));
-            return; // Can't generate without partial
+            var getter = $"static instance => (({item.TypeName})instance).@{property.Name}";
+            switch (property.Kind)
+            {
+                case PropertyKind.Argument:
+                    sb.AppendLine("                new global::ModularPipelines.Helpers.Internal.ArgumentPart(");
+                    sb.AppendLine($"                    {Literal(property.Name)}, {getter},");
+                    sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliArgumentAttribute({property.FirstInt})");
+                    sb.AppendLine("                    {");
+                    sb.AppendLine($"                        Placement = (global::ModularPipelines.Attributes.ArgumentPlacement){property.SecondInt},");
+                    sb.AppendLine($"                        Name = {NullableLiteral(property.PrimaryValue)},");
+                    sb.AppendLine("                    }),");
+                    break;
+                case PropertyKind.Flag:
+                    sb.AppendLine("                new global::ModularPipelines.Helpers.Internal.FlagPart(");
+                    sb.AppendLine($"                    {Literal(property.Name)}, {getter},");
+                    sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliFlagAttribute({Literal(property.PrimaryValue!)})");
+                    sb.AppendLine("                    {");
+                    sb.AppendLine($"                        ShortForm = {NullableLiteral(property.ShortForm)},");
+                    sb.AppendLine($"                        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
+                    sb.AppendLine("                    }),");
+                    break;
+                case PropertyKind.Option:
+                    sb.AppendLine("                new global::ModularPipelines.Helpers.Internal.OptionPart(");
+                    sb.AppendLine($"                    {Literal(property.Name)}, {getter},");
+                    sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliOptionAttribute({Literal(property.PrimaryValue!)})");
+                    sb.AppendLine("                    {");
+                    sb.AppendLine($"                        ShortForm = {NullableLiteral(property.ShortForm)},");
+                    sb.AppendLine($"                        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
+                    sb.AppendLine($"                        Format = (global::ModularPipelines.Attributes.OptionFormat){property.FirstInt},");
+                    sb.AppendLine($"                        AllowMultiple = {BooleanLiteral(property.SecondInt == 1)},");
+                    sb.AppendLine($"                        CustomSeparator = {NullableLiteral(property.CustomSeparator)},");
+                    sb.AppendLine("                    }),");
+                    break;
+            }
         }
 
-        // Warn about missing [CliTool]
-        if (info.ToolName is null)
+        sb.AppendLine($"            }}, isComplete: {BooleanLiteral(item.CommandMetadata.IsComplete)});");
+    }
+
+    private static void AppendSecretRegistration(StringBuilder sb, TypeMetadata item)
+    {
+        sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.Register(");
+        sb.AppendLine($"            typeof({item.TypeName}),");
+        sb.AppendLine("            new global::ModularPipelines.Engine.SecretPropertyAccessor[]");
+        sb.AppendLine("            {");
+
+        foreach (var property in item.SecretMetadata.Properties)
         {
-            context.ReportDiagnostic(Diagnostic.Create(
-                Diagnostics.MissingCliToolAttribute,
-                info.Location,
-                info.ClassName));
+            sb.AppendLine($"                new({Literal(property.Name)}, static instance => (({item.TypeName})instance).@{property.Name}),");
         }
 
-        // Check for duplicate argument positions
-        var argumentPositions = info.Properties
-            .Where(p => p.Kind == CliPropertyKind.Argument && p.ArgumentPosition.HasValue)
-            .GroupBy(p => p.ArgumentPosition!.Value)
-            .Where(g => g.Count() > 1);
+        sb.AppendLine($"            }}, isComplete: {BooleanLiteral(item.SecretMetadata.IsComplete)});");
+    }
 
-        foreach (var group in argumentPositions)
+    private static bool InheritsFrom(INamedTypeSymbol type, string metadataName)
+    {
+        for (var current = type; current is not null; current = current.BaseType)
         {
-            var propNames = string.Join(", ", group.Select(p => p.Name));
-            context.ReportDiagnostic(Diagnostic.Create(
-                Diagnostics.DuplicateArgumentPosition,
-                info.Location,
-                propNames, group.Key));
+            if (current.ToDisplayString() == metadataName)
+            {
+                return true;
+            }
         }
 
-        // Generate BuildCommandLine() method
-        var source = BuildMethodGenerator.Generate(info);
-        context.AddSource($"{info.ClassName}.g.cs", source);
+        return false;
+    }
+
+    private static bool IsTypeAccessible(INamedTypeSymbol type, IAssemblySymbol currentAssembly)
+    {
+        for (var current = type; current is not null; current = current.ContainingType)
+        {
+            if (!IsAccessible(current.DeclaredAccessibility, current.ContainingAssembly, currentAssembly))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool IsPropertyAccessible(IPropertySymbol property, IAssemblySymbol currentAssembly)
+    {
+        return IsAccessible(property.DeclaredAccessibility, property.ContainingAssembly, currentAssembly)
+            && IsAccessible(property.GetMethod!.DeclaredAccessibility, property.ContainingAssembly, currentAssembly)
+            && IsTypeAccessible(property.ContainingType, currentAssembly);
+    }
+
+    private static bool IsAccessible(
+        Accessibility accessibility,
+        IAssemblySymbol containingAssembly,
+        IAssemblySymbol currentAssembly)
+    {
+        return accessibility == Accessibility.Public
+            || ((accessibility == Accessibility.Internal || accessibility == Accessibility.ProtectedOrInternal)
+                && SymbolEqualityComparer.Default.Equals(containingAssembly, currentAssembly));
+    }
+
+    private static bool IsCommandAttribute(AttributeData attribute)
+    {
+        var name = attribute.AttributeClass?.ToDisplayString();
+        return name == CliArgumentAttributeFullName || name == CliFlagAttributeFullName || name == CliOptionAttributeFullName;
+    }
+
+    private static bool IsAttribute(AttributeData attribute, string fullName) =>
+        attribute.AttributeClass?.ToDisplayString() == fullName;
+
+    private static string? GetConstructorString(AttributeData attribute) =>
+        attribute.ConstructorArguments.FirstOrDefault().Value as string;
+
+    private static int GetConstructorInt(AttributeData attribute) =>
+        attribute.ConstructorArguments.Length == 0 ? 0 : Convert.ToInt32(attribute.ConstructorArguments[0].Value);
+
+    private static string? GetNamedString(AttributeData attribute, string name) =>
+        attribute.NamedArguments.FirstOrDefault(argument => argument.Key == name).Value.Value as string;
+
+    private static bool GetNamedBool(AttributeData attribute, string name) =>
+        attribute.NamedArguments.FirstOrDefault(argument => argument.Key == name).Value.Value as bool? ?? false;
+
+    private static int GetNamedInt(AttributeData attribute, string name)
+    {
+        var value = attribute.NamedArguments.FirstOrDefault(argument => argument.Key == name).Value.Value;
+        return value is null ? 0 : Convert.ToInt32(value);
+    }
+
+    private static string BooleanLiteral(bool value) => value ? "true" : "false";
+
+    private static string NullableLiteral(string? value) => value is null ? "null" : Literal(value);
+
+    private static string Literal(string value) =>
+        global::Microsoft.CodeAnalysis.CSharp.SymbolDisplay.FormatLiteral(value, quote: true);
+
+    private sealed record TypeMetadata(
+        string TypeName,
+        bool IsCommandOptions,
+        PropertyCollection CommandMetadata,
+        PropertyCollection SecretMetadata);
+
+    private sealed record PropertyCollection(
+        ImmutableArray<PropertyMetadata> Properties,
+        bool IsComplete,
+        bool HasAttributes)
+    {
+        public static PropertyCollection Empty { get; } = new([], true, false);
+    }
+
+    private sealed record PropertyMetadata(
+        string Name,
+        PropertyKind Kind,
+        string? PrimaryValue,
+        string? ShortForm,
+        bool BooleanValue,
+        int FirstInt,
+        int SecondInt,
+        string? CustomSeparator);
+
+    private enum PropertyKind
+    {
+        Argument,
+        Flag,
+        Option,
+        Secret,
     }
 }

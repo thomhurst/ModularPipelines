@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ModularPipelineReadMeDescription>The base package for Modular Pipelines. This contains the framework for building, executing, controlling and reporting your modules.</ModularPipelineReadMeDescription>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
   </PropertyGroup>
   <PropertyGroup>
     <Description>Write your pipelines in C#!</Description>
@@ -85,7 +86,6 @@
     <!-- Build analyzers (but don't apply them to this project - they're for consumers) -->
     <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.CodeFixes\ModularPipelines.Analyzers.CodeFixes.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
-    <ProjectReference Include="..\ModularPipelines.SourceGenerator\ModularPipelines.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
   </ItemGroup>
   <!-- Include source generator and analyzers in NuGet package for consumers -->
   <PropertyGroup>
