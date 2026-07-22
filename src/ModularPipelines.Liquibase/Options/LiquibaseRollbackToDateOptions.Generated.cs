@@ -20,11 +20,7 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollback-to-date")]
-public record LiquibaseRollbackToDateOptions(
-    [property: CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)] string ChangelogFile,
-    [property: CliOption("--date", Format = OptionFormat.EqualsSeparated)] string Date,
-    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
-) : LiquibaseOptions
+public record LiquibaseRollbackToDateOptions : LiquibaseOptions
 {
     /// <summary>
     /// Fully-qualified class which specifies a ChangeExecListener
@@ -39,6 +35,12 @@ public record LiquibaseRollbackToDateOptions(
     public string? ChangeExecListenerPropertiesFile { get; set; }
 
     /// <summary>
+    /// The root changelog file
+    /// </summary>
+    [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangelogFile { get; set; }
+
+    /// <summary>
     /// Context string to use for filtering
     /// </summary>
     [CliOption("--context-filter", Format = OptionFormat.EqualsSeparated)]
@@ -49,6 +51,12 @@ public record LiquibaseRollbackToDateOptions(
     /// </summary>
     [CliOption("-D", Format = OptionFormat.NoSeparator, AllowMultiple = true)]
     public IEnumerable<KeyValue>? ChangelogProperty { get; set; }
+
+    /// <summary>
+    /// Date to rollback changes to
+    /// </summary>
+    [CliOption("--date", Format = OptionFormat.EqualsSeparated)]
+    public string? Date { get; set; }
 
     /// <summary>
     /// The default catalog name to use for the database connection
@@ -80,6 +88,12 @@ public record LiquibaseRollbackToDateOptions(
     /// </summary>
     [CliOption("--rollback-script", Format = OptionFormat.EqualsSeparated)]
     public string? RollbackScript { get; set; }
+
+    /// <summary>
+    /// The JDBC database connection URL
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
 
     /// <summary>
     /// Username to use to connect to the database

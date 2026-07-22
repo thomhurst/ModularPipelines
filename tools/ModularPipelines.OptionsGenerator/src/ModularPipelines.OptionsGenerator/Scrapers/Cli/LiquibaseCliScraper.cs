@@ -233,7 +233,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
                 continue;
             }
 
-            var propertyName = NormalizePropertyName(longForm);
+            var propertyName = NormalizeLiquibasePropertyName(longForm);
             if (propertyName is null)
             {
                 continue;
@@ -246,8 +246,6 @@ public partial class LiquibaseCliScraper : CliScraperBase
             var isNumeric = !isFlag && NumericOptions.Contains(longForm);
             var enumDefinition = TryCreateEnumDefinition(longForm, propertyName);
             var csharpType = DetermineCSharpType(isFlag, isBoolean, isNumeric, enumDefinition);
-            var isRequired = description.Contains("[REQUIRED]", StringComparison.OrdinalIgnoreCase);
-
             options.Add(new CliOptionDefinition
             {
                 SwitchName = longForm,
@@ -256,7 +254,8 @@ public partial class LiquibaseCliScraper : CliScraperBase
                 CSharpType = csharpType,
                 Description = CleanDescription(description),
                 IsFlag = isFlag,
-                IsRequired = isRequired,
+                // Liquibase can satisfy required command parameters through defaults files or environment variables.
+                IsRequired = false,
                 AcceptsMultipleValues = false,
                 IsKeyValue = false,
                 IsNumeric = isNumeric,
@@ -279,7 +278,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
 
     private static void AddDocumentedDatabricksOptions(List<CliOptionDefinition> options)
     {
-        AddOrReplace(options, new CliOptionDefinition
+        AddIfMissing(options, new CliOptionDefinition
         {
             SwitchName = "--databricks-diff-tblproperties-exclude-patterns",
             PropertyName = "DatabricksDiffTblPropertiesExcludePatterns",
@@ -287,9 +286,10 @@ public partial class LiquibaseCliScraper : CliScraperBase
             Description = "Comma-separated TBLPROPERTIES key prefixes to exclude from Databricks diff operations.",
             IsFlag = false,
             ValueSeparator = "=",
+            IsSecret = GeneratorUtils.IsSecretOption("DatabricksDiffTblPropertiesExcludePatterns", isFlag: false),
         });
 
-        AddOrReplace(options, new CliOptionDefinition
+        AddIfMissing(options, new CliOptionDefinition
         {
             SwitchName = "--databricks-diff-tblproperties-ignore-all",
             PropertyName = "DatabricksDiffTblPropertiesIgnoreAll",
@@ -297,20 +297,24 @@ public partial class LiquibaseCliScraper : CliScraperBase
             Description = "Ignore all TBLPROPERTIES during Databricks diff operations.",
             IsFlag = false,
             ValueSeparator = "=",
+            IsSecret = GeneratorUtils.IsSecretOption("DatabricksDiffTblPropertiesIgnoreAll", isFlag: false),
         });
     }
 
-    private static void AddOrReplace(List<CliOptionDefinition> options, CliOptionDefinition option)
+    private static string? NormalizeLiquibasePropertyName(string optionName) => optionName switch
     {
-        var existingIndex = options.FindIndex(
-            existing => existing.SwitchName.Equals(option.SwitchName, StringComparison.OrdinalIgnoreCase));
-        if (existingIndex < 0)
+        "--databricks-diff-tblproperties-exclude-patterns" => "DatabricksDiffTblPropertiesExcludePatterns",
+        "--databricks-diff-tblproperties-ignore-all" => "DatabricksDiffTblPropertiesIgnoreAll",
+        _ => NormalizePropertyName(optionName)
+    };
+
+    private static void AddIfMissing(List<CliOptionDefinition> options, CliOptionDefinition option)
+    {
+        if (options.All(existing =>
+                !existing.SwitchName.Equals(option.SwitchName, StringComparison.OrdinalIgnoreCase)))
         {
             options.Add(option);
-            return;
         }
-
-        options[existingIndex] = option;
     }
 
     private static CliOptionDefinition CreateDefineOption(string? description)

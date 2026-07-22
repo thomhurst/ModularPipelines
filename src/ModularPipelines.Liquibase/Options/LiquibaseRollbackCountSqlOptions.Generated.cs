@@ -20,11 +20,7 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollback-count-sql")]
-public record LiquibaseRollbackCountSqlOptions(
-    [property: CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)] string ChangelogFile,
-    [property: CliOption("--count", Format = OptionFormat.EqualsSeparated)] int Count,
-    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
-) : LiquibaseOptions
+public record LiquibaseRollbackCountSqlOptions : LiquibaseOptions
 {
     /// <summary>
     /// Fully-qualified class which specifies a ChangeExecListener
@@ -39,10 +35,22 @@ public record LiquibaseRollbackCountSqlOptions(
     public string? ChangeExecListenerPropertiesFile { get; set; }
 
     /// <summary>
+    /// The root changelog file
+    /// </summary>
+    [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangelogFile { get; set; }
+
+    /// <summary>
     /// Context string to use for filtering
     /// </summary>
     [CliOption("--context-filter", Format = OptionFormat.EqualsSeparated)]
     public string? ContextFilter { get; set; }
+
+    /// <summary>
+    /// The number of changes to rollback
+    /// </summary>
+    [CliOption("--count", Format = OptionFormat.EqualsSeparated)]
+    public int? Count { get; set; }
 
     /// <summary>
     /// Pass a name/value pair for substitution in the changelog(s) Pass as -D&lt;property.name&gt;=&lt;property.value&gt; [deprecated: set changelog properties in defaults file or environment variables]
@@ -92,6 +100,12 @@ public record LiquibaseRollbackCountSqlOptions(
     /// </summary>
     [CliOption("--rollback-script", Format = OptionFormat.EqualsSeparated)]
     public string? RollbackScript { get; set; }
+
+    /// <summary>
+    /// The JDBC database connection URL
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
 
     /// <summary>
     /// Username to use to connect to the database

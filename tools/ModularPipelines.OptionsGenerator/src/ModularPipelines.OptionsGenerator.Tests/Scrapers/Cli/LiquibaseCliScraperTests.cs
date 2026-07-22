@@ -54,7 +54,7 @@ public class LiquibaseCliScraperTests
         await Assert.That(help.ShortForm).IsEqualTo("-h");
 
         var changelogFile = options.Single(x => x.SwitchName == "--changelog-file");
-        await Assert.That(changelogFile.IsRequired).IsTrue();
+        await Assert.That(changelogFile.IsRequired).IsFalse();
         await Assert.That(changelogFile.CSharpType).IsEqualTo("string?");
         await Assert.That(options.Single(x => x.SwitchName == "--count").CSharpType).IsEqualTo("int?");
         await Assert.That(options.Single(x => x.SwitchName == "--password").IsSecret).IsTrue();
@@ -93,9 +93,11 @@ public class LiquibaseCliScraperTests
         await Assert.That(excludePatterns.PropertyName).IsEqualTo("DatabricksDiffTblPropertiesExcludePatterns");
         await Assert.That(excludePatterns.CSharpType).IsEqualTo("string?");
         await Assert.That(excludePatterns.IsFlag).IsFalse();
+        await Assert.That(excludePatterns.Description).IsEqualTo("Excluded TBLPROPERTIES");
 
         var ignoreAll = options.Single(
             option => option.SwitchName == "--databricks-diff-tblproperties-ignore-all");
+        await Assert.That(ignoreAll.PropertyName).IsEqualTo("DatabricksDiffTblPropertiesIgnoreAll");
         await Assert.That(ignoreAll.CSharpType).IsEqualTo("bool?");
         await Assert.That(ignoreAll.IsFlag).IsFalse();
     }

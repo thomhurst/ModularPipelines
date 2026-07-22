@@ -21,16 +21,18 @@ public class UpdateDatabaseModule : Module<CommandResult>
         CancellationToken cancellationToken)
     {
         return await context.Liquibase().Update(
-            new LiquibaseUpdateOptions("db/changelog.xml", "jdbc:postgresql://localhost/app")
+            new LiquibaseUpdateOptions
             {
+                ChangelogFile = "db/changelog.xml",
                 Username = "app",
                 Password = Environment.GetEnvironmentVariable("DATABASE_PASSWORD"),
                 ChangelogProperty = [new KeyValue("environment", "production")],
                 ShowSummary = LiquibaseShowSummary.Verbose,
+                Url = "jdbc:postgresql://localhost/app",
             },
             cancellationToken: cancellationToken);
     }
 }
 ```
 
-Required CLI options are constructor parameters. Constrained values use enums, numeric and boolean options keep their native types, and sensitive values such as passwords are marked for log redaction. Liquibase must be installed and available on `PATH` when the pipeline runs.
+CLI options use initializer properties so values may instead come from a Liquibase defaults file or environment variables. Constrained values use enums, numeric and boolean options keep their native types, and sensitive values such as passwords are marked for log redaction. Liquibase must be installed and available on `PATH` when the pipeline runs.

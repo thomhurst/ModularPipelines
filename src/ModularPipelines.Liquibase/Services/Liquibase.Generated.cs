@@ -33,146 +33,146 @@ internal partial class Liquibase : ILiquibase
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> CalculateChecksum(
-        LiquibaseCalculateChecksumOptions options,
+        LiquibaseCalculateChecksumOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseCalculateChecksumOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ChangelogSync(
-        LiquibaseChangelogSyncOptions options,
+        LiquibaseChangelogSyncOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseChangelogSyncOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ChangelogSyncSql(
-        LiquibaseChangelogSyncSqlOptions options,
+        LiquibaseChangelogSyncSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseChangelogSyncSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ChangelogSyncToTag(
-        LiquibaseChangelogSyncToTagOptions options,
+        LiquibaseChangelogSyncToTagOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseChangelogSyncToTagOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ChangelogSyncToTagSql(
-        LiquibaseChangelogSyncToTagSqlOptions options,
+        LiquibaseChangelogSyncToTagSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseChangelogSyncToTagSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ClearChecksums(
-        LiquibaseClearChecksumsOptions options,
+        LiquibaseClearChecksumsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseClearChecksumsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> DbDoc(
-        LiquibaseDbDocOptions options,
+        LiquibaseDbDocOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseDbDocOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> DiffChangelog(
-        LiquibaseDiffChangelogOptions options,
+        LiquibaseDiffChangelogOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseDiffChangelogOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Diff(
-        LiquibaseDiffOptions options,
+        LiquibaseDiffOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseDiffOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> DropAll(
-        LiquibaseDropAllOptions options,
+        LiquibaseDropAllOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseDropAllOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ExecuteSql(
-        LiquibaseExecuteSqlOptions options,
+        LiquibaseExecuteSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseExecuteSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> FutureRollbackCountSql(
-        LiquibaseFutureRollbackCountSqlOptions options,
+        LiquibaseFutureRollbackCountSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseFutureRollbackCountSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> FutureRollbackFromTagSql(
-        LiquibaseFutureRollbackFromTagSqlOptions options,
+        LiquibaseFutureRollbackFromTagSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseFutureRollbackFromTagSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> FutureRollbackSql(
-        LiquibaseFutureRollbackSqlOptions options,
+        LiquibaseFutureRollbackSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseFutureRollbackSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> GenerateChangelog(
-        LiquibaseGenerateChangelogOptions options,
+        LiquibaseGenerateChangelogOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseGenerateChangelogOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> History(
-        LiquibaseHistoryOptions options,
+        LiquibaseHistoryOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseHistoryOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -204,101 +204,101 @@ internal partial class Liquibase : ILiquibase
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ListLocks(
-        LiquibaseListLocksOptions options,
+        LiquibaseListLocksOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseListLocksOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> MarkNextChangesetRan(
-        LiquibaseMarkNextChangesetRanOptions options,
+        LiquibaseMarkNextChangesetRanOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseMarkNextChangesetRanOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> MarkNextChangesetRanSql(
-        LiquibaseMarkNextChangesetRanSqlOptions options,
+        LiquibaseMarkNextChangesetRanSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseMarkNextChangesetRanSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ReleaseLocks(
-        LiquibaseReleaseLocksOptions options,
+        LiquibaseReleaseLocksOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseReleaseLocksOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> RollbackCount(
-        LiquibaseRollbackCountOptions options,
+        LiquibaseRollbackCountOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseRollbackCountOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> RollbackCountSql(
-        LiquibaseRollbackCountSqlOptions options,
+        LiquibaseRollbackCountSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseRollbackCountSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Rollback(
-        LiquibaseRollbackOptions options,
+        LiquibaseRollbackOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseRollbackOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> RollbackSql(
-        LiquibaseRollbackSqlOptions options,
+        LiquibaseRollbackSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseRollbackSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> RollbackToDate(
-        LiquibaseRollbackToDateOptions options,
+        LiquibaseRollbackToDateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseRollbackToDateOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> RollbackToDateSql(
-        LiquibaseRollbackToDateSqlOptions options,
+        LiquibaseRollbackToDateSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseRollbackToDateSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Snapshot(
-        LiquibaseSnapshotOptions options,
+        LiquibaseSnapshotOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseSnapshotOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -312,110 +312,110 @@ internal partial class Liquibase : ILiquibase
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Status(
-        LiquibaseStatusOptions options,
+        LiquibaseStatusOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseStatusOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TagExists(
-        LiquibaseTagExistsOptions options,
+        LiquibaseTagExistsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseTagExistsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Tag(
-        LiquibaseTagOptions options,
+        LiquibaseTagOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseTagOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UnexpectedChangesets(
-        LiquibaseUnexpectedChangesetsOptions options,
+        LiquibaseUnexpectedChangesetsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseUnexpectedChangesetsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UpdateCount(
-        LiquibaseUpdateCountOptions options,
+        LiquibaseUpdateCountOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseUpdateCountOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UpdateCountSql(
-        LiquibaseUpdateCountSqlOptions options,
+        LiquibaseUpdateCountSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseUpdateCountSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Update(
-        LiquibaseUpdateOptions options,
+        LiquibaseUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseUpdateOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UpdateSql(
-        LiquibaseUpdateSqlOptions options,
+        LiquibaseUpdateSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseUpdateSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UpdateTestingRollback(
-        LiquibaseUpdateTestingRollbackOptions options,
+        LiquibaseUpdateTestingRollbackOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseUpdateTestingRollbackOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UpdateToTag(
-        LiquibaseUpdateToTagOptions options,
+        LiquibaseUpdateToTagOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseUpdateToTagOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UpdateToTagSql(
-        LiquibaseUpdateToTagSqlOptions options,
+        LiquibaseUpdateToTagSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseUpdateToTagSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Validate(
-        LiquibaseValidateOptions options,
+        LiquibaseValidateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new LiquibaseValidateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

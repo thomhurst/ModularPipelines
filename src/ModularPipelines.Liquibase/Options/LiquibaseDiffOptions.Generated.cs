@@ -19,10 +19,7 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("diff")]
-public record LiquibaseDiffOptions(
-    [property: CliOption("--reference-url", Format = OptionFormat.EqualsSeparated)] string ReferenceUrl,
-    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
-) : LiquibaseOptions
+public record LiquibaseDiffOptions : LiquibaseOptions
 {
     /// <summary>
     /// The default catalog name to use for the database connection
@@ -123,6 +120,12 @@ public record LiquibaseDiffOptions(
     public string? ReferenceSchemas { get; set; }
 
     /// <summary>
+    /// The JDBC reference database connection URL
+    /// </summary>
+    [CliOption("--reference-url", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceUrl { get; set; }
+
+    /// <summary>
     /// The reference database username
     /// </summary>
     [CliOption("--reference-username", Format = OptionFormat.EqualsSeparated)]
@@ -133,6 +136,12 @@ public record LiquibaseDiffOptions(
     /// </summary>
     [CliOption("--schemas", Format = OptionFormat.EqualsSeparated)]
     public string? Schemas { get; set; }
+
+    /// <summary>
+    /// The JDBC database connection URL
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
 
     /// <summary>
     /// Username to use to connect to the database

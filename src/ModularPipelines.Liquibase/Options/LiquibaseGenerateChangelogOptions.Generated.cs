@@ -20,9 +20,7 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate-changelog")]
-public record LiquibaseGenerateChangelogOptions(
-    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
-) : LiquibaseOptions
+public record LiquibaseGenerateChangelogOptions : LiquibaseOptions
 {
     /// <summary>
     /// Specifies the author for changesets in the generated changelog
@@ -156,6 +154,12 @@ public record LiquibaseGenerateChangelogOptions(
     /// </summary>
     [CliOption("--skip-object-sorting", Format = OptionFormat.EqualsSeparated)]
     public bool? SkipObjectSorting { get; set; }
+
+    /// <summary>
+    /// The JDBC database connection URL
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
 
     /// <summary>
     /// If true, will add 'OR REPLACE' option to the create view change object DEFAULT: false

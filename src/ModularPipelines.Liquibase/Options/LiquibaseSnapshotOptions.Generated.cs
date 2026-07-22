@@ -19,9 +19,7 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snapshot")]
-public record LiquibaseSnapshotOptions(
-    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
-) : LiquibaseOptions
+public record LiquibaseSnapshotOptions : LiquibaseOptions
 {
     /// <summary>
     /// The default catalog name to use for the database connection
@@ -53,6 +51,12 @@ public record LiquibaseSnapshotOptions(
     /// </summary>
     [CliOption("--snapshot-format", Format = OptionFormat.EqualsSeparated)]
     public string? SnapshotFormat { get; set; }
+
+    /// <summary>
+    /// The JDBC database connection URL
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
 
     /// <summary>
     /// Username to use to connect to the database

@@ -20,12 +20,14 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("changelog-sync-to-tag")]
-public record LiquibaseChangelogSyncToTagOptions(
-    [property: CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)] string ChangelogFile,
-    [property: CliOption("--tag", Format = OptionFormat.EqualsSeparated)] string Tag,
-    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
-) : LiquibaseOptions
+public record LiquibaseChangelogSyncToTagOptions : LiquibaseOptions
 {
+    /// <summary>
+    /// The root changelog file
+    /// </summary>
+    [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangelogFile { get; set; }
+
     /// <summary>
     /// Context string to use for filtering
     /// </summary>
@@ -62,6 +64,18 @@ public record LiquibaseChangelogSyncToTagOptions(
     [SecretValue]
     [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
+
+    /// <summary>
+    /// Tag ID to execute changelogSync to
+    /// </summary>
+    [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
+    public string? Tag { get; set; }
+
+    /// <summary>
+    /// The JDBC database connection URL
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
 
     /// <summary>
     /// Username to use to connect to the database

@@ -20,10 +20,7 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("update-sql")]
-public record LiquibaseUpdateSqlOptions(
-    [property: CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)] string ChangelogFile,
-    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
-) : LiquibaseOptions
+public record LiquibaseUpdateSqlOptions : LiquibaseOptions
 {
     /// <summary>
     /// Fully-qualified class which specifies a ChangeExecListener
@@ -36,6 +33,12 @@ public record LiquibaseUpdateSqlOptions(
     /// </summary>
     [CliOption("--change-exec-listener-properties-file", Format = OptionFormat.EqualsSeparated)]
     public string? ChangeExecListenerPropertiesFile { get; set; }
+
+    /// <summary>
+    /// The root changelog
+    /// </summary>
+    [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangelogFile { get; set; }
 
     /// <summary>
     /// Changeset contexts to match
@@ -85,6 +88,12 @@ public record LiquibaseUpdateSqlOptions(
     [SecretValue]
     [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
+
+    /// <summary>
+    /// The JDBC database connection URL
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
 
     /// <summary>
     /// Username to use to connect to the database

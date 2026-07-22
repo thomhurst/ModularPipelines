@@ -20,11 +20,7 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("future-rollback-from-tag-sql")]
-public record LiquibaseFutureRollbackFromTagSqlOptions(
-    [property: CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)] string ChangelogFile,
-    [property: CliOption("--tag", Format = OptionFormat.EqualsSeparated)] string Tag,
-    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
-) : LiquibaseOptions
+public record LiquibaseFutureRollbackFromTagSqlOptions : LiquibaseOptions
 {
     /// <summary>
     /// Fully-qualified class which specifies a ChangeExecListener
@@ -37,6 +33,12 @@ public record LiquibaseFutureRollbackFromTagSqlOptions(
     /// </summary>
     [CliOption("--change-exec-listener-properties-file", Format = OptionFormat.EqualsSeparated)]
     public string? ChangeExecListenerPropertiesFile { get; set; }
+
+    /// <summary>
+    /// The root changelog file
+    /// </summary>
+    [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangelogFile { get; set; }
 
     /// <summary>
     /// Context string to use for filtering
@@ -86,6 +88,18 @@ public record LiquibaseFutureRollbackFromTagSqlOptions(
     [SecretValue]
     [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
+
+    /// <summary>
+    /// Tag ID to rollback from
+    /// </summary>
+    [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
+    public string? Tag { get; set; }
+
+    /// <summary>
+    /// The JDBC database connection URL
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
 
     /// <summary>
     /// Username to use to connect to the database

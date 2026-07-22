@@ -20,17 +20,19 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("diff-changelog")]
-public record LiquibaseDiffChangelogOptions(
-    [property: CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)] string ChangelogFile,
-    [property: CliOption("--reference-url", Format = OptionFormat.EqualsSeparated)] string ReferenceUrl,
-    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
-) : LiquibaseOptions
+public record LiquibaseDiffChangelogOptions : LiquibaseOptions
 {
     /// <summary>
     /// Specifies the author for changesets in the generated changelog
     /// </summary>
     [CliOption("--author", Format = OptionFormat.EqualsSeparated)]
     public string? Author { get; set; }
+
+    /// <summary>
+    /// Changelog file to write results
+    /// </summary>
+    [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangelogFile { get; set; }
 
     /// <summary>
     /// Changeset contexts to generate
@@ -173,6 +175,12 @@ public record LiquibaseDiffChangelogOptions(
     public string? ReferenceSchemas { get; set; }
 
     /// <summary>
+    /// The JDBC reference database connection URL
+    /// </summary>
+    [CliOption("--reference-url", Format = OptionFormat.EqualsSeparated)]
+    public string? ReferenceUrl { get; set; }
+
+    /// <summary>
     /// The reference database username
     /// </summary>
     [CliOption("--reference-username", Format = OptionFormat.EqualsSeparated)]
@@ -201,6 +209,12 @@ public record LiquibaseDiffChangelogOptions(
     /// </summary>
     [CliOption("--skip-object-sorting", Format = OptionFormat.EqualsSeparated)]
     public bool? SkipObjectSorting { get; set; }
+
+    /// <summary>
+    /// The JDBC database connection URL
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
 
     /// <summary>
     /// If true, will add 'OR REPLACE' option to the create view change object DEFAULT: false

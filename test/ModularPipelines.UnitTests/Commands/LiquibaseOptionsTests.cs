@@ -13,8 +13,9 @@ public class LiquibaseOptionsTests : TestBase
     [Test]
     public async Task Update_Options_Parse_As_Expected()
     {
-        var result = await GetResult(new LiquibaseUpdateOptions("changelog.xml", "jdbc:h2:mem:test")
+        var result = await GetResult(new LiquibaseUpdateOptions
         {
+            ChangelogFile = "changelog.xml",
             ChangelogProperty =
             [
                 new KeyValue("tenant", "alpha"),
@@ -23,10 +24,11 @@ public class LiquibaseOptionsTests : TestBase
             Password = "secret",
             SearchPath = "changelogs",
             ShowSummary = LiquibaseShowSummary.Verbose,
+            Url = "jdbc:h2:mem:test",
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
-            "liquibase --search-path=changelogs update --changelog-file=changelog.xml --url=jdbc:h2:mem:test -Dtenant=alpha -Dregion=eu --password=secret --show-summary=verbose");
+            "liquibase --search-path=changelogs update --changelog-file=changelog.xml -Dtenant=alpha -Dregion=eu --password=secret --show-summary=verbose --url=jdbc:h2:mem:test");
     }
 
     [Test]
@@ -55,9 +57,11 @@ public class LiquibaseOptionsTests : TestBase
     [Test]
     public async Task Monitor_Performance_Renders_A_Filename()
     {
-        var result = await GetResult(new LiquibaseUpdateOptions("changelog.xml", "jdbc:h2:mem:test")
+        var result = await GetResult(new LiquibaseUpdateOptions
         {
+            ChangelogFile = "changelog.xml",
             MonitorPerformance = "perf.jfr",
+            Url = "jdbc:h2:mem:test",
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
@@ -67,14 +71,28 @@ public class LiquibaseOptionsTests : TestBase
     [Test]
     public async Task Databricks_Diff_Filters_Render_As_Global_Options()
     {
-        var result = await GetResult(new LiquibaseDiffOptions("jdbc:databricks://reference", "jdbc:databricks://target")
+        var result = await GetResult(new LiquibaseDiffOptions
         {
             DatabricksDiffTblPropertiesExcludePatterns = "delta.,pipelines.",
             DatabricksDiffTblPropertiesIgnoreAll = true,
+            ReferenceUrl = "jdbc:databricks://reference",
+            Url = "jdbc:databricks://target",
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
             "liquibase --databricks-diff-tblproperties-exclude-patterns=delta.,pipelines. --databricks-diff-tblproperties-ignore-all=true diff --reference-url=jdbc:databricks://reference --url=jdbc:databricks://target");
+    }
+
+    [Test]
+    public async Task Defaults_File_Can_Supply_Required_Update_Values()
+    {
+        var result = await GetResult(new LiquibaseUpdateOptions
+        {
+            DefaultsFile = "liquibase.properties",
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "liquibase --defaults-file=liquibase.properties update");
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)

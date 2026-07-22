@@ -20,12 +20,14 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db-doc")]
-public record LiquibaseDbDocOptions(
-    [property: CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)] string ChangelogFile,
-    [property: CliOption("--output-directory", Format = OptionFormat.EqualsSeparated)] string OutputDirectory,
-    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
-) : LiquibaseOptions
+public record LiquibaseDbDocOptions : LiquibaseOptions
 {
+    /// <summary>
+    /// The root changelog file
+    /// </summary>
+    [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangelogFile { get; set; }
+
     /// <summary>
     /// Context string to use for filtering
     /// </summary>
@@ -57,6 +59,12 @@ public record LiquibaseDbDocOptions(
     public string? LabelFilter { get; set; }
 
     /// <summary>
+    /// The directory where the documentation is generated
+    /// </summary>
+    [CliOption("--output-directory", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputDirectory { get; set; }
+
+    /// <summary>
     /// Password to use to connect to the database
     /// </summary>
     [SecretValue]
@@ -68,6 +76,12 @@ public record LiquibaseDbDocOptions(
     /// </summary>
     [CliOption("--schemas", Format = OptionFormat.EqualsSeparated)]
     public string? Schemas { get; set; }
+
+    /// <summary>
+    /// The JDBC database connection URL
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
 
     /// <summary>
     /// Username to use to connect to the database

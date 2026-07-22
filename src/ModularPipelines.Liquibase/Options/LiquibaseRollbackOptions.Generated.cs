@@ -21,11 +21,7 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollback")]
-public record LiquibaseRollbackOptions(
-    [property: CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)] string ChangelogFile,
-    [property: CliOption("--tag", Format = OptionFormat.EqualsSeparated)] string Tag,
-    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
-) : LiquibaseOptions
+public record LiquibaseRollbackOptions : LiquibaseOptions
 {
     /// <summary>
     /// Fully-qualified class which specifies a ChangeExecListener
@@ -38,6 +34,12 @@ public record LiquibaseRollbackOptions(
     /// </summary>
     [CliOption("--change-exec-listener-properties-file", Format = OptionFormat.EqualsSeparated)]
     public string? ChangeExecListenerPropertiesFile { get; set; }
+
+    /// <summary>
+    /// The root changelog file
+    /// </summary>
+    [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangelogFile { get; set; }
 
     /// <summary>
     /// Context string to use for filtering
@@ -83,10 +85,22 @@ public record LiquibaseRollbackOptions(
     public string? RollbackScript { get; set; }
 
     /// <summary>
+    /// Tag to rollback to
+    /// </summary>
+    [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
+    public string? Tag { get; set; }
+
+    /// <summary>
     /// Tag version to use for multiple occurrences of a tag DEFAULT: OLDEST
     /// </summary>
     [CliOption("--tag-version", Format = OptionFormat.EqualsSeparated)]
     public LiquibaseTagVersion? TagVersion { get; set; }
+
+    /// <summary>
+    /// The JDBC database connection URL
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
 
     /// <summary>
     /// Username to use to connect to the database

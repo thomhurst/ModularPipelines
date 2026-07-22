@@ -21,11 +21,7 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("update-to-tag")]
-public record LiquibaseUpdateToTagOptions(
-    [property: CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)] string ChangelogFile,
-    [property: CliOption("--tag", Format = OptionFormat.EqualsSeparated)] string Tag,
-    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
-) : LiquibaseOptions
+public record LiquibaseUpdateToTagOptions : LiquibaseOptions
 {
     /// <summary>
     /// Fully-qualified class which specifies a ChangeExecListener
@@ -38,6 +34,12 @@ public record LiquibaseUpdateToTagOptions(
     /// </summary>
     [CliOption("--change-exec-listener-properties-file", Format = OptionFormat.EqualsSeparated)]
     public string? ChangeExecListenerPropertiesFile { get; set; }
+
+    /// <summary>
+    /// The root changelog
+    /// </summary>
+    [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangelogFile { get; set; }
 
     /// <summary>
     /// Changeset contexts to match
@@ -87,6 +89,18 @@ public record LiquibaseUpdateToTagOptions(
     /// </summary>
     [CliOption("--show-summary-output", Format = OptionFormat.EqualsSeparated)]
     public LiquibaseShowSummaryOutput? ShowSummaryOutput { get; set; }
+
+    /// <summary>
+    /// The tag to update to
+    /// </summary>
+    [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
+    public string? Tag { get; set; }
+
+    /// <summary>
+    /// The JDBC database connection URL
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
 
     /// <summary>
     /// Username to use to connect to the database
