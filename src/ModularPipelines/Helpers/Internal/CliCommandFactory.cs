@@ -75,7 +75,13 @@ internal static class CliCommandFactory
         var extension = Path.GetExtension(tool);
         if (IsCommandScriptExtension(extension))
         {
-            return tool;
+            if (Path.IsPathRooted(tool))
+            {
+                return tool;
+            }
+
+            var processRelativePath = Path.GetFullPath(tool);
+            return File.Exists(processRelativePath) ? processRelativePath : tool;
         }
 
         if (!string.IsNullOrEmpty(extension) || tool.Contains(Path.DirectorySeparatorChar) || tool.Contains(Path.AltDirectorySeparatorChar))

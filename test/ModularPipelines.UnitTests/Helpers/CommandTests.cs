@@ -132,4 +132,41 @@ public class CommandTests : TestBase
             Directory.Delete(tempDirectory, recursive: true);
         }
     }
+
+    [Test]
+    public async Task ExecuteCommandLineTool_Resolves_Relative_Windows_Command_Script_Before_Changing_Working_Directory()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var tempDirectory = Path.Combine(Path.GetTempPath(), "mp runtime command tests", Guid.NewGuid().ToString("N"));
+        var scriptDirectory = Path.Combine(Environment.CurrentDirectory, $"mp-runtime-relative-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(tempDirectory);
+        Directory.CreateDirectory(scriptDirectory);
+        var scriptPath = Path.Combine(scriptDirectory, "mp-runtime-relative-test.cmd");
+
+        try
+        {
+            await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %CD%\r\n");
+            var command = await GetService<ICommand>();
+
+            var result = await command.ExecuteCommandLineTool(
+                new GenericCommandLineToolOptions(Path.GetRelativePath(Environment.CurrentDirectory, scriptPath)),
+                new CommandExecutionOptions
+                {
+                    WorkingDirectory = tempDirectory,
+                });
+
+            await Assert.That(result.ExitCode).IsEqualTo(0);
+            await Assert.That(result.StandardOutput.Trim()).IsEqualTo(tempDirectory);
+            await Assert.That(result.StandardError).IsEmpty();
+        }
+        finally
+        {
+            Directory.Delete(tempDirectory, recursive: true);
+            Directory.Delete(scriptDirectory, recursive: true);
+        }
+    }
 }
