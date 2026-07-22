@@ -151,7 +151,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                     .ConfigureAwait(false);
             }
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
             RequeueDeferredOutputs(toFlush.Skip(nextOutputIndex));
 

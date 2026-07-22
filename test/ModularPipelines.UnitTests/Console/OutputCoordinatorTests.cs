@@ -85,6 +85,26 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    public async Task DeferredFlush_ProviderCancellationOnlyRequeuesUnstartedOutputs()
+    {
+        var firstBuffer = new FailingOnceOutputBuffer(new OperationCanceledException("provider cancelled"));
+        var secondBuffer = new CancellingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+        coordinator.SetProgressActive(true);
+        await coordinator.OnModuleCompletedAsync(firstBuffer, firstBuffer.ModuleType);
+        await coordinator.OnModuleCompletedAsync(secondBuffer, secondBuffer.ModuleType);
+        coordinator.SetProgressActive(false);
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await coordinator.FlushDeferredAsync());
+
+        await coordinator.FlushDeferredAsync();
+
+        await Assert.That(firstBuffer.FlushCount).IsEqualTo(1);
+        await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task ImmediateFlush_PropagatesCancellationToQueueOwner()
     {
         using var cancellationTokenSource = new CancellationTokenSource();
@@ -297,7 +317,7 @@ public class OutputCoordinatorTests
         }
     }
 
-    private sealed class FailingOnceOutputBuffer : IModuleOutputBuffer
+    private sealed class FailingOnceOutputBuffer(Exception? exception = null) : IModuleOutputBuffer
     {
         public Type ModuleType => typeof(FailingOnceOutputBuffer);
 
@@ -332,7 +352,7 @@ public class OutputCoordinatorTests
             FlushCount++;
             if (FlushCount == 1)
             {
-                throw new InvalidOperationException("simulated deferred flush failure");
+                throw exception ?? new InvalidOperationException("simulated deferred flush failure");
             }
 
             return Task.CompletedTask;
