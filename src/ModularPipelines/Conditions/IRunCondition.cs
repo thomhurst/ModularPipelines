@@ -47,6 +47,23 @@ public interface IRunCondition
 internal static class RunConditionEvaluator
 {
     public static async Task<bool> EvaluateAllAsync(
+        IEnumerable<Func<IRunCondition>> conditionFactories,
+        IPipelineHookContext context,
+        CancellationToken cancellationToken)
+    {
+        foreach (var conditionFactory in conditionFactories)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!await conditionFactory().EvaluateAsync(context, cancellationToken).ConfigureAwait(false))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static async Task<bool> EvaluateAllAsync(
         IEnumerable<IRunCondition> conditions,
         IPipelineHookContext context,
         CancellationToken cancellationToken)
@@ -61,6 +78,23 @@ internal static class RunConditionEvaluator
         }
 
         return true;
+    }
+
+    public static async Task<bool> EvaluateAnyAsync(
+        IEnumerable<Func<IRunCondition>> conditionFactories,
+        IPipelineHookContext context,
+        CancellationToken cancellationToken)
+    {
+        foreach (var conditionFactory in conditionFactories)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (await conditionFactory().EvaluateAsync(context, cancellationToken).ConfigureAwait(false))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static async Task<bool> EvaluateAnyAsync(

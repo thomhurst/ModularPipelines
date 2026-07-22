@@ -7,6 +7,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using Moq;
 using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests.Execution;
@@ -203,6 +204,13 @@ public class NewRunConditionAttributeTests : TestBase
         }
     }
 
+    private class ThrowOnConstruction : IRunCondition
+    {
+        public ThrowOnConstruction() => throw new InvalidOperationException("Condition should not be constructed");
+
+        public Task<bool> EvaluateAsync(IPipelineHookContext context) => Task.FromResult(true);
+    }
+
     private class UnregisteredDependencyModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -368,6 +376,33 @@ public class NewRunConditionAttributeTests : TestBase
         var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(SkipIfFalseModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+    }
+
+    [Test]
+    public async Task RunIfAny_DoesNotConstructConditionsAfterTrueResult()
+    {
+        var result = await new RunIfAnyAttribute<AlwaysTrue, ThrowOnConstruction>()
+            .EvaluateAsync(Mock.Of<IPipelineHookContext>());
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    public async Task RunIfAll_DoesNotConstructConditionsAfterFalseResult()
+    {
+        var result = await new RunIfAllAttribute<AlwaysFalse, ThrowOnConstruction>()
+            .EvaluateAsync(Mock.Of<IPipelineHookContext>());
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    public async Task SkipIf_DoesNotConstructConditionsAfterTrueResult()
+    {
+        var result = await new SkipIfAttribute<AlwaysTrue, ThrowOnConstruction>()
+            .EvaluateAsync(Mock.Of<IPipelineHookContext>());
+
+        await Assert.That(result).IsTrue();
     }
 
     [Test]
