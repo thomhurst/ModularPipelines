@@ -23,8 +23,9 @@ using ModularPipelines.Trivy.Enums;
 using ModularPipelines.Trivy.Options;
 
 var result = await context.Trivy().Image(
-    new TrivyImageOptions("alpine:3.20")
+    new TrivyImageOptions
     {
+        ImageName = "alpine:3.20",
         Format = TrivyImageFormat.Json,
         Output = "trivy-results.json",
         Severity = [TrivyImageSeverity.High, TrivyImageSeverity.Critical],
