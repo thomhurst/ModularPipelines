@@ -569,12 +569,27 @@ public abstract partial class CobraCliScraper : CliScraperBase
             .Replace(" or ", "|")
             .Replace(" and ", "|")
             .Split(['|', ','], StringSplitOptions.RemoveEmptyEntries)
-            .Select(v => v.Trim().Trim('"', '\'', '`'))
+            .Select(ExtractQuotedEnumValue)
             // Remove any embedded newlines, carriage returns, or other control characters
             .Select(SanitizeEnumValue)
             .Where(v => !string.IsNullOrWhiteSpace(v) && v.Length < 30)
             .Distinct()
             .ToArray();
+    }
+
+    private static string ExtractQuotedEnumValue(string value)
+    {
+        var trimmed = value.Trim();
+        if (trimmed.Length > 1 && trimmed[0] is '"' or '\'' or '`')
+        {
+            var closingQuote = trimmed.IndexOf(trimmed[0], 1);
+            if (closingQuote > 1)
+            {
+                return trimmed[1..closingQuote];
+            }
+        }
+
+        return trimmed.Trim('"', '\'', '`');
     }
 
     /// <summary>
@@ -699,9 +714,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
         {
             var argName = match.Groups["name"].Value;
             var isRequired = match.Value.StartsWith('<'); // <NAME> is required, [NAME] is optional
-            var isMultiple = match.Value.Contains("...", StringComparison.Ordinal);
+            var isMultiple = match.Groups["multiple"].Success;
 
-            var propertyName = NormalizePropertyName(argName);
+            var propertyName = NormalizePropertyName(argName.Replace('.', '-'));
             if (propertyName is null)
             {
                 continue;
@@ -724,7 +739,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             });
         }
 
-        return args;
+        return CliPositionalArgument.MergeDuplicates(args).ToList();
     }
 
     /// <summary>
@@ -925,7 +940,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// <summary>
     /// Matches positional arguments in usage: [NAME], &lt;NAME&gt;, or [NAME...].
     /// </summary>
-    [GeneratedRegex(@"[\[<](?<name>[A-Z_-]+)(?:\.\.\.)?[\]>]")]
+    [GeneratedRegex(@"[\[<](?<name>[A-Z][A-Za-z0-9_.-]*?)(?<multiple>\.\.\.)?[\]>]")]
     private static partial Regex PositionalArgPattern();
 
     /// <summary>

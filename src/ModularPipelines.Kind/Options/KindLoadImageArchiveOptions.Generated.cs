@@ -18,7 +18,9 @@ namespace ModularPipelines.Kind.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("load", "image-archive")]
-public record KindLoadImageArchiveOptions : KindOptions
+public record KindLoadImageArchiveOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ImageTar
+) : KindOptions
 {
     /// <summary>
     /// help for image-archive

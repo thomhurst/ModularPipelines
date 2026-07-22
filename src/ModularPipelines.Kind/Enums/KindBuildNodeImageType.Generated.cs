@@ -28,6 +28,6 @@ public enum KindBuildNodeImageType
     [EnumValue("ci")]
     Ci,
 
-    [EnumValue("source' as the type of build")]
-    SourceAsTheTypeOfBuild
+    [EnumValue("source")]
+    Source
 }
