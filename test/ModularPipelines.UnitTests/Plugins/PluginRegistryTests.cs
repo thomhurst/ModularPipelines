@@ -99,6 +99,29 @@ public class PluginRegistryTests
         }
     }
 
+    [Test]
+    public async Task IsolatedRegistry_DoesNotLeakIntoParallelExecutionContexts()
+    {
+        using var parentScope = PluginTestHelper.IsolatedRegistry();
+        var pluginRegistered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releasePluginScope = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var pluginTask = Task.Run(async () =>
+        {
+            using var childScope = PluginTestHelper.IsolatedRegistry();
+            PluginRegistry.Register(new TestPlugin("ScopedPlugin"));
+            pluginRegistered.TrySetResult();
+            await releasePluginScope.Task;
+        });
+
+        await pluginRegistered.Task;
+        var visiblePluginNames = PluginRegistry.Plugins.Select(plugin => plugin.Name).ToList();
+        releasePluginScope.TrySetResult();
+        await pluginTask;
+
+        await Assert.That(visiblePluginNames).DoesNotContain("ScopedPlugin");
+    }
+
     private class TestPlugin : IModularPipelinesPlugin
     {
         private readonly int _priority;

@@ -27,7 +27,6 @@ namespace ModularPipelines.Console;
 [ExcludeFromCodeCoverage]
 internal class CoordinatedTextWriter : TextWriter
 {
-    private static readonly object UnattributedContext = new();
     private static readonly AsyncLocal<bool> DirectWriteScope = new();
 
     private readonly IConsoleCoordinator _coordinator;
@@ -35,7 +34,7 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly Func<bool> _shouldBuffer;
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly ISecretProvider _secretProvider;
-    private readonly Dictionary<object, LineBufferState> _lineBuffers = [];
+    private readonly Dictionary<LineBufferKey, LineBufferState> _lineBuffers = [];
     private readonly object _lineBufferLock = new();
 
     /// <summary>
@@ -142,7 +141,7 @@ internal class CoordinatedTextWriter : TextWriter
     private LineBufferState GetLineBufferState()
     {
         var moduleType = ModuleLogger.CurrentModuleType.Value;
-        var key = (object?) moduleType ?? UnattributedContext;
+        var key = new LineBufferKey(moduleType, DirectWriteScope.Value);
 
         if (!_lineBuffers.TryGetValue(key, out var state))
         {
@@ -391,6 +390,8 @@ internal class CoordinatedTextWriter : TextWriter
 
         public bool? ShouldBuffer { get; set; }
     }
+
+    private readonly record struct LineBufferKey(Type? ModuleType, bool IsDirectWrite);
 
     private sealed class DirectWriteScopeRestorer(bool previousValue) : IDisposable
     {

@@ -203,6 +203,8 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
         // Every caller observes only the outcome of its own buffer. Queue processing
         // continues independently so the owner is not held behind later buffers.
+        using var cancellationRegistration = cancellationToken.Register(
+            () => pending.CompletionSource.TrySetCanceled(cancellationToken));
         await pending.CompletionSource.Task.ConfigureAwait(false);
     }
 

@@ -10,7 +10,7 @@ namespace ModularPipelines.UnitTests.Console;
 public class OutputCoordinatorTests
 {
     [Test]
-    public async Task ImmediateFlush_BypassesConsoleBufferingForReplayedLogs()
+    public async Task ImmediateFlush_BypassesStickyPartialLineBufferingForReplayedLogs()
     {
         var directOutput = new StringWriter();
         var bufferedOutput = new Mock<IModuleOutputBuffer>();
@@ -28,6 +28,7 @@ public class OutputCoordinatorTests
             () => true,
             secretObfuscator.Object,
             Mock.Of<ISecretProvider>());
+        coordinatedWriter.Write("partial");
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(coordinatedWriter));
         var moduleBuffer = new ModuleOutputBuffer(typeof(OutputCoordinatorTests));
         moduleBuffer.AddLogEvent(
@@ -38,9 +39,11 @@ public class OutputCoordinatorTests
             static (state, _) => state.ToString()!);
 
         await coordinator.EnqueueAndFlushAsync(moduleBuffer);
+        await coordinatedWriter.FlushAsync();
 
         await Assert.That(directOutput.ToString()).Contains("replayed log");
-        bufferedOutput.Verify(x => x.WriteLine(It.IsAny<string>()), Times.Never);
+        await Assert.That(directOutput.ToString()).DoesNotContain("partial");
+        bufferedOutput.Verify(x => x.WriteLine("partial"), Times.Once);
     }
 
     [Test]
@@ -135,6 +138,29 @@ public class OutputCoordinatorTests
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await ownerFlush);
         await secondFlush;
         await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task ImmediateFlush_QueuedCallerObservesCancellationWhileWaiting()
+    {
+        using var queuedCancellation = new CancellationTokenSource();
+        var firstBuffer = new BlockingOutputBuffer();
+        var queuedBuffer = new CancellingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        var firstFlush = coordinator.EnqueueAndFlushAsync(firstBuffer);
+        await firstBuffer.FlushStarted.Task;
+        var queuedFlush = coordinator.EnqueueAndFlushAsync(queuedBuffer, queuedCancellation.Token);
+
+        await queuedCancellation.CancelAsync();
+        var completedTask = await Task.WhenAny(queuedFlush, Task.Delay(TimeSpan.FromSeconds(1)));
+
+        firstBuffer.ReleaseFlush.TrySetResult();
+        await firstFlush;
+
+        await Assert.That(completedTask).IsSameReferenceAs(queuedFlush);
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await queuedFlush);
+        await Assert.That(queuedBuffer.FlushCount).IsEqualTo(0);
     }
 
     [Test]
