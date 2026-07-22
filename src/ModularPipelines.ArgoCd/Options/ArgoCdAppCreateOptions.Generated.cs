@@ -423,7 +423,7 @@ public record ArgoCdAppCreateOptions(
     /// Set the sync policy (one of: manual (aliases of manual: none), automated (aliases of automated: auto, automatic))
     /// </summary>
     [CliOption("--sync-policy", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdAppCreateSyncPolicy? SyncPolicy { get; set; }
+    public string? SyncPolicy { get; set; }
 
     /// <summary>
     /// Sync retry backoff base duration. Input needs to be a duration (e.g. 2m, 1h) (default 5s)
@@ -610,7 +610,7 @@ public record ArgoCdAppCreateOptions(
     /// Enable this if the application controller is configured with redis compression enabled. (possible values: gzip, none) (default "gzip")
     /// </summary>
     [CliOption("--redis-compress", Format = OptionFormat.EqualsSeparated)]
-    public string? RedisCompress { get; set; }
+    public ArgoCdAppCreateRedisCompress? RedisCompress { get; set; }
 
     /// <summary>
     /// Name of the Redis HA Proxy; set this or the ARGOCD_REDIS_HAPROXY_NAME environment variable when the HA Proxy's name label differs from the default, for example when installing via the Helm chart (default "argocd-redis-ha-haproxy")

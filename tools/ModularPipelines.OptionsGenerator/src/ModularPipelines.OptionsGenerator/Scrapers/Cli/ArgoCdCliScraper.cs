@@ -108,6 +108,8 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         {
             var missingArgument = commandParts switch
             {
+                ["account", "delete-token"] => RequiredArgument(
+                    "Id", "ID", "string", "Token identifier."),
                 ["appset", "create"] => RequiredArgument(
                     "Files", "FILE", "IEnumerable<string>", "One or more ApplicationSet filenames or URLs."),
                 ["appset", "generate"] => RequiredArgument(

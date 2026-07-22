@@ -71,6 +71,20 @@ public class ArgoCdCliScraperTests
     }
 
     [Test]
+    public async Task Account_DeleteToken_Adds_Required_Id_Omitted_By_Help()
+    {
+        var scraper = new TestArgoCdCliScraper();
+
+        var arguments = scraper.ApplyFix(["account", "delete-token"], []);
+
+        await Assert.That(arguments).Count().IsEqualTo(1);
+        await Assert.That(arguments[0].PropertyName).IsEqualTo("Id");
+        await Assert.That(arguments[0].PlaceholderName).IsEqualTo("ID");
+        await Assert.That(arguments[0].CSharpType).IsEqualTo("string");
+        await Assert.That(arguments[0].IsRequired).IsTrue();
+    }
+
+    [Test]
     [Arguments("generate", "Files", "IEnumerable<string>")]
     [Arguments("delete", "ApplicationSetNames", "IEnumerable<string>")]
     public async Task Appset_Commands_Add_Required_Arguments_Omitted_By_Help(
