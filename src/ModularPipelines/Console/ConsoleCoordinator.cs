@@ -297,8 +297,12 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     public IModuleOutputBuffer GetUnattributedBuffer() => _unattributedBuffer;
 
     /// <inheritdoc />
-    public async Task FlushPendingWritesAsync()
+    public async Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync()
     {
+        var populatedBeforeFlush = _moduleBuffers.Values
+            .Where(buffer => buffer.HasOutput)
+            .ToHashSet();
+
         CoordinatedTextWriter? output;
         CoordinatedTextWriter? error;
         lock (_phaseLock)
@@ -316,6 +320,11 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         {
             await error.FlushAsync().ConfigureAwait(false);
         }
+
+        return _moduleBuffers.Values
+            .Where(buffer => buffer.HasOutput && !populatedBeforeFlush.Contains(buffer))
+            .Cast<IModuleOutputBuffer>()
+            .ToArray();
     }
 
     /// <inheritdoc />

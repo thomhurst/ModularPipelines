@@ -102,17 +102,26 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         public async ValueTask DisposeAsync()
         {
             // CRITICAL: Order matters!
-            // 1. Stop progress display FIRST (ends buffering phase)
+            // 1. Flush retained console fragments while progress deferral is still active.
+            var newlyPopulatedBuffers = await _consoleCoordinator
+                .FlushPendingWritesAsync()
+                .ConfigureAwait(false);
+
+            // 2. Schedule buffers populated after their modules completed.
+            foreach (var buffer in newlyPopulatedBuffers)
+            {
+                await _outputCoordinator
+                    .OnModuleCompletedAsync(buffer, buffer.ModuleType)
+                    .ConfigureAwait(false);
+            }
+
+            // 3. Stop progress display (ends buffering phase).
             await _printProgressExecutor.DisposeAsync().ConfigureAwait(false);
 
-            // 2. Flush retained console fragments into their original module buffers
-            // before those buffers are drained.
-            await _consoleCoordinator.FlushPendingWritesAsync().ConfigureAwait(false);
-
-            // 3. Flush deferred module output (in completion order)
+            // 4. Flush deferred module output (in completion order).
             await _outputCoordinator.FlushDeferredAsync().ConfigureAwait(false);
 
-            // 4. Flush any unattributed output from coordinator
+            // 5. Flush any unattributed output from coordinator.
             _consoleCoordinator.FlushModuleOutput();
         }
     }
