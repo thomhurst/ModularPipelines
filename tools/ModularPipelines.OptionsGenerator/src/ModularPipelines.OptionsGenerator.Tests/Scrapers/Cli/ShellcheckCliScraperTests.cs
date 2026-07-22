@@ -46,7 +46,13 @@ public class ShellcheckCliScraperTests
         await Assert.That(extendedAnalysis.IsFlag).IsFalse();
 
         await Assert.That(command.Options.Single(x => x.SwitchName == "--wiki-link-count").CSharpType).IsEqualTo("int?");
-        await Assert.That(command.Options.Single(x => x.SwitchName == "--include").CSharpType).IsEqualTo("string?");
+        foreach (var switchName in new[] { "--include", "--exclude", "--enable", "--source-path" })
+        {
+            var option = command.Options.Single(x => x.SwitchName == switchName);
+            await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(option.AcceptsMultipleValues).IsTrue();
+        }
+
         await Assert.That(command.Options.Any(x => x.IsSecret)).IsFalse();
 
         var shell = command.Options.Single(x => x.SwitchName == "--shell").EnumDefinition;

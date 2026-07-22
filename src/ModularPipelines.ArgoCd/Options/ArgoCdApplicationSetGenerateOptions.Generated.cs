@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appset", "generate")]
 public record ArgoCdApplicationSetGenerateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string File
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Files
 ) : ArgoCdOptions
 {
     /// <summary>

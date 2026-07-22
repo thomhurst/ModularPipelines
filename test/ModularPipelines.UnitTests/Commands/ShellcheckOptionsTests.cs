@@ -33,7 +33,10 @@ public class ShellcheckOptionsTests : TestBase
             Files = ["script.sh", "lib.sh"],
             CheckSourced = true,
             Color = ShellcheckColor.Always,
-            Include = "SC1000,SC1001",
+            Include = ["SC1000", "SC1001"],
+            Exclude = ["SC2000", "SC2001"],
+            Enable = ["add-default-case", "avoid-nullary-conditions"],
+            SourcePath = ["SCRIPTDIR", "lib"],
             ExtendedAnalysis = false,
             Format = ShellcheckFormat.Json1,
             Shell = ShellcheckShell.Busybox,
@@ -42,7 +45,7 @@ public class ShellcheckOptionsTests : TestBase
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
-            "shellcheck --check-sourced --color=always --include=SC1000,SC1001 --extended-analysis=false --format=json1 --shell=busybox --severity=warning --wiki-link-count=2 script.sh lib.sh");
+            "shellcheck --check-sourced --color=always --include=SC1000 --include=SC1001 --exclude=SC2000 --exclude=SC2001 --extended-analysis=false --format=json1 --enable=add-default-case --enable=avoid-nullary-conditions --source-path=SCRIPTDIR --source-path=lib --shell=busybox --severity=warning --wiki-link-count=2 script.sh lib.sh");
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)

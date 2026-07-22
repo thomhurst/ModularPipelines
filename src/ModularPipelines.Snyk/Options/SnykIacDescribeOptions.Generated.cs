@@ -86,8 +86,8 @@ public record SnykIacDescribeOptions : SnykOptions
     /// <summary>
     /// Use filter rules.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Enable strict mode.

@@ -111,7 +111,7 @@ public partial class ArgoCdCliScraper : CobraCliScraper
                 ["appset", "create"] => RequiredArgument(
                     "Files", "FILE", "IEnumerable<string>", "One or more ApplicationSet filenames or URLs."),
                 ["appset", "generate"] => RequiredArgument(
-                    "File", "FILE", "string", "ApplicationSet filename or URL."),
+                    "Files", "FILE", "IEnumerable<string>", "One or more ApplicationSet filenames or URLs."),
                 ["appset", "delete"] => RequiredArgument(
                     "ApplicationSetNames", "APPSETNAME", "IEnumerable<string>", "One or more ApplicationSet names."),
                 _ => null,

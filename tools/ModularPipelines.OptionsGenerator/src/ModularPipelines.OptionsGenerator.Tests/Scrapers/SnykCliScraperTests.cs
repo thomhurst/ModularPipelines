@@ -146,6 +146,8 @@ public class SnykCliScraperTests
                   Specify the Terraform Enterprise endpoint.
               --fetch-tfstate-headers
                   Use HTTP authorization headers when fetching Terraform state.
+              --filter
+                  Specify an OPA filter expression.
               --repo
                   Specify the repository URL.
             """;
@@ -158,6 +160,7 @@ public class SnykCliScraperTests
                      "--tfc-token",
                      "--tfc-endpoint",
                      "--fetch-tfstate-headers",
+                     "--filter",
                      "--repo",
                  })
         {
@@ -199,6 +202,18 @@ public class SnykCliScraperTests
         var command = await new TestSnykCliScraper().Parse(
             ["snyk", "test"],
             "Usage: snyk test [<TARGET>] [<OPTIONS>]");
+
+        var target = command!.PositionalArguments.Single();
+        await Assert.That(target.PropertyName).IsEqualTo("Target");
+        await Assert.That(target.IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Monitor_Models_Optional_Target()
+    {
+        var command = await new TestSnykCliScraper().Parse(
+            ["snyk", "monitor"],
+            "Usage: snyk monitor [<TARGET>] [<OPTIONS>]");
 
         var target = command!.PositionalArguments.Single();
         await Assert.That(target.PropertyName).IsEqualTo("Target");

@@ -19,6 +19,14 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class ShellcheckCliScraper : CliScraperBase
 {
+    private static readonly HashSet<string> RepeatableOptions = new(StringComparer.Ordinal)
+    {
+        "--enable",
+        "--exclude",
+        "--include",
+        "--source-path",
+    };
+
     public ShellcheckCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<ShellcheckCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -133,7 +141,13 @@ public partial class ShellcheckCliScraper : CliScraperBase
             enums.TryGetValue(longForm, out var enumDefinition);
             var isBoolean = !isFlag && valueHint.Equals("bool", StringComparison.OrdinalIgnoreCase);
             var isNumeric = !isFlag && valueHint.Equals("NUM", StringComparison.OrdinalIgnoreCase);
-            var csharpType = DetermineCSharpType(isFlag, isBoolean, isNumeric, enumDefinition);
+            var acceptsMultipleValues = RepeatableOptions.Contains(longForm);
+            var csharpType = DetermineCSharpType(
+                isFlag,
+                isBoolean,
+                isNumeric,
+                acceptsMultipleValues,
+                enumDefinition);
 
             options.Add(new CliOptionDefinition
             {
@@ -144,7 +158,7 @@ public partial class ShellcheckCliScraper : CliScraperBase
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
-                AcceptsMultipleValues = false,
+                AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
                 IsNumeric = isNumeric,
                 ValueSeparator = "=",
@@ -160,8 +174,14 @@ public partial class ShellcheckCliScraper : CliScraperBase
         bool isFlag,
         bool isBoolean,
         bool isNumeric,
+        bool acceptsMultipleValues,
         CliEnumDefinition? enumDefinition)
     {
+        if (acceptsMultipleValues)
+        {
+            return "IEnumerable<string>?";
+        }
+
         if (enumDefinition is not null)
         {
             return $"{enumDefinition.EnumName}?";

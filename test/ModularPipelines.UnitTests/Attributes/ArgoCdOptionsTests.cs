@@ -72,9 +72,9 @@ public class ArgoCdOptionsTests
     }
 
     [Test]
-    public async Task ApplicationSetGenerate_Renders_File()
+    public async Task ApplicationSetGenerate_Renders_Multiple_Files()
     {
-        var arguments = BuildArguments(new ArgoCdApplicationSetGenerateOptions("apps.yaml")
+        var arguments = BuildArguments(new ArgoCdApplicationSetGenerateOptions(["apps.yaml", "more-apps.yaml"])
         {
             Output = ArgoCdApplicationSetGenerateOutput.Json,
         });
@@ -82,6 +82,7 @@ public class ArgoCdOptionsTests
         await Assert.That(arguments).IsEquivalentTo(
         [
             "apps.yaml",
+            "more-apps.yaml",
             "--output=json",
         ]);
     }

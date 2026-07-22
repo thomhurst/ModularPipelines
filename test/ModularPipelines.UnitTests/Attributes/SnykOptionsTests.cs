@@ -132,6 +132,31 @@ public class SnykOptionsTests
     }
 
     [Test]
+    public async Task Monitor_Renders_Optional_Target()
+    {
+        var arguments = BuildArguments(new SnykMonitorOptions
+        {
+            Target = "src/MyApp",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["src/MyApp"]);
+    }
+
+    [Test]
+    public async Task IacDescribe_Renders_Filter_Value()
+    {
+        var arguments = BuildArguments(new SnykIacDescribeOptions
+        {
+            Filter = "resource.type == 'aws_s3_bucket'",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "--filter=resource.type == 'aws_s3_bucket'",
+        ]);
+    }
+
+    [Test]
     public async Task Sbom_Commands_Render_Documented_Options()
     {
         var sbomArguments = BuildArguments(new SnykSbomOptions(SnykFormat.Cyclonedx16Json)

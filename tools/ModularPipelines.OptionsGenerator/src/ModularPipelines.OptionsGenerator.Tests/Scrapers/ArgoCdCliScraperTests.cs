@@ -71,7 +71,7 @@ public class ArgoCdCliScraperTests
     }
 
     [Test]
-    [Arguments("generate", "File", "string")]
+    [Arguments("generate", "Files", "IEnumerable<string>")]
     [Arguments("delete", "ApplicationSetNames", "IEnumerable<string>")]
     public async Task Appset_Commands_Add_Required_Arguments_Omitted_By_Help(
         string command,

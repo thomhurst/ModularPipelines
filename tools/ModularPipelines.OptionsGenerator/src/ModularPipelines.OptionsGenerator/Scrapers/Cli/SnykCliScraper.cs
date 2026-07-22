@@ -36,6 +36,7 @@ public partial class SnykCliScraper : CliScraperBase
         "--config-dir",
         "--dotnet-target-framework",
         "--fetch-tfstate-headers",
+        "--filter",
         "--json-file-output",
         "--packages-folder",
         "--repo",
@@ -125,7 +126,7 @@ public partial class SnykCliScraper : CliScraperBase
 
         void AddMatches(IEnumerable<Match> matches)
         {
-            foreach (Match match in matches)
+            foreach (var match in matches)
             {
                 var commandName = match.Groups["command"].Value.Trim();
                 if (!string.IsNullOrEmpty(commandName) &&
@@ -436,7 +437,7 @@ public partial class SnykCliScraper : CliScraperBase
             [
                 CreatePositional("ApiToken", "API_TOKEN", "Snyk API token", isRequired: false, isSecret: true)
             ],
-            "test" =>
+            "test" or "monitor" =>
             [
                 CreatePositional("Target", "TARGET", "Package, version, or repository target to scan", isRequired: false)
             ],
