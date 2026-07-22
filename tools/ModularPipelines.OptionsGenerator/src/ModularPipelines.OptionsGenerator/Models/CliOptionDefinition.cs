@@ -73,6 +73,11 @@ public record CliOptionDefinition
     public bool IsSecret { get; init; }
 
     /// <summary>
+    /// For key-value options, the keys whose values contain secrets.
+    /// </summary>
+    public IReadOnlyList<string> SecretValueKeys { get; init; } = [];
+
+    /// <summary>
     /// The value separator (space, equals, etc.).
     /// </summary>
     public string ValueSeparator { get; init; } = " ";

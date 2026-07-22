@@ -33,7 +33,6 @@ internal sealed class CommandLineExecutor : ICommandLineExecutor
 
         if (options?.EnvironmentVariables is not null)
         {
-            command = command.WithEnvironmentVariables(new ReadOnlyDictionary<string, string?>(options.EnvironmentVariables));
             environmentVariables = new ReadOnlyDictionary<string, string?>(options.EnvironmentVariables);
         }
 

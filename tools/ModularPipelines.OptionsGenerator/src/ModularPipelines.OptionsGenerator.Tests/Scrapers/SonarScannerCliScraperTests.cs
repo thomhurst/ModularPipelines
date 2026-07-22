@@ -28,6 +28,8 @@ public class SonarScannerCliScraperTests
         await Assert.That(define.CSharpType).IsEqualTo("IEnumerable<KeyValue>?");
         await Assert.That(define.IsKeyValue).IsTrue();
         await Assert.That(define.AcceptsMultipleValues).IsTrue();
+        await Assert.That(define.IsSecret).IsTrue();
+        await Assert.That(define.SecretValueKeys).IsEquivalentTo(["sonar.token", "sonar.login"]);
         await Assert.That(debug.ShortForm).IsEqualTo("-X");
         await Assert.That(debug.IsFlag).IsTrue();
     }

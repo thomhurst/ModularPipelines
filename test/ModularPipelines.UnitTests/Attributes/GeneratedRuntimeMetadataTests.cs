@@ -19,6 +19,9 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
 
     [SecretValue]
     public string? Token { get; init; }
+
+    [SecretValue("token", "password")]
+    public IReadOnlyList<ModularPipelines.Models.KeyValue>? Properties { get; init; }
 }
 
 internal sealed record IncompleteGeneratedMetadataOptions : CommandLineToolOptions
@@ -135,9 +138,12 @@ public class GeneratedRuntimeMetadataTests
         var found = GeneratedSecretMetadata.TryGetAccessors(typeof(GeneratedMetadataOptions), out var accessors);
 
         await Assert.That(found).IsTrue();
-        await Assert.That(accessors).Count().IsEqualTo(1);
-        await Assert.That(accessors[0].PropertyName).IsEqualTo(nameof(GeneratedMetadataOptions.Token));
-        await Assert.That(accessors[0].Getter(options)).IsEqualTo("generated-secret");
+        await Assert.That(accessors).Count().IsEqualTo(2);
+        var tokenAccessor = accessors.Single(x => x.PropertyName == nameof(GeneratedMetadataOptions.Token));
+        await Assert.That(tokenAccessor.Getter(options)).IsEqualTo("generated-secret");
+
+        var propertiesAccessor = accessors.Single(x => x.PropertyName == nameof(GeneratedMetadataOptions.Properties));
+        await Assert.That(propertiesAccessor.SecretValueKeys).IsEquivalentTo(["token", "password"]);
     }
 
     [Test]

@@ -1,5 +1,4 @@
 using CliWrap;
-using CliWrap.Builders;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Helpers.Internal;
@@ -15,16 +14,53 @@ internal static class CliCommandFactory
         var commandScript = ResolveWindowsCommandScript(tool, executionOptions?.EnvironmentVariables);
         if (commandScript is null)
         {
-            return Cli.Wrap(tool).WithArguments(argumentList);
+            return ApplyEnvironmentVariables(
+                Cli.Wrap(tool).WithArguments(argumentList),
+                executionOptions?.EnvironmentVariables);
         }
 
-        var invocation = new ArgumentsBuilder()
-            .Add(commandScript)
-            .Add(argumentList)
-            .Build();
+        var environmentVariables = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
+        if (executionOptions?.EnvironmentVariables is not null)
+        {
+            foreach (var pair in executionOptions.EnvironmentVariables)
+            {
+                environmentVariables[pair.Key] = pair.Value;
+            }
+        }
+
+        var variablePrefix = $"MODULAR_PIPELINES_CMD_{Guid.NewGuid():N}_";
+        var variableNames = new List<string>(argumentList.Count + 1);
+        AddCommandValue(environmentVariables, variableNames, $"{variablePrefix}TOOL", commandScript);
+
+        for (var index = 0; index < argumentList.Count; index++)
+        {
+            AddCommandValue(environmentVariables, variableNames, $"{variablePrefix}ARG_{index}", argumentList[index]);
+        }
+
+        var invocation = string.Join(" ", variableNames.Select(name => $"\"%{name}%\""));
 
         return Cli.Wrap(Environment.GetEnvironmentVariable("COMSPEC") ?? "cmd.exe")
-            .WithArguments($"/d /s /c \"{invocation}\"");
+            .WithArguments($"/d /s /v:off /c \"{invocation}\"")
+            .WithEnvironmentVariables(environmentVariables);
+    }
+
+    private static Command ApplyEnvironmentVariables(
+        Command command,
+        IDictionary<string, string?>? environmentVariables)
+    {
+        return environmentVariables is null
+            ? command
+            : command.WithEnvironmentVariables(new Dictionary<string, string?>(environmentVariables));
+    }
+
+    private static void AddCommandValue(
+        IDictionary<string, string?> environmentVariables,
+        ICollection<string> variableNames,
+        string variableName,
+        string value)
+    {
+        variableNames.Add(variableName);
+        environmentVariables[variableName] = value.Replace("\"", "\"\"");
     }
 
     private static string? ResolveWindowsCommandScript(

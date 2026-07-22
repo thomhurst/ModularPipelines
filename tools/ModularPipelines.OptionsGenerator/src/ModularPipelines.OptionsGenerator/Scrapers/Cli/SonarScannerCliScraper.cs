@@ -166,7 +166,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 IsNumeric = false,
                 ValueSeparator = " ",
                 EnumDefinition = null,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                IsSecret = isKeyValue || GeneratorUtils.IsSecretOption(propertyName, isFlag),
+                SecretValueKeys = isKeyValue ? ["sonar.token", "sonar.login"] : [],
             });
         }
 

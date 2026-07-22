@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 using CliWrap;
@@ -98,11 +97,6 @@ internal sealed class Command : ICommand, ICommandContext
         if (execOpts.WorkingDirectory != null)
         {
             command = command.WithWorkingDirectory(execOpts.WorkingDirectory);
-        }
-
-        if (execOpts.EnvironmentVariables != null)
-        {
-            command = command.WithEnvironmentVariables(new ReadOnlyDictionary<string, string?>(execOpts.EnvironmentVariables));
         }
 
         if (execOpts.CommandLineCredentials != null)

@@ -24,6 +24,7 @@ public record SonarScannerExecuteOptions : SonarScannerOptions
     /// <summary>
     /// Define property
     /// </summary>
+    [SecretValue("sonar.token", "sonar.login")]
     [CliOption("--define", ShortForm = "-D", AllowMultiple = true)]
     public IEnumerable<KeyValue>? Define { get; set; }
 

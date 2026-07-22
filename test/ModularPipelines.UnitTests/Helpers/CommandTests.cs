@@ -96,4 +96,40 @@ public class CommandTests : TestBase
             Directory.Delete(tempDirectory, recursive: true);
         }
     }
+
+    [Test]
+    public async Task ExecuteCommandLineTool_Preserves_Windows_Command_Script_Metacharacters()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var tempDirectory = Path.Combine(Path.GetTempPath(), "mp runtime command tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(tempDirectory);
+        var scriptPath = Path.Combine(tempDirectory, "mp-runtime-metachar-test.cmd");
+        const string argument = "value & echo injected | more < input > output %PATH% ^ !PATH!";
+
+        try
+        {
+            await File.WriteAllTextAsync(
+                scriptPath,
+                "@echo off\r\nsetlocal DisableDelayedExpansion\r\nset \"arg=%~1\"\r\nsetlocal EnableDelayedExpansion\r\necho(!arg!\r\n");
+            var command = await GetService<ICommand>();
+
+            var result = await command.ExecuteCommandLineTool(
+                new GenericCommandLineToolOptions(scriptPath)
+                {
+                    Arguments = [argument],
+                });
+
+            await Assert.That(result.ExitCode).IsEqualTo(0);
+            await Assert.That(result.StandardOutput.Trim()).IsEqualTo(argument);
+            await Assert.That(result.StandardError).IsEmpty();
+        }
+        finally
+        {
+            Directory.Delete(tempDirectory, recursive: true);
+        }
+    }
 }

@@ -43,4 +43,7 @@ public static class GeneratedSecretMetadata
 /// <summary>
 /// Provides direct access to a property marked with SecretValueAttribute.
 /// </summary>
-public sealed record SecretPropertyAccessor(string PropertyName, Func<object, object?> Getter);
+public sealed record SecretPropertyAccessor(
+    string PropertyName,
+    Func<object, object?> Getter,
+    IReadOnlyList<string>? SecretValueKeys = null);

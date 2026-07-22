@@ -129,7 +129,17 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     continue;
                 }
 
-                properties.Add(new PropertyMetadata(property.Name, PropertyKind.Secret, null, null, false, 0, 0, null));
+                var secretAttribute = FindAttribute(property, attribute => IsAttribute(attribute, SecretValueAttributeFullName))!;
+                properties.Add(new PropertyMetadata(
+                    property.Name,
+                    PropertyKind.Secret,
+                    null,
+                    null,
+                    false,
+                    0,
+                    0,
+                    null,
+                    GetConstructorStrings(secretAttribute)));
             }
         }
 
@@ -165,7 +175,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 false,
                 GetConstructorInt(attribute),
                 GetNamedInt(attribute, "Placement"),
-                null);
+                null,
+                []);
         }
 
         if (attributeName == CliFlagAttributeFullName)
@@ -178,7 +189,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedBool(attribute, "PreferShortForm"),
                 0,
                 0,
-                null);
+                null,
+                []);
         }
 
         return new PropertyMetadata(
@@ -189,7 +201,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetNamedBool(attribute, "PreferShortForm"),
             GetNamedInt(attribute, "Format"),
             GetNamedBool(attribute, "AllowMultiple") ? 1 : 0,
-            GetNamedString(attribute, "CustomSeparator"));
+            GetNamedString(attribute, "CustomSeparator"),
+            []);
     }
 
     private static string Generate(ImmutableArray<TypeMetadata> items)
@@ -287,7 +300,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         foreach (var property in item.SecretMetadata.Properties)
         {
-            sb.AppendLine($"                new({Literal(property.Name)}, static instance => (({item.TypeName})instance).@{property.Name}),");
+            sb.AppendLine($"                new({Literal(property.Name)}, static instance => (({item.TypeName})instance).@{property.Name}, {StringArrayLiteral(property.SecretValueKeys)}),");
         }
 
         sb.AppendLine($"            }}, isComplete: {BooleanLiteral(item.SecretMetadata.IsComplete)});");
@@ -351,6 +364,21 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static int GetConstructorInt(AttributeData attribute) =>
         attribute.ConstructorArguments.Length == 0 ? 0 : Convert.ToInt32(attribute.ConstructorArguments[0].Value);
 
+    private static ImmutableArray<string> GetConstructorStrings(AttributeData attribute)
+    {
+        if (attribute.ConstructorArguments.Length == 0 ||
+            attribute.ConstructorArguments[0].Kind != TypedConstantKind.Array)
+        {
+            return [];
+        }
+
+        return attribute.ConstructorArguments[0].Values
+            .Select(value => value.Value as string)
+            .Where(value => value is not null)
+            .Cast<string>()
+            .ToImmutableArray();
+    }
+
     private static string? GetNamedString(AttributeData attribute, string name) =>
         attribute.NamedArguments.FirstOrDefault(argument => argument.Key == name).Value.Value as string;
 
@@ -366,6 +394,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static string BooleanLiteral(bool value) => value ? "true" : "false";
 
     private static string NullableLiteral(string? value) => value is null ? "null" : Literal(value);
+
+    private static string StringArrayLiteral(ImmutableArray<string> values) =>
+        values.Length == 0
+            ? "global::System.Array.Empty<string>()"
+            : $"new string[] {{ {string.Join(", ", values.Select(Literal))} }}";
 
     private static string Literal(string value) =>
         global::Microsoft.CodeAnalysis.CSharp.SymbolDisplay.FormatLiteral(value, quote: true);
@@ -392,7 +425,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool BooleanValue,
         int FirstInt,
         int SecondInt,
-        string? CustomSeparator);
+        string? CustomSeparator,
+        ImmutableArray<string> SecretValueKeys);
 
     private enum PropertyKind
     {

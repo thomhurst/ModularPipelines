@@ -5,6 +5,7 @@ using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
@@ -125,11 +126,33 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 
         foreach (var property in secretProperties)
         {
-            var secret = property.Getter(value)?.ToString();
+            var propertyValue = property.Getter(value);
+            var secretValueKeys = property.SecretValueKeys ?? Array.Empty<string>();
 
-            if (!string.IsNullOrWhiteSpace(secret))
+            if (secretValueKeys.Count == 0)
             {
-                yield return secret;
+                var secret = propertyValue?.ToString();
+
+                if (!string.IsNullOrWhiteSpace(secret))
+                {
+                    yield return secret;
+                }
+
+                continue;
+            }
+
+            if (propertyValue is not IEnumerable<KeyValue> keyValues)
+            {
+                continue;
+            }
+
+            foreach (var keyValue in keyValues)
+            {
+                if (secretValueKeys.Contains(keyValue.Key, StringComparer.OrdinalIgnoreCase) &&
+                    !string.IsNullOrWhiteSpace(keyValue.Value))
+                {
+                    yield return keyValue.Value;
+                }
             }
         }
     }
@@ -166,7 +189,10 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Concat(type.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
             .Where(m => m.GetCustomAttribute<SecretValueAttribute>() is not null)
-            .Select(property => new SecretPropertyAccessor(property.Name, property.GetValue))
+            .Select(property => new SecretPropertyAccessor(
+                property.Name,
+                property.GetValue,
+                property.GetCustomAttribute<SecretValueAttribute>()!.Keys))
             .ToArray();
     }
 
