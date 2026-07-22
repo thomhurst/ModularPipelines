@@ -886,7 +886,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// <summary>
     /// Matches "Flags:" or "Global Flags:" section headers.
     /// </summary>
-    [GeneratedRegex(@"(?:Global\s+)?Flags:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^[ \t]*(?:Global[ \t]+)?Flags:?[ \t]*\r?$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex FlagsSectionPattern();
 
     /// <summary>
@@ -919,7 +919,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// <summary>
     /// Matches usage line.
     /// </summary>
-    [GeneratedRegex(@"Usage:\s*\n?\s*(?<usage>[^\n]+)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^[ \t]*Usage:?[ \t]*(?:\r?\n[ \t]*)?(?<usage>[^\r\n]+)", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex UsageLinePattern();
 
     /// <summary>
@@ -963,7 +963,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         // Valid Cobra command help always has "Usage:" section
-        if (!helpText.Contains("Usage:"))
+        var usageLineMatch = UsageLinePattern().Match(helpText);
+        if (!usageLineMatch.Success)
         {
             return false;
         }
@@ -982,15 +983,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
         if (expectedCommandParts.Length > 0)
         {
             var lastPart = expectedCommandParts[^1];
-            var usageLineMatch = UsageLinePattern().Match(helpText);
-            if (usageLineMatch.Success)
+            var usageLine = usageLineMatch.Groups["usage"].Value;
+            // The last command part should appear in the usage line
+            if (!usageLine.Contains(lastPart, StringComparison.OrdinalIgnoreCase))
             {
-                var usageLine = usageLineMatch.Groups["usage"].Value;
-                // The last command part should appear in the usage line
-                if (!usageLine.Contains(lastPart, StringComparison.OrdinalIgnoreCase))
-                {
-                    return false;
-                }
+                return false;
             }
         }
 

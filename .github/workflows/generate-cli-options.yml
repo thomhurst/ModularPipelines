@@ -525,6 +525,16 @@ jobs:
       # .NET CLI is installed via setup-dotnet
       # pip is pre-installed with Python on ubuntu-latest
 
+      - name: Verify affected tool installation
+        if: steps.should-run.outputs.run == 'true' && contains(fromJSON('["aws","gh","snyk","yarn","cosign","eksctl","trivy","liquibase"]'), matrix.tool)
+        run: |
+          command -v "${{ matrix.tool }}"
+          case "${{ matrix.tool }}" in
+            cosign) cosign version ;;
+            eksctl) eksctl version ;;
+            *) "${{ matrix.tool }}" --version ;;
+          esac
+
       - name: Build Generator
         if: steps.should-run.outputs.run == 'true'
         run: dotnet build -c Release
