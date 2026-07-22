@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -69,7 +70,7 @@ public class GeneratedCliRenderingSnapshotTests
         var commandBuilder = new CommandLineBuilder(
             new ToolResolver(),
             new CommandPartsProvider(),
-            new PlaceholderHandler(),
+            new PlaceholderHandler(modelProvider),
             modelProvider,
             new CommandArgumentBuilder());
         var corpus = new StringBuilder();
@@ -92,12 +93,18 @@ public class GeneratedCliRenderingSnapshotTests
             {
                 var options = (CommandLineToolOptions) RuntimeHelpers.GetUninitializedObject(optionType);
                 var commandModel = modelProvider.GetCommandModel(optionType);
+                var properties = commandModel.ToDictionary(
+                    part => part.PropertyName,
+                    part => GetProperty(optionType, part.PropertyName),
+                    StringComparer.Ordinal);
+                var secretPropertyNames = GetSecretPropertyNames(optionType);
                 var typeCorpus = new StringBuilder();
 
                 foreach (var part in commandModel)
                 {
-                    var isSecret = part.Property.IsDefined(typeof(SecretValueAttribute), inherit: true);
-                    part.Property.SetValue(options, CreateRepresentativeValue(part.Property.PropertyType, isSecret));
+                    var property = properties[part.PropertyName];
+                    var isSecret = secretPropertyNames.Contains(part.PropertyName);
+                    property.SetValue(options, CreateRepresentativeValue(property.PropertyType, isSecret));
 
                     propertyCount++;
                     secretPropertyCount += isSecret ? 1 : 0;
@@ -109,13 +116,14 @@ public class GeneratedCliRenderingSnapshotTests
                 typeCorpus.Append(optionType.FullName).Append('|');
                 foreach (var part in commandModel)
                 {
+                    var property = properties[part.PropertyName];
                     typeCorpus.Append(part.GetType().Name)
                         .Append(':')
-                        .Append(part.Property.Name)
+                        .Append(part.PropertyName)
                         .Append(':')
-                        .Append(part.Property.PropertyType.FullName)
+                        .Append(property.PropertyType.FullName)
                         .Append(':')
-                        .Append(part.Property.IsDefined(typeof(SecretValueAttribute), inherit: true) ? "secret" : "plain")
+                        .Append(secretPropertyNames.Contains(part.PropertyName) ? "secret" : "plain")
                         .Append(';');
                 }
 
@@ -144,6 +152,29 @@ public class GeneratedCliRenderingSnapshotTests
         return !type.IsAbstract
                && type.IsAssignableTo(typeof(CommandLineToolOptions))
                && type.GetCustomAttribute<GeneratedCodeAttribute>()?.Tool == "ModularPipelines.OptionsGenerator";
+    }
+
+    private static PropertyInfo GetProperty(Type optionsType, string propertyName)
+    {
+        for (var current = optionsType; current is not null; current = current.BaseType)
+        {
+            var property = current.GetProperty(
+                propertyName,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            if (property is not null)
+            {
+                return property;
+            }
+        }
+
+        throw new InvalidOperationException($"Could not find property {propertyName} on {optionsType.FullName}.");
+    }
+
+    private static HashSet<string> GetSecretPropertyNames(Type optionsType)
+    {
+        return GeneratedSecretMetadata.TryGetAccessors(optionsType, out var accessors)
+            ? accessors.Select(accessor => accessor.PropertyName).ToHashSet(StringComparer.Ordinal)
+            : [];
     }
 
     private static string Hash(string value) =>
@@ -245,8 +276,7 @@ public class GeneratedCliRenderingSnapshotTests
 
         public IReadOnlyList<PropertyCommandLinePart> GetCommandModel(Type optionsType) =>
             _inner.GetCommandModel(optionsType)
-                .OrderBy(part => part.Property.Name, StringComparer.Ordinal)
-                .ThenBy(part => part.Property.DeclaringType?.FullName, StringComparer.Ordinal)
+                .OrderBy(part => part.PropertyName, StringComparer.Ordinal)
                 .ThenBy(part => part.GetType().Name, StringComparer.Ordinal)
                 .ToArray();
     }
