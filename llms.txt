@@ -94,7 +94,7 @@ This file contains links to documentation sections following the llmstxt.org sta
 - [Skopeo Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/skopeo): Strongly typed Skopeo container-image commands.
 - [Slack Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/slack): Slack notification helpers.
 - [Snyk Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/snyk): `ModularPipelines.Snyk` provides strongly typed access to the Snyk CLI for open-source,
-- [SonarScanner Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/sonar-scanner): Package reserved for SonarScanner code-analysis commands.
+- [SonarScanner Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/sonar-scanner): `ModularPipelines.SonarScanner` provides strongly typed access to SonarScanner CLI for
 - [Syft Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/syft): Strongly typed Syft software-bill-of-materials commands.
 - [TeamCity Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/teamcity): TeamCity environment and build integration helpers.
 - [Terraform Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/terraform): Strongly typed Terraform infrastructure commands.
