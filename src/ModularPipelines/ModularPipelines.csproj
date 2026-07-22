@@ -75,7 +75,6 @@
     </PackageReference>
     <PackageReference Include="Polly" />
     <PackageReference Include="Spectre.Console" />
-    <PackageReference Include="System.Text.Json" />
     <PackageReference Include="EnumerableAsyncProcessor" />
     <PackageReference Include="Initialization.Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="MEL.Spectre" />
