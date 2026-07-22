@@ -11,8 +11,6 @@ namespace ModularPipelines.Console;
 [ExcludeFromCodeCoverage]
 internal sealed class OutputCoordinator : IOutputCoordinator
 {
-    private const int MaxFlushAttempts = 2;
-
     private readonly IBuildSystemFormatterProvider _formatterProvider;
     private readonly ILoggerFactory _loggerFactory;
     private readonly IServiceProvider _serviceProvider;
@@ -249,26 +247,12 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     {
         try
         {
-            for (var attempt = 1; attempt <= MaxFlushAttempts; attempt++)
-            {
-                try
-                {
-                    await FlushPendingOnceAsync(pending, formatter).ConfigureAwait(false);
-                    pending.CompletionSource.TrySetResult();
-                    return;
-                }
-                catch (OperationCanceledException)
-                {
-                    throw;
-                }
-                catch (Exception ex) when (attempt < MaxFlushAttempts)
-                {
-                    _logger.LogWarning(
-                        ex,
-                        "Failed to flush output for {ModuleType}; retrying",
-                        pending.Buffer.ModuleType.Name);
-                }
-            }
+            // Output sinks are not transactional. A provider can deliver an event and
+            // then throw, so retrying here could duplicate output already accepted by
+            // that provider. Preserve the buffer's unrendered tail and surface failure
+            // to the caller instead.
+            await FlushPendingOnceAsync(pending, formatter).ConfigureAwait(false);
+            pending.CompletionSource.TrySetResult();
         }
         catch (OperationCanceledException ex)
         {
@@ -336,7 +320,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         CancellationToken cancellationToken)
     {
         var loggerType = typeof(ILogger<>).MakeGenericType(buffer.ModuleType);
-        var moduleLogger = (ILogger)_serviceProvider.GetService(loggerType)
+        var moduleLogger = (ILogger) _serviceProvider.GetService(loggerType)
                            ?? _loggerFactory.CreateLogger(buffer.ModuleType);
 
         using var directWrite = CoordinatedTextWriter.BeginDirectWrite();
@@ -348,7 +332,9 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     private sealed class PendingFlush
     {
         public IModuleOutputBuffer Buffer { get; }
+
         public CancellationToken CancellationToken { get; }
+
         public TaskCompletionSource CompletionSource { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         public PendingFlush(IModuleOutputBuffer buffer, CancellationToken cancellationToken)

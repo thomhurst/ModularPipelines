@@ -166,26 +166,15 @@ public class OutputCoordinatorTests
     }
 
     [Test]
-    public async Task ImmediateFlush_RetriesRestoredOutputAfterRenderingFailure()
+    public async Task ImmediateFlush_DoesNotRetryPartiallyDeliveredOutput()
     {
-        var buffer = new FailingOutputBuffer(failuresBeforeSuccess: 1);
-        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
-
-        await coordinator.EnqueueAndFlushAsync(buffer);
-
-        await Assert.That(buffer.FlushCount).IsEqualTo(2);
-    }
-
-    [Test]
-    public async Task ImmediateFlush_PropagatesRepeatedRenderingFailure()
-    {
-        var buffer = new FailingOutputBuffer(failuresBeforeSuccess: 2);
+        var buffer = new PartiallyDeliveringOutputBuffer();
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
 
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
             await coordinator.EnqueueAndFlushAsync(buffer));
 
-        await Assert.That(buffer.FlushCount).IsEqualTo(2);
+        await Assert.That(buffer.DeliveryCount).IsEqualTo(1);
     }
 
     private static OutputCoordinator CreateCoordinator(
@@ -368,13 +357,13 @@ public class OutputCoordinatorTests
         }
     }
 
-    private sealed class FailingOutputBuffer(int failuresBeforeSuccess) : IModuleOutputBuffer
+    private sealed class PartiallyDeliveringOutputBuffer : IModuleOutputBuffer
     {
-        public Type ModuleType => typeof(FailingOutputBuffer);
+        public Type ModuleType => typeof(PartiallyDeliveringOutputBuffer);
 
         public bool HasOutput => true;
 
-        public int FlushCount { get; private set; }
+        public int DeliveryCount { get; private set; }
 
         public void WriteLine(string message)
         {
@@ -400,13 +389,8 @@ public class OutputCoordinatorTests
             ISpectreConsoleLoggerControl loggerControl,
             CancellationToken cancellationToken = default)
         {
-            FlushCount++;
-            if (FlushCount <= failuresBeforeSuccess)
-            {
-                throw new InvalidOperationException("render failed");
-            }
-
-            return Task.CompletedTask;
+            DeliveryCount++;
+            throw new InvalidOperationException("provider failed after partial delivery");
         }
     }
 }
