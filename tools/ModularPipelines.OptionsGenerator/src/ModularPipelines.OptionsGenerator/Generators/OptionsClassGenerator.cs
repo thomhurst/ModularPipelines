@@ -177,7 +177,8 @@ public class OptionsClassGenerator : ICodeGenerator
                     continue; // Skip duplicate
                 }
                 var posAttr = GetPositionalAttributeString(pos);
-                parameters.Add($"    [property: {posAttr}] {pos.CSharpType.TrimEnd('?')} {pos.PropertyName}");
+                var secretAttr = pos.IsSecret ? "SecretValue, " : "";
+                parameters.Add($"    [property: {secretAttr}{posAttr}] {pos.CSharpType.TrimEnd('?')} {pos.PropertyName}");
                 existingNames.Add(pos.PropertyName);
             }
 
@@ -221,6 +222,11 @@ public class OptionsClassGenerator : ICodeGenerator
     private static void GeneratePositionalArgument(StringBuilder sb, CliPositionalArgument positional)
     {
         GeneratorUtils.GenerateXmlDocumentation(sb, positional.Description);
+
+        if (positional.IsSecret)
+        {
+            sb.AppendLine("    [SecretValue]");
+        }
 
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");

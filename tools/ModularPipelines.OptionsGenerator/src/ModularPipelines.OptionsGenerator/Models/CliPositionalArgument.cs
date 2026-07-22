@@ -40,6 +40,11 @@ public record CliPositionalArgument
     /// Whether this positional argument is required.
     /// </summary>
     public bool IsRequired { get; init; }
+
+    /// <summary>
+    /// Whether this positional argument contains a secret value that should be obfuscated in logs.
+    /// </summary>
+    public bool IsSecret { get; init; }
 }
 
 /// <summary>
