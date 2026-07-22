@@ -110,6 +110,7 @@ internal static class DependencyInjectionSetup
                 placeholders.ForName("CommandOutput", Style.Plain);
                 placeholders.ForName("CommandError", Style.Plain);
             });
+        config.WriteMode = WriteMode.Synchronous;
     }
 
     /// <summary>

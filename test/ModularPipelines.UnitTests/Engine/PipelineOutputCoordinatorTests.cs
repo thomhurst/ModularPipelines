@@ -18,7 +18,9 @@ public class PipelineOutputCoordinatorTests
         consoleCoordinator.Setup(x => x.FlushPendingWritesAsync())
             .Callback(() => events.Add("retained"))
             .ReturnsAsync([retainedBuffer.Object]);
-        consoleCoordinator.Setup(x => x.FlushModuleOutput()).Callback(() => events.Add("unattributed"));
+        consoleCoordinator.Setup(x => x.FlushModuleOutputAsync())
+            .Callback(() => events.Add("unattributed"))
+            .Returns(Task.CompletedTask);
 
         var outputCoordinator = new Mock<IOutputCoordinator>();
         outputCoordinator

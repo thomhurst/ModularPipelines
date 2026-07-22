@@ -6,8 +6,8 @@ namespace ModularPipelines.Plugins;
 public static class PluginTestHelper
 {
     /// <summary>
-    /// Creates an isolated plugin registry scope for testing.
-    /// Clears all registered plugins and restores them when disposed.
+    /// Creates an execution-context-local plugin registry scope for testing.
+    /// The empty isolated registry is replaced with the previous context when disposed.
     /// </summary>
     /// <returns>A disposable scope that restores the original plugins when disposed.</returns>
     /// <example>
@@ -22,29 +22,5 @@ public static class PluginTestHelper
     /// }
     /// </code>
     /// </example>
-    public static IDisposable IsolatedRegistry()
-    {
-        var snapshot = PluginRegistry.Plugins.ToList();
-        PluginRegistry.Clear();
-        return new RegistryRestorer(snapshot);
-    }
-
-    private sealed class RegistryRestorer : IDisposable
-    {
-        private readonly List<IModularPipelinesPlugin> _snapshot;
-
-        public RegistryRestorer(List<IModularPipelinesPlugin> snapshot)
-        {
-            _snapshot = snapshot;
-        }
-
-        public void Dispose()
-        {
-            PluginRegistry.Clear();
-            foreach (var plugin in _snapshot)
-            {
-                PluginRegistry.Register(plugin);
-            }
-        }
-    }
+    public static IDisposable IsolatedRegistry() => PluginRegistry.BeginIsolatedScope();
 }

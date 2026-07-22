@@ -16,7 +16,7 @@ namespace ModularPipelines.Engine.Executors;
 /// 2. Progress - Show progress display while buffering module output
 /// 3. Flush - End progress and flush buffered output
 /// 4. Results - Print results table
-/// 5. Exceptions - Print deferred exceptions
+/// 5. Exceptions - Print deferred exceptions.
 /// </para>
 /// </remarks>
 internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
@@ -122,7 +122,7 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
             await _outputCoordinator.FlushDeferredAsync().ConfigureAwait(false);
 
             // 5. Flush any unattributed output from coordinator.
-            _consoleCoordinator.FlushModuleOutput();
+            await _consoleCoordinator.FlushModuleOutputAsync().ConfigureAwait(false);
         }
     }
 }

@@ -8,6 +8,7 @@ public static class PluginRegistry
 {
     private static readonly object Lock = new();
     private static readonly List<IModularPipelinesPlugin> Registered = [];
+    private static readonly AsyncLocal<List<IModularPipelinesPlugin>?> IsolatedRegistry = new();
 
     /// <summary>
     /// Gets all registered plugins, ordered by priority (ascending).
@@ -18,7 +19,7 @@ public static class PluginRegistry
         {
             lock (Lock)
             {
-                return Registered.OrderBy(p => p.Priority).ToList();
+                return GetActiveRegistry().OrderBy(p => p.Priority).ToList();
             }
         }
     }
@@ -34,12 +35,13 @@ public static class PluginRegistry
 
         lock (Lock)
         {
-            if (Registered.Any(p => p.Name == plugin.Name))
+            var registry = GetActiveRegistry();
+            if (registry.Any(p => p.Name == plugin.Name))
             {
                 throw new InvalidOperationException($"Plugin '{plugin.Name}' is already registered.");
             }
 
-            Registered.Add(plugin);
+            registry.Add(plugin);
         }
     }
 
@@ -50,7 +52,25 @@ public static class PluginRegistry
     {
         lock (Lock)
         {
-            Registered.Clear();
+            GetActiveRegistry().Clear();
+        }
+    }
+
+    internal static IDisposable BeginIsolatedScope()
+    {
+        var previousRegistry = IsolatedRegistry.Value;
+        IsolatedRegistry.Value = [];
+        return new IsolatedRegistryScope(previousRegistry);
+    }
+
+    private static List<IModularPipelinesPlugin> GetActiveRegistry() =>
+        IsolatedRegistry.Value ?? Registered;
+
+    private sealed class IsolatedRegistryScope(List<IModularPipelinesPlugin>? previousRegistry) : IDisposable
+    {
+        public void Dispose()
+        {
+            IsolatedRegistry.Value = previousRegistry;
         }
     }
 }

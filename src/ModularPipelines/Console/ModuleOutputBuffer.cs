@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
@@ -100,7 +101,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
-    public void FlushTo(TextWriter console, IBuildSystemFormatter formatter, ILogger logger)
+    public Task FlushToAsync(
+        TextWriter console,
+        IBuildSystemFormatter formatter,
+        ILogger logger,
+        ISpectreConsoleLoggerControl loggerControl,
+        CancellationToken cancellationToken = default)
     {
         List<BufferedOutput> outputs;
         Exception? exception;
@@ -109,7 +115,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             if (_outputs.Count == 0)
             {
-                return;
+                return Task.CompletedTask;
             }
 
             outputs = new List<BufferedOutput>(_outputs);
@@ -117,42 +123,107 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             exception = _exception;
         }
 
-        // Write section header (CI group start)
-        var header = FormatHeader(exception);
-        var startCommand = formatter.GetStartBlockCommand(header);
-        if (startCommand != null)
-        {
-            WriteWithMarkup(startCommand);
-        }
+        var directConsole = CreateDirectConsole(console);
+        var renderedCount = 0;
 
-        // Write all buffered output
-        // Log events go to the logger which handles both console (via SpectreConsole) and file output
-        // String output (from Console.WriteLine interception) goes directly to console
-        foreach (var output in outputs)
+        try
         {
-            if (output.IsString)
+            var synchronizationLock = loggerControl.SynchronizationLock;
+            EnterSynchronizationLock(synchronizationLock, cancellationToken);
+            try
             {
-                WriteWithMarkup(output.StringValue);
+                var header = FormatHeader(exception);
+                var startCommand = formatter.GetStartBlockCommand(header);
+                var endCommand = formatter.GetEndBlockCommand(header);
+                var groupStarted = false;
+                var flushCompleted = false;
+
+                try
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    // Keep the synchronization gate for the complete group. MEL.Spectre uses
+                    // synchronous rendering, so unrelated logger calls cannot enter this group.
+                    if (startCommand != null)
+                    {
+                        WriteDirect(directConsole, console, startCommand);
+                        groupStarted = true;
+                    }
+
+                    foreach (var output in outputs)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        if (output.IsString)
+                        {
+                            WriteDirect(directConsole, console, output.StringValue);
+                        }
+                        else if (output.LogEvent.HasValue)
+                        {
+                            var logEvent = output.LogEvent.Value;
+
+                            // Synchronous MEL.Spectre rendering preserves this buffer's position
+                            // while other providers (for example file logging) still receive the event.
+                            logger.Log(logEvent.Level, logEvent.EventId, logEvent.State, logEvent.Exception,
+                                (state, ex) => logEvent.Formatter(state, ex));
+                        }
+
+                        renderedCount++;
+                    }
+
+                    cancellationToken.ThrowIfCancellationRequested();
+                    flushCompleted = true;
+                }
+                finally
+                {
+                    if (groupStarted && endCommand != null)
+                    {
+                        console.WriteLine(endCommand);
+                    }
+
+                    if (groupStarted || flushCompleted)
+                    {
+                        // Add blank line between module sections for visual separation.
+                        console.WriteLine();
+                    }
+                }
             }
-            else if (output.LogEvent.HasValue)
+            finally
             {
-                var logEvent = output.LogEvent.Value;
-
-                // Write to logger - this handles console output (via SpectreConsole) and file loggers
-                logger.Log(logEvent.Level, logEvent.EventId, logEvent.State, logEvent.Exception,
-                    (state, ex) => logEvent.Formatter(state, ex));
+                Monitor.Exit(synchronizationLock);
             }
         }
-
-        // Write section footer (CI group end)
-        var endCommand = formatter.GetEndBlockCommand(header);
-        if (endCommand != null)
+        catch
         {
-            console.WriteLine(endCommand);
+            RestoreUnrenderedOutputs(outputs, renderedCount);
+            throw;
         }
 
-        // Add blank line between module sections for visual separation
-        console.WriteLine();
+        return Task.CompletedTask;
+    }
+
+    private static void EnterSynchronizationLock(
+        object synchronizationLock,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        while (!Monitor.TryEnter(synchronizationLock, millisecondsTimeout: 50))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+        }
+    }
+
+    private void RestoreUnrenderedOutputs(List<BufferedOutput> outputs, int renderedCount)
+    {
+        if (renderedCount >= outputs.Count)
+        {
+            return;
+        }
+
+        lock (_lock)
+        {
+            _outputs.InsertRange(0, outputs.Skip(renderedCount));
+        }
     }
 
     private string FormatHeader(Exception? exception)
@@ -168,7 +239,21 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         return $"{_moduleName} \u2713 ({durationText})";
     }
 
-    private static void WriteWithMarkup(string? value)
+    private static IAnsiConsole CreateDirectConsole(TextWriter writer)
+    {
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(writer),
+        });
+        console.Profile.Width = AnsiConsole.Profile.Width;
+        console.Profile.Capabilities = AnsiConsole.Profile.Capabilities;
+        return console;
+    }
+
+    private static void WriteDirect(
+        IAnsiConsole directConsole,
+        TextWriter console,
+        string? value)
     {
         if (string.IsNullOrEmpty(value))
         {
@@ -177,13 +262,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         try
         {
-            AnsiConsole.MarkupLine(value);
+            directConsole.MarkupLine(value);
         }
         catch (Exception)
         {
-            // Fall back to plain console output if markup parsing fails
-            // This handles CI formatters that use brackets in their syntax (e.g., ##[group])
-            System.Console.WriteLine(value);
+            // CI workflow commands and arbitrary output can contain brackets that are not Spectre markup.
+            console.WriteLine(value);
         }
     }
 }

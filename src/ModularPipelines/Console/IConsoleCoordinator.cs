@@ -17,7 +17,7 @@ namespace ModularPipelines.Console;
 /// 2. BeginProgressAsync() - Starts progress display phase
 /// 3. [Pipeline executes] - All output buffered per-module
 /// 4. ProgressSession disposed - Ends progress phase
-/// 5. FlushModuleOutput() - Writes buffered output in order
+/// 5. FlushModuleOutputAsync() - Writes buffered output in order
 /// 6. WriteResults() - Prints results table
 /// 7. WriteExceptions() - Prints deferred exceptions
 /// 8. Uninstall() - Restores original console
@@ -81,7 +81,7 @@ internal interface IConsoleCoordinator : IAsyncDisposable
     /// Flushes any remaining unattributed output.
     /// Module output is flushed immediately when modules complete.
     /// </summary>
-    void FlushModuleOutput();
+    Task FlushModuleOutputAsync();
 
     /// <summary>
     /// Writes the pipeline results table.
