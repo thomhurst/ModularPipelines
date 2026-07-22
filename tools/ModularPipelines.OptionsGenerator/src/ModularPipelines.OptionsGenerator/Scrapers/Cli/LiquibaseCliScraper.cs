@@ -362,7 +362,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
             Description = "Output format. Liquibase Secure supports JSON.",
             IsFlag = false,
             ValueSeparator = "=",
-            IsSecret = false,
+            IsSecret = GeneratorUtils.IsSecretOption("Format", isFlag: false),
         });
     }
 

@@ -73,6 +73,7 @@ internal sealed class GeneratedOverrideSecretDerived : GeneratedOverrideSecretBa
     public string? OwnSecret { get; init; }
 }
 
+[CliGlobalOptions]
 internal record GeneratedOverrideCommandBase : CommandLineToolOptions
 {
     [CliFlag("--verbose")]
@@ -82,6 +83,21 @@ internal record GeneratedOverrideCommandBase : CommandLineToolOptions
 internal sealed record GeneratedOverrideCommandDerived : GeneratedOverrideCommandBase
 {
     public override bool? Verbose { get; init; }
+}
+
+[CliGlobalOptions]
+internal record ReflectionOverrideCommandBase : CommandLineToolOptions
+{
+    [CliFlag("--verbose")]
+    public virtual bool? Verbose { get; init; }
+}
+
+internal sealed record ReflectionOverrideCommandDerived : ReflectionOverrideCommandBase
+{
+    public override bool? Verbose { get; init; }
+
+    [CliOption("--hidden")]
+    private string Hidden => "hidden";
 }
 
 public class GeneratedRuntimeMetadataTests
@@ -129,6 +145,16 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(flag.PropertyName).IsEqualTo(nameof(GeneratedOverrideCommandDerived.Verbose));
         await Assert.That(flag.Attribute.Name).IsEqualTo("--verbose");
         await Assert.That((bool) flag.Getter(options)!).IsTrue();
+        await Assert.That(flag.IsGlobalOption).IsTrue();
+    }
+
+    [Test]
+    public async Task ReflectionMetadata_PreservesGlobalMetadataFromOverriddenProperties()
+    {
+        var model = new CommandModelProvider().GetCommandModel(typeof(ReflectionOverrideCommandDerived));
+
+        var flag = model.OfType<FlagPart>().Single();
+        await Assert.That(flag.IsGlobalOption).IsTrue();
     }
 
     [Test]

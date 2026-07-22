@@ -56,6 +56,28 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         return parts;
     }
 
-    private static bool IsGlobalOption(PropertyInfo property) =>
-        property.DeclaringType?.IsDefined(typeof(CliGlobalOptionsAttribute), inherit: false) == true;
+    [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties.")]
+    private static bool IsGlobalOption(PropertyInfo property)
+    {
+        if (property.DeclaringType?.IsDefined(typeof(CliGlobalOptionsAttribute), inherit: false) == true)
+        {
+            return true;
+        }
+
+        var baseAccessor = property.GetMethod?.GetBaseDefinition();
+        for (var currentType = property.DeclaringType?.BaseType; currentType is not null; currentType = currentType.BaseType)
+        {
+            var declaredProperty = currentType.GetProperty(
+                property.Name,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+
+            if (currentType.IsDefined(typeof(CliGlobalOptionsAttribute), inherit: false)
+                && declaredProperty?.GetMethod?.GetBaseDefinition().Equals(baseAccessor) == true)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

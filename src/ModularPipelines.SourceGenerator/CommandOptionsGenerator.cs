@@ -172,8 +172,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static PropertyMetadata CreatePropertyMetadata(IPropertySymbol property, AttributeData attribute)
     {
-        var isGlobalOption = property.ContainingType.GetAttributes()
-            .Any(candidate => IsAttribute(candidate, CliGlobalOptionsAttributeFullName));
+        var isGlobalOption = IsGlobalOption(property);
         var attributeName = attribute.AttributeClass?.ToDisplayString();
         if (attributeName == CliArgumentAttributeFullName)
         {
@@ -216,6 +215,20 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetNamedString(attribute, "CustomSeparator"),
             [],
             isGlobalOption);
+    }
+
+    private static bool IsGlobalOption(IPropertySymbol property)
+    {
+        for (var current = property; current is not null; current = current.OverriddenProperty)
+        {
+            if (current.ContainingType.GetAttributes()
+                .Any(candidate => IsAttribute(candidate, CliGlobalOptionsAttributeFullName)))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static string Generate(ImmutableArray<TypeMetadata> items)

@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
@@ -141,6 +142,11 @@ public class CommandLineBuilderTests : TestBase
     public async Task Build_Places_Global_Options_Before_Subcommands()
     {
         var builder = await GetService<ICommandLineBuilder>();
+        var modelProvider = await GetService<ICommandModelProvider>();
+
+        var searchPath = modelProvider.GetCommandModel(typeof(TestGlobalCommandOptions))
+            .Single(part => part.PropertyName == nameof(TestGlobalOptions.SearchPath));
+        await Assert.That(searchPath.IsGlobalOption).IsTrue();
 
         var result = builder.Build(new TestGlobalCommandOptions
         {
