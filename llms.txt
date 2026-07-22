@@ -54,6 +54,7 @@ This file contains links to documentation sections following the llmstxt.org sta
 - [GitHub Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/github): The **GitHub package** offered by **Modular Pipelines**, in conjunction with the implemented **OctoKit client library**, facilitates a streamlined ...
 - [Hadolint Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/hadolint): `ModularPipelines.Hadolint` provides strongly typed access to the Hadolint Dockerfile linter.
 - [Java Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/java): `ModularPipelines.Java` provides strongly typed access to Maven and Gradle build CLIs.
+- [jq Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/jq): `ModularPipelines.Jq` provides strongly typed access to the jq JSON processor CLI.
 - [ShellCheck Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/shellcheck): The `ModularPipelines.Shellcheck` package provides strongly typed access to the ShellCheck static analysis CLI.
 - [Snyk Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/snyk): `ModularPipelines.Snyk` provides strongly typed access to the Snyk CLI for open-source,
 - [Why Modular Pipelines?](https://thomhurst.github.io/ModularPipelines/docs/why): - The .NET ecosystem is rich with features and libraries. You can utilize what already exists and not have to re-invent the wheel.
