@@ -92,6 +92,10 @@ public partial class MavenCliScraper : CliScraperBase
 
         // Parse options from the help text
         var options = ParseOptions(helpText);
+        var enums = options
+            .Where(x => x.EnumDefinition is not null)
+            .Select(x => x.EnumDefinition!)
+            .ToList();
 
         var command = new CliCommandDefinition
         {
@@ -103,9 +107,21 @@ public partial class MavenCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://maven.apache.org/ref/current/maven-embedder/cli.html",
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "GoalsAndPhases",
+                    PlaceholderName = "goal(s) phase(s)",
+                    CSharpType = "IEnumerable<string>?",
+                    Description = "Maven goals and lifecycle phases to execute.",
+                    PositionIndex = 0,
+                    IsRequired = false,
+                    Placement = PositionalArgumentPosition.AfterOptions
+                }
+            ],
             SubDomainGroup = null,
-            Enums = []
+            Enums = enums
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
@@ -117,7 +133,7 @@ public partial class MavenCliScraper : CliScraperBase
     ///         -B,--batch-mode                        Description
     ///         -D,--define &lt;arg&gt;                     Description
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    protected List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -176,7 +192,11 @@ public partial class MavenCliScraper : CliScraperBase
             }
 
             var isFlag = string.IsNullOrEmpty(valueHint);
-            var csharpType = isFlag ? "bool?" : "string?";
+            var isDefine = longForm == "--define";
+            var enumDefinition = longForm == "--color"
+                ? CreateEnumDefinition("MavenColor", ["auto", "always", "never"])
+                : null;
+            var csharpType = DetermineCSharpType(isFlag, isDefine, enumDefinition);
 
             options.Add(new CliOptionDefinition
             {
@@ -187,16 +207,48 @@ public partial class MavenCliScraper : CliScraperBase
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
-                AcceptsMultipleValues = false,
-                IsKeyValue = longForm == "--define",
+                AcceptsMultipleValues = isDefine,
+                IsKeyValue = isDefine,
                 IsNumeric = false,
                 ValueSeparator = " ",
-                EnumDefinition = null,
+                EnumDefinition = enumDefinition,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
 
         return options;
+    }
+
+    private static string DetermineCSharpType(
+        bool isFlag,
+        bool isDefine,
+        CliEnumDefinition? enumDefinition)
+    {
+        if (isFlag)
+        {
+            return "bool?";
+        }
+
+        if (isDefine)
+        {
+            return "IEnumerable<KeyValue>?";
+        }
+
+        return enumDefinition is null ? "string?" : $"{enumDefinition.EnumName}?";
+    }
+
+    private static CliEnumDefinition CreateEnumDefinition(string enumName, IEnumerable<string> values)
+    {
+        return new CliEnumDefinition
+        {
+            EnumName = enumName,
+            Description = $"Allowed values for {enumName}.",
+            Values = values.Select(value => new CliEnumValue
+            {
+                MemberName = ToPascalCase(value),
+                CliValue = value
+            }).ToList()
+        };
     }
 
     /// <summary>
