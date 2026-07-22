@@ -26,7 +26,7 @@ var result = await context.Snyk().ContainerTest(
     new SnykContainerTestOptions("alpine:3.20")
     {
         SeverityThreshold = SnykSeverityThreshold.High,
-        FailOn = SnykFailOn.Patchable,
+        FailOn = SnykContainerTestFailOn.Upgradable,
     },
     cancellationToken: cancellationToken);
 ```
@@ -34,7 +34,7 @@ var result = await context.Snyk().ContainerTest(
 This renders the equivalent of:
 
 ```shell
-snyk container test alpine:3.20 --severity-threshold=high --fail-on=patchable
+snyk container test alpine:3.20 --severity-threshold=high --fail-on=upgradable
 ```
 
 ## Authentication
