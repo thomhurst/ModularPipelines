@@ -47,14 +47,59 @@ This file contains links to documentation sections following the llmstxt.org sta
 - [Time Estimator](https://thomhurst.github.io/ModularPipelines/docs/how-to/time-estimator): The time estimator is a class built by you, used to estimate times for modules for displaying in the console progress dialog. It isn't mandatory, b...
 - [Timeouts](https://thomhurst.github.io/ModularPipelines/docs/how-to/timeouts): Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use `TimeSpan.Zero` to d...
 - [Migrating to V3](https://thomhurst.github.io/ModularPipelines/docs/migrating-to-v3): ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET Core minimal API patterns. This guide covers all breaking changes ...
+- [Amazon Web Services Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/amazon-web-services): Package reserved for strongly typed AWS CLI commands and AWS SDK helpers.
 - [Ansible Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/ansible): `ModularPipelines.Ansible` provides strongly typed access to Ansible's ad-hoc command CLI.
 - [Argo CD Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/argocd): `ModularPipelines.ArgoCd` provides strongly typed access to the Argo CD CLI, including
+- [Azure Pipelines Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/azure-pipelines): Azure Pipelines environment and build integration helpers.
+- [Azure Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/azure): Azure SDK helpers and strongly typed Azure CLI commands.
+- [Buildah Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/buildah): Strongly typed Buildah commands for building OCI container images.
+- [Chocolatey Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/chocolatey): Strongly typed Chocolatey package-management commands.
+- [Command Prompt Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/cmd): Helpers for executing Windows Command Prompt commands.
 - [Cosign Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/cosign): `ModularPipelines.Cosign` provides strongly typed access to the Sigstore Cosign CLI for
+- [Distributed S3 Artifacts Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/distributed-artifacts-s3): `ModularPipelines.Distributed.Artifacts.S3` stores distributed pipeline artifacts in AWS S3 or an S3-compatible service such as Cloudflare R2, Back...
+- [Distributed Redis Discovery Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/distributed-discovery-redis): `ModularPipelines.Distributed.Discovery.Redis` lets distributed SignalR workers discover the current master through Redis.
+- [Distributed Redis Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/distributed-redis): `ModularPipelines.Distributed.Redis` provides Redis-backed coordination and artifact storage for distributed pipelines.
+- [Distributed SignalR Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/distributed-signalr): `ModularPipelines.Distributed.SignalR` provides SignalR-based coordination between distributed pipeline workers.
+- [Docker Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/docker): Strongly typed Docker container, image, network, volume, and Buildx commands.
+- [.NET Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/dotnet): Strongly typed .NET CLI commands, builders, and TRX test-result parsing.
 - [Eksctl Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/eksctl): `ModularPipelines.Eksctl` provides strongly typed access to the eksctl CLI for
+- [Email Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/email): Email delivery helpers for pipeline notifications.
+- [Flux Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/flux): Strongly typed Flux CLI commands for GitOps workflows.
+- [Flyway Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/flyway): Strongly typed Flyway database migration commands.
+- [FTP Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/ftp): FTP file-transfer helpers for pipeline modules.
+- [Git Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/git): Git repository information, versioning, and strongly typed Git commands.
 - [GitHub Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/github): The **GitHub package** offered by **Modular Pipelines**, in conjunction with the implemented **OctoKit client library**, facilitates a streamlined ...
+- [Go Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/go): Strongly typed Go toolchain commands.
+- [Google Cloud Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/google): Strongly typed Google Cloud CLI commands.
+- [Grype Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/grype): Strongly typed Grype vulnerability-scanning commands.
 - [Hadolint Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/hadolint): `ModularPipelines.Hadolint` provides strongly typed access to the Hadolint Dockerfile linter.
+- [Helm Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/helm): Strongly typed Helm package-management commands for Kubernetes.
+- [Homebrew Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/homebrew): Strongly typed Homebrew package-management commands.
 - [Java Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/java): `ModularPipelines.Java` provides strongly typed access to Maven and Gradle build CLIs.
 - [jq Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/jq): `ModularPipelines.Jq` provides strongly typed access to the jq JSON processor CLI.
+- [kind Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/kind): Strongly typed kind commands for local Kubernetes clusters.
+- [Kubernetes Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/kubernetes): Strongly typed kubectl and Kustomize commands.
+- [Liquibase Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/liquibase): Package reserved for Liquibase database change-management commands.
+- [Microsoft Teams Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/microsoft-teams): Microsoft Teams notification helpers.
+- [minikube Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/minikube): Strongly typed minikube commands for local Kubernetes clusters.
+- [Newman Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/newman): Strongly typed Newman commands for Postman collections.
+- [Node.js Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/node): Node.js, npm, npx, nvm, and strongly typed pnpm helpers.
+- [Packer Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/packer): Strongly typed Packer machine-image build commands.
+- [Podman Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/podman): Strongly typed Podman container-management commands.
+- [Pulumi Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/pulumi): Strongly typed Pulumi infrastructure commands.
+- [Python Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/python): Strongly typed pip package-management commands.
+- [Rust Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/rust): Strongly typed Cargo commands for Rust projects.
 - [ShellCheck Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/shellcheck): The `ModularPipelines.Shellcheck` package provides strongly typed access to the ShellCheck static analysis CLI.
+- [Skopeo Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/skopeo): Strongly typed Skopeo container-image commands.
+- [Slack Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/slack): Slack notification helpers.
 - [Snyk Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/snyk): `ModularPipelines.Snyk` provides strongly typed access to the Snyk CLI for open-source,
+- [SonarScanner Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/sonar-scanner): Package reserved for SonarScanner code-analysis commands.
+- [Syft Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/syft): Strongly typed Syft software-bill-of-materials commands.
+- [TeamCity Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/teamcity): TeamCity environment and build integration helpers.
+- [Terraform Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/terraform): Strongly typed Terraform infrastructure commands.
+- [Trivy Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/trivy): Package reserved for Trivy vulnerability and misconfiguration scanning commands.
+- [Vault Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/vault): Strongly typed HashiCorp Vault commands.
+- [WinGet Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/winget): Strongly typed Windows Package Manager commands.
+- [Yarn Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/yarn): Package reserved for strongly typed Yarn package-management commands.
+- [yq Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/yq): Strongly typed yq YAML-processing commands.
 - [Why Modular Pipelines?](https://thomhurst.github.io/ModularPipelines/docs/why): - The .NET ecosystem is rich with features and libraries. You can utilize what already exists and not have to re-invent the wheel.

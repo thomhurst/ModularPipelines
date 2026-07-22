@@ -5710,6 +5710,25 @@ If you encounter issues migrating to V3:
 
 ---
 
+## Amazon Web Services Package
+
+
+Package reserved for strongly typed AWS CLI commands and AWS SDK helpers.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.AmazonWebServices
+```
+
+Required command-line tool: `aws`. It must be installed and available on `PATH` when the pipeline runs.
+
+## API availability
+
+The strongly typed context API is not available yet. This page will include context entry points and examples when the integration is implemented.
+
+---
+
 ## Ansible Package
 
 
@@ -5809,6 +5828,213 @@ Pipelines masks their values in command logs.
 
 ---
 
+## Azure Pipelines Package
+
+
+Azure Pipelines environment and build integration helpers.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Azure.Pipelines
+```
+
+## Context entry points
+
+Import `ModularPipelines.Azure.Pipelines.Extensions`, then use this service from a module:
+
+- `context.AzurePipeline()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Azure.Pipelines.Extensions;
+
+public class UseAzurePipelineModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var azurePipeline = context.AzurePipeline();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("AzurePipeline integration is ready");
+    }
+}
+```
+
+---
+
+## Azure Package
+
+
+Azure SDK helpers and strongly typed Azure CLI commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Azure
+```
+
+Required command-line tool: `az`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Azure.Extensions`, then use these services from a module:
+
+- `context.Azure()`
+- `context.Az()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Azure.Extensions;
+
+public class UseAzureModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var azure = context.Azure();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Azure integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Buildah Package
+
+
+Strongly typed Buildah commands for building OCI container images.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Buildah
+```
+
+Required command-line tool: `buildah`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Buildah.Extensions`, then use this service from a module:
+
+- `context.Buildah()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Buildah.Extensions;
+
+public class UseBuildahModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var buildah = context.Buildah();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Buildah integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Chocolatey Package
+
+
+Strongly typed Chocolatey package-management commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Chocolatey
+```
+
+Required command-line tool: `choco`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Chocolatey.Extensions`, then use this service from a module:
+
+- `context.Choco()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Chocolatey.Extensions;
+
+public class UseChocoModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var choco = context.Choco();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Choco integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Command Prompt Package
+
+
+Helpers for executing Windows Command Prompt commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Cmd
+```
+
+Required command-line tool: `cmd`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Cmd.Extensions`, then use this service from a module:
+
+- `context.Cmd()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Cmd.Extensions;
+
+public class UseCmdModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var cmd = context.Cmd();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Cmd integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
 ## Cosign Package
 
 
@@ -5858,6 +6084,221 @@ var result = await context.Cosign().Verify(
 
 Generated password, token, OIDC secret, PIN, PUK, and hardware-management-key properties
 are marked as secrets so Modular Pipelines masks their values in command logs.
+
+---
+
+## Distributed S3 Artifacts Package
+
+
+`ModularPipelines.Distributed.Artifacts.S3` stores distributed pipeline artifacts in AWS S3 or an S3-compatible service such as Cloudflare R2, Backblaze B2, or MinIO.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Distributed.Artifacts.S3
+```
+
+## Configuration
+
+Register the artifact store after enabling distributed mode:
+
+```csharp
+using ModularPipelines.Distributed.Artifacts.S3.Extensions;
+using ModularPipelines.Distributed.Extensions;
+
+var builder = Pipeline.CreateBuilder(args);
+
+builder.AddDistributedMode(options => options.TotalInstances = 2);
+builder.AddS3DistributedArtifactStore(options =>
+{
+    options.BucketName = "pipeline-artifacts";
+    options.Region = "eu-west-2";
+});
+```
+
+Credentials use the AWS SDK credential chain. Configure the optional service URL when targeting an S3-compatible provider.
+
+---
+
+## Distributed Redis Discovery Package
+
+
+`ModularPipelines.Distributed.Discovery.Redis` lets distributed SignalR workers discover the current master through Redis.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Distributed.Discovery.Redis
+```
+
+## Configuration
+
+Register discovery after the SignalR coordinator:
+
+```csharp
+using ModularPipelines.Distributed.Discovery.Redis;
+using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed.SignalR.Extensions;
+
+var builder = Pipeline.CreateBuilder(args);
+
+builder.AddDistributedMode(options => options.TotalInstances = 2);
+builder.AddSignalRDistributedCoordinator();
+builder.AddRedisSignalRDiscovery(options =>
+{
+    options.ConnectionString = "localhost:6379";
+});
+```
+
+For REST-backed Redis services, configure both `RestUrl` and `RestToken`; they must be supplied together.
+
+---
+
+## Distributed Redis Package
+
+
+`ModularPipelines.Distributed.Redis` provides Redis-backed coordination and artifact storage for distributed pipelines.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Distributed.Redis
+```
+
+## Configuration
+
+Use the combined helper when Redis should provide both services:
+
+```csharp
+using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed.Extensions;
+
+var builder = Pipeline.CreateBuilder(args);
+
+builder.AddDistributedMode(options => options.TotalInstances = 2);
+builder.AddRedisDistributed(
+    redis => redis.ConnectionString = "localhost:6379",
+    artifacts => artifacts.TimeToLiveSeconds = 7200);
+```
+
+`AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required.
+
+---
+
+## Distributed SignalR Package
+
+
+`ModularPipelines.Distributed.SignalR` provides SignalR-based coordination between distributed pipeline workers.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Distributed.SignalR
+```
+
+## Configuration
+
+Register the coordinator after enabling distributed mode:
+
+```csharp
+using ModularPipelines.Distributed.SignalR.Extensions;
+using ModularPipelines.Distributed.Extensions;
+
+var builder = Pipeline.CreateBuilder(args);
+
+builder.AddDistributedMode(options => options.TotalInstances = 2);
+builder.AddSignalRDistributedCoordinator(options =>
+{
+    options.MasterUrl = "https://pipeline-master.example.com";
+});
+```
+
+Pair this package with a discovery provider when workers cannot receive the master URL through static configuration.
+
+---
+
+## Docker Package
+
+
+Strongly typed Docker container, image, network, volume, and Buildx commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Docker
+```
+
+Required command-line tool: `docker`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Docker.Extensions`, then use this service from a module:
+
+- `context.Docker()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Docker.Extensions;
+
+public class UseDockerModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var docker = context.Docker();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Docker integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## .NET Package
+
+
+Strongly typed .NET CLI commands, builders, and TRX test-result parsing.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.DotNet
+```
+
+Required command-line tool: `dotnet`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.DotNet.Extensions`, then use these services from a module:
+
+- `context.DotNet()`
+- `context.Trx()`
+
+## Module example
+
+```csharp
+using ModularPipelines.DotNet.Extensions;
+
+public class UseDotNetModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var dotNet = context.DotNet();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("DotNet integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
 
 ---
 
@@ -5923,12 +6364,220 @@ does not expose access-key, secret-key, session-token, or password command-line 
 
 ---
 
+## Email Package
+
+
+Email delivery helpers for pipeline notifications.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Email
+```
+
+## Context entry points
+
+Import `ModularPipelines.Email.Extensions`, then use this service from a module:
+
+- `context.Email()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Email.Extensions;
+
+public class UseEmailModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var email = context.Email();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Email integration is ready");
+    }
+}
+```
+
+---
+
+## Flux Package
+
+
+Strongly typed Flux CLI commands for GitOps workflows.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Flux
+```
+
+Required command-line tool: `flux`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Flux.Extensions`, then use this service from a module:
+
+- `context.Flux()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Flux.Extensions;
+
+public class UseFluxModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var flux = context.Flux();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Flux integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Flyway Package
+
+
+Strongly typed Flyway database migration commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Flyway
+```
+
+Required command-line tool: `flyway`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Flyway.Extensions`, then use this service from a module:
+
+- `context.Flyway()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Flyway.Extensions;
+
+public class UseFlywayModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var flyway = context.Flyway();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Flyway integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## FTP Package
+
+
+FTP file-transfer helpers for pipeline modules.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Ftp
+```
+
+## Context entry points
+
+Import `ModularPipelines.Ftp.Extensions`, then use this service from a module:
+
+- `context.Ftp()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Ftp.Extensions;
+
+public class UseFtpModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var ftp = context.Ftp();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Ftp integration is ready");
+    }
+}
+```
+
+---
+
+## Git Package
+
+
+Git repository information, versioning, and strongly typed Git commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Git
+```
+
+Required command-line tool: `git`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Git.Extensions`, then use this service from a module:
+
+- `context.Git()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Git.Extensions;
+
+public class UseGitModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var git = context.Git();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Git integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
 ## GitHub Package
 
 
 The **GitHub package** offered by **Modular Pipelines**, in conjunction with the implemented **OctoKit client library**, facilitates a streamlined approach to interacting with remote GitHub repositories.
 
 By leveraging this package, developers can more efficiently integrate their pipelines with GitHub, allowing for a smoother workflow and interaction with the platform's extensive API. The convenience afforded by this tool makes it an indispensable asset for anyone looking to automate tasks, synchronize data, or manage repositories programmatically on GitHub within their build pipelines.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.GitHub
+```
 
 ## GitHub Client
 
@@ -6009,6 +6658,132 @@ Once configured, Modular Pipelines will handle authentication and authorization 
 
 ---
 
+## Go Package
+
+
+Strongly typed Go toolchain commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Go
+```
+
+Required command-line tool: `go`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Go.Extensions`, then use this service from a module:
+
+- `context.Go()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Go.Extensions;
+
+public class UseGoModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var go = context.Go();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Go integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Google Cloud Package
+
+
+Strongly typed Google Cloud CLI commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Google
+```
+
+Required command-line tool: `gcloud`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Google.Extensions`, then use this service from a module:
+
+- `context.Gcloud()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Google.Extensions;
+
+public class UseGcloudModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var gcloud = context.Gcloud();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Gcloud integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Grype Package
+
+
+Strongly typed Grype vulnerability-scanning commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Grype
+```
+
+Required command-line tool: `grype`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Grype.Extensions`, then use this service from a module:
+
+- `context.Grype()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Grype.Extensions;
+
+public class UseGrypeModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var grype = context.Grype();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Grype integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
 ## Hadolint Package
 
 
@@ -6049,6 +6824,90 @@ hadolint Dockerfile build/Dockerfile --format sarif --error DL3006 --ignore DL30
 
 Rule-level overrides, ignored rules, trusted registries, and required-label schemas accept
 multiple values and emit their option once per value.
+
+---
+
+## Helm Package
+
+
+Strongly typed Helm package-management commands for Kubernetes.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Helm
+```
+
+Required command-line tool: `helm`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Helm.Extensions`, then use this service from a module:
+
+- `context.Helm()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Helm.Extensions;
+
+public class UseHelmModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var helm = context.Helm();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Helm integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Homebrew Package
+
+
+Strongly typed Homebrew package-management commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Homebrew
+```
+
+Required command-line tool: `brew`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Homebrew.Extensions`, then use this service from a module:
+
+- `context.Brew()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Homebrew.Extensions;
+
+public class UseBrewModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var brew = context.Brew();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Brew integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
 
 ---
 
@@ -6161,10 +7020,495 @@ separate command-line arguments.
 
 ---
 
+## kind Package
+
+
+Strongly typed kind commands for local Kubernetes clusters.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Kind
+```
+
+Required command-line tool: `kind`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Kind.Extensions`, then use this service from a module:
+
+- `context.Kind()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Kind.Extensions;
+
+public class UseKindModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var kind = context.Kind();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Kind integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Kubernetes Package
+
+
+Strongly typed kubectl and Kustomize commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Kubernetes
+```
+
+Required command-line tools: `kubectl`, `kustomize`. They must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Kubernetes.Extensions`, then use these services from a module:
+
+- `context.Kubernetes()`
+- `context.Kustomize()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Kubernetes.Extensions;
+
+public class UseKubernetesModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var kubernetes = context.Kubernetes();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Kubernetes integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Liquibase Package
+
+
+Package reserved for Liquibase database change-management commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Liquibase
+```
+
+Required command-line tool: `liquibase`. It must be installed and available on `PATH` when the pipeline runs.
+
+## API availability
+
+The strongly typed context API is not available yet. This page will include context entry points and examples when the integration is implemented.
+
+---
+
+## Microsoft Teams Package
+
+
+Microsoft Teams notification helpers.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.MicrosoftTeams
+```
+
+## Context entry points
+
+Import `ModularPipelines.MicrosoftTeams.Extensions`, then use this service from a module:
+
+- `context.MicrosoftTeams()`
+
+## Module example
+
+```csharp
+using ModularPipelines.MicrosoftTeams.Extensions;
+
+public class UseMicrosoftTeamsModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var microsoftTeams = context.MicrosoftTeams();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("MicrosoftTeams integration is ready");
+    }
+}
+```
+
+---
+
+## minikube Package
+
+
+Strongly typed minikube commands for local Kubernetes clusters.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Minikube
+```
+
+Required command-line tool: `minikube`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Minikube.Extensions`, then use this service from a module:
+
+- `context.Minikube()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Minikube.Extensions;
+
+public class UseMinikubeModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var minikube = context.Minikube();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Minikube integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Newman Package
+
+
+Strongly typed Newman commands for Postman collections.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Newman
+```
+
+Required command-line tool: `newman`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Newman.Extensions`, then use this service from a module:
+
+- `context.Newman()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Newman.Extensions;
+
+public class UseNewmanModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var newman = context.Newman();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Newman integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Node.js Package
+
+
+Node.js, npm, npx, nvm, and strongly typed pnpm helpers.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Node
+```
+
+Required command-line tools: `node`, `pnpm`. They must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Node.Extensions`, then use these services from a module:
+
+- `context.Node()`
+- `context.Pnpm()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Node.Extensions;
+
+public class UseNodeModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var node = context.Node();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Node integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Packer Package
+
+
+Strongly typed Packer machine-image build commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Packer
+```
+
+Required command-line tool: `packer`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Packer.Extensions`, then use this service from a module:
+
+- `context.Packer()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Packer.Extensions;
+
+public class UsePackerModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var packer = context.Packer();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Packer integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Podman Package
+
+
+Strongly typed Podman container-management commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Podman
+```
+
+Required command-line tool: `podman`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Podman.Extensions`, then use this service from a module:
+
+- `context.Podman()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Podman.Extensions;
+
+public class UsePodmanModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var podman = context.Podman();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Podman integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Pulumi Package
+
+
+Strongly typed Pulumi infrastructure commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Pulumi
+```
+
+Required command-line tool: `pulumi`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Pulumi.Extensions`, then use this service from a module:
+
+- `context.Pulumi()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Pulumi.Extensions;
+
+public class UsePulumiModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var pulumi = context.Pulumi();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Pulumi integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Python Package
+
+
+Strongly typed pip package-management commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Python
+```
+
+Required command-line tool: `pip`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Python.Extensions`, then use this service from a module:
+
+- `context.Pip()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Python.Extensions;
+
+public class UsePipModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var pip = context.Pip();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Pip integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Rust Package
+
+
+Strongly typed Cargo commands for Rust projects.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Rust
+```
+
+Required command-line tool: `cargo`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Rust.Extensions`, then use this service from a module:
+
+- `context.Cargo()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Rust.Extensions;
+
+public class UseCargoModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var cargo = context.Cargo();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Cargo integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
 ## ShellCheck Package
 
 
 The `ModularPipelines.Shellcheck` package provides strongly typed access to the ShellCheck static analysis CLI.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Shellcheck
+```
 
 Install the package and invoke ShellCheck through the pipeline context:
 
@@ -6194,6 +7538,86 @@ public class CheckShellScriptsModule : Module<CommandResult>
 ```
 
 Input files are optional so standalone actions such as `--version` remain available; pass files through `Files` when analyzing scripts. Options with fixed value sets use enums, `--extended-analysis` uses a boolean, and `--wiki-link-count` uses an integer. ShellCheck must be installed and available on `PATH` when the pipeline runs.
+
+---
+
+## Skopeo Package
+
+
+Strongly typed Skopeo container-image commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Skopeo
+```
+
+Required command-line tool: `skopeo`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Skopeo.Extensions`, then use this service from a module:
+
+- `context.Skopeo()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Skopeo.Extensions;
+
+public class UseSkopeoModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var skopeo = context.Skopeo();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Skopeo integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Slack Package
+
+
+Slack notification helpers.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Slack
+```
+
+## Context entry points
+
+Import `ModularPipelines.Slack.Extensions`, then use this service from a module:
+
+- `context.Slack()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Slack.Extensions;
+
+public class UseSlackModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var slack = context.Slack();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Slack integration is ready");
+    }
+}
+```
 
 ---
 
@@ -6238,6 +7662,311 @@ snyk container test alpine:3.20 --severity-threshold=high --fail-on=upgradable
 Prefer the `SNYK_TOKEN` environment variable supplied by your CI secret store. The generated
 API-token, client-secret, and password properties are marked as secrets so Modular Pipelines
 masks their values in command logs.
+
+---
+
+## SonarScanner Package
+
+
+Package reserved for SonarScanner code-analysis commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.SonarScanner
+```
+
+Required command-line tool: `sonar-scanner`. It must be installed and available on `PATH` when the pipeline runs.
+
+## API availability
+
+The strongly typed context API is not available yet. This page will include context entry points and examples when the integration is implemented.
+
+---
+
+## Syft Package
+
+
+Strongly typed Syft software-bill-of-materials commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Syft
+```
+
+Required command-line tool: `syft`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Syft.Extensions`, then use this service from a module:
+
+- `context.Syft()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Syft.Extensions;
+
+public class UseSyftModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var syft = context.Syft();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Syft integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## TeamCity Package
+
+
+TeamCity environment and build integration helpers.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.TeamCity
+```
+
+## Context entry points
+
+Import `ModularPipelines.TeamCity.Extensions`, then use this service from a module:
+
+- `context.TeamCity()`
+
+## Module example
+
+```csharp
+using ModularPipelines.TeamCity.Extensions;
+
+public class UseTeamCityModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var teamCity = context.TeamCity();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("TeamCity integration is ready");
+    }
+}
+```
+
+---
+
+## Terraform Package
+
+
+Strongly typed Terraform infrastructure commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Terraform
+```
+
+Required command-line tool: `terraform`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Terraform.Extensions`, then use this service from a module:
+
+- `context.Terraform()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Terraform.Extensions;
+
+public class UseTerraformModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var terraform = context.Terraform();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Terraform integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Trivy Package
+
+
+Package reserved for Trivy vulnerability and misconfiguration scanning commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Trivy
+```
+
+Required command-line tool: `trivy`. It must be installed and available on `PATH` when the pipeline runs.
+
+## API availability
+
+The strongly typed context API is not available yet. This page will include context entry points and examples when the integration is implemented.
+
+---
+
+## Vault Package
+
+
+Strongly typed HashiCorp Vault commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Vault
+```
+
+Required command-line tool: `vault`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Vault.Extensions`, then use this service from a module:
+
+- `context.Vault()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Vault.Extensions;
+
+public class UseVaultModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var vault = context.Vault();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Vault integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## WinGet Package
+
+
+Strongly typed Windows Package Manager commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.WinGet
+```
+
+Required command-line tool: `winget`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.WinGet.Extensions`, then use this service from a module:
+
+- `context.Winget()`
+
+## Module example
+
+```csharp
+using ModularPipelines.WinGet.Extensions;
+
+public class UseWingetModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var winget = context.Winget();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Winget integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
+
+---
+
+## Yarn Package
+
+
+Package reserved for strongly typed Yarn package-management commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Yarn
+```
+
+Required command-line tool: `yarn`. It must be installed and available on `PATH` when the pipeline runs.
+
+## API availability
+
+The strongly typed context API is not available yet. This page will include context entry points and examples when the integration is implemented.
+
+---
+
+## yq Package
+
+
+Strongly typed yq YAML-processing commands.
+
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Yq
+```
+
+Required command-line tool: `yq`. It must be installed and available on `PATH` when the pipeline runs.
+
+## Context entry points
+
+Import `ModularPipelines.Yq.Extensions`, then use this service from a module:
+
+- `context.Yq()`
+
+## Module example
+
+```csharp
+using ModularPipelines.Yq.Extensions;
+
+public class UseYqModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var yq = context.Yq();
+
+        // Call the integration's strongly typed operations here.
+        context.Logger.LogInformation("Yq integration is ready");
+    }
+}
+```
+
+The package exposes generated options records for its supported CLI commands.
 
 ---
 
