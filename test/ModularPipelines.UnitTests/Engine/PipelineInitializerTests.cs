@@ -17,6 +17,6 @@ public class PipelineInitializerTests
         var output = PipelineInitializer.FormatEnvironmentVariables(variables);
 
         await Assert.That(output).DoesNotContain($"{Environment.NewLine}{Environment.NewLine}");
-        await Assert.That(output.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)).HasCount(2);
+        await Assert.That(output.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)).Count().IsEqualTo(2);
     }
 }
