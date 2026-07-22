@@ -111,6 +111,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         AddSecrets((IEnumerable<string?>) secrets);
     }
 
+    [RequiresUnreferencedCode("Calls ModularPipelines.Engine.SecretProvider.GetSecretProperties(Type)")]
     public IEnumerable<string> GetSecretsInObject(object? value)
     {
         if (value is null)
@@ -205,6 +206,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             .ToArray();
     }
 
+    [RequiresUnreferencedCode("Calls ModularPipelines.Engine.SecretProvider.GetSecretsInObject(Object)")]
     private IEnumerable<string> GetSecrets(IEnumerable<object?> options)
     {
         foreach (var option in options)

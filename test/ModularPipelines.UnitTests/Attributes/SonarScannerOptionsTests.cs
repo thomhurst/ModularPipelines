@@ -56,7 +56,8 @@ public class SonarScannerOptionsTests
         var provider = new SecretProvider(
             Mock.Of<IOptionsProvider>(),
             Mock.Of<IBuildSystemSecretMasker>(),
-            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()),
+            Mock.Of<Microsoft.Extensions.Logging.ILogger<SecretProvider>>());
         var options = new SonarScannerExecuteOptions
         {
             Define =
