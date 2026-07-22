@@ -8,6 +8,29 @@ namespace ModularPipelines.UnitTests.Logging;
 public class FormattedLogValuesObfuscatorTests
 {
     [Test]
+    public async Task TryObfuscateValues_MasksSecretsInOriginalFormat()
+    {
+        const string secret = "literal-secret";
+        var logger = new Mock<ILogger>();
+        logger.Setup(x => x.IsEnabled(LogLevel.Debug)).Returns(true);
+        logger.Object.LogDebug("Token literal-secret for {Resource}", "repository");
+
+        var state = logger.Invocations.Single(x => x.Method.Name == nameof(ILogger.Log)).Arguments[2];
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => (value ?? string.Empty).Replace(secret, "********", StringComparison.Ordinal));
+
+        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object).TryObfuscateValues(state);
+        var properties = ((IReadOnlyList<KeyValuePair<string, object?>>) obfuscatedState)
+            .ToDictionary(x => x.Key, x => x.Value);
+
+        await Assert.That(properties["{OriginalFormat}"]).IsEqualTo("Token ******** for {Resource}");
+        await Assert.That(properties["Resource"]).IsTypeOf<string>();
+        await Assert.That(properties["Resource"]).IsEqualTo("repository");
+    }
+
+    [Test]
     public async Task TryObfuscateValues_PreservesUnmaskedStructuredValueTypes()
     {
         var startTime = DateTimeOffset.UtcNow;
