@@ -65,6 +65,25 @@ public class TrivyOptionsTests
     }
 
     [Test]
+    public async Task Plugin_Run_Renders_Trailing_Plugin_Arguments()
+    {
+        var arguments = BuildArguments(new TrivyPluginRunOptions("kubectl")
+        {
+            PluginArguments = ["pod", "your-pod", "--", "--exit-code", "1"],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "kubectl",
+            "pod",
+            "your-pod",
+            "--",
+            "--exit-code",
+            "1",
+        ]);
+    }
+
+    [Test]
     public async Task Vex_Repo_Download_Renders_Each_Selected_Repository()
     {
         var arguments = BuildArguments(new TrivyVexRepoDownloadOptions

@@ -80,6 +80,22 @@ public partial class TrivyCliScraper : CobraCliScraper
                 .ToList();
         }
 
+        if (commandParts is ["plugin", "run"])
+        {
+            var sourceArgument = positionalArguments.FirstOrDefault()
+                                 ?? RequiredArgument("Source", "NAME | URL | FILE_PATH");
+
+            return
+            [
+                sourceArgument with { PositionIndex = 0 },
+                OptionalArgument("PluginArguments", "PLUGIN_ARGUMENTS") with
+                {
+                    CSharpType = "IEnumerable<string>?",
+                    PositionIndex = 1,
+                },
+            ];
+        }
+
         if (commandParts is ["image"] && positionalArguments.Count > 0)
         {
             return positionalArguments
@@ -106,7 +122,7 @@ public partial class TrivyCliScraper : CobraCliScraper
                 [RequiredArgument("Repository", "REPOSITORY")],
             ["plugin", "info"] or ["plugin", "uninstall"] =>
                 [RequiredArgument("PluginName", "PLUGIN_NAME")],
-            ["plugin", "install"] or ["plugin", "run"] =>
+            ["plugin", "install"] =>
                 [RequiredArgument("Source", "NAME | URL | FILE_PATH")],
             ["registry", "login"] or ["registry", "logout"] =>
                 [RequiredArgument("Server", "SERVER")],

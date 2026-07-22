@@ -536,7 +536,37 @@ public abstract partial class CobraCliScraper : CliScraperBase
             return CreateEnumDefinition(propertyName, className, descriptionMatch.Values);
         }
 
-        // Pattern 3: Type hint contains pipe-separated values
+        var allowedValuesMatch = AllowedValuesPattern().Match(description);
+        if (allowedValuesMatch.Success)
+        {
+            var values = ParseEnumValues(allowedValuesMatch.Groups["values"].Value);
+            if (values.Length is >= 2 and <= 20 && values.All(IsValidEnumValue))
+            {
+                return CreateEnumDefinition(propertyName, className, values);
+            }
+        }
+
+        var oneOfMatch = OneOfPattern().Match(description);
+        if (oneOfMatch.Success)
+        {
+            var values = ParseEnumValues(oneOfMatch.Groups["values"].Value);
+            if (values.Length > 0)
+            {
+                return CreateEnumDefinition(propertyName, className, values);
+            }
+        }
+
+        var parenthesizedValuesMatch = ParenthesizedValuesPattern().Match(description);
+        if (parenthesizedValuesMatch.Success)
+        {
+            var values = ParseEnumValues(parenthesizedValuesMatch.Groups["values"].Value);
+            if (values.Length is >= 2 and <= 10 && values.All(IsValidEnumValue))
+            {
+                return CreateEnumDefinition(propertyName, className, values);
+            }
+        }
+
+        // Type hint contains pipe-separated values.
         if (typeHint.Contains('|'))
         {
             var values = ParseEnumValues(typeHint);
@@ -938,6 +968,21 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>[^:\s]*))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
     private static partial Regex KubectlOptionPattern();
+
+    [GeneratedRegex(@"[Oo]ne of[:\s]+(?<values>[\w\-|,\s""'`]+?)(?:\s*\(|$|\.|;)", RegexOptions.IgnoreCase)]
+    private static partial Regex OneOfPattern();
+
+    [GeneratedRegex(@"allowed values:\s*(?<values>[\w-]+(?:\s*,\s*[\w-]+)+|(?:-\s*[\w-]+\s*){2,})", RegexOptions.IgnoreCase)]
+    private static partial Regex AllowedValuesPattern();
+
+    [GeneratedRegex(@"\((?<values>[\w\-]+(?:\s*[|,]\s*[\w\-]+)+)\)")]
+    private static partial Regex ParenthesizedValuesPattern();
+
+    /// <summary>
+    /// Matches values in Cobra's multi-line "Allowed values" bullet list.
+    /// </summary>
+    [GeneratedRegex(@"(?:^|\s)-\s*(?<value>[\w-]+)(?=\s|$)")]
+    private static partial Regex EnumBulletValuePattern();
 
     /// <summary>
     /// Matches usage line.

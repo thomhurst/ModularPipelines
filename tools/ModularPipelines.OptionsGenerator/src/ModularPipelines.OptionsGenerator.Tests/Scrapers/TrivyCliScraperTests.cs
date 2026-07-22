@@ -112,6 +112,31 @@ public class TrivyCliScraperTests
     }
 
     [Test]
+    public async Task Plugin_Run_Accepts_Trailing_Plugin_Arguments()
+    {
+        const string helpText = """
+            Run a plugin on the fly
+
+            Usage:
+              trivy plugin run [flags] NAME | URL | FILE_PATH
+
+            Flags:
+              -h, --help   help for run
+            """;
+
+        var command = await new TestTrivyCliScraper().Parse(["trivy", "plugin", "run"], helpText);
+        var positionals = command!.PositionalArguments;
+
+        await Assert.That(positionals).HasCount().EqualTo(2);
+        await Assert.That(positionals[0].PropertyName).IsEqualTo("Source");
+        await Assert.That(positionals[0].IsRequired).IsTrue();
+        await Assert.That(positionals[1].PropertyName).IsEqualTo("PluginArguments");
+        await Assert.That(positionals[1].CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(positionals[1].IsRequired).IsFalse();
+        await Assert.That(positionals[1].PositionIndex).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Vex_Repo_Download_Accepts_Multiple_Optional_Names()
     {
         const string helpText = """

@@ -211,6 +211,7 @@ ModularPipelines has strongly-typed wrappers for the tools you already use:
 | ModularPipelines.SonarScanner | Helpers for interacting with SonarScanner CLI for SonarQube and SonarCloud. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.SonarScanner.svg)](https://www.nuget.org/packages/ModularPipelines.SonarScanner/) |
 | ModularPipelines.TeamCity | Helpers for interacting with TeamCity build agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.TeamCity.svg)](https://www.nuget.org/packages/ModularPipelines.TeamCity/) |
 | ModularPipelines.Terraform | Helpers for interacting with Terraform CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Terraform.svg)](https://www.nuget.org/packages/ModularPipelines.Terraform/) |
+| ModularPipelines.Trivy | Helpers for interacting with Trivy security scanner CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Trivy.svg)](https://www.nuget.org/packages/ModularPipelines.Trivy/) |
 | ModularPipelines.WinGet | Helpers for interacting with the Windows Package Manager. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.WinGet.svg)](https://www.nuget.org/packages/ModularPipelines.WinGet/) |
 | ModularPipelines.Distributed.Redis | Redis-based distributed coordinator for ModularPipelines. Enables multi-process and multi-machine pipeline execution using Redis for coordination. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Distributed.Redis.svg)](https://www.nuget.org/packages/ModularPipelines.Distributed.Redis/) |
 
