@@ -100,7 +100,7 @@ internal static class DependencyInjectionSetup
     {
         // Console width and CI capabilities are configured by ConsoleCoordinator.
         config.Console = console;
-        config.Template = "[{Level:u4}] {Message}{NewLine}{Exception}";
+        config.Template = "[{Level:u4}] {Message}";
         config.ExceptionFormats = ExceptionFormats.Default;
         config.AllowMarkupInMessageTemplate = true;
     }
