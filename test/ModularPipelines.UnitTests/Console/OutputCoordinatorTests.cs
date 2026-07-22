@@ -64,6 +64,26 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    public async Task DeferredFlush_FailureRequeuesCurrentAndRemainingOutputs()
+    {
+        var firstBuffer = new FailingOnceOutputBuffer();
+        var secondBuffer = new CancellingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+        coordinator.SetProgressActive(true);
+        await coordinator.OnModuleCompletedAsync(firstBuffer, firstBuffer.ModuleType);
+        await coordinator.OnModuleCompletedAsync(secondBuffer, secondBuffer.ModuleType);
+        coordinator.SetProgressActive(false);
+
+        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await coordinator.FlushDeferredAsync());
+
+        await coordinator.FlushDeferredAsync();
+
+        await Assert.That(firstBuffer.FlushCount).IsEqualTo(2);
+        await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task ImmediateFlush_PropagatesCancellationToQueueOwner()
     {
         using var cancellationTokenSource = new CancellationTokenSource();
@@ -271,6 +291,48 @@ public class OutputCoordinatorTests
             {
                 cancellationTokenSource.Cancel();
                 cancellationToken.ThrowIfCancellationRequested();
+            }
+
+            return Task.CompletedTask;
+        }
+    }
+
+    private sealed class FailingOnceOutputBuffer : IModuleOutputBuffer
+    {
+        public Type ModuleType => typeof(FailingOnceOutputBuffer);
+
+        public int FlushCount { get; private set; }
+
+        public bool HasOutput => true;
+
+        public void WriteLine(string message)
+        {
+        }
+
+        public void AddLogEvent(
+            LogLevel level,
+            EventId eventId,
+            object state,
+            Exception? exception,
+            Func<object, Exception?, string> formatter)
+        {
+        }
+
+        public void SetException(Exception exception)
+        {
+        }
+
+        public Task FlushToAsync(
+            TextWriter console,
+            IBuildSystemFormatter formatter,
+            ILogger logger,
+            ISpectreConsoleLoggerControl loggerControl,
+            CancellationToken cancellationToken = default)
+        {
+            FlushCount++;
+            if (FlushCount == 1)
+            {
+                throw new InvalidOperationException("simulated deferred flush failure");
             }
 
             return Task.CompletedTask;

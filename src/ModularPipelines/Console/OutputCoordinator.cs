@@ -151,7 +151,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                     .ConfigureAwait(false);
             }
         }
-        catch (OperationCanceledException)
+        catch
         {
             lock (_deferredLock)
             {
