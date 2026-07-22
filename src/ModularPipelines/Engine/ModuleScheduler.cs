@@ -252,21 +252,31 @@ internal class ModuleScheduler : IModuleScheduler
             _metadataRegistry.FinalizeMetadata(moduleType, module);
 
             var availableModuleTypes = _moduleStates.Keys.Append(moduleType).ToArray();
-            var modulesByType = _moduleStates.Values
-                .ToDictionary(existingState => existingState.ModuleType, existingState => existingState.Module);
-            modulesByType.Add(moduleType, module);
-
-            var dependenciesByType = modulesByType.ToDictionary(
+            var newModuleDependencies = GetAllDependenciesIncludingPredicate(module, availableModuleTypes).ToArray();
+            var declaredDependenciesByType = _dependencyGraph.ToDictionary(
                 pair => pair.Key,
-                pair => GetAllDependenciesIncludingPredicate(pair.Value, availableModuleTypes).ToArray());
-            var candidateGraph = dependenciesByType.ToDictionary(
+                pair => new HashSet<Type>(pair.Value));
+            Type[] newlyAvailableModuleTypes = [moduleType];
+
+            foreach (var existingModuleType in _moduleStates.Keys)
+            {
+                var newlyResolvedDependencies = ModuleDependencyResolver
+                    .GetDependencies(existingModuleType, newlyAvailableModuleTypes, _metadataRegistry)
+                    .Where(dependency => dependency.DependencyType == moduleType)
+                    .Select(dependency => dependency.DependencyType);
+                declaredDependenciesByType[existingModuleType].UnionWith(newlyResolvedDependencies);
+            }
+
+            declaredDependenciesByType[moduleType] = newModuleDependencies
+                .Select(dependency => dependency.DependencyType)
+                .ToHashSet();
+
+            var candidateGraph = declaredDependenciesByType.ToDictionary(
                 pair => pair.Key,
                 pair => pair.Key == moduleType || _moduleStates[pair.Key].State == ModuleExecutionState.Pending
-                    ? pair.Value
-                        .Where(dependency =>
-                            !_moduleStates.TryGetValue(dependency.DependencyType, out var dependencyState)
+                    ? pair.Value.Where(dependencyType =>
+                            !_moduleStates.TryGetValue(dependencyType, out var dependencyState)
                             || dependencyState.State != ModuleExecutionState.Completed)
-                        .Select(dependency => dependency.DependencyType)
                         .ToHashSet()
                     : new HashSet<Type>());
 
@@ -274,14 +284,14 @@ internal class ModuleScheduler : IModuleScheduler
 
             _moduleStates[moduleType] = state;
             _dependencyGraph.Clear();
-            foreach (var (registeredType, registeredDependencies) in candidateGraph)
+            foreach (var (registeredType, registeredDependencies) in declaredDependenciesByType)
             {
                 _dependencyGraph[registeredType] = registeredDependencies;
             }
 
-            RebuildPendingDependencyState(dependenciesByType);
+            RebuildPendingDependencyState(declaredDependenciesByType);
 
-            foreach (var (dependencyType, ignoreIfNotRegistered) in dependenciesByType[moduleType])
+            foreach (var (dependencyType, ignoreIfNotRegistered) in newModuleDependencies)
             {
                 if (!_moduleStates.ContainsKey(dependencyType) && !ignoreIfNotRegistered)
                 {
@@ -316,7 +326,7 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     private void RebuildPendingDependencyState(
-        IReadOnlyDictionary<Type, (Type DependencyType, bool Optional)[]> dependenciesByType)
+        IReadOnlyDictionary<Type, HashSet<Type>> dependenciesByType)
     {
         foreach (var registeredState in _moduleStates.Values)
         {
@@ -332,7 +342,7 @@ internal class ModuleScheduler : IModuleScheduler
                 continue;
             }
 
-            foreach (var (dependencyType, _) in dependencies)
+            foreach (var dependencyType in dependencies)
             {
                 if (!_moduleStates.TryGetValue(dependencyType, out var dependencyState)
                     || dependencyState.State == ModuleExecutionState.Completed)

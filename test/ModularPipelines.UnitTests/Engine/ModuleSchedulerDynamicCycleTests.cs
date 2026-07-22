@@ -62,6 +62,20 @@ public class ModuleSchedulerDynamicCycleTests
             CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(CompletedDependencyModule));
     }
 
+    private class ConditionalExistingModule : Module<string>
+    {
+        public bool IncludeDependency { get; set; } = true;
+
+        protected override void DeclareDependencies(IDependencyDeclaration deps)
+        {
+            deps.DependsOnIf<CompletedDependencyModule>(IncludeDependency);
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(ConditionalExistingModule));
+    }
+
     [ModularPipelines.Attributes.DependsOn<CompletedDependencyModule>]
     private class LateDynamicModule : Module<string>
     {
@@ -145,6 +159,21 @@ public class ModuleSchedulerDynamicCycleTests
         var existingState = scheduler.GetModuleState(typeof(ExistingPredicateModule));
         await Assert.That(existingState).IsNotNull();
         await Assert.That(existingState!.UnresolvedDependencies).Contains(typeof(IndependentDynamicModule));
+    }
+
+    [Test]
+    public async Task AddModule_PreservesInitiallyDeclaredConditionalDependency()
+    {
+        var conditionalModule = new ConditionalExistingModule();
+        using var scheduler = CreateScheduler();
+        scheduler.InitializeModules([new CompletedDependencyModule(), conditionalModule]);
+        conditionalModule.IncludeDependency = false;
+
+        scheduler.AddModule(new IndependentDynamicModule());
+
+        var state = scheduler.GetModuleState(typeof(ConditionalExistingModule));
+        await Assert.That(state).IsNotNull();
+        await Assert.That(state!.UnresolvedDependencies).Contains(typeof(CompletedDependencyModule));
     }
 
     private static ModuleScheduler CreateScheduler()
