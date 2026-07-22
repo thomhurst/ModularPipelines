@@ -45,6 +45,17 @@ public class ModuleConfigureTests
             => Task.FromResult<string?>("test");
     }
 
+    [ModularPipelines.Attributes.DependsOn<TestModule>]
+    private class RequiredAndLazyDependencyModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOnLazy<TestModule>()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("test");
+    }
+
     [Test]
     public async Task Module_DefaultConfiguration_ReturnsDefault()
     {
@@ -89,5 +100,14 @@ public class ModuleConfigureTests
             await Assert.That(config.Dependencies.Select(dependency => dependency.ModuleType))
                 .Contains(typeof(TestModule));
         }
+    }
+
+    [Test]
+    public async Task Module_Configuration_Uses_Strictest_Duplicate_Dependency()
+    {
+        var dependency = ((IModule) new RequiredAndLazyDependencyModule()).Configuration.Dependencies.Single();
+
+        await Assert.That(dependency.Kind).IsEqualTo(DependencyType.Required);
+        await Assert.That(dependency.IsOptional).IsFalse();
     }
 }

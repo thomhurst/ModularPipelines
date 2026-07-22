@@ -44,6 +44,11 @@ public class RunnableCategoryTests : TestBase
         protected override bool Result => true;
     }
 
+    private class RegistrationCategoryModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
     [Test]
     public async Task When_RunCategories_Specified_Then_Expected_Modules_Run()
     {
@@ -98,5 +103,23 @@ public class RunnableCategoryTests : TestBase
             await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule2))!.ModuleStatus).IsEqualTo(Status.Skipped);
             await Assert.That(resultRegistry.GetResult(typeof(OtherModule3))!.ModuleStatus).IsEqualTo(Status.Successful);
         }
+    }
+
+    [Test]
+    public async Task Registration_Category_Override_Is_Used_For_Run_Filtering()
+    {
+        var host = await TestPipelineHostBuilder.Create()
+            .ConfigureServices((_, services) =>
+            {
+                services.AddModule<RegistrationCategoryModule>().WithCategory("Run1");
+            })
+            .RunCategories("Run1")
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        await Assert.That(resultRegistry.GetResult(typeof(RegistrationCategoryModule))!.ModuleStatus)
+            .IsEqualTo(Status.Successful);
     }
 }

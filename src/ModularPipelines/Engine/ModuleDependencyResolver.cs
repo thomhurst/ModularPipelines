@@ -187,7 +187,8 @@ internal static class ModuleDependencyResolver
     public static IEnumerable<(Type DependencyType, bool Optional)> GetAllDependencies(
         IModule module,
         IEnumerable<Type> availableModuleTypes,
-        IModuleDependencyRegistry? dynamicRegistry = null)
+        IModuleDependencyRegistry? dynamicRegistry = null,
+        IDependencyContext? dependencyContext = null)
     {
         var moduleType = module.GetType();
 
@@ -197,7 +198,7 @@ internal static class ModuleDependencyResolver
         }
 
         var availableModuleTypesList = availableModuleTypes as IReadOnlyList<Type> ?? availableModuleTypes.ToList();
-        foreach (var dep in GetSelectorDependencies(moduleType, availableModuleTypesList, dependencyContext: null))
+        foreach (var dep in GetSelectorDependencies(moduleType, availableModuleTypesList, dependencyContext))
         {
             yield return dep;
         }
