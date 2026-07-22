@@ -252,30 +252,31 @@ internal class ModuleScheduler : IModuleScheduler
             _metadataRegistry.FinalizeMetadata(moduleType, module);
 
             var availableModuleTypes = _moduleStates.Keys.Append(moduleType).ToArray();
-            var dependencies = GetAllDependenciesIncludingPredicate(module, availableModuleTypes).ToArray();
+            var modulesByType = _moduleStates.Values
+                .ToDictionary(existingState => existingState.ModuleType, existingState => existingState.Module);
+            modulesByType.Add(moduleType, module);
 
-            _dependencyGraph[moduleType] = dependencies.Select(x => x.DependencyType).ToHashSet();
+            var dependenciesByType = modulesByType.ToDictionary(
+                pair => pair.Key,
+                pair => GetAllDependenciesIncludingPredicate(pair.Value, availableModuleTypes).ToArray());
+            var candidateGraph = dependenciesByType.ToDictionary(
+                pair => pair.Key,
+                pair => pair.Value.Select(dependency => dependency.DependencyType).ToHashSet());
 
-            try
-            {
-                ModuleDependencyValidator.ValidateCircularDependencies(_dependencyGraph);
-            }
-            catch
-            {
-                _dependencyGraph.Remove(moduleType);
-                throw;
-            }
+            ModuleDependencyValidator.ValidateCircularDependencies(candidateGraph);
 
             _moduleStates[moduleType] = state;
-
-            foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
+            _dependencyGraph.Clear();
+            foreach (var (registeredType, registeredDependencies) in candidateGraph)
             {
-                if (_moduleStates.TryGetValue(dependencyType, out var dependencyState))
-                {
-                    state.UnresolvedDependencies.Add(dependencyType);
-                    dependencyState.DependentModules.Add(state);
-                }
-                else if (!ignoreIfNotRegistered)
+                _dependencyGraph[registeredType] = registeredDependencies;
+            }
+
+            RebuildPendingDependencyState(dependenciesByType);
+
+            foreach (var (dependencyType, ignoreIfNotRegistered) in dependenciesByType[moduleType])
+            {
+                if (!_moduleStates.ContainsKey(dependencyType) && !ignoreIfNotRegistered)
                 {
                     unregisteredDependencies ??= new List<Type>();
                     unregisteredDependencies.Add(dependencyType);
@@ -305,6 +306,37 @@ internal class ModuleScheduler : IModuleScheduler
             state.UnresolvedDependencies.Count);
 
         _schedulerNotification.Release();
+    }
+
+    private void RebuildPendingDependencyState(
+        IReadOnlyDictionary<Type, (Type DependencyType, bool Optional)[]> dependenciesByType)
+    {
+        foreach (var registeredState in _moduleStates.Values)
+        {
+            registeredState.UnresolvedDependencies.Clear();
+            registeredState.DependentModules.Clear();
+        }
+
+        foreach (var (dependentType, dependencies) in dependenciesByType)
+        {
+            var dependentState = _moduleStates[dependentType];
+            if (dependentState.State != ModuleExecutionState.Pending)
+            {
+                continue;
+            }
+
+            foreach (var (dependencyType, _) in dependencies)
+            {
+                if (!_moduleStates.TryGetValue(dependencyType, out var dependencyState)
+                    || dependencyState.State == ModuleExecutionState.Completed)
+                {
+                    continue;
+                }
+
+                dependentState.UnresolvedDependencies.Add(dependencyType);
+                dependencyState.DependentModules.Add(dependentState);
+            }
+        }
     }
 
     /// <summary>
