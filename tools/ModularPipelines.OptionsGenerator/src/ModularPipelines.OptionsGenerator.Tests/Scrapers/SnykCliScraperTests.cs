@@ -197,6 +197,23 @@ public class SnykCliScraperTests
     }
 
     [Test]
+    public async Task Option_Parser_Ignores_Switches_In_Heading_Prose()
+    {
+        const string helpText = """
+            Test a project.
+
+            Options
+              --prune-repeated-subdependencies, -p. See the --prune-repeated subdependencies option help
+                Prune dependency trees.
+            """;
+
+        var command = await new TestSnykCliScraper().Parse(["snyk", "test"], helpText);
+
+        await Assert.That(command!.Options.Select(x => x.SwitchName))
+            .IsEquivalentTo(["--prune-repeated-subdependencies"]);
+    }
+
+    [Test]
     public async Task Root_Test_Models_Optional_Target()
     {
         var command = await new TestSnykCliScraper().Parse(

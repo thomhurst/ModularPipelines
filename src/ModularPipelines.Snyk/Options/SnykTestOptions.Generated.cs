@@ -23,7 +23,7 @@ namespace ModularPipelines.Snyk.Options;
 public record SnykTestOptions : SnykOptions
 {
     /// <summary>
-    /// Perform reachability analysis during the scan. This feature is currently in Snyk Preview. For more information, refer to Reachability analysis https://docs.snyk.io/manage-risk/prioritize-issues-for-fixing/reachability-analysis
+    /// Perform reachability analysis during the scan. This feature is currently in Snyk Preview. For more information, refer to Reachability analysis.
     /// </summary>
     [CliOption("--reachability", Format = OptionFormat.EqualsSeparated)]
     public bool? Reachability { get; set; }
@@ -191,12 +191,6 @@ public record SnykTestOptions : SnykOptions
     public bool? MavenAggregateProject { get; set; }
 
     /// <summary>
-    /// Forces the use of a globally installed mvn command, even when a Maven wrapper (i.e. mvnw or mvnw.cmd) is present in the project.
-    /// </summary>
-    [CliFlag("--maven-skip-wrapper")]
-    public bool? MavenSkipWrapper { get; set; }
-
-    /// <summary>
     /// To test individual JAR, WAR, and AAR files, use the following:
     /// </summary>
     [CliFlag("--scan-unmanaged")]
@@ -269,16 +263,16 @@ public record SnykTestOptions : SnykOptions
     public string? ProjectNamePrefix { get; set; }
 
     /// <summary>
-    /// Optional. You may use this option if your solution contains multiple &lt;TargetFramework&gt; directives. If you do not specify the option --dotnet-target-framework, all supported Target Frameworks will be scanned.
+    /// Note: This option in Early Access and may change until it is released.
+    /// </summary>
+    [CliFlag("--dotnet-runtime-resolution")]
+    public bool? DotnetRuntimeResolution { get; set; }
+
+    /// <summary>
+    /// Note: This option in Early Access and may change until it is released.
     /// </summary>
     [CliOption("--dotnet-target-framework", Format = OptionFormat.EqualsSeparated)]
     public string? DotnetTargetFramework { get; set; }
-
-    /// <summary>
-    /// https://docs.snyk.io/snyk-cli/commands/test#prune-repeated-subdependencies-p
-    /// </summary>
-    [CliFlag("--prune-repeated")]
-    public bool? PruneRepeated { get; set; }
 
     /// <summary>
     /// Prevent testing out-of-sync lockfiles.

@@ -157,6 +157,13 @@ public class SnykOptionsTests
     }
 
     [Test]
+    public async Task Test_And_Monitor_Do_Not_Expose_Bogus_Prune_Repeated_Flag()
+    {
+        await Assert.That(typeof(SnykTestOptions).GetProperty("PruneRepeated")).IsNull();
+        await Assert.That(typeof(SnykMonitorOptions).GetProperty("PruneRepeated")).IsNull();
+    }
+
+    [Test]
     public async Task Sbom_Commands_Render_Documented_Options()
     {
         var sbomArguments = BuildArguments(new SnykSbomOptions(SnykFormat.Cyclonedx16Json)

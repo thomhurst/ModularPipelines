@@ -256,12 +256,6 @@ public record SnykMonitorOptions : SnykOptions
     public string? DotnetTargetFramework { get; set; }
 
     /// <summary>
-    /// https://docs.snyk.io/snyk-cli/commands/monitor#prune-repeated-subdependencies-p
-    /// </summary>
-    [CliFlag("--prune-repeated")]
-    public bool? PruneRepeated { get; set; }
-
-    /// <summary>
     /// Control monitoring out-of-sync lockfiles.
     /// </summary>
     [CliOption("--strict-out-of-sync", Format = OptionFormat.EqualsSeparated)]

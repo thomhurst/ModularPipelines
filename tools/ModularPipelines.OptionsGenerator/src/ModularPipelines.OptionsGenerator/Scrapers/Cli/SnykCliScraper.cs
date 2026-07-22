@@ -283,7 +283,9 @@ public partial class SnykCliScraper : CliScraperBase
             }
 
             var description = ExtractOptionDescription(lines, i);
-            foreach (Match match in SnykOptionPattern().Matches(line))
+            var proseIndex = line.IndexOf(". See ", StringComparison.OrdinalIgnoreCase);
+            var optionHeading = proseIndex >= 0 ? line[..proseIndex] : line;
+            foreach (Match match in SnykOptionPattern().Matches(optionHeading))
             {
                 var longForm = match.Groups["long"].Value.Trim();
                 var valueHint = match.Groups["value"].Value.Trim().Trim('<', '>', '[', ']');
