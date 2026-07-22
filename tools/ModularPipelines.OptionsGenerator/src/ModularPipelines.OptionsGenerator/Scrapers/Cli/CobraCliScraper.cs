@@ -528,26 +528,10 @@ public abstract partial class CobraCliScraper : CliScraperBase
         string typeHint,
         string description)
     {
-        // Pattern 1: "One of: json|yaml|table"
-        var oneOfMatch = OneOfPattern().Match(description);
-        if (oneOfMatch.Success)
+        var descriptionMatch = DescriptionEnumValueParser.TryParse(description);
+        if (descriptionMatch is not null)
         {
-            var values = ParseEnumValues(oneOfMatch.Groups["values"].Value);
-            if (values.Length > 0)
-            {
-                return CreateEnumDefinition(propertyName, className, values);
-            }
-        }
-
-        // Pattern 2: "(json, yaml, table)" or "(json|yaml|table)"
-        var parenMatch = ParenthesizedValuesPattern().Match(description);
-        if (parenMatch.Success)
-        {
-            var values = ParseEnumValues(parenMatch.Groups["values"].Value);
-            if (values.Length >= 2 && values.Length <= 10 && values.All(IsValidEnumValue))
-            {
-                return CreateEnumDefinition(propertyName, className, values);
-            }
+            return CreateEnumDefinition(propertyName, className, descriptionMatch.Values);
         }
 
         // Pattern 3: Type hint contains pipe-separated values
@@ -918,18 +902,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>[^:\s]*))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
     private static partial Regex KubectlOptionPattern();
-
-    /// <summary>
-    /// Matches "One of: value1|value2" pattern.
-    /// </summary>
-    [GeneratedRegex(@"[Oo]ne of[:\s]+(?<values>[\w\-|,\s""'`]+?)(?:\s*\(|$|\.|;)", RegexOptions.IgnoreCase)]
-    private static partial Regex OneOfPattern();
-
-    /// <summary>
-    /// Matches "(value1, value2)" or "(value1|value2)" patterns.
-    /// </summary>
-    [GeneratedRegex(@"\((?<values>[\w\-]+(?:\s*[|,]\s*[\w\-]+)+)\)")]
-    private static partial Regex ParenthesizedValuesPattern();
 
     /// <summary>
     /// Matches usage line.

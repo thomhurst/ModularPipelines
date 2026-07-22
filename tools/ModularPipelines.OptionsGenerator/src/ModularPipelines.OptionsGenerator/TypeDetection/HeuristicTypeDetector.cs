@@ -1,4 +1,5 @@
 using System.Collections.Frozen;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.OptionsGenerator.TypeDetection;
@@ -7,7 +8,7 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 /// Fallback detector that uses heuristics based on option names and descriptions.
 /// This is the lowest priority detector, used when all others fail.
 /// </summary>
-public class HeuristicTypeDetector : IOptionTypeDetector
+public partial class HeuristicTypeDetector : IOptionTypeDetector
 {
     #region Pattern Constants
 
@@ -59,13 +60,31 @@ public class HeuristicTypeDetector : IOptionTypeDetector
 
     /// <summary>
     /// Option name patterns that indicate numeric/integer values.
-    /// These patterns suggest counts, limits, sizes, or other numerical quantities.
+    /// These patterns suggest counts, limits, or other numerical quantities.
     /// Note: "level" is intentionally excluded as it often refers to verbosity levels which are enums/strings.
     /// </summary>
     private static readonly string[] NumericNamePatterns =
     [
-        "count", "limit", "max", "min", "size", "length", "depth",
-        "retries", "timeout", "interval", "port", "number"
+        "count", "limit", "max", "min", "length", "depth",
+        "retries", "port", "number"
+    ];
+
+    /// <summary>
+    /// Option name patterns whose values commonly include units.
+    /// These remain strings unless stronger evidence, such as a numeric default, proves otherwise.
+    /// </summary>
+    private static readonly string[] UnitBearingNamePatterns =
+    [
+        "timeout", "duration", "interval", "size"
+    ];
+
+    /// <summary>
+    /// Description patterns that explicitly require a bare integer.
+    /// These provide stronger evidence than a potentially unit-bearing option name.
+    /// </summary>
+    private static readonly string[] NumericDescriptionPatterns =
+    [
+        "integer", "whole number", "number of seconds", "number of milliseconds", "number of bytes"
     ];
 
     /// <summary>
@@ -103,7 +122,7 @@ public class HeuristicTypeDetector : IOptionTypeDetector
     /// </summary>
     private static readonly string[] BooleanLiteralValues =
     [
-        "true", "false", "yes", "no", "0", "1"
+        "true", "false", "yes", "no", "on", "off", "0", "1"
     ];
 
     /// <summary>
@@ -186,6 +205,7 @@ public class HeuristicTypeDetector : IOptionTypeDetector
         var description = context.Description?.ToLowerInvariant() ?? "";
         var defaultValue = context.DefaultValue?.ToLowerInvariant() ?? "";
         var acceptedValues = context.AcceptedValues?.ToLowerInvariant() ?? "";
+        var acceptsMultipleValues = MultiValueDescriptionPatterns.Any(pattern => description.Contains(pattern));
 
         // Check default value first
         if (!string.IsNullOrEmpty(defaultValue))
@@ -208,11 +228,31 @@ public class HeuristicTypeDetector : IOptionTypeDetector
             {
                 return CreateResult(CliOptionType.Bool, "Accepted values indicate boolean");
             }
+
+            var enumResult = TryCreateEnumResult(
+                context.AcceptedValues!,
+                "Accepted values",
+                acceptsMultipleValues);
+            if (enumResult is not null)
+            {
+                return enumResult;
+            }
+        }
+
+        var descriptionEnumResult = TryDetectEnumFromDescription(context.Description, acceptsMultipleValues);
+        if (descriptionEnumResult is not null)
+        {
+            return descriptionEnumResult;
+        }
+
+        if (NumericDescriptionPatterns.Any(pattern => description.Contains(pattern)))
+        {
+            return CreateResult(CliOptionType.Int, "Description explicitly indicates an integer value", 85);
         }
 
         // Check for strong value-indicating patterns FIRST (before boolean checks)
         // These patterns override any potential boolean detection based on name alone
-        if (MultiValueDescriptionPatterns.Any(p => description.Contains(p)))
+        if (acceptsMultipleValues)
         {
             return CreateResult(CliOptionType.StringList, "Description indicates multi-value option", 80);
         }
@@ -239,6 +279,13 @@ public class HeuristicTypeDetector : IOptionTypeDetector
         if (BooleanDescriptionPatterns.Any(p => description.Contains(p)))
         {
             return CreateResult(CliOptionType.Bool, "Description suggests boolean flag");
+        }
+
+        // Durations and sizes frequently include units (for example, 5m0s or 10Gi).
+        // A numeric default was already handled above and remains stronger evidence.
+        if (UnitBearingNamePatterns.Any(p => optionName.Contains(p, StringComparison.OrdinalIgnoreCase)))
+        {
+            return CreateResult(CliOptionType.String, $"Option name may accept a unit-bearing value: {optionName}", 70);
         }
 
         // Check for numeric patterns
@@ -279,7 +326,58 @@ public class HeuristicTypeDetector : IOptionTypeDetector
 
     private static bool IsBooleanAcceptedValues(string acceptedValues)
     {
-        var count = BooleanLiteralValues.Count(v => acceptedValues.Contains(v));
-        return count >= 2; // At least 2 boolean-like values
+        var values = BooleanValueSeparatorPattern()
+            .Split(acceptedValues)
+            .Select(value => value.Trim(' ', '"', '\'', '`'))
+            .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
+        return values.Count >= 2
+               && values.All(value => BooleanLiteralValues.Contains(value, StringComparer.OrdinalIgnoreCase));
     }
+
+    private OptionTypeDetectionResult? TryDetectEnumFromDescription(string? description, bool acceptsMultipleValues)
+    {
+        var match = DescriptionEnumValueParser.TryParse(description);
+        return match?.MatchKind switch
+        {
+            DescriptionEnumMatchKind.Explicit => CreateEnumResult(match.Values, "Explicit allowed values", 95, acceptsMultipleValues),
+            DescriptionEnumMatchKind.ContextualParenthesized => CreateEnumResult(match.Values, "Parenthesized allowed values", 85, acceptsMultipleValues),
+            _ => null
+        };
+    }
+
+    private OptionTypeDetectionResult? TryCreateEnumResult(
+        string valuesText,
+        string reason,
+        bool acceptsMultipleValues,
+        int confidence = 95)
+    {
+        var values = DescriptionEnumValueParser.TryParseValues(valuesText);
+        return values is null ? null : CreateEnumResult(values, reason, confidence, acceptsMultipleValues);
+    }
+
+    private OptionTypeDetectionResult CreateEnumResult(
+        string[] values,
+        string reason,
+        int confidence,
+        bool acceptsMultipleValues)
+    {
+        _logger.LogDebug(
+            "Heuristic detection: Enum - {Reason}: {Values} (confidence: {Confidence})",
+            reason,
+            string.Join(", ", values),
+            confidence);
+
+        return new OptionTypeDetectionResult
+        {
+            Type = CliOptionType.Enum,
+            Confidence = confidence,
+            Source = Name,
+            Notes = $"{reason}: {string.Join(", ", values)}",
+            EnumValues = values,
+            AcceptsMultipleValues = acceptsMultipleValues
+        };
+    }
+
+    [GeneratedRegex(@"\s*(?:\||,|/)\s*")]
+    private static partial Regex BooleanValueSeparatorPattern();
 }

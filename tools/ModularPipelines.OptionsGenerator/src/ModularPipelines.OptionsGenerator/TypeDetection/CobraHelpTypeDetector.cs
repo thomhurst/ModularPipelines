@@ -85,83 +85,22 @@ public partial class CobraHelpTypeDetector : HelpTextTypeDetectorBase
     /// </summary>
     private OptionTypeDetectionResult? TryDetectEnumValues(string optionLine, string optionName)
     {
-        // Pattern 1: "One of: json|yaml|table" or "one of json, yaml, table"
-        var oneOfMatch = OneOfPattern().Match(optionLine);
-        if (oneOfMatch.Success)
+        var match = DescriptionEnumValueParser.TryParse(optionLine);
+        if (match is null)
         {
-            var values = ParseEnumValues(oneOfMatch.Groups["values"].Value);
-            if (values.Length > 0)
-            {
-                Logger.LogDebug("Detected {Option} as Enum (One of: {Values})", optionName, string.Join(", ", values));
-                return new OptionTypeDetectionResult
-                {
-                    Type = CliOptionType.Enum,
-                    Confidence = 95,
-                    Source = Name,
-                    Notes = $"Detected via 'One of' pattern: {string.Join(", ", values)}",
-                    EnumValues = values
-                };
-            }
+            return null;
         }
 
-        // Pattern 2: "(json, yaml, table)" or "(json|yaml|table)" in parentheses
-        var parenMatch = ParenthesizedValuesPattern().Match(optionLine);
-        if (parenMatch.Success)
+        var confidence = match.MatchKind == DescriptionEnumMatchKind.Explicit ? 95 : 85;
+        Logger.LogDebug("Detected {Option} as Enum ({Values})", optionName, string.Join(", ", match.Values));
+        return new OptionTypeDetectionResult
         {
-            var values = ParseEnumValues(parenMatch.Groups["values"].Value);
-            // Only treat as enum if we have 2-10 values and they look like identifiers
-            if (values.Length >= 2 && values.Length <= 10 && values.All(v => IdentifierPattern().IsMatch(v)))
-            {
-                Logger.LogDebug("Detected {Option} as Enum (parenthesized: {Values})", optionName, string.Join(", ", values));
-                return new OptionTypeDetectionResult
-                {
-                    Type = CliOptionType.Enum,
-                    Confidence = 85,
-                    Source = Name,
-                    Notes = $"Detected via parenthesized values: {string.Join(", ", values)}",
-                    EnumValues = values
-                };
-            }
-        }
-
-        // Pattern 3: "Must be one of" or "Valid values:"
-        var validValuesMatch = ValidValuesPattern().Match(optionLine);
-        if (validValuesMatch.Success)
-        {
-            var values = ParseEnumValues(validValuesMatch.Groups["values"].Value);
-            if (values.Length > 0)
-            {
-                Logger.LogDebug("Detected {Option} as Enum (Valid values: {Values})", optionName, string.Join(", ", values));
-                return new OptionTypeDetectionResult
-                {
-                    Type = CliOptionType.Enum,
-                    Confidence = 95,
-                    Source = Name,
-                    Notes = $"Detected via 'Valid values' pattern: {string.Join(", ", values)}",
-                    EnumValues = values
-                };
-            }
-        }
-
-        return null;
-    }
-
-    /// <summary>
-    /// Parses enum values from a string like "json|yaml|table" or "json, yaml, table".
-    /// </summary>
-    private static string[] ParseEnumValues(string valuesText)
-    {
-        // Split on common separators: |, comma, "or", "and"
-        var values = valuesText
-            .Replace(" or ", "|")
-            .Replace(" and ", "|")
-            .Split(['|', ','], StringSplitOptions.RemoveEmptyEntries)
-            .Select(v => v.Trim().Trim('"', '\'', '`'))
-            .Where(v => !string.IsNullOrWhiteSpace(v) && v.Length < 30) // Reasonable length
-            .Distinct()
-            .ToArray();
-
-        return values;
+            Type = CliOptionType.Enum,
+            Confidence = confidence,
+            Source = Name,
+            Notes = $"Detected via description values: {string.Join(", ", match.Values)}",
+            EnumValues = match.Values
+        };
     }
 
     /// <summary>
@@ -256,28 +195,4 @@ public partial class CobraHelpTypeDetector : HelpTextTypeDetectorBase
     /// </summary>
     [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:\s+(?<type>\S+))?\s{2,}", RegexOptions.Multiline)]
     private static partial Regex CobraOptionLinePattern();
-
-    /// <summary>
-    /// Matches "One of: value1|value2" or "one of value1, value2" patterns.
-    /// </summary>
-    [GeneratedRegex(@"[Oo]ne of[:\s]+(?<values>[\w\-|,\s""'`]+?)(?:\s*\(|$|\.|;)", RegexOptions.IgnoreCase)]
-    private static partial Regex OneOfPattern();
-
-    /// <summary>
-    /// Matches "(value1, value2, value3)" or "(value1|value2|value3)" patterns.
-    /// </summary>
-    [GeneratedRegex(@"\((?<values>[\w\-]+(?:\s*[|,]\s*[\w\-]+)+)\)")]
-    private static partial Regex ParenthesizedValuesPattern();
-
-    /// <summary>
-    /// Matches "Valid values:" or "Must be one of:" patterns.
-    /// </summary>
-    [GeneratedRegex(@"(?:Valid values|Must be one of|Allowed values)[:\s]+(?<values>[\w\-|,\s""'`]+?)(?:\s*\(|$|\.|;)", RegexOptions.IgnoreCase)]
-    private static partial Regex ValidValuesPattern();
-
-    /// <summary>
-    /// Matches valid identifier-like strings for enum values.
-    /// </summary>
-    [GeneratedRegex(@"^[\w][\w\-]*$")]
-    private static partial Regex IdentifierPattern();
 }
