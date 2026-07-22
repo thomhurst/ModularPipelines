@@ -118,6 +118,34 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    public async Task ImmediateFlush_ProcessorStartsOutsideCallersStack()
+    {
+        var buffer = new SynchronouslyBlockingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+        var invocation = Task.Factory.StartNew(
+            () => coordinator.EnqueueAndFlushAsync(buffer),
+            CancellationToken.None,
+            TaskCreationOptions.DenyChildAttach,
+            TaskScheduler.Default);
+
+        await buffer.FlushStarted.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        var returnedBeforeRelease = false;
+        try
+        {
+            returnedBeforeRelease = ReferenceEquals(
+                await Task.WhenAny(invocation, Task.Delay(TimeSpan.FromSeconds(1))),
+                invocation);
+        }
+        finally
+        {
+            buffer.ReleaseFlush.TrySetResult();
+        }
+
+        await await invocation;
+        await Assert.That(returnedBeforeRelease).IsTrue();
+    }
+
+    [Test]
     public async Task ImmediateFlush_UnexpectedProcessorFailureDoesNotWedgeQueue()
     {
         var formatterProvider = new Mock<IBuildSystemFormatterProvider>();
@@ -274,6 +302,46 @@ public class OutputCoordinatorTests
             FlushStarted.TrySetResult();
             await ReleaseFlush.Task;
             cancellationToken.ThrowIfCancellationRequested();
+        }
+    }
+
+    private sealed class SynchronouslyBlockingOutputBuffer : IModuleOutputBuffer
+    {
+        public Type ModuleType => typeof(SynchronouslyBlockingOutputBuffer);
+
+        public bool HasOutput => true;
+
+        public TaskCompletionSource FlushStarted { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TaskCompletionSource ReleaseFlush { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public void WriteLine(string message)
+        {
+        }
+
+        public void AddLogEvent(
+            LogLevel level,
+            EventId eventId,
+            object state,
+            Exception? exception,
+            Func<object, Exception?, string> formatter)
+        {
+        }
+
+        public void SetException(Exception exception)
+        {
+        }
+
+        public Task FlushToAsync(
+            TextWriter console,
+            IBuildSystemFormatter formatter,
+            ILogger logger,
+            ISpectreConsoleLoggerControl loggerControl,
+            CancellationToken cancellationToken = default)
+        {
+            FlushStarted.TrySetResult();
+            ReleaseFlush.Task.Wait(TimeSpan.FromSeconds(5), cancellationToken);
+            return Task.CompletedTask;
         }
     }
 }

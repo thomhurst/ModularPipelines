@@ -187,7 +187,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 }
             }
         }
-        catch (OperationCanceledException)
+        catch
         {
             RestoreUnrenderedOutputs(outputs, renderedCount);
             throw;

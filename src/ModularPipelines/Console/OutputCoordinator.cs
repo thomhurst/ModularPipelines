@@ -192,7 +192,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
         if (shouldProcess)
         {
-            _ = ProcessQueueAsync();
+            ScheduleQueueProcessing();
         }
 
         // Every caller observes only the outcome of its own buffer. Queue processing
@@ -225,9 +225,14 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         {
             if (ReleaseQueueOwnership())
             {
-                _ = ProcessQueueAsync();
+                ScheduleQueueProcessing();
             }
         }
+    }
+
+    private void ScheduleQueueProcessing()
+    {
+        _ = Task.Run(ProcessQueueAsync);
     }
 
     private PendingFlush? DequeuePendingFlush()

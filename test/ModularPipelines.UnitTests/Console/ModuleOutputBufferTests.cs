@@ -146,6 +146,30 @@ public class ModuleOutputBufferTests
         await Assert.That(buffer.HasOutput).IsFalse();
     }
 
+    [Test]
+    public async Task Flush_RenderingFailure_Retains_Unrendered_Output()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer)
+        {
+            LogException = new InvalidOperationException("render failed"),
+        };
+        var buffer = CreateBufferWithStructuredLog();
+        buffer.WriteLine("remaining output");
+
+        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl));
+
+        await Assert.That(buffer.HasOutput).IsTrue();
+
+        loggerControl.LogException = null;
+        await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
+
+        await Assert.That(writer.ToString()).Contains("structured log");
+        await Assert.That(writer.ToString()).Contains("remaining output");
+        await Assert.That(buffer.HasOutput).IsFalse();
+    }
+
     private static ModuleOutputBuffer CreateBufferWithStructuredLog()
     {
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
@@ -164,6 +188,8 @@ public class ModuleOutputBufferTests
 
         public Action? AfterLog { get; set; }
 
+        public Exception? LogException { get; set; }
+
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull
             => null;
@@ -177,6 +203,11 @@ public class ModuleOutputBufferTests
             Exception? exception,
             Func<TState, Exception?, string> formatter)
         {
+            if (LogException is not null)
+            {
+                throw LogException;
+            }
+
             Write(formatter(state, exception));
             AfterLog?.Invoke();
         }
