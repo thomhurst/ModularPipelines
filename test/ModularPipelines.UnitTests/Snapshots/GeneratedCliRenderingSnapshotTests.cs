@@ -2,6 +2,7 @@ using System.CodeDom.Compiler;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -75,11 +76,34 @@ public class GeneratedCliRenderingSnapshotTests
 
         foreach (var packageName in GetGeneratedPackageNames(repositoryRoot))
         {
-            var assembly = System.Reflection.Assembly.Load(packageName);
-            snapshots.Add(packageName, CreatePackageSnapshot(assembly));
+            var package = LoadGeneratedPackageAssembly(repositoryRoot, packageName);
+            try
+            {
+                snapshots.Add(packageName, CreatePackageSnapshot(package.Assembly));
+            }
+            finally
+            {
+                package.LoadContext.Unload();
+            }
         }
 
         return snapshots;
+    }
+
+    private static LoadedPackage LoadGeneratedPackageAssembly(
+        string repositoryRoot,
+        string packageName)
+    {
+        var configuration = new DirectoryInfo(AppContext.BaseDirectory).Parent?.Name
+                            ?? throw new DirectoryNotFoundException("Could not determine the build configuration.");
+        var outputDirectory = Path.Combine(repositoryRoot, "src", packageName, "bin", configuration);
+        var assemblyPath = (Directory.Exists(outputDirectory)
+            ? Directory.EnumerateFiles(outputDirectory, $"{packageName}.dll", SearchOption.AllDirectories)
+                .FirstOrDefault()
+            : null) ?? throw new FileNotFoundException(
+                $"Could not load {packageName}. Build all repository solutions before running snapshot tests.");
+        var loadContext = new PackageAssemblyLoadContext(repositoryRoot, configuration, assemblyPath);
+        return new LoadedPackage(loadContext.LoadFromAssemblyPath(Path.GetFullPath(assemblyPath)), loadContext);
     }
 
     private static PackageSnapshot CreatePackageSnapshot(System.Reflection.Assembly assembly)
@@ -296,6 +320,90 @@ public class GeneratedCliRenderingSnapshotTests
 
     private static string SerializeCommandLine(CommandLine commandLine) =>
         JsonSerializer.Serialize(commandLine, JsonOptions);
+
+    private sealed record LoadedPackage(
+        System.Reflection.Assembly Assembly,
+        PackageAssemblyLoadContext LoadContext);
+
+    private sealed class PackageAssemblyLoadContext(string repositoryRoot, string configuration, string assemblyPath) : AssemblyLoadContext(isCollectible: true)
+    {
+        private static readonly System.Reflection.Assembly[] SharedAssemblies =
+        [
+            typeof(CommandLineToolOptions).Assembly,
+            typeof(Microsoft.Extensions.DependencyInjection.IServiceCollection).Assembly,
+        ];
+
+        private readonly string _repositoryRoot = repositoryRoot;
+        private readonly string _configuration = configuration;
+        private readonly AssemblyDependencyResolver _resolver = new(assemblyPath);
+        private readonly Dictionary<string, string> _packageDependencyPaths = GetPackageDependencyPaths(assemblyPath);
+
+        protected override System.Reflection.Assembly? Load(AssemblyName assemblyName)
+        {
+            var sharedAssembly = SharedAssemblies.FirstOrDefault(assembly =>
+                string.Equals(assembly.GetName().Name, assemblyName.Name, StringComparison.Ordinal));
+            if (sharedAssembly is not null)
+            {
+                return sharedAssembly;
+            }
+
+            var assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName)
+                               ?? GetProjectAssemblyPath(assemblyName.Name!)
+                               ?? _packageDependencyPaths.GetValueOrDefault(assemblyName.Name!);
+            return assemblyPath is null ? null : LoadFromAssemblyPath(assemblyPath);
+        }
+
+        private string? GetProjectAssemblyPath(string assemblyName)
+        {
+            var outputDirectory = Path.Combine(_repositoryRoot, "src", assemblyName, "bin", _configuration);
+            return Directory.Exists(outputDirectory)
+                ? Directory.EnumerateFiles(outputDirectory, $"{assemblyName}.dll", SearchOption.AllDirectories)
+                    .FirstOrDefault()
+                : null;
+        }
+
+        private static Dictionary<string, string> GetPackageDependencyPaths(string assemblyPath)
+        {
+            var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var dependencyManifestPath = Path.ChangeExtension(assemblyPath, ".deps.json");
+            if (!File.Exists(dependencyManifestPath))
+            {
+                return result;
+            }
+
+            using var manifest = JsonDocument.Parse(File.ReadAllText(dependencyManifestPath));
+            var root = manifest.RootElement;
+            var targetName = root.GetProperty("runtimeTarget").GetProperty("name").GetString()!;
+            var libraries = root.GetProperty("libraries");
+            var packagesDirectory = Environment.GetEnvironmentVariable("NUGET_PACKAGES")
+                                    ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
+
+            foreach (var library in root.GetProperty("targets").GetProperty(targetName).EnumerateObject())
+            {
+                if (!library.Value.TryGetProperty("runtime", out var runtimeAssets)
+                    || !libraries.GetProperty(library.Name).TryGetProperty("path", out var packagePath))
+                {
+                    continue;
+                }
+
+                foreach (var runtimeAsset in runtimeAssets.EnumerateObject())
+                {
+                    if (!runtimeAsset.Name.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    var dependencyPath = Path.Combine(
+                        packagesDirectory,
+                        packagePath.GetString()!.Replace('/', Path.DirectorySeparatorChar),
+                        runtimeAsset.Name.Replace('/', Path.DirectorySeparatorChar));
+                    result[Path.GetFileNameWithoutExtension(runtimeAsset.Name)] = dependencyPath;
+                }
+            }
+
+            return result;
+        }
+    }
 
     private sealed record PackageSnapshot(
         int Options,
