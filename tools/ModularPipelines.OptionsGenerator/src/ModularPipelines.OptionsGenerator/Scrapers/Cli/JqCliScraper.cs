@@ -219,24 +219,26 @@ public partial class JqCliScraper : CliScraperBase
 
     private static void AddDocumentedOptions(List<CliOptionDefinition> options)
     {
-        var runTestsIndex = options.FindIndex(x => x.SwitchName == "--run-tests");
-        var runTests = new CliOptionDefinition
+        UpsertDocumentedOption(options, new CliOptionDefinition
         {
             SwitchName = "--run-tests",
             PropertyName = "RunTests",
             CSharpType = "bool?",
             Description = "Run jq tests from standard input",
             IsFlag = true
-        };
+        });
 
-        if (runTestsIndex < 0)
+        // jq's Linux help omits this Windows-supported option.
+        UpsertDocumentedOption(options, new CliOptionDefinition
         {
-            options.Add(runTests);
-        }
-        else
-        {
-            options[runTestsIndex] = runTests;
-        }
+            SwitchName = "--binary",
+            ShortForm = "-b",
+            PreferShortForm = true,
+            PropertyName = "Binary",
+            CSharpType = "bool?",
+            Description = "Open input/output streams in binary mode",
+            IsFlag = true
+        });
 
         options.Add(new CliOptionDefinition
         {
@@ -256,6 +258,21 @@ public partial class JqCliScraper : CliScraperBase
             Description = "Stop processing options so filters beginning with a dash are treated as positional arguments",
             IsFlag = true
         });
+    }
+
+    private static void UpsertDocumentedOption(
+        List<CliOptionDefinition> options,
+        CliOptionDefinition documentedOption)
+    {
+        var index = options.FindIndex(option => option.PropertyName == documentedOption.PropertyName);
+        if (index < 0)
+        {
+            options.Add(documentedOption);
+        }
+        else
+        {
+            options[index] = documentedOption;
+        }
     }
 
     private static string RemoveDisplayedOperands(string longForm, string optionTail)

@@ -81,6 +81,23 @@ public class JqCliScraperTests
         await Assert.That(command.PositionalArguments[1].Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
     }
 
+    [Test]
+    public async Task Preserves_Binary_When_Help_Omits_Windows_Option()
+    {
+        var command = await new TestJqCliScraper().Parse("""
+            Usage: jq [options] <jq filter> [file...]
+
+            Command options:
+              -n, --null-input          use `null` as the single input value;
+            """);
+
+        var binary = command.Options.Single(option => option.PropertyName == "Binary");
+        await Assert.That(binary.SwitchName).IsEqualTo("--binary");
+        await Assert.That(binary.ShortForm).IsEqualTo("-b");
+        await Assert.That(binary.IsFlag).IsTrue();
+        await Assert.That(binary.PreferShortForm).IsTrue();
+    }
+
     private sealed class TestJqCliScraper : JqCliScraper
     {
         public TestJqCliScraper()
