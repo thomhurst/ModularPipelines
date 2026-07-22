@@ -3,6 +3,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
+using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using Moq;
 
@@ -16,6 +17,14 @@ public class SecretMaskingPatternTests
     {
         [SecretValue]
         public string Value { get; init; } = Secret;
+    }
+
+    private sealed class FirstModule
+    {
+    }
+
+    private sealed class SecondModule
+    {
     }
 
     [Test]
@@ -238,6 +247,48 @@ public class SecretMaskingPatternTests
 
         outputBuffer.Verify(x => x.WriteLine("**********"), Times.Once);
         outputBuffer.Verify(x => x.WriteLine(It.Is<string>(value => value.Contains("private-key"))), Times.Never);
+    }
+
+    [Test]
+    public void BufferedConsoleWrites_Isolate_Retained_Secret_Prefixes_Per_Module()
+    {
+        var secret = $"private-key-line-1{Environment.NewLine}private-key-line-2";
+        var provider = CreateProvider(out _);
+        provider.AddSecret(secret);
+        var firstBuffer = new Mock<IModuleOutputBuffer>();
+        var secondBuffer = new Mock<IModuleOutputBuffer>();
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetModuleBuffer(typeof(FirstModule))).Returns(firstBuffer.Object);
+        coordinator.Setup(x => x.GetModuleBuffer(typeof(SecondModule))).Returns(secondBuffer.Object);
+
+        var previousModule = ModuleLogger.CurrentModuleType.Value;
+        try
+        {
+            using var writer = new CoordinatedTextWriter(
+                coordinator.Object,
+                new StringWriter(),
+                () => true,
+                CreateObfuscator(provider),
+                provider);
+
+            ModuleLogger.CurrentModuleType.Value = typeof(FirstModule);
+            writer.WriteLine("private-key-line-1");
+
+            ModuleLogger.CurrentModuleType.Value = typeof(SecondModule);
+            writer.WriteLine("second-module-output");
+
+            ModuleLogger.CurrentModuleType.Value = typeof(FirstModule);
+            writer.WriteLine("private-key-line-2");
+        }
+        finally
+        {
+            ModuleLogger.CurrentModuleType.Value = previousModule;
+        }
+
+        firstBuffer.Verify(x => x.WriteLine("**********"), Times.Once);
+        firstBuffer.Verify(x => x.WriteLine(It.Is<string>(value => value.Contains("private-key"))), Times.Never);
+        secondBuffer.Verify(x => x.WriteLine("second-module-output"), Times.Once);
+        secondBuffer.Verify(x => x.WriteLine(It.Is<string>(value => value.Contains("private-key"))), Times.Never);
     }
 
     [Test]

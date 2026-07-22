@@ -27,14 +27,15 @@ namespace ModularPipelines.Console;
 [ExcludeFromCodeCoverage]
 internal class CoordinatedTextWriter : TextWriter
 {
+    private static readonly object UnattributedContext = new();
+
     private readonly IConsoleCoordinator _coordinator;
     private readonly TextWriter _realConsole;
     private readonly Func<bool> _shouldBuffer;
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly ISecretProvider _secretProvider;
-    private readonly StringBuilder _lineBuffer = new();
+    private readonly Dictionary<object, LineBufferState> _lineBuffers = [];
     private readonly object _lineBufferLock = new();
-    private bool? _lineBufferShouldBuffer;
 
     /// <summary>
     /// Initialises a new instance of the <see cref="CoordinatedTextWriter"/> class.
@@ -106,14 +107,12 @@ internal class CoordinatedTextWriter : TextWriter
     /// <summary>
     /// Routes a message to the appropriate buffer based on current module context.
     /// </summary>
-    private void RouteToBuffer(string message)
+    private void RouteToBuffer(string message, Type? moduleType)
     {
-        var currentModule = ModuleLogger.CurrentModuleType.Value;
-
-        if (currentModule != null)
+        if (moduleType != null)
         {
             // Inside a module - route to that module's buffer
-            var buffer = _coordinator.GetModuleBuffer(currentModule);
+            var buffer = _coordinator.GetModuleBuffer(moduleType);
             buffer.WriteLine(message);
         }
         else
@@ -125,27 +124,42 @@ internal class CoordinatedTextWriter : TextWriter
 
     private void WriteCore(string value, bool appendNewLine)
     {
-        var shouldBuffer = GetBufferMode(_shouldBuffer());
-        _lineBuffer.Append(value);
+        var state = GetLineBufferState();
+        var shouldBuffer = GetBufferMode(state, _shouldBuffer());
+        state.Buffer.Append(value);
 
         if (appendNewLine)
         {
-            _lineBuffer.Append(Environment.NewLine);
+            state.Buffer.Append(Environment.NewLine);
         }
 
         var patterns = GetSecretPatterns();
-        ObfuscateCompletePatterns(patterns);
-        FlushSafeOutput(patterns, shouldBuffer);
+        ObfuscateCompletePatterns(state, patterns);
+        FlushSafeOutput(state, patterns, shouldBuffer);
     }
 
-    private bool GetBufferMode(bool requestedBufferMode)
+    private LineBufferState GetLineBufferState()
     {
-        if (_lineBufferShouldBuffer is null || _lineBuffer.Length == 0)
+        var moduleType = ModuleLogger.CurrentModuleType.Value;
+        var key = (object?)moduleType ?? UnattributedContext;
+
+        if (!_lineBuffers.TryGetValue(key, out var state))
         {
-            _lineBufferShouldBuffer = requestedBufferMode;
+            state = new LineBufferState(moduleType);
+            _lineBuffers.Add(key, state);
         }
 
-        return _lineBufferShouldBuffer.Value;
+        return state;
+    }
+
+    private static bool GetBufferMode(LineBufferState state, bool requestedBufferMode)
+    {
+        if (state.ShouldBuffer is null || state.Buffer.Length == 0)
+        {
+            state.ShouldBuffer = requestedBufferMode;
+        }
+
+        return state.ShouldBuffer.Value;
     }
 
     private string[] GetSecretPatterns() =>
@@ -155,14 +169,14 @@ internal class CoordinatedTextWriter : TextWriter
             .OrderByDescending(pattern => pattern.Length)
             .ToArray();
 
-    private void ObfuscateCompletePatterns(IReadOnlyList<string> patterns)
+    private void ObfuscateCompletePatterns(LineBufferState state, IReadOnlyList<string> patterns)
     {
-        if (_lineBuffer.Length == 0 || patterns.Count == 0)
+        if (state.Buffer.Length == 0 || patterns.Count == 0)
         {
             return;
         }
 
-        var pending = _lineBuffer.ToString();
+        var pending = state.Buffer.ToString();
         var output = new StringBuilder(pending.Length);
         var searchIndex = 0;
         var replaced = false;
@@ -193,44 +207,44 @@ internal class CoordinatedTextWriter : TextWriter
 
         if (replaced)
         {
-            _lineBuffer.Clear();
-            _lineBuffer.Append(output);
+            state.Buffer.Clear();
+            state.Buffer.Append(output);
         }
     }
 
-    private void FlushSafeOutput(IReadOnlyList<string> patterns, bool shouldBuffer)
+    private void FlushSafeOutput(LineBufferState state, IReadOnlyList<string> patterns, bool shouldBuffer)
     {
         var retainedLength = patterns.Count == 0
             ? 0
-            : GetPotentialPatternPrefixLength(_lineBuffer.ToString(), patterns);
+            : GetPotentialPatternPrefixLength(state.Buffer.ToString(), patterns);
 
-        FlushSafePrefix(_lineBuffer.Length - retainedLength, shouldBuffer);
+        FlushSafePrefix(state, state.Buffer.Length - retainedLength, shouldBuffer);
 
-        if (_lineBuffer.Length == 0)
+        if (state.Buffer.Length == 0)
         {
-            _lineBufferShouldBuffer = null;
+            state.ShouldBuffer = null;
         }
     }
 
-    private void FlushSafePrefix(int safeLength, bool shouldBuffer)
+    private void FlushSafePrefix(LineBufferState state, int safeLength, bool shouldBuffer)
     {
         while (safeLength > 0)
         {
-            var newlineIndex = _lineBuffer.ToString(0, safeLength).IndexOf('\n');
+            var newlineIndex = state.Buffer.ToString(0, safeLength).IndexOf('\n');
             if (newlineIndex < 0)
             {
                 break;
             }
 
-            var line = _lineBuffer.ToString(0, newlineIndex).TrimEnd('\r');
-            _lineBuffer.Remove(0, newlineIndex + 1);
+            var line = state.Buffer.ToString(0, newlineIndex).TrimEnd('\r');
+            state.Buffer.Remove(0, newlineIndex + 1);
             safeLength -= newlineIndex + 1;
-            WriteCompletedLine(line, shouldBuffer);
+            WriteCompletedLine(line, shouldBuffer, state.ModuleType);
         }
 
         if (!shouldBuffer)
         {
-            FlushDirectPrefix(safeLength);
+            FlushDirectPrefix(state, safeLength);
         }
     }
 
@@ -273,25 +287,25 @@ internal class CoordinatedTextWriter : TextWriter
         return 0;
     }
 
-    private void FlushDirectPrefix(int length)
+    private void FlushDirectPrefix(LineBufferState state, int length)
     {
         if (length <= 0)
         {
             return;
         }
 
-        var output = _lineBuffer.ToString(0, length);
-        _lineBuffer.Remove(0, length);
+        var output = state.Buffer.ToString(0, length);
+        state.Buffer.Remove(0, length);
         _realConsole.Write(_secretObfuscator.Obfuscate(output, null));
     }
 
-    private void WriteCompletedLine(string line, bool shouldBuffer)
+    private void WriteCompletedLine(string line, bool shouldBuffer, Type? moduleType)
     {
         var obfuscated = _secretObfuscator.Obfuscate(line, null);
 
         if (shouldBuffer)
         {
-            RouteToBuffer(obfuscated);
+            RouteToBuffer(obfuscated, moduleType);
         }
         else
         {
@@ -299,20 +313,20 @@ internal class CoordinatedTextWriter : TextWriter
         }
     }
 
-    private void FlushPartialLine(bool shouldBuffer)
+    private void FlushPartialLine(LineBufferState state, bool shouldBuffer)
     {
-        if (_lineBuffer.Length == 0)
+        if (state.Buffer.Length == 0)
         {
             return;
         }
 
-        var pending = _lineBuffer.ToString();
-        _lineBuffer.Clear();
+        var pending = state.Buffer.ToString();
+        state.Buffer.Clear();
         var obfuscated = _secretObfuscator.Obfuscate(pending, null);
 
         if (shouldBuffer)
         {
-            RouteToBuffer(obfuscated);
+            RouteToBuffer(obfuscated, state.ModuleType);
         }
         else
         {
@@ -326,13 +340,13 @@ internal class CoordinatedTextWriter : TextWriter
         // Flush any partial line in the buffer
         lock (_lineBufferLock)
         {
-            if (_lineBuffer.Length > 0)
+            foreach (var state in _lineBuffers.Values.Where(state => state.Buffer.Length > 0))
             {
-                var shouldBuffer = _lineBufferShouldBuffer ?? _shouldBuffer();
-                ObfuscateCompletePatterns(GetSecretPatterns());
-                FlushSafePrefix(_lineBuffer.Length, shouldBuffer);
-                FlushPartialLine(shouldBuffer);
-                _lineBufferShouldBuffer = null;
+                var shouldBuffer = state.ShouldBuffer ?? _shouldBuffer();
+                ObfuscateCompletePatterns(state, GetSecretPatterns());
+                FlushSafePrefix(state, state.Buffer.Length, shouldBuffer);
+                FlushPartialLine(state, shouldBuffer);
+                state.ShouldBuffer = null;
             }
         }
 
@@ -356,5 +370,14 @@ internal class CoordinatedTextWriter : TextWriter
         }
 
         base.Dispose(disposing);
+    }
+
+    private sealed class LineBufferState(Type? moduleType)
+    {
+        public Type? ModuleType { get; } = moduleType;
+
+        public StringBuilder Buffer { get; } = new();
+
+        public bool? ShouldBuffer { get; set; }
     }
 }
