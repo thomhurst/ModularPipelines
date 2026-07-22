@@ -26,7 +26,8 @@ public class OutputCoordinatorTests
             consoleCoordinator.Object,
             directOutput,
             () => true,
-            secretObfuscator.Object);
+            secretObfuscator.Object,
+            Mock.Of<ISecretProvider>());
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(coordinatedWriter));
         var moduleBuffer = new ModuleOutputBuffer(typeof(OutputCoordinatorTests));
         moduleBuffer.AddLogEvent(
@@ -64,7 +65,7 @@ public class OutputCoordinatorTests
     }
 
     [Test]
-    public async Task DeferredFlush_FailureRequeuesCurrentAndRemainingOutputs()
+    public async Task DeferredFlush_FailureOnlyRequeuesUnstartedOutputs()
     {
         var firstBuffer = new FailingOnceOutputBuffer();
         var secondBuffer = new CancellingOutputBuffer();
@@ -79,7 +80,7 @@ public class OutputCoordinatorTests
 
         await coordinator.FlushDeferredAsync();
 
-        await Assert.That(firstBuffer.FlushCount).IsEqualTo(2);
+        await Assert.That(firstBuffer.FlushCount).IsEqualTo(1);
         await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
     }
 
@@ -166,7 +167,7 @@ public class OutputCoordinatorTests
     }
 
     [Test]
-    public async Task ImmediateFlush_UnexpectedProcessorFailureDoesNotWedgeQueue()
+    public async Task ImmediateFlush_UnexpectedProcessorFailureFailsPendingRequestWithoutWedge()
     {
         var formatterProvider = new Mock<IBuildSystemFormatterProvider>();
         formatterProvider.SetupSequence(x => x.GetFormatter())
@@ -176,13 +177,12 @@ public class OutputCoordinatorTests
             new ConsoleWritingLoggerFactory(TextWriter.Null),
             formatterProvider.Object);
         var abandonedBuffer = new CancellingOutputBuffer();
-        var recoveredBuffer = new CancellingOutputBuffer();
 
+        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await coordinator.EnqueueAndFlushAsync(abandonedBuffer).WaitAsync(TimeSpan.FromSeconds(1)));
         await coordinator.EnqueueAndFlushAsync(abandonedBuffer).WaitAsync(TimeSpan.FromSeconds(1));
-        await coordinator.EnqueueAndFlushAsync(recoveredBuffer).WaitAsync(TimeSpan.FromSeconds(1));
 
-        await Assert.That(abandonedBuffer.FlushCount).IsEqualTo(0);
-        await Assert.That(recoveredBuffer.FlushCount).IsEqualTo(1);
+        await Assert.That(abandonedBuffer.FlushCount).IsEqualTo(1);
     }
 
     [Test]

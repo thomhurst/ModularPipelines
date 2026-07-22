@@ -151,12 +151,18 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                     .ConfigureAwait(false);
             }
         }
+        catch (OperationCanceledException)
+        {
+            RequeueDeferredOutputs(toFlush.Skip(nextOutputIndex));
+
+            throw;
+        }
         catch
         {
-            lock (_deferredLock)
-            {
-                _deferredOutputs.InsertRange(0, toFlush.Skip(nextOutputIndex));
-            }
+            // A sink may have accepted part of the current buffer before throwing.
+            // Retrying that buffer could duplicate delivered output, so only retain
+            // buffers that have not started rendering.
+            RequeueDeferredOutputs(toFlush.Skip(nextOutputIndex + 1));
 
             throw;
         }
@@ -216,7 +222,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         {
             foreach (var pending in DrainPendingFlushes())
             {
-                pending.CompletionSource.TrySetResult();
+                pending.CompletionSource.TrySetException(ex);
             }
 
             _logger.LogError(ex, "Output queue processing terminated unexpectedly");
@@ -296,6 +302,14 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             var pending = _pendingQueue.ToArray();
             _pendingQueue.Clear();
             return pending;
+        }
+    }
+
+    private void RequeueDeferredOutputs(IEnumerable<DeferredModuleOutput> outputs)
+    {
+        lock (_deferredLock)
+        {
+            _deferredOutputs.InsertRange(0, outputs);
         }
     }
 
