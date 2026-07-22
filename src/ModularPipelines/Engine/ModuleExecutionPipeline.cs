@@ -127,7 +127,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             executionContext.RecordEndTime();
             executionContext.Status = Status.Successful;
 
-            moduleResult = ModuleResult<T>.CreateSuccess(result, executionContext);
+            moduleResult = ModuleResult<T>.CreateSuccess(result!, executionContext);
 
             module.CompletionSource.TrySetResult(moduleResult!);
 
@@ -234,7 +234,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 // Create a new result with UsedHistory status using record's 'with' expression
                 var usedHistoryResult = historicalResult with { ModuleStatus = Status.UsedHistory };
                 executionContext.SetTypedResult(usedHistoryResult);
-                module.CompletionSource.TrySetResult(usedHistoryResult);
+                module.CompletionSource.TrySetResult(usedHistoryResult!);
                 logger.LogDebug("Using historical result for skipped module");
                 return usedHistoryResult;
             }
@@ -242,7 +242,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         var skippedResult = ModuleResult<T>.CreateSkipped(skipDecision, executionContext);
         executionContext.SetTypedResult(skippedResult);
-        module.CompletionSource.TrySetResult(skippedResult);
+        module.CompletionSource.TrySetResult(skippedResult!);
 
         logger.LogInformation("Module {ModuleName} skipped: {Reason}",
             executionContext.ModuleType.Name,

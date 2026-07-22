@@ -14,7 +14,6 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
     private readonly HubConnection _connection;
     private readonly ILogger<SignalRWorkerCoordinator> _logger;
     private readonly Channel<ModuleAssignment> _assignmentChannel;
-    private volatile bool _completed;
 
     public SignalRWorkerCoordinator(HubConnection connection, ILogger<SignalRWorkerCoordinator> logger)
     {
@@ -113,7 +112,6 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
     private void OnSignalCompletion()
     {
         _logger.LogInformation("Received completion signal from master");
-        _completed = true;
         _assignmentChannel.Writer.TryComplete();
     }
 }

@@ -336,7 +336,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         CancellationToken cancellationToken)
     {
         var loggerType = typeof(ILogger<>).MakeGenericType(buffer.ModuleType);
-        var moduleLogger = (ILogger) _serviceProvider.GetService(loggerType)
+        var moduleLogger = _serviceProvider.GetService(loggerType) as ILogger
                            ?? _loggerFactory.CreateLogger(buffer.ModuleType);
 
         using var directWrite = CoordinatedTextWriter.BeginDirectWrite();
