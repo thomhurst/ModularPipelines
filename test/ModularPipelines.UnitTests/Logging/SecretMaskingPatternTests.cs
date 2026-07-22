@@ -113,6 +113,30 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrites_Retain_CompleteSecret_ThatPrefixesLongerSecret()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("abc");
+        provider.AddSecret("abcdef");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("abc");
+
+        await Assert.That(realConsole.ToString()).IsEmpty();
+
+        writer.WriteLine("def");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo($"**********{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task DirectConsoleWrite_WithoutNewline_IsImmediate()
     {
         var provider = CreateProvider(out _);

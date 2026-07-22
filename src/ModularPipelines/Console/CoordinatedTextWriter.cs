@@ -188,6 +188,11 @@ internal class CoordinatedTextWriter : TextWriter
             var match = FindFirstPattern(pending, patterns);
             if (match.Index >= 0)
             {
+                if (match.Index == 0 && GetPotentialPatternPrefixLength(pending, patterns) == pending.Length)
+                {
+                    return;
+                }
+
                 FlushDirectPrefix(match.Index > 0 ? match.Index : match.Length);
                 continue;
             }
