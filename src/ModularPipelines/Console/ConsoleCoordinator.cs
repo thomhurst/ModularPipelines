@@ -129,18 +129,19 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 _outputLogger = _loggerFactory.CreateLogger("ModularPipelines.Output");
 
                 // Install our intercepting writers
-                // Buffer output when progress is active AND we're not in the middle of flushing
+                // Buffer module output while the coordinated output phase is active. Flush paths
+                // write to the captured real console, so unrelated module output remains buffered.
                 _coordinatedOut = new CoordinatedTextWriter(
                     this,
                     _originalConsoleOut,
-                    () => _isProgressActive && !_outputCoordinator.IsFlushing,
+                    () => _isProgressActive,
                     _secretObfuscator,
                     _secretProvider);
 
                 _coordinatedError = new CoordinatedTextWriter(
                     this,
                     _originalConsoleError,
-                    () => _isProgressActive && !_outputCoordinator.IsFlushing,
+                    () => _isProgressActive,
                     _secretObfuscator,
                     _secretProvider);
 

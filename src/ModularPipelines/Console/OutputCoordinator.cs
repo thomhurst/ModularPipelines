@@ -28,7 +28,6 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
     private IProgressController _progressController = NoOpProgressController.Instance;
     private bool _isProcessingQueue;
-    private volatile bool _isFlushingOutput;
     private volatile bool _isProgressActive;
     private readonly List<DeferredModuleOutput> _deferredOutputs = new();
 
@@ -51,9 +50,6 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         _logger = loggerFactory.CreateLogger<OutputCoordinator>();
         _console = System.Console.Out;
     }
-
-    /// <inheritdoc />
-    public bool IsFlushing => _isFlushingOutput;
 
     /// <inheritdoc />
     public void SetProgressController(IProgressController controller)
@@ -141,22 +137,14 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
-            _isFlushingOutput = true;
-            try
+            foreach (var output in toFlush)
             {
-                foreach (var output in toFlush)
+                if (cancellationToken.IsCancellationRequested)
                 {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        break;
-                    }
-
-                    await FlushBufferAsync(output.Buffer, formatter).ConfigureAwait(false);
+                    break;
                 }
-            }
-            finally
-            {
-                _isFlushingOutput = false;
+
+                await FlushBufferAsync(output.Buffer, formatter).ConfigureAwait(false);
             }
         }
         finally
@@ -228,14 +216,12 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                 try
                 {
                     await _progressController.PauseAsync().ConfigureAwait(false);
-                    _isFlushingOutput = true;
                     try
                     {
                         await FlushBufferAsync(pending.Buffer, formatter).ConfigureAwait(false);
                     }
                     finally
                     {
-                        _isFlushingOutput = false;
                         await _progressController.ResumeAsync().ConfigureAwait(false);
                     }
                 }
