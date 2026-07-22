@@ -12090,14 +12090,24 @@
       "ModularPipelines.Java.Options.MavenExecuteOptions": "eff49b54c1f1311886ec95a747992801b4c2a1f898250c53b87181e7b28552e7"
     }
   },
-  "ModularPipelines.Kind": {
-    "options": 16,
-    "properties": 73,
+  "ModularPipelines.Jq": {
+    "options": 1,
+    "properties": 35,
     "secretProperties": 0,
-    "renderedArguments": 100,
-    "sha256": "9fef8b26de2ee2272d292560ca64a7ba94b63be38538489788fd08c50755c4bd",
+    "renderedArguments": 62,
+    "sha256": "97a51b37f7f792e0aa7a4fa3d8b3b6552a7767a5832db4988840bec829c9cf03",
     "typeSha256": {
-      "ModularPipelines.Kind.Options.KindBuildNodeImageOptions": "9efe786735714e59b3d4d18bb2e760aabcd1495474e17ba3ee7dfc1ffaa1934c",
+      "ModularPipelines.Jq.Options.JqExecuteOptions": "97a51b37f7f792e0aa7a4fa3d8b3b6552a7767a5832db4988840bec829c9cf03"
+    }
+  },
+  "ModularPipelines.Kind": {
+    "options": 17,
+    "properties": 79,
+    "secretProperties": 0,
+    "renderedArguments": 110,
+    "sha256": "1cf401edee302783083f916977beb73611d789c7bf285af1765aa5ad6227abf8",
+    "typeSha256": {
+      "ModularPipelines.Kind.Options.KindBuildNodeImageOptions": "6a1e815fa0274740aa1146dd109e31704a60e811f471b4e56658e22b2bd7e20e",
       "ModularPipelines.Kind.Options.KindBuildOptions": "063d0e3f39f9ee951ad6f4a5881bdf1e830ce87013398a56ab14cdf5285257d3",
       "ModularPipelines.Kind.Options.KindCreateClusterOptions": "9207b223738bc33a47a5221531fae9301d9473e7a56e09347b022051fc8a18a1",
       "ModularPipelines.Kind.Options.KindCreateOptions": "eb712dfc305993ffd1be81fd10ed681b4f948099cc6e70ad20897e99f205cb58",
@@ -12111,7 +12121,8 @@
       "ModularPipelines.Kind.Options.KindGetKubeconfigOptions": "51a9480658bf59f6843cef269409bfb9809fd0c7b7f610272a9eade2ad3a15c1",
       "ModularPipelines.Kind.Options.KindGetNodesOptions": "d5bec3826803773b3490d5f2e90ad62ff46482f179936733cfc830f7a40e735a",
       "ModularPipelines.Kind.Options.KindGetOptions": "082620feb2f9a7e8ab4f79ff1805ee3a5e9782627e06dc274e80e0cc71d0be3d",
-      "ModularPipelines.Kind.Options.KindLoadDockerImageOptions": "9e8743242052cf2a68e233a688c6dc47c53c570159e0559c3988d8e181ee3783",
+      "ModularPipelines.Kind.Options.KindLoadDockerImageOptions": "0e43c7c55a3b115debaf597831b376123b87b8902e4ed2048f92361a75b5a4bc",
+      "ModularPipelines.Kind.Options.KindLoadImageArchiveOptions": "3a98e202771c48204315bd7766731cf030b34f68b53401292389e06f66ddf050",
       "ModularPipelines.Kind.Options.KindLoadOptions": "7bd437a6af38e73d85907a73c18ed73c5aeb686e199cc18c01b214a6574df9fa"
     }
   },
