@@ -177,7 +177,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             return;
         }
 
-        var pending = new PendingFlush(buffer);
+        var pending = new PendingFlush(buffer, cancellationToken);
         bool shouldProcess;
 
         lock (_queueLock)
@@ -192,7 +192,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
         if (shouldProcess)
         {
-            await ProcessQueueAsync(cancellationToken).ConfigureAwait(false);
+            await ProcessQueueAsync().ConfigureAwait(false);
         }
 
         // Every caller observes the outcome of its own buffer. The caller that starts
@@ -200,7 +200,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         await pending.CompletionSource.Task.ConfigureAwait(false);
     }
 
-    private async Task ProcessQueueAsync(CancellationToken cancellationToken)
+    private async Task ProcessQueueAsync()
     {
         var formatter = _formatterProvider.GetFormatter();
 
@@ -221,6 +221,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
             try
             {
+                var cancellationToken = pending.CancellationToken;
                 if (cancellationToken.IsCancellationRequested)
                 {
                     pending.CompletionSource.TrySetCanceled(cancellationToken);
@@ -278,11 +279,13 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     private sealed class PendingFlush
     {
         public IModuleOutputBuffer Buffer { get; }
+        public CancellationToken CancellationToken { get; }
         public TaskCompletionSource CompletionSource { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        public PendingFlush(IModuleOutputBuffer buffer)
+        public PendingFlush(IModuleOutputBuffer buffer, CancellationToken cancellationToken)
         {
             Buffer = buffer;
+            CancellationToken = cancellationToken;
         }
     }
 }

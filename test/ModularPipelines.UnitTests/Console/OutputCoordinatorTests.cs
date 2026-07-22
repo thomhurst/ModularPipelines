@@ -76,6 +76,26 @@ public class OutputCoordinatorTests
         await Assert.That(buffer.FlushCount).IsEqualTo(1);
     }
 
+    [Test]
+    public async Task ImmediateFlush_DoesNotApplyOwnerCancellationToLaterBuffers()
+    {
+        using var ownerCancellation = new CancellationTokenSource();
+        var firstBuffer = new BlockingOutputBuffer();
+        var secondBuffer = new CancellingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        var ownerFlush = coordinator.EnqueueAndFlushAsync(firstBuffer, ownerCancellation.Token);
+        await firstBuffer.FlushStarted.Task;
+        var secondFlush = coordinator.EnqueueAndFlushAsync(secondBuffer);
+
+        await ownerCancellation.CancelAsync();
+        firstBuffer.ReleaseFlush.TrySetResult();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await ownerFlush);
+        await secondFlush;
+        await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
+    }
+
     private static OutputCoordinator CreateCoordinator(ILoggerFactory loggerFactory)
     {
         var formatterProvider = new Mock<IBuildSystemFormatterProvider>();
@@ -167,6 +187,46 @@ public class OutputCoordinatorTests
             }
 
             return Task.CompletedTask;
+        }
+    }
+
+    private sealed class BlockingOutputBuffer : IModuleOutputBuffer
+    {
+        public Type ModuleType => typeof(BlockingOutputBuffer);
+
+        public bool HasOutput => true;
+
+        public TaskCompletionSource FlushStarted { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TaskCompletionSource ReleaseFlush { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public void WriteLine(string message)
+        {
+        }
+
+        public void AddLogEvent(
+            LogLevel level,
+            EventId eventId,
+            object state,
+            Exception? exception,
+            Func<object, Exception?, string> formatter)
+        {
+        }
+
+        public void SetException(Exception exception)
+        {
+        }
+
+        public async Task FlushToAsync(
+            TextWriter console,
+            IBuildSystemFormatter formatter,
+            ILogger logger,
+            ISpectreConsoleLoggerControl loggerControl,
+            CancellationToken cancellationToken = default)
+        {
+            FlushStarted.TrySetResult();
+            await ReleaseFlush.Task;
+            cancellationToken.ThrowIfCancellationRequested();
         }
     }
 }
