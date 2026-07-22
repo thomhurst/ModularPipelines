@@ -53,7 +53,6 @@ builder.Services
     .AddModule<PackagePathsParserModule>()
     .AddModule<GenerateReadMeModule>()
     .AddModule<FormatMarkdownModule>()
-    .AddModule<PrintEnvironmentVariablesModule>()
     .AddModule<PrintGitInformationModule>()
     .AddModule<PushVersionTagModule>()
     .AddPipelineModuleHooks<MyModuleHooks>();
