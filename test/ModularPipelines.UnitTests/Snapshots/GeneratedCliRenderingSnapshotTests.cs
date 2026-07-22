@@ -60,6 +60,15 @@ public class GeneratedCliRenderingSnapshotTests
         await Assert.That(separateArguments).IsNotEqualTo(combinedArgument);
     }
 
+    [Test]
+    public async Task GeneratedOptionsDetection_IncludesCheckedInGeneratedOptions()
+    {
+        var optionsType = typeof(DotNet.Generated.Options.DotNetPackOptions);
+
+        await Assert.That(optionsType.GetCustomAttribute<GeneratedCodeAttribute>()).IsNull();
+        await Assert.That(IsGeneratedOptionsType(optionsType)).IsTrue();
+    }
+
     private static SortedDictionary<string, PackageSnapshot> CreateSnapshots(string repositoryRoot)
     {
         var snapshots = new SortedDictionary<string, PackageSnapshot>(StringComparer.Ordinal);
@@ -160,7 +169,8 @@ public class GeneratedCliRenderingSnapshotTests
     {
         return !type.IsAbstract
                && type.IsAssignableTo(typeof(CommandLineToolOptions))
-               && type.GetCustomAttribute<GeneratedCodeAttribute>()?.Tool == "ModularPipelines.OptionsGenerator";
+               && (type.GetCustomAttribute<GeneratedCodeAttribute>()?.Tool == "ModularPipelines.OptionsGenerator"
+                   || type.Namespace?.EndsWith(".Generated.Options", StringComparison.Ordinal) == true);
     }
 
     private static PropertyInfo GetProperty(Type optionsType, string propertyName)
