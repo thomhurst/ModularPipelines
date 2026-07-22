@@ -49,10 +49,11 @@ public class OptionsClassGenerator : ICodeGenerator
         // Class declaration. The returned set contains the names emitted as
         // primary-constructor parameters, so a name scraped as both required and
         // optional can't produce two members (CS0102).
-        var existingPropertyNames = GenerateClassDeclaration(sb, command);
+        var positionalArguments = CliPositionalArgument.MergeDuplicates(command.PositionalArguments);
+        var existingPropertyNames = GenerateClassDeclaration(sb, command, positionalArguments);
 
         sb.AppendLine("{");
-        GenerateProperties(sb, command, existingPropertyNames);
+        GenerateProperties(sb, command, positionalArguments, existingPropertyNames);
         sb.AppendLine("}");
 
         return sb.ToString();
@@ -102,6 +103,7 @@ public class OptionsClassGenerator : ICodeGenerator
     private static void GenerateProperties(
         StringBuilder sb,
         CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
         HashSet<string> existingPropertyNames)
     {
         // Properties for non-required options
@@ -116,7 +118,7 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         // Positional arguments - skip duplicates
-        foreach (var positional in command.PositionalArguments.Where(p => !p.IsRequired))
+        foreach (var positional in positionalArguments.Where(p => !p.IsRequired))
         {
             if (existingPropertyNames.Contains(positional.PropertyName))
             {
@@ -151,10 +153,13 @@ public class OptionsClassGenerator : ICodeGenerator
     /// Emits the class declaration and returns the member names emitted as
     /// primary-constructor parameters, so property emission can skip duplicates.
     /// </summary>
-    private static HashSet<string> GenerateClassDeclaration(StringBuilder sb, CliCommandDefinition command)
+    private static HashSet<string> GenerateClassDeclaration(
+        StringBuilder sb,
+        CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
         var requiredOptions = command.RequiredOptions;
-        var requiredPositionals = command.PositionalArguments.Where(p => p.IsRequired).ToList();
+        var requiredPositionals = positionalArguments.Where(p => p.IsRequired).ToList();
         var existingNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         if (requiredOptions.Count > 0 || requiredPositionals.Count > 0)

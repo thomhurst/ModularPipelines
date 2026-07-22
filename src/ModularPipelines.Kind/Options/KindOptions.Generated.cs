@@ -16,7 +16,7 @@ namespace ModularPipelines.Kind.Options;
 /// Base options class for kind CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("kind")]
 public abstract record KindOptions : CommandLineToolOptions

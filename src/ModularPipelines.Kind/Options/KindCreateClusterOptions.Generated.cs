@@ -15,7 +15,7 @@ namespace ModularPipelines.Kind.Options;
 /// <summary>
 /// Creates a local Kubernetes cluster using Docker container 'nodes'
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create", "cluster")]
 public record KindCreateClusterOptions : KindOptions
@@ -57,7 +57,7 @@ public record KindCreateClusterOptions : KindOptions
     public bool? Retain { get; set; }
 
     /// <summary>
-    /// The length of time to wait for control plane node to be ready (default 0s). Non-zero values should contain a corresponding time unit (e.g. 1s, 2m, 3h).
+    /// wait for control plane node to be ready (default 0s)
     /// </summary>
     [CliOption("--wait", Format = OptionFormat.EqualsSeparated)]
     public string? Wait { get; set; }

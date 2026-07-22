@@ -15,7 +15,7 @@ namespace ModularPipelines.Kind.Options;
 /// <summary>
 /// Gets one of [clusters, nodes, kubeconfig]
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("get")]
 public record KindGetOptions : KindOptions

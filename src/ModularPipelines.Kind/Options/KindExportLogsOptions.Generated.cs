@@ -15,7 +15,7 @@ namespace ModularPipelines.Kind.Options;
 /// <summary>
 /// Exports logs to a tempdir or [output-dir] if specified
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("export", "logs")]
 public record KindExportLogsOptions : KindOptions

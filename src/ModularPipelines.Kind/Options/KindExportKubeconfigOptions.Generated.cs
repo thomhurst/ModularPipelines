@@ -15,7 +15,7 @@ namespace ModularPipelines.Kind.Options;
 /// <summary>
 /// Exports cluster kubeconfig
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("export", "kubeconfig")]
 public record KindExportKubeconfigOptions : KindOptions

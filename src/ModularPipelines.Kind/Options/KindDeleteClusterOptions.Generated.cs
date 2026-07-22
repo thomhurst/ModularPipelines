@@ -15,7 +15,7 @@ namespace ModularPipelines.Kind.Options;
 /// <summary>
 /// Deletes a Kind cluster from the system.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("delete", "cluster")]
 public record KindDeleteClusterOptions : KindOptions

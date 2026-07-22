@@ -5,6 +5,27 @@ namespace ModularPipelines.OptionsGenerator.Models;
 /// </summary>
 public record CliPositionalArgument
 {
+    public static IReadOnlyList<CliPositionalArgument> MergeDuplicates(
+        IEnumerable<CliPositionalArgument> positionalArguments) =>
+        positionalArguments
+            .GroupBy(argument => argument.PropertyName, StringComparer.OrdinalIgnoreCase)
+            .Select(group =>
+            {
+                var first = group.OrderBy(argument => argument.PositionIndex).First();
+                var required = group.Any(argument => argument.IsRequired);
+                var collection = group.FirstOrDefault(argument =>
+                    argument.CSharpType.StartsWith("IEnumerable<", StringComparison.Ordinal));
+                var type = (collection ?? first).CSharpType.TrimEnd('?');
+
+                return first with
+                {
+                    CSharpType = required ? type : $"{type}?",
+                    IsRequired = required,
+                };
+            })
+            .OrderBy(argument => argument.PositionIndex)
+            .ToList();
+
     /// <summary>
     /// Placeholder name in documentation (e.g., "[<PROJECT>]").
     /// </summary>

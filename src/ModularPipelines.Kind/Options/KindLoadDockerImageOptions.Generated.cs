@@ -15,11 +15,11 @@ namespace ModularPipelines.Kind.Options;
 /// <summary>
 /// Loads docker images from host into all or specified nodes by name
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("load", "docker-image")]
 public record KindLoadDockerImageOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Image
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Image
 ) : KindOptions
 {
     /// <summary>
@@ -51,8 +51,5 @@ public record KindLoadDockerImageOptions(
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbosity { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
 
 }

@@ -16,7 +16,7 @@ namespace ModularPipelines.Kind.Services;
 /// <summary>
 /// kind delete commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class KindDelete
 {
     private readonly ICommand _command;
