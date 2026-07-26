@@ -18,7 +18,7 @@ namespace ModularPipelines.Packer.Extensions;
 /// <summary>
 /// Generated extensions for registering packer services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class PackerExtensions
 {
 #pragma warning disable CA2255
