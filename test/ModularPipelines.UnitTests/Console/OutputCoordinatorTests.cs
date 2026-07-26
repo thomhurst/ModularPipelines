@@ -153,6 +153,25 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    public async Task Completion_IsQueuedWhileIncrementalFlushOwnsOutput()
+    {
+        var buffer = new BlockingIncrementalOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        var incrementalFlush = coordinator.EnqueueAndFlushIncrementalAsync(buffer);
+        await buffer.IncrementalFlushStarted.Task.WaitAsync(TimeSpan.FromSeconds(1));
+
+        buffer.MarkComplete();
+        var completionFlush = coordinator.OnModuleCompletedAsync(buffer, buffer.ModuleType);
+
+        buffer.ReleaseIncrementalFlush.TrySetResult();
+        await incrementalFlush;
+        await completionFlush;
+
+        await Assert.That(buffer.CompleteFlushCount).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task ImmediateFlush_DoesNotApplyOwnerCancellationToLaterBuffers()
     {
         using var ownerCancellation = new CancellationTokenSource();
@@ -453,6 +472,68 @@ public class OutputCoordinatorTests
         {
             FlushStarted.TrySetResult();
             await ReleaseFlush.Task;
+            cancellationToken.ThrowIfCancellationRequested();
+        }
+    }
+
+    private sealed class BlockingIncrementalOutputBuffer : IModuleOutputBuffer
+    {
+        private volatile bool _hasOutput = true;
+
+        public Type ModuleType => typeof(BlockingIncrementalOutputBuffer);
+
+        public bool HasOutput => _hasOutput;
+
+        public bool IsComplete { get; private set; }
+
+        public int CompleteFlushCount { get; private set; }
+
+        public TaskCompletionSource IncrementalFlushStarted { get; } =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TaskCompletionSource ReleaseIncrementalFlush { get; } =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public void MarkComplete() => IsComplete = true;
+
+        public void WriteLine(string message)
+        {
+        }
+
+        public void AddLogEvent(
+            LogLevel level,
+            EventId eventId,
+            object state,
+            Exception? exception,
+            Func<object, Exception?, string> formatter)
+        {
+        }
+
+        public void SetException(Exception exception)
+        {
+        }
+
+        public Task FlushToAsync(
+            TextWriter console,
+            IBuildSystemFormatter formatter,
+            ILogger logger,
+            ISpectreConsoleLoggerControl loggerControl,
+            CancellationToken cancellationToken = default)
+        {
+            CompleteFlushCount++;
+            return Task.CompletedTask;
+        }
+
+        public async Task FlushIncrementallyToAsync(
+            TextWriter console,
+            IBuildSystemFormatter formatter,
+            ILogger logger,
+            ISpectreConsoleLoggerControl loggerControl,
+            CancellationToken cancellationToken = default)
+        {
+            _hasOutput = false;
+            IncrementalFlushStarted.TrySetResult();
+            await ReleaseIncrementalFlush.Task;
             cancellationToken.ThrowIfCancellationRequested();
         }
     }

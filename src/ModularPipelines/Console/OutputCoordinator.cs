@@ -88,11 +88,6 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     /// <inheritdoc />
     public async Task OnModuleCompletedAsync(IModuleOutputBuffer buffer, Type moduleType, CancellationToken cancellationToken = default)
     {
-        if (!buffer.HasOutput)
-        {
-            return;
-        }
-
         if (_isProgressActive)
         {
             // Progress is active - defer output until pipeline end
@@ -200,7 +195,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         bool isComplete,
         CancellationToken cancellationToken)
     {
-        if (!buffer.HasOutput)
+        if (!isComplete && !buffer.HasOutput)
         {
             return;
         }

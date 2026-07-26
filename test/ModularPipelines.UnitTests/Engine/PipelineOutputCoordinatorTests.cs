@@ -1,15 +1,42 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
+using ModularPipelines.Context;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
+using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.TestHelpers;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
 
 public class PipelineOutputCoordinatorTests
 {
+    private sealed class OptionsTestModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>(null);
+    }
+
+    [Test]
+    public async Task PipelineBuilder_CopiesModuleOutputFlushInterval()
+    {
+        var builder = TestPipelineHostBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        var expectedInterval = TimeSpan.FromSeconds(17);
+        builder.Options.ModuleOutputFlushInterval = expectedInterval;
+
+        await using var pipeline = builder.Build();
+        var runtimeOptions = pipeline.Services
+            .GetRequiredService<Microsoft.Extensions.Options.IOptions<PipelineOptions>>()
+            .Value;
+
+        await Assert.That(runtimeOptions.ModuleOutputFlushInterval).IsEqualTo(expectedInterval);
+    }
+
     [Test]
     public async Task Dispose_SchedulesBuffersCreatedByRetainedWriteFlush()
     {

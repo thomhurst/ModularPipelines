@@ -105,6 +105,32 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task CompleteFlush_WritesFinalHeaderAfterIncrementalDrain()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("partial output");
+
+        await buffer.FlushIncrementallyToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl);
+        buffer.MarkComplete();
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("ModuleOutputBufferTests …");
+        await Assert.That(output).Contains("ModuleOutputBufferTests ✓");
+        await Assert.That(output).Contains("partial output");
+    }
+
+    [Test]
     public async Task Flush_Keeps_Concurrent_Logs_Outside_Module_Group()
     {
         var writer = new StringWriter();

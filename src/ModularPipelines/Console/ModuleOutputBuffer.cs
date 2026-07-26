@@ -30,6 +30,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly DateTime _startTimeUtc;
     private Exception? _exception;
     private bool _isComplete;
+    private bool _hasRenderedIncrementalOutput;
 
     /// <inheritdoc />
     public Type ModuleType { get; }
@@ -174,7 +175,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 return Task.CompletedTask;
             }
 
-            if (_outputs.Count == 0)
+            if (_outputs.Count == 0 && (!isComplete || !_hasRenderedIncrementalOutput))
             {
                 return Task.CompletedTask;
             }
@@ -256,11 +257,32 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
         catch
         {
+            if (!isComplete)
+            {
+                RecordRenderedOutput(isComplete: false, renderedCount);
+            }
+
             RestoreUnrenderedOutputs(outputs, renderedCount);
             throw;
         }
 
+        RecordRenderedOutput(isComplete, renderedCount);
         return Task.CompletedTask;
+    }
+
+    private void RecordRenderedOutput(bool isComplete, int renderedCount)
+    {
+        lock (_lock)
+        {
+            if (isComplete)
+            {
+                _hasRenderedIncrementalOutput = false;
+            }
+            else if (renderedCount > 0)
+            {
+                _hasRenderedIncrementalOutput = true;
+            }
+        }
     }
 
     private static void EnterSynchronizationLock(
