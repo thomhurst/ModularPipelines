@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// [DEPRECATED] Generate systemd units
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate", "systemd")]
 public record PodmanGenerateSystemdOptions : PodmanOptions

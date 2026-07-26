@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Run API service
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("system", "service")]
 public record PodmanSystemServiceOptions : PodmanOptions

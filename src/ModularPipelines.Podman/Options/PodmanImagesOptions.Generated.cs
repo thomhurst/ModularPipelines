@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// List images in local storage
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("images")]
 public record PodmanImagesOptions : PodmanOptions

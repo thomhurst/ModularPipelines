@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Run a one-off command on a service
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "run")]
 public record PodmanComposeRunOptions : PodmanOptions
@@ -71,7 +71,7 @@ public record PodmanComposeRunOptions : PodmanOptions
     /// <summary>
     /// Keep STDIN open even if not attached (default true)
     /// </summary>
-    [CliFlag("--interactive", ShortForm = "-i")]
+    [CliOption("--interactive", ShortForm = "-i", Format = OptionFormat.EqualsSeparated)]
     public bool? Interactive { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record PodmanComposeRunOptions : PodmanOptions
     /// <summary>
     /// Disable pseudo-TTY allocation (default: auto-detected) (default true)
     /// </summary>
-    [CliFlag("--no-TTY", ShortForm = "-T")]
+    [CliOption("--no-TTY", ShortForm = "-T", Format = OptionFormat.EqualsSeparated)]
     public bool? NoTty { get; set; }
 
     /// <summary>
@@ -177,6 +177,6 @@ public record PodmanComposeRunOptions : PodmanOptions
     public string? Command { get; set; }
 
     [CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Args { get; set; }
+    public IEnumerable<string>? Args { get; set; }
 
 }

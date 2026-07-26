@@ -9,13 +9,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Podman.Options;
+using ModularPipelines.Podman.Enums;
 
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
 /// Run a command in a new container
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run")]
 public record PodmanRunOptions : PodmanOptions
@@ -380,7 +381,7 @@ public record PodmanRunOptions : PodmanOptions
     /// <summary>
     /// Set proxy environment variables in the container based on the host proxy vars (default true)
     /// </summary>
-    [CliFlag("--http-proxy")]
+    [CliOption("--http-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? HttpProxy { get; set; }
 
     /// <summary>
@@ -536,7 +537,7 @@ public record PodmanRunOptions : PodmanOptions
     /// <summary>
     /// add entries to /etc/passwd and /etc/group (default true)
     /// </summary>
-    [CliFlag("--passwd")]
+    [CliOption("--passwd", Format = OptionFormat.EqualsSeparated)]
     public bool? Passwd { get; set; }
 
     /// <summary>
@@ -638,7 +639,7 @@ public record PodmanRunOptions : PodmanOptions
     /// <summary>
     /// When running --read-only containers mount read-write tmpfs on /dev, /dev/shm, /run, /tmp and /var/tmp (default true)
     /// </summary>
-    [CliFlag("--read-only-tmpfs")]
+    [CliOption("--read-only-tmpfs", Format = OptionFormat.EqualsSeparated)]
     public bool? ReadOnlyTmpfs { get; set; }
 
     /// <summary>
@@ -717,7 +718,7 @@ public record PodmanRunOptions : PodmanOptions
     /// <summary>
     /// Proxy received signals to the process (default true)
     /// </summary>
-    [CliFlag("--sig-proxy")]
+    [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? SigProxy { get; set; }
 
     /// <summary>
@@ -754,7 +755,7 @@ public record PodmanRunOptions : PodmanOptions
     /// Run container in systemd mode ("true"|"false"|"always") (default "true")
     /// </summary>
     [CliOption("--systemd", Format = OptionFormat.EqualsSeparated)]
-    public string? Systemd { get; set; }
+    public PodmanRunSystemd? Systemd { get; set; }
 
     /// <summary>
     /// Maximum length of time a container is allowed to run. The container will be killed automatically after the time expires.
@@ -859,6 +860,6 @@ public record PodmanRunOptions : PodmanOptions
     public string? Workdir { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Arg { get; set; }
+    public IEnumerable<string>? Arg { get; set; }
 
 }

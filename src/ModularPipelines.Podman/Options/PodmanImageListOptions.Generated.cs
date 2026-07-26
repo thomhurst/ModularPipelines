@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// List images in local storage
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "list")]
 public record PodmanImageListOptions : PodmanOptions
@@ -69,7 +69,7 @@ public record PodmanImageListOptions : PodmanOptions
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Sort by created, id, repository, size, tag (default "created")
+    /// Sort by tag, created, id, repository, size (default "created")
     /// </summary>
     [CliOption("--sort", Format = OptionFormat.EqualsSeparated)]
     public string? Sort { get; set; }

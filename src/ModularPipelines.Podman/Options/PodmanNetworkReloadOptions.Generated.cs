@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Reload firewall rules for one or more containers
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "reload")]
 public record PodmanNetworkReloadOptions : PodmanOptions
@@ -33,6 +33,6 @@ public record PodmanNetworkReloadOptions : PodmanOptions
     public bool? Latest { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Container { get; set; }
+    public IEnumerable<string>? Container { get; set; }
 
 }

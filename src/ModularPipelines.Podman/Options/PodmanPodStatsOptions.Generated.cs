@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Display a live stream of resource usage statistics for the containers in one or more pods
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "stats")]
 public record PodmanPodStatsOptions : PodmanOptions
@@ -51,6 +51,6 @@ public record PodmanPodStatsOptions : PodmanOptions
     public bool? NoStream { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Pod { get; set; }
+    public IEnumerable<string>? Pod { get; set; }
 
 }

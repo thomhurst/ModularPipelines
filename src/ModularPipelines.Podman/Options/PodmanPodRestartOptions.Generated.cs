@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Restart one or more pods
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "restart")]
 public record PodmanPodRestartOptions : PodmanOptions
@@ -33,6 +33,6 @@ public record PodmanPodRestartOptions : PodmanOptions
     public bool? Latest { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Pod { get; set; }
+    public IEnumerable<string>? Pod { get; set; }
 
 }

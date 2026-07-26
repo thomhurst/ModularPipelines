@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Copy files/folders between a container and the local filesystem
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "cp")]
 public record PodmanContainerCpOptions : PodmanOptions
@@ -23,7 +23,7 @@ public record PodmanContainerCpOptions : PodmanOptions
     /// <summary>
     /// Chown copied files to the primary uid/gid of the destination container. (default true)
     /// </summary>
-    [CliFlag("--archive", ShortForm = "-a")]
+    [CliOption("--archive", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public bool? Archive { get; set; }
 
     /// <summary>

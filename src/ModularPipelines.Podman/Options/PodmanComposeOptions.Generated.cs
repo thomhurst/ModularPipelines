@@ -16,7 +16,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Run compose workloads via an external provider such as docker-compose or podman-compose
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose")]
 public record PodmanComposeOptions : PodmanOptions

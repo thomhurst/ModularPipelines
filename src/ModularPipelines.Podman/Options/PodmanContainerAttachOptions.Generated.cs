@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Attach to a running container
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "attach")]
 public record PodmanContainerAttachOptions : PodmanOptions
@@ -41,7 +41,7 @@ public record PodmanContainerAttachOptions : PodmanOptions
     /// <summary>
     /// Proxy received signals to the process (default true)
     /// </summary>
-    [CliFlag("--sig-proxy")]
+    [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? SigProxy { get; set; }
 
 }

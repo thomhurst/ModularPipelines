@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Deploy a podman container, pod, volume, or Kubernetes yaml to a Kubernetes cluster
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kube", "apply")]
 public record PodmanKubeApplyOptions : PodmanOptions

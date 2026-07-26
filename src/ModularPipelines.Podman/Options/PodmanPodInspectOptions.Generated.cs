@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Display a pod configuration
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "inspect")]
 public record PodmanPodInspectOptions : PodmanOptions
@@ -33,6 +33,6 @@ public record PodmanPodInspectOptions : PodmanOptions
     public bool? Latest { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Pod { get; set; }
+    public IEnumerable<string>? Pod { get; set; }
 
 }

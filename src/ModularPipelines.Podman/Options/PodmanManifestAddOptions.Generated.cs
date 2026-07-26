@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Add images to a manifest list or image index
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "add")]
 public record PodmanManifestAddOptions : PodmanOptions
@@ -77,7 +77,7 @@ public record PodmanManifestAddOptions : PodmanOptions
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
     /// <summary>
@@ -87,6 +87,6 @@ public record PodmanManifestAddOptions : PodmanOptions
     public string? Variant { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
+    public IEnumerable<string>? Image { get; set; }
 
 }

@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Attach local standard input, output, and error streams to a service's running container
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "attach")]
 public record PodmanComposeAttachOptions : PodmanOptions
@@ -47,7 +47,7 @@ public record PodmanComposeAttachOptions : PodmanOptions
     /// <summary>
     /// Proxy all received signals to the process (default true)
     /// </summary>
-    [CliFlag("--sig-proxy")]
+    [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? SigProxy { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]

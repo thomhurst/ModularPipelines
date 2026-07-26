@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Inspect an existing machine
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machine", "inspect")]
 public record PodmanMachineInspectOptions : PodmanOptions
@@ -27,6 +27,6 @@ public record PodmanMachineInspectOptions : PodmanOptions
     public string? Format { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Machine { get; set; }
+    public IEnumerable<string>? Machine { get; set; }
 
 }

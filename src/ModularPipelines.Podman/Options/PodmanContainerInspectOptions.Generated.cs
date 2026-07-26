@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Display the configuration of a container
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "inspect")]
 public record PodmanContainerInspectOptions : PodmanOptions
@@ -39,6 +39,6 @@ public record PodmanContainerInspectOptions : PodmanOptions
     public bool? Size { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Container { get; set; }
+    public IEnumerable<string>? Container { get; set; }
 
 }

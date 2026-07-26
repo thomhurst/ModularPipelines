@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Build or rebuild services
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "build")]
 public record PodmanComposeBuildOptions : PodmanOptions
@@ -96,6 +96,6 @@ public record PodmanComposeBuildOptions : PodmanOptions
     public string? Options { get; set; }
 
     [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
 
 }

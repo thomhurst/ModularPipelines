@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Remove one or more containers
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "rm")]
 public record PodmanContainerRmOptions : PodmanOptions
@@ -75,6 +75,6 @@ public record PodmanContainerRmOptions : PodmanOptions
     public bool? Volumes { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Container { get; set; }
+    public IEnumerable<string>? Container { get; set; }
 
 }

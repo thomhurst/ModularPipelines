@@ -16,10 +16,11 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// podman bridge commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PodmanComposeBridge
 {
     private readonly ICommand _command;
+    private PodmanComposeBridgeTransformations? _transformations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PodmanComposeBridge"/> class.
@@ -28,6 +29,15 @@ public class PodmanComposeBridge
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// podman transformations sub-commands.
+    /// </summary>
+    public PodmanComposeBridgeTransformations Transformations => _transformations ??= new PodmanComposeBridgeTransformations(_command);
+
+    #endregion
 
     #region Commands
 

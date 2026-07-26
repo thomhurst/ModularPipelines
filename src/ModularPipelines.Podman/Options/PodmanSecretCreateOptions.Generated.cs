@@ -16,7 +16,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Create a new secret
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "create")]
 public record PodmanSecretCreateOptions : PodmanOptions

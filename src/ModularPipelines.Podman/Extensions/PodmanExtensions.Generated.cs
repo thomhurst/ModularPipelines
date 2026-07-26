@@ -18,7 +18,7 @@ namespace ModularPipelines.Podman.Extensions;
 /// <summary>
 /// Generated extensions for registering podman services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class PodmanExtensions
 {
 #pragma warning disable CA2255

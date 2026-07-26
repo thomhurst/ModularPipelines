@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Mount a working container's root filesystem
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "mount")]
 public record PodmanContainerMountOptions : PodmanOptions
@@ -45,6 +45,6 @@ public record PodmanContainerMountOptions : PodmanOptions
     public bool? NoTrunc { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Container { get; set; }
+    public IEnumerable<string>? Container { get; set; }
 
 }

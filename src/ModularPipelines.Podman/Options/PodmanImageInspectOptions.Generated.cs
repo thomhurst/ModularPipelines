@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Display the configuration of an image
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "inspect")]
 public record PodmanImageInspectOptions : PodmanOptions
@@ -27,6 +27,6 @@ public record PodmanImageInspectOptions : PodmanOptions
     public string? Format { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
+    public IEnumerable<string>? Image { get; set; }
 
 }

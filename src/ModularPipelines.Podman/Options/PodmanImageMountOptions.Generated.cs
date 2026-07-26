@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Mount an image's root filesystem
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "mount")]
 public record PodmanImageMountOptions : PodmanOptions
@@ -33,6 +33,6 @@ public record PodmanImageMountOptions : PodmanOptions
     public string? Format { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
+    public IEnumerable<string>? Image { get; set; }
 
 }

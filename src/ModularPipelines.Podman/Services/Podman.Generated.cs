@@ -16,7 +16,7 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// Generated implementation for podman CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Podman : IPodman
 {
     private readonly ICommand _command;
@@ -109,6 +109,15 @@ internal partial class Podman : IPodman
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanAttachOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> AutoUpdate(
+        PodmanAutoUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new PodmanAutoUpdateOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

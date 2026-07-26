@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Show podman system events
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("system", "events")]
 public record PodmanSystemEventsOptions : PodmanOptions
@@ -35,7 +35,7 @@ public record PodmanSystemEventsOptions : PodmanOptions
     /// <summary>
     /// do not truncate the output (default true)
     /// </summary>
-    [CliFlag("--no-trunc")]
+    [CliOption("--no-trunc", Format = OptionFormat.EqualsSeparated)]
     public bool? NoTrunc { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record PodmanSystemEventsOptions : PodmanOptions
     /// <summary>
     /// stream events and do not exit when returning the last known event (default true)
     /// </summary>
-    [CliFlag("--stream")]
+    [CliOption("--stream", Format = OptionFormat.EqualsSeparated)]
     public bool? Stream { get; set; }
 
     /// <summary>

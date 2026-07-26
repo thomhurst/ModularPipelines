@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Create a new empty pod
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "create")]
 public record PodmanPodCreateOptions : PodmanOptions
@@ -128,7 +128,7 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// <summary>
     /// Create an infra container associated with the pod to share namespaces with (default true)
     /// </summary>
-    [CliFlag("--infra")]
+    [CliOption("--infra", Format = OptionFormat.EqualsSeparated)]
     public bool? Infra { get; set; }
 
     /// <summary>
@@ -266,7 +266,7 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// <summary>
     /// Set the pod's cgroup as the cgroup parent for all containers joining the pod (default true)
     /// </summary>
-    [CliFlag("--share-parent")]
+    [CliOption("--share-parent", Format = OptionFormat.EqualsSeparated)]
     public bool? ShareParent { get; set; }
 
     /// <summary>

@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Creates containers for a service
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "create")]
 public record PodmanComposeCreateOptions : PodmanOptions
@@ -84,6 +84,6 @@ public record PodmanComposeCreateOptions : PodmanOptions
     public string? Options { get; set; }
 
     [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
 
 }

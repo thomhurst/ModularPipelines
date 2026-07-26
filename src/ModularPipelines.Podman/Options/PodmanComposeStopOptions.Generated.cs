@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Stop services
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "stop")]
 public record PodmanComposeStopOptions : PodmanOptions
@@ -36,6 +36,6 @@ public record PodmanComposeStopOptions : PodmanOptions
     public string? Options { get; set; }
 
     [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
 
 }

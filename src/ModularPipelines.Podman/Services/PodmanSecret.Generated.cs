@@ -16,7 +16,7 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// podman secret commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PodmanSecret
 {
     private readonly ICommand _command;

@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Restart service containers
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "restart")]
 public record PodmanComposeRestartOptions : PodmanOptions
@@ -42,6 +42,6 @@ public record PodmanComposeRestartOptions : PodmanOptions
     public string? Options { get; set; }
 
     [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
 
 }

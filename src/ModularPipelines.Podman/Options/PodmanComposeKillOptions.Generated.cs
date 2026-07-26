@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Force stop service containers
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "kill")]
 public record PodmanComposeKillOptions : PodmanOptions
@@ -42,6 +42,6 @@ public record PodmanComposeKillOptions : PodmanOptions
     public string? Options { get; set; }
 
     [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
 
 }

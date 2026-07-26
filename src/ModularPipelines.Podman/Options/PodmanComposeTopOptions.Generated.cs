@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Display the running processes
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "top")]
 public record PodmanComposeTopOptions : PodmanOptions
@@ -27,6 +27,6 @@ public record PodmanComposeTopOptions : PodmanOptions
     public bool? DryRun { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Services { get; set; }
+    public IEnumerable<string>? Services { get; set; }
 
 }

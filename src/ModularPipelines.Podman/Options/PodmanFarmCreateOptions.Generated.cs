@@ -15,12 +15,12 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Create a new farm
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("farm", "create")]
 public record PodmanFarmCreateOptions : PodmanOptions
 {
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Connections { get; set; }
+    public IEnumerable<string>? Connections { get; set; }
 
 }

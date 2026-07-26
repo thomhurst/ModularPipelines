@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Remove one or more farms
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("farm", "remove")]
 public record PodmanFarmRemoveOptions : PodmanOptions
@@ -27,6 +27,6 @@ public record PodmanFarmRemoveOptions : PodmanOptions
     public bool? All { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Farm { get; set; }
+    public IEnumerable<string>? Farm { get; set; }
 
 }

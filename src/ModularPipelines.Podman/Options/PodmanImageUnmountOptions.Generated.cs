@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Unmount an image's root filesystem
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "unmount")]
 public record PodmanImageUnmountOptions : PodmanOptions
@@ -33,6 +33,6 @@ public record PodmanImageUnmountOptions : PodmanOptions
     public bool? Force { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
+    public IEnumerable<string>? Image { get; set; }
 
 }

@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Display detailed information on one or more volumes
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "inspect")]
 public record PodmanVolumeInspectOptions : PodmanOptions
@@ -33,6 +33,6 @@ public record PodmanVolumeInspectOptions : PodmanOptions
     public string? Format { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Volume { get; set; }
+    public IEnumerable<string>? Volume { get; set; }
 
 }

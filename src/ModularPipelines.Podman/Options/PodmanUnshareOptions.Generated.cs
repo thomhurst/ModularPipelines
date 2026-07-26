@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Run a command in a modified user namespace
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("unshare")]
 public record PodmanUnshareOptions : PodmanOptions
@@ -27,6 +27,6 @@ public record PodmanUnshareOptions : PodmanOptions
     public bool? RootlessNetns { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Arg { get; set; }
+    public IEnumerable<string>? Arg { get; set; }
 
 }

@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Start one or more pods
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "start")]
 public record PodmanPodStartOptions : PodmanOptions
@@ -39,6 +39,6 @@ public record PodmanPodStartOptions : PodmanOptions
     public IEnumerable<string>? PodIdFile { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Pod { get; set; }
+    public IEnumerable<string>? Pod { get; set; }
 
 }
