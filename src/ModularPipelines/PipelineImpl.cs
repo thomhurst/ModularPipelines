@@ -6,7 +6,9 @@ using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Executors;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -40,12 +42,25 @@ internal sealed class PipelineImpl : IPipeline
     internal static async Task<PipelineImpl> CreateAsync(IHostBuilder hostBuilder)
     {
         var host = new PipelineImpl(hostBuilder.Build());
+        var services = host._host.Services;
 
-        // Validate module dependencies early
-        ValidateModuleDependencies(host._host.Services);
+        try
+        {
+            ValidateModuleDependencies(services, services.GetServices<IModule>());
+        }
+        catch (Exception exception) when (exception is ModuleNotRegisteredException
+            or ModuleReferencingSelfException
+            or DependencyCollisionException)
+        {
+            await services.InitializeAsync().ConfigureAwait(false);
+            var runnableModules = await services.GetRequiredService<ModuleRetriever>()
+                .GetRunnableModulesForValidation()
+                .ConfigureAwait(false);
+            ValidateModuleDependencies(services, runnableModules);
+            return host;
+        }
 
-        await host._host.Services.InitializeAsync().ConfigureAwait(false);
-
+        await services.InitializeAsync().ConfigureAwait(false);
         return host;
     }
 
@@ -83,11 +98,13 @@ internal sealed class PipelineImpl : IPipeline
         GC.SuppressFinalize(this);
     }
 
-    private static void ValidateModuleDependencies(IServiceProvider services)
+    private static void ValidateModuleDependencies(
+        IServiceProvider services,
+        IEnumerable<IModule> modules)
     {
-        var modules = services.GetServices<IModule>();
-        var moduleTypes = modules.Select(m => m.GetType());
-
-        ModuleDependencyValidator.Validate(moduleTypes);
+        ModuleDependencyValidator.Validate(
+            modules,
+            services.GetRequiredService<IModuleDependencyRegistry>(),
+            services.GetRequiredService<IModuleMetadataRegistry>());
     }
 }

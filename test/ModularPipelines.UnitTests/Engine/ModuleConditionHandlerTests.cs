@@ -3,6 +3,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -92,11 +93,16 @@ public class ModuleConditionHandlerTests
         var contextProvider = new Mock<IPipelineContextProvider>();
         contextProvider.Setup(x => x.GetModuleContext()).Returns(Mock.Of<IPipelineHookContext>());
 
+        // A bare mock reports no category (GetCategory returns null) and a no-op
+        // FinalizeMetadata, so category filtering never interferes with these OS-condition tests.
+        var metadataRegistry = Mock.Of<IModuleMetadataRegistry>();
+
         return new ModuleConditionHandler(
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
             new RoleDetector(Microsoft.Extensions.Options.Options.Create(distributedOptions)),
-            contextProvider.Object);
+            contextProvider.Object,
+            metadataRegistry);
     }
 
     private static IModule CreateForeignOsModule()

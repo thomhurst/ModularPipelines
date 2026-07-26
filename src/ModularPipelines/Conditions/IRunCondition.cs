@@ -30,4 +30,87 @@ public interface IRunCondition
     /// A task that returns <c>true</c> if the condition is satisfied; otherwise, <c>false</c>.
     /// </returns>
     Task<bool> EvaluateAsync(IPipelineHookContext context);
+
+    /// <summary>
+    /// Evaluates the condition asynchronously with cancellation between composed conditions.
+    /// </summary>
+    /// <param name="context">The pipeline context for accessing environment, HTTP, etc.</param>
+    /// <param name="cancellationToken">A token used to cancel condition evaluation.</param>
+    /// <returns>A task that returns whether the condition is satisfied.</returns>
+    Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return EvaluateAsync(context);
+    }
+}
+
+internal static class RunConditionEvaluator
+{
+    public static async Task<bool> EvaluateAllAsync(
+        IEnumerable<Func<IRunCondition>> conditionFactories,
+        IPipelineHookContext context,
+        CancellationToken cancellationToken)
+    {
+        foreach (var conditionFactory in conditionFactories)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!await conditionFactory().EvaluateAsync(context, cancellationToken).ConfigureAwait(false))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static async Task<bool> EvaluateAllAsync(
+        IEnumerable<IRunCondition> conditions,
+        IPipelineHookContext context,
+        CancellationToken cancellationToken)
+    {
+        foreach (var condition in conditions)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!await condition.EvaluateAsync(context, cancellationToken).ConfigureAwait(false))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static async Task<bool> EvaluateAnyAsync(
+        IEnumerable<Func<IRunCondition>> conditionFactories,
+        IPipelineHookContext context,
+        CancellationToken cancellationToken)
+    {
+        foreach (var conditionFactory in conditionFactories)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (await conditionFactory().EvaluateAsync(context, cancellationToken).ConfigureAwait(false))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static async Task<bool> EvaluateAnyAsync(
+        IEnumerable<IRunCondition> conditions,
+        IPipelineHookContext context,
+        CancellationToken cancellationToken)
+    {
+        foreach (var condition in conditions)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (await condition.EvaluateAsync(context, cancellationToken).ConfigureAwait(false))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

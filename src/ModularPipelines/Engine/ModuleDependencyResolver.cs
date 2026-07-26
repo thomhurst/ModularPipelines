@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -15,11 +14,6 @@ namespace ModularPipelines.Engine;
 /// </summary>
 internal static class ModuleDependencyResolver
 {
-    /// <summary>
-    /// Cache for GetDeclaredDependencies method lookups to avoid repeated reflection.
-    /// </summary>
-    private static readonly ConcurrentDictionary<Type, MethodInfo?> GetDeclaredDependenciesMethodCache = new();
-
     /// <summary>
     /// Gets all dependencies declared on a module type via DependsOn attributes.
     /// This overload only handles DependsOnAttribute, not DependsOnAllModulesInheritingFromAttribute.
@@ -64,10 +58,23 @@ internal static class ModuleDependencyResolver
             yield return (attribute.Type, attribute.Optional);
         }
 
-        // Handle DependsOnAllModulesInheritingFrom attributes
+        foreach (var dependency in GetSelectorDependencies(moduleType, availableModuleTypesList, dependencyContext))
+        {
+            yield return dependency;
+        }
+    }
+
+    /// <summary>
+    /// Gets dependencies selected from the available module set by base-type or metadata predicates.
+    /// </summary>
+    public static IEnumerable<(Type DependencyType, bool Optional)> GetSelectorDependencies(
+        Type moduleType,
+        IReadOnlyList<Type> availableModuleTypes,
+        IDependencyContext? dependencyContext)
+    {
         foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>())
         {
-            foreach (var candidateType in availableModuleTypesList)
+            foreach (var candidateType in availableModuleTypes)
             {
                 // Skip self
                 if (candidateType == moduleType)
@@ -86,7 +93,7 @@ internal static class ModuleDependencyResolver
         // Handle predicate-based dependencies (DependsOnBaseAttribute derivatives)
         if (dependencyContext != null)
         {
-            foreach (var dep in GetPredicateDependencies(moduleType, availableModuleTypesList, dependencyContext))
+            foreach (var dep in GetPredicateDependencies(moduleType, availableModuleTypes, dependencyContext))
             {
                 yield return dep;
             }
@@ -134,39 +141,13 @@ internal static class ModuleDependencyResolver
     }
 
     /// <summary>
-    /// Gets all dependencies declared on a module via DependsOn attributes.
+    /// Gets dependencies from the module's canonical configuration.
     /// </summary>
-    public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies(IModule module)
-    {
-        return GetDependencies(module.GetType());
-    }
-
-    /// <summary>
-    /// Gets programmatic dependencies declared via DeclareDependencies method on a module instance.
-    /// </summary>
-    /// <param name="module">The module instance to get programmatic dependencies from.</param>
+    /// <param name="module">The module instance to inspect.</param>
     /// <returns>An enumerable of dependency tuples (DependencyType, Optional).</returns>
-    public static IEnumerable<(Type DependencyType, bool Optional)> GetProgrammaticDependencies(IModule module)
+    public static IEnumerable<(Type DependencyType, bool Optional)> GetConfiguredDependencies(IModule module)
     {
-        // Use cached reflection lookup for GetDeclaredDependencies method
-        var moduleType = module.GetType();
-        var method = GetDeclaredDependenciesMethodCache.GetOrAdd(moduleType, type =>
-            type.GetMethod("GetDeclaredDependencies",
-                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public));
-
-        if (method == null)
-        {
-            yield break;
-        }
-
-        var dependencies = method.Invoke(module, null) as IReadOnlyList<DeclaredDependency>;
-
-        if (dependencies == null)
-        {
-            yield break;
-        }
-
-        foreach (var dep in dependencies)
+        foreach (var dep in module.Configuration.Dependencies)
         {
             yield return (dep.ModuleType, dep.IsOptional);
         }
@@ -199,25 +180,33 @@ internal static class ModuleDependencyResolver
 
     /// <summary>
     /// Gets all dependencies declared on a module instance, including:
-    /// - Static dependencies from DependsOn attributes
-    /// - Programmatic dependencies from DeclareDependencies method
-    /// - Dynamic dependencies from the registry
+    /// - Dependencies declared by <see cref="DependsOnAttribute"/>.
+    /// - Dependencies from the canonical module configuration.
+    /// - Dependencies selected by base-type attributes.
+    /// - Dynamic dependencies from the registry.
     /// </summary>
     public static IEnumerable<(Type DependencyType, bool Optional)> GetAllDependencies(
         IModule module,
         IEnumerable<Type> availableModuleTypes,
-        IModuleDependencyRegistry? dynamicRegistry = null)
+        IModuleDependencyRegistry? dynamicRegistry = null,
+        IDependencyContext? dependencyContext = null)
     {
         var moduleType = module.GetType();
 
-        // Static dependencies from attributes
-        foreach (var dep in GetDependencies(moduleType, availableModuleTypes))
+        var declaredDependencies = GetDependencies(moduleType)
+            .Concat(GetConfiguredDependencies(module))
+            .GroupBy(dependency => dependency.DependencyType)
+            .Select(group => (
+                DependencyType: group.Key,
+                Optional: group.All(dependency => dependency.Optional)));
+
+        foreach (var dep in declaredDependencies)
         {
             yield return dep;
         }
 
-        // Programmatic dependencies from DeclareDependencies method
-        foreach (var dep in GetProgrammaticDependencies(module))
+        var availableModuleTypesList = availableModuleTypes as IReadOnlyList<Type> ?? availableModuleTypes.ToList();
+        foreach (var dep in GetSelectorDependencies(moduleType, availableModuleTypesList, dependencyContext))
         {
             yield return dep;
         }

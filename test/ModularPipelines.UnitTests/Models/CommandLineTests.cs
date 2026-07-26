@@ -39,6 +39,6 @@ public class CommandLineTests
         var commandLine = new CommandLine("git", args);
         args.Add("--all");
 
-        await Assert.That(commandLine.Arguments).HasCount().EqualTo(1);
+        await Assert.That(commandLine.Arguments).Count().IsEqualTo(1);
     }
 }

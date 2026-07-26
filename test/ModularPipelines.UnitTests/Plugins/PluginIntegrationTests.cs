@@ -35,7 +35,7 @@ public class PluginIntegrationTests
         var exception = await Assert.That(() => PluginIntegration.ApplyPluginServices(services))
             .Throws<PluginInitializationException>();
 
-        await Assert.That(exception.PluginName).IsEqualTo("FailingPlugin");
+        await Assert.That(exception!.PluginName).IsEqualTo("FailingPlugin");
     }
 
     [Test]
@@ -66,7 +66,7 @@ public class PluginIntegrationTests
         var exception = await Assert.That(() => PluginIntegration.ApplyPluginConfiguration(builder))
             .Throws<PluginInitializationException>();
 
-        await Assert.That(exception.PluginName).IsEqualTo("FailingPlugin");
+        await Assert.That(exception!.PluginName).IsEqualTo("FailingPlugin");
     }
 
     [Test]

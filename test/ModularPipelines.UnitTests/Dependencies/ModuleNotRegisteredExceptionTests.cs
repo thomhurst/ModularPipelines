@@ -70,11 +70,12 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     [Test]
     public async Task Module_Getting_Registered_Module_Does_Not_Throw_Exception()
     {
-        await Assert.That(() =>
-            TestPipelineHostBuilder.Create()
+        await Assert.That(async () =>
+        {
+            await TestPipelineHostBuilder.Create()
                 .AddModule<Module1>()
                 .AddModule<Module2WithOptionalDep>()
-                .ExecutePipelineAsync()
-        ).ThrowsNothing();
+                .ExecutePipelineAsync();
+        }).ThrowsNothing();
     }
 }

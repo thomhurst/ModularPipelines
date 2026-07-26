@@ -1,6 +1,8 @@
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Enums;
 using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using Moq;
 using Polly;
 
@@ -8,6 +10,12 @@ namespace ModularPipelines.UnitTests.Configuration;
 
 public class ModuleConfigurationTests
 {
+    private sealed class DependencyModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>(null);
+    }
+
     #region Default Tests
 
     [Test]
@@ -426,6 +434,30 @@ public class ModuleConfigurationTests
     #region Fluent Chaining Tests
 
     [Test]
+    public async Task Builder_Configures_Scheduling_Metadata_And_Dependencies()
+    {
+        var config = ModuleConfiguration.Create()
+            .WithNotInParallel("database")
+            .WithPriority(ModulePriority.Critical)
+            .WithExecutionHint(ExecutionType.IoIntensive)
+            .WithTags("deploy", "production")
+            .WithCategory("release")
+            .DependsOn<DependencyModule>()
+            .Build();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(config.ParallelConstraintKeys).IsEquivalentTo(new[] { "database" });
+            await Assert.That(config.Priority).IsEqualTo(ModulePriority.Critical);
+            await Assert.That(config.ExecutionType).IsEqualTo(ExecutionType.IoIntensive);
+            await Assert.That(config.Tags).IsEquivalentTo(new[] { "deploy", "production" });
+            await Assert.That(config.Category).IsEqualTo("release");
+            await Assert.That(config.Dependencies.Select(dependency => dependency.ModuleType))
+                .IsEquivalentTo(new[] { typeof(DependencyModule) });
+        }
+    }
+
+    [Test]
     public async Task Builder_FluentChaining_AllMethodsChain()
     {
         var policy = Policy.NoOpAsync();
@@ -438,6 +470,12 @@ public class ModuleConfigurationTests
             .WithAlwaysRun()
             .WithBeforeExecute(ctx => Task.CompletedTask)
             .WithAfterExecute(ctx => Task.CompletedTask)
+            .WithNotInParallel("shared")
+            .WithPriority(ModulePriority.High)
+            .WithExecutionHint(ExecutionType.CpuIntensive)
+            .WithTags("build")
+            .WithCategory("ci")
+            .DependsOnOptional<DependencyModule>()
             .Build();
 
         using (Assert.Multiple())
@@ -449,6 +487,12 @@ public class ModuleConfigurationTests
             await Assert.That(config.AlwaysRun).IsTrue();
             await Assert.That(config.OnBeforeExecute).IsNotNull();
             await Assert.That(config.OnAfterExecute).IsNotNull();
+            await Assert.That(config.ParallelConstraintKeys).IsEquivalentTo(new[] { "shared" });
+            await Assert.That(config.Priority).IsEqualTo(ModulePriority.High);
+            await Assert.That(config.ExecutionType).IsEqualTo(ExecutionType.CpuIntensive);
+            await Assert.That(config.Tags).Contains("build");
+            await Assert.That(config.Category).IsEqualTo("ci");
+            await Assert.That(config.Dependencies).HasSingleItem();
         }
     }
 

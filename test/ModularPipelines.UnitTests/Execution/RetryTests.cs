@@ -80,7 +80,7 @@ public class RetryTests : TestBase
                 .WaitAndRetryAsync(DefaultRetryCount, _ => TimeSpan.Zero))
             .Build();
 
-        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
 

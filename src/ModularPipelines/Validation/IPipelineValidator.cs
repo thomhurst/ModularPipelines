@@ -16,4 +16,12 @@ public interface IPipelineValidator
     /// <param name="services">The service provider containing registered services.</param>
     /// <returns>A validation result containing any errors found.</returns>
     ValidationResult Validate(IServiceProvider services);
+
+    /// <summary>
+    /// Asynchronously validates the pipeline configuration.
+    /// </summary>
+    /// <param name="services">The service provider containing registered services.</param>
+    /// <returns>A validation result containing any errors found.</returns>
+    Task<ValidationResult> ValidateAsync(IServiceProvider services)
+        => Task.FromResult(Validate(services));
 }

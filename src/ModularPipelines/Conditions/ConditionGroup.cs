@@ -46,45 +46,23 @@ public abstract class ConditionGroup : IRunCondition
     /// For <see cref="ConditionLogic.All"/>: <c>true</c> if all conditions pass.
     /// For <see cref="ConditionLogic.Any"/>: <c>true</c> if any condition passes.
     /// </returns>
-    public async Task<bool> EvaluateAsync(IPipelineHookContext context)
+    public Task<bool> EvaluateAsync(IPipelineHookContext context) =>
+        EvaluateAsync(context, CancellationToken.None);
+
+    /// <inheritdoc />
+    public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken)
     {
         if (Conditions.Length == 0)
         {
-            return true;
+            return Task.FromResult(true);
         }
 
         return Logic switch
         {
-            ConditionLogic.All => await EvaluateAllAsync(context),
-            ConditionLogic.Any => await EvaluateAnyAsync(context),
-            ConditionLogic.Skip => await EvaluateAnyAsync(context),
-            _ => throw new ArgumentOutOfRangeException(nameof(Logic), Logic, "Unknown condition logic")
+            ConditionLogic.All => RunConditionEvaluator.EvaluateAllAsync(Conditions, context, cancellationToken),
+            ConditionLogic.Any => RunConditionEvaluator.EvaluateAnyAsync(Conditions, context, cancellationToken),
+            ConditionLogic.Skip => RunConditionEvaluator.EvaluateAnyAsync(Conditions, context, cancellationToken),
+            _ => throw new ArgumentOutOfRangeException(nameof(Logic), Logic, "Unknown condition logic"),
         };
-    }
-
-    private async Task<bool> EvaluateAllAsync(IPipelineHookContext context)
-    {
-        foreach (var condition in Conditions)
-        {
-            if (!await condition.EvaluateAsync(context))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private async Task<bool> EvaluateAnyAsync(IPipelineHookContext context)
-    {
-        foreach (var condition in Conditions)
-        {
-            if (await condition.EvaluateAsync(context))
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
