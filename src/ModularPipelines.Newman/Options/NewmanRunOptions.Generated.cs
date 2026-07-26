@@ -16,7 +16,7 @@ namespace ModularPipelines.Newman.Options;
 /// <summary>
 /// Initiate a Postman Collection run from a given URL or path
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run")]
 public record NewmanRunOptions(
@@ -189,6 +189,7 @@ public record NewmanRunOptions(
     /// <summary>
     /// Specify the client certificate
     /// </summary>
+    [SecretValue]
     [CliOption("--ssl-client-passphrase")]
     public string? SslClientPassphrase { get; set; }
 
