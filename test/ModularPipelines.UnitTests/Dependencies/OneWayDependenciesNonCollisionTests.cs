@@ -10,13 +10,16 @@ public class OneWayDependenciesNonCollisionTests
     [Test]
     public async Task Modules_Not_Dependent_On_Each_Other_Succeed()
     {
-        await Assert.That(() => TestPipelineHostBuilder.Create()
-            .AddModule<DependencyConflictModule1>()
-            .AddModule<DependencyConflictModule2>()
-            .AddModule<DependencyConflictModule3>()
-            .AddModule<DependencyConflictModule4>()
-            .AddModule<DependencyConflictModule5>()
-            .ExecutePipelineAsync()).ThrowsNothing();
+        await Assert.That(async () =>
+        {
+            await TestPipelineHostBuilder.Create()
+                .AddModule<DependencyConflictModule1>()
+                .AddModule<DependencyConflictModule2>()
+                .AddModule<DependencyConflictModule3>()
+                .AddModule<DependencyConflictModule4>()
+                .AddModule<DependencyConflictModule5>()
+                .ExecutePipelineAsync();
+        }).ThrowsNothing();
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]

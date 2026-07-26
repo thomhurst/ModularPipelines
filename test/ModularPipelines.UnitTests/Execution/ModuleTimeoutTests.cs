@@ -80,7 +80,7 @@ public class ModuleTimeoutTests : TestBase
             .AddModule<PipelineDefaultTimeoutModule>()
             .ExecutePipelineAsync());
 
-        var timeoutException = exception.InnerException as ModuleTimeoutException;
+        var timeoutException = exception!.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
         await Assert.That(timeoutException!.ConfiguredTimeout).IsEqualTo(TimeSpan.FromMilliseconds(10));
     }
@@ -99,7 +99,7 @@ public class ModuleTimeoutTests : TestBase
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_UsingCancellationToken>);
 
-        var innerException = exception.InnerException;
+        var innerException = exception!.InnerException;
         var isExpectedType = innerException is ModuleTimeoutException or TaskCanceledException;
         await Assert.That(isExpectedType).IsTrue();
     }
@@ -109,7 +109,7 @@ public class ModuleTimeoutTests : TestBase
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_NotUsingCancellationToken>);
 
-        var innerException = exception.InnerException;
+        var innerException = exception!.InnerException;
         var isExpectedType = innerException is ModuleTimeoutException or OperationCanceledException or TaskCanceledException;
         await Assert.That(isExpectedType).IsTrue();
     }
@@ -117,7 +117,7 @@ public class ModuleTimeoutTests : TestBase
     [Test]
     public async Task No_Timeout_Does_Not_Throw_Exception()
     {
-        await Assert.That(RunModule<NoTimeoutModule>).ThrowsNothing();
+        await Assert.That(async () => { await RunModule<NoTimeoutModule>(); }).ThrowsNothing();
     }
 
     [Test]
@@ -125,7 +125,7 @@ public class ModuleTimeoutTests : TestBase
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_UsingCancellationToken>);
 
-        var timeoutException = exception.InnerException as ModuleTimeoutException;
+        var timeoutException = exception!.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
         await Assert.That(timeoutException!.ConfiguredTimeout).IsEqualTo(TimeSpan.FromSeconds(1));
     }
@@ -135,7 +135,7 @@ public class ModuleTimeoutTests : TestBase
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_UsingCancellationToken>);
 
-        var timeoutException = exception.InnerException as ModuleTimeoutException;
+        var timeoutException = exception!.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
         await Assert.That(timeoutException!.ModuleType).IsEqualTo(typeof(Module_UsingCancellationToken));
     }
@@ -145,7 +145,7 @@ public class ModuleTimeoutTests : TestBase
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_UsingCancellationToken>);
 
-        var timeoutException = exception.InnerException as ModuleTimeoutException;
+        var timeoutException = exception!.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
 
         // Elapsed time should be at least close to the configured timeout
@@ -157,7 +157,7 @@ public class ModuleTimeoutTests : TestBase
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_UsingCancellationToken>);
 
-        var timeoutException = exception.InnerException as ModuleTimeoutException;
+        var timeoutException = exception!.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
         await Assert.That(timeoutException!.WasCancellationTokenRespected).IsTrue();
     }
@@ -167,7 +167,7 @@ public class ModuleTimeoutTests : TestBase
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_NotUsingCancellationToken>);
 
-        var timeoutException = exception.InnerException as ModuleTimeoutException;
+        var timeoutException = exception!.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
         await Assert.That(timeoutException!.WasCancellationTokenRespected).IsFalse();
     }
@@ -177,7 +177,7 @@ public class ModuleTimeoutTests : TestBase
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_NotUsingCancellationToken>);
 
-        var timeoutException = exception.InnerException as ModuleTimeoutException;
+        var timeoutException = exception!.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
         await Assert.That(timeoutException!.Message).Contains("did not respond to the cancellation token");
     }

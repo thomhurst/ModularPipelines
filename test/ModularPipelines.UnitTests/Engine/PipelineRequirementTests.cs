@@ -31,10 +31,13 @@ public class PipelineRequirementTests
     [Test]
     public async Task When_Requirement_Fails_Then_Error()
     {
-        var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
-            .AddModule<DummyModule>()
-            .AddRequirement<FailingRequirement>()
-            .ExecutePipelineAsync();
+        var executePipelineDelegate = async () =>
+        {
+            await TestPipelineHostBuilder.Create()
+                .AddModule<DummyModule>()
+                .AddRequirement<FailingRequirement>()
+                .ExecutePipelineAsync();
+        };
 
         await Assert.That(executePipelineDelegate)
             .Throws<FailedRequirementsException>()
@@ -44,10 +47,13 @@ public class PipelineRequirementTests
     [Test]
     public async Task When_Requirement_Fails_With_Reason_Then_Error_With_Reason()
     {
-        var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
-            .AddModule<DummyModule>()
-            .AddRequirement<FailingRequirementWithReason>()
-            .ExecutePipelineAsync();
+        var executePipelineDelegate = async () =>
+        {
+            await TestPipelineHostBuilder.Create()
+                .AddModule<DummyModule>()
+                .AddRequirement<FailingRequirementWithReason>()
+                .ExecutePipelineAsync();
+        };
         await Assert.That(executePipelineDelegate)
             .Throws<FailedRequirementsException>()
             .And.HasMessageEqualTo("Requirements failed:\r\n" + TestConstants.RequirementErrorMessage);

@@ -32,7 +32,7 @@ public class DependsOnAllInheritingFromTests : TestBase
 
     private class GenericModule2 : GenericBaseModule<string>
     {
-        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
             return "test";
