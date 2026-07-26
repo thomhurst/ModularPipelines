@@ -35,20 +35,16 @@ internal class DistributedWorkPublisher(
             .Select(a => a.Capability)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        // Auto-detect OS requirements from RunOn*Only mandatory conditions
-        if (moduleType.GetCustomAttribute<RunOnLinuxOnlyAttribute>(true) is not null)
+        // Auto-detect OS requirements from RunOn*Only mandatory conditions, sharing the same
+        // attribute-to-capability mapping the condition handler uses so the two cannot drift.
+#pragma warning disable CS0618 // MandatoryRunConditionAttribute is the legacy base type of the OS-only conditions.
+        foreach (var osCondition in moduleType.GetCustomAttributes<MandatoryRunConditionAttribute>(true))
+#pragma warning restore CS0618
         {
-            requiredCapabilities.Add("linux");
-        }
-
-        if (moduleType.GetCustomAttribute<RunOnWindowsOnlyAttribute>(true) is not null)
-        {
-            requiredCapabilities.Add("windows");
-        }
-
-        if (moduleType.GetCustomAttribute<RunOnMacOSOnlyAttribute>(true) is not null)
-        {
-            requiredCapabilities.Add("macos");
+            if (OperatingSystemConditions.GetTarget(osCondition) is { } osCapability)
+            {
+                requiredCapabilities.Add(osCapability);
+            }
         }
 
         var config = module.Configuration;

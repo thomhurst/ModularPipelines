@@ -171,7 +171,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         // otherwise the master would publish an assignment requiring multiple mutually
         // exclusive OS capabilities and wait forever for a result that never arrives.
         var targetsMultipleOperatingSystems = allMandatoryConditions
-            .Select(GetOperatingSystemConditionTarget)
+            .Select(OperatingSystemConditions.GetTarget)
             .Where(operatingSystem => operatingSystem is not null)
             .Distinct()
             .Count() > 1;
@@ -179,7 +179,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         var deferOperatingSystemConditionsToWorker = isDistributedMaster && !targetsMultipleOperatingSystems;
 
         var mandatoryConditions = allMandatoryConditions
-            .Where(attribute => !deferOperatingSystemConditionsToWorker || !IsOperatingSystemCondition(attribute))
+            .Where(attribute => !deferOperatingSystemConditionsToWorker || OperatingSystemConditions.GetTarget(attribute) is null)
             .ToArray();
         var optionalConditions = moduleType
             .GetCustomAttributes<RunConditionAttribute>(inherit: true)
@@ -216,23 +216,4 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         return (false, SkipDecision.Skip($"No run conditions were met: {string.Join(", ", names)}"));
     }
 #pragma warning restore CS0618
-
-    private static bool IsOperatingSystemCondition(MandatoryRunConditionAttribute attribute)
-    {
-        return GetOperatingSystemConditionTarget(attribute) is not null;
-    }
-
-    /// <summary>
-    /// Returns a stable identifier for the operating system an OS-only mandatory condition
-    /// targets, or <see langword="null"/> if the attribute is not an OS-only condition.
-    /// Pattern matching means subclasses of the OS-only attributes are classified by their
-    /// base operating system, so contradictory combinations are detected even via inheritance.
-    /// </summary>
-    private static string? GetOperatingSystemConditionTarget(MandatoryRunConditionAttribute attribute) => attribute switch
-    {
-        RunOnWindowsOnlyAttribute => "windows",
-        RunOnLinuxOnlyAttribute => "linux",
-        RunOnMacOSOnlyAttribute => "macos",
-        _ => null,
-    };
 }
