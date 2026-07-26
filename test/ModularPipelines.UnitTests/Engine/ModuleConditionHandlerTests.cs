@@ -69,6 +69,24 @@ public class ModuleConditionHandlerTests
         }
     }
 
+    [Test]
+    public async Task Distributed_Master_Filters_Module_With_Contradictory_Os_Conditions()
+    {
+        // A module requiring more than one operating system can never run on any single
+        // worker, so the master must still skip it rather than publish an assignment that
+        // requires multiple mutually exclusive OS capabilities and waiting forever for it.
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnore(new ContradictoryOsModule());
+
+        await Assert.That(result.ShouldIgnore).IsTrue();
+    }
+
     private static ModuleConditionHandler CreateHandler(DistributedOptions distributedOptions)
     {
         var contextProvider = new Mock<IPipelineContextProvider>();
@@ -101,6 +119,18 @@ public class ModuleConditionHandlerTests
 
     [RunOnWindowsOnly]
     private sealed class WindowsOnlyModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult<string?>(null);
+        }
+    }
+
+    [RunOnWindowsOnly]
+    [RunOnLinuxOnly]
+    private sealed class ContradictoryOsModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,

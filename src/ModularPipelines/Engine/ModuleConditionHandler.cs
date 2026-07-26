@@ -166,8 +166,25 @@ internal class ModuleConditionHandler(
         var allMandatoryRunConditionAttributes = moduleType
             .GetCustomAttributes<MandatoryRunConditionAttribute>(true)
             .ToArray();
+
+        // On a distributed master, OS-only conditions are normally deferred to the matching
+        // worker (skipped here) so the master publishes the assignment with an OS capability
+        // instead of skipping it locally. But if a module carries contradictory OS-only
+        // conditions targeting more than one operating system (e.g. Windows-only AND
+        // Linux-only, possibly via inheritance), no single worker can ever satisfy them.
+        // In that case we must keep evaluating them here so the module is skipped everywhere,
+        // otherwise the master would publish an assignment requiring multiple mutually
+        // exclusive OS capabilities and wait forever for a result that never arrives.
+        var targetsMultipleOperatingSystems = allMandatoryRunConditionAttributes
+            .Select(GetOperatingSystemConditionTarget)
+            .Where(operatingSystem => operatingSystem is not null)
+            .Distinct()
+            .Count() > 1;
+
+        var deferOperatingSystemConditionsToWorker = isDistributedMaster && !targetsMultipleOperatingSystems;
+
         var mandatoryRunConditionAttributes = allMandatoryRunConditionAttributes
-            .Where(attribute => !isDistributedMaster || !IsOperatingSystemCondition(attribute))
+            .Where(attribute => !deferOperatingSystemConditionsToWorker || !IsOperatingSystemCondition(attribute))
             .ToArray();
         var runConditionAttributes = moduleType
             .GetCustomAttributes<RunConditionAttribute>(true)
@@ -208,8 +225,20 @@ internal class ModuleConditionHandler(
 
     private static bool IsOperatingSystemCondition(MandatoryRunConditionAttribute attribute)
     {
-        return attribute is RunOnLinuxOnlyAttribute
-            or RunOnMacOSOnlyAttribute
-            or RunOnWindowsOnlyAttribute;
+        return GetOperatingSystemConditionTarget(attribute) is not null;
     }
+
+    /// <summary>
+    /// Returns a stable identifier for the operating system an OS-only mandatory condition
+    /// targets, or <see langword="null"/> if the attribute is not an OS-only condition.
+    /// Pattern matching means subclasses of the OS-only attributes are classified by their
+    /// base operating system, so contradictory combinations are detected even via inheritance.
+    /// </summary>
+    private static string? GetOperatingSystemConditionTarget(MandatoryRunConditionAttribute attribute) => attribute switch
+    {
+        RunOnWindowsOnlyAttribute => "windows",
+        RunOnLinuxOnlyAttribute => "linux",
+        RunOnMacOSOnlyAttribute => "macos",
+        _ => null,
+    };
 }
