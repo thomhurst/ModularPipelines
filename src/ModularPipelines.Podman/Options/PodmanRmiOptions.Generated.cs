@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Remove one or more images from local storage
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rmi")]
 public record PodmanRmiOptions : PodmanOptions
@@ -45,6 +45,6 @@ public record PodmanRmiOptions : PodmanOptions
     public bool? NoPrune { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
+    public IEnumerable<string>? Image { get; set; }
 
 }

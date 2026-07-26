@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Push a manifest list or image index to a registry
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "push")]
 public record PodmanManifestPushOptions : PodmanOptions
@@ -29,7 +29,7 @@ public record PodmanManifestPushOptions : PodmanOptions
     /// <summary>
     /// also push the images in the list (default true)
     /// </summary>
-    [CliFlag("--all")]
+    [CliOption("--all", Format = OptionFormat.EqualsSeparated)]
     public bool? All { get; set; }
 
     /// <summary>
@@ -120,13 +120,14 @@ public record PodmanManifestPushOptions : PodmanOptions
     /// <summary>
     /// Read a passphrase for signing an image from PATH
     /// </summary>
+    [SecretValue]
     [CliOption("--sign-passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? SignPassphraseFile { get; set; }
 
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
 }

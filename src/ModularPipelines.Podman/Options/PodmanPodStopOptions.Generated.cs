@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Stop one or more pods
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "stop")]
 public record PodmanPodStopOptions : PodmanOptions
@@ -51,6 +51,6 @@ public record PodmanPodStopOptions : PodmanOptions
     public int? Time { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Pod { get; set; }
+    public IEnumerable<string>? Pod { get; set; }
 
 }

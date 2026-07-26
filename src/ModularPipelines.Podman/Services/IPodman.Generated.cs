@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// Generated interface for podman CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IPodman
 {
     #region Sub-domain Services
@@ -97,6 +97,15 @@ public partial interface IPodman
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     Task<CommandResult> Attach(PodmanAttachOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Auto update containers according to their auto-update policy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> AutoUpdate(PodmanAutoUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Build an image using instructions from Containerfiles

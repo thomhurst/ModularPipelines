@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Generate Specgen JSON based on containers or pods
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate", "spec")]
 public record PodmanGenerateSpecOptions : PodmanOptions
@@ -35,7 +35,7 @@ public record PodmanGenerateSpecOptions : PodmanOptions
     /// <summary>
     /// Specify a new name for the generated spec (default true)
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public bool? Name { get; set; }
 
 }

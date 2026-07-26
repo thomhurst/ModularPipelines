@@ -9,14 +9,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Podman.Options;
-using ModularPipelines.Podman.Enums;
 
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
 /// Checkpoint one or more containers
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "checkpoint")]
 public record PodmanContainerCheckpointOptions : PodmanOptions
@@ -31,7 +30,7 @@ public record PodmanContainerCheckpointOptions : PodmanOptions
     /// Select compression algorithm (gzip, none, zstd) for checkpoint archive. (default "zstd")
     /// </summary>
     [CliOption("--compress", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public PodmanContainerCheckpointCompress? Compress { get; set; }
+    public string? Compress { get; set; }
 
     /// <summary>
     /// Create checkpoint image with specified name
@@ -106,6 +105,6 @@ public record PodmanContainerCheckpointOptions : PodmanOptions
     public bool? WithPrevious { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Container { get; set; }
+    public IEnumerable<string>? Container { get; set; }
 
 }

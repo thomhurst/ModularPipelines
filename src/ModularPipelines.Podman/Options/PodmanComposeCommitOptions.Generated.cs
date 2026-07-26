@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Create a new image from a service container's changes
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "commit")]
 public record PodmanComposeCommitOptions : PodmanOptions
@@ -53,7 +53,7 @@ public record PodmanComposeCommitOptions : PodmanOptions
     /// <summary>
     /// Pause container during commit (default true)
     /// </summary>
-    [CliFlag("--pause", ShortForm = "-p")]
+    [CliOption("--pause", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public bool? Pause { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]

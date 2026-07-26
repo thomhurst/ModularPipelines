@@ -9,14 +9,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Podman.Options;
-using ModularPipelines.Podman.Enums;
 
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
 /// Play a pod or volume based on Kubernetes YAML
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kube", "play")]
 public record PodmanKubePlayOptions : PodmanOptions
@@ -144,13 +143,13 @@ public record PodmanKubePlayOptions : PodmanOptions
     /// <summary>
     /// Start the pod after creating it (default true)
     /// </summary>
-    [CliFlag("--start")]
+    [CliOption("--start", Format = OptionFormat.EqualsSeparated)]
     public bool? Start { get; set; }
 
     /// <summary>
     /// Require HTTPS and verify certificates when contacting registries (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
     /// <summary>

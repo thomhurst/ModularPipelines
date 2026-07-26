@@ -16,7 +16,7 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// podman network commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PodmanNetwork
 {
     private readonly ICommand _command;

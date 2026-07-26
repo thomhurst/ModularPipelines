@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Pull an image from a registry
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "pull")]
 public record PodmanImagePullOptions : PodmanOptions
@@ -83,7 +83,7 @@ public record PodmanImagePullOptions : PodmanOptions
     /// <summary>
     /// Require HTTPS and verify certificates when contacting registries (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
     /// <summary>
@@ -93,6 +93,6 @@ public record PodmanImagePullOptions : PodmanOptions
     public string? Variant { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
+    public IEnumerable<string>? Image { get; set; }
 
 }

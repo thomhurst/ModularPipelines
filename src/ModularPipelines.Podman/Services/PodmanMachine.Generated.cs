@@ -16,7 +16,7 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// podman machine commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PodmanMachine
 {
     private readonly ICommand _command;

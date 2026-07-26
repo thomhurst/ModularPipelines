@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Push an image to a specified destination
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("push")]
 public record PodmanPushOptions : PodmanOptions
@@ -126,13 +126,14 @@ public record PodmanPushOptions : PodmanOptions
     /// <summary>
     /// Read a passphrase for signing an image from PATH
     /// </summary>
+    [SecretValue]
     [CliOption("--sign-passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? SignPassphraseFile { get; set; }
 
     /// <summary>
     /// Require HTTPS and verify certificates when contacting registries (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]

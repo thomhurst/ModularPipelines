@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Watch build context for service and rebuild/refresh containers when files are updated
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "watch")]
 public record PodmanComposeWatchOptions : PodmanOptions
@@ -35,7 +35,7 @@ public record PodmanComposeWatchOptions : PodmanOptions
     /// <summary>
     /// Prune dangling images on rebuild (default true)
     /// </summary>
-    [CliFlag("--prune")]
+    [CliOption("--prune", Format = OptionFormat.EqualsSeparated)]
     public bool? Prune { get; set; }
 
     /// <summary>
@@ -45,6 +45,6 @@ public record PodmanComposeWatchOptions : PodmanOptions
     public bool? Quiet { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
 
 }

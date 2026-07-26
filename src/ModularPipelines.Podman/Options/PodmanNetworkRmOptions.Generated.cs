@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Remove networks
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "rm")]
 public record PodmanNetworkRmOptions : PodmanOptions
@@ -33,6 +33,6 @@ public record PodmanNetworkRmOptions : PodmanOptions
     public int? Time { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Network { get; set; }
+    public IEnumerable<string>? Network { get; set; }
 
 }

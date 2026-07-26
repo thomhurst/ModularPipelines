@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Inspect network
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "inspect")]
 public record PodmanNetworkInspectOptions : PodmanOptions
@@ -27,6 +27,6 @@ public record PodmanNetworkInspectOptions : PodmanOptions
     public string? Format { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Network { get; set; }
+    public IEnumerable<string>? Network { get; set; }
 
 }

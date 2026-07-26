@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Inspect a secret
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "inspect")]
 public record PodmanSecretInspectOptions : PodmanOptions
@@ -39,6 +39,6 @@ public record PodmanSecretInspectOptions : PodmanOptions
     public bool? Showsecret { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Secret { get; set; }
+    public IEnumerable<string>? Secret { get; set; }
 
 }

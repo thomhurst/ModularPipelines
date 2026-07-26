@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Execute the command described by an image label
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "runlabel")]
 public record PodmanContainerRunlabelOptions : PodmanOptions
@@ -65,10 +65,10 @@ public record PodmanContainerRunlabelOptions : PodmanOptions
     /// <summary>
     /// Require HTTPS and verify certificates when contacting registries (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Arg { get; set; }
+    public IEnumerable<string>? Arg { get; set; }
 
 }

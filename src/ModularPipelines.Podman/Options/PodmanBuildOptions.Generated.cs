@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Build an image using instructions from Containerfiles
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("build")]
 public record PodmanBuildOptions : PodmanOptions
@@ -185,7 +185,7 @@ public record PodmanBuildOptions : PodmanOptions
     /// <summary>
     /// don't compress layers by default (default true)
     /// </summary>
-    [CliFlag("--disable-compression", ShortForm = "-D")]
+    [CliOption("--disable-compression", ShortForm = "-D", Format = OptionFormat.EqualsSeparated)]
     public bool? DisableCompression { get; set; }
 
     /// <summary>
@@ -221,7 +221,7 @@ public record PodmanBuildOptions : PodmanOptions
     /// <summary>
     /// always remove intermediate containers after a build, even if the build is unsuccessful. (default true)
     /// </summary>
-    [CliFlag("--force-rm")]
+    [CliOption("--force-rm", Format = OptionFormat.EqualsSeparated)]
     public bool? ForceRm { get; set; }
 
     /// <summary>
@@ -251,13 +251,13 @@ public record PodmanBuildOptions : PodmanOptions
     /// <summary>
     /// pass through HTTP Proxy environment variables (default true)
     /// </summary>
-    [CliFlag("--http-proxy")]
+    [CliOption("--http-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? HttpProxy { get; set; }
 
     /// <summary>
     /// add default identity label (default true)
     /// </summary>
-    [CliFlag("--identity-label")]
+    [CliOption("--identity-label", Format = OptionFormat.EqualsSeparated)]
     public bool? IdentityLabel { get; set; }
 
     /// <summary>
@@ -305,7 +305,7 @@ public record PodmanBuildOptions : PodmanOptions
     /// <summary>
     /// use intermediate layers during build. Use BUILDAH_LAYERS environment variable to override. (default true)
     /// </summary>
-    [CliFlag("--layers")]
+    [CliOption("--layers", Format = OptionFormat.EqualsSeparated)]
     public bool? Layers { get; set; }
 
     /// <summary>
@@ -431,7 +431,7 @@ public record PodmanBuildOptions : PodmanOptions
     /// <summary>
     /// remove intermediate containers after a successful build (default true)
     /// </summary>
-    [CliFlag("--rm")]
+    [CliOption("--rm", Format = OptionFormat.EqualsSeparated)]
     public bool? Rm { get; set; }
 
     /// <summary>
@@ -468,7 +468,7 @@ public record PodmanBuildOptions : PodmanOptions
     /// <summary>
     /// skips stages in multi-stage builds which do not affect the final target (default true)
     /// </summary>
-    [CliFlag("--skip-unused-stages")]
+    [CliOption("--skip-unused-stages", Format = OptionFormat.EqualsSeparated)]
     public bool? SkipUnusedStages { get; set; }
 
     /// <summary>
@@ -516,7 +516,7 @@ public record PodmanBuildOptions : PodmanOptions
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
     /// <summary>

@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Run a process in a running container
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("exec")]
 public record PodmanExecOptions : PodmanOptions
@@ -87,6 +87,6 @@ public record PodmanExecOptions : PodmanOptions
     public string? Workdir { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Arg { get; set; }
+    public IEnumerable<string>? Arg { get; set; }
 
 }

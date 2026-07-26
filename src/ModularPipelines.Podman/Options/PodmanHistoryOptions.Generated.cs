@@ -15,7 +15,7 @@ namespace ModularPipelines.Podman.Options;
 /// <summary>
 /// Show history of a specified image
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("history")]
 public record PodmanHistoryOptions : PodmanOptions
@@ -29,7 +29,7 @@ public record PodmanHistoryOptions : PodmanOptions
     /// <summary>
     /// Display sizes and dates in human readable format (default true)
     /// </summary>
-    [CliFlag("--human", ShortForm = "-H")]
+    [CliOption("--human", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public bool? Human { get; set; }
 
     /// <summary>
