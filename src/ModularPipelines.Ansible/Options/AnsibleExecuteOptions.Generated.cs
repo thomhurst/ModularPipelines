@@ -7,10 +7,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Ansible.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Ansible.Options;
 
@@ -147,7 +147,7 @@ public record AnsibleExecuteOptions(
     public bool? Help { get; set; }
 
     /// <summary>
-    /// specify inventory host path or comma separated host list. --inventory-file is deprecated. This argument may be specified multiple times.
+    /// specify inventory host path or comma separated host list. This argument may be specified multiple times.
     /// </summary>
     [CliOption("--inventory", ShortForm = "-i", AllowMultiple = true)]
     public IEnumerable<string>? Inventory { get; set; }
@@ -185,8 +185,8 @@ public record AnsibleExecuteOptions(
     /// <summary>
     /// Causes Ansible to print more debug messages. Adding multiple -v will increase the verbosity, the builtin plugins currently evaluate up to -vvvvvv. A reasonable level to start is -vvv, connection debugging might require -vvvv. This argument may be specified multiple times.
     /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
     [Range(0, 6)]
+    [CliFlag("--verbose", ShortForm = "-v")]
     public int? Verbose { get; set; }
 
     /// <summary>
