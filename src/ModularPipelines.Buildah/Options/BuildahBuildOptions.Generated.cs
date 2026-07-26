@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Builds an OCI image using instructions in one or more Containerfiles.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("build")]
 public record BuildahBuildOptions : BuildahOptions
@@ -185,7 +185,7 @@ public record BuildahBuildOptions : BuildahOptions
     /// <summary>
     /// don't compress layers by default (default true)
     /// </summary>
-    [CliFlag("--disable-compression", ShortForm = "-D")]
+    [CliOption("--disable-compression", ShortForm = "-D", Format = OptionFormat.EqualsSeparated)]
     public bool? DisableCompression { get; set; }
 
     /// <summary>
@@ -257,13 +257,13 @@ public record BuildahBuildOptions : BuildahOptions
     /// <summary>
     /// pass through HTTP Proxy environment variables (default true)
     /// </summary>
-    [CliFlag("--http-proxy")]
+    [CliOption("--http-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? HttpProxy { get; set; }
 
     /// <summary>
     /// add default identity label (default true)
     /// </summary>
-    [CliFlag("--identity-label")]
+    [CliOption("--identity-label", Format = OptionFormat.EqualsSeparated)]
     public bool? IdentityLabel { get; set; }
 
     /// <summary>
@@ -437,7 +437,7 @@ public record BuildahBuildOptions : BuildahOptions
     /// <summary>
     /// remove intermediate containers after a successful build (default true)
     /// </summary>
-    [CliFlag("--rm")]
+    [CliOption("--rm", Format = OptionFormat.EqualsSeparated)]
     public bool? Rm { get; set; }
 
     /// <summary>
@@ -480,7 +480,7 @@ public record BuildahBuildOptions : BuildahOptions
     /// <summary>
     /// skips stages in multi-stage builds which do not affect the final target (default true)
     /// </summary>
-    [CliFlag("--skip-unused-stages")]
+    [CliOption("--skip-unused-stages", Format = OptionFormat.EqualsSeparated)]
     public bool? SkipUnusedStages { get; set; }
 
     /// <summary>
@@ -522,7 +522,7 @@ public record BuildahBuildOptions : BuildahOptions
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
     /// <summary>

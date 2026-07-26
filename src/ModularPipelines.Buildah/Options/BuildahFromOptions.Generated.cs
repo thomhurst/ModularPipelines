@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Creates a new working container, either from scratch or using a specified
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("from")]
 public record BuildahFromOptions : BuildahOptions
@@ -161,7 +161,7 @@ public record BuildahFromOptions : BuildahOptions
     /// <summary>
     /// pass through HTTP Proxy environment variables (default true)
     /// </summary>
-    [CliFlag("--http-proxy")]
+    [CliOption("--http-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? HttpProxy { get; set; }
 
     /// <summary>
@@ -257,7 +257,7 @@ public record BuildahFromOptions : BuildahOptions
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry. TLS verification cannot be used when talking to an insecure registry. (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
     /// <summary>

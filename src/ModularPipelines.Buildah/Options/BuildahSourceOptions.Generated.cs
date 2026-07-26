@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Create, push, pull and manage source images and associated source artifacts.  A source image contains all source artifacts an ordinary OCI image has been built with.  Those artifacts can be any kind of source artifact, such as source RPMs, an entire source tree or text files.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source")]
 public record BuildahSourceOptions : BuildahOptions

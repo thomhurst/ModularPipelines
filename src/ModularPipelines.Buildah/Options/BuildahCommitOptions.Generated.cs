@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Writes a new image using the container's read-write layer and, if it is based
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("commit")]
 public record BuildahCommitOptions : BuildahOptions
@@ -59,7 +59,7 @@ public record BuildahCommitOptions : BuildahOptions
     /// <summary>
     /// don't compress layers (default true)
     /// </summary>
-    [CliFlag("--disable-compression", ShortForm = "-D")]
+    [CliOption("--disable-compression", ShortForm = "-D", Format = OptionFormat.EqualsSeparated)]
     public bool? DisableCompression { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record BuildahCommitOptions : BuildahOptions
     /// <summary>
     /// add default builder label (default true) (default true)
     /// </summary>
-    [CliFlag("--identity-label")]
+    [CliOption("--identity-label", Format = OptionFormat.EqualsSeparated)]
     public bool? IdentityLabel { get; set; }
 
     /// <summary>
@@ -143,7 +143,7 @@ public record BuildahCommitOptions : BuildahOptions
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry. TLS verification cannot be used when talking to an insecure registry. (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
     /// <summary>

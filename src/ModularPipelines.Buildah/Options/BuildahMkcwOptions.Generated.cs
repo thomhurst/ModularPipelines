@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Convert a conventional image to a confidential workload image.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mkcw")]
 public record BuildahMkcwOptions : BuildahOptions
@@ -59,6 +59,7 @@ public record BuildahMkcwOptions : BuildahOptions
     /// <summary>
     /// disk encryption passphrase
     /// </summary>
+    [SecretValue]
     [CliOption("--passphrase", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? Passphrase { get; set; }
 
