@@ -11,6 +11,14 @@ is now the **lightweight core-library solution** (core framework, Cmd, source ge
 and analyzers only). Each tool/CLI integration has its **own** solution next to it, and
 `ModularPipelines.All.sln` aggregates everything for full validation.
 
+> [!CAUTION]
+> **Agents: do NOT build `ModularPipelines.All.sln`, and do NOT run the build pipeline
+> (`dotnet run` in `src/ModularPipelines.Build`).** Compiling 60+ projects at once is
+> extremely memory- and CPU-heavy and will likely lag or crash the machine. Those are
+> CI's job. For local/agent work, build **only** `ModularPipelines.sln` (core) or a
+> single tool's own solution. Reach for `ModularPipelines.All.sln` only when a human
+> explicitly asks for a full build and the machine can handle it.
+
 ```bash
 # DEFAULT: build the core library (fast). This is ModularPipelines.sln - the core
 # framework, Cmd, source generator, and analyzers only.
@@ -20,19 +28,14 @@ dotnet build ModularPipelines.sln -c Release
 # (Most tool integrations have auto-generated options - see the code generation notes below.)
 dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.sln -c Release
 
-# FULL solution (60+ projects, slow) - only when your change spans many tool
-# integrations or you specifically need to validate everything at once.
-dotnet build ModularPipelines.All.sln -c Release
-
 # Other solutions - only when working on those areas.
 dotnet build ModularPipelines.Examples.sln -c Release
 dotnet build ModularPipelines.Analyzers.sln -c Release
 
-# Run the build pipeline (from src/ModularPipelines.Build)
-# This builds ALL solutions and runs the full test suite - it is the slow,
-# comprehensive path used by CI. Do not run it for routine core changes.
-cd src/ModularPipelines.Build
-dotnet run -c Release --framework net10.0
+# DANGER (CI only): the full 60+ project solution and the full build pipeline.
+# Do NOT run these as an agent - they can exhaust memory and crash the machine.
+# dotnet build ModularPipelines.All.sln -c Release            # everything at once
+# cd src/ModularPipelines.Build && dotnet run -c Release --framework net10.0  # builds ALL solutions + full test suite
 ```
 
 **What `ModularPipelines.sln` (core) contains:**
@@ -44,20 +47,20 @@ dotnet run -c Release --framework net10.0
 Every tool/CLI integration (Docker, DotNet, Git, Helm, Terraform, Azure, AWS, etc.) is a
 separate package whose options are largely auto-generated, and each has its own
 `src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.sln`. Build the specific tool
-solution when working on it, or `ModularPipelines.All.sln` to build everything.
+solution when working on it. `ModularPipelines.All.sln` exists for CI's full build only —
+see the caution above; agents should not build it.
 
 ### Running Tests
 ```bash
 # PREFER: run only the test project relevant to your change. This avoids
 # building the whole solution and every tool integration.
 dotnet run --project <path-to-test-project> --framework net10.0 -- --coverage --coverage-output-format cobertura
-
-# Run all unit tests via the build pipeline with coverage.
-# This is the slow, comprehensive path (builds all solutions) - use it for a
-# full verification pass, not for routine iteration.
-cd src/ModularPipelines.Build
-dotnet run -c Release --framework net10.0
 ```
+
+> [!CAUTION]
+> Do not run the full test suite via the build pipeline (`dotnet run` in
+> `src/ModularPipelines.Build`) as an agent - it builds every solution and can crash the
+> machine. Run the single relevant test project instead; let CI run the full suite.
 
 ### Code Formatting
 ```bash

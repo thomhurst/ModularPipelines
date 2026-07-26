@@ -21,13 +21,18 @@ For documentation work, ensure Node.js 20+ is available and yarn is installed.
 
 ## Building the Code
 
-**CRITICAL: NEVER CANCEL BUILD COMMANDS. Set timeout to 180+ seconds for individual builds, 600+ seconds for the build pipeline.**
+**CRITICAL: NEVER CANCEL BUILD COMMANDS. Set timeout to 180+ seconds for individual builds.** (Agents should not run the full build pipeline at all - see below.)
 
 **The default solution is lightweight.** `ModularPipelines.sln` is the core-library
 solution (core framework, Cmd, source generator, and analyzers only), so building it is
-fast. Each tool/CLI integration has its own solution, and `ModularPipelines.All.sln`
-aggregates everything for a full build. Build the core or a single tool solution for
-routine work; build `ModularPipelines.All.sln` only when a change spans many integrations.
+fast. Each tool/CLI integration has its own solution. Build the core solution or a single
+tool solution for routine work.
+
+**⛔ DO NOT build `ModularPipelines.All.sln` or run the build pipeline
+(`dotnet run` in `src/ModularPipelines.Build`).** Those compile 60+ projects at once and
+will likely exhaust memory and lag or crash the machine. They are CI's responsibility, not
+an agent's. Build only the core solution or the specific tool solution you are changing.
+Only build `ModularPipelines.All.sln` if a human explicitly requests a full build.
 
 Build commands in order of complexity and timing:
 
@@ -47,22 +52,21 @@ dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.sln -c Release
 dotnet build ModularPipelines.Analyzers.sln -c Release
 ```
 
-4. **Build Full Solution** (60+ projects, slow - only when needed):
-```bash
-dotnet build ModularPipelines.All.sln -c Release
-```
-
-5. **Build Examples** (80 seconds):
+4. **Build Examples** (80 seconds):
 ```bash
 dotnet build ModularPipelines.Examples.sln -c Release
 ```
 
-6. **Run Build Pipeline** (150+ seconds - NEVER CANCEL, builds everything):
+**Never run as an agent (CI only - will likely crash the machine):**
 ```bash
-cd src/ModularPipelines.Build
-dotnet run -c Release --framework net10.0
+# Full 60+ project solution:
+#   dotnet build ModularPipelines.All.sln -c Release
+# Full build pipeline (builds ALL solutions + full test suite):
+#   cd src/ModularPipelines.Build && dotnet run -c Release --framework net10.0
 ```
-Note: The build pipeline may fail in development environment due to missing CI environment variables (like origin/main branch). This is expected. The pipeline includes test execution with code coverage.
+Note: When CI runs the build pipeline it may fail in a development environment due to
+missing CI environment variables (like origin/main branch). This is expected. The pipeline
+includes test execution with code coverage.
 
 ## Running Tests
 
@@ -77,8 +81,8 @@ Tests use TUnit framework. Some tests may fail in non-CI environments due to mis
 
 ## Code Formatting and Linting
 
-Target the solution you built - `ModularPipelines.sln` (core) for core changes, the
-relevant tool solution, or `ModularPipelines.All.sln` for everything.
+Target the solution you built - `ModularPipelines.sln` (core) for core changes, or the
+relevant tool solution. Do not format `ModularPipelines.All.sln` as an agent.
 
 **Format verification** (70 seconds):
 ```bash
@@ -122,7 +126,7 @@ yarn start
 **Solutions:**
 - `ModularPipelines.sln` - lightweight core-library solution (core framework, Cmd, source generator, analyzers). **Build this by default.**
 - `src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.sln` - one solution per tool/CLI integration. Build the specific tool solution when working on it.
-- `ModularPipelines.All.sln` - full solution with all 60+ projects including every tool integration. Slow; build only when needed.
+- `ModularPipelines.All.sln` - full solution with all 60+ projects. **CI-only** - do not build as an agent; it can exhaust memory and crash the machine.
 - `ModularPipelines.Analyzers.sln` / `ModularPipelines.Examples.sln` - analyzer and example solutions.
 
 **Core Framework:**
@@ -163,10 +167,10 @@ yarn start
 ## Validation Scenarios
 
 **After making changes, ALWAYS:**
-1. Build the affected solution - `ModularPipelines.sln` (core) for core changes, or the specific tool solution. Avoid building `ModularPipelines.All.sln` unless your change spans many projects.
+1. Build the affected solution - `ModularPipelines.sln` (core) for core changes, or the specific tool solution. **Never build `ModularPipelines.All.sln` or run the build pipeline** to validate - they compile 60+ projects and can crash the machine; let CI do the full build.
 2. Run formatting on what you built, e.g. `dotnet format ModularPipelines.sln`
-3. Run tests for affected areas
-4. If modifying the build pipeline, test with: `cd src/ModularPipelines.Build && dotnet run -c Release --framework net10.0`
+3. Run tests for affected areas (the specific test project - not the full pipeline)
+4. If modifying the build pipeline, build just its project to check it compiles: `dotnet build src/ModularPipelines.Build/ModularPipelines.Build.csproj -c Release`. Do not execute the pipeline (`dotnet run`) as an agent - let CI run it end to end.
 
 **For module development:**
 1. Create a module inheriting from `Module<T>`
