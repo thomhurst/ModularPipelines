@@ -15,7 +15,7 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// Create a new kustomization in the current directory
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create")]
 public record KustomizeCreateOptions : KustomizeOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// [Alpha] Search for matching Resources in a directory or from stdin.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cfg", "grep")]
 public record KustomizeCfgGrepOptions : KustomizeOptions
@@ -23,7 +23,7 @@ public record KustomizeCfgGrepOptions : KustomizeOptions
     /// <summary>
     /// annotate resources with their file origins. (default true)
     /// </summary>
-    [CliFlag("--annotate")]
+    [CliOption("--annotate", Format = OptionFormat.EqualsSeparated)]
     public bool? Annotate { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record KustomizeCfgGrepOptions : KustomizeOptions
     /// <summary>
     /// also print resources recursively in all the nested subpackages (default true)
     /// </summary>
-    [CliFlag("--recurse-subpackages", ShortForm = "-R")]
+    [CliOption("--recurse-subpackages", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public bool? RecurseSubpackages { get; set; }
 
     /// <summary>

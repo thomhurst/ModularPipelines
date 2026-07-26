@@ -15,7 +15,7 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// Edits the value for an existing key in an existing Secret in the kustomization.yaml file.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "set", "secret")]
 public record KustomizeEditSetSecretOptions : KustomizeOptions

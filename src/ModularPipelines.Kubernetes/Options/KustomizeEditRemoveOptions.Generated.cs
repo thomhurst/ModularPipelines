@@ -15,7 +15,7 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// Removes items from the kustomization file
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "remove")]
 public record KustomizeEditRemoveOptions : KustomizeOptions

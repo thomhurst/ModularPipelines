@@ -15,7 +15,7 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// Removes the specified secret(s) from the kustomization.yaml file in the specified namespace.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "remove", "secret")]
 public record KustomizeEditRemoveSecretOptions : KustomizeOptions

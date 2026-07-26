@@ -16,7 +16,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// <summary>
 /// kustomize edit commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class KustomizeEdit
 {
     private readonly ICommand _command;
@@ -66,6 +66,21 @@ public class KustomizeEdit
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// [Alpha] List the builtin plugins
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AlphaListBuiltinPlugin(
+        KustomizeEditAlphaListBuiltinPluginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditAlphaListBuiltinPluginOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

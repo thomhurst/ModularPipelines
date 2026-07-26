@@ -15,7 +15,7 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// [Alpha] Count Resources Config from a local directory.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cfg", "count")]
 public record KustomizeCfgCountOptions : KustomizeOptions
@@ -29,13 +29,13 @@ public record KustomizeCfgCountOptions : KustomizeOptions
     /// <summary>
     /// count resources by kind. (default true)
     /// </summary>
-    [CliFlag("--kind")]
+    [CliOption("--kind", Format = OptionFormat.EqualsSeparated)]
     public bool? Kind { get; set; }
 
     /// <summary>
     /// prints count of resources recursively in all the nested subpackages (default true)
     /// </summary>
-    [CliFlag("--recurse-subpackages", ShortForm = "-R")]
+    [CliOption("--recurse-subpackages", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public bool? RecurseSubpackages { get; set; }
 
     /// <summary>

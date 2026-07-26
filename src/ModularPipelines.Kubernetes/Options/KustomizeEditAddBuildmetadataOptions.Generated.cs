@@ -13,15 +13,15 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Options;
 
 /// <summary>
-/// Sets one or more commonLabels in kustomization.yaml
+/// Adds one or more buildMetadata options to the kustomization.yaml in the current directory.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("edit", "set", "label")]
-public record KustomizeEditSetLabelOptions : KustomizeOptions
+[CliSubCommand("edit", "add", "buildmetadata")]
+public record KustomizeEditAddBuildmetadataOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for label
+    /// help for buildmetadata
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

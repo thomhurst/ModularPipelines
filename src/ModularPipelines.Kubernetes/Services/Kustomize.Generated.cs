@@ -16,7 +16,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// <summary>
 /// Generated implementation for kustomize CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Kustomize : IKustomize
 {
     private readonly ICommand _command;

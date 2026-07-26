@@ -15,7 +15,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// <summary>
 /// Generated interface for kustomize CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IKustomize
 {
     #region Sub-domain Services

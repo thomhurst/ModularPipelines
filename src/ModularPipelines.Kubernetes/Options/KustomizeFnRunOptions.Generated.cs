@@ -15,7 +15,7 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// [Alpha] Reconcile config functions to Resources.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fn", "run")]
 public record KustomizeFnRunOptions : KustomizeOptions
@@ -77,7 +77,7 @@ public record KustomizeFnRunOptions : KustomizeOptions
     /// <summary>
     /// also print resources from subpackages. (default true)
     /// </summary>
-    [CliFlag("--include-subpackages")]
+    [CliOption("--include-subpackages", Format = OptionFormat.EqualsSeparated)]
     public bool? IncludeSubpackages { get; set; }
 
     /// <summary>
