@@ -47,8 +47,9 @@ public record CommandExecutionOptions
 
     /// <summary>
     /// Gets or sets the maximum time allowed for the command to complete.
+    /// Defaults to 30 minutes.
     /// </summary>
-    public TimeSpan? ExecutionTimeout { get; init; }
+    public TimeSpan? ExecutionTimeout { get; init; } = TimeSpan.FromMinutes(30);
 
     /// <summary>
     /// Gets or sets the time to wait for graceful shutdown before forcefully terminating.
