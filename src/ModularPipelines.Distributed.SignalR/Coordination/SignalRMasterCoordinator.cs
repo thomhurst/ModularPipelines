@@ -100,6 +100,14 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
                 break;
             }
 
+            // Skip work whose result already arrived (e.g. a disconnect re-enqueue that
+            // raced the original worker's result) so it isn't executed a second time.
+            if (_state.ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var existingWaiter)
+                && existingWaiter.Task.IsCompleted)
+            {
+                continue;
+            }
+
             if (!CapabilityMatcher.CanExecute(assignment, workerCapabilities))
             {
                 // Re-enqueue — master can't handle this module
@@ -173,6 +181,13 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
 
     private async Task<bool> TryPushToIdleWorker(ModuleAssignment assignment)
     {
+        // Don't dispatch work whose result already arrived.
+        if (_state.ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var existingWaiter)
+            && existingWaiter.Task.IsCompleted)
+        {
+            return true;
+        }
+
         foreach (var kvp in _state.Workers)
         {
             var worker = kvp.Value;

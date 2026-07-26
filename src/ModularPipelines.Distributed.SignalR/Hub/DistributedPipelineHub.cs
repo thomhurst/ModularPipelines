@@ -130,6 +130,15 @@ internal class DistributedPipelineHub(
                 break;
             }
 
+            // Skip if this module's result already arrived (e.g. the original worker's
+            // result raced a disconnect re-enqueue). Prevents dispatching - and re-running
+            // the side effects of - work that is already complete.
+            if (state.ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var existingWaiter)
+                && existingWaiter.Task.IsCompleted)
+            {
+                continue;
+            }
+
             // Check capability match
             if (!CapabilityMatcher.CanExecute(assignment, workerState.Registration))
             {
@@ -157,6 +166,10 @@ internal class DistributedPipelineHub(
                     workerState.ClearAssignment();
                     workerState.MarkIdle();
                     state.PendingAssignments.Enqueue(assignment);
+
+                    // Wake the master's dequeue loop so the re-queued work is picked up
+                    // promptly instead of stalling until an unrelated event.
+                    state.WorkAvailable.Release();
                 }
 
                 return;
