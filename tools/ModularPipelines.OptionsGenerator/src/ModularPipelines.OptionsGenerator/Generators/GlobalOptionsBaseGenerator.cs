@@ -31,6 +31,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
     private static string GenerateBaseOptionsClass(CliToolDefinition tool)
     {
         var sb = new StringBuilder();
+        var globalOptions = tool.GetGlobalOptions();
 
         // File header with nullable enable
         GeneratorUtils.GenerateFileHeaderWithNullable(sb);
@@ -41,17 +42,17 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine("using ModularPipelines.Attributes;");
         sb.AppendLine("using ModularPipelines.Options;");
 
-        if (tool.GlobalOptions.Any(o => o.RequiresModelsNamespace))
+        if (globalOptions.Any(o => o.RequiresModelsNamespace))
         {
             sb.AppendLine("using ModularPipelines.Models;");
         }
 
-        if (tool.GlobalOptions.Any(o => o.ValidationConstraints is not null))
+        if (globalOptions.Any(o => o.ValidationConstraints is not null))
         {
             sb.AppendLine("using System.ComponentModel.DataAnnotations;");
         }
 
-        if (tool.GlobalOptions.Any(o => o.EnumDefinition is not null))
+        if (globalOptions.Any(o => o.EnumDefinition is not null))
         {
             sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }
@@ -78,7 +79,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine("{");
 
         // Properties for global options
-        foreach (var option in tool.GlobalOptions.OrderBy(o => o.PropertyName))
+        foreach (var option in globalOptions.OrderBy(o => o.PropertyName))
         {
             GenerateProperty(sb, option);
             sb.AppendLine();
@@ -92,7 +93,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
     private static void GenerateProperty(StringBuilder sb, CliOptionDefinition option)
     {
         // XML documentation
-        GeneratorUtils.GenerateXmlDocumentation(sb, option.Description);
+        GeneratorUtils.GenerateXmlDocumentation(sb, GetDescription(option));
 
         // Validation attributes
         if (option.ValidationConstraints is not null)
@@ -112,5 +113,26 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
 
         // Property
         sb.AppendLine($"    public virtual {option.CSharpType} {option.PropertyName} {{ get; set; }}");
+    }
+
+    private static string? GetDescription(CliOptionDefinition option)
+    {
+        var parts = new List<string>();
+        if (option.Description is not null)
+        {
+            parts.Add(option.Description);
+        }
+
+        if (option.Availability is not null)
+        {
+            parts.Add($"Availability: {option.Availability}.");
+        }
+
+        if (option.DocumentationUrl is not null)
+        {
+            parts.Add($"Documentation: {option.DocumentationUrl}");
+        }
+
+        return parts.Count == 0 ? null : string.Join(" ", parts);
     }
 }

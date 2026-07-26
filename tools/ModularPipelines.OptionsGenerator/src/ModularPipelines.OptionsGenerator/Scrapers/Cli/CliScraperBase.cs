@@ -100,6 +100,17 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
+    /// Global options that are documented but absent from the installed CLI's help output.
+    /// </summary>
+    protected virtual IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions => [];
+
+    /// <summary>
+    /// The validated union of scraped and supplemental global options.
+    /// </summary>
+    protected IReadOnlyList<CliOptionDefinition> EffectiveGlobalOptions =>
+        CliGlobalOptionMerger.Merge(GlobalOptions, SupplementalGlobalOptions);
+
+    /// <summary>
     /// Regex patterns to match against command descriptions for skipping.
     /// Commands matching any pattern will be skipped.
     /// </summary>
@@ -404,6 +415,7 @@ public abstract partial class CliScraperBase : ICliScraper
             OutputDirectory = OutputDirectory,
             Commands = [],
             GlobalOptions = GlobalOptions,
+            SupplementalGlobalOptions = SupplementalGlobalOptions,
             Errors = []
         };
     }

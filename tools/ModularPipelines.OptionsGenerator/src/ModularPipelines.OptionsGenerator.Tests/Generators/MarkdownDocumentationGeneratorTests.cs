@@ -152,6 +152,42 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(documentation[0].Content).Contains("context.Fake().Alpha(");
     }
 
+    [Test]
+    public async Task GenerateAsync_Documents_Supplemental_Global_Options()
+    {
+        var tool = new CliToolDefinition
+        {
+            ToolName = "fake",
+            NamespacePrefix = "Fake",
+            TargetNamespace = "ModularPipelines.Fake",
+            OutputDirectory = "src/ModularPipelines.Fake",
+            Commands = [Command("fake run", "FakeRunOptions", ["run"])],
+            SupplementalGlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--license-key",
+                    PropertyName = "LicenseKey",
+                    CSharpType = "string?",
+                    Description = "Enables licensed features.",
+                    DocumentationUrl = "https://example.test/license",
+                    Availability = "Secure edition",
+                    IsSecret = true,
+                    ValueSeparator = "=",
+                },
+            ],
+        };
+
+        var documentation = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
+
+        await Assert.That(documentation[0].Content).Contains("## Global options");
+        await Assert.That(documentation[0].Content)
+            .Contains("[`--license-key`](https://example.test/license)");
+        await Assert.That(documentation[0].Content).Contains("`LicenseKey`");
+        await Assert.That(documentation[0].Content).Contains("Secure edition");
+        await Assert.That(documentation[0].Content).Contains("rendered before the selected subcommand");
+    }
+
     private static CliCommandDefinition Command(
         string fullCommand,
         string className,

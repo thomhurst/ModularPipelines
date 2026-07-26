@@ -36,6 +36,18 @@ public record CliToolDefinition
     public IReadOnlyList<CliOptionDefinition> GlobalOptions { get; init; } = [];
 
     /// <summary>
+    /// Global options absent from CLI help because they depend on an edition, license, plugin,
+    /// or environment. These use the same metadata and generation path as scraped options.
+    /// </summary>
+    public IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions { get; init; } = [];
+
+    /// <summary>
+    /// Returns the validated, deterministic union of scraped and supplemental global options.
+    /// </summary>
+    public IReadOnlyList<CliOptionDefinition> GetGlobalOptions() =>
+        CliGlobalOptionMerger.Merge(GlobalOptions, SupplementalGlobalOptions);
+
+    /// <summary>
     /// Sub-domain groups for organizing commands (e.g., "Container", "Image" for Docker).
     /// </summary>
     public IReadOnlyList<string> SubDomainGroups => Commands
@@ -55,7 +67,7 @@ public record CliToolDefinition
     /// </summary>
     public IReadOnlyList<CliEnumDefinition> AllEnums => Commands
         .SelectMany(c => c.Enums)
-        .Concat(GlobalOptions
+        .Concat(GetGlobalOptions()
             .Where(option => option.EnumDefinition is not null)
             .Select(option => option.EnumDefinition!))
         .DistinctBy(e => e.EnumName)

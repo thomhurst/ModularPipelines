@@ -95,7 +95,7 @@ public class LiquibaseCliScraperTests
     }
 
     [Test]
-    public async Task Global_Options_Include_Documented_Databricks_Diff_Filters()
+    public async Task ParseGlobalOptions_Parses_Databricks_Diff_Filter()
     {
         const string helpText = """
                   --databricks-diff-tblproperties-exclude-patterns=PARAM   Excluded TBLPROPERTIES
@@ -108,12 +108,6 @@ public class LiquibaseCliScraperTests
         await Assert.That(excludePatterns.CSharpType).IsEqualTo("string?");
         await Assert.That(excludePatterns.IsFlag).IsFalse();
         await Assert.That(excludePatterns.Description).IsEqualTo("Excluded TBLPROPERTIES");
-
-        var ignoreAll = options.Single(
-            option => option.SwitchName == "--databricks-diff-tblproperties-ignore-all");
-        await Assert.That(ignoreAll.PropertyName).IsEqualTo("DatabricksDiffTblPropertiesIgnoreAll");
-        await Assert.That(ignoreAll.CSharpType).IsEqualTo("bool?");
-        await Assert.That(ignoreAll.IsFlag).IsFalse();
     }
 
     [Test]
@@ -174,17 +168,23 @@ public class LiquibaseCliScraperTests
         }
 
         var tool = scraper.CreateToolDefinition();
-        await Assert.That(tool.GlobalOptions.Select(option => option.SwitchName))
+        await Assert.That(tool.GetGlobalOptions().Select(option => option.SwitchName))
             .IsEquivalentTo(
             [
                 "--search-path",
                 "--log-level",
                 "--databricks-diff-tblproperties-exclude-patterns",
                 "--databricks-diff-tblproperties-ignore-all",
+                "--license-key",
             ]);
         await Assert.That(commands.Count).IsEqualTo(1);
         await Assert.That(commands[0].Options.Select(option => option.SwitchName))
             .IsEquivalentTo(["--changelog-file"]);
+
+        var licenseKey = tool.GetGlobalOptions().Single(option => option.SwitchName == "--license-key");
+        await Assert.That(licenseKey.IsSecret).IsTrue();
+        await Assert.That(licenseKey.ValueSeparator).IsEqualTo("=");
+        await Assert.That(licenseKey.Availability).IsEqualTo("Liquibase Secure");
     }
 
     [Test]

@@ -59,6 +59,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine($"Import `{tool.TargetNamespace}.Extensions`, then resolve the service with `context.{tool.NamespacePrefix}()`.");
         sb.AppendLine();
         AppendExample(sb, tool);
+        AppendGlobalOptions(sb, tool);
         sb.AppendLine("## Commands");
         sb.AppendLine();
         sb.AppendLine("| CLI command | Options record |");
@@ -70,6 +71,33 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         }
 
         return sb.ToString();
+    }
+
+    private static void AppendGlobalOptions(StringBuilder sb, CliToolDefinition tool)
+    {
+        var options = tool.GetGlobalOptions();
+        if (options.Count == 0)
+        {
+            return;
+        }
+
+        sb.AppendLine("## Global options");
+        sb.AppendLine();
+        sb.AppendLine("Global options are rendered before the selected subcommand.");
+        sb.AppendLine();
+        sb.AppendLine("| CLI option | Property | Availability | Description |");
+        sb.AppendLine("| --- | --- | --- | --- |");
+
+        foreach (var option in options.OrderBy(option => option.SwitchName, StringComparer.OrdinalIgnoreCase))
+        {
+            var optionName = option.DocumentationUrl is null
+                ? $"`{EscapeTableCell(option.SwitchName)}`"
+                : $"[`{EscapeTableCell(option.SwitchName)}`]({option.DocumentationUrl})";
+            sb.AppendLine(
+                $"| {optionName} | `{EscapeTableCell(option.PropertyName)}` | {EscapeTableCell(option.Availability ?? "All editions")} | {EscapeTableCell(option.Description ?? string.Empty)} |");
+        }
+
+        sb.AppendLine();
     }
 
     private static void AppendExample(StringBuilder sb, CliToolDefinition tool)

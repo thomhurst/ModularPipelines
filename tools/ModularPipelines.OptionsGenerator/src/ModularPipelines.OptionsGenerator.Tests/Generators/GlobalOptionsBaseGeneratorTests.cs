@@ -33,4 +33,40 @@ public class GlobalOptionsBaseGeneratorTests
         await Assert.That(generated).Contains("[CliOption(\"--search-path\", Format = OptionFormat.EqualsSeparated)]");
         await Assert.That(generated).Contains("public virtual string? SearchPath { get; set; }");
     }
+
+    [Test]
+    public async Task Generate_Uses_Supplemental_Options_Through_The_Normal_Global_Path()
+    {
+        var tool = new CliToolDefinition
+        {
+            ToolName = "fake",
+            NamespacePrefix = "Fake",
+            TargetNamespace = "ModularPipelines.Fake",
+            OutputDirectory = "src/ModularPipelines.Fake",
+            Commands = [],
+            SupplementalGlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--license-key",
+                    PropertyName = "LicenseKey",
+                    CSharpType = "string?",
+                    Description = "Enables licensed features.",
+                    DocumentationUrl = "https://example.test/license",
+                    Availability = "Secure edition",
+                    IsSecret = true,
+                    ValueSeparator = "=",
+                },
+            ],
+        };
+
+        var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(generated).Contains("[SecretValue]");
+        await Assert.That(generated)
+            .Contains("[CliOption(\"--license-key\", Format = OptionFormat.EqualsSeparated)]");
+        await Assert.That(generated).Contains("public virtual string? LicenseKey { get; set; }");
+        await Assert.That(generated).Contains("Availability: Secure edition.");
+        await Assert.That(generated).Contains("Documentation: https://example.test/license");
+    }
 }
