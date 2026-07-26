@@ -15,7 +15,7 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// [Alpha]  Print Resource Config from a local directory.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cfg", "cat")]
 public record KustomizeCfgCatOptions : KustomizeOptions
@@ -41,7 +41,7 @@ public record KustomizeCfgCatOptions : KustomizeOptions
     /// <summary>
     /// format resource config yaml before printing. (default true)
     /// </summary>
-    [CliFlag("--format")]
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public bool? Format { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record KustomizeCfgCatOptions : KustomizeOptions
     /// <summary>
     /// print resources recursively in all the nested subpackages (default true)
     /// </summary>
-    [CliFlag("--recurse-subpackages", ShortForm = "-R")]
+    [CliOption("--recurse-subpackages", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public bool? RecurseSubpackages { get; set; }
 
     /// <summary>

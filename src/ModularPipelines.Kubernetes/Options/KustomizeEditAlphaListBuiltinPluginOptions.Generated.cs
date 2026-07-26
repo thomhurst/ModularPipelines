@@ -13,15 +13,15 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Options;
 
 /// <summary>
-/// Sets one or more commonLabels in kustomization.yaml
+/// [Alpha] List the builtin plugins
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("edit", "set", "label")]
-public record KustomizeEditSetLabelOptions : KustomizeOptions
+[CliSubCommand("edit", "alpha-list-builtin-plugin")]
+public record KustomizeEditAlphaListBuiltinPluginOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for label
+    /// help for alpha-list-builtin-plugin
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

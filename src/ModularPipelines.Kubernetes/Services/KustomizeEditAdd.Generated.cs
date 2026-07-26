@@ -16,7 +16,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// <summary>
 /// kustomize add commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class KustomizeEditAdd
 {
     private readonly ICommand _command;
@@ -59,6 +59,21 @@ public class KustomizeEditAdd
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditAddBaseOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Adds one or more buildMetadata options to the kustomization.yaml in the current directory.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Buildmetadata(
+        KustomizeEditAddBuildmetadataOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditAddBuildmetadataOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
