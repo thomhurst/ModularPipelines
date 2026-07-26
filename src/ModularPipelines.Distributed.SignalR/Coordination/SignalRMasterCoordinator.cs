@@ -189,6 +189,7 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
                 _logger.LogDebug("Pushing {Module} to worker {Index}",
                     assignment.ModuleTypeName, worker.Registration.WorkerIndex);
 
+                worker.SetAssignment(assignment);
                 try
                 {
                     await _hubContext.Clients.Client(worker.ConnectionId)
@@ -199,6 +200,7 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
                 {
                     _logger.LogWarning(ex, "Failed to push assignment to worker {Index}, marking idle",
                         worker.Registration.WorkerIndex);
+                    worker.ClearAssignment();
                     worker.MarkIdle();
                 }
             }
