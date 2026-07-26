@@ -22,7 +22,7 @@ namespace ModularPipelines.Snyk.Options;
 public record SnykMonitorOptions : SnykOptions
 {
     /// <summary>
-    /// Perform reachability analysis during the scan. This feature is currently in Snyk Preview. For more information, refer to Reachability analysis.
+    /// Perform reachability analysis during the scan. This feature is currently in Snyk Preview. For more information, refer to Reachability analysis https://docs.snyk.io/manage-risk/prioritize-issues-for-fixing/reachability-analysis
     /// </summary>
     [CliOption("--reachability", Format = OptionFormat.EqualsSeparated)]
     public bool? Reachability { get; set; }
@@ -176,6 +176,12 @@ public record SnykMonitorOptions : SnykOptions
     /// </summary>
     [CliFlag("--maven-aggregate-project")]
     public bool? MavenAggregateProject { get; set; }
+
+    /// <summary>
+    /// Forces the use of a globally installed mvn command, even when a Maven wrapper (i.e. mvnw or mvnw.cmd) is present in the project.
+    /// </summary>
+    [CliFlag("--maven-skip-wrapper")]
+    public bool? MavenSkipWrapper { get; set; }
 
     /// <summary>
     /// To monitor individual JAR, WAR, and AAR files, use the following:
