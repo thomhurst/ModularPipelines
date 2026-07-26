@@ -32,7 +32,13 @@ internal class ModuleRetriever
         return _cached ??= GetInternal(cancellationToken);
     }
 
-    private async Task<OrganizedModules> GetInternal(CancellationToken cancellationToken)
+    internal async Task<IReadOnlyList<IModule>> GetRunnableModulesForValidation(
+        CancellationToken cancellationToken = default)
+    {
+        return (await DiscoverModules(cancellationToken).ConfigureAwait(false)).RunnableModules;
+    }
+
+    private async Task<DiscoveredModules> DiscoverModules(CancellationToken cancellationToken)
     {
         if (_modules.Count == 0)
         {
@@ -56,7 +62,13 @@ internal class ModuleRetriever
             }
         }
 
-        var runnableModulesWithEstimatatedDuration = await modulesToProcess.ToAsyncProcessorBuilder()
+        return new DiscoveredModules(modulesToProcess, modulesToIgnore);
+    }
+
+    private async Task<OrganizedModules> GetInternal(CancellationToken cancellationToken)
+    {
+        var discoveredModules = await DiscoverModules(cancellationToken).ConfigureAwait(false);
+        var runnableModulesWithEstimatatedDuration = await discoveredModules.RunnableModules.ToAsyncProcessorBuilder()
             .SelectAsync(async module =>
             {
                 var estimatedTime = await _estimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
@@ -69,7 +81,11 @@ internal class ModuleRetriever
 
         return new OrganizedModules(
             RunnableModules: runnableModulesWithEstimatatedDuration,
-            IgnoredModules: modulesToIgnore
+            IgnoredModules: discoveredModules.IgnoredModules
         );
     }
+
+    private sealed record DiscoveredModules(
+        IReadOnlyList<IModule> RunnableModules,
+        IReadOnlyList<IgnoredModule> IgnoredModules);
 }

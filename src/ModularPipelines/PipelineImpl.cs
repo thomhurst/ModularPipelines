@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Executors;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -41,10 +42,10 @@ internal sealed class PipelineImpl : IPipeline
     {
         var host = new PipelineImpl(hostBuilder.Build());
 
-        // Validate module dependencies early
-        ValidateModuleDependencies(host._host.Services);
-
         await host._host.Services.InitializeAsync().ConfigureAwait(false);
+
+        // Apply discovery-time skips before validating dependencies.
+        await ValidateModuleDependencies(host._host.Services).ConfigureAwait(false);
 
         return host;
     }
@@ -83,9 +84,22 @@ internal sealed class PipelineImpl : IPipeline
         GC.SuppressFinalize(this);
     }
 
-    private static void ValidateModuleDependencies(IServiceProvider services)
+    private static async Task ValidateModuleDependencies(IServiceProvider services)
     {
-        var modules = services.GetServices<IModule>();
-        ModuleDependencyValidator.Validate(modules);
+        var modules = services.GetServices<IModule>().ToList();
+
+        try
+        {
+            ModuleDependencyValidator.Validate(modules);
+        }
+        catch (Exception exception) when (exception is ModuleNotRegisteredException
+            or ModuleReferencingSelfException
+            or DependencyCollisionException)
+        {
+            var runnableModules = await services.GetRequiredService<ModuleRetriever>()
+                .GetRunnableModulesForValidation()
+                .ConfigureAwait(false);
+            ModuleDependencyValidator.Validate(runnableModules);
+        }
     }
 }

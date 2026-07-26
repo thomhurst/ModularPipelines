@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 
@@ -16,8 +17,17 @@ internal class DependencyValidator : IDependencyValidator
     /// <inheritdoc />
     public ValidationResult Validate(IServiceProvider services)
     {
-        var modules = services.GetServices<IModule>();
-        return ValidateDependencies(modules);
+        var result = ValidateDependencies(services.GetServices<IModule>());
+        if (!result.HasErrors)
+        {
+            return result;
+        }
+
+        var runnableModules = services.GetRequiredService<ModuleRetriever>()
+            .GetRunnableModulesForValidation()
+            .GetAwaiter()
+            .GetResult();
+        return ValidateDependencies(runnableModules);
     }
 
     /// <inheritdoc />

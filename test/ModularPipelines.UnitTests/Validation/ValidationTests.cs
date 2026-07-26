@@ -4,6 +4,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Validation;
 
@@ -84,6 +85,22 @@ public class ValidationTests
     }
 
     private class ModuleWithFluentMissingDependency : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<FluentMissingDependencyModule>()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("success");
+    }
+
+    private class NeverRun : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineHookContext context) => Task.FromResult(false);
+    }
+
+    [RunIfAll<NeverRun>]
+    private class SkippedModuleWithFluentMissingDependency : Module<string>
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .DependsOn<FluentMissingDependencyModule>()
@@ -226,6 +243,29 @@ public class ValidationTests
         builder.Services.AddModule<ModuleWithFluentMissingDependency>();
 
         await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
+    }
+
+    [Test]
+    public async Task BuildAsync_Ignores_Fluent_Dependencies_For_Discovery_Skipped_Modules()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<SkippedModuleWithFluentMissingDependency>();
+
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(pipeline).IsNotNull();
+    }
+
+    [Test]
+    public async Task ValidateAsync_Ignores_Fluent_Dependencies_For_Discovery_Skipped_Modules()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<SkippedModuleWithFluentMissingDependency>();
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors).DoesNotContain(error =>
+            error.Category == ValidationErrorCategory.Dependency);
     }
 
     [Test]
