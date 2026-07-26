@@ -4,27 +4,23 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
-internal class ModuleConditionHandler : IModuleConditionHandler
+internal class ModuleConditionHandler(
+    IOptions<PipelineOptions> pipelineOptions,
+    IOptions<DistributedOptions> distributedOptions,
+    RoleDetector roleDetector,
+    IPipelineContextProvider pipelineContextProvider) : IModuleConditionHandler
 {
-    private readonly IOptions<PipelineOptions> _pipelineOptions;
-    private readonly IOptions<DistributedOptions> _distributedOptions;
-    private readonly IPipelineContextProvider _pipelineContextProvider;
-
-    public ModuleConditionHandler(
-        IOptions<PipelineOptions> pipelineOptions,
-        IOptions<DistributedOptions> distributedOptions,
-        IPipelineContextProvider pipelineContextProvider)
-    {
-        _pipelineOptions = pipelineOptions;
-        _distributedOptions = distributedOptions;
-        _pipelineContextProvider = pipelineContextProvider;
-    }
+    private readonly IOptions<PipelineOptions> _pipelineOptions = pipelineOptions;
+    private readonly IOptions<DistributedOptions> _distributedOptions = distributedOptions;
+    private readonly RoleDetector _roleDetector = roleDetector;
+    private readonly IPipelineContextProvider _pipelineContextProvider = pipelineContextProvider;
 
     public async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default)
     {
@@ -101,7 +97,9 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private bool IsDistributedMaster()
     {
         var options = _distributedOptions.Value;
-        return options.Enabled && options.TotalInstances > 1 && options.InstanceIndex == 0;
+        return options.Enabled
+               && options.TotalInstances > 1
+               && _roleDetector.DetectRole() == DistributedRole.Master;
     }
 
     private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateNewStyleConditions(

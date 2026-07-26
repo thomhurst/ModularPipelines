@@ -1,6 +1,7 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Engine;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -9,6 +10,7 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
 
+[TUnit.Core.NotInParallel(nameof(ModuleConditionHandlerTests))]
 public class ModuleConditionHandlerTests
 {
     [Test]
@@ -41,6 +43,32 @@ public class ModuleConditionHandlerTests
         await Assert.That(result.ShouldIgnore).IsTrue();
     }
 
+    [Test]
+    public async Task Environment_Master_Override_Does_Not_Filter_Foreign_Os_Module()
+    {
+        var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
+
+        try
+        {
+            Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "0");
+
+            var handler = CreateHandler(new DistributedOptions
+            {
+                Enabled = true,
+                InstanceIndex = 2,
+                TotalInstances = 3,
+            });
+
+            var result = await handler.ShouldIgnore(CreateForeignOsModule());
+
+            await Assert.That(result.ShouldIgnore).IsFalse();
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", previousInstance);
+        }
+    }
+
     private static ModuleConditionHandler CreateHandler(DistributedOptions distributedOptions)
     {
         var contextProvider = new Mock<IPipelineContextProvider>();
@@ -49,6 +77,7 @@ public class ModuleConditionHandlerTests
         return new ModuleConditionHandler(
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
+            new RoleDetector(Microsoft.Extensions.Options.Options.Create(distributedOptions)),
             contextProvider.Object);
     }
 
