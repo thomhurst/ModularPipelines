@@ -178,12 +178,6 @@ public record JqExecuteOptions : JqOptions
     public bool? ExitStatus { get; set; }
 
     /// <summary>
-    /// open input/output streams in binary mode
-    /// </summary>
-    [CliFlag("--binary", ShortForm = "-b", PreferShortForm = true)]
-    public bool? Binary { get; set; }
-
-    /// <summary>
     /// show the version
     /// </summary>
     [CliFlag("--version", ShortForm = "-V")]
@@ -206,6 +200,12 @@ public record JqExecuteOptions : JqOptions
     /// </summary>
     [CliFlag("--run-tests")]
     public bool? RunTests { get; set; }
+
+    /// <summary>
+    /// Open input/output streams in binary mode
+    /// </summary>
+    [CliFlag("--binary", ShortForm = "-b", PreferShortForm = true)]
+    public bool? Binary { get; set; }
 
     /// <summary>
     /// Run jq tests from the specified file
