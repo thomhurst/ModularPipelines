@@ -37,7 +37,7 @@ This file contains links to documentation sections following the llmstxt.org sta
 - [Pipeline Execution Modes](https://thomhurst.github.io/ModularPipelines/docs/how-to/pipeline-modes): A pipeline has two execution modes:
 - [Requirements](https://thomhurst.github.io/ModularPipelines/docs/how-to/requirements): If you'd like to fail fast, you can register some `Requirement` classes that do some checks on start up to make sure things are as expected.
 - [Retry Policies](https://thomhurst.github.io/ModularPipelines/docs/how-to/retry-policy): When creating modules, you can set a retry policy per module using the `Configure()` method. The retry policy uses Polly, so if you've used Polly b...
-- [Run conditions](https://thomhurst.github.io/ModularPipelines/docs/how-to/run-conditions): Run conditions are generally controlled by attributes, placed upon your module.
+- [Run conditions](https://thomhurst.github.io/ModularPipelines/docs/how-to/run-conditions): Reusable run conditions implement `IRunCondition`:
 - [Secrets](https://thomhurst.github.io/ModularPipelines/docs/how-to/secrets): Your options classes should be registered as IOptions.
 - [Sharing data across modules](https://thomhurst.github.io/ModularPipelines/docs/how-to/sharing-data): Modules have been designed with data and sharing at its core.
 - [Skipping Modules](https://thomhurst.github.io/ModularPipelines/docs/how-to/skipping): The recommended way to configure module skipping is through the `Configure()` method with the fluent builder API:
