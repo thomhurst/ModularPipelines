@@ -40,6 +40,11 @@ jobs:
             check_name: pipeline (ubuntu-latest, 4)
       fail-fast: false
     runs-on: ${{ matrix.os }}
+    # Bound the job so a hung pipeline (e.g. the distributed master waiting on a
+    # departed worker - see #3174) fails fast instead of tying up a runner for the
+    # default 6 hours. The "Upload Hang Dumps" step runs on if:always() so dumps are
+    # still collected when this timeout trips.
+    timeout-minutes: 60
     env:
       NUGET_PACKAGES: ${{ matrix.os == 'windows-latest' && 'E:\nuget' || null }}
 
