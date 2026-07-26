@@ -7,5 +7,5 @@
 
 using System.Reflection;
 
-[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Tool", "hadolint")]
+[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Package", "ModularPipelines.Hadolint")]
 [assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Version", "2.0.0")]
