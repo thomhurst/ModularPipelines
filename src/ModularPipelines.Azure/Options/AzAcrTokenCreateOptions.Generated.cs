@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a token associated with a scope map for an Azure Container
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "token", "create")]
 public record AzAcrTokenCreateOptions : AzOptions

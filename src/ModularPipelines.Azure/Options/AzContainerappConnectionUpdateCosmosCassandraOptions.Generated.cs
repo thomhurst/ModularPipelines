@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a containerapp to cosmos-cassandra
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "connection", "update", "cosmos-cassandra")]
 public record AzContainerappConnectionUpdateCosmosCassandraOptions : AzOptions

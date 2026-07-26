@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reset a VPN connection shared key.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vpn-connection", "shared-key", "reset")]
 public record AzNetworkVpnConnectionSharedKeyResetOptions : AzOptions

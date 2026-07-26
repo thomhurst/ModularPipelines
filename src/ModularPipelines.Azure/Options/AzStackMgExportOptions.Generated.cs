@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export the template used to create the deployment stack.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "mg", "export")]
 public record AzStackMgExportOptions : AzOptions

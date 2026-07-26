@@ -16,7 +16,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az classification commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSynapseSqlPoolClassification
 {
     private readonly ICommand _command;

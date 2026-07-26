@@ -16,7 +16,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az topic commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventgridPartnerTopic
 {
     private readonly ICommand _command;

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Refreshes any
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "network-security-perimeter-configuration", "reconcile")]
 public record AzStorageAccountNetworkSecurityPerimeterConfigurationReconcileOptions : AzOptions

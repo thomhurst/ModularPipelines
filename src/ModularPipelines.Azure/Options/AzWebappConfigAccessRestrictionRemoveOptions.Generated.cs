@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Removes an Access Restriction from the webapp.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "access-restriction", "remove")]
 public record AzWebappConfigAccessRestrictionRemoveOptions : AzOptions

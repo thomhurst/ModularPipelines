@@ -16,7 +16,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az frontend-port commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkApplicationGatewayFrontendPort
 {
     private readonly ICommand _command;

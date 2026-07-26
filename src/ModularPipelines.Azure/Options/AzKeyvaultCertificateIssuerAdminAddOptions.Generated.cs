@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add admin details for a specified certificate issuer.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "issuer", "admin", "add")]
 public record AzKeyvaultCertificateIssuerAdminAddOptions : AzOptions

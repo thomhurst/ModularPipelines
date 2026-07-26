@@ -16,7 +16,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az log-profiles commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorLogProfiles
 {
     private readonly ICommand _command;

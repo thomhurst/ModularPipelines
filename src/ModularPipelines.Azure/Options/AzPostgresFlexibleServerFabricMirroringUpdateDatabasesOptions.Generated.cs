@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update allowed mirrored
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "fabric-mirroring", "update-databases")]
 public record AzPostgresFlexibleServerFabricMirroringUpdateDatabasesOptions : AzOptions

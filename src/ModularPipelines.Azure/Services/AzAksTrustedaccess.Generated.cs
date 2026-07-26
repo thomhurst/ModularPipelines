@@ -16,7 +16,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az trustedaccess commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAksTrustedaccess
 {
     private readonly ICommand _command;

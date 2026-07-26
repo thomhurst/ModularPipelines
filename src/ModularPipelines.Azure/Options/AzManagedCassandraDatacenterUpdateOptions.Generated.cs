@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a Datacenter in an Azure Managed Cassandra
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "datacenter", "update")]
 public record AzManagedCassandraDatacenterUpdateOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a list of language extensions that can run
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kusto", "pool", "add-language-extension")]
 public record AzSynapseKustoPoolAddLanguageExtensionOptions : AzOptions

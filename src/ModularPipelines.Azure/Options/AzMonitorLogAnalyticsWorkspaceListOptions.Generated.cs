@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a list of workspaces under a resource group or a
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "list")]
 public record AzMonitorLogAnalyticsWorkspaceListOptions : AzOptions

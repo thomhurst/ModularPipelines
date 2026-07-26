@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a rule from the export policy for a volume
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "export-policy", "remove")]
 public record AzNetappfilesVolumeExportPolicyRemoveOptions : AzOptions

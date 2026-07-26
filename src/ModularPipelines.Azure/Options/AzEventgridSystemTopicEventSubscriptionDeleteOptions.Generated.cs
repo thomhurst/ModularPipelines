@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete an event subscription of a system
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "system-topic", "event-subscription", "delete")]
 public record AzEventgridSystemTopicEventSubscriptionDeleteOptions : AzOptions

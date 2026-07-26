@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Troubleshoot issues with VPN connections or gateway
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "troubleshooting", "start")]
 public record AzNetworkWatcherTroubleshootingStartOptions : AzOptions

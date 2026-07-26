@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets a Geo-Disaster Recovery Configuration Alias for the
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "georecovery-alias", "set")]
 public record AzEventhubsGeorecoveryAliasSetOptions : AzOptions

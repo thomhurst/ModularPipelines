@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an Cassandra table under an Azure Cosmos DB
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "cassandra", "table", "update")]
 public record AzCosmosdbCassandraTableUpdateOptions : AzOptions

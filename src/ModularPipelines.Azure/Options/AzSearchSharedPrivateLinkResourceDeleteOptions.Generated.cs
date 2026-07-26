@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Initiates the deletion of the shared private
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "shared-private-link-resource", "delete")]
 public record AzSearchSharedPrivateLinkResourceDeleteOptions : AzOptions

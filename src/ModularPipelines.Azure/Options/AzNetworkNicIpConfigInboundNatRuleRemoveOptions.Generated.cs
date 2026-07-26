@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an inbound NAT rule of an IP
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "ip-config", "inbound-nat-rule", "remove")]
 public record AzNetworkNicIpConfigInboundNatRuleRemoveOptions : AzOptions

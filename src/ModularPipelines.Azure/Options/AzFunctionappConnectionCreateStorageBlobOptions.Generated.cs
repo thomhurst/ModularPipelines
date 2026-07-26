@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a functionapp connection to storage-blob.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "connection", "create", "storage-blob")]
 public record AzFunctionappConnectionCreateStorageBlobOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a saved search for a given
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "saved-search", "create")]
 public record AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions : AzOptions

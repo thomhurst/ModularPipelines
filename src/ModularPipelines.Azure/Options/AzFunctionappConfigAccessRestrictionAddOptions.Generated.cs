@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Adds an Access Restriction to the function app.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "config", "access-restriction", "add")]
 public record AzFunctionappConfigAccessRestrictionAddOptions : AzOptions

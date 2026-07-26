@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a firewall rule.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "firewall-rule", "delete")]
 public record AzMysqlFlexibleServerFirewallRuleDeleteOptions : AzOptions

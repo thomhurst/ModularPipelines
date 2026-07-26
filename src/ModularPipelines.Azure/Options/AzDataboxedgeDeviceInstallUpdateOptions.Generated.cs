@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Installs the updates on the Data Box Edge/Data Box
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "install-update")]
 public record AzDataboxedgeDeviceInstallUpdateOptions : AzOptions

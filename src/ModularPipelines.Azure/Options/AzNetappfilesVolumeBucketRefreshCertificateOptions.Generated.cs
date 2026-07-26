@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation will fetch the certificate
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "bucket", "refresh-certificate")]
 public record AzNetappfilesVolumeBucketRefreshCertificateOptions : AzOptions

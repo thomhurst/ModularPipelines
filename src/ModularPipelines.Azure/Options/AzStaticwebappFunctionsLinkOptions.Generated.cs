@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Link an Azure Function to a static webapp. Also known as "Bring
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "functions", "link")]
 public record AzStaticwebappFunctionsLinkOptions : AzOptions

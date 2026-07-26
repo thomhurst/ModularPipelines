@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until HSM security domain
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "wait")]
 public record AzKeyvaultSecurityDomainWaitOptions : AzOptions

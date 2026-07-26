@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update subscription diagnostic settings for
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "diagnostic-settings", "subscription", "update")]
 public record AzMonitorDiagnosticSettingsSubscriptionUpdateOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a SQL pool's threat detection policy.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "threat-policy", "update")]
 public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions

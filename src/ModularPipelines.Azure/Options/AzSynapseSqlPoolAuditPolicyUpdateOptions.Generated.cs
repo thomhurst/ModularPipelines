@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a SQL pool's auditing policy.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "audit-policy", "update")]
 public record AzSynapseSqlPoolAuditPolicyUpdateOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a rewrite rule condition.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "rewrite-rule", "condition", "update")]
 public record AzNetworkApplicationGatewayRewriteRuleConditionUpdateOptions : AzOptions

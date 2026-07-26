@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an application gateway WAF
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "custom-rule", "create")]
 public record AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions : AzOptions

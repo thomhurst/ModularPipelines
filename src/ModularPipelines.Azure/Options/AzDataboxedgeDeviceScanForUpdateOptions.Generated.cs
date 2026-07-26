@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Scans for updates on a Data Box Edge/Data Box Gateway
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "scan-for-update")]
 public record AzDataboxedgeDeviceScanForUpdateOptions : AzOptions

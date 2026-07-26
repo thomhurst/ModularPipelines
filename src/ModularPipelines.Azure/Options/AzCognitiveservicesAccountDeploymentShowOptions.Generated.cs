@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show a deployment for Azure Cognitive Services
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "deployment", "show")]
 public record AzCognitiveservicesAccountDeploymentShowOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates configuration of coordinator in
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "postgres", "configuration", "coordinator", "update")]
 public record AzCosmosdbPostgresConfigurationCoordinatorUpdateOptions : AzOptions

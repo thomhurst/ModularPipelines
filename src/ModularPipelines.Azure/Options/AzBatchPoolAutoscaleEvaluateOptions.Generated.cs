@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the result of evaluating an automatic scaling formula on
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "autoscale", "evaluate")]
 public record AzBatchPoolAutoscaleEvaluateOptions : AzOptions

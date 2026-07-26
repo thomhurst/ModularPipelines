@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the ServiceBus Rule for Subscription.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "topic", "subscription", "rule", "create")]
 public record AzServicebusTopicSubscriptionRuleCreateOptions : AzOptions

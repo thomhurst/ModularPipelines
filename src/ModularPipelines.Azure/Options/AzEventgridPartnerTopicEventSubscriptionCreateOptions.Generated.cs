@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new event subscription for a
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "topic", "event-subscription", "create")]
 public record AzEventgridPartnerTopicEventSubscriptionCreateOptions : AzOptions

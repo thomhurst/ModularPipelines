@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Migrate an Azure Database for PostgreSQL server
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "migrate-network")]
 public record AzPostgresFlexibleServerMigrateNetworkOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable Azure AD authentication of a SQL virtual machine.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "enable-azure-ad-auth")]
 public record AzSqlVmEnableAzureAdAuthOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the hierarchy settings defined at
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "hierarchy-settings", "delete")]
 public record AzAccountManagementGroupHierarchySettingsDeleteOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Validate Azure AD authentication of a SQL virtual machine at
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "validate-azure-ad-auth")]
 public record AzSqlVmValidateAzureAdAuthOptions : AzOptions

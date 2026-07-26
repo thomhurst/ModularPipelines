@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Aborts a pending copy_blob operation, and leaves a
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "blob", "incremental-copy", "cancel")]
 public record AzStorageBlobIncrementalCopyCancelOptions : AzOptions

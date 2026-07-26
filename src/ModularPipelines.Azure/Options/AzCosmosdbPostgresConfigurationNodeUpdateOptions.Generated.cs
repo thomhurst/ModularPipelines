@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates configuration of worker nodes in a
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "postgres", "configuration", "node", "update")]
 public record AzCosmosdbPostgresConfigurationNodeUpdateOptions : AzOptions

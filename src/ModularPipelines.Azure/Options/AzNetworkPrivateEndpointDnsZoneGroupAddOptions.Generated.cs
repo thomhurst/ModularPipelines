@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a private endpoint dns zone into a dns zone
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "dns-zone-group", "add")]
 public record AzNetworkPrivateEndpointDnsZoneGroupAddOptions : AzOptions

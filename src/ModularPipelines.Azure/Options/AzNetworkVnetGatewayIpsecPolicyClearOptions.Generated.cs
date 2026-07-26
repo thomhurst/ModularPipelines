@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete all IPsec policies on a virtual network
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "ipsec-policy", "clear")]
 public record AzNetworkVnetGatewayIpsecPolicyClearOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate keys of Authorization Rule for the
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "namespace", "authorization-rule", "keys", "renew")]
 public record AzRelayNamespaceAuthorizationRuleKeysRenewOptions : AzOptions

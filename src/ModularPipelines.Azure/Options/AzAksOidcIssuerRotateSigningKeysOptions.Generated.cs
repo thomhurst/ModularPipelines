@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Rotate oidc issuer service account signing keys.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "oidc-issuer", "rotate-signing-keys")]
 public record AzAksOidcIssuerRotateSigningKeysOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieve the boot diagnostic logs for a
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "get-boot-diagnostic-log")]
 public record AzNetworkVirtualApplianceGetBootDiagnosticLogOptions : AzOptions

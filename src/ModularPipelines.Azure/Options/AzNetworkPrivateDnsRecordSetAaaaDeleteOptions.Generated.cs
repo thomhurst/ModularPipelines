@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete an AAAA record set and all associated
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "record-set", "aaaa", "delete")]
 public record AzNetworkPrivateDnsRecordSetAaaaDeleteOptions : AzOptions

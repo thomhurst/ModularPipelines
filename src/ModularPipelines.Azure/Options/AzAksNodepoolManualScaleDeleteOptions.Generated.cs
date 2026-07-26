@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete an existing manual to a VirtualMachines agentpool
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "manual-scale", "delete")]
 public record AzAksNodepoolManualScaleDeleteOptions : AzOptions

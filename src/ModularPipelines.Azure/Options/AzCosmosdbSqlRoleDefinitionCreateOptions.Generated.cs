@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a SQL role definition under an Azure Cosmos DB
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "role", "definition", "create")]
 public record AzCosmosdbSqlRoleDefinitionCreateOptions : AzOptions

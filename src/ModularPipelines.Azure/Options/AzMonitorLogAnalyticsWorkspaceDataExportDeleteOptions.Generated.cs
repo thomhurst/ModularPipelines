@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a data export rule for a given
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "data-export", "delete")]
 public record AzMonitorLogAnalyticsWorkspaceDataExportDeleteOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation stops an ongoing
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "gateway", "stop-site-failover-test")]
 public record AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List event subscriptions of a specific
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "system-topic", "event-subscription", "list")]
 public record AzEventgridSystemTopicEventSubscriptionListOptions : AzOptions

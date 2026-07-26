@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Revoke workspace's sql-access to
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "managed-identity", "revoke-sql-access")]
 public record AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions : AzOptions

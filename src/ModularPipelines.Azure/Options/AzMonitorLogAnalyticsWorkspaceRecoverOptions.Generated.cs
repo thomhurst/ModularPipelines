@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Recover a workspace in a soft-delete state within
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "recover")]
 public record AzMonitorLogAnalyticsWorkspaceRecoverOptions : AzOptions

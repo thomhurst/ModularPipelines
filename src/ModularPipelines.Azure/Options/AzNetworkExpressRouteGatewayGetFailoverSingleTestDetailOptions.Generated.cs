@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation retrieves the
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "gateway", "get-failover-single-test-detail")]
 public record AzNetworkExpressRouteGatewayGetFailoverSingleTestDetailOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Approve the specified private endpoint
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mariadb", "server", "private-endpoint-connection", "approve")]
 public record AzMariadbServerPrivateEndpointConnectionApproveOptions : AzOptions

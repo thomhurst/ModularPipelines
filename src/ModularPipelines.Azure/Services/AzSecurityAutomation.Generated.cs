@@ -16,7 +16,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az automation commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSecurityAutomation
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class AzSecurityAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create_or_update(
+    public virtual async Task<CommandResult> CreateOrUpdate(
         AzSecurityAutomationCreateOrUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)

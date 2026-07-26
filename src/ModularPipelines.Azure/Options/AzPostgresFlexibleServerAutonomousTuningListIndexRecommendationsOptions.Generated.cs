@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get available
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "autonomous-tuning", "list-index-recommendations")]
 public record AzPostgresFlexibleServerAutonomousTuningListIndexRecommendationsOptions : AzOptions

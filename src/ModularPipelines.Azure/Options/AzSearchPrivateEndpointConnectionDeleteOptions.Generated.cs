@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disconnects the private endpoint connection and
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "private-endpoint-connection", "delete")]
 public record AzSearchPrivateEndpointConnectionDeleteOptions : AzOptions

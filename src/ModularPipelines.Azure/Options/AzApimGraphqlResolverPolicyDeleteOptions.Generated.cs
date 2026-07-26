@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the policy configuration at the GraphQL Api
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "graphql", "resolver", "policy", "delete")]
 public record AzApimGraphqlResolverPolicyDeleteOptions : AzOptions

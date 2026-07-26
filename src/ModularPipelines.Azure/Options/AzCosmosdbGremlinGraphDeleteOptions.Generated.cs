@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the Gremlin graph under an Azure Cosmos DB Gremlin
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "gremlin", "graph", "delete")]
 public record AzCosmosdbGremlinGraphDeleteOptions : AzOptions

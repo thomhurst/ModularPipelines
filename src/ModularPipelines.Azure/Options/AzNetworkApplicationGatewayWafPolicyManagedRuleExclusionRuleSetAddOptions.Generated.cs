@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a managed
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "exclusion", "rule-set", "add")]
 public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetAddOptions : AzOptions

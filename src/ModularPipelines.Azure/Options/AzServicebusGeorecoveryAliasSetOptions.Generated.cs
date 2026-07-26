@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets Service Bus Geo-Disaster Recovery Configuration Alias
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "georecovery-alias", "set")]
 public record AzServicebusGeorecoveryAliasSetOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the consumer groups in a Namespace. An
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "eventhub", "consumer-group", "list")]
 public record AzEventhubsEventhubConsumerGroupListOptions : AzOptions

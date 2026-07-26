@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate self-hosted integration runtime
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "integration-runtime", "regenerate-auth-key")]
 public record AzSynapseIntegrationRuntimeRegenerateAuthKeyOptions : AzOptions

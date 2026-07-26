@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a linked IoT hub in an Azure IoT Hub Device Provisioning
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "linked-hub", "create")]
 public record AzIotDpsLinkedHubCreateOptions : AzOptions

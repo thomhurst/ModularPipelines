@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a Virtual-Network-Rule
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "network-rule-set", "virtual-network-rule", "add")]
 public record AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRuleAddOptions : AzOptions

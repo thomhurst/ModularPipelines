@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a functionapp to cosmos-gremlin
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "connection", "update", "cosmos-gremlin")]
 public record AzFunctionappConnectionUpdateCosmosGremlinOptions : AzOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all routes the route server bgp
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "routeserver", "peering", "list-advertised-routes")]
 public record AzNetworkRouteserverPeeringListAdvertisedRoutesOptions : AzOptions
