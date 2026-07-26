@@ -15,7 +15,7 @@ namespace ModularPipelines.Vault.Services;
 /// <summary>
 /// Generated interface for vault CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IVault
 {
     #region Commands

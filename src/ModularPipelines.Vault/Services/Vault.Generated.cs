@@ -16,7 +16,7 @@ namespace ModularPipelines.Vault.Services;
 /// <summary>
 /// Generated implementation for vault CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Vault : IVault
 {
     private readonly ICommand _command;
