@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -12,13 +13,16 @@ namespace ModularPipelines.Engine;
 internal class ModuleConditionHandler : IModuleConditionHandler
 {
     private readonly IOptions<PipelineOptions> _pipelineOptions;
+    private readonly IOptions<DistributedOptions> _distributedOptions;
     private readonly IPipelineContextProvider _pipelineContextProvider;
 
     public ModuleConditionHandler(
         IOptions<PipelineOptions> pipelineOptions,
+        IOptions<DistributedOptions> distributedOptions,
         IPipelineContextProvider pipelineContextProvider)
     {
         _pipelineOptions = pipelineOptions;
+        _distributedOptions = distributedOptions;
         _pipelineContextProvider = pipelineContextProvider;
     }
 
@@ -86,8 +90,18 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         }
 
         // Then, evaluate legacy RunConditionAttribute/MandatoryRunConditionAttribute for backwards compatibility
-        var legacyResult = await EvaluateLegacyConditions(moduleType, pipelineContext, cancellationToken).ConfigureAwait(false);
+        var legacyResult = await EvaluateLegacyConditions(
+            moduleType,
+            pipelineContext,
+            IsDistributedMaster(),
+            cancellationToken).ConfigureAwait(false);
         return legacyResult;
+    }
+
+    private bool IsDistributedMaster()
+    {
+        var options = _distributedOptions.Value;
+        return options.Enabled && options.TotalInstances > 1 && options.InstanceIndex == 0;
     }
 
     private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateNewStyleConditions(
@@ -148,10 +162,19 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateLegacyConditions(
         Type moduleType,
         IPipelineHookContext pipelineContext,
+        bool isDistributedMaster,
         CancellationToken cancellationToken)
     {
-        var mandatoryRunConditionAttributes = moduleType.GetCustomAttributes<MandatoryRunConditionAttribute>(true).ToArray();
-        var runConditionAttributes = moduleType.GetCustomAttributes<RunConditionAttribute>(true).Except(mandatoryRunConditionAttributes).ToArray();
+        var allMandatoryRunConditionAttributes = moduleType
+            .GetCustomAttributes<MandatoryRunConditionAttribute>(true)
+            .ToArray();
+        var mandatoryRunConditionAttributes = allMandatoryRunConditionAttributes
+            .Where(attribute => !isDistributedMaster || !IsOperatingSystemCondition(attribute))
+            .ToArray();
+        var runConditionAttributes = moduleType
+            .GetCustomAttributes<RunConditionAttribute>(true)
+            .Except(allMandatoryRunConditionAttributes)
+            .ToArray();
 
         // Evaluate mandatory conditions sequentially with short-circuit on first failure
         foreach (var attr in mandatoryRunConditionAttributes)
@@ -183,5 +206,12 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         }
 
         return (false, SkipDecision.Skip($"No run conditions were met: {string.Join(", ", runConditionAttributes.Select(x => x.GetType().Name.Replace("Attribute", string.Empty, StringComparison.OrdinalIgnoreCase)))}"));
+    }
+
+    private static bool IsOperatingSystemCondition(MandatoryRunConditionAttribute attribute)
+    {
+        return attribute is RunOnLinuxOnlyAttribute
+            or RunOnMacOSOnlyAttribute
+            or RunOnWindowsOnlyAttribute;
     }
 }
