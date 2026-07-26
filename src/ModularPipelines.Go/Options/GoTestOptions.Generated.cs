@@ -15,7 +15,7 @@ namespace ModularPipelines.Go.Options;
 /// <summary>
 /// 'Go test' automates testing the packages named by the import paths.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("test")]
 public record GoTestOptions : GoOptions

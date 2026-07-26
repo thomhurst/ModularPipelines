@@ -15,7 +15,7 @@ namespace ModularPipelines.Go.Services;
 /// <summary>
 /// Generated interface for go CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IGo
 {
     #region Commands
