@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
@@ -47,6 +48,28 @@ public class DynamicDependencyIntegrationTests : TestBase
         }
     }
 
+    // Never registered — a dynamic dependency on this module cannot be satisfied.
+    public class UnregisteredModule : Module<string>
+    {
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            return "unregistered";
+        }
+    }
+
+    // The dependency is added at registration time (after build-time auto-registration has run),
+    // so nothing auto-registers UnregisteredModule and it must be caught by the run-time revalidation.
+    [AddDependency(typeof(UnregisteredModule))]
+    public class ModuleWithMissingDynamicDependency : Module<string>
+    {
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            return "never runs";
+        }
+    }
+
     [Before(Test)]
     public void ClearExecutionOrder()
     {
@@ -63,5 +86,18 @@ public class DynamicDependencyIntegrationTests : TestBase
 
         await Assert.That(result.Status).IsEqualTo(Enums.Status.Successful);
         await Assert.That(ExecutionOrder).IsEquivalentTo(new[] { "A", "B" });
+    }
+
+    [Test]
+    public async Task DynamicDependency_OnUnregisteredModule_FailsFast()
+    {
+        // A dependency added via a registration event on a module that is not registered
+        // (and cannot be auto-registered, because it is not declared via [DependsOn]) must be
+        // caught by the run-time revalidation of the canonical graph, before the scheduler runs,
+        // rather than surfacing late as a dependency-waiter failure.
+        await Assert.ThrowsAsync<ModuleNotRegisteredException>(() =>
+            TestPipelineHostBuilder.Create()
+                .AddModule<ModuleWithMissingDynamicDependency>()
+                .ExecutePipelineAsync());
     }
 }

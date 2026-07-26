@@ -11,15 +11,24 @@ using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Distributed.UnitTests.Master;
 
 public class DistributedModuleExecutorTests
 {
+    // Real, empty registries so the master's pre-distribution dependency validation is a no-op
+    // for these dependency-free test modules (matches the production DI singletons).
+    private static ModuleDependencyRegistry NewDependencyRegistry() => new();
+
+    private static ModuleMetadataRegistry NewMetadataRegistry() =>
+        new(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()));
+
     // --- Test module types ---
 
     private class SimpleResult
@@ -168,6 +177,8 @@ public class DistributedModuleExecutorTests
             typeRegistry,
             serializer,
             resultRegistry,
+            NewDependencyRegistry(),
+            NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             artifactManager,
             NullLogger<DistributedModuleExecutor>.Instance);
@@ -654,7 +665,8 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
-            resultRegistry, Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
+            resultRegistry, NewDependencyRegistry(), NewMetadataRegistry(),
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
         // Act
@@ -701,7 +713,8 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             noDequeue, publisher, resultCollector, typeRegistry, serializer,
-            resultRegistry, Microsoft.Extensions.Options.Options.Create(distributedOptions),
+            resultRegistry, NewDependencyRegistry(), NewMetadataRegistry(),
+            Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
         // Simulate a worker registering after a short delay
@@ -796,7 +809,8 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
-            resultRegistry, Microsoft.Extensions.Options.Options.Create(distributedOptions),
+            resultRegistry, NewDependencyRegistry(), NewMetadataRegistry(),
+            Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
         // Act — should proceed after 3 seconds timeout even though only 1/3 workers registered

@@ -7,6 +7,7 @@ using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -24,6 +25,8 @@ internal class DistributedModuleExecutor(
     ModuleTypeRegistry typeRegistry,
     ModuleResultSerializer serializer,
     IModuleResultRegistry resultRegistry,
+    IModuleDependencyRegistry dependencyRegistry,
+    IModuleMetadataRegistry metadataRegistry,
     IOptions<DistributedOptions> options,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<DistributedModuleExecutor> logger) : IModuleExecutor
@@ -38,6 +41,8 @@ internal class DistributedModuleExecutor(
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
+    private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
+    private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<DistributedModuleExecutor> _logger = logger;
@@ -60,6 +65,11 @@ internal class DistributedModuleExecutor(
 
         // Invoke registration events before dependency resolution
         await _registrationEventExecutor.InvokeRegistrationEventsAsync(modules).ConfigureAwait(false);
+
+        // Revalidate the runnable set now that registration-event dependencies are populated, so
+        // missing/self/cyclic dependencies (including ones added via AddDependency) fail fast here
+        // rather than the master hanging or failing late. Mirrors the standalone ModuleExecutor.
+        ModuleDependencyValidator.Validate(modules, _dependencyRegistry, _metadataRegistry);
 
         // Wait for workers to register before distributing work
         await WaitForWorkersAsync(_lifetime.ApplicationStopping);
