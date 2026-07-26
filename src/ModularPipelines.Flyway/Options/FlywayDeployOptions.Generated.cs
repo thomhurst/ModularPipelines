@@ -13,7 +13,7 @@ using ModularPipelines.Flyway.Options;
 
 namespace ModularPipelines.Flyway.Options;
 
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy")]
 public record FlywayDeployOptions : FlywayOptions
