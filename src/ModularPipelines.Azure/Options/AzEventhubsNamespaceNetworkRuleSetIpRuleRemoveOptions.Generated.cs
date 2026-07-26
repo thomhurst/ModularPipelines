@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove Ip-Rule from network rule of
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "network-rule-set", "ip-rule", "remove")]
 public record AzEventhubsNamespaceNetworkRuleSetIpRuleRemoveOptions : AzOptions

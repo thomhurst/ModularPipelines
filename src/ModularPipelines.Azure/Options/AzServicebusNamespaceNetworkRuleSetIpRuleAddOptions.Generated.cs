@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a IP-Rule for network rule of
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "namespace", "network-rule-set", "ip-rule", "add")]
 public record AzServicebusNamespaceNetworkRuleSetIpRuleAddOptions : AzOptions

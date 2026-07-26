@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Query the status of a running packet
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "network-watcher", "packet-capture", "query-status")]
 public record AzNetworkNetworkWatcherPacketCaptureQueryStatusOptions : AzOptions

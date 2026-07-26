@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// Generated interface for az CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IAz
 {
     #region Sub-domain Services

@@ -1,6 +1,7 @@
 using System.Text;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Scrapers;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 
@@ -18,7 +19,8 @@ public class GeneratorHardeningTests
         string? subDomainGroup = null,
         string? commandGroupIdentifierOverride = null,
         IReadOnlyList<CliEnumDefinition>? enums = null,
-        IReadOnlyList<CliOptionDefinition>? options = null) =>
+        IReadOnlyList<CliOptionDefinition>? options = null,
+        IReadOnlyList<CliCompatibilityMethod>? compatibilityMethods = null) =>
         new()
         {
             FullCommand = "tool",
@@ -30,6 +32,7 @@ public class GeneratorHardeningTests
             SubDomainGroup = subDomainGroup,
             CommandGroupIdentifierOverride = commandGroupIdentifierOverride,
             Enums = enums ?? [],
+            CompatibilityMethods = compatibilityMethods ?? [],
         };
 
     private static CliToolDefinition Tool(params CliCommandDefinition[] commands) =>
@@ -399,6 +402,54 @@ public class GeneratorHardeningTests
         await Assert.That(generated).DoesNotContain("options = default");
     }
 
+    [Test]
+    public async Task GenerateServiceMethod_Emits_Obsolete_Forwarding_Alias()
+    {
+        var sb = new StringBuilder();
+        var command = Command(
+            "ToolCreateOrUpdateOptions",
+            "ToolOptions",
+            compatibilityMethods:
+            [
+                new CliCompatibilityMethod
+                {
+                    MethodName = "Create_or_update",
+                    ObsoleteMessage = "Use CreateOrUpdate instead.",
+                },
+            ]);
+
+        GeneratorUtils.GenerateServiceMethod(sb, "CreateOrUpdate", command);
+
+        var generated = sb.ToString();
+
+        await Assert.That(generated).Contains("[Obsolete(\"Use CreateOrUpdate instead.\")]");
+        await Assert.That(generated).Contains("Task<CommandResult> Create_or_update(");
+        await Assert.That(generated).Contains(
+            "return await CreateOrUpdate(options, executionOptions, cancellationToken);");
+    }
+
+    [Test]
+    public async Task ServiceInterfaceGenerator_Emits_Obsolete_Compatibility_Signature()
+    {
+        var tool = Tool(Command(
+            "ToolCreateOrUpdateOptions",
+            "ToolOptions",
+            ["create_or_update"],
+            compatibilityMethods:
+            [
+                new CliCompatibilityMethod
+                {
+                    MethodName = "Create_or_update",
+                    ObsoleteMessage = "Use CreateOrUpdate instead.",
+                },
+            ]));
+
+        var generated = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(generated).Contains("[Obsolete(\"Use CreateOrUpdate instead.\")]");
+        await Assert.That(generated).Contains("Task<CommandResult> Create_or_update(");
+    }
+
     #endregion
 
     #region Method name casing
@@ -417,6 +468,18 @@ public class GeneratorHardeningTests
         var result = GeneratorUtils.GenerateMethodNameFromCommandParts(["app-set", "create"]);
 
         await Assert.That(result).IsEqualTo("AppSetCreate");
+    }
+
+    [Test]
+    public async Task Az_Compatibility_Preserves_Known_Snake_Case_Methods()
+    {
+        var automationMethods = AzCliCompatibility.GetMethods(
+            ["security", "automation", "create_or_update"]);
+        var suppressionRuleMethods = AzCliCompatibility.GetMethods(
+            ["security", "alerts-suppression-rule", "upsert_scope"]);
+
+        await Assert.That(automationMethods.Single().MethodName).IsEqualTo("Create_or_update");
+        await Assert.That(suppressionRuleMethods.Single().MethodName).IsEqualTo("Upsert_scope");
     }
 
     #endregion

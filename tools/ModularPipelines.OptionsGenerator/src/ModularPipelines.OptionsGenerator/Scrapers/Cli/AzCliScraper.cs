@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Scrapers;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -191,7 +192,8 @@ public partial class AzCliScraper : CliScraperBase
             Options = options,
             PositionalArguments = [],
             SubDomainGroup = subDomain,
-            Enums = enums
+            Enums = enums,
+            CompatibilityMethods = AzCliCompatibility.GetMethods(commandParts),
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);

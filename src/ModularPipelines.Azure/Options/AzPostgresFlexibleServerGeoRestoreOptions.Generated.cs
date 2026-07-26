@@ -15,7 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Geo-restore a flexible server from backup.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "geo-restore")]
 public record AzPostgresFlexibleServerGeoRestoreOptions : AzOptions
@@ -75,7 +75,7 @@ public record AzPostgresFlexibleServerGeoRestoreOptions : AzOptions
     public bool? PrivateDnsZone { get; set; }
 
     /// <summary>
-    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2026-03-22T18:20:22+00:00 The default value is set to current time.  Default: 2026-07-19T03:22:15+00:00.
+    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2026-03-22T18:20:22+00:00 The default value is set to current time.  Default: 2026-07-26T03:21:45+00:00.
     /// </summary>
     [CliFlag("--restore-time")]
     public bool? RestoreTime { get; set; }
