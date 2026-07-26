@@ -144,7 +144,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 
         if (secretValueKeys.Count == 0)
         {
-            foreach (var secret in FlattenSecrets(propertyValue))
+            foreach (var secret in NormalizeSecrets(propertyValue))
             {
                 if (!string.IsNullOrWhiteSpace(secret))
                 {
@@ -170,18 +170,32 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         }
     }
 
-    private static IEnumerable<string?> FlattenSecrets(object? value)
+    private static IEnumerable<string?> NormalizeSecrets(object? value)
     {
-        if (value is string || value is not IEnumerable enumerable)
+        if (value is string || value is IEnumerable<char> || value is not IEnumerable enumerable)
         {
-            yield return value?.ToString();
+            yield return NormalizeSecret(value);
             yield break;
         }
 
         foreach (var item in enumerable)
         {
-            yield return item?.ToString();
+            yield return NormalizeSecret(item);
         }
+    }
+
+    private static string? NormalizeSecret(object? value)
+    {
+        return value switch
+        {
+            null => null,
+            string secret => secret,
+            char[] characters => new string(characters),
+            Memory<char> characters => characters.ToString(),
+            ReadOnlyMemory<char> characters => characters.ToString(),
+            IEnumerable<char> characters => new string(characters.ToArray()),
+            _ => value.ToString(),
+        };
     }
 
     public Task InitializeAsync()
