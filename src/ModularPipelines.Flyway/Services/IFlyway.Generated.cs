@@ -15,7 +15,7 @@ namespace ModularPipelines.Flyway.Services;
 /// <summary>
 /// Generated interface for flyway CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IFlyway
 {
     #region Commands
