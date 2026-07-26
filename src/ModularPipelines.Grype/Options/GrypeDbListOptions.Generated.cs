@@ -15,7 +15,7 @@ namespace ModularPipelines.Grype.Options;
 /// <summary>
 /// List all DBs available according to the listing URL
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "list")]
 public record GrypeDbListOptions : GrypeOptions

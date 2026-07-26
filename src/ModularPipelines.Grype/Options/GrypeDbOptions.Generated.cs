@@ -15,7 +15,7 @@ namespace ModularPipelines.Grype.Options;
 /// <summary>
 /// vulnerability database operations
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db")]
 public record GrypeDbOptions : GrypeOptions

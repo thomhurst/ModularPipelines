@@ -15,7 +15,7 @@ namespace ModularPipelines.Grype.Services;
 /// <summary>
 /// Generated interface for grype CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IGrype
 {
     #region Sub-domain Services
