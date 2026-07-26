@@ -494,6 +494,47 @@ public static partial class GeneratorUtils
         }
 
         sb.AppendLine($"{indent}}}");
+
+        foreach (var compatibilityMethod in GetCompatibilityMethods(command, methodName))
+        {
+            sb.AppendLine();
+            GenerateCompatibilityServiceMethod(
+                sb,
+                compatibilityMethod,
+                methodName,
+                command,
+                indent);
+        }
+    }
+
+    internal static IEnumerable<CliCompatibilityMethod> GetCompatibilityMethods(
+        CliCommandDefinition command,
+        string currentMethodName)
+    {
+        return command.CompatibilityMethods
+            .Where(method => !string.Equals(method.MethodName, currentMethodName, StringComparison.Ordinal))
+            .DistinctBy(method => method.MethodName, StringComparer.Ordinal);
+    }
+
+    private static void GenerateCompatibilityServiceMethod(
+        StringBuilder sb,
+        CliCompatibilityMethod compatibilityMethod,
+        string currentMethodName,
+        CliCommandDefinition command,
+        string indent)
+    {
+        var obsoleteMessage = compatibilityMethod.ObsoleteMessage
+            .Replace("\\", "\\\\")
+            .Replace("\"", "\\\"");
+
+        sb.AppendLine($"{indent}[Obsolete(\"{obsoleteMessage}\")]");
+        sb.AppendLine($"{indent}public virtual async Task<CommandResult> {compatibilityMethod.MethodName}(");
+        sb.AppendLine($"{indent}    {BuildOptionsParameter(command)},");
+        sb.AppendLine($"{indent}    {ExecutionOptionsParameter},");
+        sb.AppendLine($"{indent}    CancellationToken cancellationToken = default)");
+        sb.AppendLine($"{indent}{{");
+        sb.AppendLine($"{indent}    return await {currentMethodName}(options, executionOptions, cancellationToken);");
+        sb.AppendLine($"{indent}}}");
     }
 
     /// <summary>

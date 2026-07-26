@@ -46,6 +46,15 @@ public class AzSecurityAutomation
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAutomationCreateOrUpdateOptions(), executionOptions, cancellationToken);
     }
 
+    [Obsolete("Use CreateOrUpdate instead.")]
+    public virtual async Task<CommandResult> Create_or_update(
+        AzSecurityAutomationCreateOrUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await CreateOrUpdate(options, executionOptions, cancellationToken);
+    }
+
     /// <summary>
     /// List all security automations under subscription/resource group.
     /// </summary>

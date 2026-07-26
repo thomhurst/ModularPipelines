@@ -61,5 +61,14 @@ public class AzSecurityAlertsSuppressionRule
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAlertsSuppressionRuleUpsertScopeOptions(), executionOptions, cancellationToken);
     }
 
+    [Obsolete("Use UpsertScope instead.")]
+    public virtual async Task<CommandResult> Upsert_scope(
+        AzSecurityAlertsSuppressionRuleUpsertScopeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await UpsertScope(options, executionOptions, cancellationToken);
+    }
+
     #endregion
 }

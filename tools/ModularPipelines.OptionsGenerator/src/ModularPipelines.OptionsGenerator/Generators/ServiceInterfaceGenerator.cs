@@ -113,5 +113,15 @@ public class ServiceInterfaceGenerator : ICodeGenerator
 
         // Interface signature must match implementation
         sb.AppendLine($"    Task<CommandResult> {methodName}({GeneratorUtils.BuildOptionsParameter(command)}, {GeneratorUtils.ExecutionOptionsParameter}, CancellationToken cancellationToken = default);");
+
+        foreach (var compatibilityMethod in GeneratorUtils.GetCompatibilityMethods(command, methodName))
+        {
+            var obsoleteMessage = compatibilityMethod.ObsoleteMessage
+                .Replace("\\", "\\\\")
+                .Replace("\"", "\\\"");
+            sb.AppendLine();
+            sb.AppendLine($"    [Obsolete(\"{obsoleteMessage}\")]");
+            sb.AppendLine($"    Task<CommandResult> {compatibilityMethod.MethodName}({GeneratorUtils.BuildOptionsParameter(command)}, {GeneratorUtils.ExecutionOptionsParameter}, CancellationToken cancellationToken = default);");
+        }
     }
 }

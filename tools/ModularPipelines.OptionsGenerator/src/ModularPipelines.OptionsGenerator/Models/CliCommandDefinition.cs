@@ -76,6 +76,11 @@ public record CliCommandDefinition
     /// Public properties retained for source and binary compatibility but excluded from CLI rendering.
     /// </summary>
     public IReadOnlyList<CliCompatibilityProperty> CompatibilityProperties { get; init; } = [];
+
+    /// <summary>
+    /// Public methods retained as obsolete forwarding aliases for compatibility.
+    /// </summary>
+    public IReadOnlyList<CliCompatibilityMethod> CompatibilityMethods { get; init; } = [];
 }
 
 /// <summary>
@@ -97,6 +102,22 @@ public record CliCompatibilityProperty
     /// Optional replacement property that this compatibility alias forwards to.
     /// </summary>
     public string? ForwardToPropertyName { get; init; }
+
+    /// <summary>
+    /// Obsolete diagnostic shown to consumers.
+    /// </summary>
+    public required string ObsoleteMessage { get; init; }
+}
+
+/// <summary>
+/// Describes an obsolete generated method retained as a forwarding alias.
+/// </summary>
+public record CliCompatibilityMethod
+{
+    /// <summary>
+    /// CLR method name.
+    /// </summary>
+    public required string MethodName { get; init; }
 
     /// <summary>
     /// Obsolete diagnostic shown to consumers.
