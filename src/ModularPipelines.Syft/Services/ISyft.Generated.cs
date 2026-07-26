@@ -15,7 +15,7 @@ namespace ModularPipelines.Syft.Services;
 /// <summary>
 /// Generated interface for syft CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface ISyft
 {
     #region Sub-domain Services

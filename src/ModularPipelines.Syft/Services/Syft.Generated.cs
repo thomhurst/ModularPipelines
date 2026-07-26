@@ -16,7 +16,7 @@ namespace ModularPipelines.Syft.Services;
 /// <summary>
 /// Generated implementation for syft CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Syft : ISyft
 {
     private readonly ICommand _command;
