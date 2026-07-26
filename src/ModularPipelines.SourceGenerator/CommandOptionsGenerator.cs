@@ -16,6 +16,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     internal const string CliOptionAttributeFullName = "ModularPipelines.Attributes.CliOptionAttribute";
     internal const string CliFlagAttributeFullName = "ModularPipelines.Attributes.CliFlagAttribute";
     internal const string CliArgumentAttributeFullName = "ModularPipelines.Attributes.CliArgumentAttribute";
+    internal const string CliGlobalOptionsAttributeFullName = "ModularPipelines.Attributes.CliGlobalOptionsAttribute";
     internal const string SecretValueAttributeFullName = "ModularPipelines.Attributes.SecretValueAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
@@ -145,7 +146,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     0,
                     0,
                     null,
-                    GetConstructorStrings(secretAttribute)));
+                    GetConstructorStrings(secretAttribute),
+                    false));
             }
         }
 
@@ -170,6 +172,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static PropertyMetadata CreatePropertyMetadata(IPropertySymbol property, AttributeData attribute)
     {
+        var isGlobalOption = IsGlobalOption(property);
         var attributeName = attribute.AttributeClass?.ToDisplayString();
         if (attributeName == CliArgumentAttributeFullName)
         {
@@ -182,7 +185,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetConstructorInt(attribute),
                 GetNamedInt(attribute, "Placement"),
                 null,
-                []);
+                [],
+                isGlobalOption);
         }
 
         if (attributeName == CliFlagAttributeFullName)
@@ -196,7 +200,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 0,
                 0,
                 null,
-                []);
+                [],
+                isGlobalOption);
         }
 
         return new PropertyMetadata(
@@ -208,7 +213,22 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetNamedInt(attribute, "Format"),
             GetNamedBool(attribute, "AllowMultiple") ? 1 : 0,
             GetNamedString(attribute, "CustomSeparator"),
-            []);
+            [],
+            isGlobalOption);
+    }
+
+    private static bool IsGlobalOption(IPropertySymbol property)
+    {
+        for (var current = property; current is not null; current = current.OverriddenProperty)
+        {
+            if (current.ContainingType.GetAttributes()
+                .Any(candidate => IsAttribute(candidate, CliGlobalOptionsAttributeFullName)))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static string Generate(ImmutableArray<TypeMetadata> items)
@@ -268,7 +288,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        Placement = (global::ModularPipelines.Attributes.ArgumentPlacement){property.SecondInt},");
                     sb.AppendLine($"                        Name = {NullableLiteral(property.PrimaryValue)},");
-                    sb.AppendLine("                    }),");
+                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;
                 case PropertyKind.Flag:
                     sb.AppendLine("                new global::ModularPipelines.Helpers.Internal.FlagPart(");
@@ -277,7 +297,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        ShortForm = {NullableLiteral(property.ShortForm)},");
                     sb.AppendLine($"                        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
-                    sb.AppendLine("                    }),");
+                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;
                 case PropertyKind.Option:
                     sb.AppendLine("                new global::ModularPipelines.Helpers.Internal.OptionPart(");
@@ -289,7 +309,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        Format = (global::ModularPipelines.Attributes.OptionFormat){property.FirstInt},");
                     sb.AppendLine($"                        AllowMultiple = {BooleanLiteral(property.SecondInt == 1)},");
                     sb.AppendLine($"                        CustomSeparator = {NullableLiteral(property.CustomSeparator)},");
-                    sb.AppendLine("                    }),");
+                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;
             }
         }
@@ -431,7 +451,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         int FirstInt,
         int SecondInt,
         string? CustomSeparator,
-        ImmutableArray<string> SecretValueKeys);
+        ImmutableArray<string> SecretValueKeys,
+        bool IsGlobalOption);
 
     private enum PropertyKind
     {

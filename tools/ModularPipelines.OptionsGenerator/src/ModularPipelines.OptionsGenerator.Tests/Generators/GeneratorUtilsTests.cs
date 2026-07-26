@@ -328,6 +328,23 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    public async Task GenerateCliAttributeString_Includes_NoSeparator_Format()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "-D",
+            PropertyName = "Property",
+            CSharpType = "IEnumerable<KeyValue>?",
+            IsFlag = false,
+            ValueSeparator = string.Empty,
+        };
+
+        var result = GeneratorUtils.GenerateCliAttributeString(option);
+
+        await Assert.That(result).Contains("Format = OptionFormat.NoSeparator");
+    }
+
+    [Test]
     public async Task GenerateCliAttributeString_Includes_AllowMultiple_When_True()
     {
         var option = new CliOptionDefinition

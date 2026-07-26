@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\src\ModularPipelines.Java\ModularPipelines.Java.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Jq\ModularPipelines.Jq.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Liquibase\ModularPipelines.Liquibase.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Shellcheck\ModularPipelines.Shellcheck.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Node\ModularPipelines.Node.csproj" />

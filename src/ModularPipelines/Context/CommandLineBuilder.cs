@@ -15,7 +15,7 @@ namespace ModularPipelines.Context;
 /// 3. Handle placeholder replacement in command parts
 /// 4. Build arguments from [CliOption], [CliFlag], and [CliArgument] attributes
 /// 5. Add manual Arguments if present
-/// 6. Add RunSettings after "--" if present
+/// 6. Add RunSettings after "--" if present.
 /// </remarks>
 internal sealed class CommandLineBuilder : ICommandLineBuilder
 {
@@ -52,12 +52,18 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
         var rawCommandParts = _commandPartsProvider.GetRawCommandParts(options);
         var precedingArgs = _placeholderHandler.ReplacePlaceholders(rawCommandParts, options);
 
-        // 3. Build arguments from properties using the command model
+        // 3. Build arguments from properties using the command model. Properties declared
+        // on a [CliGlobalOptions] base belong before the subcommand; command-specific
+        // properties retain their normal position after it.
         var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
-        var propertyArgs = _commandArgumentBuilder.BuildArguments(commandModel, options);
+        var globalCommandModel = commandModel.Where(part => part.IsGlobalOption).ToList();
+        var commandSpecificModel = commandModel.Where(part => !part.IsGlobalOption).ToList();
+        var globalArgs = _commandArgumentBuilder.BuildArguments(globalCommandModel, options);
+        var propertyArgs = _commandArgumentBuilder.BuildArguments(commandSpecificModel, options);
 
-        // 4. Combine: preceding args (subcommands) + property args
-        var allArgs = new List<string>(precedingArgs);
+        // 4. Combine: global args + preceding args (subcommands) + property args
+        var allArgs = new List<string>(globalArgs);
+        allArgs.AddRange(precedingArgs);
         allArgs.AddRange(propertyArgs);
 
         // 5. Add any manual arguments passed via options.Arguments
