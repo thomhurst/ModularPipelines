@@ -25,7 +25,6 @@ internal class DistributedModuleExecutor(
     ModuleTypeRegistry typeRegistry,
     ModuleResultSerializer serializer,
     IModuleResultRegistry resultRegistry,
-    IEnumerable<IModule> registeredModules,
     IModuleDependencyRegistry dependencyRegistry,
     IModuleMetadataRegistry metadataRegistry,
     IOptions<DistributedOptions> options,
@@ -42,7 +41,6 @@ internal class DistributedModuleExecutor(
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
-    private readonly IEnumerable<IModule> _registeredModules = registeredModules;
     private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
@@ -70,9 +68,8 @@ internal class DistributedModuleExecutor(
 
         // Revalidate the runnable set now that registration-event dependencies are populated, so
         // missing/self/cyclic dependencies (including ones added via AddDependency) fail fast here
-        // rather than the master hanging or failing late. The full registered set is the available
-        // universe, so depending on a registered-but-skipped module is not misreported as missing.
-        ModuleDependencyValidator.Validate(modules, _registeredModules, _dependencyRegistry, _metadataRegistry);
+        // rather than the master hanging or failing late. Mirrors the standalone ModuleExecutor.
+        ModuleDependencyValidator.Validate(modules, _dependencyRegistry, _metadataRegistry);
 
         // Wait for workers to register before distributing work
         await WaitForWorkersAsync(_lifetime.ApplicationStopping);

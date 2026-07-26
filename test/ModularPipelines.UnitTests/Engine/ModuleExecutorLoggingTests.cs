@@ -52,7 +52,6 @@ public class ModuleExecutorLoggingTests
             parallelLimitProvider.Object,
             registrationEvents.Object,
             Mock.Of<IMetricsCollector>(),
-            new[] { module.Object },
             new ModuleDependencyRegistry(),
             new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),

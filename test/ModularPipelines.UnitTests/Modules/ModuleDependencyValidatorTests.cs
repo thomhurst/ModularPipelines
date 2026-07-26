@@ -1,46 +1,47 @@
-using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.UnitTests.Modules;
 
 /// <summary>
-/// Covers the run-time validation overload that separates the modules being validated from the
-/// universe of available modules, so the runnable set can be revalidated without misreporting a
-/// dependency on a registered-but-skipped module as missing.
+/// Covers dependency validation over the dynamic (registration-event) dependency registry, which
+/// the executors invoke against the runnable set once registration events have populated it.
 /// </summary>
 public class ModuleDependencyValidatorTests
 {
     [Test]
-    public async Task Runnable_Module_Depending_On_Registered_But_Skipped_Module_Does_Not_Throw()
+    public async Task Validate_Dynamic_Dependency_On_Module_Outside_The_Set_Throws()
+    {
+        var consumer = new ConsumerModule();
+
+        var dynamicRegistry = new ModuleDependencyRegistry();
+        dynamicRegistry.AddDynamicDependency(typeof(ConsumerModule), typeof(ProducerModule));
+
+        // The producer is not among the validated modules, so the required dynamic dependency is
+        // unsatisfiable and must be reported eagerly (mirrors the DependencyWaiter failure).
+        await Assert.That(() => ModuleDependencyValidator.Validate(
+                new IModule[] { consumer },
+                dynamicRegistry,
+                metadataRegistry: null))
+            .Throws<ModuleNotRegisteredException>();
+    }
+
+    [Test]
+    public async Task Validate_Dynamic_Dependency_On_Module_In_The_Set_Does_Not_Throw()
     {
         var consumer = new ConsumerModule();
         var producer = new ProducerModule();
 
-        // The consumer is the only runnable module; the producer is registered but skipped
-        // (e.g. an OS-only module on a foreign OS), so it is available but not in the runnable set.
+        var dynamicRegistry = new ModuleDependencyRegistry();
+        dynamicRegistry.AddDynamicDependency(typeof(ConsumerModule), typeof(ProducerModule));
+
         await Assert.That(() => ModuleDependencyValidator.Validate(
-                modulesToValidate: new IModule[] { consumer },
-                availableModules: new IModule[] { consumer, producer },
-                dynamicRegistry: null,
+                new IModule[] { consumer, producer },
+                dynamicRegistry,
                 metadataRegistry: null))
             .ThrowsNothing();
-    }
-
-    [Test]
-    public async Task Runnable_Module_Depending_On_Unavailable_Module_Throws()
-    {
-        var consumer = new ConsumerModule();
-
-        // The producer is neither runnable nor registered, so the required dependency is genuinely
-        // unsatisfiable and must be reported.
-        await Assert.That(() => ModuleDependencyValidator.Validate(
-                modulesToValidate: new IModule[] { consumer },
-                availableModules: new IModule[] { consumer },
-                dynamicRegistry: null,
-                metadataRegistry: null))
-            .Throws<ModuleNotRegisteredException>();
     }
 
     private sealed class ProducerModule : Module<string>
@@ -49,7 +50,6 @@ public class ModuleDependencyValidatorTests
             => Task.FromResult<string?>("produced");
     }
 
-    [DependsOn<ProducerModule>]
     private sealed class ConsumerModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

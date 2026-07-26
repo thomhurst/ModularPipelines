@@ -177,7 +177,6 @@ public class DistributedModuleExecutorTests
             typeRegistry,
             serializer,
             resultRegistry,
-            System.Array.Empty<IModule>(),
             NewDependencyRegistry(),
             NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
@@ -666,7 +665,7 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
-            resultRegistry, System.Array.Empty<IModule>(), NewDependencyRegistry(), NewMetadataRegistry(),
+            resultRegistry, NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
@@ -714,7 +713,7 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             noDequeue, publisher, resultCollector, typeRegistry, serializer,
-            resultRegistry, System.Array.Empty<IModule>(), NewDependencyRegistry(), NewMetadataRegistry(),
+            resultRegistry, NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
@@ -810,7 +809,7 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
-            resultRegistry, System.Array.Empty<IModule>(), NewDependencyRegistry(), NewMetadataRegistry(),
+            resultRegistry, NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 

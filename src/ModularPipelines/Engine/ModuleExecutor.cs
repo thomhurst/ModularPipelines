@@ -30,7 +30,6 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IParallelLimitProvider _parallelLimitProvider;
     private readonly IRegistrationEventExecutor _registrationEventExecutor;
     private readonly IMetricsCollector _metricsCollector;
-    private readonly IEnumerable<IModule> _registeredModules;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
@@ -44,7 +43,6 @@ internal class ModuleExecutor : IModuleExecutor
         IParallelLimitProvider parallelLimitProvider,
         IRegistrationEventExecutor registrationEventExecutor,
         IMetricsCollector metricsCollector,
-        IEnumerable<IModule> registeredModules,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
         IOptions<PipelineOptions> pipelineOptions,
@@ -57,7 +55,6 @@ internal class ModuleExecutor : IModuleExecutor
         _parallelLimitProvider = parallelLimitProvider;
         _registrationEventExecutor = registrationEventExecutor;
         _metricsCollector = metricsCollector;
-        _registeredModules = registeredModules;
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
         _pipelineOptions = pipelineOptions;
@@ -115,10 +112,11 @@ internal class ModuleExecutor : IModuleExecutor
         // Revalidate the runnable set now that registration-event dependencies are populated and
         // discovery has settled. Build-time validation only saw the statically registered graph;
         // dependencies added via IModuleRegistrationContext.AddDependency, and modules whose
-        // runnability depends on stateful run conditions, are only fully known here. The full
-        // registered set is the available universe, so a runnable module depending on a
-        // registered-but-skipped module is not misreported as missing.
-        ModuleDependencyValidator.Validate(modules, _registeredModules, _dependencyRegistry, _metadataRegistry);
+        // runnability depends on stateful run conditions, are only fully known here. Validating
+        // the runnable set against itself mirrors the DependencyWaiter check (a required
+        // dependency outside the runnable set throws), surfacing missing/cyclic dependencies
+        // eagerly with a clear message instead of failing later in the scheduler.
+        ModuleDependencyValidator.Validate(modules, _dependencyRegistry, _metadataRegistry);
 
         var scheduler = _schedulerFactory.Create();
         scheduler.InitializeModules(modules);
