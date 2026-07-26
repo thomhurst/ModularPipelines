@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --connectmode.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudConnectMode
 {
-    [Description("connect-mode-unspecified")]
+    [EnumValue("connect-mode-unspecified")]
     ConnectModeUnspecified,
 
-    [Description("direct-peering")]
+    [EnumValue("direct-peering")]
     DirectPeering,
 
-    [Description("private-service-access")]
+    [EnumValue("private-service-access")]
     PrivateServiceAccess
 }

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// print the commands required to export     Spanner emulator's env variables
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emulators", "spanner", "env-init")]
 public record GcloudEmulatorsSpannerEnvInitOptions : GcloudOptions

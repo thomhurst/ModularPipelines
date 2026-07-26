@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// overrides     - list overrides of Threat Prevention Profile
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "security-profiles", "threat-prevention", "list-overrides")]
 public record GcloudNetworkSecuritySecurityProfilesThreatPreventionListOverridesOptions : GcloudOptions

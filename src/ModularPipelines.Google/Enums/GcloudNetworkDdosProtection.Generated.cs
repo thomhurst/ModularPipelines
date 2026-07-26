@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --networkddosprotection.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudNetworkDdosProtection
 {
-    [Description("STANDARD")]
+    [EnumValue("STANDARD")]
     Standard,
 
-    [Description("ADVANCED")]
+    [EnumValue("ADVANCED")]
     Advanced,
 
-    [Description("ADVANCED_PREVIEW")]
+    [EnumValue("ADVANCED_PREVIEW")]
     AdvancedPreview
 }

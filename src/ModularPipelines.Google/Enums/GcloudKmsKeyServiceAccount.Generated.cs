@@ -6,25 +6,25 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --kmskeyserviceaccount.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudKmsKeyServiceAccount
 {
-    [Description("pd-standard")]
+    [EnumValue("pd-standard")]
     PdStandard,
 
-    [Description("pd-balanced")]
+    [EnumValue("pd-balanced")]
     PdBalanced,
 
-    [Description("pd-ssd")]
+    [EnumValue("pd-ssd")]
     PdSsd,
 
-    [Description("hyperdisk-balanced-ha")]
+    [EnumValue("hyperdisk-balanced-ha")]
     HyperdiskBalancedHa
 }

@@ -14,9 +14,9 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// gets the effective Cloud     KMS AutokeyConfig for a given project
+/// get the effective Cloud     KMS AutokeyConfig for a given folder or project
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "autokey-config", "show-effective-config")]
 public record GcloudKmsAutokeyConfigShowEffectiveConfigOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// wait for the last cached workflow     execution to complete
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workflows", "executions", "wait-last")]
 public record GcloudWorkflowsExecutionsWaitLastOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// modifies the push     configuration of a Cloud Pub/Sub subscription
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "subscriptions", "modify-push-config")]
 public record GcloudPubsubSubscriptionsModifyPushConfigOptions : GcloudOptions

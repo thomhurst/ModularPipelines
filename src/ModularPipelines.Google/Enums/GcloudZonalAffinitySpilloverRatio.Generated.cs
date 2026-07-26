@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --zonalaffinityspilloverratio.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudZonalAffinitySpilloverRatio
 {
-    [Description("PREPARE")]
+    [EnumValue("PREPARE")]
     Prepare,
 
-    [Description("TEST_BY_PERCENTAGE")]
+    [EnumValue("TEST_BY_PERCENTAGE")]
     TestByPercentage,
 
-    [Description("TEST_ALL_TRAFFIC")]
+    [EnumValue("TEST_ALL_TRAFFIC")]
     TestAllTraffic
 }

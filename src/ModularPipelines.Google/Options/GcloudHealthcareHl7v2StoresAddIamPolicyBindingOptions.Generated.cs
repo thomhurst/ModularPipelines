@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add an IAM policy     binding to a Cloud Healthcare API HL7v2 store
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "hl7v2-stores", "add-iam-policy-binding")]
 public record GcloudHealthcareHl7v2StoresAddIamPolicyBindingOptions : GcloudOptions

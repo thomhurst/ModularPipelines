@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --subnet.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudSubnet
 {
-    [Description("IPV4")]
+    [EnumValue("IPV4")]
     Ipv4,
 
-    [Description("IPV6")]
+    [EnumValue("IPV6")]
     Ipv6
 }

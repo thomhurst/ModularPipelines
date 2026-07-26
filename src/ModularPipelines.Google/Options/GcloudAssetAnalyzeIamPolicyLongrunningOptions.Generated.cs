@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// analyzes IAM policies that     match a request asynchronously and writes the results to Google Cloud     Storage or BigQuery destination
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "analyze-iam-policy-longrunning")]
 public record GcloudAssetAnalyzeIamPolicyLongrunningOptions : GcloudOptions

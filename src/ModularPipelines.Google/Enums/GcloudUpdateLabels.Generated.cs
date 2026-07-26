@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --updatelabels.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudUpdateLabels
 {
-    [Description("READ_ONLY")]
+    [EnumValue("READ_ONLY")]
     ReadOnly,
 
-    [Description("READ_WRITE")]
+    [EnumValue("READ_WRITE")]
     ReadWrite
 }

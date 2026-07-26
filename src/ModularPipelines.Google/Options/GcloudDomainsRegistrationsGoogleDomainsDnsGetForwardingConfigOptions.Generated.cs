@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get     forwarding configuration of a specific Cloud Domains registration
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("domains", "registrations", "google-domains-dns", "get-forwarding-config")]
 public record GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions : GcloudOptions

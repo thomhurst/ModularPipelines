@@ -15,7 +15,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// Generated interface for gcloud CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IGcloud
 {
     #region Sub-domain Services
@@ -34,6 +34,11 @@ public partial interface IGcloud
     /// Gets the activedirectory sub-domain service.
     /// </summary>
     GcloudActivedirectory Activedirectory { get; }
+
+    /// <summary>
+    /// Gets the agentidentity sub-domain service.
+    /// </summary>
+    GcloudAgentidentity Agentidentity { get; }
 
     /// <summary>
     /// Gets the agentregistry sub-domain service.

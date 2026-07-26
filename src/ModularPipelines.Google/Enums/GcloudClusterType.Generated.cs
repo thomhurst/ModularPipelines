@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --clustertype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudClusterType
 {
-    [Description("standard")]
+    [EnumValue("standard")]
     Standard,
 
-    [Description("single-node")]
+    [EnumValue("single-node")]
     SingleNode,
 
-    [Description("zero-scale")]
+    [EnumValue("zero-scale")]
     ZeroScale
 }

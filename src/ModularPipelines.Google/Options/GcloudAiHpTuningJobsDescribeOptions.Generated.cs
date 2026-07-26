@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get detail information about the     hyperparameter tuning job by given id
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "hp-tuning-jobs", "describe")]
 public record GcloudAiHpTuningJobsDescribeOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// removes an invoker binding     from the IAM policy of a Google Cloud Function
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functions", "remove-invoker-policy-binding")]
 public record GcloudFunctionsRemoveInvokerPolicyBindingOptions : GcloudOptions

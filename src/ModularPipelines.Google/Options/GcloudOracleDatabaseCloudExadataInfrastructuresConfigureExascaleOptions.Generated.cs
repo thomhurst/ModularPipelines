@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// configure Exascale Storage for a Cloud Exadata Infrastructure
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "cloud-exadata-infrastructures", "configure-exascale")]
 public record GcloudOracleDatabaseCloudExadataInfrastructuresConfigureExascaleOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// enable, disable, or edit CMEK     configuration for Cloud Tasks in the specified location
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "cmek-config", "update")]
 public record GcloudTasksCmekConfigUpdateOptions : GcloudOptions

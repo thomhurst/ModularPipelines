@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get     details about a user workloads ConfigMap
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "user-workloads-config-maps", "describe")]
 public record GcloudComposerEnvironmentsUserWorkloadsConfigMapsDescribeOptions : GcloudOptions

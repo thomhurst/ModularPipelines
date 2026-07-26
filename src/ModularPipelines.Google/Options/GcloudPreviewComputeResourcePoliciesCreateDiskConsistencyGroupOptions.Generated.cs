@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Compute Engine Disk Consistency Group resource policy
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "resource-policies", "create", "disk-consistency-group")]
 public record GcloudPreviewComputeResourcePoliciesCreateDiskConsistencyGroupOptions(

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// displays the latest     recovery time to which a Cloud SQL instance can be restored to
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "get-latest-recovery-time")]
 public record GcloudSqlInstancesGetLatestRecoveryTimeOptions(

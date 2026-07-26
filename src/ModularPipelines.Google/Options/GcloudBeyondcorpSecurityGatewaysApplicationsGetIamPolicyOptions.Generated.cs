@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the     IAM policy for a security gateway application
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("beyondcorp", "security-gateways", "applications", "get-iam-policy")]
 public record GcloudBeyondcorpSecurityGatewaysApplicationsGetIamPolicyOptions : GcloudOptions

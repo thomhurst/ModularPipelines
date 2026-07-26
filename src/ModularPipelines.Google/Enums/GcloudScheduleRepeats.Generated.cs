@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --schedulerepeats.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudScheduleRepeats
 {
-    [Description("daily")]
+    [EnumValue("daily")]
     Daily,
 
-    [Description("weekly")]
+    [EnumValue("weekly")]
     Weekly
 }

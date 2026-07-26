@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// allow Artifact Registry remote     repositories inside a service perimeter to retrieve data from their     upstream sources outside of the perimeter
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "vpcsc-config", "allow")]
 public record GcloudArtifactsVpcscConfigAllowOptions : GcloudOptions

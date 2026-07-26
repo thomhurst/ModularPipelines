@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export your registration's Google Domains DNS zone's record-sets into a     file
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("domains", "registrations", "google-domains-dns", "export-dns-record-sets")]
 public record GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions : GcloudOptions

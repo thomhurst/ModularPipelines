@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get detailed model deployment     monitoring job information about the given job id
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "model-monitoring-jobs", "describe")]
 public record GcloudAiModelMonitoringJobsDescribeOptions : GcloudOptions

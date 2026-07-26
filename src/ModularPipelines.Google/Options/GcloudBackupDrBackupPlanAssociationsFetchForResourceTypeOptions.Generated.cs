@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// fetch     Backup Plan Associations for a given resource type and location
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "backup-plan-associations", "fetch-for-resource-type")]
 public record GcloudBackupDrBackupPlanAssociationsFetchForResourceTypeOptions(

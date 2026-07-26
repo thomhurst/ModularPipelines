@@ -6,34 +6,34 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --nodetype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudNodeType
 {
-    [Description("redis-highcpu-medium")]
+    [EnumValue("redis-highcpu-medium")]
     RedisHighcpuMedium,
 
-    [Description("redis-highmem-2xlarge")]
+    [EnumValue("redis-highmem-2xlarge")]
     RedisHighmem_2xlarge,
 
-    [Description("redis-highmem-medium")]
+    [EnumValue("redis-highmem-medium")]
     RedisHighmemMedium,
 
-    [Description("redis-highmem-xlarge")]
+    [EnumValue("redis-highmem-xlarge")]
     RedisHighmemXlarge,
 
-    [Description("redis-shared-core-nano")]
+    [EnumValue("redis-shared-core-nano")]
     RedisSharedCoreNano,
 
-    [Description("redis-standard-large")]
+    [EnumValue("redis-standard-large")]
     RedisStandardLarge,
 
-    [Description("redis-standard-small")]
+    [EnumValue("redis-standard-small")]
     RedisStandardSmall
 }

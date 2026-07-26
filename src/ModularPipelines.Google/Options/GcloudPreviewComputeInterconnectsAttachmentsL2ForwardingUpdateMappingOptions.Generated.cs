@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// forwarding     update-mapping - update vlan to ip mapping rule to an L2-forwarding     attachment
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "l2-forwarding", "update-mapping")]
 public record GcloudPreviewComputeInterconnectsAttachmentsL2ForwardingUpdateMappingOptions(

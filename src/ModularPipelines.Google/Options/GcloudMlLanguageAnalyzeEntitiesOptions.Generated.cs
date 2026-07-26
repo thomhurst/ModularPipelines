@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// use Google Cloud Natural Language API     to identify entities in text
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "language", "analyze-entities")]
 public record GcloudMlLanguageAnalyzeEntitiesOptions : GcloudOptions

@@ -18,7 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create Compute Engine persistent disks
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "disks", "create")]
 public record GcloudComputeDisksCreateOptions(
@@ -44,7 +44,7 @@ public record GcloudComputeDisksCreateOptions(
     public bool? ConfidentialCompute { get; set; }
 
     /// <summary>
-    /// Path to a Customer-Supplied Encryption Key (CSEK) key file that maps     Compute Engine resources to user managed keys to be used when creating,     mounting, or taking snapshots of disks.     If you pass - as value of the flag, the CSEK is read from stdin. See     https://cloud.google.com/compute/docs/disks/customer-supplied-encryption     for more details.
+    /// (DEPRECATED) Path to a Customer-Supplied Encryption Key (CSEK) key file     that maps Compute Engine resources to user managed keys to be used when     creating, mounting, or taking snapshots of disks.       If you pass `-` as value of the flag, the CSEK is read from stdin.       See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details.     The --csek-key-file flag is deprecated.
     /// </summary>
     [CliOption("--csek-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? CsekKeyFile { get; set; }
@@ -98,7 +98,7 @@ public record GcloudComputeDisksCreateOptions(
     public string? ReplicaZones { get; set; }
 
     /// <summary>
-    /// Refuse to create resources not protected by a user managed key in the     key file when --csek-key-file is given. This behavior is enabled by     default to prevent incorrect gcloud invocations from accidentally     creating resources with no user managed key. Disabling the check allows     creation of some resources without a matching Customer-Supplied     Encryption Key in the supplied --csek-key-file. See     https://cloud.google.com/compute/docs/disks/customer-supplied-encryption     for more details. Enabled by default, use --no-require-csek-key-create     to disable.
+    /// (DEPRECATED) Refuse to create resources not protected by a user managed     key in the key file when --csek-key-file is given. This behavior is     enabled by default to prevent incorrect gcloud invocations from     accidentally creating resources with no user managed key. Disabling the     check allows creation of some resources without a matching     Customer-Supplied Encryption Key in the supplied --csek-key-file. See     https://cloud.google.com/compute/docs/disks/customer-supplied-encryption     for more details.     The --require-csek-key-create flag is deprecated. Enabled by default,     use --no-require-csek-key-create to disable.
     /// </summary>
     [CliFlag("--require-csek-key-create")]
     public bool? RequireCsekKeyCreate { get; set; }

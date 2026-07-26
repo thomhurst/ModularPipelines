@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set the QUIC     override policy for a Compute Engine target HTTPS proxy
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "target-https-proxies", "set-quic-override")]
 public record GcloudComputeTargetHttpsProxiesSetQuicOverrideOptions : GcloudOptions

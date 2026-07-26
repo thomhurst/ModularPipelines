@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// providers     generate-provider-access-token - generate a provider access token
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "generate-provider-access-token")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersGenerateProviderAccessTokenOptions : GcloudOptions

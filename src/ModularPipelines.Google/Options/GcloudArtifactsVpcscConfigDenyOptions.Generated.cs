@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// deny access to upstream sources     outside the service perimeter for Artifact Registry remote repositories     inside the perimeter
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "vpcsc-config", "deny")]
 public record GcloudArtifactsVpcscConfigDenyOptions : GcloudOptions

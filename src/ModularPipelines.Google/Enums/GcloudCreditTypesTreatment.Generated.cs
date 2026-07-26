@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --credittypestreatment.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudCreditTypesTreatment
 {
-    [Description("exclude-all-credits")]
+    [EnumValue("exclude-all-credits")]
     ExcludeAllCredits,
 
-    [Description("include-all-credits")]
+    [EnumValue("include-all-credits")]
     IncludeAllCredits
 }

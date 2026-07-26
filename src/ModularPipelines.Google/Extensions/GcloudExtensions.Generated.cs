@@ -18,7 +18,7 @@ namespace ModularPipelines.Google.Extensions;
 /// <summary>
 /// Generated extensions for registering gcloud services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class GcloudExtensions
 {
 #pragma warning disable CA2255
@@ -40,6 +40,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudAccessapproval>();
         services.TryAddScoped<GcloudAccesscontextmanager>();
         services.TryAddScoped<GcloudActivedirectory>();
+        services.TryAddScoped<GcloudAgentidentity>();
         services.TryAddScoped<GcloudAgentregistry>();
         services.TryAddScoped<GcloudAi>();
         services.TryAddScoped<GcloudAiplatform>();

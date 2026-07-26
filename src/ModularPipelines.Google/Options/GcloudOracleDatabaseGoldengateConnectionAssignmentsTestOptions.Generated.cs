@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// test a     GoldengateConnectionAssignment
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "goldengate-connection-assignments", "test")]
 public record GcloudOracleDatabaseGoldengateConnectionAssignmentsTestOptions : GcloudOptions

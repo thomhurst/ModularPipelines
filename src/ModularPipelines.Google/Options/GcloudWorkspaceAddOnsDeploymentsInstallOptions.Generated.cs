@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// install a Google Workspace     Add-ons deployment
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspace-add-ons", "deployments", "install")]
 public record GcloudWorkspaceAddOnsDeploymentsInstallOptions : GcloudOptions

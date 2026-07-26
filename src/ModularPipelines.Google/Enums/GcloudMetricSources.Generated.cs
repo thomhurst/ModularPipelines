@@ -6,34 +6,34 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --metricsources.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudMetricSources
 {
-    [Description("FLINK")]
+    [EnumValue("FLINK")]
     Flink,
 
-    [Description("HDFS")]
+    [EnumValue("HDFS")]
     Hdfs,
 
-    [Description("HIVEMETASTORE")]
+    [EnumValue("HIVEMETASTORE")]
     Hivemetastore,
 
-    [Description("HIVESERVER2")]
+    [EnumValue("HIVESERVER2")]
     Hiveserver2,
 
-    [Description("SPARK")]
+    [EnumValue("SPARK")]
     Spark,
 
-    [Description("SPARK_HISTORY_SERVER")]
+    [EnumValue("SPARK_HISTORY_SERVER")]
     SparkHistoryServer,
 
-    [Description("YARN")]
+    [EnumValue("YARN")]
     Yarn
 }

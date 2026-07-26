@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// roll back to the previous Entra ID     certificate for a Cloud SQL instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "ssl", "entraid-certs", "rollback")]
 public record GcloudSqlSslEntraidCertsRollbackOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// removes a     bundle installation for Policy Controller content
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "policycontroller", "content", "bundles", "remove")]
 public record GcloudContainerHubPolicycontrollerContentBundlesRemoveOptions(

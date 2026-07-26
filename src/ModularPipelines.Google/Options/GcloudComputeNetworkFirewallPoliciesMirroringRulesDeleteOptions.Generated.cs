@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// deletes a     Compute Engine network firewall policy packet mirroirng rule
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-firewall-policies", "mirroring-rules", "delete")]
 public record GcloudComputeNetworkFirewallPoliciesMirroringRulesDeleteOptions(

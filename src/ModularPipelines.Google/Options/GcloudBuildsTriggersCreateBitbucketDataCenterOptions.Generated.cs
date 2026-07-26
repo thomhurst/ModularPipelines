@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a build     trigger for a 2nd-gen Bitbucket Data Center repository
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "triggers", "create", "bitbucket-data-center")]
 public record GcloudBuildsTriggersCreateBitbucketDataCenterOptions : GcloudOptions

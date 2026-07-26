@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list a Google     Cloud Observability agents policy for the Ops Agent
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "ops-agents", "policies", "list")]
 public record GcloudPreviewComputeInstancesOpsAgentsPoliciesListOptions : GcloudOptions

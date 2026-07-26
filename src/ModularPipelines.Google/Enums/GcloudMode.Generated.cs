@@ -6,25 +6,25 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --mode.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudMode
 {
-    [Description("federation-only")]
+    [EnumValue("federation-only")]
     FederationOnly,
 
-    [Description("mode-unspecified")]
+    [EnumValue("mode-unspecified")]
     ModeUnspecified,
 
-    [Description("system-trust-domain")]
+    [EnumValue("system-trust-domain")]
     SystemTrustDomain,
 
-    [Description("trust-domain")]
+    [EnumValue("trust-domain")]
     TrustDomain
 }

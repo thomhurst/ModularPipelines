@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list values for     the serviceName attribute for event type     google.cloud.audit.log.v1.written
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventarc", "audit-logs-provider", "service-names", "list")]
 public record GcloudEventarcAuditLogsProviderServiceNamesListOptions : GcloudOptions

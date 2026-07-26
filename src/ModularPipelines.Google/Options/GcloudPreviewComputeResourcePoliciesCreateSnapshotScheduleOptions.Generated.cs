@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create     a Compute Engine Snapshot Schedule Resource Policy
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "resource-policies", "create", "snapshot-schedule")]
 public record GcloudPreviewComputeResourcePoliciesCreateSnapshotScheduleOptions(

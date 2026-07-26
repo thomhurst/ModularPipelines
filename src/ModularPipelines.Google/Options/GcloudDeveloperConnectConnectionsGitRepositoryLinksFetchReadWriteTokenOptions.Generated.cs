@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// links     fetch-read-write-token - fetch the read/write token of a given     gitRepositoryLink
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("developer-connect", "connections", "git-repository-links", "fetch-read-write-token")]
 public record GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadWriteTokenOptions : GcloudOptions

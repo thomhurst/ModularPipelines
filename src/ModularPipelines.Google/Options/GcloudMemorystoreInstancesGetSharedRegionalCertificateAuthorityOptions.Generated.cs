@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the shared regional CA certificate bundle for Memorystore
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorystore", "instances", "get-shared-regional-certificate-authority")]
 public record GcloudMemorystoreInstancesGetSharedRegionalCertificateAuthorityOptions : GcloudOptions

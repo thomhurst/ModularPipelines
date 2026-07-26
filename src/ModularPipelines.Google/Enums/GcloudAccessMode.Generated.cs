@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --accessmode.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudAccessMode
 {
-    [Description("READ_ONLY_MANY")]
+    [EnumValue("READ_ONLY_MANY")]
     ReadOnlyMany,
 
-    [Description("READ_WRITE_MANY")]
+    [EnumValue("READ_WRITE_MANY")]
     ReadWriteMany,
 
-    [Description("READ_WRITE_SINGLE")]
+    [EnumValue("READ_WRITE_SINGLE")]
     ReadWriteSingle
 }

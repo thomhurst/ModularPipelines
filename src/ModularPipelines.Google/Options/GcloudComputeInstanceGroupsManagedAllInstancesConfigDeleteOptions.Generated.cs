@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete     values defined in the all-instances configuration of a managed instance     group
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "all-instances-config", "delete")]
 public record GcloudComputeInstanceGroupsManagedAllInstancesConfigDeleteOptions(

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// acknowledge an existing     Assured Workloads compliance violation
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("assured", "workloads", "violations", "acknowledge")]
 public record GcloudAssuredWorkloadsViolationsAcknowledgeOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove IAM policy     binding from a Dataplex Aspect Type
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "aspect-types", "remove-iam-policy-binding")]
 public record GcloudDataplexAspectTypesRemoveIamPolicyBindingOptions : GcloudOptions

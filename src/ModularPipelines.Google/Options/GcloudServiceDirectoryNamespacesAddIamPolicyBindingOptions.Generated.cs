@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// adds IAM     policy binding to a namespace
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-directory", "namespaces", "add-iam-policy-binding")]
 public record GcloudServiceDirectoryNamespacesAddIamPolicyBindingOptions : GcloudOptions

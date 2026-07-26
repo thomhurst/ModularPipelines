@@ -6,34 +6,34 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --snapshotlabels.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudSnapshotLabels
 {
-    [Description("monday")]
+    [EnumValue("monday")]
     Monday,
 
-    [Description("tuesday")]
+    [EnumValue("tuesday")]
     Tuesday,
 
-    [Description("wednesday")]
+    [EnumValue("wednesday")]
     Wednesday,
 
-    [Description("thursday")]
+    [EnumValue("thursday")]
     Thursday,
 
-    [Description("friday")]
+    [EnumValue("friday")]
     Friday,
 
-    [Description("saturday")]
+    [EnumValue("saturday")]
     Saturday,
 
-    [Description("sunday")]
+    [EnumValue("sunday")]
     Sunday
 }

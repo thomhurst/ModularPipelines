@@ -6,31 +6,31 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --exceedaction.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudExceedAction
 {
-    [Description("deny-403")]
+    [EnumValue("deny-403")]
     Deny_403,
 
-    [Description("deny-404")]
+    [EnumValue("deny-404")]
     Deny_404,
 
-    [Description("deny-429")]
+    [EnumValue("deny-429")]
     Deny_429,
 
-    [Description("deny-502")]
+    [EnumValue("deny-502")]
     Deny_502,
 
-    [Description("deny")]
+    [EnumValue("deny")]
     Deny,
 
-    [Description("redirect")]
+    [EnumValue("redirect")]
     Redirect
 }

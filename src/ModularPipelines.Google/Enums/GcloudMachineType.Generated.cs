@@ -6,31 +6,31 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --machinetype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudMachineType
 {
-    [Description("e2-highcpu-32")]
+    [EnumValue("e2-highcpu-32")]
     E2Highcpu_32,
 
-    [Description("e2-highcpu-8")]
+    [EnumValue("e2-highcpu-8")]
     E2Highcpu_8,
 
-    [Description("e2-medium")]
+    [EnumValue("e2-medium")]
     E2Medium,
 
-    [Description("e2-standard-2")]
+    [EnumValue("e2-standard-2")]
     E2Standard_2,
 
-    [Description("n1-highcpu-32")]
+    [EnumValue("n1-highcpu-32")]
     N1Highcpu_32,
 
-    [Description("n1-highcpu-8")]
+    [EnumValue("n1-highcpu-8")]
     N1Highcpu_8
 }

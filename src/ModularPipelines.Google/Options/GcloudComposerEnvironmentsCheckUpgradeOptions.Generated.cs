@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// check that upgrading a Cloud     Composer environment does not result in PyPI module conflicts
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "check-upgrade")]
 public record GcloudComposerEnvironmentsCheckUpgradeOptions : GcloudOptions

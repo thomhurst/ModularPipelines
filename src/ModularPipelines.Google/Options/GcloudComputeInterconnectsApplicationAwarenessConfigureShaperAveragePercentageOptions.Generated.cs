@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// awareness     configure-shaper-average-percentage - configure shaper average     percentage for application awareness configuration of a Compute Engine     interconnect
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "application-awareness", "configure-shaper-average-percentage")]
 public record GcloudComputeInterconnectsApplicationAwarenessConfigureShaperAveragePercentageOptions(

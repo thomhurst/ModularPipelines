@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// print an access token     for your current Application Default Credentials
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "application-default", "print-access-token")]
 public record GcloudAuthApplicationDefaultPrintAccessTokenOptions : GcloudOptions

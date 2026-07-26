@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --ownershipscope.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudOwnershipScope
 {
-    [Description("all-users")]
+    [EnumValue("all-users")]
     AllUsers,
 
-    [Description("billing-account")]
+    [EnumValue("billing-account")]
     BillingAccount
 }

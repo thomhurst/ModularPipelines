@@ -18,7 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create Compute Engine snapshots
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "snapshots", "create")]
 public record GcloudComputeSnapshotsCreateOptions(
@@ -38,7 +38,7 @@ public record GcloudComputeSnapshotsCreateOptions(
     public string? ChainName { get; set; }
 
     /// <summary>
-    /// Path to a Customer-Supplied Encryption Key (CSEK) key file that maps     Compute Engine resources to user managed keys to be used when creating,     mounting, or taking snapshots of disks.     If you pass - as value of the flag, the CSEK is read from stdin. See     https://cloud.google.com/compute/docs/disks/customer-supplied-encryption     for more details.
+    /// (DEPRECATED) Path to a Customer-Supplied Encryption Key (CSEK) key file     that maps Compute Engine resources to user managed keys to be used when     creating, mounting, or taking snapshots of disks.       If you pass `-` as value of the flag, the CSEK is read from stdin.       See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details.     The --csek-key-file flag is deprecated.
     /// </summary>
     [CliOption("--csek-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? CsekKeyFile { get; set; }
@@ -92,7 +92,7 @@ public record GcloudComputeSnapshotsCreateOptions(
     public string? SourceDiskForRecoveryCheckpointRegion { get; set; }
 
     /// <summary>
-    /// Path to the customer-supplied encryption key of the source disk.     Required if the source disk is protected by a customer-supplied     encryption key.
+    /// (DEPRECATED) Path to the customer-supplied encryption key of the source     disk. Required if the source disk is protected by a customer-supplied     encryption key.     The --source-disk-key-file flag is deprecated.
     /// </summary>
     [CliOption("--source-disk-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? SourceDiskKeyFile { get; set; }
@@ -104,7 +104,7 @@ public record GcloudComputeSnapshotsCreateOptions(
     public string? SourceInstantSnapshot { get; set; }
 
     /// <summary>
-    /// Path to the customer-supplied encryption key of the source instant     snapshot. Required if the source instant snapshot is protected by a     customer-supplied encryption key.
+    /// (DEPRECATED) Path to the customer-supplied encryption key of the source     instant snapshot. Required if the source instant snapshot is protected     by a customer-supplied encryption key.     The --source-instant-snapshot-key-file flag is deprecated.
     /// </summary>
     [CliOption("--source-instant-snapshot-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? SourceInstantSnapshotKeyFile { get; set; }

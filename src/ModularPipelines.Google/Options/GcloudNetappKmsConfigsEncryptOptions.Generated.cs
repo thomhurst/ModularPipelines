@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// encrypt all existing volumes and     storage pools in the same region with the desired Cloud NetApp Volumes     KMS Config
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "kms-configs", "encrypt")]
 public record GcloudNetappKmsConfigsEncryptOptions : GcloudOptions

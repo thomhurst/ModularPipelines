@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// show     metadata for a VPC Access connector
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "networks", "vpc-access", "connectors", "describe")]
 public record GcloudPreviewComputeNetworksVpcAccessConnectorsDescribeOptions : GcloudOptions

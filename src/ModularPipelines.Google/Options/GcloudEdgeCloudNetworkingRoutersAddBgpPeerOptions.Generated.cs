@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add a BGP peer to a     Distributed Cloud Edge Network router
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "networking", "routers", "add-bgp-peer")]
 public record GcloudEdgeCloudNetworkingRoutersAddBgpPeerOptions : GcloudOptions

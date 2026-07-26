@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// reset VMware     vCenter sign-in credentials associated with a Google Cloud VMware     Engine private cloud
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "vcenter", "credentials", "reset")]
 public record GcloudVmwarePrivateCloudsVcenterCredentialsResetOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// permanent deletion of a Google     Cloud VMware Engine private cloud currently in soft-deleted state
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "delete-now")]
 public record GcloudVmwarePrivateCloudsDeleteNowOptions : GcloudOptions

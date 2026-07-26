@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a VLAN attachment spoke
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "spokes", "linked-interconnect-attachments", "update")]
 public record GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsUpdateOptions : GcloudOptions

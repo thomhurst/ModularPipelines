@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --labels.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudLabels
 {
-    [Description("balance")]
+    [EnumValue("balance")]
     Balance,
 
-    [Description("security")]
+    [EnumValue("security")]
     Security,
 
-    [Description("usability")]
+    [EnumValue("usability")]
     Usability
 }

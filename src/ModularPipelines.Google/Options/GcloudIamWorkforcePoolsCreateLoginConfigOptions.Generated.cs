@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a login     configuration file to enable sign-in via a web-based authorization flow     using Workforce Identity Federation
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "create-login-config")]
 public record GcloudIamWorkforcePoolsCreateLoginConfigOptions(

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// explore values for the     methodName attribute for event type google.cloud.audit.log.v1.written
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventarc", "audit-logs-provider", "method-names")]
 public record GcloudEventarcAuditLogsProviderMethodNamesOptions : GcloudOptions

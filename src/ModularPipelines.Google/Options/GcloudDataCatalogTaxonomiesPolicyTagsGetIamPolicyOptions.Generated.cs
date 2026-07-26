@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the IAM     policy for a Data Catalog Policy Tag
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "taxonomies", "policy-tags", "get-iam-policy")]
 public record GcloudDataCatalogTaxonomiesPolicyTagsGetIamPolicyOptions : GcloudOptions

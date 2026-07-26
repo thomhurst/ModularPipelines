@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe an     accelerator type available for Cloud TPU VM nodes
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "tpus", "tpu-vm", "accelerator-types", "describe")]
 public record GcloudComputeTpusTpuVmAcceleratorTypesDescribeOptions : GcloudOptions

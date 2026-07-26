@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --diskencryption.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudDiskEncryption
 {
-    [Description("GMEK")]
+    [EnumValue("GMEK")]
     Gmek,
 
-    [Description("CMEK")]
+    [EnumValue("CMEK")]
     Cmek
 }

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the     shared regional certificate authority certificates for Memorystore for     Redis Cluster
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "clusters", "get-shared-regional-certificate-authority")]
 public record GcloudRedisClustersGetSharedRegionalCertificateAuthorityOptions : GcloudOptions

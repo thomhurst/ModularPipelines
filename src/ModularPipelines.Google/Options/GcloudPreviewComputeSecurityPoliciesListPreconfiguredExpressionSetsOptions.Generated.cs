@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// sets     - list all available preconfigured expression sets
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "security-policies", "list-preconfigured-expression-sets")]
 public record GcloudPreviewComputeSecurityPoliciesListPreconfiguredExpressionSetsOptions : GcloudOptions

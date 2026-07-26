@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// fetch     objects for a Database Migration Service migration job by connection to     the source
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "migration-jobs", "fetch-source-objects")]
 public record GcloudDatabaseMigrationMigrationJobsFetchSourceObjectsOptions : GcloudOptions

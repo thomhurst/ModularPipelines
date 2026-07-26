@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get CMEK configuration for Cloud     Scheduler in the specified location
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scheduler", "cmek-config", "describe")]
 public record GcloudSchedulerCmekConfigDescribeOptions : GcloudOptions

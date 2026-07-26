@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new Cloud Healthcare API     dataset containing de-identified data from the source dataset
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "datasets", "deidentify")]
 public record GcloudHealthcareDatasetsDeidentifyOptions : GcloudOptions

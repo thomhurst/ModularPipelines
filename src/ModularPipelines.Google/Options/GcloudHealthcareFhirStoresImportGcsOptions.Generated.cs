@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import FHIR resources from     Google Cloud Storage into a Cloud Healthcare API FHIR store
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "fhir-stores", "import", "gcs")]
 public record GcloudHealthcareFhirStoresImportGcsOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud routers commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeRouters
 {
     private readonly ICommand _command;
@@ -65,6 +65,36 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddInterface(
         GcloudPreviewComputeRoutersAddInterfaceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// adds an element to     an existing named set of a Compute Engine router
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AddNamedSetElement(
+        GcloudPreviewComputeRoutersAddNamedSetElementOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// add an empty named set to a     Compute Engine router
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AddNamedSet(
+        GcloudPreviewComputeRoutersAddNamedSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -147,6 +177,21 @@ public class GcloudPreviewComputeRouters
     }
 
     /// <summary>
+    /// download a named set     from a Compute Engine router
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DownloadNamedSet(
+        GcloudPreviewComputeRoutersDownloadNamedSetOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// download a route     policy from a Compute Engine router
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -155,6 +200,21 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DownloadRoutePolicy(
         GcloudPreviewComputeRoutersDownloadRoutePolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// get a named set from a     Compute Engine router
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetNamedSet(
+        GcloudPreviewComputeRoutersGetNamedSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -237,6 +297,21 @@ public class GcloudPreviewComputeRouters
     }
 
     /// <summary>
+    /// list named sets from a     Compute Engine router
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListNamedSets(
+        GcloudPreviewComputeRoutersListNamedSetsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list Google Compute Engine routers
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -290,6 +365,36 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveInterface(
         GcloudPreviewComputeRoutersRemoveInterfaceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// remove an element     from a named set of a Compute Engine router
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RemoveNamedSetElement(
+        GcloudPreviewComputeRoutersRemoveNamedSetElementOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// remove a named set from a     Compute Engine router
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RemoveNamedSet(
+        GcloudPreviewComputeRoutersRemoveNamedSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -380,6 +485,21 @@ public class GcloudPreviewComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRoutePolicyTerm(
         GcloudPreviewComputeRoutersUpdateRoutePolicyTermOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// upload a named set into a     Compute Engine router
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UploadNamedSet(
+        GcloudPreviewComputeRoutersUploadNamedSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

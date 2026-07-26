@@ -6,40 +6,40 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --preservemetadata.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudPreserveMetadata
 {
-    [Description("acl")]
+    [EnumValue("acl")]
     Acl,
 
-    [Description("gid")]
+    [EnumValue("gid")]
     Gid,
 
-    [Description("kms-key")]
+    [EnumValue("kms-key")]
     KmsKey,
 
-    [Description("mode")]
+    [EnumValue("mode")]
     Mode,
 
-    [Description("storage-class")]
+    [EnumValue("storage-class")]
     StorageClass,
 
-    [Description("symlink")]
+    [EnumValue("symlink")]
     Symlink,
 
-    [Description("temporary-hold")]
+    [EnumValue("temporary-hold")]
     TemporaryHold,
 
-    [Description("time-created")]
+    [EnumValue("time-created")]
     TimeCreated,
 
-    [Description("uid")]
+    [EnumValue("uid")]
     Uid
 }

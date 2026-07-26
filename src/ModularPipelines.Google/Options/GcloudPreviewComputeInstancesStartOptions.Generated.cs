@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// start a stopped virtual machine     instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "start")]
 public record GcloudPreviewComputeInstancesStartOptions(
@@ -30,7 +30,7 @@ public record GcloudPreviewComputeInstancesStartOptions(
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Path to a Customer-Supplied Encryption Key (CSEK) key file that maps     Compute Engine resources to user managed keys to be used when creating,     mounting, or taking snapshots of disks.     If you pass - as value of the flag, the CSEK is read from stdin. See     https://cloud.google.com/compute/docs/disks/customer-supplied-encryption     for more details.
+    /// (DEPRECATED) Path to a Customer-Supplied Encryption Key (CSEK) key file     that maps Compute Engine resources to user managed keys to be used when     creating, mounting, or taking snapshots of disks.       If you pass `-` as value of the flag, the CSEK is read from stdin.       See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details.     The --csek-key-file flag is deprecated.
     /// </summary>
     [CliOption("--csek-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? CsekKeyFile { get; set; }

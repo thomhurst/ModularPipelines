@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describes     which permissions in a provided role are supported by VPC Service     Controls
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "supported-permissions", "describe")]
 public record GcloudAccessContextManagerSupportedPermissionsDescribeOptions(

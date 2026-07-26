@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --deletefrom.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudDeleteFrom
 {
-    [Description("destination-if-unique")]
+    [EnumValue("destination-if-unique")]
     DestinationIfUnique,
 
-    [Description("source-after-transfer")]
+    [EnumValue("source-after-transfer")]
     SourceAfterTransfer
 }

@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --replacelicense.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudReplaceLicense
 {
-    [Description("ARM64")]
+    [EnumValue("ARM64")]
     Arm64,
 
-    [Description("X86_64")]
+    [EnumValue("X86_64")]
     X86_64
 }

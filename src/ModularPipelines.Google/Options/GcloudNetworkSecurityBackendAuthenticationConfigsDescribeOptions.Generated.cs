@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe     BackendAuthenticationConfig
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "backend-authentication-configs", "describe")]
 public record GcloudNetworkSecurityBackendAuthenticationConfigsDescribeOptions : GcloudOptions

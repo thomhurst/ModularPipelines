@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// use Google Cloud Natural Language     API to identify sentiments in a text
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "language", "analyze-sentiment")]
 public record GcloudMlLanguageAnalyzeSentimentOptions : GcloudOptions

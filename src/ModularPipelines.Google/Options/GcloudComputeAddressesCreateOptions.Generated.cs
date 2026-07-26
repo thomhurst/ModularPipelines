@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// reserve IP addresses
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "addresses", "create")]
 public record GcloudComputeAddressesCreateOptions : GcloudOptions
@@ -35,7 +35,7 @@ public record GcloudComputeAddressesCreateOptions : GcloudOptions
     public GcloudEndpointType? EndpointType { get; set; }
 
     /// <summary>
-    /// If specified, the public delegated prefix (PDP) from which to allocate     the BYOIP IP address. The PDP must support enhanced IPv4 allocations.     If not specified, the address will be allocated from the Google-owned     IP pool.
+    /// If specified, the public delegated prefix (PDP) from which to allocate     the BYOIP IP address. If an IPv4 PDP is used, the PDP must support     enhanced IPv4 allocations. If an IPv6 PDP is used, the PDP must be in     EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode. If not specified, the     address will be allocated from the Google-owned IP pool.
     /// </summary>
     [CliOption("--ip-collection", Format = OptionFormat.EqualsSeparated)]
     public string? IpCollection { get; set; }

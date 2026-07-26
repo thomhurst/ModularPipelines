@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list     Intercept Endpoint Group Associations
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "intercept-endpoint-group-associations", "list")]
 public record GcloudNetworkSecurityInterceptEndpointGroupAssociationsListOptions : GcloudOptions

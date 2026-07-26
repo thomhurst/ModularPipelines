@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add an IAM policy binding to a security gateway application
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("beyondcorp", "security-gateways", "applications", "add-iam-policy-binding")]
 public record GcloudBeyondcorpSecurityGatewaysApplicationsAddIamPolicyBindingOptions : GcloudOptions

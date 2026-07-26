@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// stream logs from a running Vertex AI     hyperparameter tuning job
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "hp-tuning-jobs", "stream-logs")]
 public record GcloudAiHpTuningJobsStreamLogsOptions : GcloudOptions

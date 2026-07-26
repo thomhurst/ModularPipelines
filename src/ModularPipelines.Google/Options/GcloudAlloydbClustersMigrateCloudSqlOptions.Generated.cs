@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// migrate Cloud SQL instance to     an AlloyDB cluster using an existing Cloud SQL backup
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "clusters", "migrate-cloud-sql")]
 public record GcloudAlloydbClustersMigrateCloudSqlOptions(

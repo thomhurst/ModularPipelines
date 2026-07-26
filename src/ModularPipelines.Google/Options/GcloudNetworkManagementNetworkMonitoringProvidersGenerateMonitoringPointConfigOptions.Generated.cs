@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// providers     generate-monitoring-point-config - generate a monitoring point config
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "generate-monitoring-point-config")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersGenerateMonitoringPointConfigOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// disables     redirection from Container Registry to Artifact Registry
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "settings", "disable-upgrade-redirection")]
 public record GcloudArtifactsSettingsDisableUpgradeRedirectionOptions : GcloudOptions

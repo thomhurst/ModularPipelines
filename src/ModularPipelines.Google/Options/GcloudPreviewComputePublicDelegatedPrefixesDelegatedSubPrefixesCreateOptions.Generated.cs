@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// prefixes     create - creates a Compute Engine delegated sub prefix
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "public-delegated-prefixes", "delegated-sub-prefixes", "create")]
 public record GcloudPreviewComputePublicDelegatedPrefixesDelegatedSubPrefixesCreateOptions(

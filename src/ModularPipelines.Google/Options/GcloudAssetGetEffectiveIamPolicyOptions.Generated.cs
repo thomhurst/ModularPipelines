@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get effective IAM policies for a     specified list of resources within accessible scope, such as a project,     folder or organization
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "get-effective-iam-policy")]
 public record GcloudAssetGetEffectiveIamPolicyOptions : GcloudOptions

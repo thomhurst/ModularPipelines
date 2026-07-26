@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list IAM     workforce identity pool provider SCIM tenant tokens
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "providers", "scim-tenants", "tokens", "list")]
 public record GcloudIamWorkforcePoolsProvidersScimTenantsTokensListOptions : GcloudOptions

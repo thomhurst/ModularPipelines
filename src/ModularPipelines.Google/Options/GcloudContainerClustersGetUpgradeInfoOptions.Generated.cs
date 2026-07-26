@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get information about upgrades     for existing clusters including auto upgrade status, upgrade history,     upgrade targets, and end of support timelines
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "clusters", "get-upgrade-info")]
 public record GcloudContainerClustersGetUpgradeInfoOptions(

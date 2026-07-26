@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe a management DNS zone binding
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "management-dns-zone-bindings", "describe")]
 public record GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDescribeOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// a     Network Path represents the hop-by-hop route and active network     delivery quality between a Monitoring Point (source) and a target     destination
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "network-paths")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersNetworkPathsOptions : GcloudOptions

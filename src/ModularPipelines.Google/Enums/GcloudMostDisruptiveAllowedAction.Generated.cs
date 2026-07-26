@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --mostdisruptiveallowedaction.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudMostDisruptiveAllowedAction
 {
-    [Description("NO_EFFECT")]
+    [EnumValue("NO_EFFECT")]
     NoEffect,
 
-    [Description("REFRESH")]
+    [EnumValue("REFRESH")]
     Refresh,
 
-    [Description("RESTART")]
+    [EnumValue("RESTART")]
     Restart
 }

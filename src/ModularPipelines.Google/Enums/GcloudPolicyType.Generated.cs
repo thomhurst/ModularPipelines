@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --policytype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudPolicyType
 {
-    [Description("VPC_POLICY")]
+    [EnumValue("VPC_POLICY")]
     VpcPolicy,
 
-    [Description("RDMA_ROCE_POLICY")]
+    [EnumValue("RDMA_ROCE_POLICY")]
     RdmaRocePolicy
 }

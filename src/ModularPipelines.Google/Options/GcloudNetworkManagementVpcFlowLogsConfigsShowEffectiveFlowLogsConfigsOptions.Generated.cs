@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// configs     show-effective-flow-logs-configs - show all effective VPC Flow Logs     configurations for a resource
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "vpc-flow-logs-configs", "show-effective-flow-logs-configs")]
 public record GcloudNetworkManagementVpcFlowLogsConfigsShowEffectiveFlowLogsConfigsOptions : GcloudOptions

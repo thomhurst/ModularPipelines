@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// test     IAM permissions for a Compute Engine interconnect attachment group
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "attachments", "groups", "test-iam-permissions")]
 public record GcloudComputeInterconnectsAttachmentsGroupsTestIamPermissionsOptions : GcloudOptions

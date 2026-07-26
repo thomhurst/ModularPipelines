@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --nodearchitecturetaintbehavior.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudNodeArchitectureTaintBehavior
 {
-    [Description("unspecified")]
+    [EnumValue("unspecified")]
     Unspecified,
 
-    [Description("arm")]
+    [EnumValue("arm")]
     Arm,
 
-    [Description("none")]
+    [EnumValue("none")]
     None
 }

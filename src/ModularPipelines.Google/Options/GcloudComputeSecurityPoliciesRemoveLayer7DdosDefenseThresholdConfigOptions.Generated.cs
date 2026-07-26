@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// policies     remove-layer7-ddos-defense-threshold-config - remove a layer7 ddos     defense threshold config from a Compute Engine security policy
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "security-policies", "remove-layer7-ddos-defense-threshold-config")]
 public record GcloudComputeSecurityPoliciesRemoveLayer7DdosDefenseThresholdConfigOptions(

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// enables Resource     Monitoring for an Assured Workloads environment
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("assured", "workloads", "enable-resource-monitoring")]
 public record GcloudAssuredWorkloadsEnableResourceMonitoringOptions : GcloudOptions

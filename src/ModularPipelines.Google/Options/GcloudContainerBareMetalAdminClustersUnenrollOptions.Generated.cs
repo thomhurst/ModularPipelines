@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// unenroll an Anthos on     bare metal admin cluster so that it is no longer managed by the Anthos     On-Prem API
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "bare-metal", "admin-clusters", "unenroll")]
 public record GcloudContainerBareMetalAdminClustersUnenrollOptions : GcloudOptions
