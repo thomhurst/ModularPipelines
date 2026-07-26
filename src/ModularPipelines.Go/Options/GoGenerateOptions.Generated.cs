@@ -15,7 +15,7 @@ namespace ModularPipelines.Go.Options;
 /// <summary>
 /// Generate runs commands described by directives within existing
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate")]
 public record GoGenerateOptions : GoOptions

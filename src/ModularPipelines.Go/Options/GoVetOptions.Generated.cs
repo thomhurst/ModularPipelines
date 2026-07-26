@@ -15,7 +15,7 @@ namespace ModularPipelines.Go.Options;
 /// <summary>
 /// Vet runs the Go vet tool (cmd/vet) on the named packages
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vet")]
 public record GoVetOptions : GoOptions

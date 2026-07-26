@@ -15,7 +15,7 @@ namespace ModularPipelines.Go.Options;
 /// <summary>
 /// Fix runs the Go fix tool (cmd/fix) on the named packages
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fix")]
 public record GoFixOptions : GoOptions
