@@ -15,7 +15,7 @@ namespace ModularPipelines.Grype.Options;
 /// <summary>
 /// Diff two databases, showing packages with added, removed, and modified vulnerability matches
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "diff")]
 public record GrypeDbDiffOptions : GrypeOptions

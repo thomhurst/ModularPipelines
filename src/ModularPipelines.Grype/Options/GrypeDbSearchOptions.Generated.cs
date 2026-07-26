@@ -9,14 +9,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Grype.Options;
-using ModularPipelines.Grype.Enums;
 
 namespace ModularPipelines.Grype.Options;
 
 /// <summary>
 /// Search the DB for vulnerabilities or affected packages
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "search")]
 public record GrypeDbSearchOptions : GrypeOptions
@@ -43,7 +42,7 @@ public record GrypeDbSearchOptions : GrypeOptions
     /// only show vulnerabilities with the given fix state (fixed, not-fixed, unknown, wont-fix)
     /// </summary>
     [CliOption("--fixed-state", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public GrypeDbSearchFixedState? FixedState { get; set; }
+    public IEnumerable<string>? FixedState { get; set; }
 
     /// <summary>
     /// help for search

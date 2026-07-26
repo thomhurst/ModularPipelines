@@ -16,7 +16,7 @@ namespace ModularPipelines.Grype.Services;
 /// <summary>
 /// grype db commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GrypeDb
 {
     private readonly ICommand _command;

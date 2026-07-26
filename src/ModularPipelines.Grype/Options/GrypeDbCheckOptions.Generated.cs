@@ -15,7 +15,7 @@ namespace ModularPipelines.Grype.Options;
 /// <summary>
 /// Check to see if there is a database update available
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "check")]
 public record GrypeDbCheckOptions : GrypeOptions

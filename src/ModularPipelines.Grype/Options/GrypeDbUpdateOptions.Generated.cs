@@ -15,7 +15,7 @@ namespace ModularPipelines.Grype.Options;
 /// <summary>
 /// Download and install the latest vulnerability database
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "update")]
 public record GrypeDbUpdateOptions : GrypeOptions
