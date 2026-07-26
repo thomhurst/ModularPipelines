@@ -8,17 +8,22 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Kubernetes.Options;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 /// <summary>
-/// Base options class for kubectl CLI commands.
-/// Contains global flags that apply to all commands.
+/// Set an individual value in a kubeconfig file.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("kubectl")]
-public abstract record KubernetesOptions : CommandLineToolOptions
+[CliSubCommand("config", "set")]
+public record KubernetesConfigSetOptions : KubernetesOptions
 {
+    /// <summary>
+    /// When writing a []byte PROPERTY_VALUE, write the given string directly without base64 decoding.
+    /// </summary>
+    [CliFlag("--set-raw-bytes")]
+    public bool? SetRawBytes { get; set; }
+
 }
