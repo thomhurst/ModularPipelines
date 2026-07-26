@@ -9,14 +9,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Yq.Options;
-using ModularPipelines.Yq.Enums;
 
 namespace ModularPipelines.Yq.Options;
 
 /// <summary>
 /// yq is a portable command-line data file processor (https://github.com/mikefarah/yq/)
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eval")]
 public record YqEvalOptions : YqOptions
@@ -36,7 +35,7 @@ public record YqEvalOptions : YqOptions
     /// <summary>
     /// parse CSV YAML/JSON values (default true)
     /// </summary>
-    [CliFlag("--csv-auto-parse")]
+    [CliOption("--csv-auto-parse", Format = OptionFormat.EqualsSeparated)]
     public bool? CsvAutoParse { get; set; }
 
     /// <summary>
@@ -73,12 +72,12 @@ public record YqEvalOptions : YqOptions
     /// (extract|process) first input as yaml front-matter. Extract will pull out the yaml content, process will run the expression against the yaml content, leaving the remaining data intact
     /// </summary>
     [CliOption("--front-matter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public YqEvalFrontMatter? FrontMatter { get; set; }
+    public string? FrontMatter { get; set; }
 
     /// <summary>
     /// Slurp any header comments and separators before processing expression. (default true)
     /// </summary>
-    [CliFlag("--header-preprocess")]
+    [CliOption("--header-preprocess", Format = OptionFormat.EqualsSeparated)]
     public bool? HeaderPreprocess { get; set; }
 
     /// <summary>
@@ -216,19 +215,19 @@ public record YqEvalOptions : YqOptions
     /// <summary>
     /// Toggles strings interpolation of \(exp) (default true)
     /// </summary>
-    [CliFlag("--string-interpolation")]
+    [CliOption("--string-interpolation", Format = OptionFormat.EqualsSeparated)]
     public bool? StringInterpolation { get; set; }
 
     /// <summary>
     /// parse TSV YAML/JSON values (default true)
     /// </summary>
-    [CliFlag("--tsv-auto-parse")]
+    [CliOption("--tsv-auto-parse", Format = OptionFormat.EqualsSeparated)]
     public bool? TsvAutoParse { get; set; }
 
     /// <summary>
     /// unwrap scalar, print the value with no quotes, colours or comments. Defaults to true for yaml (default true)
     /// </summary>
-    [CliFlag("--unwrapScalar", ShortForm = "-r")]
+    [CliOption("--unwrapScalar", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
     public bool? Unwrapscalar { get; set; }
 
     /// <summary>
@@ -258,7 +257,7 @@ public record YqEvalOptions : YqOptions
     /// <summary>
     /// enables keeping namespace after parsing attributes (default true)
     /// </summary>
-    [CliFlag("--xml-keep-namespace")]
+    [CliOption("--xml-keep-namespace", Format = OptionFormat.EqualsSeparated)]
     public bool? XmlKeepNamespace { get; set; }
 
     /// <summary>
@@ -270,7 +269,7 @@ public record YqEvalOptions : YqOptions
     /// <summary>
     /// enables using RawToken method instead Token. Commonly disables namespace translations. See https://pkg.go.dev/encoding/xml#Decoder.RawToken for details. (default true)
     /// </summary>
-    [CliFlag("--xml-raw-token")]
+    [CliOption("--xml-raw-token", Format = OptionFormat.EqualsSeparated)]
     public bool? XmlRawToken { get; set; }
 
     /// <summary>

@@ -16,7 +16,7 @@ namespace ModularPipelines.Yq.Options;
 /// Base options class for yq CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("yq")]
 public abstract record YqOptions : CommandLineToolOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Yq.Services;
 /// <summary>
 /// Generated implementation for yq CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Yq : IYq
 {
     private readonly ICommand _command;
