@@ -31,6 +31,25 @@ public class SignalRDistributedOptions
     public int MaxReconnectAttempts { get; set; } = 5;
 
     /// <summary>
+    /// How often each side sends a keep-alive ping (seconds). Lower values let a
+    /// silent connection drop (e.g. a crashed/partitioned worker whose socket close
+    /// is masked by the tunnel) be detected sooner, so its in-flight work is
+    /// re-queued faster. Applied to both the server's KeepAliveInterval and the
+    /// worker connection's KeepAliveInterval. Default 5s (SignalR default is 15s).
+    /// </summary>
+    public int KeepAliveIntervalSeconds { get; set; } = 5;
+
+    /// <summary>
+    /// How long a side waits without any message before declaring the peer gone
+    /// (seconds). Applied to the server's ClientTimeoutInterval (how fast the master
+    /// detects a dead worker and re-queues its work) and the worker connection's
+    /// ServerTimeout (how fast a worker detects a dead master and reconnects).
+    /// Should be at least twice <see cref="KeepAliveIntervalSeconds"/>. Default 15s
+    /// (SignalR default is 30s).
+    /// </summary>
+    public int PeerTimeoutSeconds { get; set; } = 15;
+
+    /// <summary>
     /// Maximum size in bytes for a single SignalR message (default 1MB).
     /// Increase for large module results.
     /// </summary>
