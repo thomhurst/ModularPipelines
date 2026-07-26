@@ -16,7 +16,7 @@ namespace ModularPipelines.Packer.Options;
 /// <summary>
 /// Inspects a template, parsing and outputting the components a template
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspect")]
 public record PackerInspectOptions : PackerOptions

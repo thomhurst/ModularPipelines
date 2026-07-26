@@ -16,7 +16,7 @@ namespace ModularPipelines.Packer.Options;
 /// <summary>
 /// Will execute multiple builds in parallel as defined in the template.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("build")]
 public record PackerBuildOptions : PackerOptions

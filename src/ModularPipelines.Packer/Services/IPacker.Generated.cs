@@ -15,7 +15,7 @@ namespace ModularPipelines.Packer.Services;
 /// <summary>
 /// Generated interface for packer CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IPacker
 {
     #region Commands
@@ -63,7 +63,7 @@ public partial interface IPacker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Hcl2_upgrade(PackerHcl2UpgradeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Hcl2Upgrade(PackerHcl2UpgradeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Install all the missing plugins required in a Packer config. Note that Packer

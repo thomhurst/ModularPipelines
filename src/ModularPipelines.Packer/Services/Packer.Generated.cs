@@ -16,7 +16,7 @@ namespace ModularPipelines.Packer.Services;
 /// <summary>
 /// Generated implementation for packer CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Packer : IPacker
 {
     private readonly ICommand _command;
@@ -68,7 +68,7 @@ internal partial class Packer : IPacker
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Hcl2_upgrade(
+    public virtual async Task<CommandResult> Hcl2Upgrade(
         PackerHcl2UpgradeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
