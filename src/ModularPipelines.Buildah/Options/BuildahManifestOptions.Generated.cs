@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Creates, modifies, and pushes manifest lists and image indexes.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest")]
 public record BuildahManifestOptions : BuildahOptions

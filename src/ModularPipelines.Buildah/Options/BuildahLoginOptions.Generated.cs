@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Login to a container registry on a specified server.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("login")]
 public record BuildahLoginOptions : BuildahOptions
@@ -41,7 +41,7 @@ public record BuildahLoginOptions : BuildahOptions
     /// <summary>
     /// return the current login user for the registry (default true)
     /// </summary>
-    [CliFlag("--get-login")]
+    [CliOption("--get-login", Format = OptionFormat.EqualsSeparated)]
     public bool? GetLogin { get; set; }
 
     /// <summary>
@@ -66,7 +66,7 @@ public record BuildahLoginOptions : BuildahOptions
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry. TLS verification cannot be used when talking to an insecure registry. (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
     /// <summary>

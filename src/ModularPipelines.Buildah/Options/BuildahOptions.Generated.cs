@@ -16,7 +16,7 @@ namespace ModularPipelines.Buildah.Options;
 /// Base options class for buildah CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("buildah")]
 public abstract record BuildahOptions : CommandLineToolOptions

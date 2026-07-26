@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Runs a specified command using the container's root filesystem as a root
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run")]
 public record BuildahRunOptions : BuildahOptions

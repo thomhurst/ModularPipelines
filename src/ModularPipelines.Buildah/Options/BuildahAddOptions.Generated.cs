@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Adds the contents of a file, URL, or directory to a container's working
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("add")]
 public record BuildahAddOptions : BuildahOptions

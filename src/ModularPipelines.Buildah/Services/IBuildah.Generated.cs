@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Services;
 /// <summary>
 /// Generated interface for buildah CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IBuildah
 {
     #region Sub-domain Services

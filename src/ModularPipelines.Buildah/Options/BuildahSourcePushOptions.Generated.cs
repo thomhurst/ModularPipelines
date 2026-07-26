@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Push a source image from a specified path to a registry.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "push")]
 public record BuildahSourcePushOptions : BuildahOptions
@@ -41,7 +41,7 @@ public record BuildahSourcePushOptions : BuildahOptions
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
 }

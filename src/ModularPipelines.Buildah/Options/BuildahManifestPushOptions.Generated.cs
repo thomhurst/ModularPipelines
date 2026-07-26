@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Pushes manifest lists and image indexes to registries.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "push")]
 public record BuildahManifestPushOptions : BuildahOptions
@@ -113,7 +113,7 @@ public record BuildahManifestPushOptions : BuildahOptions
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry. TLS verification cannot be used when talking to an insecure registry. (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
 }

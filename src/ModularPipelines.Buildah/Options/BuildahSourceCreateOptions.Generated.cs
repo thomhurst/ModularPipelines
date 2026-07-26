@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Create and initialize a source image.  A source image is an OCI artifact; an OCI image with a custom config media type.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "create")]
 public record BuildahSourceCreateOptions : BuildahOptions
@@ -35,7 +35,7 @@ public record BuildahSourceCreateOptions : BuildahOptions
     /// <summary>
     /// set the "created" time stamp (default true)
     /// </summary>
-    [CliFlag("--time-stamp")]
+    [CliOption("--time-stamp", Format = OptionFormat.EqualsSeparated)]
     public bool? TimeStamp { get; set; }
 
 }

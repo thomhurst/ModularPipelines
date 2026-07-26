@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Pull a source image from a registry to a specified path.  The pull operation will fail if the image does not comply with a source-image OCI artifact.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "pull")]
 public record BuildahSourcePullOptions : BuildahOptions
@@ -41,7 +41,7 @@ public record BuildahSourcePullOptions : BuildahOptions
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry (default true)
     /// </summary>
-    [CliFlag("--tls-verify")]
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
 }
