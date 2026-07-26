@@ -95,10 +95,11 @@ public class LiquibaseCliScraperTests
     }
 
     [Test]
-    public async Task ParseGlobalOptions_Parses_Databricks_Diff_Filter()
+    public async Task ParseGlobalOptions_Parses_Databricks_Diff_Filters()
     {
         const string helpText = """
                   --databricks-diff-tblproperties-exclude-patterns=PARAM   Excluded TBLPROPERTIES
+                  --databricks-diff-tblproperties-ignore-all=PARAM        Ignore all TBLPROPERTIES
             """;
         var options = _scraper.ParseLiquibaseGlobalOptions(helpText);
 
@@ -108,6 +109,12 @@ public class LiquibaseCliScraperTests
         await Assert.That(excludePatterns.CSharpType).IsEqualTo("string?");
         await Assert.That(excludePatterns.IsFlag).IsFalse();
         await Assert.That(excludePatterns.Description).IsEqualTo("Excluded TBLPROPERTIES");
+
+        var ignoreAll = options.Single(
+            option => option.SwitchName == "--databricks-diff-tblproperties-ignore-all");
+        await Assert.That(ignoreAll.PropertyName).IsEqualTo("DatabricksDiffTblPropertiesIgnoreAll");
+        await Assert.That(ignoreAll.CSharpType).IsEqualTo("bool?");
+        await Assert.That(ignoreAll.IsFlag).IsFalse();
     }
 
     [Test]
@@ -152,6 +159,7 @@ public class LiquibaseCliScraperTests
             Global Options:
                   --search-path=PARAM   Paths to search for changelogs
                   --log-level=PARAM     Logging level
+                  --databricks-diff-tblproperties-ignore-all=PARAM  Ignore all TBLPROPERTIES
             """;
         const string updateHelp = """
             Usage: liquibase update [OPTIONS]

@@ -48,6 +48,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
 
     private static readonly HashSet<string> BooleanOptions = new(StringComparer.OrdinalIgnoreCase)
     {
+        "--databricks-diff-tblproperties-ignore-all",
         "--prompt-for-non-local-database"
     };
 
