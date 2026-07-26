@@ -5,38 +5,71 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Common Development Commands
 
 ### Build Commands
+
+> [!IMPORTANT]
+> **Default to the core solution.** The full `ModularPipelines.sln` contains 60+
+> projects (the core framework plus every tool/CLI integration), so building it is
+> slow and memory-hungry. Most work only touches the core framework, so build the
+> lightweight `ModularPipelines.Core.sln` instead. Only build the full solution, the
+> examples/analyzers solutions, or an individual tool project when you are
+> **explicitly working on those projects**.
+
 ```bash
-# Build the entire solution
+# DEFAULT: build the core library only (fast) - core framework, Cmd,
+# source generator, and analyzers. Use this for most changes.
+dotnet build ModularPipelines.Core.sln -c Release
+
+# Working on a single tool/CLI integration? Build just that project.
+# (Most tool integrations have auto-generated options - see the code generation notes below.)
+dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.csproj -c Release
+
+# FULL solution (60+ projects, slow) - only when your change spans many
+# tool integrations or you specifically need to validate everything.
 dotnet build ModularPipelines.sln -c Release
 
-# Build specific solution (examples, analyzers, etc.)
+# Other solutions - only when working on those areas.
 dotnet build ModularPipelines.Examples.sln -c Release
 dotnet build ModularPipelines.Analyzers.sln -c Release
 
 # Run the build pipeline (from src/ModularPipelines.Build)
+# This builds ALL solutions and runs the full test suite - it is the slow,
+# comprehensive path used by CI. Do not run it for routine core changes.
 cd src/ModularPipelines.Build
 dotnet run -c Release --framework net10.0
 ```
 
+**What `ModularPipelines.Core.sln` contains:**
+- `src/ModularPipelines` - core framework
+- `src/ModularPipelines.Cmd` - base command execution
+- `src/ModularPipelines.SourceGenerator` - source generator
+- `src/ModularPipelines.Analyzers` + `.CodeFixes` - analyzers referenced by the core
+
+Everything else (Docker, DotNet, Git, Helm, Terraform, Azure, AWS, etc.) is a
+tool/CLI integration whose options are largely auto-generated. These are excluded
+from the core solution - add the specific project you need, or use the full solution.
+
 ### Running Tests
 ```bash
-# Run all unit tests (pattern: *UnitTests.csproj)
-# Tests are executed via the build pipeline with coverage
+# PREFER: run only the test project relevant to your change. This avoids
+# building the whole solution and every tool integration.
+dotnet run --project <path-to-test-project> --framework net10.0 -- --coverage --coverage-output-format cobertura
+
+# Run all unit tests via the build pipeline with coverage.
+# This is the slow, comprehensive path (builds all solutions) - use it for a
+# full verification pass, not for routine iteration.
 cd src/ModularPipelines.Build
 dotnet run -c Release --framework net10.0
-
-# Run a single test project manually
-dotnet run --project <path-to-test-project> --framework net10.0 -- --coverage --coverage-output-format cobertura
 ```
 
 ### Code Formatting
 ```bash
-# Format code (automatically done in CI)
-dotnet format
-dotnet format whitespace
+# Format code (automatically done in CI). Target the solution you built - the
+# core solution for core changes, or the relevant tool project otherwise.
+dotnet format ModularPipelines.Core.sln
+dotnet format ModularPipelines.Core.sln whitespace
 
 # Verify formatting without changes
-dotnet format --verify-no-changes --severity info
+dotnet format ModularPipelines.Core.sln --verify-no-changes --severity info
 ```
 
 ## High-Level Architecture

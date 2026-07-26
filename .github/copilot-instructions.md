@@ -23,24 +23,41 @@ For documentation work, ensure Node.js 20+ is available and yarn is installed.
 
 **CRITICAL: NEVER CANCEL BUILD COMMANDS. Set timeout to 180+ seconds for individual builds, 600+ seconds for the build pipeline.**
 
+**DEFAULT TO THE CORE SOLUTION.** The full `ModularPipelines.sln` has 60+ projects
+(the core framework plus every tool/CLI integration) and is slow and memory-hungry to
+build. Build `ModularPipelines.Core.sln` for routine work, and only build the full
+solution, the examples/analyzers solutions, or an individual tool project when you are
+**explicitly working on those projects**.
+
 Build commands in order of complexity and timing:
 
-1. **Build Analyzers** (22 seconds):
+1. **Build Core Library (DEFAULT, fastest)**:
+```bash
+# Core framework, Cmd, source generator, and analyzers only.
+dotnet build ModularPipelines.Core.sln -c Release
+```
+
+2. **Build a single tool integration** (when working on one tool):
+```bash
+dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.csproj -c Release
+```
+
+3. **Build Analyzers** (22 seconds):
 ```bash
 dotnet build ModularPipelines.Analyzers.sln -c Release
 ```
 
-2. **Build Main Solution** (35 seconds):
+4. **Build Main Solution** (35 seconds - 60+ projects, only when needed):
 ```bash
 dotnet build ModularPipelines.sln -c Release
 ```
 
-3. **Build Examples** (80 seconds):
+5. **Build Examples** (80 seconds):
 ```bash
 dotnet build ModularPipelines.Examples.sln -c Release
 ```
 
-4. **Run Build Pipeline** (150+ seconds - NEVER CANCEL):
+6. **Run Build Pipeline** (150+ seconds - NEVER CANCEL, builds everything):
 ```bash
 cd src/ModularPipelines.Build
 dotnet run -c Release --framework net10.0
@@ -60,19 +77,22 @@ Tests use TUnit framework. Some tests may fail in non-CI environments due to mis
 
 ## Code Formatting and Linting
 
+Target the solution you built - `ModularPipelines.Core.sln` for core changes, or the
+relevant tool project/full solution otherwise.
+
 **Format verification** (70 seconds):
 ```bash
-dotnet format ModularPipelines.sln --verify-no-changes --severity info
+dotnet format ModularPipelines.Core.sln --verify-no-changes --severity info
 ```
 
 **Fix formatting issues** (65 seconds):
 ```bash
-dotnet format ModularPipelines.sln
+dotnet format ModularPipelines.Core.sln
 ```
 
 **Fix whitespace only** (18 seconds):
 ```bash
-dotnet format ModularPipelines.sln whitespace
+dotnet format ModularPipelines.Core.sln whitespace
 ```
 
 **ALWAYS run formatting before committing changes** or CI will fail.
@@ -99,9 +119,16 @@ yarn start
 
 ## Repository Structure
 
+**Solutions:**
+- `ModularPipelines.Core.sln` - lightweight core-library solution (core framework, Cmd, source generator, analyzers). **Build this by default.**
+- `ModularPipelines.sln` - full solution with all 60+ projects including every tool integration. Slow; build only when needed.
+- `ModularPipelines.Analyzers.sln` / `ModularPipelines.Examples.sln` - analyzer and example solutions.
+
 **Core Framework:**
 - `src/ModularPipelines/` - Core framework and base classes
-- `src/ModularPipelines.*/` - Tool-specific integrations (Azure, AWS, Docker, Git, etc.)
+- `src/ModularPipelines.Cmd/` - Base command execution
+- `src/ModularPipelines.SourceGenerator/` - Source generator
+- `src/ModularPipelines.*/` - Tool-specific integrations (Azure, AWS, Docker, Git, etc.); options are largely auto-generated. Excluded from the core solution.
 
 **Build System:**
 - `src/ModularPipelines.Build/` - The project's own build pipeline implementation
@@ -135,8 +162,8 @@ yarn start
 ## Validation Scenarios
 
 **After making changes, ALWAYS:**
-1. Build the affected solutions
-2. Run formatting: `dotnet format ModularPipelines.sln`
+1. Build the affected solution/project - `ModularPipelines.Core.sln` for core changes, or the specific tool project. Avoid building the full solution unless your change spans many projects.
+2. Run formatting on what you built, e.g. `dotnet format ModularPipelines.Core.sln`
 3. Run tests for affected areas
 4. If modifying the build pipeline, test with: `cd src/ModularPipelines.Build && dotnet run -c Release --framework net10.0`
 
@@ -148,9 +175,10 @@ yarn start
 
 **For tool integrations:**
 1. Check existing tool integrations in `src/ModularPipelines.*/`
-2. Follow the pattern of strongly-typed options classes
-3. Use fluent API builders for complex commands
-4. Include secret obfuscation for sensitive parameters
+2. Build/test only the specific tool project you are working on (e.g. `dotnet build src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.csproj`) - these are excluded from the core solution
+3. Follow the pattern of strongly-typed options classes
+4. Use fluent API builders for complex commands
+5. Include secret obfuscation for sensitive parameters
 
 ## Common File Locations
 
