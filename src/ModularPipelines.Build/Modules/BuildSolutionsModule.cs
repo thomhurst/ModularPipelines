@@ -1,4 +1,4 @@
-using EnumerableAsyncProcessor.Extensions;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
@@ -27,16 +27,32 @@ public class BuildSolutionsModule : Module<CommandResult[]>
     {
         var gitRoot = context.Git().RootDirectory.Path;
 
-        // Build all solutions with --no-restore (workflow already restored)
-        var results = await Solutions
-            .ToAsyncProcessorBuilder()
-            .SelectAsync(async solution => await context.DotNet().Build(new DotNetBuildOptions
+        // Build all solutions serially with --no-restore (workflow already restored).
+        // Log each solution before/after so that if the job dies mid-build (e.g. the
+        // master runner being reclaimed during the heavy All.sln build - see #3179) the
+        // log shows exactly which solution was building, instead of an opaque silent gap.
+        // Command output is buffered until completion, so these module-level logs are the
+        // reliable progress signal.
+        var results = new List<CommandResult>(Solutions.Length);
+        for (var index = 0; index < Solutions.Length; index++)
+        {
+            var solution = Solutions[index];
+            context.Logger.LogInformation(
+                "Building solution {Number}/{Total}: {Solution}", index + 1, Solutions.Length, solution);
+
+            var result = await context.DotNet().Build(new DotNetBuildOptions
             {
                 ProjectSolution = Path.Combine(gitRoot, solution),
                 Configuration = "Release",
                 NoRestore = true,
-            }, cancellationToken: cancellationToken))
-            .ProcessOneAtATime();
+            }, cancellationToken: cancellationToken);
+
+            context.Logger.LogInformation(
+                "Finished solution {Number}/{Total}: {Solution} (exit code {ExitCode})",
+                index + 1, Solutions.Length, solution, result.ExitCode);
+
+            results.Add(result);
+        }
 
         // Stage bin/Release/ output for artifact sharing
         var stagingDir = Path.Combine(gitRoot, "_build-staging");
@@ -73,7 +89,7 @@ public class BuildSolutionsModule : Module<CommandResult[]>
             CopyDirectory(releaseDir, stagingDest);
         }
 
-        return results;
+        return results.ToArray();
     }
 
     private static void CopyDirectory(string sourceDir, string destDir)
