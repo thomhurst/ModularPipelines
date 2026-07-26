@@ -15,7 +15,7 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Create a package.json file
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("init")]
 public record PnpmInitOptions : PnpmOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Creates a project from a `create-*` starter kit.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create")]
 public record PnpmCreateOptions : PnpmOptions
