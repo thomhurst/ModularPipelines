@@ -200,6 +200,16 @@ public record PipelineOptions
     public int? ConsoleWidth { get; set; }
 
     /// <summary>
+    /// Gets or sets how often buffered output from still-running modules is written to the console.
+    /// Set to <see cref="TimeSpan.Zero"/> to retain all module output until the module completes.
+    /// </summary>
+    /// <remarks>
+    /// Periodic flushing preserves diagnostic output when a process is killed before pipeline
+    /// teardown can run. The default is one minute.
+    /// </remarks>
+    public TimeSpan ModuleOutputFlushInterval { get; set; } = TimeSpan.FromMinutes(1);
+
+    /// <summary>
     /// Gets or sets the default execution options for all commands.
     /// When set, these options apply to all command executions unless overridden per-call.
     /// </summary>

@@ -63,6 +63,18 @@ internal interface IModuleOutputBuffer
     bool HasOutput { get; }
 
     /// <summary>
+    /// Gets whether the owning module has completed.
+    /// </summary>
+    bool IsComplete => false;
+
+    /// <summary>
+    /// Marks the owning module as complete so periodic flushing no longer selects it.
+    /// </summary>
+    void MarkComplete()
+    {
+    }
+
+    /// <summary>
     /// Flushes all buffered output to the console with CI formatting.
     /// </summary>
     /// <param name="console">The console to write to.</param>
@@ -76,4 +88,18 @@ internal interface IModuleOutputBuffer
         ILogger logger,
         ISpectreConsoleLoggerControl loggerControl,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Flushes output accumulated so far while the module is still running.
+    /// </summary>
+    /// <remarks>
+    /// The default implementation preserves compatibility for alternate buffer implementations.
+    /// </remarks>
+    Task FlushIncrementallyToAsync(
+        TextWriter console,
+        IBuildSystemFormatter formatter,
+        ILogger logger,
+        ISpectreConsoleLoggerControl loggerControl,
+        CancellationToken cancellationToken = default)
+        => FlushToAsync(console, formatter, logger, loggerControl, cancellationToken);
 }

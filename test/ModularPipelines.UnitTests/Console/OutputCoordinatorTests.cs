@@ -121,6 +121,38 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    public async Task IncrementalFlush_UsesInProgressRendering()
+    {
+        var buffer = new Mock<IModuleOutputBuffer>();
+        buffer.SetupGet(x => x.ModuleType).Returns(typeof(OutputCoordinatorTests));
+        buffer.SetupGet(x => x.HasOutput).Returns(true);
+        buffer
+            .Setup(x => x.FlushIncrementallyToAsync(
+                It.IsAny<TextWriter>(),
+                It.IsAny<IBuildSystemFormatter>(),
+                It.IsAny<ILogger>(),
+                It.IsAny<ISpectreConsoleLoggerControl>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        await coordinator.EnqueueAndFlushIncrementalAsync(buffer.Object);
+
+        buffer.Verify(x => x.FlushIncrementallyToAsync(
+            It.IsAny<TextWriter>(),
+            It.IsAny<IBuildSystemFormatter>(),
+            It.IsAny<ILogger>(),
+            It.IsAny<ISpectreConsoleLoggerControl>(),
+            It.IsAny<CancellationToken>()), Times.Once);
+        buffer.Verify(x => x.FlushToAsync(
+            It.IsAny<TextWriter>(),
+            It.IsAny<IBuildSystemFormatter>(),
+            It.IsAny<ILogger>(),
+            It.IsAny<ISpectreConsoleLoggerControl>(),
+            It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Test]
     public async Task ImmediateFlush_DoesNotApplyOwnerCancellationToLaterBuffers()
     {
         using var ownerCancellation = new CancellationTokenSource();

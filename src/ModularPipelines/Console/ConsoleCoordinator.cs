@@ -331,6 +331,25 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     }
 
     /// <inheritdoc />
+    public async Task FlushInProgressModuleOutputAsync(CancellationToken cancellationToken = default)
+    {
+        await FlushPendingWritesAsync().ConfigureAwait(false);
+
+        var buffers = _moduleBuffers.Values
+            .Where(buffer => !buffer.IsComplete && buffer.HasOutput)
+            .Cast<IModuleOutputBuffer>()
+            .ToArray();
+
+        foreach (var buffer in buffers)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await _outputCoordinator
+                .EnqueueAndFlushIncrementalAsync(buffer, cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
+    /// <inheritdoc />
     public async Task FlushModuleOutputAsync()
     {
         // Output is now flushed immediately when modules complete.

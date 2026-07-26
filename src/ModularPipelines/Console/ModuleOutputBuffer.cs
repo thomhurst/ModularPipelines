@@ -29,6 +29,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly string _moduleName;
     private readonly DateTime _startTimeUtc;
     private Exception? _exception;
+    private bool _isComplete;
 
     /// <inheritdoc />
     public Type ModuleType { get; }
@@ -101,6 +102,27 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
+    public bool IsComplete
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _isComplete;
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    public void MarkComplete()
+    {
+        lock (_lock)
+        {
+            _isComplete = true;
+        }
+    }
+
+    /// <inheritdoc />
     public Task FlushToAsync(
         TextWriter console,
         IBuildSystemFormatter formatter,
@@ -108,11 +130,50 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ISpectreConsoleLoggerControl loggerControl,
         CancellationToken cancellationToken = default)
     {
+        return FlushToAsync(
+            console,
+            formatter,
+            logger,
+            loggerControl,
+            isComplete: true,
+            cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task FlushIncrementallyToAsync(
+        TextWriter console,
+        IBuildSystemFormatter formatter,
+        ILogger logger,
+        ISpectreConsoleLoggerControl loggerControl,
+        CancellationToken cancellationToken = default)
+    {
+        return FlushToAsync(
+            console,
+            formatter,
+            logger,
+            loggerControl,
+            isComplete: false,
+            cancellationToken);
+    }
+
+    private Task FlushToAsync(
+        TextWriter console,
+        IBuildSystemFormatter formatter,
+        ILogger logger,
+        ISpectreConsoleLoggerControl loggerControl,
+        bool isComplete,
+        CancellationToken cancellationToken)
+    {
         List<BufferedOutput> outputs;
         Exception? exception;
 
         lock (_lock)
         {
+            if (!isComplete && _isComplete)
+            {
+                return Task.CompletedTask;
+            }
+
             if (_outputs.Count == 0)
             {
                 return Task.CompletedTask;
@@ -132,7 +193,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             EnterSynchronizationLock(synchronizationLock, cancellationToken);
             try
             {
-                var header = FormatHeader(exception);
+                var header = FormatHeader(exception, isComplete);
                 var startCommand = formatter.GetStartBlockCommand(header);
                 var endCommand = formatter.GetEndBlockCommand(header);
                 var groupStarted = false;
@@ -226,7 +287,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
     }
 
-    private string FormatHeader(Exception? exception)
+    private string FormatHeader(Exception? exception, bool isComplete)
     {
         var duration = DateTime.UtcNow - _startTimeUtc;
         var durationText = duration.ToDisplayString();
@@ -236,7 +297,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return $"{_moduleName} \u2717 ({durationText}) - {exception.GetType().Name}";
         }
 
-        return $"{_moduleName} \u2713 ({durationText})";
+        return isComplete
+            ? $"{_moduleName} \u2713 ({durationText})"
+            : $"{_moduleName} \u2026 ({durationText})";
     }
 
     private static IAnsiConsole CreateDirectConsole(TextWriter writer)

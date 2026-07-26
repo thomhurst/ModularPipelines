@@ -62,6 +62,49 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task IncrementalFlush_Marks_Module_As_InProgress()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("partial output");
+
+        await buffer.FlushIncrementallyToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("ModuleOutputBufferTests …");
+        await Assert.That(output).Contains("partial output");
+        await Assert.That(output).DoesNotContain("ModuleOutputBufferTests ✓");
+        await Assert.That(buffer.HasOutput).IsFalse();
+    }
+
+    [Test]
+    public async Task IncrementalFlush_DoesNotDrainCompletedModule()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("completed output");
+        buffer.MarkComplete();
+
+        await buffer.FlushIncrementallyToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl);
+
+        await Assert.That(writer.ToString()).IsEmpty();
+        await Assert.That(buffer.HasOutput).IsTrue();
+
+        await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
+        await Assert.That(writer.ToString()).Contains("completed output");
+    }
+
+    [Test]
     public async Task Flush_Keeps_Concurrent_Logs_Outside_Module_Group()
     {
         var writer = new StringWriter();

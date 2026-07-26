@@ -23,6 +23,15 @@ internal interface IOutputCoordinator
     Task EnqueueAndFlushAsync(IModuleOutputBuffer buffer, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Enqueues output accumulated by a still-running module and waits until it is flushed.
+    /// </summary>
+    /// <param name="buffer">The buffer to flush.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    Task EnqueueAndFlushIncrementalAsync(
+        IModuleOutputBuffer buffer,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Sets whether live progress is currently active.
     /// When active, module output is deferred until pipeline end.
     /// </summary>

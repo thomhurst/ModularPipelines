@@ -1,7 +1,10 @@
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine.Executors;
 
@@ -27,6 +30,8 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
     private readonly IExceptionBuffer _exceptionBuffer;
     private readonly IConsoleCoordinator _consoleCoordinator;
     private readonly IOutputCoordinator _outputCoordinator;
+    private readonly IOptions<PipelineOptions> _options;
+    private readonly ILogger<PipelineOutputCoordinator> _logger;
 
     public PipelineOutputCoordinator(
         IPrintProgressExecutor printProgressExecutor,
@@ -34,7 +39,9 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         IInternalSummaryLogger summaryLogger,
         IExceptionBuffer exceptionBuffer,
         IConsoleCoordinator consoleCoordinator,
-        IOutputCoordinator outputCoordinator)
+        IOutputCoordinator outputCoordinator,
+        IOptions<PipelineOptions> options,
+        ILogger<PipelineOutputCoordinator> logger)
     {
         _printProgressExecutor = printProgressExecutor;
         _consolePrinter = consolePrinter;
@@ -42,6 +49,8 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         _exceptionBuffer = exceptionBuffer;
         _consoleCoordinator = consoleCoordinator;
         _outputCoordinator = outputCoordinator;
+        _options = options;
+        _logger = logger;
     }
 
     /// <inheritdoc />
@@ -58,7 +67,12 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         _consoleCoordinator.EnableOutputBuffering();
 
         var printProgressExecutor = await _printProgressExecutor.InitializeAsync().ConfigureAwait(false);
-        return new PipelineOutputScope(printProgressExecutor, _consoleCoordinator, _outputCoordinator);
+        return new PipelineOutputScope(
+            printProgressExecutor,
+            _consoleCoordinator,
+            _outputCoordinator,
+            _options.Value.ModuleOutputFlushInterval,
+            _logger);
     }
 
     /// <inheritdoc />
@@ -88,19 +102,32 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         private readonly IPrintProgressExecutor _printProgressExecutor;
         private readonly IConsoleCoordinator _consoleCoordinator;
         private readonly IOutputCoordinator _outputCoordinator;
+        private readonly ILogger _logger;
+        private readonly CancellationTokenSource _liveFlushCancellation = new();
+        private readonly Task _liveFlushTask;
 
         public PipelineOutputScope(
             IPrintProgressExecutor printProgressExecutor,
             IConsoleCoordinator consoleCoordinator,
-            IOutputCoordinator outputCoordinator)
+            IOutputCoordinator outputCoordinator,
+            TimeSpan liveFlushInterval,
+            ILogger logger)
         {
             _printProgressExecutor = printProgressExecutor;
             _consoleCoordinator = consoleCoordinator;
             _outputCoordinator = outputCoordinator;
+            _logger = logger;
+            _liveFlushTask = liveFlushInterval > TimeSpan.Zero
+                ? FlushPeriodicallyAsync(liveFlushInterval)
+                : Task.CompletedTask;
         }
 
         public async ValueTask DisposeAsync()
         {
+            await _liveFlushCancellation.CancelAsync().ConfigureAwait(false);
+            await _liveFlushTask.ConfigureAwait(false);
+            _liveFlushCancellation.Dispose();
+
             // CRITICAL: Order matters!
             // 1. Flush retained console fragments while progress deferral is still active.
             var newlyPopulatedBuffers = await _consoleCoordinator
@@ -123,6 +150,38 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
 
             // 5. Flush any unattributed output from coordinator.
             await _consoleCoordinator.FlushModuleOutputAsync().ConfigureAwait(false);
+        }
+
+        private async Task FlushPeriodicallyAsync(TimeSpan interval)
+        {
+            using var timer = new PeriodicTimer(interval);
+
+            try
+            {
+                while (await timer
+                           .WaitForNextTickAsync(_liveFlushCancellation.Token)
+                           .ConfigureAwait(false))
+                {
+                    try
+                    {
+                        await _consoleCoordinator
+                            .FlushInProgressModuleOutputAsync(_liveFlushCancellation.Token)
+                            .ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException) when (_liveFlushCancellation.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                    catch (Exception exception)
+                    {
+                        _logger.LogWarning(exception, "Failed to flush in-progress module output");
+                    }
+                }
+            }
+            catch (OperationCanceledException) when (_liveFlushCancellation.IsCancellationRequested)
+            {
+                // Normal scope teardown.
+            }
         }
     }
 }
