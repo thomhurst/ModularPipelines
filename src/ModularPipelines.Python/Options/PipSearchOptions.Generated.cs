@@ -15,7 +15,7 @@ namespace ModularPipelines.Python.Options;
 /// <summary>
 /// Search for PyPI packages whose name or summary contains &lt;query&gt;.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
 public record PipSearchOptions : PipOptions

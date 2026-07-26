@@ -15,7 +15,7 @@ namespace ModularPipelines.Python.Options;
 /// <summary>
 /// Inspect information available from package indexes.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("index")]
 public record PipIndexOptions : PipOptions

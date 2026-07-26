@@ -15,7 +15,7 @@ namespace ModularPipelines.Python.Options;
 /// <summary>
 /// Inspect the content of a Python environment and produce a report in JSON format.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspect")]
 public record PipInspectOptions : PipOptions

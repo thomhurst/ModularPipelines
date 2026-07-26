@@ -15,7 +15,7 @@ namespace ModularPipelines.Python.Services;
 /// <summary>
 /// Generated interface for pip CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IPip
 {
     #region Commands

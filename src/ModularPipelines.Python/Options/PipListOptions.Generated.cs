@@ -15,7 +15,7 @@ namespace ModularPipelines.Python.Options;
 /// <summary>
 /// List installed packages, including editables.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("list")]
 public record PipListOptions : PipOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Python.Options;
 /// <summary>
 /// Show information about one or more installed packages.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("show")]
 public record PipShowOptions : PipOptions
