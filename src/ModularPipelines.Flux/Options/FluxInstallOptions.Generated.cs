@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The install command deploys Flux in the specified namespace.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("install")]
 public record FluxInstallOptions : FluxOptions
@@ -73,7 +73,7 @@ public record FluxInstallOptions : FluxOptions
     /// <summary>
     /// deny ingress access to the toolkit controllers from other namespaces using network policies (default true)
     /// </summary>
-    [CliFlag("--network-policy")]
+    [CliOption("--network-policy", Format = OptionFormat.EqualsSeparated)]
     public bool? NetworkPolicy { get; set; }
 
     /// <summary>
@@ -103,7 +103,7 @@ public record FluxInstallOptions : FluxOptions
     /// <summary>
     /// watch for custom resources in all namespaces, if set to false it will only watch the namespace where the toolkit is installed (default true)
     /// </summary>
-    [CliFlag("--watch-all-namespaces")]
+    [CliOption("--watch-all-namespaces", Format = OptionFormat.EqualsSeparated)]
     public bool? WatchAllNamespaces { get; set; }
 
     /// <summary>

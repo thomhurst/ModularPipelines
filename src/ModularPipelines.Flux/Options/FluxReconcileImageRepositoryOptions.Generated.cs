@@ -15,7 +15,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The reconcile image repository command triggers a reconciliation of an ImageRepository resource and waits for it to finish.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("reconcile", "image", "repository")]
 public record FluxReconcileImageRepositoryOptions : FluxOptions

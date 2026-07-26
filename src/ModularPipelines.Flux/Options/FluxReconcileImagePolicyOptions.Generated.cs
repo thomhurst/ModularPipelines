@@ -15,7 +15,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The reconcile image policy command triggers a reconciliation of an ImagePolicy resource and waits for it to finish.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("reconcile", "image", "policy")]
 public record FluxReconcileImagePolicyOptions : FluxOptions

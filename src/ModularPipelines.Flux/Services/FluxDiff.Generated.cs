@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux diff commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxDiff
 {
     private readonly ICommand _command;
@@ -59,6 +59,21 @@ public class FluxDiff
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxDiffArtifactOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// The diff command does a build, then it performs a server-side dry-run and prints the diff.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Kustomization(
+        FluxDiffKustomizationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new FluxDiffKustomizationOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The create source chart command generates a HelmChart resource and waits for the chart to be available.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create", "source", "chart")]
 public record FluxCreateSourceChartOptions : FluxOptions
@@ -43,7 +43,7 @@ public record FluxCreateSourceChartOptions : FluxOptions
     /// the reconcile strategy for helm chart (accepted values: Revision and ChartRevision) (default "ChartVersion")
     /// </summary>
     [CliOption("--reconcile-strategy", Format = OptionFormat.EqualsSeparated)]
-    public string? ReconcileStrategy { get; set; }
+    public FluxCreateSourceChartReconcileStrategy? ReconcileStrategy { get; set; }
 
     /// <summary>
     /// source that contains the chart in the format '&lt;kind&gt;/&lt;name&gt;', where kind must be one of: (HelmRepository, GitRepository, Bucket)

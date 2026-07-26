@@ -9,13 +9,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Flux.Options;
+using ModularPipelines.Flux.Enums;
 
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
 /// The create image policy command generates an ImagePolicy resource.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create", "image", "policy")]
 public record FluxCreateImagePolicyOptions : FluxOptions
@@ -54,7 +55,7 @@ public record FluxCreateImagePolicyOptions : FluxOptions
     /// the digest reflection policy to use when observing latest image tags (one of 'Never', 'IfNotPresent', 'Never')
     /// </summary>
     [CliOption("--reflect-digest", Format = OptionFormat.EqualsSeparated)]
-    public string? ReflectDigest { get; set; }
+    public FluxCreateImagePolicyReflectDigest? ReflectDigest { get; set; }
 
     /// <summary>
     /// use alphabetical sorting to select image; either "asc" meaning select the last, or "desc" meaning select the first

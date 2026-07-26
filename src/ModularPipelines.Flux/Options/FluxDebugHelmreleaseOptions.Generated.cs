@@ -15,7 +15,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The debug helmrelease command can be used to troubleshoot failing Helm release reconciliations.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("debug", "helmrelease")]
 public record FluxDebugHelmreleaseOptions : FluxOptions

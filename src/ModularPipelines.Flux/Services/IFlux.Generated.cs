@@ -15,7 +15,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// Generated interface for flux CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IFlux
 {
     #region Sub-domain Services

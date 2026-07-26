@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux export commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxExport
 {
     private readonly ICommand _command;
@@ -81,6 +81,21 @@ public class FluxExport
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportAlertOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// The export alert-provider command exports one or all Provider resources in YAML format.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AlertProvider(
+        FluxExportAlertProviderOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new FluxExportAlertProviderOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux resume commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxResume
 {
     private readonly ICommand _command;
@@ -75,6 +75,21 @@ public class FluxResume
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeAlertOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// The resume command marks a previously suspended Provider resource for reconciliation and waits for it to
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AlertProvider(
+        FluxResumeAlertProviderOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new FluxResumeAlertProviderOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The bootstrap gitea command creates the Gitea repository if it doesn't exists and
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bootstrap", "gitea")]
 public record FluxBootstrapGiteaOptions : FluxOptions
@@ -60,7 +60,7 @@ public record FluxBootstrapGiteaOptions : FluxOptions
     /// <summary>
     /// if true, the repository is setup or configured as private (default true)
     /// </summary>
-    [CliFlag("--private")]
+    [CliOption("--private", Format = OptionFormat.EqualsSeparated)]
     public bool? Private { get; set; }
 
     /// <summary>
@@ -222,6 +222,7 @@ public record FluxBootstrapGiteaOptions : FluxOptions
     /// <summary>
     /// passphrase for decrypting GPG private key
     /// </summary>
+    [SecretValue]
     [CliOption("--gpg-passphrase", Format = OptionFormat.EqualsSeparated)]
     public string? GpgPassphrase { get; set; }
 
@@ -271,7 +272,7 @@ public record FluxBootstrapGiteaOptions : FluxOptions
     /// <summary>
     /// setup Kubernetes network policies to deny ingress access to the Flux controllers from other namespaces (default true)
     /// </summary>
-    [CliFlag("--network-policy")]
+    [CliOption("--network-policy", Format = OptionFormat.EqualsSeparated)]
     public bool? NetworkPolicy { get; set; }
 
     /// <summary>
@@ -322,7 +323,7 @@ public record FluxBootstrapGiteaOptions : FluxOptions
     /// list of directories to be included in the GitRepository sparse checkout, the configured --path must be one of them, accepts comma-separated values
     /// </summary>
     [CliOption("--sparse-checkout", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public FluxBootstrapGiteaSparseCheckout? SparseCheckout { get; set; }
+    public IEnumerable<FluxBootstrapGiteaSparseCheckout>? SparseCheckout { get; set; }
 
     /// <summary>
     /// SSH ECDSA public key curve (default p384)
@@ -425,7 +426,7 @@ public record FluxBootstrapGiteaOptions : FluxOptions
     /// <summary>
     /// watch for custom resources in all namespaces, if set to false it will only watch the namespace where the Flux controllers are installed (default true)
     /// </summary>
-    [CliFlag("--watch-all-namespaces")]
+    [CliOption("--watch-all-namespaces", Format = OptionFormat.EqualsSeparated)]
     public bool? WatchAllNamespaces { get; set; }
 
 }

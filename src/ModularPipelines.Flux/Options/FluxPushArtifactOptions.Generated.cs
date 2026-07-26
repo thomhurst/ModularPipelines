@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The push artifact command creates a tarball from the given directory or the single file and uploads the artifact to an OCI repository.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("push", "artifact")]
 public record FluxPushArtifactOptions : FluxOptions

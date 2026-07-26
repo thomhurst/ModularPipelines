@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Flux.Enums;
 
 /// <summary>
 /// Allowed values for the --loglevel option.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxInstallLogLevel
 {
-    [Description("debug")]
+    [EnumValue("debug")]
     Debug,
 
-    [Description("info")]
+    [EnumValue("info")]
     Info,
 
-    [Description("error")]
+    [EnumValue("error")]
     Error
 }

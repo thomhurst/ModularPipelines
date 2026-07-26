@@ -15,7 +15,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The tree command prints the ExternalArtifact list managed by an ArtifactGenerator.'
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tree", "artifact", "generator")]
 public record FluxTreeArtifactGeneratorOptions : FluxOptions

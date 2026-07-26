@@ -18,7 +18,7 @@ namespace ModularPipelines.Flux.Extensions;
 /// <summary>
 /// Generated extensions for registering flux services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class FluxExtensions
 {
 #pragma warning disable CA2255
