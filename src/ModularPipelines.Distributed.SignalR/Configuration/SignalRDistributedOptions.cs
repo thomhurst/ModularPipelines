@@ -31,6 +31,14 @@ public class SignalRDistributedOptions
     public int MaxReconnectAttempts { get; set; } = 5;
 
     /// <summary>
+    /// How long (seconds) the master waits for a disconnected worker to reconnect before
+    /// re-enqueuing its in-flight module. Should exceed the total auto-reconnect window
+    /// (exponential backoff over <see cref="MaxReconnectAttempts"/>) so a transient blip
+    /// doesn't cause the module to run twice. Default 45s.
+    /// </summary>
+    public int ReconnectGraceSeconds { get; set; } = 45;
+
+    /// <summary>
     /// How often each side sends a keep-alive ping (seconds). Lower values let a
     /// silent connection drop (e.g. a crashed/partitioned worker whose socket close
     /// is masked by the tunnel) be detected sooner, so its in-flight work is

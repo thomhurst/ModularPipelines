@@ -62,7 +62,10 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
 
     private async Task<IDistributedCoordinator> CreateMasterCoordinatorAsync(CancellationToken cancellationToken)
     {
-        var masterState = new SignalRMasterState();
+        var masterState = new SignalRMasterState
+        {
+            ReconnectGracePeriod = TimeSpan.FromSeconds(_options.ReconnectGraceSeconds),
+        };
 
         // Start the SignalR server
         _serverHost = new MasterServerHost();

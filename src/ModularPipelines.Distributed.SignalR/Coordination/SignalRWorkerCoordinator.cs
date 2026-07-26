@@ -16,6 +16,7 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
     private readonly Channel<ModuleAssignment> _assignmentChannel;
 
     private WorkerRegistration? _lastRegistration;
+    private volatile bool _awaitingAssignment;
 
     public SignalRWorkerCoordinator(HubConnection connection, ILogger<SignalRWorkerCoordinator> logger)
     {
@@ -55,6 +56,12 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
     {
         try
         {
+            // Mark that we're waiting for an assignment. Used by the reconnect handler to
+            // decide whether to re-request work: if we're mid-execution (not awaiting), a
+            // reconnect must NOT request new work or the master would dispatch the module
+            // it already re-tracked for us, running it twice.
+            _awaitingAssignment = true;
+
             // Request work from master
             await _connection.InvokeAsync(HubMethodNames.RequestWork, workerCapabilities, cancellationToken);
 
@@ -63,6 +70,7 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
             {
                 if (_assignmentChannel.Reader.TryRead(out var assignment))
                 {
+                    _awaitingAssignment = false;
                     return assignment;
                 }
             }
@@ -72,6 +80,10 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
         catch (OperationCanceledException)
         {
             return null;
+        }
+        finally
+        {
+            _awaitingAssignment = false;
         }
     }
 
@@ -108,7 +120,14 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
                 connectionId, registration.WorkerIndex);
 
             await _connection.InvokeAsync(HubMethodNames.RegisterWorker, registration);
-            await _connection.InvokeAsync(HubMethodNames.RequestWork, registration.Capabilities);
+
+            // Only re-request work if we're idle and waiting for an assignment. If we're
+            // mid-execution, the master restored our in-flight module on re-registration;
+            // requesting work now would make it dispatch that module again (double run).
+            if (_awaitingAssignment)
+            {
+                await _connection.InvokeAsync(HubMethodNames.RequestWork, registration.Capabilities);
+            }
         }
         catch (Exception ex)
         {

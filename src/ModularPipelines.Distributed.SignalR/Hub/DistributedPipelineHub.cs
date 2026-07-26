@@ -29,6 +29,27 @@ internal class DistributedPipelineHub(
             Registration = registration,
         };
 
+        // If this worker (identified by its stable index, not the connection id) had an
+        // in-flight module pending re-enqueue after a disconnect, it has reconnected
+        // within the grace window. Cancel the pending re-enqueue and restore its busy
+        // state so the master keeps awaiting the original result instead of running the
+        // module a second time.
+        if (state.PendingReconnects.TryRemove(registration.WorkerIndex, out var pending))
+        {
+            pending.Cts.Cancel();
+            pending.Cts.Dispose();
+
+            if (state.ResultWaiters.TryGetValue(pending.Assignment.ModuleTypeName, out var waiter)
+                && !waiter.Task.IsCompleted)
+            {
+                workerState.TryMarkBusy();
+                workerState.SetAssignment(pending.Assignment);
+                _logger.LogInformation(
+                    "Worker {Index} reconnected within grace; resuming in-flight {Module}",
+                    registration.WorkerIndex, pending.Assignment.ModuleTypeName);
+            }
+        }
+
         state.Workers[connectionId] = workerState;
         state.Registrations[registration.WorkerIndex] = registration;
 
@@ -83,40 +104,73 @@ internal class DistributedPipelineHub(
     {
         if (_masterState.Workers.TryRemove(Context.ConnectionId, out var workerState))
         {
+            var workerIndex = workerState.Registration.WorkerIndex;
             _logger.LogWarning("Worker {Index} disconnected (connection {ConnectionId})",
-                workerState.Registration.WorkerIndex, Context.ConnectionId);
+                workerIndex, Context.ConnectionId);
 
-            // Re-enqueue any in-flight assignment so a surviving worker (or the master's own
-            // worker loop) can pick it up, instead of the master waiting forever for a result
-            // that will never arrive. If the result already came back the assignment is null
-            // (cleared in PublishResult) or its waiter is already completed, so we skip it.
+            // Don't re-enqueue in-flight work immediately: the worker may just be blipping
+            // and auto-reconnecting, and re-running a module (with side effects) is unsafe.
+            // Instead schedule a re-enqueue after a grace period; if the worker reconnects
+            // within that window, RegisterWorker cancels it. If the result already came back
+            // the assignment is null (cleared in PublishResult) or its waiter is complete.
             var inflight = workerState.ClearAssignment();
             if (inflight is not null
                 && _masterState.ResultWaiters.TryGetValue(inflight.ModuleTypeName, out var waiter)
                 && !waiter.Task.IsCompleted)
             {
-                _logger.LogWarning(
-                    "Re-enqueuing in-flight module {Module} from disconnected worker {Index}",
-                    inflight.ModuleTypeName, workerState.Registration.WorkerIndex);
-
-                _masterState.PendingAssignments.Enqueue(inflight);
-
-                // Wake the master's own dequeue loop...
-                _masterState.WorkAvailable.Release();
-
-                // ...and nudge a currently-idle worker to pick it up immediately.
-                foreach (var kvp in _masterState.Workers)
-                {
-                    if (kvp.Value.IsIdle)
-                    {
-                        await TryAssignPendingWork(kvp.Value, _masterState);
-                        break;
-                    }
-                }
+                var cts = new CancellationTokenSource();
+                _masterState.PendingReconnects[workerIndex] = (inflight, cts);
+                _ = ReEnqueueAfterGraceAsync(_masterState, _logger, workerIndex, inflight, cts.Token);
             }
         }
 
         await base.OnDisconnectedAsync(exception);
+    }
+
+    /// <summary>
+    /// After the reconnect grace period, re-enqueues a disconnected worker's in-flight
+    /// module unless it reconnected (RegisterWorker removed the pending entry) or its
+    /// result already arrived. Uses only shared state + logger so it is safe to run
+    /// detached from the (transient) hub instance that scheduled it.
+    /// </summary>
+    private static async Task ReEnqueueAfterGraceAsync(
+        SignalRMasterState state,
+        ILogger logger,
+        int workerIndex,
+        ModuleAssignment assignment,
+        CancellationToken graceToken)
+    {
+        try
+        {
+            await Task.Delay(state.ReconnectGracePeriod, graceToken);
+        }
+        catch (OperationCanceledException)
+        {
+            return; // Worker reconnected within the grace window — keep awaiting its result.
+        }
+
+        // Claim the pending entry. If it's already gone, RegisterWorker won the race
+        // (the worker reconnected) — do not re-enqueue.
+        if (!state.PendingReconnects.TryRemove(workerIndex, out var pending))
+        {
+            return;
+        }
+
+        pending.Cts.Dispose();
+
+        // Skip if the result arrived in the meantime.
+        if (state.ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
+            && waiter.Task.IsCompleted)
+        {
+            return;
+        }
+
+        logger.LogWarning(
+            "Reconnect grace elapsed for worker {Index}; re-enqueuing in-flight module {Module}",
+            workerIndex, assignment.ModuleTypeName);
+
+        state.PendingAssignments.Enqueue(assignment);
+        state.WorkAvailable.Release();
     }
 
     private async Task TryAssignPendingWork(WorkerState workerState, SignalRMasterState state)
