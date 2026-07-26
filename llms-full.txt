@@ -806,8 +806,8 @@ public class RestoreModule : Module<string> { ... }
 [DependsOn<RestoreModule>]
 public class LinuxBuildModule : Module<string> { ... }
 
-// Only on Windows workers
-[RequiresCapability("windows")]
+// Only on Windows workers (auto-detected from [RunOnWindowsOnly])
+[RunOnWindowsOnly]
 [DependsOn<RestoreModule>]
 public class WindowsBuildModule : Module<string> { ... }
 
