@@ -15,7 +15,7 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Shows the packages that depend on &lt;pkg&gt;
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("why")]
 public record PnpmWhyOptions : PnpmOptions

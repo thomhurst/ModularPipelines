@@ -15,7 +15,7 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Alias: run-script
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run")]
 public record PnpmRunOptions : PnpmOptions

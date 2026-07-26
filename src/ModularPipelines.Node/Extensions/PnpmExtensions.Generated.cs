@@ -18,7 +18,7 @@ namespace ModularPipelines.Node.Extensions;
 /// <summary>
 /// Generated extensions for registering pnpm services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class PnpmExtensions
 {
 #pragma warning disable CA2255

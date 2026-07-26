@@ -15,7 +15,7 @@ namespace ModularPipelines.Node.Services;
 /// <summary>
 /// Generated interface for pnpm CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IPnpm
 {
     #region Commands

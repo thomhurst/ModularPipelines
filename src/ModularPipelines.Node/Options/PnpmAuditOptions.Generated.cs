@@ -15,7 +15,7 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Checks for known security issues with the installed packages.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("audit")]
 public record PnpmAuditOptions : PnpmOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Node.Options;
 /// Base options class for pnpm CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("pnpm")]
 public abstract record PnpmOptions : CommandLineToolOptions

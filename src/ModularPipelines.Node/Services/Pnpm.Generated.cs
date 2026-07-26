@@ -16,7 +16,7 @@ namespace ModularPipelines.Node.Services;
 /// <summary>
 /// Generated implementation for pnpm CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Pnpm : IPnpm
 {
     private readonly ICommand _command;
