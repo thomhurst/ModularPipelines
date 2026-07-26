@@ -98,6 +98,50 @@ public class GeneratedCliRenderingSnapshotTests
         }
     }
 
+    [Test]
+    public async Task GeneratedPackageDiscovery_IncludesCheckedInOptionsLayout()
+    {
+        var repositoryRoot = Path.Combine(
+            Path.GetTempPath(),
+            nameof(GeneratedCliRenderingSnapshotTests),
+            Guid.NewGuid().ToString("N"));
+        var optionsDirectory = Path.Combine(
+            repositoryRoot,
+            "src",
+            "ModularPipelines.Fixture",
+            "Generated",
+            "Options");
+
+        try
+        {
+            Directory.CreateDirectory(optionsDirectory);
+            await File.WriteAllTextAsync(Path.Combine(optionsDirectory, "FixtureOptions.cs"), string.Empty);
+
+            var packageNames = GetGeneratedPackageNames(repositoryRoot);
+
+            await Assert.That(packageNames).Contains("ModularPipelines.Fixture");
+        }
+        finally
+        {
+            if (Directory.Exists(repositoryRoot))
+            {
+                Directory.Delete(repositoryRoot, recursive: true);
+            }
+        }
+    }
+
+    [Test]
+    public async Task EnumSnapshots_IncludeEveryCliValue()
+    {
+        var members = GetEnumMemberSnapshots(typeof(SnapshotEnum));
+
+        await Assert.That(members).Count().IsEqualTo(2);
+        await Assert.That(members[0])
+            .IsEqualTo(new EnumMemberSnapshot(nameof(SnapshotEnum.First), "0", "first-value"));
+        await Assert.That(members[1])
+            .IsEqualTo(new EnumMemberSnapshot(nameof(SnapshotEnum.Second), "1", "second-value"));
+    }
+
     private static SortedDictionary<string, PackageSnapshot> CreateSnapshots(string repositoryRoot)
     {
         var snapshots = new SortedDictionary<string, PackageSnapshot>(StringComparer.Ordinal);
@@ -187,14 +231,22 @@ public class GeneratedCliRenderingSnapshotTests
                 foreach (var part in commandModel)
                 {
                     var property = properties[part.PropertyName];
+                    var enumMembers = GetEnumMemberSnapshots(property.PropertyType);
                     typeCorpus.Append(part.GetType().Name)
                         .Append(':')
                         .Append(part.PropertyName)
                         .Append(':')
                         .Append(property.PropertyType.FullName)
                         .Append(':')
-                        .Append(secretPropertyNames.Contains(part.PropertyName) ? "secret" : "plain")
-                        .Append(';');
+                        .Append(secretPropertyNames.Contains(part.PropertyName) ? "secret" : "plain");
+
+                    if (enumMembers.Count > 0)
+                    {
+                        typeCorpus.Append(":enum=")
+                            .Append(JsonSerializer.Serialize(enumMembers, JsonOptions));
+                    }
+
+                    typeCorpus.Append(';');
                 }
 
                 typeCorpus.Append('|').Append(SerializeCommandLine(commandLine)).Append('\n');
@@ -246,6 +298,33 @@ public class GeneratedCliRenderingSnapshotTests
         return GeneratedSecretMetadata.TryGetAccessors(optionsType, out var accessors)
             ? accessors.Select(accessor => accessor.PropertyName).ToHashSet(StringComparer.Ordinal)
             : [];
+    }
+
+    private static IReadOnlyList<EnumMemberSnapshot> GetEnumMemberSnapshots(Type propertyType)
+    {
+        var type = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+        if (type.IsArray)
+        {
+            type = type.GetElementType()!;
+        }
+        else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+        {
+            type = type.GetGenericArguments()[0];
+        }
+
+        type = Nullable.GetUnderlyingType(type) ?? type;
+        if (!type.IsEnum)
+        {
+            return [];
+        }
+
+        return type.GetFields(BindingFlags.Public | BindingFlags.Static)
+            .OrderBy(field => field.Name, StringComparer.Ordinal)
+            .Select(field => new EnumMemberSnapshot(
+                field.Name,
+                Convert.ToString(field.GetRawConstantValue(), CultureInfo.InvariantCulture)!,
+                field.GetCustomAttribute<EnumValueAttribute>()?.Value))
+            .ToArray();
     }
 
     private static string Hash(string value) =>
@@ -342,14 +421,27 @@ public class GeneratedCliRenderingSnapshotTests
         var sourceDirectory = Path.Combine(repositoryRoot, "src");
 
         return Directory.EnumerateDirectories(sourceDirectory, "ModularPipelines.*")
-            .Where(packageDirectory => Directory.Exists(Path.Combine(packageDirectory, "Options")))
-            .Where(packageDirectory => Directory.EnumerateFiles(
-                Path.Combine(packageDirectory, "Options"),
-                "*.Generated.cs",
-                SearchOption.TopDirectoryOnly).Any())
+            .Where(HasGeneratedOptionsSource)
             .Select(Path.GetFileName)
             .OfType<string>()
             .OrderBy(x => x, StringComparer.Ordinal);
+    }
+
+    private static bool HasGeneratedOptionsSource(string packageDirectory)
+    {
+        var generatedOptionsDirectory = Path.Combine(packageDirectory, "Generated", "Options");
+        if (Directory.Exists(generatedOptionsDirectory)
+            && Directory.EnumerateFiles(generatedOptionsDirectory, "*.cs", SearchOption.TopDirectoryOnly).Any())
+        {
+            return true;
+        }
+
+        var legacyOptionsDirectory = Path.Combine(packageDirectory, "Options");
+        return Directory.Exists(legacyOptionsDirectory)
+               && Directory.EnumerateFiles(
+                   legacyOptionsDirectory,
+                   "*.Generated.cs",
+                   SearchOption.TopDirectoryOnly).Any();
     }
 
     private static string FindRepositoryRoot()
@@ -377,6 +469,20 @@ public class GeneratedCliRenderingSnapshotTests
     private sealed record LoadedPackage(
         System.Reflection.Assembly Assembly,
         PackageAssemblyLoadContext LoadContext);
+
+    private sealed record EnumMemberSnapshot(
+        string Name,
+        string NumericValue,
+        string? CliValue);
+
+    private enum SnapshotEnum
+    {
+        [EnumValue("first-value")]
+        First,
+
+        [EnumValue("second-value")]
+        Second,
+    }
 
     private sealed class PackageAssemblyLoadContext(string repositoryRoot, string configuration, string assemblyPath) : AssemblyLoadContext(isCollectible: true)
     {
