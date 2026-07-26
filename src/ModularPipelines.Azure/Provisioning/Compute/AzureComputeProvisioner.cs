@@ -1,10 +1,7 @@
 using Azure;
 using Azure.ResourceManager;
 using Azure.ResourceManager.AppService;
-using Azure.ResourceManager.DomainRegistration;
 using ModularPipelines.Azure.Scopes;
-using DomainRegistrationAppServiceDomainData = Azure.ResourceManager.DomainRegistration.AppServiceDomainData;
-using DomainRegistrationAppServiceDomainResource = Azure.ResourceManager.DomainRegistration.AppServiceDomainResource;
 
 namespace ModularPipelines.Azure.Provisioning.Compute;
 
@@ -68,13 +65,13 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<DomainRegistrationAppServiceDomainResource>> AppServiceDomain(AzureResourceIdentifier azureResourceIdentifier, DomainRegistrationAppServiceDomainData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<AppServiceDomainResource>> AppServiceDomain(AzureResourceIdentifier azureResourceIdentifier, AppServiceDomainData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        return await DomainRegistrationExtensions.GetAppServiceDomains(GetResourceGroup(azureResourceIdentifier))
+        return await GetResourceGroup(azureResourceIdentifier).GetAppServiceDomains()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
