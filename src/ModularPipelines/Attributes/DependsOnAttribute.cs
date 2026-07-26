@@ -81,6 +81,7 @@ public class DependsOnAttribute : Attribute
     /// </para>
     /// <list type="bullet">
     /// <item>The dependency module will be <b>auto-registered</b> if not explicitly added to the pipeline</item>
+    /// <item>If the dependency is skipped, the dependent module is skipped too</item>
     /// <item>Use <c>GetModule&lt;T&gt;()</c> to access the dependency - it is guaranteed to be present</item>
     /// </list>
     /// <para>
@@ -89,7 +90,7 @@ public class DependsOnAttribute : Attribute
     /// <list type="bullet">
     /// <item>The dependency module will <b>not</b> be auto-registered</item>
     /// <item>Use <c>GetModuleIfRegistered&lt;T&gt;()</c> to safely check if the dependency exists</item>
-    /// <item>Useful when using category filters where dependencies may be excluded</item>
+    /// <item>Useful when the dependent module should still run after a category or condition skips the dependency</item>
     /// </list>
     /// </remarks>
     /// <value>

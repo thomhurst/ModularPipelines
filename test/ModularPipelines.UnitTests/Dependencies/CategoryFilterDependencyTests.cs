@@ -51,6 +51,20 @@ public class CategoryFilterDependencyTests : TestBase
         }
     }
 
+    [ModuleCategory("test")]
+    [DependsOn<CompileModule>]
+    private class TestModuleWithRequiredDep : SimpleTestModule<string>
+    {
+        protected override string Result => throw new InvalidOperationException("A cascade-skipped module must not execute");
+    }
+
+    [ModuleCategory("test")]
+    [DependsOn<TestModuleWithRequiredDep>]
+    private class TransitiveRequiredDepModule : SimpleTestModule<string>
+    {
+        protected override string Result => throw new InvalidOperationException("A transitively cascade-skipped module must not execute");
+    }
+
     [Test]
     public async Task Optional_Dependency_Works_When_Filtered_By_Category()
     {
@@ -86,6 +100,33 @@ public class CategoryFilterDependencyTests : TestBase
         var result = await testModule;
         // CompileModule was skipped due to category filter
         await Assert.That(result.ValueOrDefault).IsEqualTo("test-compile-skipped");
+    }
+
+    [Test]
+    public async Task Required_Dependency_Filtered_By_Category_Cascade_Skips_Dependents()
+    {
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .AddModule<CompileModule>()
+            .AddModule<TestModuleWithRequiredDep>()
+            .AddModule<TransitiveRequiredDepModule>()
+            .ConfigurePipelineOptions(opt => opt.RunOnlyCategories = ["test"])
+            .ExecutePipelineAsync();
+
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+
+        var requiredResult = await pipelineSummary.Modules
+            .OfType<TestModuleWithRequiredDep>()
+            .Single();
+        var transitiveResult = await pipelineSummary.Modules
+            .OfType<TransitiveRequiredDepModule>()
+            .Single();
+
+        await Assert.That(requiredResult.IsSkipped).IsTrue();
+        await Assert.That(requiredResult.SkipDecisionOrDefault.Reason)
+            .Contains(nameof(CompileModule));
+        await Assert.That(transitiveResult.IsSkipped).IsTrue();
+        await Assert.That(transitiveResult.SkipDecisionOrDefault.Reason)
+            .Contains(nameof(TestModuleWithRequiredDep));
     }
 
     [Test]
