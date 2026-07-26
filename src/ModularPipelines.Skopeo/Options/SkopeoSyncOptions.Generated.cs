@@ -15,7 +15,7 @@ namespace ModularPipelines.Skopeo.Options;
 /// <summary>
 /// Copy all the images from a SOURCE to a DESTINATION.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sync")]
 public record SkopeoSyncOptions : SkopeoOptions
@@ -164,6 +164,7 @@ public record SkopeoSyncOptions : SkopeoOptions
     /// <summary>
     /// File that contains a passphrase for the --sign-by key
     /// </summary>
+    [SecretValue]
     [CliOption("--sign-passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? SignPassphraseFile { get; set; }
 

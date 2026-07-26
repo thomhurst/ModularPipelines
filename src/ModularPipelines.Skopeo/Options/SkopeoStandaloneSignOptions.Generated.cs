@@ -15,7 +15,7 @@ namespace ModularPipelines.Skopeo.Options;
 /// <summary>
 /// Create a signature using local files
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("standalone-sign")]
 public record SkopeoStandaloneSignOptions : SkopeoOptions
@@ -35,6 +35,7 @@ public record SkopeoStandaloneSignOptions : SkopeoOptions
     /// <summary>
     /// file that contains a passphrase for the --sign-by key
     /// </summary>
+    [SecretValue]
     [CliOption("--passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? PassphraseFile { get; set; }
 

@@ -7,5 +7,5 @@
 
 using System.Reflection;
 
-[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Tool", "skopeo")]
-[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.GeneratedAt", "2026-07-19T03:13:28.7164499Z")]
+[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Package", "ModularPipelines.Skopeo")]
+[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Version", "2.0.0")]
