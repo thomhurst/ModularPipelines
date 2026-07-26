@@ -145,7 +145,7 @@ public sealed class PipelineBuilder
         try
         {
             pipeline = await BuildPipelineAsync().ConfigureAwait(false);
-            validationResult = ValidatePipeline(pipeline.Services);
+            validationResult = await ValidatePipelineAsync(pipeline.Services).ConfigureAwait(false);
         }
         catch (PipelineException ex) when (ex.Message.Contains("No modules"))
         {
@@ -205,7 +205,7 @@ public sealed class PipelineBuilder
         try
         {
             pipeline = await BuildPipelineAsync().ConfigureAwait(false);
-            return ValidatePipeline(pipeline.Services);
+            return await ValidatePipelineAsync(pipeline.Services).ConfigureAwait(false);
         }
         catch (PipelineException ex) when (ex.Message.Contains("No modules"))
         {
@@ -240,10 +240,11 @@ public sealed class PipelineBuilder
         }
     }
 
-    private static ValidationResult ValidatePipeline(IServiceProvider services)
+    private static Task<ValidationResult> ValidatePipelineAsync(IServiceProvider services)
     {
         var validationService = services.GetService<IPipelineValidationService>();
-        return validationService?.Validate(services) ?? ValidationResult.Success();
+        return validationService?.ValidateAsync(services)
+               ?? Task.FromResult(ValidationResult.Success());
     }
 
     private async Task<IPipeline> BuildPipelineAsync()

@@ -6,6 +6,7 @@ using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
@@ -41,12 +42,25 @@ internal sealed class PipelineImpl : IPipeline
     internal static async Task<PipelineImpl> CreateAsync(IHostBuilder hostBuilder)
     {
         var host = new PipelineImpl(hostBuilder.Build());
+        var services = host._host.Services;
 
-        await host._host.Services.InitializeAsync().ConfigureAwait(false);
+        try
+        {
+            ValidateModuleDependencies(services, services.GetServices<IModule>());
+        }
+        catch (Exception exception) when (exception is ModuleNotRegisteredException
+            or ModuleReferencingSelfException
+            or DependencyCollisionException)
+        {
+            await services.InitializeAsync().ConfigureAwait(false);
+            var runnableModules = await services.GetRequiredService<ModuleRetriever>()
+                .GetRunnableModulesForValidation()
+                .ConfigureAwait(false);
+            ValidateModuleDependencies(services, runnableModules);
+            return host;
+        }
 
-        // Apply discovery-time skips before validating dependencies.
-        await ValidateModuleDependencies(host._host.Services).ConfigureAwait(false);
-
+        await services.InitializeAsync().ConfigureAwait(false);
         return host;
     }
 
@@ -84,22 +98,13 @@ internal sealed class PipelineImpl : IPipeline
         GC.SuppressFinalize(this);
     }
 
-    private static async Task ValidateModuleDependencies(IServiceProvider services)
+    private static void ValidateModuleDependencies(
+        IServiceProvider services,
+        IEnumerable<IModule> modules)
     {
-        var modules = services.GetServices<IModule>().ToList();
-
-        try
-        {
-            ModuleDependencyValidator.Validate(modules);
-        }
-        catch (Exception exception) when (exception is ModuleNotRegisteredException
-            or ModuleReferencingSelfException
-            or DependencyCollisionException)
-        {
-            var runnableModules = await services.GetRequiredService<ModuleRetriever>()
-                .GetRunnableModulesForValidation()
-                .ConfigureAwait(false);
-            ModuleDependencyValidator.Validate(runnableModules);
-        }
+        ModuleDependencyValidator.Validate(
+            modules,
+            services.GetRequiredService<IModuleDependencyRegistry>(),
+            services.GetRequiredService<IModuleMetadataRegistry>());
     }
 }

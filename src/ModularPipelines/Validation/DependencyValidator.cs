@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 
@@ -17,7 +18,7 @@ internal class DependencyValidator : IDependencyValidator
     /// <inheritdoc />
     public ValidationResult Validate(IServiceProvider services)
     {
-        var result = ValidateDependencies(services.GetServices<IModule>());
+        var result = ValidateDependencies(services, services.GetServices<IModule>());
         if (!result.HasErrors)
         {
             return result;
@@ -27,17 +28,39 @@ internal class DependencyValidator : IDependencyValidator
             .GetRunnableModulesForValidation()
             .GetAwaiter()
             .GetResult();
-        return ValidateDependencies(runnableModules);
+        return ValidateDependencies(services, runnableModules);
+    }
+
+    /// <inheritdoc />
+    public async Task<ValidationResult> ValidateAsync(IServiceProvider services)
+    {
+        var result = ValidateDependencies(services, services.GetServices<IModule>());
+        if (!result.HasErrors)
+        {
+            return result;
+        }
+
+        var runnableModules = await services.GetRequiredService<ModuleRetriever>()
+            .GetRunnableModulesForValidation()
+            .ConfigureAwait(false);
+        return ValidateDependencies(services, runnableModules);
     }
 
     /// <inheritdoc />
     public ValidationResult ValidateDependencies(IEnumerable<Type> moduleTypes)
         => Validate(() => ModuleDependencyValidator.Validate(moduleTypes), moduleTypes.Any());
 
-    private static ValidationResult ValidateDependencies(IEnumerable<IModule> modules)
+    private static ValidationResult ValidateDependencies(
+        IServiceProvider services,
+        IEnumerable<IModule> modules)
     {
         var moduleList = modules.ToList();
-        return Validate(() => ModuleDependencyValidator.Validate(moduleList), moduleList.Count > 0);
+        return Validate(
+            () => ModuleDependencyValidator.Validate(
+                moduleList,
+                services.GetRequiredService<IModuleDependencyRegistry>(),
+                services.GetRequiredService<IModuleMetadataRegistry>()),
+            moduleList.Count > 0);
     }
 
     private static ValidationResult Validate(Action validation, bool hasModules)

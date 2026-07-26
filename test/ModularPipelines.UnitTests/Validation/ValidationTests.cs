@@ -140,6 +140,22 @@ public class ValidationTests
             => Task.FromResult<string?>("b");
     }
 
+    [ModuleTag("selector-cycle-a")]
+    [DependsOnModulesWithTag("selector-cycle-b")]
+    private class SelectorCycleModuleA : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("a");
+    }
+
+    [ModuleTag("selector-cycle-b")]
+    [DependsOnModulesWithTag("selector-cycle-a")]
+    private class SelectorCycleModuleB : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("b");
+    }
+
     [Test]
     public async Task ValidateAsync_WithValidConfiguration_ReturnsNoErrors()
     {
@@ -293,6 +309,28 @@ public class ValidationTests
         builder.Services
             .AddModule<FluentCycleModuleA>()
             .AddModule<FluentCycleModuleB>();
+
+        await AssertDependencyValidationError(builder);
+    }
+
+    [Test]
+    public async Task BuildAsync_Rejects_Selector_Cycle()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.Services
+            .AddModule<SelectorCycleModuleA>()
+            .AddModule<SelectorCycleModuleB>();
+
+        await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
+    }
+
+    [Test]
+    public async Task ValidateAsync_Rejects_Selector_Cycle()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.Services
+            .AddModule<SelectorCycleModuleA>()
+            .AddModule<SelectorCycleModuleB>();
 
         await AssertDependencyValidationError(builder);
     }

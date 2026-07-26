@@ -14,5 +14,5 @@ internal interface IPipelineValidationService
     /// </summary>
     /// <param name="services">The service provider containing registered services.</param>
     /// <returns>A validation result containing all errors found.</returns>
-    ValidationResult Validate(IServiceProvider services);
+    Task<ValidationResult> ValidateAsync(IServiceProvider services);
 }

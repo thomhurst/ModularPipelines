@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 
@@ -16,6 +17,12 @@ public static class ModuleDependencyValidator
     /// </summary>
     /// <param name="registeredModules">The registered module instances.</param>
     public static void Validate(IEnumerable<IModule> registeredModules)
+        => Validate(registeredModules, dynamicRegistry: null, metadataRegistry: null);
+
+    internal static void Validate(
+        IEnumerable<IModule> registeredModules,
+        IModuleDependencyRegistry? dynamicRegistry,
+        IModuleMetadataRegistry? metadataRegistry)
     {
         var modulesByType = registeredModules
             .GroupBy(module => module.GetType())
@@ -26,9 +33,14 @@ public static class ModuleDependencyValidator
             return;
         }
 
+        foreach (var (moduleType, module) in modulesByType)
+        {
+            metadataRegistry?.FinalizeMetadata(moduleType, module);
+        }
+
         var dependenciesByModule = modulesByType.ToDictionary(
             pair => pair.Key,
-            pair => GetConfiguredDependencies(pair.Value, moduleTypes));
+            pair => GetAllDependencies(pair.Value, moduleTypes, dynamicRegistry, metadataRegistry));
 
         foreach (var (moduleType, dependencies) in dependenciesByModule)
         {
@@ -87,13 +99,14 @@ public static class ModuleDependencyValidator
         ValidateCircularDependencies(moduleTypes);
     }
 
-    private static HashSet<(Type DependencyType, bool Optional)> GetConfiguredDependencies(
+    private static HashSet<(Type DependencyType, bool Optional)> GetAllDependencies(
         IModule module,
-        HashSet<Type> moduleTypes)
+        HashSet<Type> moduleTypes,
+        IModuleDependencyRegistry? dynamicRegistry,
+        IModuleMetadataRegistry? metadataRegistry)
     {
-        return [.. ModuleDependencyResolver.GetDependencies(module.GetType(), moduleTypes)
-            .Concat(module.Configuration.Dependencies.Select(dependency =>
-                (DependencyType: dependency.ModuleType, Optional: dependency.IsOptional)))
+        return [.. ModuleDependencyResolver
+            .GetAllDependencies(module, moduleTypes, dynamicRegistry, metadataRegistry)
             .GroupBy(dependency => dependency.DependencyType)
             .Select(group => (
                 DependencyType: group.Key,
