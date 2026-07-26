@@ -1,8 +1,10 @@
 using System.Collections.Concurrent;
 using System.Text;
 using System.Threading.Channels;
+using ModularPipelines.Configuration;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Engine.Scheduling;
 using ModularPipelines.Helpers;
@@ -39,6 +41,9 @@ public class ModuleExecutorLoggingTests
         var parallelLimitProvider = new Mock<IParallelLimitProvider>();
         parallelLimitProvider.Setup(x => x.GetMaxDegreeOfParallelism()).Returns(1);
 
+        var module = new Mock<IModule>();
+        module.SetupGet(x => x.Configuration).Returns(ModuleConfiguration.Default);
+
         var executor = new ModuleExecutor(
             schedulerFactory.Object,
             Mock.Of<IModuleRunner>(),
@@ -47,10 +52,13 @@ public class ModuleExecutorLoggingTests
             parallelLimitProvider.Object,
             registrationEvents.Object,
             Mock.Of<IMetricsCollector>(),
+            new[] { module.Object },
+            new ModuleDependencyRegistry(),
+            new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             new StringLogger<ModuleExecutor>(logs));
 
-        await executor.ExecuteAsync([Mock.Of<IModule>()]);
+        await executor.ExecuteAsync([module.Object]);
 
         var logOutput = logs.ToString();
         await Assert.That(logOutput).DoesNotContain("Cancellation triggered");

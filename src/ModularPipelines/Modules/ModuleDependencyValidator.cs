@@ -24,14 +24,45 @@ public static class ModuleDependencyValidator
         IModuleDependencyRegistry? dynamicRegistry,
         IModuleMetadataRegistry? metadataRegistry)
     {
-        var modulesByType = registeredModules
+        // Whole-graph validation: the modules to validate ARE the full registered set.
+        var materialized = registeredModules as IReadOnlyCollection<IModule> ?? registeredModules.ToArray();
+        Validate(materialized, materialized, dynamicRegistry, metadataRegistry);
+    }
+
+    /// <summary>
+    /// Validates the dependencies of <paramref name="modulesToValidate"/> against the universe of
+    /// <paramref name="availableModules"/>. A required dependency is satisfiable when its target is
+    /// present in <paramref name="availableModules"/> (or is itself one of the modules being
+    /// validated), so a runnable module that depends on a <b>registered-but-skipped</b> module is
+    /// not falsely reported as missing.
+    /// </summary>
+    /// <remarks>
+    /// Used at run time to revalidate the runnable set once dynamic (registration-event)
+    /// dependencies have been populated: the runnable set is the modules-to-validate and the full
+    /// registered set is the available universe. This catches missing/self/cyclic dependencies —
+    /// including ones introduced by <c>IModuleRegistrationContext.AddDependency</c> — eagerly,
+    /// instead of letting them surface later in the scheduler/dependency waiter.
+    /// </remarks>
+    internal static void Validate(
+        IEnumerable<IModule> modulesToValidate,
+        IEnumerable<IModule> availableModules,
+        IModuleDependencyRegistry? dynamicRegistry,
+        IModuleMetadataRegistry? metadataRegistry)
+    {
+        var modulesByType = modulesToValidate
             .GroupBy(module => module.GetType())
             .ToDictionary(group => group.Key, group => group.First());
-        var moduleTypes = modulesByType.Keys.ToHashSet();
-        if (moduleTypes.Count == 0)
+        var moduleTypesToValidate = modulesByType.Keys.ToHashSet();
+        if (moduleTypesToValidate.Count == 0)
         {
             return;
         }
+
+        // The universe a dependency may resolve to: every available (registered) module, plus the
+        // modules being validated. Registered-but-skipped modules remain in this set, so depending
+        // on one is not a "missing dependency".
+        var availableTypes = availableModules.Select(module => module.GetType()).ToHashSet();
+        availableTypes.UnionWith(moduleTypesToValidate);
 
         foreach (var (moduleType, module) in modulesByType)
         {
@@ -40,7 +71,7 @@ public static class ModuleDependencyValidator
 
         var dependenciesByModule = modulesByType.ToDictionary(
             pair => pair.Key,
-            pair => GetAllDependencies(pair.Value, moduleTypes, dynamicRegistry, metadataRegistry));
+            pair => GetAllDependencies(pair.Value, availableTypes, dynamicRegistry, metadataRegistry));
 
         foreach (var (moduleType, dependencies) in dependenciesByModule)
         {
@@ -53,7 +84,7 @@ public static class ModuleDependencyValidator
                         "A module cannot depend on its own result.");
                 }
 
-                if (!optional && !moduleTypes.Contains(dependencyType))
+                if (!optional && !availableTypes.Contains(dependencyType))
                 {
                     throw new ModuleNotRegisteredException(
                         $"Module '{moduleType.Name}' requires '{dependencyType.Name}', " +
@@ -66,7 +97,7 @@ public static class ModuleDependencyValidator
         var dependencyGraph = dependenciesByModule.ToDictionary(
             pair => pair.Key,
             pair => pair.Value
-                .Where(dependency => moduleTypes.Contains(dependency.DependencyType))
+                .Where(dependency => moduleTypesToValidate.Contains(dependency.DependencyType))
                 .Select(dependency => dependency.DependencyType)
                 .ToHashSet());
         ValidateCircularDependencies(dependencyGraph);
