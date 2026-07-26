@@ -15,7 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Replace provider for resources in the Terraform state.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "replace-provider")]
 public record TerraformStateReplaceProviderOptions : TerraformOptions

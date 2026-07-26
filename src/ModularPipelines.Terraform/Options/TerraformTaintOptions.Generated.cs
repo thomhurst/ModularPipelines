@@ -15,7 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Terraform uses the term "tainted" to describe a resource instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("taint")]
 public record TerraformTaintOptions : TerraformOptions

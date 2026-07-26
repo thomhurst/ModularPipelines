@@ -15,7 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// List the json format of the identities of resources in the Terraform state.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "identities")]
 public record TerraformStateIdentitiesOptions : TerraformOptions

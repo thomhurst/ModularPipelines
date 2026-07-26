@@ -15,7 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Starts an interactive console for experimenting with Terraform
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("console")]
 public record TerraformConsoleOptions : TerraformOptions

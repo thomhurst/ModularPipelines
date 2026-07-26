@@ -16,7 +16,7 @@ namespace ModularPipelines.Terraform.Options;
 /// Base options class for terraform CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("terraform")]
 public abstract record TerraformOptions : CommandLineToolOptions

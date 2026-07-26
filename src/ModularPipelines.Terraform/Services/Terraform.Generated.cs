@@ -16,7 +16,7 @@ namespace ModularPipelines.Terraform.Services;
 /// <summary>
 /// Generated implementation for terraform CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Terraform : ITerraform
 {
     private readonly ICommand _command;
