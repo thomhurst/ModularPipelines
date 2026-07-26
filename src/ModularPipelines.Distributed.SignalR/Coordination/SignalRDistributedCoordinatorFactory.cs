@@ -156,7 +156,15 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
                 new RetryPolicy(_options.MaxReconnectAttempts));
         }
 
-        return builder.Build();
+        var connection = builder.Build();
+
+        // Ping the master frequently and give up on it quickly, so a dead master is
+        // detected fast (triggering reconnect) and the master in turn detects a dead
+        // worker fast (via the frequent pings) and re-queues its in-flight work.
+        connection.KeepAliveInterval = TimeSpan.FromSeconds(_options.KeepAliveIntervalSeconds);
+        connection.ServerTimeout = TimeSpan.FromSeconds(_options.PeerTimeoutSeconds);
+
+        return connection;
     }
 
     /// <summary>
