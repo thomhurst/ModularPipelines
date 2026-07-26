@@ -3,6 +3,8 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -13,15 +15,21 @@ namespace ModularPipelines.Engine;
 internal class ModuleConditionHandler : IModuleConditionHandler
 {
     private readonly IOptions<PipelineOptions> _pipelineOptions;
+    private readonly IOptions<DistributedOptions> _distributedOptions;
+    private readonly RoleDetector _roleDetector;
     private readonly IPipelineContextProvider _pipelineContextProvider;
     private readonly IModuleMetadataRegistry _metadataRegistry;
 
     public ModuleConditionHandler(
         IOptions<PipelineOptions> pipelineOptions,
+        IOptions<DistributedOptions> distributedOptions,
+        RoleDetector roleDetector,
         IPipelineContextProvider pipelineContextProvider,
         IModuleMetadataRegistry metadataRegistry)
     {
         _pipelineOptions = pipelineOptions;
+        _distributedOptions = distributedOptions;
+        _roleDetector = roleDetector;
         _pipelineContextProvider = pipelineContextProvider;
         _metadataRegistry = metadataRegistry;
     }
@@ -85,7 +93,19 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return newStyleResult;
         }
 
-        return await EvaluateLegacyConditions(moduleType, pipelineContext, cancellationToken).ConfigureAwait(false);
+        return await EvaluateLegacyConditions(
+            moduleType,
+            pipelineContext,
+            IsDistributedMaster(),
+            cancellationToken).ConfigureAwait(false);
+    }
+
+    private bool IsDistributedMaster()
+    {
+        var options = _distributedOptions.Value;
+        return options.Enabled
+               && options.TotalInstances > 1
+               && _roleDetector.DetectRole() == DistributedRole.Master;
     }
 
     private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateNewStyleConditions(
@@ -135,12 +155,35 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateLegacyConditions(
         Type moduleType,
         IPipelineHookContext pipelineContext,
+        bool isDistributedMaster,
         CancellationToken cancellationToken)
     {
-        var mandatoryConditions = moduleType.GetCustomAttributes<MandatoryRunConditionAttribute>(inherit: true).ToArray();
+        var allMandatoryConditions = moduleType
+            .GetCustomAttributes<MandatoryRunConditionAttribute>(inherit: true)
+            .ToArray();
+
+        // On a distributed master, OS-only conditions are normally deferred to the matching
+        // worker (skipped here) so the master publishes the assignment with an OS capability
+        // instead of skipping it locally. But if a module carries contradictory OS-only
+        // conditions targeting more than one operating system (e.g. Windows-only AND
+        // Linux-only, possibly via inheritance), no single worker can ever satisfy them.
+        // In that case we must keep evaluating them here so the module is skipped everywhere,
+        // otherwise the master would publish an assignment requiring multiple mutually
+        // exclusive OS capabilities and wait forever for a result that never arrives.
+        var targetsMultipleOperatingSystems = allMandatoryConditions
+            .Select(GetOperatingSystemConditionTarget)
+            .Where(operatingSystem => operatingSystem is not null)
+            .Distinct()
+            .Count() > 1;
+
+        var deferOperatingSystemConditionsToWorker = isDistributedMaster && !targetsMultipleOperatingSystems;
+
+        var mandatoryConditions = allMandatoryConditions
+            .Where(attribute => !deferOperatingSystemConditionsToWorker || !IsOperatingSystemCondition(attribute))
+            .ToArray();
         var optionalConditions = moduleType
             .GetCustomAttributes<RunConditionAttribute>(inherit: true)
-            .Except(mandatoryConditions)
+            .Except(allMandatoryConditions)
             .ToArray();
 
         foreach (var attribute in mandatoryConditions)
@@ -173,4 +216,23 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         return (false, SkipDecision.Skip($"No run conditions were met: {string.Join(", ", names)}"));
     }
 #pragma warning restore CS0618
+
+    private static bool IsOperatingSystemCondition(MandatoryRunConditionAttribute attribute)
+    {
+        return GetOperatingSystemConditionTarget(attribute) is not null;
+    }
+
+    /// <summary>
+    /// Returns a stable identifier for the operating system an OS-only mandatory condition
+    /// targets, or <see langword="null"/> if the attribute is not an OS-only condition.
+    /// Pattern matching means subclasses of the OS-only attributes are classified by their
+    /// base operating system, so contradictory combinations are detected even via inheritance.
+    /// </summary>
+    private static string? GetOperatingSystemConditionTarget(MandatoryRunConditionAttribute attribute) => attribute switch
+    {
+        RunOnWindowsOnlyAttribute => "windows",
+        RunOnLinuxOnlyAttribute => "linux",
+        RunOnMacOSOnlyAttribute => "macos",
+        _ => null,
+    };
 }
