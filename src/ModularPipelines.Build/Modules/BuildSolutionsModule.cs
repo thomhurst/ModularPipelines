@@ -16,7 +16,7 @@ public class BuildSolutionsModule : Module<CommandResult[]>
     private static readonly string[] Solutions =
     [
         "ModularPipelines.Analyzers.sln",
-        "ModularPipelines.sln",
+        "ModularPipelines.All.sln",
         "ModularPipelines.Examples.sln",
         "src/ModularPipelines.Azure/ModularPipelines.Azure.sln",
         "src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln",

@@ -6,26 +6,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Build Commands
 
-> [!IMPORTANT]
-> **Default to the core solution.** The full `ModularPipelines.sln` contains 60+
-> projects (the core framework plus every tool/CLI integration), so building it is
-> slow and memory-hungry. Most work only touches the core framework, so build the
-> lightweight `ModularPipelines.Core.sln` instead. Only build the full solution, the
-> examples/analyzers solutions, or an individual tool project when you are
-> **explicitly working on those projects**.
+The solution is deliberately split so the default build is fast. `ModularPipelines.sln`
+is now the **lightweight core-library solution** (core framework, Cmd, source generator,
+and analyzers only). Each tool/CLI integration has its **own** solution next to it, and
+`ModularPipelines.All.sln` aggregates everything for full validation.
 
 ```bash
-# DEFAULT: build the core library only (fast) - core framework, Cmd,
-# source generator, and analyzers. Use this for most changes.
-dotnet build ModularPipelines.Core.sln -c Release
-
-# Working on a single tool/CLI integration? Build just that project.
-# (Most tool integrations have auto-generated options - see the code generation notes below.)
-dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.csproj -c Release
-
-# FULL solution (60+ projects, slow) - only when your change spans many
-# tool integrations or you specifically need to validate everything.
+# DEFAULT: build the core library (fast). This is ModularPipelines.sln - the core
+# framework, Cmd, source generator, and analyzers only.
 dotnet build ModularPipelines.sln -c Release
+
+# Working on a tool/CLI integration? Build that tool's own solution.
+# (Most tool integrations have auto-generated options - see the code generation notes below.)
+dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.sln -c Release
+
+# FULL solution (60+ projects, slow) - only when your change spans many tool
+# integrations or you specifically need to validate everything at once.
+dotnet build ModularPipelines.All.sln -c Release
 
 # Other solutions - only when working on those areas.
 dotnet build ModularPipelines.Examples.sln -c Release
@@ -38,15 +35,16 @@ cd src/ModularPipelines.Build
 dotnet run -c Release --framework net10.0
 ```
 
-**What `ModularPipelines.Core.sln` contains:**
+**What `ModularPipelines.sln` (core) contains:**
 - `src/ModularPipelines` - core framework
 - `src/ModularPipelines.Cmd` - base command execution
 - `src/ModularPipelines.SourceGenerator` - source generator
 - `src/ModularPipelines.Analyzers` + `.CodeFixes` - analyzers referenced by the core
 
-Everything else (Docker, DotNet, Git, Helm, Terraform, Azure, AWS, etc.) is a
-tool/CLI integration whose options are largely auto-generated. These are excluded
-from the core solution - add the specific project you need, or use the full solution.
+Every tool/CLI integration (Docker, DotNet, Git, Helm, Terraform, Azure, AWS, etc.) is a
+separate package whose options are largely auto-generated, and each has its own
+`src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.sln`. Build the specific tool
+solution when working on it, or `ModularPipelines.All.sln` to build everything.
 
 ### Running Tests
 ```bash
@@ -64,12 +62,12 @@ dotnet run -c Release --framework net10.0
 ### Code Formatting
 ```bash
 # Format code (automatically done in CI). Target the solution you built - the
-# core solution for core changes, or the relevant tool project otherwise.
-dotnet format ModularPipelines.Core.sln
-dotnet format ModularPipelines.Core.sln whitespace
+# core solution (ModularPipelines.sln) for core changes, or the relevant tool solution.
+dotnet format ModularPipelines.sln
+dotnet format ModularPipelines.sln whitespace
 
 # Verify formatting without changes
-dotnet format ModularPipelines.Core.sln --verify-no-changes --severity info
+dotnet format ModularPipelines.sln --verify-no-changes --severity info
 ```
 
 ## High-Level Architecture

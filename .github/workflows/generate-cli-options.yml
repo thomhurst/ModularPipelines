@@ -590,7 +590,7 @@ jobs:
 
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
-        run: dotnet build ModularPipelines.sln -c Release
+        run: dotnet build "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.sln" -c Release
 
       - name: Validate generated API compatibility
         id: api-compat
@@ -825,7 +825,7 @@ jobs:
 
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
-        run: dotnet build ModularPipelines.sln -c Release
+        run: dotnet build "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.sln" -c Release
 
       - name: Validate generated API compatibility
         id: api-compat
