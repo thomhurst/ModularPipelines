@@ -16,7 +16,7 @@ namespace ModularPipelines.Newman.Options;
 /// <summary>
 /// run [options] &lt;collection&gt;  Initiate a Postman Collection run from a given
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("URL")]
 public record NewmanUrlOptions : NewmanOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Newman.Services;
 /// <summary>
 /// Generated interface for newman CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface INewman
 {
     #region Commands

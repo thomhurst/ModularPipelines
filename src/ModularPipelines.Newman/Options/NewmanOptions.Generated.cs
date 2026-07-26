@@ -16,7 +16,7 @@ namespace ModularPipelines.Newman.Options;
 /// Base options class for newman CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("newman")]
 public abstract record NewmanOptions : CommandLineToolOptions
