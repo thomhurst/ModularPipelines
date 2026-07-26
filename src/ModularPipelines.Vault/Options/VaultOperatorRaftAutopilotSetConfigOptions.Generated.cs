@@ -16,7 +16,7 @@ namespace ModularPipelines.Vault.Options;
 /// <summary>
 /// Modify the configuration of the autopilot subsystem under integrated storage.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("operator", "raft", "autopilot", "set-config")]
 public record VaultOperatorRaftAutopilotSetConfigOptions : VaultOptions

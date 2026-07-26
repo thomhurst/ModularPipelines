@@ -16,7 +16,7 @@ namespace ModularPipelines.Vault.Options;
 /// <summary>
 /// Registers a new plugin runtime in the catalog. Currently, Vault only supports registering runtimes of type "container".
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "runtime", "register")]
 public record VaultPluginRuntimeRegisterOptions : VaultOptions

@@ -18,7 +18,7 @@ namespace ModularPipelines.Vault.Extensions;
 /// <summary>
 /// Generated extensions for registering vault services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class VaultExtensions
 {
 #pragma warning disable CA2255
