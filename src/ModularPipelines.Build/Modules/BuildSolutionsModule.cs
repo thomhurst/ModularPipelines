@@ -45,6 +45,14 @@ public class BuildSolutionsModule : Module<CommandResult[]>
                 ProjectSolution = Path.Combine(gitRoot, solution),
                 Configuration = "Release",
                 NoRestore = true,
+
+                // Cap MSBuild parallelism so the build doesn't saturate every core on the
+                // master runner. When it does, the GitHub runner agent can miss its
+                // heartbeat and the job is killed with "The runner has received a shutdown
+                // signal" (see #3179) - observed at wildly varying times, which fits agent
+                // starvation rather than a deterministic OOM. Leaving a core free keeps the
+                // agent responsive. Tune if runner size changes.
+                Arguments = ["-maxcpucount:2"],
             }, cancellationToken: cancellationToken);
 
             context.Logger.LogInformation(
