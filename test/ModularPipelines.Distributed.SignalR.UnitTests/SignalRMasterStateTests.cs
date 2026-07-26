@@ -134,6 +134,53 @@ public class SignalRMasterStateTests
         state.CompletePendingReconnect(assignment.ModuleTypeName);
     }
 
+    [Test]
+    public async Task ResultCompletion_And_ReconnectRegistration_Cannot_Leave_Worker_Busy()
+    {
+        for (var i = 0; i < 100; i++)
+        {
+            var state = new SignalRMasterState();
+            var assignment = CreateAssignment();
+            state.ResultWaiters[assignment.ModuleTypeName] =
+                new TaskCompletionSource<SerializedModuleResult>(
+                    TaskCreationOptions.RunContinuationsAsynchronously);
+
+            var pending = state.TrackPendingReconnect(1, assignment);
+            pending.TryMakeAvailableForRedispatch();
+            pending.TryClaimRedispatch();
+
+            var worker = new WorkerState
+            {
+                ConnectionId = $"connection-{i}",
+                Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+            };
+
+            var start = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var reconnect = Task.Run(async () =>
+            {
+                await start.Task;
+                return state.TryRestoreReconnect(worker, out _, out _);
+            });
+            var completion = Task.Run(async () =>
+            {
+                await start.Task;
+                return state.CompleteResult(CreateResult());
+            });
+
+            start.SetResult();
+            var reconnectRestored = await reconnect;
+            var workersToRelease = await completion;
+
+            foreach (var trackedWorker in workersToRelease)
+            {
+                trackedWorker.TryCompleteAssignment(assignment.ModuleTypeName);
+            }
+
+            await Assert.That(worker.IsIdle).IsTrue();
+            await Assert.That(reconnectRestored).IsEqualTo(workersToRelease.Contains(worker));
+        }
+    }
+
     private static ModuleAssignment CreateAssignment()
     {
         return new ModuleAssignment(
@@ -143,5 +190,15 @@ public class SignalRMasterStateTests
             null,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentConfig(null, 0, false));
+    }
+
+    private static SerializedModuleResult CreateResult()
+    {
+        return new SerializedModuleResult(
+            "TestModule",
+            "System.String",
+            1,
+            "{}",
+            DateTimeOffset.UtcNow);
     }
 }

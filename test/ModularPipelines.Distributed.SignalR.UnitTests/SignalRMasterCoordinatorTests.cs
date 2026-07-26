@@ -71,6 +71,34 @@ public class SignalRMasterCoordinatorTests
     }
 
     [Test]
+    public async Task PublishResult_Releases_Worker_Tracked_By_Pending_Reconnect()
+    {
+        var state = new SignalRMasterState();
+        var coordinator = CreateCoordinator(state);
+        var assignment = CreateAssignment("TestModule");
+        state.ResultWaiters[assignment.ModuleTypeName] =
+            new TaskCompletionSource<SerializedModuleResult>(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var pending = state.TrackPendingReconnect(1, assignment);
+        pending.TryMakeAvailableForRedispatch();
+        pending.TryClaimRedispatch();
+
+        var worker = new WorkerState
+        {
+            ConnectionId = "reconnected-worker",
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+        };
+
+        var restored = state.TryRestoreReconnect(worker, out _, out _);
+        await coordinator.PublishResultAsync(CreateResult("TestModule"), CancellationToken.None);
+
+        await Assert.That(restored).IsTrue();
+        await Assert.That(worker.IsIdle).IsTrue();
+        await Assert.That(state.GetPendingReconnect(1)).IsNull();
+    }
+
+    [Test]
     public async Task WaitForResult_Cancellable()
     {
         var coordinator = CreateCoordinator();

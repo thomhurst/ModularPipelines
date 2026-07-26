@@ -74,6 +74,51 @@ internal class SignalRMasterState
         }
     }
 
+    public bool TryRestoreReconnect(
+        WorkerState worker,
+        out ModuleAssignment? assignment,
+        out bool resumed)
+    {
+        PendingReconnect? pending;
+        PendingReconnect? completedPending = null;
+        var restored = false;
+        assignment = null;
+        resumed = false;
+
+        lock (_pendingReconnectLock)
+        {
+            pending = _pendingReconnects.Values
+                .FirstOrDefault(candidate =>
+                    candidate.WorkerIndex == worker.Registration.WorkerIndex);
+
+            if (pending is not null)
+            {
+                if (ResultWaiters.TryGetValue(pending.Assignment.ModuleTypeName, out var waiter)
+                    && !waiter.Task.IsCompleted)
+                {
+                    resumed = pending.TryResume();
+                    assignment = pending.Assignment;
+
+                    if (worker.TryAssign(assignment))
+                    {
+                        pending.TrackWorker(worker);
+                        restored = true;
+                    }
+                }
+                else if (_pendingReconnects.Remove(
+                             pending.Assignment.ModuleTypeName,
+                             out completedPending))
+                {
+                    completedPending.Complete();
+                }
+            }
+        }
+
+        pending?.CancelDelay();
+        completedPending?.Dispose();
+        return restored;
+    }
+
     public bool TryClaimRedispatch(ModuleAssignment assignment)
     {
         PendingReconnect? pending;
@@ -111,5 +156,28 @@ internal class SignalRMasterState
 
         pending.CancelDelay();
         pending.Dispose();
+    }
+
+    public IReadOnlyList<WorkerState> CompleteResult(SerializedModuleResult result)
+    {
+        PendingReconnect? pending = null;
+        IReadOnlyList<WorkerState> trackedWorkers = [];
+
+        lock (_pendingReconnectLock)
+        {
+            if (ResultWaiters.TryGetValue(result.ModuleTypeName, out var waiter))
+            {
+                waiter.TrySetResult(result);
+            }
+
+            if (_pendingReconnects.Remove(result.ModuleTypeName, out pending))
+            {
+                trackedWorkers = pending.Complete();
+            }
+        }
+
+        pending?.CancelDelay();
+        pending?.Dispose();
+        return trackedWorkers;
     }
 }

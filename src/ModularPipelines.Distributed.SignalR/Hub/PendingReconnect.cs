@@ -18,6 +18,7 @@ internal sealed class PendingReconnect(
     ModuleAssignment assignment) : IDisposable
 {
     private readonly CancellationTokenSource _delayCancellation = new();
+    private readonly HashSet<WorkerState> _trackedWorkers = [];
     private int _state = (int)PendingReconnectState.WaitingForReconnect;
     private int _disposed;
 
@@ -74,9 +75,15 @@ internal sealed class PendingReconnect(
             PendingReconnectState.AvailableForRedispatch);
     }
 
-    public void Complete()
+    public IReadOnlyList<WorkerState> Complete()
     {
         Interlocked.Exchange(ref _state, (int)PendingReconnectState.Completed);
+        return _trackedWorkers.ToArray();
+    }
+
+    public void TrackWorker(WorkerState worker)
+    {
+        _trackedWorkers.Add(worker);
     }
 
     public void CancelDelay()

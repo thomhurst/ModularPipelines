@@ -34,27 +34,17 @@ internal class DistributedPipelineHub(
         // within the grace window. Cancel the pending re-enqueue and restore its busy
         // state so the master keeps awaiting the original result instead of running the
         // module a second time.
-        var pending = state.GetPendingReconnect(registration.WorkerIndex);
-        if (pending is not null)
+        if (state.TryRestoreReconnect(
+                workerState,
+                out var recoveredAssignment,
+                out var resumed))
         {
-            var resumed = pending.TryResume();
-            pending.CancelDelay();
-
-            if (state.ResultWaiters.TryGetValue(pending.Assignment.ModuleTypeName, out var waiter)
-                && !waiter.Task.IsCompleted)
-            {
-                workerState.TryAssign(pending.Assignment);
-                _logger.LogInformation(
-                    resumed
-                        ? "Worker {Index} reclaimed in-flight {Module}"
-                        : "Worker {Index} reconnected after {Module} was claimed for redispatch; tracking its original execution",
-                    registration.WorkerIndex,
-                    pending.Assignment.ModuleTypeName);
-            }
-            else
-            {
-                state.CompletePendingReconnect(pending.Assignment.ModuleTypeName);
-            }
+            _logger.LogInformation(
+                resumed
+                    ? "Worker {Index} reclaimed in-flight {Module}"
+                    : "Worker {Index} reconnected after {Module} was claimed for redispatch; tracking its original execution",
+                registration.WorkerIndex,
+                recoveredAssignment!.ModuleTypeName);
         }
 
         state.Workers[connectionId] = workerState;
@@ -74,21 +64,19 @@ internal class DistributedPipelineHub(
         _logger.LogDebug("Received result for {Module} from worker {Worker}",
             result.ModuleTypeName, result.WorkerIndex);
 
-        // 1. Complete the result TCS (for master's WaitForResultAsync)
-        if (state.ResultWaiters.TryGetValue(result.ModuleTypeName, out var tcs))
+        // 1. Complete the result and atomically capture workers involved in reconnect
+        // recovery before a concurrent registration can start tracking the assignment.
+        var workersToRelease = state.CompleteResult(result).ToHashSet();
+        if (state.Workers.TryGetValue(Context.ConnectionId, out var sendingWorker))
         {
-            tcs.TrySetResult(result);
+            workersToRelease.Add(sendingWorker);
         }
 
         // 2. Broadcast ReceiveDependencyResult to all workers for CompletionSource pre-population
         await Clients.Others.SendAsync(HubMethodNames.ReceiveDependencyResult, result);
 
-        state.CompletePendingReconnect(result.ModuleTypeName);
-
-        // 3. Mark every worker tracked against this assignment as idle. Normally this
-        // is only the sender; recovery can temporarily track both the original worker
-        // and a retry worker until the first result wins.
-        foreach (var workerState in state.Workers.Values)
+        // 3. Mark the sender and any reconnected original worker idle.
+        foreach (var workerState in workersToRelease)
         {
             if (workerState.TryCompleteAssignment(result.ModuleTypeName))
             {

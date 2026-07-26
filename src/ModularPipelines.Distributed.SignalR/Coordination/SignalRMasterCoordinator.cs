@@ -130,9 +130,9 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
     {
         // Master receives results through the hub's PublishResult method.
         // This is called when the master itself produces a result (e.g., modules executed locally by the master's worker loop).
-        if (_state.ResultWaiters.TryGetValue(result.ModuleTypeName, out var tcs))
+        foreach (var worker in _state.CompleteResult(result))
         {
-            tcs.TrySetResult(result);
+            worker.TryCompleteAssignment(result.ModuleTypeName);
         }
 
         return Task.CompletedTask;
