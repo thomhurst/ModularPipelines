@@ -58,6 +58,7 @@ internal class DistributedPipelineHub(
         // 3. Mark the sending worker as idle and try to assign pending work
         if (state.Workers.TryGetValue(Context.ConnectionId, out var workerState))
         {
+            workerState.ClearAssignment();
             workerState.MarkIdle();
             await TryAssignPendingWork(workerState, state);
         }
@@ -78,17 +79,44 @@ internal class DistributedPipelineHub(
         await TryAssignPendingWork(workerState, state);
     }
 
-    public override Task OnDisconnectedAsync(Exception? exception)
+    public override async Task OnDisconnectedAsync(Exception? exception)
     {
         if (_masterState.Workers.TryRemove(Context.ConnectionId, out var workerState))
         {
             _logger.LogWarning("Worker {Index} disconnected (connection {ConnectionId})",
                 workerState.Registration.WorkerIndex, Context.ConnectionId);
 
-            // TODO: Re-enqueue in-flight work for the disconnected worker
+            // Re-enqueue any in-flight assignment so a surviving worker (or the master's own
+            // worker loop) can pick it up, instead of the master waiting forever for a result
+            // that will never arrive. If the result already came back the assignment is null
+            // (cleared in PublishResult) or its waiter is already completed, so we skip it.
+            var inflight = workerState.ClearAssignment();
+            if (inflight is not null
+                && _masterState.ResultWaiters.TryGetValue(inflight.ModuleTypeName, out var waiter)
+                && !waiter.Task.IsCompleted)
+            {
+                _logger.LogWarning(
+                    "Re-enqueuing in-flight module {Module} from disconnected worker {Index}",
+                    inflight.ModuleTypeName, workerState.Registration.WorkerIndex);
+
+                _masterState.PendingAssignments.Enqueue(inflight);
+
+                // Wake the master's own dequeue loop...
+                _masterState.WorkAvailable.Release();
+
+                // ...and nudge a currently-idle worker to pick it up immediately.
+                foreach (var kvp in _masterState.Workers)
+                {
+                    if (kvp.Value.IsIdle)
+                    {
+                        await TryAssignPendingWork(kvp.Value, _masterState);
+                        break;
+                    }
+                }
+            }
         }
 
-        return Task.CompletedTask;
+        await base.OnDisconnectedAsync(exception);
     }
 
     private async Task TryAssignPendingWork(WorkerState workerState, SignalRMasterState state)
@@ -115,8 +143,22 @@ internal class DistributedPipelineHub(
             {
                 _logger.LogDebug("Assigning {Module} to worker {Index}",
                     assignment.ModuleTypeName, workerState.Registration.WorkerIndex);
-                await Clients.Client(workerState.ConnectionId)
-                    .SendAsync(HubMethodNames.ReceiveAssignment, assignment);
+                workerState.SetAssignment(assignment);
+                try
+                {
+                    await Clients.Client(workerState.ConnectionId)
+                        .SendAsync(HubMethodNames.ReceiveAssignment, assignment);
+                }
+                catch (Exception ex)
+                {
+                    // Send failed — undo the claim and re-queue so the module isn't lost.
+                    _logger.LogWarning(ex, "Failed to assign {Module} to worker {Index}; re-queuing",
+                        assignment.ModuleTypeName, workerState.Registration.WorkerIndex);
+                    workerState.ClearAssignment();
+                    workerState.MarkIdle();
+                    state.PendingAssignments.Enqueue(assignment);
+                }
+
                 return;
             }
             else
