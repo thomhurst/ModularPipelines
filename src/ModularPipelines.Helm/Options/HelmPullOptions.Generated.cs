@@ -15,7 +15,7 @@ namespace ModularPipelines.Helm.Options;
 /// <summary>
 /// Retrieve a package from a package repository, and download it locally.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pull")]
 public record HelmPullOptions : HelmOptions

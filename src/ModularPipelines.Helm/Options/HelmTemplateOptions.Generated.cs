@@ -16,7 +16,7 @@ namespace ModularPipelines.Helm.Options;
 /// <summary>
 /// Render chart templates locally and display the output.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("template")]
 public record HelmTemplateOptions : HelmOptions

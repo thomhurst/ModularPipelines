@@ -15,7 +15,7 @@ namespace ModularPipelines.Helm.Options;
 /// <summary>
 /// This command takes a release name and uninstalls the release.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uninstall")]
 public record HelmUninstallOptions : HelmOptions

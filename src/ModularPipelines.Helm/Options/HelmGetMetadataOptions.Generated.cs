@@ -9,13 +9,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helm.Options;
+using ModularPipelines.Helm.Enums;
 
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
 /// This command fetches metadata for a given release
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("get", "metadata")]
 public record HelmGetMetadataOptions : HelmOptions
@@ -30,7 +31,7 @@ public record HelmGetMetadataOptions : HelmOptions
     /// prints the output in the specified format. Allowed values: table, json, yaml (default table)
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
+    public HelmGetMetadataOutput? Output { get; set; }
 
     /// <summary>
     /// specify release revision

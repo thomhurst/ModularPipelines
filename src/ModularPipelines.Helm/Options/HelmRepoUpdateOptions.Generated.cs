@@ -15,7 +15,7 @@ namespace ModularPipelines.Helm.Options;
 /// <summary>
 /// Update gets the latest information about charts from the respective chart repositories.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repo", "update")]
 public record HelmRepoUpdateOptions : HelmOptions

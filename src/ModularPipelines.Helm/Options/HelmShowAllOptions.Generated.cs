@@ -15,7 +15,7 @@ namespace ModularPipelines.Helm.Options;
 /// <summary>
 /// This command inspects a chart (directory, file, or URL) and displays all its content
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("show", "all")]
 public record HelmShowAllOptions : HelmOptions

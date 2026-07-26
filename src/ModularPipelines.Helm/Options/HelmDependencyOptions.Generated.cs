@@ -15,7 +15,7 @@ namespace ModularPipelines.Helm.Options;
 /// <summary>
 /// Manage the dependencies of a chart.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dependency")]
 public record HelmDependencyOptions : HelmOptions

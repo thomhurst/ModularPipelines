@@ -15,7 +15,7 @@ namespace ModularPipelines.Helm.Options;
 /// <summary>
 /// This command packages a chart into a versioned chart archive file. If a path
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package")]
 public record HelmPackageOptions : HelmOptions
@@ -83,6 +83,7 @@ public record HelmPackageOptions : HelmOptions
     /// <summary>
     /// location of a file which contains the passphrase for the signing key. Use "-" in order to read from stdin.
     /// </summary>
+    [SecretValue]
     [CliOption("--passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? PassphraseFile { get; set; }
 

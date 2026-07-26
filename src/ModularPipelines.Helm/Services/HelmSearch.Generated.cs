@@ -16,7 +16,7 @@ namespace ModularPipelines.Helm.Services;
 /// <summary>
 /// helm search commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class HelmSearch
 {
     private readonly ICommand _command;
