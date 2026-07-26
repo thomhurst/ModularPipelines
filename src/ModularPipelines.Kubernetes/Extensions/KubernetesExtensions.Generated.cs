@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -17,6 +18,7 @@ namespace ModularPipelines.Kubernetes.Extensions;
 /// <summary>
 /// Generated extensions for registering kubectl services.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class KubernetesExtensions
 {
 #pragma warning disable CA2255
@@ -35,12 +37,12 @@ public static class KubernetesExtensions
     public static IServiceCollection RegisterKubernetesContext(this IServiceCollection services)
     {
         services.TryAddScoped<IKubernetes, Services.Kubernetes>();
-        services.TryAddScoped<KubernetesAlpha>();
         services.TryAddScoped<KubernetesApply>();
         services.TryAddScoped<KubernetesAuth>();
         services.TryAddScoped<KubernetesCertificate>();
         services.TryAddScoped<KubernetesClusterinfo>();
         services.TryAddScoped<KubernetesConfig>();
+        services.TryAddScoped<KubernetesKuberc>();
         services.TryAddScoped<KubernetesRollout>();
         services.TryAddScoped<KubernetesTop>();
         return services;
@@ -50,9 +52,6 @@ public static class KubernetesExtensions
     /// Gets the kubectl service from the pipeline context.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
-    /// <returns>The kubectl service.</returns>
-    public static IKubernetes Kubernetes(this IPipelineContext context)
-    {
-        return context.Services.Get<IKubernetes>();
-    }
+    /// <returns>The <see cref="IKubernetes"/> service for executing kubectl commands.</returns>
+    public static IKubernetes Kubernetes(this IPipelineContext context) => context.Services.Get<IKubernetes>();
 }
