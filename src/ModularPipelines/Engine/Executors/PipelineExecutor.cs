@@ -53,7 +53,9 @@ internal class PipelineExecutor : IPipelineExecutor
         try
         {
             // ModuleExecutor handles waiting for AlwaysRun modules internally
-            await _moduleExecutor.ExecuteAsync(runnableModules).ConfigureAwait(false);
+            await _moduleExecutor
+                .ExecuteAsync(runnableModules, organizedModules.AllModules)
+                .ConfigureAwait(false);
         }
         finally
         {

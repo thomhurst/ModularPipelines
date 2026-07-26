@@ -4,5 +4,7 @@ namespace ModularPipelines.Engine;
 
 internal interface IModuleExecutor
 {
-    Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules);
+    Task<IEnumerable<IModule>> ExecuteAsync(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyList<IModule> availableModules);
 }

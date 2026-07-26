@@ -31,7 +31,9 @@ internal class WorkerModuleExecutor(
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<WorkerModuleExecutor> _logger = logger;
 
-    public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    public async Task<IEnumerable<IModule>> ExecuteAsync(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyList<IModule> _)
     {
         var options = _options.Value;
         var cancellationToken = _lifetime.ApplicationStopping;

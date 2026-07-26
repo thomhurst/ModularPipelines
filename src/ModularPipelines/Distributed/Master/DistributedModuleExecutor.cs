@@ -7,6 +7,7 @@ using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -18,6 +19,8 @@ internal class DistributedModuleExecutor(
     IModuleSchedulerFactory schedulerFactory,
     IModuleRunner moduleRunner,
     IRegistrationEventExecutor registrationEventExecutor,
+    IModuleDependencyRegistry dependencyRegistry,
+    IModuleMetadataRegistry metadataRegistry,
     IDistributedCoordinator coordinator,
     DistributedWorkPublisher publisher,
     DistributedResultCollector resultCollector,
@@ -32,6 +35,8 @@ internal class DistributedModuleExecutor(
     private readonly IModuleSchedulerFactory _schedulerFactory = schedulerFactory;
     private readonly IModuleRunner _moduleRunner = moduleRunner;
     private readonly IRegistrationEventExecutor _registrationEventExecutor = registrationEventExecutor;
+    private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
+    private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
     private readonly IDistributedCoordinator _coordinator = coordinator;
     private readonly DistributedWorkPublisher _publisher = publisher;
     private readonly DistributedResultCollector _resultCollector = resultCollector;
@@ -42,7 +47,9 @@ internal class DistributedModuleExecutor(
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<DistributedModuleExecutor> _logger = logger;
 
-    public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    public async Task<IEnumerable<IModule>> ExecuteAsync(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyList<IModule> availableModules)
     {
         if (modules.Count == 0)
         {
@@ -58,15 +65,21 @@ internal class DistributedModuleExecutor(
         // Build O(1) lookup for module resolution
         var moduleLookup = DependencyResultApplicator.BuildModuleLookup(modules);
 
-        // Invoke registration events before dependency resolution
-        await _registrationEventExecutor.InvokeRegistrationEventsAsync(modules).ConfigureAwait(false);
-
-        // Wait for workers to register before distributing work
-        await WaitForWorkersAsync(_lifetime.ApplicationStopping);
-
         IModuleScheduler? scheduler = null;
         try
         {
+            // Invoke registration events before dependency resolution
+            await _registrationEventExecutor.InvokeRegistrationEventsAsync(modules).ConfigureAwait(false);
+
+            ModuleDependencyValidator.Validate(
+                modules,
+                availableModules,
+                _dependencyRegistry,
+                _metadataRegistry);
+
+            // Wait for workers to register before distributing work
+            await WaitForWorkersAsync(_lifetime.ApplicationStopping);
+
             scheduler = _schedulerFactory.Create();
             scheduler.InitializeModules(modules);
 

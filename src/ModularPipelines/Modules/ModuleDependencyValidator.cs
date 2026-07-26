@@ -24,14 +24,28 @@ public static class ModuleDependencyValidator
         IModuleDependencyRegistry? dynamicRegistry,
         IModuleMetadataRegistry? metadataRegistry)
     {
-        var modulesByType = registeredModules
+        var modules = registeredModules.ToArray();
+        Validate(modules, modules, dynamicRegistry, metadataRegistry);
+    }
+
+    internal static void Validate(
+        IEnumerable<IModule> modulesToValidate,
+        IEnumerable<IModule> availableModules,
+        IModuleDependencyRegistry? dynamicRegistry,
+        IModuleMetadataRegistry? metadataRegistry)
+    {
+        var modulesByType = modulesToValidate
             .GroupBy(module => module.GetType())
             .ToDictionary(group => group.Key, group => group.First());
-        var moduleTypes = modulesByType.Keys.ToHashSet();
-        if (moduleTypes.Count == 0)
+        var validatedModuleTypes = modulesByType.Keys.ToHashSet();
+        if (validatedModuleTypes.Count == 0)
         {
             return;
         }
+
+        var availableModuleTypes = availableModules
+            .Select(module => module.GetType())
+            .ToHashSet();
 
         foreach (var (moduleType, module) in modulesByType)
         {
@@ -40,7 +54,7 @@ public static class ModuleDependencyValidator
 
         var dependenciesByModule = modulesByType.ToDictionary(
             pair => pair.Key,
-            pair => GetAllDependencies(pair.Value, moduleTypes, dynamicRegistry, metadataRegistry));
+            pair => GetAllDependencies(pair.Value, availableModuleTypes, dynamicRegistry, metadataRegistry));
 
         foreach (var (moduleType, dependencies) in dependenciesByModule)
         {
@@ -53,7 +67,7 @@ public static class ModuleDependencyValidator
                         "A module cannot depend on its own result.");
                 }
 
-                if (!optional && !moduleTypes.Contains(dependencyType))
+                if (!optional && !availableModuleTypes.Contains(dependencyType))
                 {
                     throw new ModuleNotRegisteredException(
                         $"Module '{moduleType.Name}' requires '{dependencyType.Name}', " +
@@ -66,7 +80,7 @@ public static class ModuleDependencyValidator
         var dependencyGraph = dependenciesByModule.ToDictionary(
             pair => pair.Key,
             pair => pair.Value
-                .Where(dependency => moduleTypes.Contains(dependency.DependencyType))
+                .Where(dependency => validatedModuleTypes.Contains(dependency.DependencyType))
                 .Select(dependency => dependency.DependencyType)
                 .ToHashSet());
         ValidateCircularDependencies(dependencyGraph);

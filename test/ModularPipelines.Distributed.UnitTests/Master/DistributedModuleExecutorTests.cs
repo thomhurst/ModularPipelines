@@ -11,10 +11,13 @@ using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Distributed.UnitTests.Master;
 
@@ -47,6 +50,13 @@ public class DistributedModuleExecutorTests
         protected internal override Task<int> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult(42);
+    }
+
+    private class MissingDistributedDependency : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            Context.IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>(null);
     }
 
     /// <summary>
@@ -137,7 +147,10 @@ public class DistributedModuleExecutorTests
         IModuleResultRegistry? resultRegistry = null,
         IDistributedCoordinator? coordinator = null,
         DistributedResultCollector? resultCollector = null,
-        ArtifactLifecycleManager? artifactManager = null)
+        ArtifactLifecycleManager? artifactManager = null,
+        IRegistrationEventExecutor? registrationEventExecutor = null,
+        IModuleDependencyRegistry? dependencyRegistry = null,
+        IModuleMetadataRegistry? metadataRegistry = null)
     {
         var lifetime = new Mock<IHostApplicationLifetime>();
         lifetime.Setup(l => l.ApplicationStopping).Returns(CancellationToken.None);
@@ -145,11 +158,18 @@ public class DistributedModuleExecutorTests
         var factory = new Mock<IModuleSchedulerFactory>();
         factory.Setup(f => f.Create()).Returns(scheduler.Object);
 
-        var regEventExecutor = new Mock<IRegistrationEventExecutor>();
-        regEventExecutor.Setup(r => r.InvokeRegistrationEventsAsync(It.IsAny<IEnumerable<IModule>>()))
-            .Returns(Task.CompletedTask);
+        if (registrationEventExecutor is null)
+        {
+            var regEventExecutor = new Mock<IRegistrationEventExecutor>();
+            regEventExecutor.Setup(r => r.InvokeRegistrationEventsAsync(It.IsAny<IEnumerable<IModule>>()))
+                .Returns(Task.CompletedTask);
+            registrationEventExecutor = regEventExecutor.Object;
+        }
 
         coordinator ??= new InMemoryDistributedCoordinator();
+        dependencyRegistry ??= new ModuleDependencyRegistry();
+        metadataRegistry ??= new ModuleMetadataRegistry(
+            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()));
         var typeRegistry = new ModuleTypeRegistry();
         var serializer = new ModuleResultSerializer(typeRegistry);
         resultRegistry ??= new ModuleResultRegistry();
@@ -161,7 +181,9 @@ public class DistributedModuleExecutorTests
             lifetime.Object,
             factory.Object,
             moduleRunner.Object,
-            regEventExecutor.Object,
+            registrationEventExecutor,
+            dependencyRegistry,
+            metadataRegistry,
             coordinator,
             publisher,
             resultCollector,
@@ -176,6 +198,37 @@ public class DistributedModuleExecutorTests
     // =================================================================
     // Result Registration Tests
     // =================================================================
+
+    [Test]
+    public async Task RegistrationEventDependency_IsValidatedBeforeMasterScheduling()
+    {
+        var module = new DistributedModule();
+        var scheduler = CreateMockScheduler();
+        var coordinator = new Mock<IDistributedCoordinator>();
+        coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        var dependencyRegistry = new ModuleDependencyRegistry();
+        var registrationEventExecutor = new Mock<IRegistrationEventExecutor>();
+        registrationEventExecutor
+            .Setup(r => r.InvokeRegistrationEventsAsync(It.IsAny<IEnumerable<IModule>>()))
+            .Callback(() => dependencyRegistry.AddDynamicDependency(
+                typeof(DistributedModule),
+                typeof(MissingDistributedDependency)))
+            .Returns(Task.CompletedTask);
+
+        var executor = CreateExecutor(
+            scheduler,
+            coordinator: coordinator.Object,
+            registrationEventExecutor: registrationEventExecutor.Object,
+            dependencyRegistry: dependencyRegistry);
+
+        await Assert.ThrowsAsync<ModuleNotRegisteredException>(
+            () => executor.ExecuteAsync([module], [module]));
+        coordinator.Verify(
+            c => c.SignalCompletionAsync(CancellationToken.None),
+            Times.Once);
+    }
 
     [Test]
     public async Task Distributed_Module_Success_Registers_Result_In_Registry()
@@ -211,7 +264,7 @@ public class DistributedModuleExecutorTests
         });
 
         // Act
-        await executor.ExecuteAsync([module]);
+        await executor.ExecuteAsync([module], [module]);
 
         // Assert
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
@@ -254,7 +307,7 @@ public class DistributedModuleExecutorTests
         });
 
         // Act
-        await executor.ExecuteAsync([module]);
+        await executor.ExecuteAsync([module], [module]);
 
         // Assert
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
@@ -290,7 +343,7 @@ public class DistributedModuleExecutorTests
             resultCollector: resultCollector);
 
         // Act
-        await executor.ExecuteAsync([module]);
+        await executor.ExecuteAsync([module], [module]);
 
         // Assert — cancellation should register a failure result
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
@@ -326,7 +379,7 @@ public class DistributedModuleExecutorTests
             resultCollector: resultCollector);
 
         // Act
-        await executor.ExecuteAsync([module]);
+        await executor.ExecuteAsync([module], [module]);
 
         // Assert
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
@@ -377,7 +430,7 @@ public class DistributedModuleExecutorTests
         });
 
         // Act
-        await executor.ExecuteAsync([moduleA, moduleB]);
+        await executor.ExecuteAsync([moduleA, moduleB], [moduleA, moduleB]);
 
         // Assert — module A has failure, module B also gets a failure (cancelled)
         var resultA = resultRegistry.GetResult(typeof(DistributedModule));
@@ -428,7 +481,7 @@ public class DistributedModuleExecutorTests
             resultCollector: resultCollector);
 
         // Act
-        await executor.ExecuteAsync([module]);
+        await executor.ExecuteAsync([module], [module]);
 
         // Assert — the master worker loop used a WorkerModuleScheduler (no-op)
         await Assert.That(capturedScheduler).IsNotNull();
@@ -489,7 +542,7 @@ public class DistributedModuleExecutorTests
             resultCollector: resultCollector);
 
         // Act
-        await executor.ExecuteAsync([module]);
+        await executor.ExecuteAsync([module], [module]);
 
         // Assert
         coordinator.Verify(c => c.SignalCompletionAsync(CancellationToken.None), Times.Once());
@@ -520,7 +573,7 @@ public class DistributedModuleExecutorTests
             resultCollector: resultCollector);
 
         // Act
-        await executor.ExecuteAsync([module]);
+        await executor.ExecuteAsync([module], [module]);
 
         // Assert — always signals completion, even on failure
         coordinator.Verify(c => c.SignalCompletionAsync(CancellationToken.None), Times.Once());
@@ -536,7 +589,7 @@ public class DistributedModuleExecutorTests
         var scheduler = CreateMockScheduler();
         var executor = CreateExecutor(scheduler);
 
-        var result = await executor.ExecuteAsync([]);
+        var result = await executor.ExecuteAsync([], []);
 
         await Assert.That(result.Count()).IsEqualTo(0);
     }
@@ -573,7 +626,7 @@ public class DistributedModuleExecutorTests
         });
 
         // Act
-        await executor.ExecuteAsync([module]);
+        await executor.ExecuteAsync([module], [module]);
 
         // Assert
         scheduler.Verify(s => s.MarkModuleStarted(typeof(DistributedModule)), Times.Once());
@@ -608,7 +661,7 @@ public class DistributedModuleExecutorTests
         });
 
         // Act
-        await executor.ExecuteAsync([module]);
+        await executor.ExecuteAsync([module], [module]);
 
         // Assert
         scheduler.Verify(s => s.MarkModuleCompleted(typeof(DistributedModule), false, null, null), Times.Once());
@@ -653,12 +706,14 @@ public class DistributedModuleExecutorTests
 
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
+            new ModuleDependencyRegistry(),
+            new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
             coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
             resultRegistry, Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
         // Act
-        await executor.ExecuteAsync([moduleA, moduleB]);
+        await executor.ExecuteAsync([moduleA, moduleB], [moduleA, moduleB]);
 
         // Assert — both types are registered and resolvable
         var resolvedA = typeRegistry.Resolve(typeof(DistributedModule).FullName!);
@@ -700,6 +755,8 @@ public class DistributedModuleExecutorTests
 
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
+            new ModuleDependencyRegistry(),
+            new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
             noDequeue, publisher, resultCollector, typeRegistry, serializer,
             resultRegistry, Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
@@ -723,7 +780,7 @@ public class DistributedModuleExecutorTests
         });
 
         // Act
-        await executor.ExecuteAsync([module]);
+        await executor.ExecuteAsync([module], [module]);
 
         // Assert — work was distributed and result collected (if barrier didn't work, result would be lost)
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
@@ -745,7 +802,7 @@ public class DistributedModuleExecutorTests
         var executor = CreateExecutor(scheduler, coordinator: coordinator.Object);
 
         // Act — should return quickly without calling GetRegisteredWorkersAsync
-        await executor.ExecuteAsync([]);
+        await executor.ExecuteAsync([], []);
 
         // Assert — GetRegisteredWorkersAsync should never be called
         coordinator.Verify(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()), Times.Never());
@@ -795,13 +852,15 @@ public class DistributedModuleExecutorTests
 
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
+            new ModuleDependencyRegistry(),
+            new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
             coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
             resultRegistry, Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
         // Act — should proceed after 3 seconds timeout even though only 1/3 workers registered
         var sw = System.Diagnostics.Stopwatch.StartNew();
-        await executor.ExecuteAsync([module]);
+        await executor.ExecuteAsync([module], [module]);
         sw.Stop();
 
         // Assert — waited roughly 3 seconds (the timeout), not the full test timeout

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
@@ -28,6 +29,8 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IModuleResultRegistrar _resultRegistrar;
     private readonly IParallelLimitProvider _parallelLimitProvider;
     private readonly IRegistrationEventExecutor _registrationEventExecutor;
+    private readonly IModuleDependencyRegistry _dependencyRegistry;
+    private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IMetricsCollector _metricsCollector;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ILogger<ModuleExecutor> _logger;
@@ -39,6 +42,8 @@ internal class ModuleExecutor : IModuleExecutor
         IModuleResultRegistrar resultRegistrar,
         IParallelLimitProvider parallelLimitProvider,
         IRegistrationEventExecutor registrationEventExecutor,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
         IMetricsCollector metricsCollector,
         IOptions<PipelineOptions> pipelineOptions,
         ILogger<ModuleExecutor> logger)
@@ -49,6 +54,8 @@ internal class ModuleExecutor : IModuleExecutor
         _resultRegistrar = resultRegistrar;
         _parallelLimitProvider = parallelLimitProvider;
         _registrationEventExecutor = registrationEventExecutor;
+        _dependencyRegistry = dependencyRegistry;
+        _metadataRegistry = metadataRegistry;
         _metricsCollector = metricsCollector;
         _pipelineOptions = pipelineOptions;
         _logger = logger;
@@ -57,9 +64,12 @@ internal class ModuleExecutor : IModuleExecutor
     /// <summary>
     /// Executes a collection of modules using eager parallel scheduling.
     /// </summary>
-    public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    public async Task<IEnumerable<IModule>> ExecuteAsync(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyList<IModule> availableModules)
     {
         ArgumentNullException.ThrowIfNull(modules);
+        ArgumentNullException.ThrowIfNull(availableModules);
 
         if (modules.Count == 0)
         {
@@ -71,7 +81,7 @@ internal class ModuleExecutor : IModuleExecutor
 
         try
         {
-            scheduler = await InitializeSchedulerAsync(modules).ConfigureAwait(false);
+            scheduler = await InitializeSchedulerAsync(modules, availableModules).ConfigureAwait(false);
             return await ExecuteWithSchedulerAsync(modules, scheduler).ConfigureAwait(false);
         }
         catch (Exception outerEx)
@@ -92,7 +102,9 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private async Task<IModuleScheduler> InitializeSchedulerAsync(IReadOnlyList<IModule> modules)
+    private async Task<IModuleScheduler> InitializeSchedulerAsync(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyList<IModule> availableModules)
     {
         _logger.LogDebug("Initializing unified scheduler for {Count} modules", modules.Count);
 
@@ -101,6 +113,12 @@ internal class ModuleExecutor : IModuleExecutor
 
         // Invoke registration events before dependency resolution
         await _registrationEventExecutor.InvokeRegistrationEventsAsync(modules).ConfigureAwait(false);
+
+        ModuleDependencyValidator.Validate(
+            modules,
+            availableModules,
+            _dependencyRegistry,
+            _metadataRegistry);
 
         var scheduler = _schedulerFactory.Create();
         scheduler.InitializeModules(modules);
