@@ -50,6 +50,7 @@ internal class ModuleState
         Module = module;
         ModuleType = moduleType;
         CompletionSource = new TaskCompletionSource<IModule>();
+        Dependencies = new Dictionary<Type, bool>();
         UnresolvedDependencies = new HashSet<Type>();
         DependentModules = new List<ModuleState>();
         RequiredLockKeys = Array.Empty<string>();
@@ -69,6 +70,11 @@ internal class ModuleState
     /// Gets completion source to signal when module execution finishes.
     /// </summary>
     public TaskCompletionSource<IModule> CompletionSource { get; }
+
+    /// <summary>
+    /// Gets all dependency types and whether each dependency is optional.
+    /// </summary>
+    public Dictionary<Type, bool> Dependencies { get; }
 
     /// <summary>
     /// Gets set of dependency types that haven't completed yet.

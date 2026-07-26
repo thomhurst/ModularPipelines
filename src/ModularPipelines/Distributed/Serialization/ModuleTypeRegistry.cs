@@ -21,6 +21,11 @@ internal class ModuleTypeRegistry
         return _registry.TryGetValue(moduleTypeName, out var entry) ? entry : null;
     }
 
+    public IReadOnlyList<Type> GetRegisteredModuleTypes()
+    {
+        return _registry.Values.Select(entry => entry.ModuleType).ToArray();
+    }
+
     public static string? GetResultTypeName(Type moduleType)
     {
         var resultType = GetResultType(moduleType);

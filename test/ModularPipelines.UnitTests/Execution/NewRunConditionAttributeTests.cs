@@ -4,7 +4,10 @@ using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using Moq;
 using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests.Execution;
@@ -14,6 +17,30 @@ namespace ModularPipelines.UnitTests.Execution;
 /// </summary>
 public class NewRunConditionAttributeTests : TestBase
 {
+    private static readonly AsyncLocal<ConditionState?> AsyncConditionState = new();
+
+    private static ConditionState CurrentConditionState =>
+        AsyncConditionState.Value ??= new ConditionState();
+
+    private static CancellationTokenSource? ConditionCancellationTokenSource
+    {
+        get => CurrentConditionState.CancellationTokenSource;
+        set => CurrentConditionState.CancellationTokenSource = value;
+    }
+
+    private static bool SubsequentConditionWasEvaluated
+    {
+        get => CurrentConditionState.SubsequentConditionWasEvaluated;
+        set => CurrentConditionState.SubsequentConditionWasEvaluated = value;
+    }
+
+    private sealed class ConditionState
+    {
+        public CancellationTokenSource? CancellationTokenSource { get; set; }
+
+        public bool SubsequentConditionWasEvaluated { get; set; }
+    }
+
     #region Test Conditions
 
     private class AlwaysTrue : IRunCondition
@@ -38,6 +65,12 @@ public class NewRunConditionAttributeTests : TestBase
     {
         public override IRunCondition[] Conditions => [new AlwaysFalse()];
         public override ConditionLogic Logic => ConditionLogic.All;
+    }
+
+    private class CancellationConditionGroup : ConditionGroup
+    {
+        public override IRunCondition[] Conditions => [new CancelDuringEvaluation(), new TrackEvaluation()];
+        public override ConditionLogic Logic => ConditionLogic.Any;
     }
 
     #endregion
@@ -139,6 +172,78 @@ public class NewRunConditionAttributeTests : TestBase
 
     [RunIfAll<FalseConditionGroup>]
     private class ConditionGroupFalseModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [SkipIf<AlwaysFalse>]
+    private class AttributeAndFluentConditionModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+
+        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() => ModularPipelines.Configuration.ModuleConfiguration.Create()
+            .WithSkipWhen(() => SkipDecision.Skip("Fluent condition"))
+            .Build();
+    }
+
+    private class CancelDuringEvaluation : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineHookContext context)
+        {
+            ConditionCancellationTokenSource!.Cancel();
+            return Task.FromResult(false);
+        }
+    }
+
+    private class TrackEvaluation : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineHookContext context)
+        {
+            SubsequentConditionWasEvaluated = true;
+            return Task.FromResult(true);
+        }
+    }
+
+    private class ThrowOnConstruction : IRunCondition
+    {
+        public ThrowOnConstruction() => throw new InvalidOperationException("Condition should not be constructed");
+
+        public Task<bool> EvaluateAsync(IPipelineHookContext context) => Task.FromResult(true);
+    }
+
+    private class UnregisteredDependencyModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIfAll<AlwaysFalse>]
+    [ModularPipelines.Attributes.DependsOn<UnregisteredDependencyModule>]
+    private class SkippedModuleWithUnregisteredDependency : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [SkipIf<CancelDuringEvaluation>]
+    [RunIfAll<TrackEvaluation>]
+    private class CancellationAwareConditionModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [SkipIf<CancelDuringEvaluation, TrackEvaluation>]
+    private class CancellationAwareGroupedAttributeModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIfAll<CancellationConditionGroup>]
+    private class CancellationAwareConditionGroupModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIfAll<TrackEvaluation>]
+    private class DiscoveryCancellationModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
@@ -274,6 +379,33 @@ public class NewRunConditionAttributeTests : TestBase
     }
 
     [Test]
+    public async Task RunIfAny_DoesNotConstructConditionsAfterTrueResult()
+    {
+        var result = await new RunIfAnyAttribute<AlwaysTrue, ThrowOnConstruction>()
+            .EvaluateAsync(Mock.Of<IPipelineHookContext>());
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    public async Task RunIfAll_DoesNotConstructConditionsAfterFalseResult()
+    {
+        var result = await new RunIfAllAttribute<AlwaysFalse, ThrowOnConstruction>()
+            .EvaluateAsync(Mock.Of<IPipelineHookContext>());
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    public async Task SkipIf_DoesNotConstructConditionsAfterTrueResult()
+    {
+        var result = await new SkipIfAttribute<AlwaysTrue, ThrowOnConstruction>()
+            .EvaluateAsync(Mock.Of<IPipelineHookContext>());
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
     public async Task SkipIf_EvaluatedBeforeRunIfAll_ShouldSkip()
     {
         var host = await TestPipelineHostBuilder.Create()
@@ -341,6 +473,103 @@ public class NewRunConditionAttributeTests : TestBase
         var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(ConditionGroupFalseModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+    }
+
+    [Test]
+    public async Task Attribute_And_Fluent_Conditions_Use_One_Skip_Pipeline()
+    {
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<AttributeAndFluentConditionModule>()
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult(typeof(AttributeAndFluentConditionModule))!;
+        using (Assert.Multiple())
+        {
+            await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(moduleResult.SkipDecisionOrDefault!.Reason).IsEqualTo("Fluent condition");
+        }
+    }
+
+    [Test]
+    public async Task Attribute_Condition_Is_Evaluated_Before_Dependencies()
+    {
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<SkippedModuleWithUnregisteredDependency>()
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult(typeof(SkippedModuleWithUnregisteredDependency))!;
+        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+    }
+
+    [Test]
+    public async Task Cancellation_Is_Checked_Between_Attribute_Conditions()
+    {
+        using var setupTokenSource = new CancellationTokenSource();
+        ConditionCancellationTokenSource = setupTokenSource;
+
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<CancellationAwareConditionModule>()
+            .BuildHostAsync();
+        var module = host.RootServices.GetServices<IModule>().OfType<CancellationAwareConditionModule>().Single();
+        var conditionHandler = host.RootServices.GetRequiredService<IModuleConditionHandler>();
+        using var cancellationTokenSource = new CancellationTokenSource();
+        ConditionCancellationTokenSource = cancellationTokenSource;
+        SubsequentConditionWasEvaluated = false;
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() =>
+            conditionHandler.ShouldIgnore(module, cancellationTokenSource.Token));
+        await Assert.That(SubsequentConditionWasEvaluated).IsFalse();
+    }
+
+    [Test]
+    public async Task Cancellation_Is_Checked_Within_Grouped_Attribute()
+    {
+        await AssertGroupedCancellation<CancellationAwareGroupedAttributeModule>();
+    }
+
+    [Test]
+    public async Task Cancellation_Is_Checked_Within_Condition_Group()
+    {
+        await AssertGroupedCancellation<CancellationAwareConditionGroupModule>();
+    }
+
+    private static async Task AssertGroupedCancellation<TModule>()
+        where TModule : class, IModule
+    {
+        using var setupTokenSource = new CancellationTokenSource();
+        ConditionCancellationTokenSource = setupTokenSource;
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<TModule>()
+            .BuildHostAsync();
+        var module = host.RootServices.GetServices<IModule>().OfType<TModule>().Single();
+        var conditionHandler = host.RootServices.GetRequiredService<IModuleConditionHandler>();
+        using var cancellationTokenSource = new CancellationTokenSource();
+        ConditionCancellationTokenSource = cancellationTokenSource;
+        SubsequentConditionWasEvaluated = false;
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() =>
+            conditionHandler.ShouldIgnore(module, cancellationTokenSource.Token));
+        await Assert.That(SubsequentConditionWasEvaluated).IsFalse();
+    }
+
+    [Test]
+    public async Task Pipeline_Cancellation_Is_Propagated_To_Discovery()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource.Cancel();
+        SubsequentConditionWasEvaluated = false;
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() => TestPipelineHostBuilder.Create()
+            .AddModule<DiscoveryCancellationModule>()
+            .ExecutePipelineAsync(cancellationTokenSource.Token));
+
+        await Assert.That(SubsequentConditionWasEvaluated).IsFalse();
     }
 
     #endregion

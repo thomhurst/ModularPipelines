@@ -21,6 +21,18 @@ public interface IConditionAttribute
     Task<bool> EvaluateAsync(IPipelineHookContext context);
 
     /// <summary>
+    /// Evaluates the condition(s) in this attribute with cancellation between conditions.
+    /// </summary>
+    /// <param name="context">The pipeline context.</param>
+    /// <param name="cancellationToken">A token used to cancel condition evaluation.</param>
+    /// <returns><c>true</c> if the condition is satisfied; otherwise, <c>false</c>.</returns>
+    Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return EvaluateAsync(context);
+    }
+
+    /// <summary>
     /// Gets a human-readable string of the condition names for error messages.
     /// </summary>
     string ConditionNames { get; }

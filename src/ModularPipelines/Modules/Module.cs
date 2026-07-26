@@ -20,6 +20,11 @@ namespace ModularPipelines.Modules;
 /// <item><see cref="ModuleConfigurationBuilder.WithRetryCount"/> - Configure retry policy</item>
 /// <item><see cref="ModuleConfigurationBuilder.WithIgnoreFailures()"/> - Handle failures gracefully</item>
 /// <item><see cref="ModuleConfigurationBuilder.WithAlwaysRun"/> - Run even when pipeline fails</item>
+/// <item><see cref="ModuleConfigurationBuilder.WithPriority"/> - Set scheduling priority</item>
+/// <item><see cref="ModuleConfigurationBuilder.WithExecutionHint"/> - Select resource concurrency limits</item>
+/// <item><see cref="ModuleConfigurationBuilder.WithNotInParallel()"/> - Configure parallel constraints</item>
+/// <item><see cref="ModuleConfigurationBuilder.WithTags"/> and <see cref="ModuleConfigurationBuilder.WithCategory"/> - Add metadata</item>
+/// <item><see cref="ModuleConfigurationBuilder.DependsOn{TModule}"/> - Declare dependencies</item>
 /// </list>
 /// <para>
 /// Dependencies can be declared in two ways:
@@ -87,7 +92,12 @@ public abstract class Module<T> : IModule, ITaggedModule
     private ModuleConfiguration? _configuration;
 
     /// <inheritdoc />
-    ModuleConfiguration IModule.Configuration => _configuration ??= Configure();
+    ModuleConfiguration IModule.Configuration => _configuration ??= ModuleConfigurationAttributeAdapter.Apply(
+        GetType(),
+        Configure(),
+        Tags,
+        Category,
+        GetDeclaredDependencies());
 
     /// <summary>
     /// Gets the tags for this module. Override to declare tags programmatically.

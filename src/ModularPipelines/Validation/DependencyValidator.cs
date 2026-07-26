@@ -1,4 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 
@@ -16,18 +18,56 @@ internal class DependencyValidator : IDependencyValidator
     /// <inheritdoc />
     public ValidationResult Validate(IServiceProvider services)
     {
-        var modules = services.GetServices<IModule>();
-        var moduleTypes = modules.Select(m => m.GetType());
-        return ValidateDependencies(moduleTypes);
+        var result = ValidateDependencies(services, services.GetServices<IModule>());
+        if (!result.HasErrors)
+        {
+            return result;
+        }
+
+        var runnableModules = services.GetRequiredService<ModuleRetriever>()
+            .GetRunnableModulesForValidation()
+            .GetAwaiter()
+            .GetResult();
+        return ValidateDependencies(services, runnableModules);
+    }
+
+    /// <inheritdoc />
+    public async Task<ValidationResult> ValidateAsync(IServiceProvider services)
+    {
+        var result = ValidateDependencies(services, services.GetServices<IModule>());
+        if (!result.HasErrors)
+        {
+            return result;
+        }
+
+        var runnableModules = await services.GetRequiredService<ModuleRetriever>()
+            .GetRunnableModulesForValidation()
+            .ConfigureAwait(false);
+        return ValidateDependencies(services, runnableModules);
     }
 
     /// <inheritdoc />
     public ValidationResult ValidateDependencies(IEnumerable<Type> moduleTypes)
+        => Validate(() => ModuleDependencyValidator.Validate(moduleTypes), moduleTypes.Any());
+
+    private static ValidationResult ValidateDependencies(
+        IServiceProvider services,
+        IEnumerable<IModule> modules)
+    {
+        var moduleList = modules.ToList();
+        return Validate(
+            () => ModuleDependencyValidator.Validate(
+                moduleList,
+                services.GetRequiredService<IModuleDependencyRegistry>(),
+                services.GetRequiredService<IModuleMetadataRegistry>()),
+            moduleList.Count > 0);
+    }
+
+    private static ValidationResult Validate(Action validation, bool hasModules)
     {
         var result = new ValidationResult();
-        var types = moduleTypes.ToHashSet();
 
-        if (types.Count == 0)
+        if (!hasModules)
         {
             return result;
         }
@@ -35,7 +75,7 @@ internal class DependencyValidator : IDependencyValidator
         // Delegate to ModuleDependencyValidator and convert exceptions to validation errors
         try
         {
-            ModuleDependencyValidator.Validate(types);
+            validation();
         }
         catch (ModuleReferencingSelfException ex)
         {

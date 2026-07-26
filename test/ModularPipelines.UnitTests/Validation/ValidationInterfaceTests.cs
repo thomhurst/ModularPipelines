@@ -43,5 +43,9 @@ public class ValidationInterfaceTests
         var validateMethod = validatorType.GetMethod("Validate");
         await Assert.That(validateMethod).IsNotNull()
             .Because("IPipelineValidator should have Validate method");
+
+        var validateAsyncMethod = validatorType.GetMethod("ValidateAsync");
+        await Assert.That(validateAsyncMethod).IsNotNull()
+            .Because("IPipelineValidator should have ValidateAsync method");
     }
 }

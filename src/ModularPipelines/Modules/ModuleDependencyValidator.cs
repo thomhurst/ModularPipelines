@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 
@@ -11,6 +12,66 @@ namespace ModularPipelines.Modules;
 /// </summary>
 public static class ModuleDependencyValidator
 {
+    /// <summary>
+    /// Validates registered module instances, including dependencies declared through fluent configuration.
+    /// </summary>
+    /// <param name="registeredModules">The registered module instances.</param>
+    public static void Validate(IEnumerable<IModule> registeredModules)
+        => Validate(registeredModules, dynamicRegistry: null, metadataRegistry: null);
+
+    internal static void Validate(
+        IEnumerable<IModule> registeredModules,
+        IModuleDependencyRegistry? dynamicRegistry,
+        IModuleMetadataRegistry? metadataRegistry)
+    {
+        var modulesByType = registeredModules
+            .GroupBy(module => module.GetType())
+            .ToDictionary(group => group.Key, group => group.First());
+        var moduleTypes = modulesByType.Keys.ToHashSet();
+        if (moduleTypes.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var (moduleType, module) in modulesByType)
+        {
+            metadataRegistry?.FinalizeMetadata(moduleType, module);
+        }
+
+        var dependenciesByModule = modulesByType.ToDictionary(
+            pair => pair.Key,
+            pair => GetAllDependencies(pair.Value, moduleTypes, dynamicRegistry, metadataRegistry));
+
+        foreach (var (moduleType, dependencies) in dependenciesByModule)
+        {
+            foreach (var (dependencyType, optional) in dependencies)
+            {
+                if (dependencyType == moduleType)
+                {
+                    throw new ModuleReferencingSelfException(
+                        $"Module '{moduleType.Name}' cannot reference itself. " +
+                        "A module cannot depend on its own result.");
+                }
+
+                if (!optional && !moduleTypes.Contains(dependencyType))
+                {
+                    throw new ModuleNotRegisteredException(
+                        $"Module '{moduleType.Name}' requires '{dependencyType.Name}', " +
+                        $"but '{dependencyType.Name}' is not registered and could not be auto-registered. " +
+                        "Either register the dependency module or make the dependency optional.", null);
+                }
+            }
+        }
+
+        var dependencyGraph = dependenciesByModule.ToDictionary(
+            pair => pair.Key,
+            pair => pair.Value
+                .Where(dependency => moduleTypes.Contains(dependency.DependencyType))
+                .Select(dependency => dependency.DependencyType)
+                .ToHashSet());
+        ValidateCircularDependencies(dependencyGraph);
+    }
+
     /// <summary>
     /// Validates all registered module dependencies.
     /// </summary>
@@ -36,6 +97,20 @@ public static class ModuleDependencyValidator
         ValidateSelfReferences(moduleTypes);
         ValidateMissingDependencies(moduleTypes);
         ValidateCircularDependencies(moduleTypes);
+    }
+
+    private static HashSet<(Type DependencyType, bool Optional)> GetAllDependencies(
+        IModule module,
+        HashSet<Type> moduleTypes,
+        IModuleDependencyRegistry? dynamicRegistry,
+        IModuleMetadataRegistry? metadataRegistry)
+    {
+        return [.. ModuleDependencyResolver
+            .GetAllDependencies(module, moduleTypes, dynamicRegistry, metadataRegistry)
+            .GroupBy(dependency => dependency.DependencyType)
+            .Select(group => (
+                DependencyType: group.Key,
+                Optional: group.All(dependency => dependency.Optional)))];
     }
 
     /// <summary>

@@ -27,12 +27,18 @@ internal class ModuleRetriever
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
-    public Task<OrganizedModules> GetOrganizedModules()
+    public Task<OrganizedModules> GetOrganizedModules(CancellationToken cancellationToken = default)
     {
-        return _cached ??= GetInternal();
+        return _cached ??= GetInternal(cancellationToken);
     }
 
-    private async Task<OrganizedModules> GetInternal()
+    internal async Task<IReadOnlyList<IModule>> GetRunnableModulesForValidation(
+        CancellationToken cancellationToken = default)
+    {
+        return (await DiscoverModules(cancellationToken).ConfigureAwait(false)).RunnableModules;
+    }
+
+    private async Task<DiscoveredModules> DiscoverModules(CancellationToken cancellationToken)
     {
         if (_modules.Count == 0)
         {
@@ -44,7 +50,8 @@ internal class ModuleRetriever
 
         foreach (var module in _modules)
         {
-            var (shouldIgnore, skipDecision) = await _moduleConditionHandler.ShouldIgnore(module).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            var (shouldIgnore, skipDecision) = await _moduleConditionHandler.ShouldIgnore(module, cancellationToken).ConfigureAwait(false);
             if (shouldIgnore)
             {
                 modulesToIgnore.Add(new IgnoredModule(module, skipDecision ?? SkipDecision.Skip("Module was ignored")));
@@ -55,7 +62,13 @@ internal class ModuleRetriever
             }
         }
 
-        var runnableModulesWithEstimatatedDuration = await modulesToProcess.ToAsyncProcessorBuilder()
+        return new DiscoveredModules(modulesToProcess, modulesToIgnore);
+    }
+
+    private async Task<OrganizedModules> GetInternal(CancellationToken cancellationToken)
+    {
+        var discoveredModules = await DiscoverModules(cancellationToken).ConfigureAwait(false);
+        var runnableModulesWithEstimatatedDuration = await discoveredModules.RunnableModules.ToAsyncProcessorBuilder()
             .SelectAsync(async module =>
             {
                 var estimatedTime = await _estimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
@@ -68,7 +81,11 @@ internal class ModuleRetriever
 
         return new OrganizedModules(
             RunnableModules: runnableModulesWithEstimatatedDuration,
-            IgnoredModules: modulesToIgnore
+            IgnoredModules: discoveredModules.IgnoredModules
         );
     }
+
+    private sealed record DiscoveredModules(
+        IReadOnlyList<IModule> RunnableModules,
+        IReadOnlyList<IgnoredModule> IgnoredModules);
 }

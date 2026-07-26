@@ -12,7 +12,7 @@ internal class PipelineValidationService : IPipelineValidationService
     /// </summary>
     /// <param name="services">The service provider containing registered services.</param>
     /// <returns>A validation result containing all errors found.</returns>
-    public ValidationResult Validate(IServiceProvider services)
+    public async Task<ValidationResult> ValidateAsync(IServiceProvider services)
     {
         var result = new ValidationResult();
 
@@ -23,7 +23,7 @@ internal class PipelineValidationService : IPipelineValidationService
 
         foreach (var validator in validators)
         {
-            var validatorResult = validator.Validate(services);
+            var validatorResult = await validator.ValidateAsync(services).ConfigureAwait(false);
             result.Merge(validatorResult);
         }
 
