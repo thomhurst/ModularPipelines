@@ -29,6 +29,20 @@ internal class SignalRMasterState
     public ConcurrentDictionary<string, TaskCompletionSource<SerializedModuleResult>> ResultWaiters { get; } = new();
 
     /// <summary>
+    /// Workers that disconnected with an in-flight assignment, keyed by worker index
+    /// (stable across reconnects). The assignment is re-enqueued only after
+    /// <see cref="ReconnectGracePeriod"/> elapses; if the worker reconnects first, the
+    /// pending re-enqueue is cancelled so the module isn't run twice on a transient blip.
+    /// </summary>
+    public ConcurrentDictionary<int, (ModuleAssignment Assignment, CancellationTokenSource Cts)> PendingReconnects { get; } = new();
+
+    /// <summary>
+    /// How long to wait for a disconnected worker to reconnect before re-enqueuing its
+    /// in-flight work. Should exceed the client's total auto-reconnect window.
+    /// </summary>
+    public TimeSpan ReconnectGracePeriod { get; set; } = TimeSpan.FromSeconds(45);
+
+    /// <summary>
     /// Volatile completion flag.
     /// </summary>
     public volatile bool IsCompleted;

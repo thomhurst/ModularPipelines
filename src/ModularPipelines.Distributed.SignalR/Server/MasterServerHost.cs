@@ -46,6 +46,14 @@ internal class MasterServerHost : IAsyncDisposable
         {
             hubOptions.MaximumReceiveMessageSize = options.MaximumReceiveMessageSize;
             hubOptions.EnableDetailedErrors = true;
+
+            // Detect a dead/silent worker quickly so OnDisconnectedAsync fires and its
+            // in-flight work is re-queued ASAP, rather than lingering until SignalR's
+            // 30s default. KeepAliveInterval = how often the server pings workers;
+            // ClientTimeoutInterval = how long without a message before a worker is
+            // considered gone.
+            hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(options.KeepAliveIntervalSeconds);
+            hubOptions.ClientTimeoutInterval = TimeSpan.FromSeconds(options.PeerTimeoutSeconds);
         }).AddJsonProtocol(jsonOptions =>
         {
             // Match the client's default STJ options: PascalCase, case-insensitive
