@@ -16,7 +16,7 @@ namespace ModularPipelines.Syft.Options;
 /// Base options class for syft CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("syft")]
 public abstract record SyftOptions : CommandLineToolOptions

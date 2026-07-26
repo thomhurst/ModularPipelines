@@ -16,7 +16,7 @@ namespace ModularPipelines.Syft.Services;
 /// <summary>
 /// syft config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class SyftConfig
 {
     private readonly ICommand _command;

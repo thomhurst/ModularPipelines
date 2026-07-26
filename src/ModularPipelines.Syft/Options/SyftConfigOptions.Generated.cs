@@ -15,7 +15,7 @@ namespace ModularPipelines.Syft.Options;
 /// <summary>
 /// show the syft configuration
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config")]
 public record SyftConfigOptions : SyftOptions

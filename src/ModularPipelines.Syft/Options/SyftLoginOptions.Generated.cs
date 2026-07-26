@@ -15,7 +15,7 @@ namespace ModularPipelines.Syft.Options;
 /// <summary>
 /// Log in to a registry
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("login")]
 public record SyftLoginOptions : SyftOptions

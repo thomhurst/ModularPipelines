@@ -15,7 +15,7 @@ namespace ModularPipelines.Syft.Options;
 /// <summary>
 /// List available catalogers
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cataloger", "list")]
 public record SyftCatalogerListOptions : SyftOptions
