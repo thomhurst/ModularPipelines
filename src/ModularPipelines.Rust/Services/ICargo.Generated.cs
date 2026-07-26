@@ -15,7 +15,7 @@ namespace ModularPipelines.Rust.Services;
 /// <summary>
 /// Generated interface for cargo CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface ICargo
 {
     #region Commands

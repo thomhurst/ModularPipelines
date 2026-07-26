@@ -16,7 +16,7 @@ namespace ModularPipelines.Rust.Options;
 /// <summary>
 /// Search packages in the registry. Default registry is crates.io
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
 public record CargoSearchOptions : CargoOptions

@@ -18,7 +18,7 @@ namespace ModularPipelines.Rust.Extensions;
 /// <summary>
 /// Generated extensions for registering cargo services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class CargoExtensions
 {
 #pragma warning disable CA2255

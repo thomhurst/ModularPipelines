@@ -16,7 +16,7 @@ namespace ModularPipelines.Rust.Services;
 /// <summary>
 /// Generated implementation for cargo CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Cargo : ICargo
 {
     private readonly ICommand _command;

@@ -16,7 +16,7 @@ namespace ModularPipelines.Rust.Options;
 /// <summary>
 /// Execute all benchmarks of a local package
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bench")]
 public record CargoBenchOptions : CargoOptions

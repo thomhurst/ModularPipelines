@@ -16,7 +16,7 @@ namespace ModularPipelines.Rust.Options;
 /// <summary>
 /// Install a Rust binary
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("install")]
 public record CargoInstallOptions : CargoOptions

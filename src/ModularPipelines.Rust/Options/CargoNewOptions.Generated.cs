@@ -16,7 +16,7 @@ namespace ModularPipelines.Rust.Options;
 /// <summary>
 /// Create a new cargo package at &lt;path&gt;
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("new")]
 public record CargoNewOptions : CargoOptions

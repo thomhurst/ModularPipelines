@@ -16,7 +16,7 @@ namespace ModularPipelines.Rust.Options;
 /// <summary>
 /// Add dependencies to a Cargo.toml manifest file
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("add")]
 public record CargoAddOptions : CargoOptions
