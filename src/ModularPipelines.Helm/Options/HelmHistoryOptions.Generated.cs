@@ -9,13 +9,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helm.Options;
+using ModularPipelines.Helm.Enums;
 
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
 /// History prints historical revisions for a given release.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("history")]
 public record HelmHistoryOptions : HelmOptions
@@ -36,7 +37,7 @@ public record HelmHistoryOptions : HelmOptions
     /// prints the output in the specified format. Allowed values: table, json, yaml (default table)
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
+    public HelmHistoryOutput? Output { get; set; }
 
     /// <summary>
     /// client-side default throttling limit (default 100)

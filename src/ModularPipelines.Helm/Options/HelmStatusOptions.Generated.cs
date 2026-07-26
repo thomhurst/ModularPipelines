@@ -9,13 +9,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helm.Options;
+using ModularPipelines.Helm.Enums;
 
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
 /// This command shows the status of a named release.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("status")]
 public record HelmStatusOptions : HelmOptions
@@ -30,7 +31,7 @@ public record HelmStatusOptions : HelmOptions
     /// prints the output in the specified format. Allowed values: table, json, yaml (default table)
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
+    public HelmStatusOutput? Output { get; set; }
 
     /// <summary>
     /// if set, display the status of the named release with revision

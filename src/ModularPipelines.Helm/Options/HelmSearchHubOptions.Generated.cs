@@ -9,13 +9,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helm.Options;
+using ModularPipelines.Helm.Enums;
 
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
 /// Search for Helm charts in the Artifact Hub or your own hub instance.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "hub")]
 public record HelmSearchHubOptions : HelmOptions
@@ -54,7 +55,7 @@ public record HelmSearchHubOptions : HelmOptions
     /// prints the output in the specified format. Allowed values: table, json, yaml (default table)
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
+    public HelmSearchHubOutput? Output { get; set; }
 
     /// <summary>
     /// client-side default throttling limit (default 100)

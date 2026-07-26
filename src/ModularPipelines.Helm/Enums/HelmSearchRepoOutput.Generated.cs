@@ -6,19 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
 
-namespace ModularPipelines.Helm.Options;
+namespace ModularPipelines.Helm.Enums;
 
 /// <summary>
-/// Base options class for helm CLI commands.
-/// Contains global flags that apply to all commands.
+/// Allowed values for the --output option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-[ExcludeFromCodeCoverage]
-[CliTool("helm")]
-public abstract record HelmOptions : CommandLineToolOptions
+public enum HelmSearchRepoOutput
 {
+    [EnumValue("table")]
+    Table,
+
+    [EnumValue("json")]
+    Json,
+
+    [EnumValue("yaml")]
+    Yaml
 }
