@@ -41,7 +41,7 @@ internal sealed class CommandLineExecutor : ICommandLineExecutor
             command = command.WithCredentials(options.CommandLineCredentials.ToCliWrapCredentials());
         }
 
-        var timeout = options?.ExecutionTimeout ?? TimeSpan.FromMinutes(30);
+        var timeout = options?.ExecutionTimeout ?? CommandExecutionOptions.DefaultExecutionTimeout;
         using var timeoutCts = new CancellationTokenSource(timeout);
         using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
 

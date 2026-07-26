@@ -5,6 +5,8 @@ namespace ModularPipelines.Options;
 /// </summary>
 public record CommandExecutionOptions
 {
+    internal static TimeSpan DefaultExecutionTimeout { get; } = TimeSpan.FromMinutes(30);
+
     /// <summary>
     /// Gets any EnvironmentVariables to pass to the command.
     /// </summary>
@@ -49,7 +51,7 @@ public record CommandExecutionOptions
     /// Gets or sets the maximum time allowed for the command to complete.
     /// Defaults to 30 minutes.
     /// </summary>
-    public TimeSpan? ExecutionTimeout { get; init; } = TimeSpan.FromMinutes(30);
+    public TimeSpan? ExecutionTimeout { get; init; } = DefaultExecutionTimeout;
 
     /// <summary>
     /// Gets or sets the time to wait for graceful shutdown before forcefully terminating.

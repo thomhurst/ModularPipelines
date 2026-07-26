@@ -17,7 +17,10 @@ public class CommandTests : TestBase
     {
         var executionOptions = new CommandExecutionOptions();
 
-        await Assert.That(executionOptions.ExecutionTimeout).IsEqualTo(TimeSpan.FromMinutes(30));
+        await Assert.That(CommandExecutionOptions.DefaultExecutionTimeout)
+            .IsEqualTo(TimeSpan.FromMinutes(30));
+        await Assert.That(executionOptions.ExecutionTimeout)
+            .IsEqualTo(CommandExecutionOptions.DefaultExecutionTimeout);
     }
 
     [Test]
