@@ -5,38 +5,72 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Common Development Commands
 
 ### Build Commands
+
+The solution is deliberately split so the default build is fast. `ModularPipelines.sln`
+is now the **lightweight core-library solution** (core framework, Cmd, source generator,
+and analyzers only). Each tool/CLI integration has its **own** solution next to it, and
+`ModularPipelines.All.sln` aggregates everything for full validation.
+
+> [!CAUTION]
+> **Agents: do NOT build `ModularPipelines.All.sln`, and do NOT run the build pipeline
+> (`dotnet run` in `src/ModularPipelines.Build`).** Compiling 60+ projects at once is
+> extremely memory- and CPU-heavy and will likely lag or crash the machine. Those are
+> CI's job. For local/agent work, build **only** `ModularPipelines.sln` (core) or a
+> single tool's own solution. Reach for `ModularPipelines.All.sln` only when a human
+> explicitly asks for a full build and the machine can handle it.
+
 ```bash
-# Build the entire solution
+# DEFAULT: build the core library (fast). This is ModularPipelines.sln - the core
+# framework, Cmd, source generator, and analyzers only.
 dotnet build ModularPipelines.sln -c Release
 
-# Build specific solution (examples, analyzers, etc.)
+# Working on a tool/CLI integration? Build that tool's own solution.
+# (Most tool integrations have auto-generated options - see the code generation notes below.)
+dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.sln -c Release
+
+# Other solutions - only when working on those areas.
 dotnet build ModularPipelines.Examples.sln -c Release
 dotnet build ModularPipelines.Analyzers.sln -c Release
 
-# Run the build pipeline (from src/ModularPipelines.Build)
-cd src/ModularPipelines.Build
-dotnet run -c Release --framework net10.0
+# DANGER (CI only): the full 60+ project solution and the full build pipeline.
+# Do NOT run these as an agent - they can exhaust memory and crash the machine.
+# dotnet build ModularPipelines.All.sln -c Release            # everything at once
+# cd src/ModularPipelines.Build && dotnet run -c Release --framework net10.0  # builds ALL solutions + full test suite
 ```
+
+**What `ModularPipelines.sln` (core) contains:**
+- `src/ModularPipelines` - core framework
+- `src/ModularPipelines.Cmd` - base command execution
+- `src/ModularPipelines.SourceGenerator` - source generator
+- `src/ModularPipelines.Analyzers` + `.CodeFixes` - analyzers referenced by the core
+
+Every tool/CLI integration (Docker, DotNet, Git, Helm, Terraform, Azure, AWS, etc.) is a
+separate package whose options are largely auto-generated, and each has its own
+`src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.sln`. Build the specific tool
+solution when working on it. `ModularPipelines.All.sln` exists for CI's full build only —
+see the caution above; agents should not build it.
 
 ### Running Tests
 ```bash
-# Run all unit tests (pattern: *UnitTests.csproj)
-# Tests are executed via the build pipeline with coverage
-cd src/ModularPipelines.Build
-dotnet run -c Release --framework net10.0
-
-# Run a single test project manually
+# PREFER: run only the test project relevant to your change. This avoids
+# building the whole solution and every tool integration.
 dotnet run --project <path-to-test-project> --framework net10.0 -- --coverage --coverage-output-format cobertura
 ```
 
+> [!CAUTION]
+> Do not run the full test suite via the build pipeline (`dotnet run` in
+> `src/ModularPipelines.Build`) as an agent - it builds every solution and can crash the
+> machine. Run the single relevant test project instead; let CI run the full suite.
+
 ### Code Formatting
 ```bash
-# Format code (automatically done in CI)
-dotnet format
-dotnet format whitespace
+# Format code (automatically done in CI). Target the solution you built - the
+# core solution (ModularPipelines.sln) for core changes, or the relevant tool solution.
+dotnet format ModularPipelines.sln
+dotnet format ModularPipelines.sln whitespace
 
 # Verify formatting without changes
-dotnet format --verify-no-changes --severity info
+dotnet format ModularPipelines.sln --verify-no-changes --severity info
 ```
 
 ## High-Level Architecture

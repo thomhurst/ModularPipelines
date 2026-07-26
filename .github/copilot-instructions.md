@@ -21,31 +21,52 @@ For documentation work, ensure Node.js 20+ is available and yarn is installed.
 
 ## Building the Code
 
-**CRITICAL: NEVER CANCEL BUILD COMMANDS. Set timeout to 180+ seconds for individual builds, 600+ seconds for the build pipeline.**
+**CRITICAL: NEVER CANCEL BUILD COMMANDS. Set timeout to 180+ seconds for individual builds.** (Agents should not run the full build pipeline at all - see below.)
+
+**The default solution is lightweight.** `ModularPipelines.sln` is the core-library
+solution (core framework, Cmd, source generator, and analyzers only), so building it is
+fast. Each tool/CLI integration has its own solution. Build the core solution or a single
+tool solution for routine work.
+
+**⛔ DO NOT build `ModularPipelines.All.sln` or run the build pipeline
+(`dotnet run` in `src/ModularPipelines.Build`).** Those compile 60+ projects at once and
+will likely exhaust memory and lag or crash the machine. They are CI's responsibility, not
+an agent's. Build only the core solution or the specific tool solution you are changing.
+Only build `ModularPipelines.All.sln` if a human explicitly requests a full build.
 
 Build commands in order of complexity and timing:
 
-1. **Build Analyzers** (22 seconds):
+1. **Build Core Library (DEFAULT, fastest)**:
+```bash
+# Core framework, Cmd, source generator, and analyzers only.
+dotnet build ModularPipelines.sln -c Release
+```
+
+2. **Build a single tool integration** (when working on one tool):
+```bash
+dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.sln -c Release
+```
+
+3. **Build Analyzers** (22 seconds):
 ```bash
 dotnet build ModularPipelines.Analyzers.sln -c Release
 ```
 
-2. **Build Main Solution** (35 seconds):
-```bash
-dotnet build ModularPipelines.sln -c Release
-```
-
-3. **Build Examples** (80 seconds):
+4. **Build Examples** (80 seconds):
 ```bash
 dotnet build ModularPipelines.Examples.sln -c Release
 ```
 
-4. **Run Build Pipeline** (150+ seconds - NEVER CANCEL):
+**Never run as an agent (CI only - will likely crash the machine):**
 ```bash
-cd src/ModularPipelines.Build
-dotnet run -c Release --framework net10.0
+# Full 60+ project solution:
+#   dotnet build ModularPipelines.All.sln -c Release
+# Full build pipeline (builds ALL solutions + full test suite):
+#   cd src/ModularPipelines.Build && dotnet run -c Release --framework net10.0
 ```
-Note: The build pipeline may fail in development environment due to missing CI environment variables (like origin/main branch). This is expected. The pipeline includes test execution with code coverage.
+Note: When CI runs the build pipeline it may fail in a development environment due to
+missing CI environment variables (like origin/main branch). This is expected. The pipeline
+includes test execution with code coverage.
 
 ## Running Tests
 
@@ -59,6 +80,9 @@ dotnet test test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj -c
 Tests use TUnit framework. Some tests may fail in non-CI environments due to missing environment variables - this is expected.
 
 ## Code Formatting and Linting
+
+Target the solution you built - `ModularPipelines.sln` (core) for core changes, or the
+relevant tool solution. Do not format `ModularPipelines.All.sln` as an agent.
 
 **Format verification** (70 seconds):
 ```bash
@@ -99,9 +123,17 @@ yarn start
 
 ## Repository Structure
 
+**Solutions:**
+- `ModularPipelines.sln` - lightweight core-library solution (core framework, Cmd, source generator, analyzers). **Build this by default.**
+- `src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.sln` - one solution per tool/CLI integration. Build the specific tool solution when working on it.
+- `ModularPipelines.All.sln` - full solution with all 60+ projects. **CI-only** - do not build as an agent; it can exhaust memory and crash the machine.
+- `ModularPipelines.Analyzers.sln` / `ModularPipelines.Examples.sln` - analyzer and example solutions.
+
 **Core Framework:**
 - `src/ModularPipelines/` - Core framework and base classes
-- `src/ModularPipelines.*/` - Tool-specific integrations (Azure, AWS, Docker, Git, etc.)
+- `src/ModularPipelines.Cmd/` - Base command execution
+- `src/ModularPipelines.SourceGenerator/` - Source generator
+- `src/ModularPipelines.*/` - Tool-specific integrations (Azure, AWS, Docker, Git, etc.); options are largely auto-generated. Excluded from the core solution.
 
 **Build System:**
 - `src/ModularPipelines.Build/` - The project's own build pipeline implementation
@@ -135,10 +167,10 @@ yarn start
 ## Validation Scenarios
 
 **After making changes, ALWAYS:**
-1. Build the affected solutions
-2. Run formatting: `dotnet format ModularPipelines.sln`
-3. Run tests for affected areas
-4. If modifying the build pipeline, test with: `cd src/ModularPipelines.Build && dotnet run -c Release --framework net10.0`
+1. Build the affected solution - `ModularPipelines.sln` (core) for core changes, or the specific tool solution. **Never build `ModularPipelines.All.sln` or run the build pipeline** to validate - they compile 60+ projects and can crash the machine; let CI do the full build.
+2. Run formatting on what you built, e.g. `dotnet format ModularPipelines.sln`
+3. Run tests for affected areas (the specific test project - not the full pipeline)
+4. If modifying the build pipeline, build just its project to check it compiles: `dotnet build src/ModularPipelines.Build/ModularPipelines.Build.csproj -c Release`. Do not execute the pipeline (`dotnet run`) as an agent - let CI run it end to end.
 
 **For module development:**
 1. Create a module inheriting from `Module<T>`
@@ -148,9 +180,10 @@ yarn start
 
 **For tool integrations:**
 1. Check existing tool integrations in `src/ModularPipelines.*/`
-2. Follow the pattern of strongly-typed options classes
-3. Use fluent API builders for complex commands
-4. Include secret obfuscation for sensitive parameters
+2. Build/test only the specific tool project you are working on (e.g. `dotnet build src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.csproj`) - these are excluded from the core solution
+3. Follow the pattern of strongly-typed options classes
+4. Use fluent API builders for complex commands
+5. Include secret obfuscation for sensitive parameters
 
 ## Common File Locations
 
