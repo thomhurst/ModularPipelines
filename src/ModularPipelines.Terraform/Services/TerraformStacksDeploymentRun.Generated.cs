@@ -16,7 +16,7 @@ namespace ModularPipelines.Terraform.Services;
 /// <summary>
 /// terraform deployment-run commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class TerraformStacksDeploymentRun
 {
     private readonly ICommand _command;
