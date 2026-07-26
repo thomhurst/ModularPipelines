@@ -34,19 +34,26 @@ internal class DistributedPipelineHub(
         // within the grace window. Cancel the pending re-enqueue and restore its busy
         // state so the master keeps awaiting the original result instead of running the
         // module a second time.
-        if (state.PendingReconnects.TryRemove(registration.WorkerIndex, out var pending))
+        var pending = state.GetPendingReconnect(registration.WorkerIndex);
+        if (pending is not null)
         {
-            pending.Cts.Cancel();
-            pending.Cts.Dispose();
+            var resumed = pending.TryResume();
+            pending.CancelDelay();
 
             if (state.ResultWaiters.TryGetValue(pending.Assignment.ModuleTypeName, out var waiter)
                 && !waiter.Task.IsCompleted)
             {
-                workerState.TryMarkBusy();
-                workerState.SetAssignment(pending.Assignment);
+                workerState.TryAssign(pending.Assignment);
                 _logger.LogInformation(
-                    "Worker {Index} reconnected within grace; resuming in-flight {Module}",
-                    registration.WorkerIndex, pending.Assignment.ModuleTypeName);
+                    resumed
+                        ? "Worker {Index} reclaimed in-flight {Module}"
+                        : "Worker {Index} reconnected after {Module} was claimed for redispatch; tracking its original execution",
+                    registration.WorkerIndex,
+                    pending.Assignment.ModuleTypeName);
+            }
+            else
+            {
+                state.CompletePendingReconnect(pending.Assignment.ModuleTypeName);
             }
         }
 
@@ -76,12 +83,17 @@ internal class DistributedPipelineHub(
         // 2. Broadcast ReceiveDependencyResult to all workers for CompletionSource pre-population
         await Clients.Others.SendAsync(HubMethodNames.ReceiveDependencyResult, result);
 
-        // 3. Mark the sending worker as idle and try to assign pending work
-        if (state.Workers.TryGetValue(Context.ConnectionId, out var workerState))
+        state.CompletePendingReconnect(result.ModuleTypeName);
+
+        // 3. Mark every worker tracked against this assignment as idle. Normally this
+        // is only the sender; recovery can temporarily track both the original worker
+        // and a retry worker until the first result wins.
+        foreach (var workerState in state.Workers.Values)
         {
-            workerState.ClearAssignment();
-            workerState.MarkIdle();
-            await TryAssignPendingWork(workerState, state);
+            if (workerState.TryCompleteAssignment(result.ModuleTypeName))
+            {
+                await TryAssignPendingWork(workerState, state);
+            }
         }
     }
 
@@ -118,9 +130,8 @@ internal class DistributedPipelineHub(
                 && _masterState.ResultWaiters.TryGetValue(inflight.ModuleTypeName, out var waiter)
                 && !waiter.Task.IsCompleted)
             {
-                var cts = new CancellationTokenSource();
-                _masterState.PendingReconnects[workerIndex] = (inflight, cts);
-                _ = ReEnqueueAfterGraceAsync(_masterState, _logger, workerIndex, inflight, cts.Token);
+                var pending = _masterState.TrackPendingReconnect(workerIndex, inflight);
+                _ = ReEnqueueAfterGraceAsync(_masterState, _logger, pending);
             }
         }
 
@@ -136,40 +147,38 @@ internal class DistributedPipelineHub(
     private static async Task ReEnqueueAfterGraceAsync(
         SignalRMasterState state,
         ILogger logger,
-        int workerIndex,
-        ModuleAssignment assignment,
-        CancellationToken graceToken)
+        PendingReconnect pending)
     {
         try
         {
-            await Task.Delay(state.ReconnectGracePeriod, graceToken);
+            await Task.Delay(state.ReconnectGracePeriod, pending.DelayToken);
         }
         catch (OperationCanceledException)
         {
             return; // Worker reconnected within the grace window — keep awaiting its result.
         }
 
-        // Claim the pending entry. If it's already gone, RegisterWorker won the race
-        // (the worker reconnected) — do not re-enqueue.
-        if (!state.PendingReconnects.TryRemove(workerIndex, out var pending))
+        // Make the retry available without claiming it. A simultaneous reconnect may
+        // still atomically reclaim it until an executor claims the queued assignment.
+        if (!pending.TryMakeAvailableForRedispatch())
         {
             return;
         }
 
-        pending.Cts.Dispose();
-
         // Skip if the result arrived in the meantime.
-        if (state.ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
+        if (state.ResultWaiters.TryGetValue(pending.Assignment.ModuleTypeName, out var waiter)
             && waiter.Task.IsCompleted)
         {
+            state.CompletePendingReconnect(pending.Assignment.ModuleTypeName);
             return;
         }
 
         logger.LogWarning(
             "Reconnect grace elapsed for worker {Index}; re-enqueuing in-flight module {Module}",
-            workerIndex, assignment.ModuleTypeName);
+            pending.WorkerIndex,
+            pending.Assignment.ModuleTypeName);
 
-        state.PendingAssignments.Enqueue(assignment);
+        state.PendingAssignments.Enqueue(pending.Assignment);
         state.WorkAvailable.Release();
     }
 
@@ -202,11 +211,17 @@ internal class DistributedPipelineHub(
             }
 
             // Assign to this worker
-            if (workerState.TryMarkBusy())
+            if (workerState.TryAssign(assignment))
             {
                 _logger.LogDebug("Assigning {Module} to worker {Index}",
                     assignment.ModuleTypeName, workerState.Registration.WorkerIndex);
-                workerState.SetAssignment(assignment);
+
+                if (!state.TryClaimRedispatch(assignment))
+                {
+                    workerState.TryCompleteAssignment(assignment.ModuleTypeName);
+                    continue;
+                }
+
                 try
                 {
                     await Clients.Client(workerState.ConnectionId)
@@ -217,8 +232,8 @@ internal class DistributedPipelineHub(
                     // Send failed — undo the claim and re-queue so the module isn't lost.
                     _logger.LogWarning(ex, "Failed to assign {Module} to worker {Index}; re-queuing",
                         assignment.ModuleTypeName, workerState.Registration.WorkerIndex);
-                    workerState.ClearAssignment();
-                    workerState.MarkIdle();
+                    workerState.TryCompleteAssignment(assignment.ModuleTypeName);
+                    state.ReturnRedispatchToQueue(assignment);
                     state.PendingAssignments.Enqueue(assignment);
 
                     // Wake the master's dequeue loop so the re-queued work is picked up

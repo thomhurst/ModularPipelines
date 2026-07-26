@@ -115,6 +115,11 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
                 continue;
             }
 
+            if (!_state.TryClaimRedispatch(assignment))
+            {
+                continue;
+            }
+
             return assignment;
         }
 
@@ -199,12 +204,17 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
             }
 
             // Try to claim this worker
-            if (worker.TryMarkBusy())
+            if (worker.TryAssign(assignment))
             {
                 _logger.LogDebug("Pushing {Module} to worker {Index}",
                     assignment.ModuleTypeName, worker.Registration.WorkerIndex);
 
-                worker.SetAssignment(assignment);
+                if (!_state.TryClaimRedispatch(assignment))
+                {
+                    worker.TryCompleteAssignment(assignment.ModuleTypeName);
+                    continue;
+                }
+
                 try
                 {
                     await _hubContext.Clients.Client(worker.ConnectionId)
@@ -215,8 +225,8 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
                 {
                     _logger.LogWarning(ex, "Failed to push assignment to worker {Index}, marking idle",
                         worker.Registration.WorkerIndex);
-                    worker.ClearAssignment();
-                    worker.MarkIdle();
+                    worker.TryCompleteAssignment(assignment.ModuleTypeName);
+                    _state.ReturnRedispatchToQueue(assignment);
                 }
             }
         }

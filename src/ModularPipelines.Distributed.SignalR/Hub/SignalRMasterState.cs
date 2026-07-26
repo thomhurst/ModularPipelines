@@ -8,6 +8,9 @@ namespace ModularPipelines.Distributed.SignalR.Hub;
 /// </summary>
 internal class SignalRMasterState
 {
+    private readonly object _pendingReconnectLock = new();
+    private readonly Dictionary<string, PendingReconnect> _pendingReconnects = new();
+
     /// <summary>
     /// Connected workers indexed by SignalR connection ID.
     /// </summary>
@@ -29,14 +32,6 @@ internal class SignalRMasterState
     public ConcurrentDictionary<string, TaskCompletionSource<SerializedModuleResult>> ResultWaiters { get; } = new();
 
     /// <summary>
-    /// Workers that disconnected with an in-flight assignment, keyed by worker index
-    /// (stable across reconnects). The assignment is re-enqueued only after
-    /// <see cref="ReconnectGracePeriod"/> elapses; if the worker reconnects first, the
-    /// pending re-enqueue is cancelled so the module isn't run twice on a transient blip.
-    /// </summary>
-    public ConcurrentDictionary<int, (ModuleAssignment Assignment, CancellationTokenSource Cts)> PendingReconnects { get; } = new();
-
-    /// <summary>
     /// How long to wait for a disconnected worker to reconnect before re-enqueuing its
     /// in-flight work. Should exceed the client's total auto-reconnect window.
     /// </summary>
@@ -52,4 +47,69 @@ internal class SignalRMasterState
     /// Used by <see cref="Coordination.SignalRMasterCoordinator.DequeueModuleAsync"/> to avoid polling.
     /// </summary>
     public SemaphoreSlim WorkAvailable { get; } = new(0);
+
+    public PendingReconnect TrackPendingReconnect(int workerIndex, ModuleAssignment assignment)
+    {
+        var pending = new PendingReconnect(workerIndex, assignment);
+        PendingReconnect? previous;
+
+        lock (_pendingReconnectLock)
+        {
+            _pendingReconnects.TryGetValue(assignment.ModuleTypeName, out previous);
+            previous?.Complete();
+            _pendingReconnects[assignment.ModuleTypeName] = pending;
+        }
+
+        previous?.CancelDelay();
+        previous?.Dispose();
+        return pending;
+    }
+
+    public PendingReconnect? GetPendingReconnect(int workerIndex)
+    {
+        lock (_pendingReconnectLock)
+        {
+            return _pendingReconnects.Values
+                .FirstOrDefault(pending => pending.WorkerIndex == workerIndex);
+        }
+    }
+
+    public bool TryClaimRedispatch(ModuleAssignment assignment)
+    {
+        PendingReconnect? pending;
+        lock (_pendingReconnectLock)
+        {
+            _pendingReconnects.TryGetValue(assignment.ModuleTypeName, out pending);
+        }
+
+        return pending is null || pending.TryClaimRedispatch();
+    }
+
+    public void ReturnRedispatchToQueue(ModuleAssignment assignment)
+    {
+        PendingReconnect? pending;
+        lock (_pendingReconnectLock)
+        {
+            _pendingReconnects.TryGetValue(assignment.ModuleTypeName, out pending);
+        }
+
+        pending?.TryReturnToQueue();
+    }
+
+    public void CompletePendingReconnect(string moduleTypeName)
+    {
+        PendingReconnect? pending;
+        lock (_pendingReconnectLock)
+        {
+            if (!_pendingReconnects.Remove(moduleTypeName, out pending))
+            {
+                return;
+            }
+
+            pending.Complete();
+        }
+
+        pending.CancelDelay();
+        pending.Dispose();
+    }
 }
