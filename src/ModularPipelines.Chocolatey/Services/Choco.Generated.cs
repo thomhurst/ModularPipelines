@@ -16,7 +16,7 @@ namespace ModularPipelines.Chocolatey.Services;
 /// <summary>
 /// Generated implementation for choco CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Choco : IChoco
 {
     private readonly ICommand _command;

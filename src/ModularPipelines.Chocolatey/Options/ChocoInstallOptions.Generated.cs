@@ -15,7 +15,7 @@ namespace ModularPipelines.Chocolatey.Options;
 /// <summary>
 /// NOTE: Any package name ending with .config is considered a
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("install")]
 public record ChocoInstallOptions : ChocoOptions

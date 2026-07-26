@@ -15,7 +15,7 @@ namespace ModularPipelines.Chocolatey.Options;
 /// <summary>
 /// NOTE: `all` is a special package keyword that will allow you to
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uninstall")]
 public record ChocoUninstallOptions : ChocoOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Chocolatey.Options;
 /// <summary>
 /// If you use `--source=https://somewhere/out/there`, it is
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outdated")]
 public record ChocoOutdatedOptions : ChocoOptions
