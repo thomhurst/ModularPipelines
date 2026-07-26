@@ -28,6 +28,7 @@ public class SecretMaskingTests
     {
         [SecretValue] public string ApiKey { get; set; } = "";
         [SecretValue] public string Password { get; set; } = "";
+        [SecretValue] public IReadOnlyList<string> Passwords { get; set; } = [];
     }
 
     private class SecretLoggingModule : Module<bool>
@@ -43,6 +44,12 @@ public class SecretMaskingTests
         {
             context.Logger.LogInformation("API Key: {ApiKey}", _settings.Value.ApiKey);
             context.Logger.LogInformation("Password: {Password}", _settings.Value.Password);
+
+            foreach (var value in _settings.Value.Passwords)
+            {
+                context.Logger.LogInformation("Collection password: {Password}", value);
+            }
+
             return Task.FromResult(true);
         }
     }
@@ -183,7 +190,7 @@ public class SecretMaskingTests
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
                     .AddModule<SecretLoggingModule>()
                     .Configure<SecretSettings>(s => s.ApiKey = tinySecret);
-                    // Using default MinimumSecretLength of 1
+                // Using default MinimumSecretLength of 1
             })
             .ExecutePipelineAsync();
 
@@ -275,6 +282,30 @@ public class SecretMaskingTests
 
         await Assert.That(output).DoesNotContain(apiKey);
         await Assert.That(output).DoesNotContain(password);
+    }
+
+    [Test]
+    public async Task SecretCollections_MaskEveryElement()
+    {
+        var stringBuilder = new StringBuilder();
+        const string firstPassword = "registry-secret-one";
+        const string secondPassword = "registry-secret-two";
+
+        await TestPipelineHostBuilder.Create()
+            .ConfigureServices((_, services) =>
+            {
+                services
+                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+                    .AddModule<SecretLoggingModule>()
+                    .Configure<SecretSettings>(s => s.Passwords = [firstPassword, secondPassword]);
+            })
+            .ExecutePipelineAsync();
+
+        var output = stringBuilder.ToString();
+
+        await Assert.That(output).DoesNotContain(firstPassword);
+        await Assert.That(output).DoesNotContain(secondPassword);
+        await Assert.That(output).Contains("Collection password: **********");
     }
 
     [Test]

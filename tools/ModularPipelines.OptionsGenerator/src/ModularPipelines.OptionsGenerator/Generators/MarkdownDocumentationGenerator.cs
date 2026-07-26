@@ -78,7 +78,9 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine();
 
         var rootCommands = GeneratorUtils.GetNonCollidingRootCommands(tool);
-        var command = rootCommands.Count > 0 ? rootCommands[0] : null;
+        var command = rootCommands
+            .OrderBy(candidate => candidate.FullCommand, StringComparer.OrdinalIgnoreCase)
+            .FirstOrDefault();
         if (command is null)
         {
             sb.AppendLine("Resolve the service in a module, then select a generated sub-domain and command from the table below:");

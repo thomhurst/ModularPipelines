@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -143,10 +144,12 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 
         if (secretValueKeys.Count == 0)
         {
-            var secret = propertyValue?.ToString();
-            if (!string.IsNullOrWhiteSpace(secret))
+            foreach (var secret in FlattenSecrets(propertyValue))
             {
-                yield return secret;
+                if (!string.IsNullOrWhiteSpace(secret))
+                {
+                    yield return secret;
+                }
             }
 
             yield break;
@@ -164,6 +167,20 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             {
                 yield return keyValue.Value;
             }
+        }
+    }
+
+    private static IEnumerable<string?> FlattenSecrets(object? value)
+    {
+        if (value is string || value is not IEnumerable enumerable)
+        {
+            yield return value?.ToString();
+            yield break;
+        }
+
+        foreach (var item in enumerable)
+        {
+            yield return item?.ToString();
         }
     }
 

@@ -485,14 +485,16 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 break;
             }
 
-            // 2. New option line (starts with dash)
-            if (trimmedNext.StartsWith('-'))
+            // 2. New option line. A single dash can instead be an allowed-value bullet.
+            if (CobraOptionPattern().IsMatch(nextLine) || KubectlOptionPattern().IsMatch(nextLine))
             {
                 break;
             }
 
             // 3. Section header (ends with ':' and is relatively short)
-            if (trimmedNext.EndsWith(':') && trimmedNext.Length < 50)
+            if (trimmedNext.EndsWith(':') &&
+                trimmedNext.Length < 50 &&
+                !trimmedNext.Equals("Allowed values:", StringComparison.OrdinalIgnoreCase))
             {
                 break;
             }
@@ -534,21 +536,81 @@ public abstract partial class CobraCliScraper : CliScraperBase
             return CreateEnumDefinition(propertyName, className, descriptionMatch.Values);
         }
 
-        // Pattern 3: Type hint contains pipe-separated values
-        if (typeHint.Contains('|'))
+        return TryCreateEnumDefinition(
+                   propertyName,
+                   className,
+                   AllowedValuesPattern().Match(description),
+                   minimumValues: 2,
+                   maximumValues: 20,
+                   validateValues: true)
+               ?? TryCreateEnumDefinition(
+                   propertyName,
+                   className,
+                   OneOfPattern().Match(description),
+                   minimumValues: 1,
+                   maximumValues: int.MaxValue,
+                   validateValues: false)
+               ?? TryCreateEnumDefinition(
+                   propertyName,
+                   className,
+                   ParenthesizedValuesPattern().Match(description),
+                   minimumValues: 2,
+                   maximumValues: 10,
+                   validateValues: true)
+               ?? TryCreateEnumDefinitionFromTypeHint(propertyName, className, typeHint);
+    }
+
+    private static CliEnumDefinition? TryCreateEnumDefinition(
+        string propertyName,
+        string className,
+        Match match,
+        int minimumValues,
+        int maximumValues,
+        bool validateValues)
+    {
+        if (!match.Success)
         {
-            var values = ParseEnumValues(typeHint);
-            if (values.Length >= 2 && values.All(IsValidEnumValue))
-            {
-                return CreateEnumDefinition(propertyName, className, values);
-            }
+            return null;
         }
 
-        return null;
+        var values = ParseEnumValues(match.Groups["values"].Value);
+        if (values.Length < minimumValues
+            || values.Length > maximumValues
+            || (validateValues && !values.All(IsValidEnumValue)))
+        {
+            return null;
+        }
+
+        return CreateEnumDefinition(propertyName, className, values);
+    }
+
+    private static CliEnumDefinition? TryCreateEnumDefinitionFromTypeHint(
+        string propertyName,
+        string className,
+        string typeHint)
+    {
+        if (!typeHint.Contains('|'))
+        {
+            return null;
+        }
+
+        var values = ParseEnumValues(typeHint);
+        return values.Length >= 2 && values.All(IsValidEnumValue)
+            ? CreateEnumDefinition(propertyName, className, values)
+            : null;
     }
 
     private static string[] ParseEnumValues(string valuesText)
     {
+        var bulletValues = EnumBulletValuePattern()
+            .Matches(valuesText)
+            .Select(match => match.Groups["value"].Value)
+            .ToArray();
+        if (bulletValues.Length > 0)
+        {
+            return bulletValues;
+        }
+
         return valuesText
             .Replace(" or ", "|")
             .Replace(" and ", "|")
@@ -835,16 +897,41 @@ public abstract partial class CobraCliScraper : CliScraperBase
         bool isDuration,
         CliEnumDefinition? enumDef)
     {
-        if (isBoolean) return "bool?";
+        if (isBoolean)
+        {
+            return "bool?";
+        }
+
         if (enumDef is not null)
         {
             return isArray ? $"IEnumerable<{enumDef.EnumName}>?" : $"{enumDef.EnumName}?";
         }
-        if (isKeyValue) return "KeyValue[]?";
-        if (isArray) return "IEnumerable<string>?";
-        if (isInteger) return "int?";
-        if (isFloat) return "double?";
-        if (isDuration) return "string?"; // Duration as string (e.g., "30s", "5m") - CLI handles parsing
+
+        if (isKeyValue)
+        {
+            return "KeyValue[]?";
+        }
+
+        if (isArray)
+        {
+            return "IEnumerable<string>?";
+        }
+
+        if (isInteger)
+        {
+            return "int?";
+        }
+
+        if (isFloat)
+        {
+            return "double?";
+        }
+
+        if (isDuration)
+        {
+            return "string?"; // Duration as string (e.g., "30s", "5m") - CLI handles parsing
+        }
+
         return "string?";
     }
 
@@ -855,13 +942,13 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// "Common Commands:", "Management Commands:", "Swarm Commands:", "Scanning Commands:",
     /// "Utility Commands:", etc. Uses a flexible pattern to match any word prefix.
     /// </summary>
-    [GeneratedRegex(@"(?:\w+\s+)?Commands?:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^[A-Z][\w ]*Commands?:?\s*$", RegexOptions.Multiline)]
     private static partial Regex CommandsSectionPattern();
 
     /// <summary>
     /// Matches section headers like "Flags:", "Usage:", etc.
     /// </summary>
-    [GeneratedRegex(@"^[A-Z][\w\s]*:\s*$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^(?:[A-Z][\w\s]*:|[A-Z][\w ]*(?:Commands|Flags|Options|Usage|Examples))\s*$", RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
 
     /// <summary>
@@ -883,9 +970,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
     private static partial Regex CobraOptionPattern();
 
     /// <summary>
-    /// Matches "Flags:" or "Global Flags:" section headers.
+    /// Matches Cobra flag section headers, including grouped headers such as "Image Flags".
     /// </summary>
-    [GeneratedRegex(@"^[ \t]*(?:Global[ \t]+)?Flags:?[ \t]*\r?$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]*(?:[\w/]+[ \t]+)*Flags:?[ \t]*\r?$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex FlagsSectionPattern();
 
     /// <summary>
@@ -902,6 +989,21 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>[^:\s]*))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
     private static partial Regex KubectlOptionPattern();
+
+    [GeneratedRegex(@"[Oo]ne of[:\s]+(?<values>[\w\-|,\s""'`]+?)(?:\s*\(|$|\.|;)", RegexOptions.IgnoreCase)]
+    private static partial Regex OneOfPattern();
+
+    [GeneratedRegex(@"allowed values:\s*(?<values>[\w-]+(?:\s*,\s*[\w-]+)+|(?:-\s*[\w-]+\s*){2,})", RegexOptions.IgnoreCase)]
+    private static partial Regex AllowedValuesPattern();
+
+    [GeneratedRegex(@"\((?<values>[\w\-]+(?:\s*[|,]\s*[\w\-]+)+)\)")]
+    private static partial Regex ParenthesizedValuesPattern();
+
+    /// <summary>
+    /// Matches values in Cobra's multi-line "Allowed values" bullet list.
+    /// </summary>
+    [GeneratedRegex(@"(?:^|\s)-\s*(?<value>[\w-]+)(?=\s|$)")]
+    private static partial Regex EnumBulletValuePattern();
 
     /// <summary>
     /// Matches usage line.

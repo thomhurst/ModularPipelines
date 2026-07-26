@@ -131,6 +131,27 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(options[0].Content).DoesNotContain("string target");
     }
 
+    [Test]
+    public async Task GenerateAsync_SelectsExampleCommandDeterministically()
+    {
+        var tool = new CliToolDefinition
+        {
+            ToolName = "fake",
+            NamespacePrefix = "Fake",
+            TargetNamespace = "ModularPipelines.Fake",
+            OutputDirectory = "src/ModularPipelines.Fake",
+            Commands =
+            [
+                Command("fake zeta", "FakeZetaOptions", ["zeta"]),
+                Command("fake alpha", "FakeAlphaOptions", ["alpha"]),
+            ],
+        };
+
+        var documentation = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
+
+        await Assert.That(documentation[0].Content).Contains("context.Fake().Alpha(");
+    }
+
     private static CliCommandDefinition Command(
         string fullCommand,
         string className,
