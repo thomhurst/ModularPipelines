@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Flux.Enums;
 
 /// <summary>
 /// Allowed values for the --valuesfrom option.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxCreateHelmreleaseValuesFrom
 {
-    [Description("Secret")]
+    [EnumValue("Secret")]
     Secret,
 
-    [Description("ConfigMap")]
+    [EnumValue("ConfigMap")]
     Configmap
 }

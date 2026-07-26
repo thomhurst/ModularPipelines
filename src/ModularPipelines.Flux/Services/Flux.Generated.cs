@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// Generated implementation for flux CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Flux : IFlux
 {
     private readonly ICommand _command;

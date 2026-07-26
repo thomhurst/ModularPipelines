@@ -15,7 +15,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The plugin update command updates installed plugins to their latest versions.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "update")]
 public record FluxPluginUpdateOptions : FluxOptions

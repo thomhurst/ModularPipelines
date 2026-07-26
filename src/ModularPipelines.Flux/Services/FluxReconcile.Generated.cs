@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux reconcile commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxReconcile
 {
     private readonly ICommand _command;
@@ -75,6 +75,21 @@ public class FluxReconcile
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileHelmreleaseOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// The reconcile kustomization command triggers a reconciliation of a Kustomization resource and waits for it to finish.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Kustomization(
+        FluxReconcileKustomizationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileKustomizationOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

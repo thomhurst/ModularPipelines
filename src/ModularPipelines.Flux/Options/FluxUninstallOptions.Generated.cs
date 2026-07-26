@@ -15,7 +15,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The uninstall command removes the Flux components and the toolkit.fluxcd.io resources from the cluster.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uninstall")]
 public record FluxUninstallOptions : FluxOptions

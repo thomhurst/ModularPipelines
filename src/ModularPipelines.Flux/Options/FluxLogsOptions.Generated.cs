@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The logs command displays formatted logs from various Flux components.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs")]
 public record FluxLogsOptions : FluxOptions

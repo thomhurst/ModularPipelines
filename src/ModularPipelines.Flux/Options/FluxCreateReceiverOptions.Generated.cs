@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The create receiver command generates a Receiver resource.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create", "receiver")]
 public record FluxCreateReceiverOptions : FluxOptions

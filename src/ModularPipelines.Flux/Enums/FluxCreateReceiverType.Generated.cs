@@ -6,49 +6,49 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Flux.Enums;
 
 /// <summary>
 /// Allowed values for the --type option.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxCreateReceiverType
 {
-    [Description("generic")]
+    [EnumValue("generic")]
     Generic,
 
-    [Description("generic-hmac")]
+    [EnumValue("generic-hmac")]
     GenericHmac,
 
-    [Description("github")]
+    [EnumValue("github")]
     Github,
 
-    [Description("gitlab")]
+    [EnumValue("gitlab")]
     Gitlab,
 
-    [Description("bitbucket")]
+    [EnumValue("bitbucket")]
     Bitbucket,
 
-    [Description("harbor")]
+    [EnumValue("harbor")]
     Harbor,
 
-    [Description("dockerhub")]
+    [EnumValue("dockerhub")]
     Dockerhub,
 
-    [Description("quay")]
+    [EnumValue("quay")]
     Quay,
 
-    [Description("gcr")]
+    [EnumValue("gcr")]
     Gcr,
 
-    [Description("nexus")]
+    [EnumValue("nexus")]
     Nexus,
 
-    [Description("acr")]
+    [EnumValue("acr")]
     Acr,
 
-    [Description("cdevents")]
+    [EnumValue("cdevents")]
     Cdevents
 }

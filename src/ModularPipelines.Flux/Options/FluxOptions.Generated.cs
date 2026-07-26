@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Options;
 /// Base options class for flux CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("flux")]
 public abstract record FluxOptions : CommandLineToolOptions

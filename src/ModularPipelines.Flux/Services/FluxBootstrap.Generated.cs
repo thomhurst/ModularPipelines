@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux bootstrap commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxBootstrap
 {
     private readonly ICommand _command;
@@ -44,6 +44,21 @@ public class FluxBootstrap
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxBootstrapOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// The bootstrap bitbucket-server command creates the Bitbucket Server repository if it doesn't exists and
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BitbucketServer(
+        FluxBootstrapBitbucketServerOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new FluxBootstrapBitbucketServerOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux delete commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxDelete
 {
     private readonly ICommand _command;
@@ -75,6 +75,21 @@ public class FluxDelete
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxDeleteAlertOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// The delete alert-provider command removes the given Provider from the cluster.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AlertProvider(
+        FluxDeleteAlertProviderOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new FluxDeleteAlertProviderOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

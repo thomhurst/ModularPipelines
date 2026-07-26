@@ -15,7 +15,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The reconcile helmrelease command triggers a reconciliation of a HelmRelease resource and waits for it to finish.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("reconcile", "helmrelease")]
 public record FluxReconcileHelmreleaseOptions : FluxOptions

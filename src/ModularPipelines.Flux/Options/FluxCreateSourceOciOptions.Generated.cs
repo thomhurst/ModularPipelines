@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The create source oci command generates an OCIRepository resource and waits for it to be ready.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create", "source", "oci")]
 public record FluxCreateSourceOciOptions : FluxOptions

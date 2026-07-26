@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The list command fetches the tags and their metadata from a remote OCI repository.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("list", "artifacts")]
 public record FluxListArtifactsOptions : FluxOptions

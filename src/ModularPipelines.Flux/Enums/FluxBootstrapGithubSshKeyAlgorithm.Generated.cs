@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Flux.Enums;
 
 /// <summary>
 /// Allowed values for the --sshkeyalgorithm option.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxBootstrapGithubSshKeyAlgorithm
 {
-    [Description("rsa")]
+    [EnumValue("rsa")]
     Rsa,
 
-    [Description("ecdsa")]
+    [EnumValue("ecdsa")]
     Ecdsa,
 
-    [Description("ed25519")]
+    [EnumValue("ed25519")]
     Ed25519
 }

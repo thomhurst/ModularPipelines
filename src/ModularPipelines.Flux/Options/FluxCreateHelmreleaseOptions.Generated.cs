@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The helmrelease create command generates a HelmRelease resource for a given HelmRepository source.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create", "helmrelease")]
 public record FluxCreateHelmreleaseOptions : FluxOptions
@@ -80,7 +80,7 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// the reconcile strategy for helm chart created by the helm release(accepted values: Revision and ChartRevision) (default "ChartVersion")
     /// </summary>
     [CliOption("--reconcile-strategy", Format = OptionFormat.EqualsSeparated)]
-    public string? ReconcileStrategy { get; set; }
+    public FluxCreateHelmreleaseReconcileStrategy? ReconcileStrategy { get; set; }
 
     /// <summary>
     /// name used for the Helm release, defaults to a composition of '[&lt;target-namespace&gt;-]&lt;HelmRelease-name&gt;'
@@ -122,7 +122,7 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// a Kubernetes object reference that contains the values.yaml data key in the format '&lt;kind&gt;/&lt;name&gt;', where kind must be one of: (Secret,ConfigMap)
     /// </summary>
     [CliOption("--values-from", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public FluxCreateHelmreleaseValuesFrom? ValuesFrom { get; set; }
+    public IEnumerable<FluxCreateHelmreleaseValuesFrom>? ValuesFrom { get; set; }
 
     /// <summary>
     /// Username to impersonate for the operation. User could be a regular user or a service account in a namespace.

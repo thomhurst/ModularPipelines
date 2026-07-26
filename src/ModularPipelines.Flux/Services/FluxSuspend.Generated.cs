@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux suspend commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxSuspend
 {
     private readonly ICommand _command;
@@ -75,6 +75,21 @@ public class FluxSuspend
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendAlertOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// The suspend command disables the reconciliation of a Provider resource.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AlertProvider(
+        FluxSuspendAlertProviderOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendAlertProviderOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

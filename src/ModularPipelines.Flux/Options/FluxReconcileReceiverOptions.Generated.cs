@@ -15,7 +15,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The reconcile receiver command triggers a reconciliation of a Receiver resource and waits for it to finish.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("reconcile", "receiver")]
 public record FluxReconcileReceiverOptions : FluxOptions

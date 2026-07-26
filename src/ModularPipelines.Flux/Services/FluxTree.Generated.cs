@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux tree commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxTree
 {
     private readonly ICommand _command;
@@ -54,6 +54,21 @@ public class FluxTree
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxTreeOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// The tree command prints the resource list reconciled by a Kustomization.'
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Kustomization(
+        FluxTreeKustomizationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new FluxTreeKustomizationOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

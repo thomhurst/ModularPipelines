@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux create commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxCreate
 {
     private readonly ICommand _command;
@@ -81,6 +81,21 @@ public class FluxCreate
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateAlertOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// The create alert-provider command generates a Provider resource.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AlertProvider(
+        FluxCreateAlertProviderOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new FluxCreateAlertProviderOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
