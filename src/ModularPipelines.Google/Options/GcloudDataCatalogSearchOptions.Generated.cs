@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// search Data Catalog for resources that match a     query
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "search")]
 public record GcloudDataCatalogSearchOptions(

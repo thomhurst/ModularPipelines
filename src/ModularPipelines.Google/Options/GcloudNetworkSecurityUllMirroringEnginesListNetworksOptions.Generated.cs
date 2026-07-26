@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list networks     configured for mirroring for a Google Cloud ULL Mirroring Engine
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "ull-mirroring-engines", "list-networks")]
 public record GcloudNetworkSecurityUllMirroringEnginesListNetworksOptions : GcloudOptions

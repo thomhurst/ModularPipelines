@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud web commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudIapWeb
 {
     private readonly ICommand _command;

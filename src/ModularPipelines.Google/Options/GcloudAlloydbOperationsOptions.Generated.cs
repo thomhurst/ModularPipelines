@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// provide commands for managing AlloyDB     operations
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "operations")]
 public record GcloudAlloydbOperationsOptions : GcloudOptions

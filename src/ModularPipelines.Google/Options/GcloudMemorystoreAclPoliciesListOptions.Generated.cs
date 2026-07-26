@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list aclPolicies
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorystore", "acl-policies", "list")]
 public record GcloudMemorystoreAclPoliciesListOptions : GcloudOptions

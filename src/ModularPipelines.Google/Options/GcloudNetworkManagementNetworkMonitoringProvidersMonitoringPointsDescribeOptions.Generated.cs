@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// points     describe - describe a Monitoring Point
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "monitoring-points", "describe")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDescribeOptions : GcloudOptions

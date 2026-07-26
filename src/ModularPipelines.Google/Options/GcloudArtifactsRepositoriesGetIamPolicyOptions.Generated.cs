@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get IAM policy for an     Artifact Registry repository
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "repositories", "get-iam-policy")]
 public record GcloudArtifactsRepositoriesGetIamPolicyOptions : GcloudOptions

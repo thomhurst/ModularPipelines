@@ -6,28 +6,28 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --state.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudState
 {
-    [Description("aborted")]
+    [EnumValue("aborted")]
     Aborted,
 
-    [Description("completed")]
+    [EnumValue("completed")]
     Completed,
 
-    [Description("failed")]
+    [EnumValue("failed")]
     Failed,
 
-    [Description("started")]
+    [EnumValue("started")]
     Started,
 
-    [Description("unknown")]
+    [EnumValue("unknown")]
     Unknown
 }

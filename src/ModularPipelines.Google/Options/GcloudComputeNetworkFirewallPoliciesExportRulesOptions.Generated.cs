@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export Compute     Engine network firewall policy rules
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-firewall-policies", "export-rules")]
 public record GcloudComputeNetworkFirewallPoliciesExportRulesOptions(

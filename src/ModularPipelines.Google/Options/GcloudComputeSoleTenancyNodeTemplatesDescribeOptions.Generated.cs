@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe a Compute     Engine node template
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "sole-tenancy", "node-templates", "describe")]
 public record GcloudComputeSoleTenancyNodeTemplatesDescribeOptions(

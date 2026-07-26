@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --provider.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudProvider
 {
-    [Description("RDS")]
+    [EnumValue("RDS")]
     Rds,
 
-    [Description("CLOUDSQL")]
+    [EnumValue("CLOUDSQL")]
     Cloudsql
 }

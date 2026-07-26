@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a Cloud NetApp Volume
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "volumes", "update")]
 public record GcloudNetappVolumesUpdateOptions : GcloudOptions

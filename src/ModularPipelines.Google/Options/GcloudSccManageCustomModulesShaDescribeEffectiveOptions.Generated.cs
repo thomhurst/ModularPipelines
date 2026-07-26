@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get effective the     details of a Security Health Analytics effective custom module
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "manage", "custom-modules", "sha", "describe-effective")]
 public record GcloudSccManageCustomModulesShaDescribeEffectiveOptions(

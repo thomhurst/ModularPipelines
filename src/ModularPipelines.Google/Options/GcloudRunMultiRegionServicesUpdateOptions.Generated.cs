@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update environment variables,     add/remove regions, and other configuration settings in Multi-Region     Services
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "multi-region-services", "update")]
 public record GcloudRunMultiRegionServicesUpdateOptions : GcloudOptions

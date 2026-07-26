@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get upgrade information for     an existing node pool for a cluster
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "node-pools", "get-upgrade-info")]
 public record GcloudContainerNodePoolsGetUpgradeInfoOptions(

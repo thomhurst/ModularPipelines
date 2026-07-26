@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// copy files to and from Google Compute     Engine virtual machines via scp
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "copy-files")]
 public record GcloudPreviewComputeCopyFilesOptions : GcloudOptions

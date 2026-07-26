@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud settings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudArtifactsSettings
 {
     private readonly ICommand _command;

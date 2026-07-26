@@ -18,7 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create Compute Engine virtual machine     instances
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "create")]
 public record GcloudComputeInstancesCreateOptions(
@@ -98,7 +98,7 @@ public record GcloudComputeInstancesCreateOptions(
     public KeyValue[]? CreateDisk { get; set; }
 
     /// <summary>
-    /// Path to a Customer-Supplied Encryption Key (CSEK) key file that maps     Compute Engine resources to user managed keys to be used when creating,     mounting, or taking snapshots of disks.     If you pass - as value of the flag, the CSEK is read from stdin. See     https://cloud.google.com/compute/docs/disks/customer-supplied-encryption     for more details.
+    /// (DEPRECATED) Path to a Customer-Supplied Encryption Key (CSEK) key file     that maps Compute Engine resources to user managed keys to be used when     creating, mounting, or taking snapshots of disks.       If you pass `-` as value of the flag, the CSEK is read from stdin.       See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details.     The --csek-key-file flag is deprecated.
     /// </summary>
     [CliOption("--csek-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? CsekKeyFile { get; set; }
@@ -218,6 +218,12 @@ public record GcloudComputeInstancesCreateOptions(
     public int? LocalSsd { get; set; }
 
     /// <summary>
+    /// Specifies which method should be used for encrypting the Local SSDs     attached to the VM. STANDARD_ENCRYPTION will use Google managed keys.     LOCAL_SSD_ENCRYPTION_MODE must be (only one value is supported):     STANDARD_ENCRYPTION.
+    /// </summary>
+    [CliOption("--local-ssd-encryption-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalSsdEncryptionMode { get; set; }
+
+    /// <summary>
     /// Specifies the maximum amount of time a Local Ssd Vm should wait while     recovery of the Local Ssd state is attempted. Its value should be in     between 0 and 168 hours with hour granularity and the default value     being 1 hour.
     /// </summary>
     [CliOption("--local-ssd-recovery-timeout", Format = OptionFormat.EqualsSeparated)]
@@ -332,7 +338,7 @@ public record GcloudComputeInstancesCreateOptions(
     public string? RequestValidForDuration { get; set; }
 
     /// <summary>
-    /// Refuse to create resources not protected by a user managed key in the     key file when --csek-key-file is given. This behavior is enabled by     default to prevent incorrect gcloud invocations from accidentally     creating resources with no user managed key. Disabling the check allows     creation of some resources without a matching Customer-Supplied     Encryption Key in the supplied --csek-key-file. See     https://cloud.google.com/compute/docs/disks/customer-supplied-encryption     for more details. Enabled by default, use --no-require-csek-key-create     to disable.
+    /// (DEPRECATED) Refuse to create resources not protected by a user managed     key in the key file when --csek-key-file is given. This behavior is     enabled by default to prevent incorrect gcloud invocations from     accidentally creating resources with no user managed key. Disabling the     check allows creation of some resources without a matching     Customer-Supplied Encryption Key in the supplied --csek-key-file. See     https://cloud.google.com/compute/docs/disks/customer-supplied-encryption     for more details.     The --require-csek-key-create flag is deprecated. Enabled by default,     use --no-require-csek-key-create to disable.
     /// </summary>
     [CliFlag("--require-csek-key-create")]
     public bool? RequireCsekKeyCreate { get; set; }
@@ -386,7 +392,7 @@ public record GcloudComputeInstancesCreateOptions(
     public string? SourceMachineImage { get; set; }
 
     /// <summary>
-    /// Path to a Customer-Supplied Encryption Key (CSEK) key file, mapping     resources to user managed keys which were used to encrypt the source     machine-image. See     https://cloud.google.com/compute/docs/disks/customer-supplied-encryption     for more details.
+    /// (DEPRECATED) Path to a Customer-Supplied Encryption Key (CSEK) key     file, mapping resources to user managed keys which were used to encrypt     the source machine-image. See     https://cloud.google.com/compute/docs/disks/customer-supplied-encryption     for more details.     The --source-machine-image-csek-key-file flag is deprecated.
     /// </summary>
     [CliOption("--source-machine-image-csek-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? SourceMachineImageCsekKeyFile { get; set; }

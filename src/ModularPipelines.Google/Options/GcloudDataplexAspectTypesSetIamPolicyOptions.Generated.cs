@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set an IAM policy binding for     a Dataplex Aspect Type as defined in a JSON or YAML file
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "aspect-types", "set-iam-policy")]
 public record GcloudDataplexAspectTypesSetIamPolicyOptions(

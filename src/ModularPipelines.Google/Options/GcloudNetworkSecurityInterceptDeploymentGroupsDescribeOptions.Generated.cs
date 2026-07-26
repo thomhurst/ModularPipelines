@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe an     Intercept Deployment Group
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "intercept-deployment-groups", "describe")]
 public record GcloudNetworkSecurityInterceptDeploymentGroupsDescribeOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// exports lock info of a     deployment
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("infra-manager", "deployments", "export-lock")]
 public record GcloudInfraManagerDeploymentsExportLockOptions : GcloudOptions

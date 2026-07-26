@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// Generated implementation for gcloud CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Gcloud : IGcloud
 {
     private readonly ICommand _command;
@@ -28,6 +28,7 @@ internal partial class Gcloud : IGcloud
         GcloudAccessapproval accessapproval,
         GcloudAccesscontextmanager accesscontextmanager,
         GcloudActivedirectory activedirectory,
+        GcloudAgentidentity agentidentity,
         GcloudAgentregistry agentregistry,
         GcloudAi ai,
         GcloudAiplatform aiplatform,
@@ -158,6 +159,7 @@ internal partial class Gcloud : IGcloud
         Accessapproval = accessapproval;
         Accesscontextmanager = accesscontextmanager;
         Activedirectory = activedirectory;
+        Agentidentity = agentidentity;
         Agentregistry = agentregistry;
         Ai = ai;
         Aiplatform = aiplatform;
@@ -295,6 +297,9 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public GcloudActivedirectory Activedirectory { get; }
+
+    /// <inheritdoc />
+    public GcloudAgentidentity Agentidentity { get; }
 
     /// <inheritdoc />
     public GcloudAgentregistry Agentregistry { get; }

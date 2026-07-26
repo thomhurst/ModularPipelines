@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// manage Router     appliance spokes
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "spokes", "linked-router-appliances")]
 public record GcloudNetworkConnectivitySpokesLinkedRouterAppliancesOptions : GcloudOptions

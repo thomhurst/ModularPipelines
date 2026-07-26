@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Composer workloads,     supported in Composer 3 environments or greater
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "list-workloads")]
 public record GcloudComposerEnvironmentsListWorkloadsOptions : GcloudOptions

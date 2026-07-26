@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// connect to the serial port     of an instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "connect-to-serial-port")]
 public record GcloudPreviewComputeConnectToSerialPortOptions : GcloudOptions

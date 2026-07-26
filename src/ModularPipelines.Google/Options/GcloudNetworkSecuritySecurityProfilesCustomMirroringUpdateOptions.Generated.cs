@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// updates     a Custom Mirroring Profile
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "security-profiles", "custom-mirroring", "update")]
 public record GcloudNetworkSecuritySecurityProfilesCustomMirroringUpdateOptions : GcloudOptions

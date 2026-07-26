@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a build trigger with a     Pub/Sub trigger event
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "triggers", "create", "pubsub")]
 public record GcloudBuildsTriggersCreatePubsubOptions : GcloudOptions

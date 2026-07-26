@@ -6,25 +6,25 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --region.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudRegion
 {
-    [Description("asia-east1")]
+    [EnumValue("asia-east1")]
     AsiaEast1,
 
-    [Description("europe-west1")]
+    [EnumValue("europe-west1")]
     EuropeWest1,
 
-    [Description("us-east1")]
+    [EnumValue("us-east1")]
     UsEast1,
 
-    [Description("us-west1")]
+    [EnumValue("us-west1")]
     UsWest1
 }

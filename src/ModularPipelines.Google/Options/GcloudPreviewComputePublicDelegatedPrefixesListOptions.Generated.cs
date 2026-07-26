@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Google Compute     Engine public delegated prefixes
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "public-delegated-prefixes", "list")]
 public record GcloudPreviewComputePublicDelegatedPrefixesListOptions : GcloudOptions

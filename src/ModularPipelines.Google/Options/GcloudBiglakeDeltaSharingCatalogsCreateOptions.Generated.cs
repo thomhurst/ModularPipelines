@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a BigLake Delta     Sharing catalog
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("biglake", "delta-sharing", "catalogs", "create")]
 public record GcloudBiglakeDeltaSharingCatalogsCreateOptions : GcloudOptions

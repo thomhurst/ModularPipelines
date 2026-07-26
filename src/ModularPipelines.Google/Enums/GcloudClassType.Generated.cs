@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --classtype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudClassType
 {
-    [Description("p1")]
+    [EnumValue("p1")]
     P1,
 
-    [Description("r1")]
+    [EnumValue("r1")]
     R1
 }

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove an IAM     policy binding from a Compute Engine subnetwork
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "subnets", "remove-iam-policy-binding")]
 public record GcloudComputeNetworksSubnetsRemoveIamPolicyBindingOptions : GcloudOptions

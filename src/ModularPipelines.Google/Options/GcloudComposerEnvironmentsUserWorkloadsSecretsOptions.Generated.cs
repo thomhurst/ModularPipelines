@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create and manage     user workloads Secrets of environment
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "user-workloads-secrets")]
 public record GcloudComposerEnvironmentsUserWorkloadsSecretsOptions : GcloudOptions

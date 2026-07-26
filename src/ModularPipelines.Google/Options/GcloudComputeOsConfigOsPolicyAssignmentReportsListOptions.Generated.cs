@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list OS policy     assignment reports
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "os-policy-assignment-reports", "list")]
 public record GcloudComputeOsConfigOsPolicyAssignmentReportsListOptions : GcloudOptions

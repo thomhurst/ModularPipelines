@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete DAG files from an     Cloud Composer environment's Cloud Storage bucket
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "storage", "dags", "delete")]
 public record GcloudComposerEnvironmentsStorageDagsDeleteOptions : GcloudOptions

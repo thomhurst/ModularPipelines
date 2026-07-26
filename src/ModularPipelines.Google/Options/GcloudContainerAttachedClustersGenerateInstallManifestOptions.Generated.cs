@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// generate     Install Manifest for an Attached cluster
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "attached", "clusters", "generate-install-manifest")]
 public record GcloudContainerAttachedClustersGenerateInstallManifestOptions : GcloudOptions

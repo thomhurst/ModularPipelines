@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// retrieve VMware NSX     sign-in credentials associated with a Google Cloud VMware Engine     private cloud
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "nsx", "credentials", "describe")]
 public record GcloudVmwarePrivateCloudsNsxCredentialsDescribeOptions : GcloudOptions

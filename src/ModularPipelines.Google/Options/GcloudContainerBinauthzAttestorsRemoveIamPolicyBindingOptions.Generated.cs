@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove IAM     policy binding of a Binary Authorization attestor
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "attestors", "remove-iam-policy-binding")]
 public record GcloudContainerBinauthzAttestorsRemoveIamPolicyBindingOptions : GcloudOptions

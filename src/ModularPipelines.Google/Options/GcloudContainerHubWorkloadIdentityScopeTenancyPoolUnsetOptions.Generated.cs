@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// unset     Scope Tenancy Pool
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "workload-identity", "scope-tenancy-pool", "unset")]
 public record GcloudContainerHubWorkloadIdentityScopeTenancyPoolUnsetOptions : GcloudOptions

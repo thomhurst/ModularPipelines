@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list supported use cases that     were used to generate the inference profiles
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "ai", "profiles", "use-case", "list")]
 public record GcloudContainerAiProfilesUseCaseListOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete plugins from     an Cloud Composer environment's Cloud Storage bucket
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "storage", "plugins", "delete")]
 public record GcloudComposerEnvironmentsStoragePluginsDeleteOptions : GcloudOptions

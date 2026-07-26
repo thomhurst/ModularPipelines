@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove an acl entry from a     Managed Service for Apache Kafka acl
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-kafka", "acls", "remove-acl-entry")]
 public record GcloudManagedKafkaAclsRemoveAclEntryOptions : GcloudOptions

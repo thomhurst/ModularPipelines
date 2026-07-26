@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --stricthostkeychecking.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudStrictHostKeyChecking
 {
-    [Description("yes")]
+    [EnumValue("yes")]
     Yes,
 
-    [Description("no")]
+    [EnumValue("no")]
     No,
 
-    [Description("ask")]
+    [EnumValue("ask")]
     Ask
 }

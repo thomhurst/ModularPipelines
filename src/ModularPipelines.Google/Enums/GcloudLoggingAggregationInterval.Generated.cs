@@ -6,31 +6,31 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --loggingaggregationinterval.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudLoggingAggregationInterval
 {
-    [Description("interval-10-min")]
+    [EnumValue("interval-10-min")]
     Interval_10Min,
 
-    [Description("interval-15-min")]
+    [EnumValue("interval-15-min")]
     Interval_15Min,
 
-    [Description("interval-1-min")]
+    [EnumValue("interval-1-min")]
     Interval_1Min,
 
-    [Description("interval-30-sec")]
+    [EnumValue("interval-30-sec")]
     Interval_30Sec,
 
-    [Description("interval-5-min")]
+    [EnumValue("interval-5-min")]
     Interval_5Min,
 
-    [Description("interval-5-sec")]
+    [EnumValue("interval-5-sec")]
     Interval_5Sec
 }

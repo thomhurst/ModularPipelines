@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update the LDAPS     settings for a domain
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("active-directory", "domains", "update-ldaps-settings")]
 public record GcloudActiveDirectoryDomainsUpdateLdapsSettingsOptions : GcloudOptions

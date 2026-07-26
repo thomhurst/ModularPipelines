@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a Google Cloud     VMware Engine logging-server
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "logging-servers", "update")]
 public record GcloudVmwarePrivateCloudsLoggingServersUpdateOptions : GcloudOptions

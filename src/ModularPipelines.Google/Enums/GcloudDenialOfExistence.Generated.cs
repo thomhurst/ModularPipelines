@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --denialofexistence.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudDenialOfExistence
 {
-    [Description("nsec")]
+    [EnumValue("nsec")]
     Nsec,
 
-    [Description("nsec3")]
+    [EnumValue("nsec3")]
     Nsec3
 }

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list workload     identity pool managed identities
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workload-identity-pools", "managed-identities", "list")]
 public record GcloudIamWorkloadIdentityPoolsManagedIdentitiesListOptions : GcloudOptions

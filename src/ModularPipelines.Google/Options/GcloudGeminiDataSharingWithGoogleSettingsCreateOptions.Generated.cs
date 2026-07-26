@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create     dataSharingWithGoogleSettings
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gemini", "data-sharing-with-google-settings", "create")]
 public record GcloudGeminiDataSharingWithGoogleSettingsCreateOptions : GcloudOptions

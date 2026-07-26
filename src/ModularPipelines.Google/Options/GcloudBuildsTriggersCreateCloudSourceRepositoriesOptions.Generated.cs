@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a build     trigger from a Cloud Source Repository
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "triggers", "create", "cloud-source-repositories")]
 public record GcloudBuildsTriggersCreateCloudSourceRepositoriesOptions : GcloudOptions

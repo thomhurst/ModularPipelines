@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// enable management of     dry-run mode configuration for Service Perimeters
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "perimeters", "dry-run")]
 public record GcloudAccessContextManagerPerimetersDryRunOptions : GcloudOptions

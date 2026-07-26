@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import an     AuthzExtension resource
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-extensions", "authz-extensions", "import")]
 public record GcloudServiceExtensionsAuthzExtensionsImportOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a     repository group for a given code repository index instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gemini", "code-repository-indexes", "repository-groups", "create")]
 public record GcloudGeminiCodeRepositoryIndexesRepositoryGroupsCreateOptions : GcloudOptions

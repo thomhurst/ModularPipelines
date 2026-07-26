@@ -6,28 +6,28 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --zskalgorithm.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudZskAlgorithm
 {
-    [Description("ecdsap256sha256")]
+    [EnumValue("ecdsap256sha256")]
     Ecdsap256sha256,
 
-    [Description("ecdsap384sha384")]
+    [EnumValue("ecdsap384sha384")]
     Ecdsap384sha384,
 
-    [Description("rsasha1")]
+    [EnumValue("rsasha1")]
     Rsasha1,
 
-    [Description("rsasha256")]
+    [EnumValue("rsasha256")]
     Rsasha256,
 
-    [Description("rsasha512")]
+    [EnumValue("rsasha512")]
     Rsasha512
 }

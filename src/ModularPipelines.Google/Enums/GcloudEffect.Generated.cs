@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --effect.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudEffect
 {
-    [Description("NoSchedule")]
+    [EnumValue("NoSchedule")]
     Noschedule,
 
-    [Description("PreferNoSchedule")]
+    [EnumValue("PreferNoSchedule")]
     Prefernoschedule,
 
-    [Description("NoExecute")]
+    [EnumValue("NoExecute")]
     Noexecute
 }

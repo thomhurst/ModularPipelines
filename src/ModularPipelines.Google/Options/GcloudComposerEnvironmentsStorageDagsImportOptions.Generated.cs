@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import DAGs from local     storage or Cloud Storage into an environment
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "storage", "dags", "import")]
 public record GcloudComposerEnvironmentsStorageDagsImportOptions : GcloudOptions

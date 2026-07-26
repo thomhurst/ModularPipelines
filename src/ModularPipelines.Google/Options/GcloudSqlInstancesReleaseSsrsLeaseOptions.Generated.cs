@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// releases a SQL Server Reporting     Services lease on a Cloud SQL instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "release-ssrs-lease")]
 public record GcloudSqlInstancesReleaseSsrsLeaseOptions(

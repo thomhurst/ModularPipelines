@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list VPC     Access Service operations
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "networks", "vpc-access", "operations", "list")]
 public record GcloudPreviewComputeNetworksVpcAccessOperationsListOptions : GcloudOptions

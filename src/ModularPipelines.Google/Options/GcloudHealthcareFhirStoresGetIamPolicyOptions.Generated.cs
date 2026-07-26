@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// retrieve the IAM policy for     a Cloud Healthcare API FHIR store
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "fhir-stores", "get-iam-policy")]
 public record GcloudHealthcareFhirStoresGetIamPolicyOptions : GcloudOptions

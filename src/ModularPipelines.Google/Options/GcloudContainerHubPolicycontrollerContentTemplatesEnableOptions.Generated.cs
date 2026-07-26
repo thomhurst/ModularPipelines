@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// installs     the template library for Policy Controller
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "policycontroller", "content", "templates", "enable")]
 public record GcloudContainerHubPolicycontrollerContentTemplatesEnableOptions : GcloudOptions

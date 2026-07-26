@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the IAM policy for an ekm     connection
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "ekm-connections", "get-iam-policy")]
 public record GcloudKmsEkmConnectionsGetIamPolicyOptions : GcloudOptions

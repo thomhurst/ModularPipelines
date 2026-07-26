@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove     virtual machines from an ExadbVmCluster
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "exadb-vm-clusters", "remove-virtual-machine")]
 public record GcloudOracleDatabaseExadbVmClustersRemoveVirtualMachineOptions : GcloudOptions

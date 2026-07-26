@@ -18,7 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// updates an existing Cloud Pub/Sub topic
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "topics", "update")]
 public record GcloudPubsubTopicsUpdateOptions : GcloudOptions

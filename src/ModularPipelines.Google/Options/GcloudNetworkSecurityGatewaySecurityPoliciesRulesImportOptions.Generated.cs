@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import     Gateway Security Policy Rule
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "gateway-security-policies", "rules", "import")]
 public record GcloudNetworkSecurityGatewaySecurityPoliciesRulesImportOptions : GcloudOptions

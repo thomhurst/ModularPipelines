@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// fetch credentials for a     fleet-registered cluster to be used in Connect Gateway
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "memberships", "get-credentials")]
 public record GcloudContainerHubMembershipsGetCredentialsOptions : GcloudOptions

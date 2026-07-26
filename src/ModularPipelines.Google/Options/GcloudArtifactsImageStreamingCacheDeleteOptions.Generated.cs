@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// removes the prewarmed state     of a specific artifact from a specific stream location
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "image-streaming-cache", "delete")]
 public record GcloudArtifactsImageStreamingCacheDeleteOptions : GcloudOptions

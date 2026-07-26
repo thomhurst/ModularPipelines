@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe an     AuthzExtension resource
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-extensions", "authz-extensions", "describe")]
 public record GcloudServiceExtensionsAuthzExtensionsDescribeOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe a Compute Engine L2 forwarding interconnect attachment
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "attachments", "l2-forwarding", "describe-mapping")]
 public record GcloudComputeInterconnectsAttachmentsL2ForwardingDescribeMappingOptions(

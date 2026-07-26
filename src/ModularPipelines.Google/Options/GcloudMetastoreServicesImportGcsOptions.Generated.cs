@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import metadata into a Dataproc     Metastore service from Google Cloud Storage
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metastore", "services", "import", "gcs")]
 public record GcloudMetastoreServicesImportGcsOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove IAM policy     binding of a Fleet Scope
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "scopes", "remove-iam-policy-binding")]
 public record GcloudContainerFleetScopesRemoveIamPolicyBindingOptions : GcloudOptions

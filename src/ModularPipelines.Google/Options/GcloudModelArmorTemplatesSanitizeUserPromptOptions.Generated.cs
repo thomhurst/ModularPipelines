@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// sanitize User Prompt
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("model-armor", "templates", "sanitize-user-prompt")]
 public record GcloudModelArmorTemplatesSanitizeUserPromptOptions : GcloudOptions

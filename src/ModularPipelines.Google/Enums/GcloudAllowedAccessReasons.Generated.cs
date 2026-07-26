@@ -6,28 +6,28 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --allowedaccessreasons.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudAllowedAccessReasons
 {
-    [Description("google-initiated-review")]
+    [EnumValue("google-initiated-review")]
     GoogleInitiatedReview,
 
-    [Description("google-initiated-service")]
+    [EnumValue("google-initiated-service")]
     GoogleInitiatedService,
 
-    [Description("reason-not-expected")]
+    [EnumValue("reason-not-expected")]
     ReasonNotExpected,
 
-    [Description("reason-unspecified")]
+    [EnumValue("reason-unspecified")]
     ReasonUnspecified,
 
-    [Description("third-party-data-request")]
+    [EnumValue("third-party-data-request")]
     ThirdPartyDataRequest
 }

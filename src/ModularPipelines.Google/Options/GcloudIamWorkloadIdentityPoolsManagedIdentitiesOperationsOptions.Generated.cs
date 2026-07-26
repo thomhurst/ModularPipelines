@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// manage     IAM workload identity pool managed identity long running operations
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workload-identity-pools", "managed-identities", "operations")]
 public record GcloudIamWorkloadIdentityPoolsManagedIdentitiesOperationsOptions : GcloudOptions

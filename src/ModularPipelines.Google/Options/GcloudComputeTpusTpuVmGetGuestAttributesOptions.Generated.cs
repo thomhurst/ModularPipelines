@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// retrieve the Guest     Attributes for a Cloud TPU VM
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "tpus", "tpu-vm", "get-guest-attributes")]
 public record GcloudComputeTpusTpuVmGetGuestAttributesOptions : GcloudOptions

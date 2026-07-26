@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// templates     remove-iam-policy-binding - remove IAM policy binding from a Compute     Engine node template
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "sole-tenancy", "node-templates", "remove-iam-policy-binding")]
 public record GcloudPreviewComputeSoleTenancyNodeTemplatesRemoveIamPolicyBindingOptions : GcloudOptions

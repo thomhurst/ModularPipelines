@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// enroll an Anthos on     bare metal admin cluster
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "bare-metal", "admin-clusters", "enroll")]
 public record GcloudContainerBareMetalAdminClustersEnrollOptions : GcloudOptions

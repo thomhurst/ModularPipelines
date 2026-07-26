@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove an IAM     policy binding from a Cloud Bigtable table
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "instances", "tables", "remove-iam-policy-binding")]
 public record GcloudBigtableInstancesTablesRemoveIamPolicyBindingOptions : GcloudOptions

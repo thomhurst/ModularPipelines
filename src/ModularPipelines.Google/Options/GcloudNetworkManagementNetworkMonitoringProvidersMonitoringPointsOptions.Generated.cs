@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// a Monitoring Point is an agent within your network or application     infrastructure that sends probes and reports the results to AppNeta
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "monitoring-points")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsOptions : GcloudOptions

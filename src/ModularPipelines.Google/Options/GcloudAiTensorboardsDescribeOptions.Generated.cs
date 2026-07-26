@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// gets detailed Tensorboard information     about the given Tensorboard id
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "tensorboards", "describe")]
 public record GcloudAiTensorboardsDescribeOptions : GcloudOptions

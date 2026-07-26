@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --binauthzevaluationmode.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudBinauthzEvaluationMode
 {
-    [Description("disabled")]
+    [EnumValue("disabled")]
     Disabled,
 
-    [Description("policy-bindings")]
+    [EnumValue("policy-bindings")]
     PolicyBindings
 }

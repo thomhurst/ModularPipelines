@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete cleanup     policies from an Artifact Registry repository
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "repositories", "delete-cleanup-policies")]
 public record GcloudArtifactsRepositoriesDeleteCleanupPoliciesOptions : GcloudOptions

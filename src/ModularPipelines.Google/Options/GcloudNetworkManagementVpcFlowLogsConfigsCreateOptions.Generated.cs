@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// creates a new VPC     Flow Logs configuration
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "vpc-flow-logs-configs", "create")]
 public record GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions : GcloudOptions

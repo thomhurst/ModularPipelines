@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// adds an invoker binding to     the IAM policy of a Google Cloud Function
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functions", "add-invoker-policy-binding")]
 public record GcloudFunctionsAddInvokerPolicyBindingOptions : GcloudOptions

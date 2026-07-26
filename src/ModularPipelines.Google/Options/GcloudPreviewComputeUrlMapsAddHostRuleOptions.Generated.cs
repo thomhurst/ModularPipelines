@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add a rule to a URL map to     map hosts to a path matcher
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "url-maps", "add-host-rule")]
 public record GcloudPreviewComputeUrlMapsAddHostRuleOptions(

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// compute the essential contacts that are     subscribed to the specified notification categories for a resource
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("essential-contacts", "compute")]
 public record GcloudEssentialContactsComputeOptions : GcloudOptions

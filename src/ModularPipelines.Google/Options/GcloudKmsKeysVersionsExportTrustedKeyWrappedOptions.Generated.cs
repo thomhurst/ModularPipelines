@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export a trusted key     wrapped CryptoKeyVersion
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "versions", "export-trusted-key-wrapped")]
 public record GcloudKmsKeysVersionsExportTrustedKeyWrappedOptions(

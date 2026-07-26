@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// search for and list all Privileged Access     Manager grants you have created, have approved, or can approve
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pam", "grants", "search")]
 public record GcloudPamGrantsSearchOptions : GcloudOptions

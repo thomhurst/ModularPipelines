@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud autokey-config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudKmsAutokeyConfig
 {
     private readonly ICommand _command;
@@ -47,7 +47,7 @@ public class GcloudKmsAutokeyConfig
     }
 
     /// <summary>
-    /// gets the effective Cloud     KMS AutokeyConfig for a given project
+    /// get the effective Cloud     KMS AutokeyConfig for a given folder or project
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -6,49 +6,49 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --guestosfeatures.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudGuestOsFeatures
 {
-    [Description("GVNIC")]
+    [EnumValue("GVNIC")]
     Gvnic,
 
-    [Description("IDPF")]
+    [EnumValue("IDPF")]
     Idpf,
 
-    [Description("MULTI_IP_SUBNET")]
+    [EnumValue("MULTI_IP_SUBNET")]
     MultiIpSubnet,
 
-    [Description("SEV_CAPABLE")]
+    [EnumValue("SEV_CAPABLE")]
     SevCapable,
 
-    [Description("SEV_LIVE_MIGRATABLE")]
+    [EnumValue("SEV_LIVE_MIGRATABLE")]
     SevLiveMigratable,
 
-    [Description("SEV_LIVE_MIGRATABLE_V2")]
+    [EnumValue("SEV_LIVE_MIGRATABLE_V2")]
     SevLiveMigratableV2,
 
-    [Description("SEV_SNP_CAPABLE")]
+    [EnumValue("SEV_SNP_CAPABLE")]
     SevSnpCapable,
 
-    [Description("SNP_SVSM_CAPABLE")]
+    [EnumValue("SNP_SVSM_CAPABLE")]
     SnpSvsmCapable,
 
-    [Description("TDX_CAPABLE")]
+    [EnumValue("TDX_CAPABLE")]
     TdxCapable,
 
-    [Description("UEFI_COMPATIBLE")]
+    [EnumValue("UEFI_COMPATIBLE")]
     UefiCompatible,
 
-    [Description("VIRTIO_SCSI_MULTIQUEUE")]
+    [EnumValue("VIRTIO_SCSI_MULTIQUEUE")]
     VirtioScsiMultiqueue,
 
-    [Description("WINDOWS")]
+    [EnumValue("WINDOWS")]
     Windows
 }

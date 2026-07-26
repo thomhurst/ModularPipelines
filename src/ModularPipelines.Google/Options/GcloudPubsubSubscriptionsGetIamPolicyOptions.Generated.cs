@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the IAM policy for a Cloud     Pub/Sub Subscription
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "subscriptions", "get-iam-policy")]
 public record GcloudPubsubSubscriptionsGetIamPolicyOptions : GcloudOptions

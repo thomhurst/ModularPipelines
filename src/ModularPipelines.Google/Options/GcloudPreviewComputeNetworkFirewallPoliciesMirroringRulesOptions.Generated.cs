@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// read and     manipulate Compute Engine packet mirroring rules in network firewall     policy
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-firewall-policies", "mirroring-rules")]
 public record GcloudPreviewComputeNetworkFirewallPoliciesMirroringRulesOptions : GcloudOptions

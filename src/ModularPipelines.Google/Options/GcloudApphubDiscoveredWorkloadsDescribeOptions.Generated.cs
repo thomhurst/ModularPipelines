@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe an Apphub discovered     workload
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apphub", "discovered-workloads", "describe")]
 public record GcloudApphubDiscoveredWorkloadsDescribeOptions : GcloudOptions

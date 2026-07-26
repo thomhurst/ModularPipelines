@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list routes advertised and     learned on individual BGP sessions, both pre- and post-policy     evaluation
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "list-bgp-routes")]
 public record GcloudPreviewComputeRoutersListBgpRoutesOptions(

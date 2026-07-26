@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// deploy     Kubernetes manifests with compute, load balancing, and autoscaling     capabilities
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "ai", "profiles", "manifests", "create")]
 public record GcloudContainerAiProfilesManifestsCreateOptions : GcloudOptions

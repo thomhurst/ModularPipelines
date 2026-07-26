@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete an     IAM workforce identity pool provider SCIM tenant token
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "providers", "scim-tenants", "tokens", "delete")]
 public record GcloudIamWorkforcePoolsProvidersScimTenantsTokensDeleteOptions : GcloudOptions

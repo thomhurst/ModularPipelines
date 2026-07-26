@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a component
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "application-templates", "components", "update")]
 public record GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions : GcloudOptions

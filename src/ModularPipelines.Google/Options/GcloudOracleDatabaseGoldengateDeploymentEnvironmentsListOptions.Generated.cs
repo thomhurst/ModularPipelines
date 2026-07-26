@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all     Goldengate deployment environments
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "goldengate-deployment-environments", "list")]
 public record GcloudOracleDatabaseGoldengateDeploymentEnvironmentsListOptions : GcloudOptions

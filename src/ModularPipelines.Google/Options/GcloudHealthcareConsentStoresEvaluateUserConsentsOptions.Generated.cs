@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// check the     consents for a particular user's data
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "consent-stores", "evaluate-user-consents")]
 public record GcloudHealthcareConsentStoresEvaluateUserConsentsOptions : GcloudOptions

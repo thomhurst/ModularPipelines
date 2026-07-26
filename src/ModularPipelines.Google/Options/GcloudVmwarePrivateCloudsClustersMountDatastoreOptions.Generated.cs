@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// mount a datastore     to a Google Cloud VMware Engine cluster
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "clusters", "mount-datastore")]
 public record GcloudVmwarePrivateCloudsClustersMountDatastoreOptions : GcloudOptions

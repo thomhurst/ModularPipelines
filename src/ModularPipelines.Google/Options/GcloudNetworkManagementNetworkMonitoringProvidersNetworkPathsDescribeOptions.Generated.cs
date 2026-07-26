@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// paths     describe - describe a Network Path
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "network-paths", "describe")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersNetworkPathsDescribeOptions : GcloudOptions

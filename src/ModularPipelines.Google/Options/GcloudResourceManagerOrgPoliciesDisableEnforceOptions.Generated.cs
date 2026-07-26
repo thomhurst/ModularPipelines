@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// turns off     enforcement of boolean Organization Policy constraint
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "org-policies", "disable-enforce")]
 public record GcloudResourceManagerOrgPoliciesDisableEnforceOptions(

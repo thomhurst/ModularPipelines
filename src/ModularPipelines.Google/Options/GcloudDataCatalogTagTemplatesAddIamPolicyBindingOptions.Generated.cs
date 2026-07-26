@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add IAM policy     binding to a Data Catalog tag template
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "tag-templates", "add-iam-policy-binding")]
 public record GcloudDataCatalogTagTemplatesAddIamPolicyBindingOptions : GcloudOptions

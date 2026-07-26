@@ -18,7 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Dataproc Metastore service
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metastore", "services", "create")]
 public record GcloudMetastoreServicesCreateOptions : GcloudOptions

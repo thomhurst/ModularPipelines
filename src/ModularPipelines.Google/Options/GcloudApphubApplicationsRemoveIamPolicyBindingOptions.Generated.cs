@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove IAM policy     binding from an Apphub application
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apphub", "applications", "remove-iam-policy-binding")]
 public record GcloudApphubApplicationsRemoveIamPolicyBindingOptions : GcloudOptions

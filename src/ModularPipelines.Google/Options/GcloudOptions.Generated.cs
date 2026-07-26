@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// Base options class for gcloud CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("gcloud")]
 public abstract record GcloudOptions : CommandLineToolOptions

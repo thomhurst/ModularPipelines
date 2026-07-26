@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// retrieve a Dataplex Entry     Group IAM policy
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "entry-groups", "get-iam-policy")]
 public record GcloudDataplexEntryGroupsGetIamPolicyOptions : GcloudOptions

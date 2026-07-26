@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// rollback a     Database Migration Service conversion workspace
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "conversion-workspaces", "rollback")]
 public record GcloudDatabaseMigrationConversionWorkspacesRollbackOptions : GcloudOptions

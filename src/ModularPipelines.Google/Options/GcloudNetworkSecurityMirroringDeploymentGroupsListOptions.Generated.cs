@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Mirroring     Deployment Groups
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "mirroring-deployment-groups", "list")]
 public record GcloudNetworkSecurityMirroringDeploymentGroupsListOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import Virtual Disk images to     Google Compute Engine
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migration", "vms", "image-imports", "create")]
 public record GcloudMigrationVmsImageImportsCreateOptions : GcloudOptions

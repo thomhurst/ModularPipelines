@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// fetch     credentials for a membership with a particular namespace
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "scopes", "namespaces", "get-credentials")]
 public record GcloudContainerFleetScopesNamespacesGetCredentialsOptions(

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// enable interactive serial     console for a Bare Metal Solution instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "instances", "enable-serial-console")]
 public record GcloudBmsInstancesEnableSerialConsoleOptions : GcloudOptions

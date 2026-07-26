@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// points     download-recreate-install-script - download an installation script for     recreating a Monitoring Point
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "monitoring-points", "download-recreate-install-script")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadRecreateInstallScriptOptions : GcloudOptions

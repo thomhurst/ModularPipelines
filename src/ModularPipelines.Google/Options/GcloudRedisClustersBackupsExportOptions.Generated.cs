@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export a Redis cluster backup to a     Google Cloud Storage bucket
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "clusters", "backups", "export")]
 public record GcloudRedisClustersBackupsExportOptions : GcloudOptions

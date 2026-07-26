@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// generate optimized     Kubernetes manifests for a given workload profile
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "workload", "profiles", "manifests", "create")]
 public record GcloudContainerWorkloadProfilesManifestsCreateOptions : GcloudOptions

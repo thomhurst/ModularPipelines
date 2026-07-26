@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the IAM policy for a     Cloud Deploy Custom Target Type
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "custom-target-types", "get-iam-policy")]
 public record GcloudDeployCustomTargetTypesGetIamPolicyOptions : GcloudOptions

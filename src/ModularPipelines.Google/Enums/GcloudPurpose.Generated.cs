@@ -6,28 +6,28 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --purpose.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudPurpose
 {
-    [Description("VPC_PEERING")]
+    [EnumValue("VPC_PEERING")]
     VpcPeering,
 
-    [Description("SHARED_LOADBALANCER_VIP")]
+    [EnumValue("SHARED_LOADBALANCER_VIP")]
     SharedLoadbalancerVip,
 
-    [Description("GCE_ENDPOINT")]
+    [EnumValue("GCE_ENDPOINT")]
     GceEndpoint,
 
-    [Description("IPSEC_INTERCONNECT")]
+    [EnumValue("IPSEC_INTERCONNECT")]
     IpsecInterconnect,
 
-    [Description("PRIVATE_SERVICE_CONNECT")]
+    [EnumValue("PRIVATE_SERVICE_CONNECT")]
     PrivateServiceConnect
 }

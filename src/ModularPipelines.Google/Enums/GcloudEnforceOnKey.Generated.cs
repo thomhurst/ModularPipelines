@@ -6,46 +6,46 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --enforceonkey.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudEnforceOnKey
 {
-    [Description("ip")]
+    [EnumValue("ip")]
     Ip,
 
-    [Description("all")]
+    [EnumValue("all")]
     All,
 
-    [Description("http-header")]
+    [EnumValue("http-header")]
     HttpHeader,
 
-    [Description("xff-ip")]
+    [EnumValue("xff-ip")]
     XffIp,
 
-    [Description("http-cookie")]
+    [EnumValue("http-cookie")]
     HttpCookie,
 
-    [Description("http-path")]
+    [EnumValue("http-path")]
     HttpPath,
 
-    [Description("sni")]
+    [EnumValue("sni")]
     Sni,
 
-    [Description("region-code")]
+    [EnumValue("region-code")]
     RegionCode,
 
-    [Description("tls-ja3-fingerprint")]
+    [EnumValue("tls-ja3-fingerprint")]
     TlsJa3Fingerprint,
 
-    [Description("user-ip")]
+    [EnumValue("user-ip")]
     UserIp,
 
-    [Description("tls-ja4-fingerprint")]
+    [EnumValue("tls-ja4-fingerprint")]
     TlsJa4Fingerprint
 }

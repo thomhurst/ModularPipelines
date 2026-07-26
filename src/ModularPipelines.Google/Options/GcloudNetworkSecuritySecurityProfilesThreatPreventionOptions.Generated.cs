@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// manage     Security Profiles - Threat Prevention Profile
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "security-profiles", "threat-prevention")]
 public record GcloudNetworkSecuritySecurityProfilesThreatPreventionOptions : GcloudOptions

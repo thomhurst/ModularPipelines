@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// disable VPC     Service Controls for the peering connection
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "vpc-peerings", "disable-vpc-service-controls")]
 public record GcloudServicesVpcPeeringsDisableVpcServiceControlsOptions : GcloudOptions

@@ -18,7 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a backend service
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-services", "create")]
 public record GcloudComputeBackendServicesCreateOptions(
@@ -195,6 +195,18 @@ public record GcloudComputeBackendServicesCreateOptions(
     /// </summary>
     [CliOption("--locality-lb-policy", Format = OptionFormat.EqualsSeparated)]
     public GcloudLocalityLbPolicy? LocalityLbPolicy { get; set; }
+
+    /// <summary>
+    /// This field can only be specified if logging is enabled for the backend     service. Contains a comma-separated list of HTTP request headers you     want to include in the logs.
+    /// </summary>
+    [CliOption("--logging-http-request-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? LoggingHttpRequestHeaders { get; set; }
+
+    /// <summary>
+    /// This field can only be specified if logging is enabled for the backend     service. Contains a comma-separated list of HTTP response headers you     want to include in the logs.
+    /// </summary>
+    [CliOption("--logging-http-response-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? LoggingHttpResponseHeaders { get; set; }
 
     /// <summary>
     /// This field can only be specified if logging is enabled for the backend     service. Configures whether all, none, or a subset of optional fields     should be added to the reported logs. Default is EXCLUDE_ALL_OPTIONAL.     This field can only be specified for internal and external passthrough     Network Load Balancers. LOGGING_OPTIONAL must be one of:     EXCLUDE_ALL_OPTIONAL, INCLUDE_ALL_OPTIONAL, CUSTOM.

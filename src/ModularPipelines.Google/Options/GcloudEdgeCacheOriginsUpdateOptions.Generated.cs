@@ -18,7 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update an EdgeCacheOrigin resource
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cache", "origins", "update")]
 public record GcloudEdgeCacheOriginsUpdateOptions : GcloudOptions

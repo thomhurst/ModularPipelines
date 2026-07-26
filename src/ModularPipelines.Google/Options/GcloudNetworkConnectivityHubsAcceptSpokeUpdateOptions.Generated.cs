@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// accept a proposal to     update a spoke in a hub
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "hubs", "accept-spoke-update")]
 public record GcloudNetworkConnectivityHubsAcceptSpokeUpdateOptions : GcloudOptions

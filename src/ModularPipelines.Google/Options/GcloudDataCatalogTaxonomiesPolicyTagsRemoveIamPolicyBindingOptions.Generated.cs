@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove an IAM policy binding from a Data Catalog policy tag
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "taxonomies", "policy-tags", "remove-iam-policy-binding")]
 public record GcloudDataCatalogTaxonomiesPolicyTagsRemoveIamPolicyBindingOptions : GcloudOptions

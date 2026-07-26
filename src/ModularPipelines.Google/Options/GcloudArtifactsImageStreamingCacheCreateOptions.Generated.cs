@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// initiates the prewarming of     a specified artifact version or tag
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "image-streaming-cache", "create")]
 public record GcloudArtifactsImageStreamingCacheCreateOptions : GcloudOptions

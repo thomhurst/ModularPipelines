@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// query versions for     creating or upgrading an Anthos on VMware user cluster
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "vmware", "clusters", "query-version-config")]
 public record GcloudContainerVmwareClustersQueryVersionConfigOptions : GcloudOptions

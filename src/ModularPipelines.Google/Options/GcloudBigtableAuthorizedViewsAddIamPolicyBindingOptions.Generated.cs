@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add an IAM policy     binding to a Cloud Bigtable authorized view
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "authorized-views", "add-iam-policy-binding")]
 public record GcloudBigtableAuthorizedViewsAddIamPolicyBindingOptions : GcloudOptions

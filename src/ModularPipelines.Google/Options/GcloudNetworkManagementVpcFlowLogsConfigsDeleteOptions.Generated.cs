@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// deletes the     specified VPC Flow Logs configuration
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "vpc-flow-logs-configs", "delete")]
 public record GcloudNetworkManagementVpcFlowLogsConfigsDeleteOptions : GcloudOptions

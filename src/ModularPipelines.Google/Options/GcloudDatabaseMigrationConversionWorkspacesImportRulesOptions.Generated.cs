@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import     mapping rules in a Database Migration Service conversion workspace
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "conversion-workspaces", "import-rules")]
 public record GcloudDatabaseMigrationConversionWorkspacesImportRulesOptions : GcloudOptions

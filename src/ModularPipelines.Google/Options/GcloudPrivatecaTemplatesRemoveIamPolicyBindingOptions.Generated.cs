@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove IAM policy     binding for a certificate template
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "templates", "remove-iam-policy-binding")]
 public record GcloudPrivatecaTemplatesRemoveIamPolicyBindingOptions : GcloudOptions

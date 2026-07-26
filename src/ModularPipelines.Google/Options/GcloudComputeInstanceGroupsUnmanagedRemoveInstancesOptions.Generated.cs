@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// removes     resources from an unmanaged instance group by instance name
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "unmanaged", "remove-instances")]
 public record GcloudComputeInstanceGroupsUnmanagedRemoveInstancesOptions(

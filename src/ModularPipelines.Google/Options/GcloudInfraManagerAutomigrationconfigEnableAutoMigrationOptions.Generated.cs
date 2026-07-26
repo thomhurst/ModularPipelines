@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// enable     AutoMigrationConfig
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("infra-manager", "automigrationconfig", "enable-auto-migration")]
 public record GcloudInfraManagerAutomigrationconfigEnableAutoMigrationOptions : GcloudOptions

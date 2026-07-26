@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// replace the rules of     a Compute Engine network firewall policy with rules from another policy
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-firewall-policies", "clone-rules")]
 public record GcloudComputeNetworkFirewallPoliciesCloneRulesOptions(

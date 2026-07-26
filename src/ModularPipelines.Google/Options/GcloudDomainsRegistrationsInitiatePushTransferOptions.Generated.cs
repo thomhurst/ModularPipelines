@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// initiates the push     transfer process
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("domains", "registrations", "initiate-push-transfer")]
 public record GcloudDomainsRegistrationsInitiatePushTransferOptions : GcloudOptions

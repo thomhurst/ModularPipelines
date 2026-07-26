@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export a Cloud Healthcare API     API DICOM store to BigQuery
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "dicom-stores", "export", "bq")]
 public record GcloudHealthcareDicomStoresExportBqOptions : GcloudOptions

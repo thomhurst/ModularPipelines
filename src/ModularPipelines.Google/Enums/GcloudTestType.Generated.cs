@@ -6,25 +6,25 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --testtype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudTestType
 {
-    [Description("DIRECT_CONNECTIVITY")]
+    [EnumValue("DIRECT_CONNECTIVITY")]
     DirectConnectivity,
 
-    [Description("DOWNLOAD_THROUGHPUT")]
+    [EnumValue("DOWNLOAD_THROUGHPUT")]
     DownloadThroughput,
 
-    [Description("LATENCY")]
+    [EnumValue("LATENCY")]
     Latency,
 
-    [Description("UPLOAD_THROUGHPUT")]
+    [EnumValue("UPLOAD_THROUGHPUT")]
     UploadThroughput
 }

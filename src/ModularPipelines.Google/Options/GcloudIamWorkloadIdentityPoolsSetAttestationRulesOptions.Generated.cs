@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set attestation     rules on a workload identity pool
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workload-identity-pools", "set-attestation-rules")]
 public record GcloudIamWorkloadIdentityPoolsSetAttestationRulesOptions : GcloudOptions

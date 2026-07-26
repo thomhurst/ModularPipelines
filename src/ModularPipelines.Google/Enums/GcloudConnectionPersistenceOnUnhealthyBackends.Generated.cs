@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --connectionpersistenceonunhealthybackends.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudConnectionPersistenceOnUnhealthyBackends
 {
-    [Description("DEFAULT_FOR_PROTOCOL")]
+    [EnumValue("DEFAULT_FOR_PROTOCOL")]
     DefaultForProtocol,
 
-    [Description("NEVER_PERSIST")]
+    [EnumValue("NEVER_PERSIST")]
     NeverPersist,
 
-    [Description("ALWAYS_PERSIST")]
+    [EnumValue("ALWAYS_PERSIST")]
     AlwaysPersist
 }

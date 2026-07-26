@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the IAM     Policy for a Compute Engine node template
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "sole-tenancy", "node-templates", "get-iam-policy")]
 public record GcloudComputeSoleTenancyNodeTemplatesGetIamPolicyOptions : GcloudOptions

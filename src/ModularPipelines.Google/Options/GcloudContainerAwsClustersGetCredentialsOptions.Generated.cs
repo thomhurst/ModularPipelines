@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get credentials of an     Anthos cluster on AWS
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "aws", "clusters", "get-credentials")]
 public record GcloudContainerAwsClustersGetCredentialsOptions : GcloudOptions

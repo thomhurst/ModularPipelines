@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a     single git repository link
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("developer-connect", "connections", "git-repository-links", "delete")]
 public record GcloudDeveloperConnectConnectionsGitRepositoryLinksDeleteOptions : GcloudOptions

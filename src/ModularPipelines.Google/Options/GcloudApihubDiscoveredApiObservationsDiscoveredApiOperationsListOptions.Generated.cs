@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Discovered Api Operations
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "discovered-api-observations", "discovered-api-operations", "list")]
 public record GcloudApihubDiscoveredApiObservationsDiscoveredApiOperationsListOptions : GcloudOptions

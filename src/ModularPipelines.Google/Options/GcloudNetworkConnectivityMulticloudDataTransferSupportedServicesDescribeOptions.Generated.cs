@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// services     describe - describe multicloudDataTransferSupportedService
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "multicloud-data-transfer-supported-services", "describe")]
 public record GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesDescribeOptions : GcloudOptions

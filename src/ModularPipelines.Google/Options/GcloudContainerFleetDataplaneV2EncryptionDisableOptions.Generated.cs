@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// disables the     Dataplane V2 Encryption Feature
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "dataplane-v2-encryption", "disable")]
 public record GcloudContainerFleetDataplaneV2EncryptionDisableOptions : GcloudOptions

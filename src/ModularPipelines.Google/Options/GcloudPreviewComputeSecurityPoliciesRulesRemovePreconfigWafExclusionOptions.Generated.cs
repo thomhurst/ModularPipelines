@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// policies rules     remove-preconfig-waf-exclusion - remove an exclusion configuration for     preconfigured WAF evaluation from a security policy rule
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "security-policies", "rules", "remove-preconfig-waf-exclusion")]
 public record GcloudPreviewComputeSecurityPoliciesRulesRemovePreconfigWafExclusionOptions(

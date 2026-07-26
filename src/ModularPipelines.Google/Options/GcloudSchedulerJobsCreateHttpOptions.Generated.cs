@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Cloud Scheduler job that     triggers an action via HTTP
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scheduler", "jobs", "create", "http")]
 public record GcloudSchedulerJobsCreateHttpOptions : GcloudOptions

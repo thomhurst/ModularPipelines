@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// modifies the ACK     deadline for a specific Cloud Pub/Sub message
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "subscriptions", "modify-message-ack-deadline")]
 public record GcloudPubsubSubscriptionsModifyMessageAckDeadlineOptions : GcloudOptions

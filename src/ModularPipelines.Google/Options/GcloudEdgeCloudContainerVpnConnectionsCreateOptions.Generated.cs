@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a VPN     connection between an Edge Container cluster and a VPC network
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "container", "vpn-connections", "create")]
 public record GcloudEdgeCloudContainerVpnConnectionsCreateOptions : GcloudOptions

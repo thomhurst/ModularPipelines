@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// troubleshoot IAM allow     and deny policies
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy-intelligence", "troubleshoot-policy", "iam")]
 public record GcloudPolicyIntelligenceTroubleshootPolicyIamOptions(

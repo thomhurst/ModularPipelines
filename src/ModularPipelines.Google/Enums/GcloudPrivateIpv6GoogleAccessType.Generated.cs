@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --privateipv6googleaccesstype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudPrivateIpv6GoogleAccessType
 {
-    [Description("bidirectional")]
+    [EnumValue("bidirectional")]
     Bidirectional,
 
-    [Description("disabled")]
+    [EnumValue("disabled")]
     Disabled,
 
-    [Description("outbound-only")]
+    [EnumValue("outbound-only")]
     OutboundOnly
 }

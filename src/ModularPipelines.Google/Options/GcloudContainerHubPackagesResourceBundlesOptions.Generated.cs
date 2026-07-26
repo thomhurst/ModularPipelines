@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// commands for managing     Package Rollouts Resource Bundles
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "packages", "resource-bundles")]
 public record GcloudContainerHubPackagesResourceBundlesOptions : GcloudOptions

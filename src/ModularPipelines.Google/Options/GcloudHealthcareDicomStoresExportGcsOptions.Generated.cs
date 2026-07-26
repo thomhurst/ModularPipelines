@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export a Cloud Healthcare API     DICOM store to Google Cloud Storage
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "dicom-stores", "export", "gcs")]
 public record GcloudHealthcareDicomStoresExportGcsOptions : GcloudOptions

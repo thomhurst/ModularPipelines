@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list the details of     an Event Threat Detection effective custom module
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "manage", "custom-modules", "etd", "list-effective")]
 public record GcloudSccManageCustomModulesEtdListEffectiveOptions : GcloudOptions

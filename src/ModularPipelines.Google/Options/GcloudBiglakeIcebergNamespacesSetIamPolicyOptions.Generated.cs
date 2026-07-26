@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set the IAM policy for a     BigLake Iceberg REST catalog namespace
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("biglake", "iceberg", "namespaces", "set-iam-policy")]
 public record GcloudBiglakeIcebergNamespacesSetIamPolicyOptions(

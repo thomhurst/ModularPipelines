@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export Cloud Healthcare API     HL7v2 messages to Google Cloud Storage
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "hl7v2-stores", "export", "gcs")]
 public record GcloudHealthcareHl7v2StoresExportGcsOptions : GcloudOptions

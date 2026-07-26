@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// removes an IAM policy binding     from a Google Cloud Function
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functions", "remove-iam-policy-binding")]
 public record GcloudFunctionsRemoveIamPolicyBindingOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list nodes in a Google     Cloud VMware Engine private cloud's cluster
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "clusters", "nodes", "list")]
 public record GcloudVmwarePrivateCloudsClustersNodesListOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// generate     wallet for an AutonomousDatabase
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "autonomous-databases", "generate-wallet")]
 public record GcloudOracleDatabaseAutonomousDatabasesGenerateWalletOptions : GcloudOptions

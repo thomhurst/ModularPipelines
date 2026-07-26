@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --ingresssettings.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudIngressSettings
 {
-    [Description("all")]
+    [EnumValue("all")]
     All,
 
-    [Description("internal-only")]
+    [EnumValue("internal-only")]
     InternalOnly,
 
-    [Description("internal-and-gclb")]
+    [EnumValue("internal-and-gclb")]
     InternalAndGclb
 }

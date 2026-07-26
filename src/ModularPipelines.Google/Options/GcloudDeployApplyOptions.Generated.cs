@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// applies a yaml configuration containing Delivery     Pipeline(s), Target(s), Custom Target Type(s), Deploy Policy(ies), and     Automation(s) declarative definitions
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "apply")]
 public record GcloudDeployApplyOptions : GcloudOptions

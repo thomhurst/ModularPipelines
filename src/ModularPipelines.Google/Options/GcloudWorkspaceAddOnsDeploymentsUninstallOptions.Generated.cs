@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// uninstall a Google     Workspace Add-ons deployment
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspace-add-ons", "deployments", "uninstall")]
 public record GcloudWorkspaceAddOnsDeploymentsUninstallOptions : GcloudOptions

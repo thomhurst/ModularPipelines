@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list IP range reservations for     Bare Metal Solution networks in a project
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "networks", "list-ip-reservations")]
 public record GcloudBmsNetworksListIpReservationsOptions : GcloudOptions

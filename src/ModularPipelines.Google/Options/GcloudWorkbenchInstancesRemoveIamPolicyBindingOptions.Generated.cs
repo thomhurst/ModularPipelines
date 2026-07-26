@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// removes IAM policy     binding for a workbench instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workbench", "instances", "remove-iam-policy-binding")]
 public record GcloudWorkbenchInstancesRemoveIamPolicyBindingOptions : GcloudOptions

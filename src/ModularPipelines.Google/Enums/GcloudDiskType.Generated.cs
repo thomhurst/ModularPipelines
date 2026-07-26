@@ -6,31 +6,31 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --disktype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudDiskType
 {
-    [Description("pd-standard")]
+    [EnumValue("pd-standard")]
     PdStandard,
 
-    [Description("pd-ssd")]
+    [EnumValue("pd-ssd")]
     PdSsd,
 
-    [Description("pd-balanced")]
+    [EnumValue("pd-balanced")]
     PdBalanced,
 
-    [Description("hyperdisk-balanced")]
+    [EnumValue("hyperdisk-balanced")]
     HyperdiskBalanced,
 
-    [Description("hyperdisk-extreme")]
+    [EnumValue("hyperdisk-extreme")]
     HyperdiskExtreme,
 
-    [Description("hyperdisk-throughput")]
+    [EnumValue("hyperdisk-throughput")]
     HyperdiskThroughput
 }

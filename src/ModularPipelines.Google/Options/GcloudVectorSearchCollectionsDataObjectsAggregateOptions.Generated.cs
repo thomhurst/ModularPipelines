@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// aggregate data     objects
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vector-search", "collections", "data-objects", "aggregate")]
 public record GcloudVectorSearchCollectionsDataObjectsAggregateOptions : GcloudOptions

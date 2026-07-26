@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// reschedule maintenance     window for a Redis instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "instances", "reschedule-maintenance")]
 public record GcloudRedisInstancesRescheduleMaintenanceOptions : GcloudOptions

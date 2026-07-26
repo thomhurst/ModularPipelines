@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// manage     delegated sub prefixes
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "public-delegated-prefixes", "delegated-sub-prefixes")]
 public record GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixesOptions : GcloudOptions

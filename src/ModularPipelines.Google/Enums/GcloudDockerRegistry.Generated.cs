@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --dockerregistry.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudDockerRegistry
 {
-    [Description("artifact-registry")]
+    [EnumValue("artifact-registry")]
     ArtifactRegistry,
 
-    [Description("container-registry")]
+    [EnumValue("container-registry")]
     ContainerRegistry
 }

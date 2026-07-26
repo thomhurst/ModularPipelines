@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list the details of the     resident and descendant Security Health Analytics custom modules
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "custom-modules", "sha", "list-descendant")]
 public record GcloudSccCustomModulesShaListDescendantOptions : GcloudOptions

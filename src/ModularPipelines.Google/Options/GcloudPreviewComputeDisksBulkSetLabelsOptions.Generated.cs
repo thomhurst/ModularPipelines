@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add or remove labels on     multiple Compute Engine disks
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "disks", "bulk", "set-labels")]
 public record GcloudPreviewComputeDisksBulkSetLabelsOptions : GcloudOptions

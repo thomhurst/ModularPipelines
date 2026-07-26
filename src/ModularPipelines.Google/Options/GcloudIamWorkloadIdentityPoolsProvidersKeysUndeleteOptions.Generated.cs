@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// undelete a     workload identity pool provider key
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workload-identity-pools", "providers", "keys", "undelete")]
 public record GcloudIamWorkloadIdentityPoolsProvidersKeysUndeleteOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the IAM policy for a code repository index repository group
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gemini", "code-repository-indexes", "repository-groups", "get-iam-policy")]
 public record GcloudGeminiCodeRepositoryIndexesRepositoryGroupsGetIamPolicyOptions(

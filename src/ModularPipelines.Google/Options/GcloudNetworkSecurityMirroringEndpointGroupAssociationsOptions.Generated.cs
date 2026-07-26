@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// manage     Mirroring Endpoint Group Association resources
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "mirroring-endpoint-group-associations")]
 public record GcloudNetworkSecurityMirroringEndpointGroupAssociationsOptions : GcloudOptions

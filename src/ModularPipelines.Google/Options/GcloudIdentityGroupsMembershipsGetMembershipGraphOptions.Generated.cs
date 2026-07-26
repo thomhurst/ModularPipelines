@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get a membership     graph of just a member or both a member and a group
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "memberships", "get-membership-graph")]
 public record GcloudIdentityGroupsMembershipsGetMembershipGraphOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a     Mirroring Deployment Group
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "mirroring-deployment-groups", "delete")]
 public record GcloudNetworkSecurityMirroringDeploymentGroupsDeleteOptions : GcloudOptions

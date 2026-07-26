@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add IAM policy binding to a     Dataplex lake resource
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "lakes", "add-iam-policy-binding")]
 public record GcloudDataplexLakesAddIamPolicyBindingOptions : GcloudOptions

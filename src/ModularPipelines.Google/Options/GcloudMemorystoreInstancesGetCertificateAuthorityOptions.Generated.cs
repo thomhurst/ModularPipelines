@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get certificate     authority details of a Memorystore instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorystore", "instances", "get-certificate-authority")]
 public record GcloudMemorystoreInstancesGetCertificateAuthorityOptions : GcloudOptions

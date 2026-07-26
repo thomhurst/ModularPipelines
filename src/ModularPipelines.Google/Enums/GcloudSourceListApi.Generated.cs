@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --sourcelistapi.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudSourceListApi
 {
-    [Description("LIST_OBJECTS")]
+    [EnumValue("LIST_OBJECTS")]
     ListObjects,
 
-    [Description("LIST_OBJECTS_V2")]
+    [EnumValue("LIST_OBJECTS_V2")]
     ListObjectsV2
 }

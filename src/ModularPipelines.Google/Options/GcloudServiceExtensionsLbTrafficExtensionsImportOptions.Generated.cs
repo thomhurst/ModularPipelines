@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import an     LbTrafficExtension resource
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-extensions", "lb-traffic-extensions", "import")]
 public record GcloudServiceExtensionsLbTrafficExtensionsImportOptions : GcloudOptions

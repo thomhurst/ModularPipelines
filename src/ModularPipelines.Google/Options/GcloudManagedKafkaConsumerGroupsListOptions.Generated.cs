@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all Managed Service for     Apache Kafka consumer groups in a given cluster and location
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-kafka", "consumer-groups", "list")]
 public record GcloudManagedKafkaConsumerGroupsListOptions : GcloudOptions

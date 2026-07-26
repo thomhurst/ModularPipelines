@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Cloud CDN cache     invalidations for a URL map
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "url-maps", "list-cdn-cache-invalidations")]
 public record GcloudComputeUrlMapsListCdnCacheInvalidationsOptions(

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a multicloudDataTransferConfig
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "multicloud-data-transfer-configs", "create")]
 public record GcloudNetworkConnectivityMulticloudDataTransferConfigsCreateOptions : GcloudOptions

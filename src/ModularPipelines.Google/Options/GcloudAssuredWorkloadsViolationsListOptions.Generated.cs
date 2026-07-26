@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all Assured Workloads     violations that belong to a assured workloads environment
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("assured", "workloads", "violations", "list")]
 public record GcloudAssuredWorkloadsViolationsListOptions : GcloudOptions

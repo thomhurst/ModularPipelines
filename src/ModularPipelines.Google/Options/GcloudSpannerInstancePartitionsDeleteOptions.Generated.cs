@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a Spanner instance     partition. You can't delete the default instance partition using this     command
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instance-partitions", "delete")]
 public record GcloudSpannerInstancePartitionsDeleteOptions : GcloudOptions

@@ -18,7 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set a managed     cluster for the workflow template
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "workflow-templates", "set-managed-cluster")]
 public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOptions

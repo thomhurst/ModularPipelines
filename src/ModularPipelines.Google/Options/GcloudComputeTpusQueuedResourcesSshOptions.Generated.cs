@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// SSH into a Cloud TPU Queued     Resource's node(s)
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "tpus", "queued-resources", "ssh")]
 public record GcloudComputeTpusQueuedResourcesSshOptions : GcloudOptions

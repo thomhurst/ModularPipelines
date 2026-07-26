@@ -6,19 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --dumptype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudDumpType
 {
-    [Description("LOGICAL")]
+    [EnumValue("LOGICAL")]
     Logical,
 
-    [Description("PHYSICAL")]
+    [EnumValue("PHYSICAL")]
     Physical
 }

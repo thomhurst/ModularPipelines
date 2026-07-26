@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// enroll a node pool of a     user cluster in Anthos on bare metal
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "bare-metal", "node-pools", "enroll")]
 public record GcloudContainerBareMetalNodePoolsEnrollOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// triggers instance to gather logs and     upload them to a Cloud Storage Bucket
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "diagnose", "export-logs")]
 public record GcloudComputeDiagnoseExportLogsOptions(

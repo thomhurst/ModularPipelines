@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add labels to Google     Compute Engine instant-snapshotss
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instant-snapshots", "add-labels")]
 public record GcloudPreviewComputeInstantSnapshotsAddLabelsOptions(

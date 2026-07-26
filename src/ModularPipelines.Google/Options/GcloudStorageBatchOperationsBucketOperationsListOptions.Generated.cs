@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list bucket     operations for a batch operation job
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "batch-operations", "bucket-operations", "list")]
 public record GcloudStorageBatchOperationsBucketOperationsListOptions : GcloudOptions

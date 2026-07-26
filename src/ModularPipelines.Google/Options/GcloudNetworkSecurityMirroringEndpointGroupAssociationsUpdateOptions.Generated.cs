@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a Mirroring Endpoint Group Association
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "mirroring-endpoint-group-associations", "update")]
 public record GcloudNetworkSecurityMirroringEndpointGroupAssociationsUpdateOptions : GcloudOptions

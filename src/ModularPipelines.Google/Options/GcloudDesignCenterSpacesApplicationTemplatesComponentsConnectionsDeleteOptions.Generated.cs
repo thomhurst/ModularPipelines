@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// templates components connections     delete - delete a connection
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "application-templates", "components", "connections", "delete")]
 public record GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsDeleteOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add     member interconnect attachments to a Compute Engine interconnect     attachment group
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "groups", "add-members")]
 public record GcloudPreviewComputeInterconnectsAttachmentsGroupsAddMembersOptions(

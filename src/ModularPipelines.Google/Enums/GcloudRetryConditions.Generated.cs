@@ -6,31 +6,31 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --retryconditions.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudRetryConditions
 {
-    [Description("connect-failure")]
+    [EnumValue("connect-failure")]
     ConnectFailure,
 
-    [Description("forbidden")]
+    [EnumValue("forbidden")]
     Forbidden,
 
-    [Description("gateway-error")]
+    [EnumValue("gateway-error")]
     GatewayError,
 
-    [Description("http-5xx")]
+    [EnumValue("http-5xx")]
     Http_5xx,
 
-    [Description("not-found")]
+    [EnumValue("not-found")]
     NotFound,
 
-    [Description("retriable-4xx")]
+    [EnumValue("retriable-4xx")]
     Retriable_4xx
 }

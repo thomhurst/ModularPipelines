@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// switch a Regional Cloud NetApp Flex     Storage Pool zone
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "storage-pools", "switch")]
 public record GcloudNetappStoragePoolsSwitchOptions : GcloudOptions

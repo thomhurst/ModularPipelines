@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add an acl entry to a Managed     Service for Apache Kafka acl
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-kafka", "acls", "add-acl-entry")]
 public record GcloudManagedKafkaAclsAddAclEntryOptions : GcloudOptions

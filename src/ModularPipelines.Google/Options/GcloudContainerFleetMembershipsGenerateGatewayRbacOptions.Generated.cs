@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// generate RBAC     policy files for connected clusters by the user
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "memberships", "generate-gateway-rbac")]
 public record GcloudContainerFleetMembershipsGenerateGatewayRbacOptions : GcloudOptions

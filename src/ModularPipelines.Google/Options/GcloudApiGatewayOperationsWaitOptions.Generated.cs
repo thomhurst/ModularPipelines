@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// wait for a Cloud API Gateway operation     to complete
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("api-gateway", "operations", "wait")]
 public record GcloudApiGatewayOperationsWaitOptions : GcloudOptions

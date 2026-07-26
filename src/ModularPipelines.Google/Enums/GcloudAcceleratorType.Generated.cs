@@ -6,46 +6,46 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --acceleratortype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudAcceleratorType
 {
-    [Description("NVIDIA_TESLA_A100")]
+    [EnumValue("NVIDIA_TESLA_A100")]
     NvidiaTeslaA100,
 
-    [Description("NVIDIA_TESLA_K80")]
+    [EnumValue("NVIDIA_TESLA_K80")]
     NvidiaTeslaK80,
 
-    [Description("NVIDIA_TESLA_P100")]
+    [EnumValue("NVIDIA_TESLA_P100")]
     NvidiaTeslaP100,
 
-    [Description("NVIDIA_TESLA_V100")]
+    [EnumValue("NVIDIA_TESLA_V100")]
     NvidiaTeslaV100,
 
-    [Description("NVIDIA_TESLA_P4")]
+    [EnumValue("NVIDIA_TESLA_P4")]
     NvidiaTeslaP4,
 
-    [Description("NVIDIA_TESLA_T4")]
+    [EnumValue("NVIDIA_TESLA_T4")]
     NvidiaTeslaT4,
 
-    [Description("NVIDIA_TESLA_T4_VWS")]
+    [EnumValue("NVIDIA_TESLA_T4_VWS")]
     NvidiaTeslaT4Vws,
 
-    [Description("NVIDIA_TESLA_P100_VWS")]
+    [EnumValue("NVIDIA_TESLA_P100_VWS")]
     NvidiaTeslaP100Vws,
 
-    [Description("NVIDIA_TESLA_P4_VWS")]
+    [EnumValue("NVIDIA_TESLA_P4_VWS")]
     NvidiaTeslaP4Vws,
 
-    [Description("TPU_V2")]
+    [EnumValue("TPU_V2")]
     TpuV2,
 
-    [Description("TPU_V3")]
+    [EnumValue("TPU_V3")]
     TpuV3
 }

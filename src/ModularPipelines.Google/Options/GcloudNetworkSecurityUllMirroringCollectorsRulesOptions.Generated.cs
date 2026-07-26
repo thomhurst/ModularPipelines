@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// manage Ull     Mirroring Collector Rule resources
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "ull-mirroring-collectors", "rules")]
 public record GcloudNetworkSecurityUllMirroringCollectorsRulesOptions : GcloudOptions

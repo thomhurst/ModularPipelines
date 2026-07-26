@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// configs destinations     describe - describe a destination
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "multicloud-data-transfer-configs", "destinations", "describe")]
 public record GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinationsDescribeOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// fetch     Data Source References for a given resource type and location
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "data-source-references", "fetch-for-resource-type")]
 public record GcloudBackupDrDataSourceReferencesFetchForResourceTypeOptions(

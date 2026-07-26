@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list     gateway advertised routes
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "spokes", "gateways", "advertised-routes", "list")]
 public record GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesListOptions : GcloudOptions

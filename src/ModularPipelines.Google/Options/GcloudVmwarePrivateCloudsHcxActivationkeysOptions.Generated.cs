@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// manage VMware HCX     activation keys using Google Cloud VMware Engine
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "hcx", "activationkeys")]
 public record GcloudVmwarePrivateCloudsHcxActivationkeysOptions : GcloudOptions

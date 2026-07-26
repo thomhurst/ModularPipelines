@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// manage VMware Engine VPC peering     routes using Google Cloud VMware Engine
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "network-peerings", "routes")]
 public record GcloudVmwareNetworkPeeringsRoutesOptions : GcloudOptions

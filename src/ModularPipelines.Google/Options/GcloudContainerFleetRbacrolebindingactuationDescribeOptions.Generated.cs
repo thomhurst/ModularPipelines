@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe the     status of the RbacRoleBinding Actuation Feature in a fleet
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "rbacrolebindingactuation", "describe")]
 public record GcloudContainerFleetRbacrolebindingactuationDescribeOptions : GcloudOptions

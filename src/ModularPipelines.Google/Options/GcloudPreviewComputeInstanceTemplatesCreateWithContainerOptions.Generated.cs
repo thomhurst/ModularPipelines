@@ -18,7 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// creates a     Compute Engine a virtual machine instance template that runs a Docker     container
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instance-templates", "create-with-container")]
 public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(

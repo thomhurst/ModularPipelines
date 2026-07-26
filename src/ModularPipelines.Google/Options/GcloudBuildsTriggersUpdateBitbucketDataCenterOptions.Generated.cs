@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// updates Bitbucket     Data Center trigger used by Cloud Build
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "triggers", "update", "bitbucket-data-center")]
 public record GcloudBuildsTriggersUpdateBitbucketDataCenterOptions : GcloudOptions

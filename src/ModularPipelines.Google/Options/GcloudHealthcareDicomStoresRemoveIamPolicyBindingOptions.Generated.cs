@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove an IAM     policy binding from a Cloud Healthcare API DICOM store
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "dicom-stores", "remove-iam-policy-binding")]
 public record GcloudHealthcareDicomStoresRemoveIamPolicyBindingOptions : GcloudOptions

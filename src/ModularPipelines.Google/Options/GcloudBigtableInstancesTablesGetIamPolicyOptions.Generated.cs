@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get an IAM policy on a     Cloud Bigtable table
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "instances", "tables", "get-iam-policy")]
 public record GcloudBigtableInstancesTablesGetIamPolicyOptions : GcloudOptions

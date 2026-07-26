@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create an     enterprise-certificate configuration file for MacOS
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "enterprise-certificate-config", "create", "macos")]
 public record GcloudAuthEnterpriseCertificateConfigCreateMacosOptions : GcloudOptions

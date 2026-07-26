@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// a Web     Path represents a monitored web application or URL, assessed from a     monitoring point to measure performance and availability
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "web-paths")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersWebPathsOptions : GcloudOptions

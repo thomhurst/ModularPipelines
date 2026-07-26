@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// mark a recommendation's     state as SUCCEEDED
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recommender", "recommendations", "mark-succeeded")]
 public record GcloudRecommenderRecommendationsMarkSucceededOptions(

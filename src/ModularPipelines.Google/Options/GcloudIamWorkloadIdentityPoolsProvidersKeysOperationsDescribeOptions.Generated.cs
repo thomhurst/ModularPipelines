@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe a workload identity pool provider key operation
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workload-identity-pools", "providers", "keys", "operations", "describe")]
 public record GcloudIamWorkloadIdentityPoolsProvidersKeysOperationsDescribeOptions : GcloudOptions

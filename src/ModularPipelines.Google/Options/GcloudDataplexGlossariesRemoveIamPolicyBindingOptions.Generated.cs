@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// removes IAM policy     binding from a Dataplex Glossary
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "glossaries", "remove-iam-policy-binding")]
 public record GcloudDataplexGlossariesRemoveIamPolicyBindingOptions : GcloudOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// mark the Service     Perimeter as deleted in the dry-run mode
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "perimeters", "dry-run", "delete")]
 public record GcloudAccessContextManagerPerimetersDryRunDeleteOptions : GcloudOptions

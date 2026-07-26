@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Google Compute     Engine Cloud VPN Classic Target VPN Gateways
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-vpn-gateways", "list")]
 public record GcloudPreviewComputeTargetVpnGatewaysListOptions : GcloudOptions

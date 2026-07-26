@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// event     - simulate maintenance of a Compute Engine node group
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "sole-tenancy", "node-groups", "simulate-maintenance-event")]
 public record GcloudPreviewComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions(

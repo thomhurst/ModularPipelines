@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// party notices for the local     Cloud Spanner emulator
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emulators", "spanner", "notices")]
 public record GcloudEmulatorsSpannerNoticesOptions : GcloudOptions

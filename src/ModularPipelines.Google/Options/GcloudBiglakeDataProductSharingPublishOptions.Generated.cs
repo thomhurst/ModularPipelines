@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// publish a Knowledge Catalog     Data Product or BigLake tables to external partners
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("biglake", "data-product-sharing", "publish")]
 public record GcloudBiglakeDataProductSharingPublishOptions : GcloudOptions

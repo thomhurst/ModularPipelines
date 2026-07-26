@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 
 namespace ModularPipelines.Google.Options;
 
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "groups", "get-operational-status")]
 public record GcloudPreviewComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions(

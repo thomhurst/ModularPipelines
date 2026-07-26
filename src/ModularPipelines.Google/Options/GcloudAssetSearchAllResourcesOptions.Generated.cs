@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// searches all Cloud resources within the     specified accessible scope, such as a project, folder or organization
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "search-all-resources")]
 public record GcloudAssetSearchAllResourcesOptions : GcloudOptions

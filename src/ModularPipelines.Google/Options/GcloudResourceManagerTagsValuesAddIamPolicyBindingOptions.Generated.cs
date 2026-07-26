@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// adds a policy     binding to the IAM policy of a TagValue
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "values", "add-iam-policy-binding")]
 public record GcloudResourceManagerTagsValuesAddIamPolicyBindingOptions(

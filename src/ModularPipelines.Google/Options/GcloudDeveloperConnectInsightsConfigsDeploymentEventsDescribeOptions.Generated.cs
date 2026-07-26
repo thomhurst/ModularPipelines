@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe a deploymentEvent
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("developer-connect", "insights-configs", "deployment-events", "describe")]
 public record GcloudDeveloperConnectInsightsConfigsDeploymentEventsDescribeOptions : GcloudOptions

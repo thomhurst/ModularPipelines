@@ -6,25 +6,25 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --quotaunit.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudQuotaUnit
 {
-    [Description("minute")]
+    [EnumValue("minute")]
     Minute,
 
-    [Description("hour")]
+    [EnumValue("hour")]
     Hour,
 
-    [Description("day")]
+    [EnumValue("day")]
     Day,
 
-    [Description("month")]
+    [EnumValue("month")]
     Month
 }

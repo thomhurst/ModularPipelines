@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// migrate a key to reCAPTCHA Enterprise
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recaptcha", "keys", "migrate")]
 public record GcloudRecaptchaKeysMigrateOptions : GcloudOptions

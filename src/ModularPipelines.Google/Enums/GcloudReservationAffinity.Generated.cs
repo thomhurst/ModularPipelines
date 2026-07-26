@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --reservationaffinity.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudReservationAffinity
 {
-    [Description("any")]
+    [EnumValue("any")]
     Any,
 
-    [Description("none")]
+    [EnumValue("none")]
     None,
 
-    [Description("specific")]
+    [EnumValue("specific")]
     Specific
 }

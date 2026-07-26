@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe a Policy Tag     Manager Policy tag
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "taxonomies", "policy-tags", "describe")]
 public record GcloudDataCatalogTaxonomiesPolicyTagsDescribeOptions : GcloudOptions

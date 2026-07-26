@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// rename an     enum value in Data Catalog tag template enum field
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "tag-templates", "fields", "enum-values", "rename")]
 public record GcloudDataCatalogTagTemplatesFieldsEnumValuesRenameOptions : GcloudOptions

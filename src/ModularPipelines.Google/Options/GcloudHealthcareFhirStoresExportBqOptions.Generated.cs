@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export Cloud Healthcare API FHIR     resources to BigQuery
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "fhir-stores", "export", "bq")]
 public record GcloudHealthcareFhirStoresExportBqOptions : GcloudOptions

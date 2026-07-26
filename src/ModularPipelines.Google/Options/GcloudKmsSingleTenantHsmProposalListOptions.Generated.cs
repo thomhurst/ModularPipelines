@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list single tenant HSM     instance proposals within a single tenant HSM instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "single-tenant-hsm", "proposal", "list")]
 public record GcloudKmsSingleTenantHsmProposalListOptions : GcloudOptions

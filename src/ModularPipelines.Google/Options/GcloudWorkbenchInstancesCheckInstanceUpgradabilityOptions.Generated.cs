@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// checks if a     workbench instance is upgradeable
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workbench", "instances", "check-instance-upgradability")]
 public record GcloudWorkbenchInstancesCheckInstanceUpgradabilityOptions : GcloudOptions

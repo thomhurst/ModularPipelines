@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// show backup configuration     metadata associated with specified resources in a particular location     for the project
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "resource-backup-config", "list")]
 public record GcloudBackupDrResourceBackupConfigListOptions : GcloudOptions

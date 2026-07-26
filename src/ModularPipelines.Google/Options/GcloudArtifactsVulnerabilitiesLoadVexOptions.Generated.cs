@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// load VEX data from a CSAF file     into Artifact Analysis
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "vulnerabilities", "load-vex")]
 public record GcloudArtifactsVulnerabilitiesLoadVexOptions : GcloudOptions

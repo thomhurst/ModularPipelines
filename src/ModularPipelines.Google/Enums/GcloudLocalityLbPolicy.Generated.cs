@@ -6,43 +6,43 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --localitylbpolicy.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudLocalityLbPolicy
 {
-    [Description("INVALID_LB_POLICY")]
+    [EnumValue("INVALID_LB_POLICY")]
     InvalidLbPolicy,
 
-    [Description("ROUND_ROBIN")]
+    [EnumValue("ROUND_ROBIN")]
     RoundRobin,
 
-    [Description("LEAST_REQUEST")]
+    [EnumValue("LEAST_REQUEST")]
     LeastRequest,
 
-    [Description("RING_HASH")]
+    [EnumValue("RING_HASH")]
     RingHash,
 
-    [Description("RANDOM")]
+    [EnumValue("RANDOM")]
     Random,
 
-    [Description("ORIGINAL_DESTINATION")]
+    [EnumValue("ORIGINAL_DESTINATION")]
     OriginalDestination,
 
-    [Description("MAGLEV")]
+    [EnumValue("MAGLEV")]
     Maglev,
 
-    [Description("WEIGHTED_MAGLEV")]
+    [EnumValue("WEIGHTED_MAGLEV")]
     WeightedMaglev,
 
-    [Description("WEIGHTED_ROUND_ROBIN")]
+    [EnumValue("WEIGHTED_ROUND_ROBIN")]
     WeightedRoundRobin,
 
-    [Description("WEIGHTED_GCP_RENDEZVOUS")]
+    [EnumValue("WEIGHTED_GCP_RENDEZVOUS")]
     WeightedGcpRendezvous
 }

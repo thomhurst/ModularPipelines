@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --ipaddressselectionpolicy.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudIpAddressSelectionPolicy
 {
-    [Description("IPV4_ONLY")]
+    [EnumValue("IPV4_ONLY")]
     Ipv4Only,
 
-    [Description("PREFER_IPV6")]
+    [EnumValue("PREFER_IPV6")]
     PreferIpv6,
 
-    [Description("IPV6_ONLY")]
+    [EnumValue("IPV6_ONLY")]
     Ipv6Only
 }

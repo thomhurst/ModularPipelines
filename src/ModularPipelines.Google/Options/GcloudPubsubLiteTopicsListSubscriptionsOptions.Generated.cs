@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Pub/Sub Lite     subscriptions for a given Lite topic
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "lite-topics", "list-subscriptions")]
 public record GcloudPubsubLiteTopicsListSubscriptionsOptions : GcloudOptions

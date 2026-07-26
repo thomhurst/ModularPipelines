@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// policies     add-layer7-ddos-defense-threshold-config - add a layer7 ddos defense     threshold config to a Compute Engine security policy
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "security-policies", "add-layer7-ddos-defense-threshold-config")]
 public record GcloudPreviewComputeSecurityPoliciesAddLayer7DdosDefenseThresholdConfigOptions(

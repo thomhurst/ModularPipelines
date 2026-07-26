@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// read and manage Compute Engine     sole-tenancy node templates
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "sole-tenancy", "node-templates")]
 public record GcloudComputeSoleTenancyNodeTemplatesOptions : GcloudOptions

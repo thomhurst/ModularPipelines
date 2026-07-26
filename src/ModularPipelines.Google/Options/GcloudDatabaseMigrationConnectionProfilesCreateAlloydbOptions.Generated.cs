@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a     Database Migration Service connection profile for AlloyDB
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "connection-profiles", "create", "alloydb")]
 public record GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions : GcloudOptions

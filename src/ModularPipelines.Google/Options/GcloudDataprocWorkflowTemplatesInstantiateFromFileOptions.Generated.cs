@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// instantiate a     workflow template from a file
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "workflow-templates", "instantiate-from-file")]
 public record GcloudDataprocWorkflowTemplatesInstantiateFromFileOptions : GcloudOptions

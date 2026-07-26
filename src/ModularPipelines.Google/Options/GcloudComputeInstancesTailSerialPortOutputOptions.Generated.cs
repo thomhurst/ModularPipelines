@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// periodically fetch new     output from a virtual machine instance's serial port and display it as     it becomes available
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "tail-serial-port-output")]
 public record GcloudComputeInstancesTailSerialPortOutputOptions(

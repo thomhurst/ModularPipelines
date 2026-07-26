@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Compute Engine     sole-tenant nodes present in a nodegroup
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "sole-tenancy", "node-groups", "list-nodes")]
 public record GcloudComputeSoleTenancyNodeGroupsListNodesOptions(

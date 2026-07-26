@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get IAM policy for a Colab     Enterprise runtime template
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("colab", "runtime-templates", "get-iam-policy")]
 public record GcloudColabRuntimeTemplatesGetIamPolicyOptions : GcloudOptions

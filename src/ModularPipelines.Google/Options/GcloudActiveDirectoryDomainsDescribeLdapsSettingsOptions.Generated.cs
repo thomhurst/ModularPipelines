@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe the     LDAPS settings of a Managed Microsoft AD domain
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("active-directory", "domains", "describe-ldaps-settings")]
 public record GcloudActiveDirectoryDomainsDescribeLdapsSettingsOptions : GcloudOptions

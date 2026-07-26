@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// print a snippet to add a     repository to the Gradle build.gradle file
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "print-settings", "gradle")]
 public record GcloudArtifactsPrintSettingsGradleOptions : GcloudOptions

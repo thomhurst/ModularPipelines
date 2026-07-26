@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create an     enterprise-certificate configuration file for Windows
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "enterprise-certificate-config", "create", "windows")]
 public record GcloudAuthEnterpriseCertificateConfigCreateWindowsOptions : GcloudOptions

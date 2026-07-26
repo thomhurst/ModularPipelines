@@ -6,25 +6,25 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --datadisktype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudDataDiskType
 {
-    [Description("PD_STANDARD")]
+    [EnumValue("PD_STANDARD")]
     PdStandard,
 
-    [Description("PD_SSD")]
+    [EnumValue("PD_SSD")]
     PdSsd,
 
-    [Description("PD_BALANCED")]
+    [EnumValue("PD_BALANCED")]
     PdBalanced,
 
-    [Description("PD_EXTREME")]
+    [EnumValue("PD_EXTREME")]
     PdExtreme
 }

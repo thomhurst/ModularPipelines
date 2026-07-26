@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list     Distributed Cloud Edge Network interconnect attachments
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "networking", "interconnects", "attachments", "list")]
 public record GcloudEdgeCloudNetworkingInterconnectsAttachmentsListOptions : GcloudOptions

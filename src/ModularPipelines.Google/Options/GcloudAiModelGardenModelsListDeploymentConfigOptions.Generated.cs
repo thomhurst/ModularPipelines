@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list the machine     specifications supported by and verified for a model in Model Garden
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "model-garden", "models", "list-deployment-config")]
 public record GcloudAiModelGardenModelsListDeploymentConfigOptions : GcloudOptions

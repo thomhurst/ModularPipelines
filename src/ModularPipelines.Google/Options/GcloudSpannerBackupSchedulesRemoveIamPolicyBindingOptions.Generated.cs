@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove IAM     policy binding of a Cloud Spanner backup schedule
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "backup-schedules", "remove-iam-policy-binding")]
 public record GcloudSpannerBackupSchedulesRemoveIamPolicyBindingOptions(

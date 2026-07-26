@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// performs a point in time     restore for a Cloud SQL instance managed by Google Cloud Backup and     Disaster Recovery Service
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "point-in-time-restore")]
 public record GcloudSqlInstancesPointInTimeRestoreOptions(

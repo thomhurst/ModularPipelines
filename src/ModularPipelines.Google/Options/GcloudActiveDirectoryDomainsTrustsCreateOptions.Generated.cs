@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Microsoft Active     Directory Trust between a Managed Microsoft AD domain and another     domain
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("active-directory", "domains", "trusts", "create")]
 public record GcloudActiveDirectoryDomainsTrustsCreateOptions : GcloudOptions

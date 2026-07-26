@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// deletes Delivery Pipeline(s), Target(s), Custom     Target Type(s), and Automation(s) in a yaml configuration
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "delete")]
 public record GcloudDeployDeleteOptions : GcloudOptions

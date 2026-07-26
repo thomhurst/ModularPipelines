@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add IAM policy     binding to a Binary Authorization policy
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "policy", "add-iam-policy-binding")]
 public record GcloudContainerBinauthzPolicyAddIamPolicyBindingOptions : GcloudOptions

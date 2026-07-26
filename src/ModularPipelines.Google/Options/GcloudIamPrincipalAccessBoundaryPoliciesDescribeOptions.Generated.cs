@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get     PrincipalAccessBoundaryPolicy instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "principal-access-boundary-policies", "describe")]
 public record GcloudIamPrincipalAccessBoundaryPoliciesDescribeOptions : GcloudOptions

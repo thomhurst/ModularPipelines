@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// manage Db     Server resources
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "cloud-exadata-infrastructures", "db-servers")]
 public record GcloudOracleDatabaseCloudExadataInfrastructuresDbServersOptions : GcloudOptions

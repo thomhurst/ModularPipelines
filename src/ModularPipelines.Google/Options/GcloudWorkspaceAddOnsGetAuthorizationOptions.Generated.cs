@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// gets the authorization     information for deployments in a given project
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspace-add-ons", "get-authorization")]
 public record GcloudWorkspaceAddOnsGetAuthorizationOptions : GcloudOptions

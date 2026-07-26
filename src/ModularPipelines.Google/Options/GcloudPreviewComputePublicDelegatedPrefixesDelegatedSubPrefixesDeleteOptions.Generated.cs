@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// prefixes     delete - deletes a Compute Engine delegated sub prefix
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "public-delegated-prefixes", "delegated-sub-prefixes", "delete")]
 public record GcloudPreviewComputePublicDelegatedPrefixesDelegatedSubPrefixesDeleteOptions(

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud health-checks commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeHealthChecks
 {
     private readonly ICommand _command;
@@ -90,6 +90,21 @@ public class GcloudComputeHealthChecks
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// test IAM permissions     for a Compute Engine health check
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestIamPermissions(
+        GcloudComputeHealthChecksTestIamPermissionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

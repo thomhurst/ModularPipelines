@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// reorder all Firewall Policies
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recaptcha", "firewall-policies", "reorder")]
 public record GcloudRecaptchaFirewallPoliciesReorderOptions : GcloudOptions

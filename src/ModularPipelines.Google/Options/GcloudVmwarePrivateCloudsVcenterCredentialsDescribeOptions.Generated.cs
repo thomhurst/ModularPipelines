@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe Google     Cloud VMware Engine vCenter credentials
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "vcenter", "credentials", "describe")]
 public record GcloudVmwarePrivateCloudsVcenterCredentialsDescribeOptions : GcloudOptions

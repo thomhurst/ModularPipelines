@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe the current Artifact     Registry configuration for VPC Service Controls
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "vpcsc-config", "describe")]
 public record GcloudArtifactsVpcscConfigDescribeOptions : GcloudOptions

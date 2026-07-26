@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a telco     automation orchestration cluster
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("telco-automation", "orchestration-cluster", "create")]
 public record GcloudTelcoAutomationOrchestrationClusterCreateOptions : GcloudOptions

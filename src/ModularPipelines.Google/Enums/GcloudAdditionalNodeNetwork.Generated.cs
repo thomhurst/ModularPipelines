@@ -6,22 +6,22 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --additionalnodenetwork.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudAdditionalNodeNetwork
 {
-    [Description("ipv4")]
+    [EnumValue("ipv4")]
     Ipv4,
 
-    [Description("ipv4-ipv6")]
+    [EnumValue("ipv4-ipv6")]
     Ipv4Ipv6,
 
-    [Description("ipv6")]
+    [EnumValue("ipv6")]
     Ipv6
 }

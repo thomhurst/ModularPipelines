@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// pause a running Vertex AI model     deployment monitoring job
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "model-monitoring-jobs", "pause")]
 public record GcloudAiModelMonitoringJobsPauseOptions : GcloudOptions

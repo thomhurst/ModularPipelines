@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// perform maintenance on a     reservation, only applicable to reservations with reservation blocks
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "reservations", "perform-maintenance")]
 public record GcloudComputeReservationsPerformMaintenanceOptions(

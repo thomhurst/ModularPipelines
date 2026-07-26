@@ -6,31 +6,31 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --contenttype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudContentType
 {
-    [Description("resource")]
+    [EnumValue("resource")]
     Resource,
 
-    [Description("iam-policy")]
+    [EnumValue("iam-policy")]
     IamPolicy,
 
-    [Description("org-policy")]
+    [EnumValue("org-policy")]
     OrgPolicy,
 
-    [Description("access-policy")]
+    [EnumValue("access-policy")]
     AccessPolicy,
 
-    [Description("os-inventory")]
+    [EnumValue("os-inventory")]
     OsInventory,
 
-    [Description("relationship")]
+    [EnumValue("relationship")]
     Relationship
 }

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// use Google Cloud Natural     Language API to identify entity-level sentiment
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "language", "analyze-entity-sentiment")]
 public record GcloudMlLanguageAnalyzeEntitySentimentOptions : GcloudOptions

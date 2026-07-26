@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// rotate in the upcoming Entra ID     certificate for a Cloud SQL instance
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "ssl", "entraid-certs", "rotate")]
 public record GcloudSqlSslEntraidCertsRotateOptions : GcloudOptions

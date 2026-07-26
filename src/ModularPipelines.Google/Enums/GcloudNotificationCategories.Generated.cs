@@ -6,37 +6,37 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --notificationcategories.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudNotificationCategories
 {
-    [Description("all")]
+    [EnumValue("all")]
     All,
 
-    [Description("billing")]
+    [EnumValue("billing")]
     Billing,
 
-    [Description("legal")]
+    [EnumValue("legal")]
     Legal,
 
-    [Description("product-updates")]
+    [EnumValue("product-updates")]
     ProductUpdates,
 
-    [Description("security")]
+    [EnumValue("security")]
     Security,
 
-    [Description("suspension")]
+    [EnumValue("suspension")]
     Suspension,
 
-    [Description("technical")]
+    [EnumValue("technical")]
     Technical,
 
-    [Description("technical-incidents")]
+    [EnumValue("technical-incidents")]
     TechnicalIncidents
 }

@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// manage Google Cloud     Observability agents policies that install, update, and uninstall     agents for Compute Engine VM instances
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "ops-agents", "policies")]
 public record GcloudComputeInstancesOpsAgentsPoliciesOptions : GcloudOptions

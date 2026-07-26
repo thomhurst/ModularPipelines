@@ -6,40 +6,40 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
 /// Allowed values for --loggingconfig.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudLoggingConfig
 {
-    [Description("NONE")]
+    [EnumValue("NONE")]
     None,
 
-    [Description("DEBUG")]
+    [EnumValue("DEBUG")]
     Debug,
 
-    [Description("INFO")]
+    [EnumValue("INFO")]
     Info,
 
-    [Description("NOTICE")]
+    [EnumValue("NOTICE")]
     Notice,
 
-    [Description("WARNING")]
+    [EnumValue("WARNING")]
     Warning,
 
-    [Description("ERROR")]
+    [EnumValue("ERROR")]
     Error,
 
-    [Description("CRITICAL")]
+    [EnumValue("CRITICAL")]
     Critical,
 
-    [Description("ALERT")]
+    [EnumValue("ALERT")]
     Alert,
 
-    [Description("EMERGENCY")]
+    [EnumValue("EMERGENCY")]
     Emergency
 }

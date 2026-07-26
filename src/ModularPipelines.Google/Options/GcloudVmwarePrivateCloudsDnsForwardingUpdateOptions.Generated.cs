@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a Google Cloud     VMware Engine dns-forwarding
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "dns-forwarding", "update")]
 public record GcloudVmwarePrivateCloudsDnsForwardingUpdateOptions : GcloudOptions

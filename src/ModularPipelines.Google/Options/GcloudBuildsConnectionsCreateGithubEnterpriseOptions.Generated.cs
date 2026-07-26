@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Cloud Build     Connection of type GitHub Enterprise
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "connections", "create", "github-enterprise")]
 public record GcloudBuildsConnectionsCreateGithubEnterpriseOptions : GcloudOptions

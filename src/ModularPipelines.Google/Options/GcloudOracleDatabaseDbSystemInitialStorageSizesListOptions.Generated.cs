@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all     DbSystemInitialStorageSizes
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "db-system-initial-storage-sizes", "list")]
 public record GcloudOracleDatabaseDbSystemInitialStorageSizesListOptions : GcloudOptions

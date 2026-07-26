@@ -16,7 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import a trusted key     wrapped CryptoKeyVersion
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "versions", "import-trusted-key-wrapped")]
 public record GcloudKmsKeysVersionsImportTrustedKeyWrappedOptions : GcloudOptions
