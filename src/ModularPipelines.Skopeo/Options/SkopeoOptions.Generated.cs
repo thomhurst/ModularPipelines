@@ -16,7 +16,7 @@ namespace ModularPipelines.Skopeo.Options;
 /// Base options class for skopeo CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("skopeo")]
 public abstract record SkopeoOptions : CommandLineToolOptions

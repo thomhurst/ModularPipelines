@@ -15,7 +15,7 @@ namespace ModularPipelines.Skopeo.Options;
 /// <summary>
 /// Container "IMAGE-NAME" uses a "transport":"details" format.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("copy")]
 public record SkopeoCopyOptions : SkopeoOptions
@@ -230,6 +230,7 @@ public record SkopeoCopyOptions : SkopeoOptions
     /// <summary>
     /// Read a passphrase for signing an image from PATH
     /// </summary>
+    [SecretValue]
     [CliOption("--sign-passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? SignPassphraseFile { get; set; }
 

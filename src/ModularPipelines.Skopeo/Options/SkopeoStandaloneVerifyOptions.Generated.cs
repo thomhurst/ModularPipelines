@@ -15,7 +15,7 @@ namespace ModularPipelines.Skopeo.Options;
 /// <summary>
 /// Verify a signature using local files
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("standalone-verify")]
 public record SkopeoStandaloneVerifyOptions : SkopeoOptions

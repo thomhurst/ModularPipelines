@@ -15,7 +15,7 @@ namespace ModularPipelines.Skopeo.Options;
 /// <summary>
 /// Logout of a container registry on a specified server.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logout")]
 public record SkopeoLogoutOptions : SkopeoOptions

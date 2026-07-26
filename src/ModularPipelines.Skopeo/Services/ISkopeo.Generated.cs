@@ -15,7 +15,7 @@ namespace ModularPipelines.Skopeo.Services;
 /// <summary>
 /// Generated interface for skopeo CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface ISkopeo
 {
     #region Commands

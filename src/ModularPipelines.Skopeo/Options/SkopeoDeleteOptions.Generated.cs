@@ -15,7 +15,7 @@ namespace ModularPipelines.Skopeo.Options;
 /// <summary>
 /// Delete an "IMAGE_NAME" from a transport
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("delete")]
 public record SkopeoDeleteOptions : SkopeoOptions
