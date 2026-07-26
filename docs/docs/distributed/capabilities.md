@@ -127,7 +127,7 @@ public class RestoreModule : Module<string> { ... }
 public class LinuxBuildModule : Module<string> { ... }
 
 // Only on Windows workers
-[RequiresCapability("windows")]
+[RunOnWindowsOnly]
 [DependsOn<RestoreModule>]
 public class WindowsBuildModule : Module<string> { ... }
 

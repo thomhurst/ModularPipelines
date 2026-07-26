@@ -15,7 +15,7 @@ namespace ModularPipelines.Build.Modules.UnitTests;
 
 [DependsOn<BuildSolutionsModule>(Optional = true)]
 [ConsumesArtifact(typeof(BuildSolutionsModule), "build-output", RestorePath = "../../")]
-[RequiresCapability("linux")]
+[RunOnLinuxOnly]
 public abstract class RunUnitTestModule : Module<CommandResult>
 {
     private readonly IOptions<PipelineSettings> _pipelineSettings;
