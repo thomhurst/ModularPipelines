@@ -38,6 +38,7 @@ builder.Services
     .AddModule<BuildSolutionOnMacOSModule>()
     .AddModule<RunCoreUnitTestsModule>()
     .AddModule<RunToolsUnitTestsModule>()
+    .AddModule<RunGeneratedOptionsUnitTestsModule>()
     .AddModule<RunAzureUnitTestsModule>()
     .AddModule<RunAnalyzersUnitTestsModule>()
     .AddModule<RunDistributedUnitTestsModule>()

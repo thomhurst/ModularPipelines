@@ -13,7 +13,7 @@ using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
-namespace ModularPipelines.UnitTests.Snapshots;
+namespace ModularPipelines.GeneratedOptions.UnitTests.Snapshots;
 
 public class GeneratedCliRenderingSnapshotTests
 {
@@ -31,7 +31,7 @@ public class GeneratedCliRenderingSnapshotTests
         var repositoryRoot = FindRepositoryRoot();
         var actual = CreateSnapshots(repositoryRoot);
         var actualJson = Serialize(actual);
-        var snapshotPath = Path.Combine(repositoryRoot, "test", "ModularPipelines.UnitTests", "Snapshots", SnapshotFileName);
+        var snapshotPath = Path.Combine(repositoryRoot, "test", "ModularPipelines.GeneratedOptions.UnitTests", "Snapshots", SnapshotFileName);
 
         if (string.Equals(
                 Environment.GetEnvironmentVariable("UPDATE_CLI_RENDERING_SNAPSHOTS"),
@@ -90,12 +90,11 @@ public class GeneratedCliRenderingSnapshotTests
     [Test]
     public async Task GeneratedPackageDiscovery_OnlyIncludesAvailableAssemblies()
     {
-        var repositoryRoot = FindRepositoryRoot();
-        var configuration = GetBuildConfiguration();
+        var packageNames = GetGeneratedPackageNames(FindRepositoryRoot());
 
-        foreach (var packageName in GetGeneratedPackageNames(repositoryRoot))
+        foreach (var packageName in packageNames)
         {
-            await Assert.That(GetPackageAssemblyPath(repositoryRoot, configuration, packageName)).IsNotNull();
+            await Assert.That(File.Exists(Path.Combine(AppContext.BaseDirectory, $"{packageName}.dll"))).IsTrue();
         }
     }
 
@@ -167,37 +166,16 @@ public class GeneratedCliRenderingSnapshotTests
         string repositoryRoot,
         string packageName)
     {
-        var configuration = GetBuildConfiguration();
-
-        // Load the package assembly from its own build output rather than from this test
-        // project's output directory. Sourcing these DLLs from the test's output required the
-        // test project to reference every generated-options package (50+, including the large
-        // AWS/Azure/Google SDKs) purely to copy them here - which is what made the core unit test
-        // project one oversized compilation unit that stalled the CI runner (#3179). The packages
-        // are built by the solution, so read them from src/<package>/bin/<configuration>; the load
-        // context already resolves their dependencies from the same location.
-        var assemblyPath = GetPackageAssemblyPath(repositoryRoot, configuration, packageName)
-                           ?? throw new FileNotFoundException(
-                               $"Could not load built package {packageName}.",
-                               Path.Combine(repositoryRoot, "src", packageName, "bin", configuration));
+        var configuration = new DirectoryInfo(AppContext.BaseDirectory).Parent?.Name
+                            ?? throw new DirectoryNotFoundException("Could not determine the build configuration.");
+        var assemblyPath = Path.Combine(AppContext.BaseDirectory, $"{packageName}.dll");
+        if (!File.Exists(assemblyPath))
+        {
+            throw new FileNotFoundException($"Could not load built package {packageName}.", assemblyPath);
+        }
 
         var loadContext = new PackageAssemblyLoadContext(repositoryRoot, configuration, assemblyPath);
         return new LoadedPackage(loadContext.LoadFromAssemblyPath(Path.GetFullPath(assemblyPath)), loadContext);
-    }
-
-    private static string GetBuildConfiguration()
-    {
-        return new DirectoryInfo(AppContext.BaseDirectory).Parent?.Name
-               ?? throw new DirectoryNotFoundException("Could not determine the build configuration.");
-    }
-
-    private static string? GetPackageAssemblyPath(string repositoryRoot, string configuration, string packageName)
-    {
-        var outputDirectory = Path.Combine(repositoryRoot, "src", packageName, "bin", configuration);
-        return Directory.Exists(outputDirectory)
-            ? Directory.EnumerateFiles(outputDirectory, $"{packageName}.dll", SearchOption.AllDirectories)
-                .FirstOrDefault()
-            : null;
     }
 
     private static PackageSnapshot CreatePackageSnapshot(System.Reflection.Assembly assembly)
