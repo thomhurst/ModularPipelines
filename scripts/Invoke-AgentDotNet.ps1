@@ -591,16 +591,21 @@ function Add-SingleNodeArgument([string[]]$Arguments) {
 $effectiveArguments = Add-SingleNodeArgument $DotNetArguments
 $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
 $startInfo.UseShellExecute = $false
+$startInfo.Environment['BuildInParallel'] = 'false'
 $startInfo.Environment['DOTNET_CLI_TELEMETRY_OPTOUT'] = '1'
 $startInfo.Environment['DOTNET_CLI_USE_MSBUILD_SERVER'] = '0'
 $startInfo.Environment['MSBUILDDISABLENODEREUSE'] = '1'
 $startInfo.Environment['UseSharedCompilation'] = 'false'
 $pwshPath = (Get-Process -Id $PID).Path
+$wrapperPath = [System.IO.Path]::Combine(
+    [System.IO.Path]::GetTempPath(),
+    "agent-dotnet-wrapper-$([guid]::NewGuid()).ps1"
+)
 
 if ($IsWindows) {
     # The wrapper waits on a gate, allowing the guard to assign it to the Job Object
     # and lower its priority before it can launch dotnet or any descendants.
-    $windowsWrapper = @'
+    $wrapperScript = @'
 $startGate = [Threading.EventWaitHandle]::OpenExisting($args[0])
 try {
     if (-not $startGate.WaitOne([TimeSpan]::FromSeconds(30))) {
@@ -633,8 +638,8 @@ exit $exitCode
     $startInfo.FileName = $pwshPath
     $startInfo.ArgumentList.Add('-NoProfile')
     $startInfo.ArgumentList.Add('-NonInteractive')
-    $startInfo.ArgumentList.Add('-CommandWithArgs')
-    $startInfo.ArgumentList.Add($windowsWrapper)
+    $startInfo.ArgumentList.Add('-File')
+    $startInfo.ArgumentList.Add($wrapperPath)
     $startInfo.ArgumentList.Add('{WINDOWS_START_GATE}')
     $startInfo.ArgumentList.Add($DotNetPath)
     foreach ($argument in $effectiveArguments) {
@@ -644,7 +649,7 @@ exit $exitCode
 else {
     # PowerShell is already a guard prerequisite, so libc calls provide portable
     # process-group containment without requiring setsid(1) or Python on macOS.
-    $unixWrapper = @'
+    $wrapperScript = @'
 Add-Type -TypeDefinition @"
 using System.Runtime.InteropServices;
 
@@ -690,8 +695,8 @@ exit $exitCode
     $startInfo.FileName = $pwshPath
     $startInfo.ArgumentList.Add('-NoProfile')
     $startInfo.ArgumentList.Add('-NonInteractive')
-    $startInfo.ArgumentList.Add('-CommandWithArgs')
-    $startInfo.ArgumentList.Add($unixWrapper)
+    $startInfo.ArgumentList.Add('-File')
+    $startInfo.ArgumentList.Add($wrapperPath)
     $startInfo.ArgumentList.Add($DotNetPath)
     foreach ($argument in $effectiveArguments) {
         $startInfo.ArgumentList.Add($argument)
@@ -711,6 +716,13 @@ $windowsStartGate = $null
 $unixProcessGroupId = 0
 
 try {
+    # -File works on supported PowerShell versions; -CommandWithArgs was
+    # experimental before PowerShell 7.5.
+    [System.IO.File]::WriteAllText(
+        $wrapperPath,
+        $wrapperScript,
+        [System.Text.UTF8Encoding]::new($false))
+
     if ($IsWindows) {
         $windowsJobHandle = [AgentDotNetWindowsJob]::CreateKillOnClose()
         $windowsStartGateName = "agent-dotnet-guard-$([guid]::NewGuid())"
@@ -809,6 +821,10 @@ finally {
     }
 
     $process.Dispose()
+
+    if (Test-Path -LiteralPath $wrapperPath) {
+        Remove-Item -LiteralPath $wrapperPath -Force -ErrorAction SilentlyContinue
+    }
 }
 
 exit $finalExitCode

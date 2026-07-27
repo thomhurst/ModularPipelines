@@ -91,6 +91,7 @@ param(
 
 [pscustomobject]@{
     Arguments = $ForwardedArguments
+    BuildInParallel = $env:BuildInParallel
     MsBuildDisableNodeReuse = $env:MSBUILDDISABLENODEREUSE
     UseSharedCompilation = $env:UseSharedCompilation
     Priority = if ($IsWindows) {
@@ -117,7 +118,8 @@ param(
         throw "Arguments were not forwarded exactly: $($capture.Arguments -join '|')"
     }
 
-    if (($capture.MsBuildDisableNodeReuse -ne '1') -or
+    if (($capture.BuildInParallel -ne 'false') -or
+        ($capture.MsBuildDisableNodeReuse -ne '1') -or
         ($capture.UseSharedCompilation -ne 'false')) {
         throw 'Guarded build environment was not applied to the child process.'
     }
