@@ -141,6 +141,17 @@ public partial class TerraformCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        ParseCommandAsync(
+            commandPath,
+            helpText,
+            ParseUsageSynopsis(commandPath, helpText),
+            cancellationToken);
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray(); // Skip tool name
@@ -159,7 +170,6 @@ public partial class TerraformCliScraper : CliScraperBase
 
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
-        var usage = ParseUsageSynopsis(commandPath, helpText);
 
         // Extract enums from options
         var enums = options

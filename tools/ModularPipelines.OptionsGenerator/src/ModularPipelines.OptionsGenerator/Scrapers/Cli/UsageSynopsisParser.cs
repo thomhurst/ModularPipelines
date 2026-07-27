@@ -44,13 +44,29 @@ public static class UsageSynopsisParser
             .Distinct(StringComparer.Ordinal)
             .ToList();
 
-        return synopses
+        var candidates = synopses
             .Select(synopsis => ParseSynopsis(synopsis, commandPath))
             .Where(result => result.CommandMatched)
-            .OrderByDescending(result => result.PositionalArguments.Count)
+            .ToList();
+        if (candidates.Count == 0)
+        {
+            return UsageSynopsisParseResult.Empty;
+        }
+
+        var rankedCandidates = candidates
+            .OrderByDescending(result => result.MatchedCommandPartCount)
+            .ThenByDescending(result => result.PositionalArguments.Count)
             .ThenBy(result => result.UnparsedOperandTokens.Count)
-            .FirstOrDefault()
-            ?? UsageSynopsisParseResult.Empty;
+            .ToList();
+        var selected = rankedCandidates[0];
+
+        return selected with
+        {
+            MatchedSynopsisCount = candidates.Count,
+            HasAmbiguousMatch = rankedCandidates
+                .Skip(1)
+                .Any(candidate => HasSameScore(selected, candidate)),
+        };
     }
 
     /// <summary>
@@ -76,15 +92,15 @@ public static class UsageSynopsisParser
         IReadOnlyList<string> commandPath)
     {
         var tokens = Tokenize(synopsis);
-        var commandEnd = FindCommandEnd(tokens, commandPath);
-        if (commandEnd < 0)
+        var commandMatch = FindCommand(tokens, commandPath);
+        if (commandMatch is null)
         {
             return UsageSynopsisParseResult.Unmatched(synopsis);
         }
 
         var arguments = new List<CliPositionalArgument>();
         var unparsedTokens = new List<string>();
-        foreach (var token in CollapseAlternatives(tokens.Skip(commandEnd + 1)))
+        foreach (var token in CollapseAlternatives(tokens.Skip(commandMatch.EndIndex + 1)))
         {
             if (TryApplyStandaloneRepeat(token, arguments) || IsControlToken(token))
             {
@@ -105,11 +121,19 @@ public static class UsageSynopsisParser
         {
             Synopsis = synopsis,
             CommandMatched = true,
+            MatchedCommandPartCount = commandMatch.PartCount,
             HasOperandTokens = arguments.Count > 0 || unparsedTokens.Count > 0,
             PositionalArguments = CliPositionalArgument.MergeDuplicates(arguments),
             UnparsedOperandTokens = unparsedTokens,
         };
     }
+
+    private static bool HasSameScore(
+        UsageSynopsisParseResult left,
+        UsageSynopsisParseResult right) =>
+        left.MatchedCommandPartCount == right.MatchedCommandPartCount
+        && left.PositionalArguments.Count == right.PositionalArguments.Count
+        && left.UnparsedOperandTokens.Count == right.UnparsedOperandTokens.Count;
 
     private static IReadOnlyList<string> ExtractSynopses(string helpText)
     {
@@ -235,7 +259,9 @@ public static class UsageSynopsisParser
         return tokens;
     }
 
-    private static int FindCommandEnd(IReadOnlyList<string> tokens, IReadOnlyList<string> commandPath)
+    private static CommandMatch? FindCommand(
+        IReadOnlyList<string> tokens,
+        IReadOnlyList<string> commandPath)
     {
         for (var pathStart = 0; pathStart < commandPath.Count; pathStart++)
         {
@@ -257,12 +283,14 @@ public static class UsageSynopsisParser
                 pathIndex++;
                 if (pathIndex == commandPath.Count)
                 {
-                    return tokenIndex;
+                    return new CommandMatch(
+                        tokenIndex,
+                        commandPath.Count - pathStart);
                 }
             }
         }
 
-        return -1;
+        return null;
     }
 
     private static CliPositionalArgument? ParseOperand(string token, int positionIndex)
@@ -272,7 +300,7 @@ public static class UsageSynopsisParser
         var content = TrimWrapper(trimmed).Trim();
         var canonicalName = SelectCanonicalAlternative(content);
         var isVariadic = canonicalName.EndsWith("...", StringComparison.Ordinal)
-                         || canonicalName.EndsWith("…", StringComparison.Ordinal)
+                         || canonicalName.EndsWith('…')
                          || canonicalName.EndsWith(" ...", StringComparison.Ordinal);
         canonicalName = canonicalName.TrimEnd('.', '…').Trim();
 
@@ -404,6 +432,8 @@ public static class UsageSynopsisParser
         var type = isVariadic ? "IEnumerable<string>" : "string";
         return isRequired ? type : $"{type}?";
     }
+
+    private sealed record CommandMatch(int EndIndex, int PartCount);
 }
 
 /// <summary>
@@ -421,6 +451,12 @@ public sealed record UsageSynopsisParseResult
     public string? Synopsis { get; init; }
 
     public bool CommandMatched { get; init; }
+
+    public int MatchedCommandPartCount { get; init; }
+
+    public int MatchedSynopsisCount { get; init; }
+
+    public bool HasAmbiguousMatch { get; init; }
 
     public bool HasOperandTokens { get; init; }
 

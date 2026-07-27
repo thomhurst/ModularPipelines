@@ -96,6 +96,55 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Prefers_Full_Command_Path_Over_Suffix_With_More_Operands()
+    {
+        const string helpText = """
+            Usage:
+              tool config get <TARGET>
+              get <WRONG> <EXTRA>
+            """;
+
+        var result = UsageSynopsisParser.Parse(
+            helpText,
+            ["tool", "config", "get"]);
+
+        await Assert.That(result.Synopsis).IsEqualTo("tool config get <TARGET>");
+        await Assert.That(result.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["Target"]);
+    }
+
+    [Test]
+    public async Task Reports_Equally_Ranked_Synopses_As_Ambiguous()
+    {
+        const string helpText = """
+            Usage:
+              tool run <FILE>
+              tool run <TARGET>
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "run"]);
+
+        await Assert.That(result.MatchedSynopsisCount).IsEqualTo(2);
+        await Assert.That(result.HasAmbiguousMatch).IsTrue();
+    }
+
+    [Test]
+    public async Task Shared_Traversal_Parses_Usage_Once()
+    {
+        var scraper = new CountingUsageScraper();
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        await Assert.That(scraper.UsageParseCount).IsEqualTo(1);
+        await Assert.That(commands.Single().PositionalArguments.Single().PropertyName)
+            .IsEqualTo("Target");
+    }
+
+    [Test]
     public async Task Kustomize_Adapter_Supplies_Omitted_Buildmetadata_Operand()
     {
         const string helpText = """
@@ -234,6 +283,81 @@ public class UsageSynopsisParserTests
         }
 
         public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+    }
+
+    private sealed class CountingUsageScraper : CliScraperBase
+    {
+        public CountingUsageScraper()
+            : base(
+                new StubExecutor(),
+                Cache(),
+                NullLogger<CountingUsageScraper>.Instance)
+        {
+        }
+
+        public int UsageParseCount { get; private set; }
+
+        public override string ToolName => "tool";
+
+        public override string NamespacePrefix => "Tool";
+
+        public override string TargetNamespace => "ModularPipelines.Tool";
+
+        public override string OutputDirectory => "src/ModularPipelines.Tool";
+
+        protected override IEnumerable<string> ExtractSubcommands(string helpText) => [];
+
+        protected override IEnumerable<string> GetAdditionalUsageSynopses(
+            string[] commandPath,
+            string helpText)
+        {
+            UsageParseCount++;
+            return [];
+        }
+
+        protected override Task<CliCommandDefinition?> ParseCommandAsync(
+            string[] commandPath,
+            string helpText,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Shared traversal should pass its parsed synopsis.");
+
+        protected override Task<CliCommandDefinition?> ParseCommandAsync(
+            string[] commandPath,
+            string helpText,
+            UsageSynopsisParseResult usage,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<CliCommandDefinition?>(new CliCommandDefinition
+            {
+                FullCommand = "tool",
+                CommandParts = [],
+                ClassName = "ToolOptions",
+                ParentClassName = "ToolOptions",
+                ToolNamespacePrefix = "Tool",
+                Options = [],
+                PositionalArguments = usage.PositionalArguments,
+                UsageSynopsis = usage.Synopsis,
+                HasOperandTakingUsage = usage.HasOperandTokens,
+            });
+    }
+
+    private sealed class StubExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null) =>
+            Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = "Usage: tool <TARGET>",
+                StandardError = string.Empty,
+            });
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 
     private static ProcessCliCommandExecutor Executor() =>

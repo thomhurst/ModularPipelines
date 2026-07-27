@@ -94,6 +94,17 @@ public partial class NewmanCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        ParseCommandAsync(
+            commandPath,
+            helpText,
+            ParseUsageSynopsis(commandPath, helpText),
+            cancellationToken);
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray();
@@ -105,7 +116,6 @@ public partial class NewmanCliScraper : CliScraperBase
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
-        var usage = ParseUsageSynopsis(commandPath, helpText);
 
         var className = GenerateClassName(commandPath);
 

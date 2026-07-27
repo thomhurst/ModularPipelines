@@ -405,6 +405,7 @@ public abstract partial class CliScraperBase : ICliScraper
         CancellationToken cancellationToken)
     {
         var usage = ParseUsageSynopsis(path, helpText);
+        LogUsageSynopsisSelection(path, usage);
         if ((!HasOptions(helpText) && !usage.HasOperandTokens)
             || (path.Length == 1 && subcommands.Count > 0))
         {
@@ -414,7 +415,7 @@ public abstract partial class CliScraperBase : ICliScraper
         CliCommandDefinition? command;
         try
         {
-            command = await ParseCommandAsync(path, helpText, cancellationToken);
+            command = await ParseCommandAsync(path, helpText, usage, cancellationToken);
             if (command is not null)
             {
                 ValidateOptionShapes(command, helpText);
@@ -432,6 +433,31 @@ public abstract partial class CliScraperBase : ICliScraper
         {
             await commandChannel.Writer.WriteAsync(command, cancellationToken);
         }
+    }
+
+    private void LogUsageSynopsisSelection(
+        string[] commandPath,
+        UsageSynopsisParseResult usage)
+    {
+        if (usage.MatchedSynopsisCount <= 1)
+        {
+            return;
+        }
+
+        if (usage.HasAmbiguousMatch)
+        {
+            Logger.LogWarning(
+                "Multiple equally ranked usage synopses matched {Command}; selected: {Synopsis}",
+                string.Join(" ", commandPath),
+                usage.Synopsis);
+            return;
+        }
+
+        Logger.LogDebug(
+            "Selected usage synopsis for {Command} from {Count} matching candidates: {Synopsis}",
+            string.Join(" ", commandPath),
+            usage.MatchedSynopsisCount,
+            usage.Synopsis);
     }
 
     private async Task EnqueueSubcommandsAsync(
@@ -563,6 +589,17 @@ public abstract partial class CliScraperBase : ICliScraper
         string[] commandPath,
         string helpText,
         CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Parses a command using the synopsis result already computed by shared traversal.
+    /// Override when a scraper consumes positional operands.
+    /// </summary>
+    protected virtual Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
+        CancellationToken cancellationToken) =>
+        ParseCommandAsync(commandPath, helpText, cancellationToken);
 
     #endregion
 

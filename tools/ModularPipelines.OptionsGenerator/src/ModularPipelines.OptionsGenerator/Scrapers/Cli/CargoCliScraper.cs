@@ -112,6 +112,17 @@ public partial class CargoCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        ParseCommandAsync(
+            commandPath,
+            helpText,
+            ParseUsageSynopsis(commandPath, helpText),
+            cancellationToken);
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray();
@@ -123,7 +134,6 @@ public partial class CargoCliScraper : CliScraperBase
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
-        var usage = ParseUsageSynopsis(commandPath, helpText);
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
