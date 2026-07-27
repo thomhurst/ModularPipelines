@@ -146,6 +146,7 @@ public class CodeGeneratorOrchestrator
             approveCommandCoverageShrinkage,
             cancellationToken,
             enforceOutputContainment: true,
+            cleanupGeneratedFilesByNamespacePrefix: false,
             commandCoverageBaselinePath: previousCoverageManifestPath);
 
         var currentlyOwnedPaths = result.FilesGenerated
@@ -649,6 +650,7 @@ public class CodeGeneratorOrchestrator
         bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken,
         bool enforceOutputContainment = false,
+        bool cleanupGeneratedFilesByNamespacePrefix = true,
         string? commandCoverageBaselinePath = null)
     {
         var globalOptions = tool.GetGlobalOptions();
@@ -731,12 +733,16 @@ public class CodeGeneratorOrchestrator
         }
 
         // Only after every replacement is on disk is it safe to prune stale files.
-        CleanupGeneratedFiles(
-            outputDirectory,
-            toolDefinition.OutputDirectory,
-            toolDefinition.NamespacePrefix,
-            writtenFullPaths,
-            result.FilesDeleted);
+        // External generation reconciles only its recorded ownership after this method returns.
+        if (cleanupGeneratedFilesByNamespacePrefix)
+        {
+            CleanupGeneratedFiles(
+                outputDirectory,
+                toolDefinition.OutputDirectory,
+                toolDefinition.NamespacePrefix,
+                writtenFullPaths,
+                result.FilesDeleted);
+        }
 
         await CommandCoverageGuard.WriteManifestAsync(
             coverage,

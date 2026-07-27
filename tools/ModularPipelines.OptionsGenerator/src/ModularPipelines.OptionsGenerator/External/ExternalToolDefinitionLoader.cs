@@ -153,6 +153,7 @@ public static class ExternalToolDefinitionLoader
             "tool.commands[].commandGroupIdentifierOverride");
         ValidateOptions(command.Options, "tool.commands[].options");
         ValidatePositionalArguments(command.PositionalArguments);
+        ValidateUniqueGeneratedMemberNames(command);
         ValidateEnums(command.Enums, "tool.commands[].enums");
         ValidateCompatibilityMetadata(command);
         command.ValidateOperandCoverage();
@@ -326,6 +327,20 @@ public static class ExternalToolDefinitionLoader
         {
             current = Path.Combine(current, component);
             RejectLinkedPath(current, propertyName);
+        }
+    }
+
+    private static void ValidateUniqueGeneratedMemberNames(CliCommandDefinition command)
+    {
+        var duplicate = command.Options
+            .Select(option => option.PropertyName)
+            .Concat(command.PositionalArguments.Select(argument => argument.PropertyName))
+            .GroupBy(name => name, StringComparer.OrdinalIgnoreCase)
+            .FirstOrDefault(group => group.Skip(1).Any());
+        if (duplicate is not null)
+        {
+            throw new InvalidDataException(
+                $"tool.commands[] contains duplicate generated member name '{duplicate.Key}'.");
         }
     }
 

@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Generators;
+using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Tests.External;
 
@@ -573,6 +574,116 @@ public class ExternalToolDefinitionTests
                     await orchestrator.GenerateFromDefinitionAsync(secondTool, outputDirectory))
                 .Throws<InvalidDataException>();
             await Assert.That(File.Exists(firstService)).IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Generation_Does_Not_Delete_Files_Owned_By_Prefix_Related_Tool()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var orchestrator = CreateOrchestrator();
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var template = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var command = template.Commands.Single();
+            var fooBar = template with
+            {
+                OwnershipId = "foo-bar-integration",
+                ToolName = "foo-bar",
+                NamespacePrefix = "FooBar",
+                TargetNamespace = "Example.Build.FooBar",
+                Commands =
+                [
+                    command with
+                    {
+                        FullCommand = "foo-bar deploy",
+                        ClassName = "FooBarDeployOptions",
+                        ParentClassName = "FooBarOptions",
+                        ToolNamespacePrefix = "FooBar",
+                    },
+                ],
+            };
+            var foo = template with
+            {
+                OwnershipId = "foo-integration",
+                ToolName = "foo",
+                NamespacePrefix = "Foo",
+                TargetNamespace = "Example.Build.Foo",
+                Commands =
+                [
+                    command with
+                    {
+                        FullCommand = "foo deploy",
+                        ClassName = "FooDeployOptions",
+                        ParentClassName = "FooOptions",
+                        ToolNamespacePrefix = "Foo",
+                    },
+                ],
+            };
+
+            await orchestrator.GenerateFromDefinitionAsync(fooBar, outputDirectory);
+            var fooBarOptions = Path.Combine(
+                outputDirectory,
+                "generated",
+                "Options",
+                "FooBarDeployOptions.Generated.cs");
+            await Assert.That(File.Exists(fooBarOptions)).IsTrue();
+
+            await orchestrator.GenerateFromDefinitionAsync(foo, outputDirectory);
+
+            await Assert.That(File.Exists(fooBarOptions)).IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Duplicate_Generated_Member_Names()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var tool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var command = tool.Commands.Single();
+            tool = tool with
+            {
+                Commands =
+                [
+                    command with
+                    {
+                        PositionalArguments =
+                        [
+                            new CliPositionalArgument
+                            {
+                                PropertyName = "environment",
+                                CSharpType = "string?",
+                            },
+                        ],
+                    },
+                ],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
         }
         finally
         {
