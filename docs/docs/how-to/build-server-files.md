@@ -1,0 +1,67 @@
+---
+title: Generate build server files
+sidebar_position: 11
+---
+
+# Generate build server files
+
+The `ModularPipelines` package can create the minimal YAML needed to run a
+pipeline project in GitHub Actions, GitLab CI, or Azure Pipelines.
+
+Add the build system to the pipeline project's `.csproj`:
+
+```xml
+<PropertyGroup>
+  <ModularPipelinesBuildSystem>GitHubActions</ModularPipelinesBuildSystem>
+</PropertyGroup>
+```
+
+The next build creates the provider's conventional file:
+
+| Value | Generated file |
+| --- | --- |
+| `GitHubActions` | `.github/workflows/modular-pipelines.yml` |
+| `GitLab` | `.gitlab-ci.yml` |
+| `AzurePipelines` | `azure-pipelines.yml` |
+
+The generated job installs .NET and runs the pipeline project in Release
+configuration. Commit the generated YAML to the repository.
+
+## Pipeline projects below the repository root
+
+Generation defaults to the directory containing the pipeline project. If that
+project is in a subdirectory, set the repository root:
+
+```xml
+<PropertyGroup>
+  <ModularPipelinesBuildSystem>GitHubActions</ModularPipelinesBuildSystem>
+  <ModularPipelinesRepositoryRoot>$(MSBuildProjectDirectory)\..\..</ModularPipelinesRepositoryRoot>
+</PropertyGroup>
+```
+
+The project path in the generated command is calculated relative to this root.
+Override it explicitly when needed:
+
+```xml
+<ModularPipelinesPipelineProject>build/MyPipeline/MyPipeline.csproj</ModularPipelinesPipelineProject>
+```
+
+## Customization and overwrite safety
+
+The following optional properties customize the generated file:
+
+| Property | Default |
+| --- | --- |
+| `ModularPipelinesBuildBranch` | `main` |
+| `ModularPipelinesDotNetVersion` | `10.0.x` |
+| `ModularPipelinesDotNetSdkImage` | `mcr.microsoft.com/dotnet/sdk:10.0` |
+
+Existing YAML is preserved. To intentionally regenerate and replace it, build
+once with:
+
+```console
+dotnet build -p:ModularPipelinesOverwriteBuildServerFiles=true
+```
+
+Remove `ModularPipelinesBuildSystem` after committing the generated file if no
+further regeneration is wanted.

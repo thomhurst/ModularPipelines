@@ -1,0 +1,108 @@
+<Project>
+  <PropertyGroup>
+    <ModularPipelinesRepositoryRoot Condition="'$(ModularPipelinesRepositoryRoot)' == ''">$(MSBuildProjectDirectory)</ModularPipelinesRepositoryRoot>
+    <ModularPipelinesBuildBranch Condition="'$(ModularPipelinesBuildBranch)' == ''">main</ModularPipelinesBuildBranch>
+    <ModularPipelinesDotNetVersion Condition="'$(ModularPipelinesDotNetVersion)' == ''">10.0.x</ModularPipelinesDotNetVersion>
+    <ModularPipelinesDotNetSdkImage Condition="'$(ModularPipelinesDotNetSdkImage)' == ''">mcr.microsoft.com/dotnet/sdk:10.0</ModularPipelinesDotNetSdkImage>
+    <ModularPipelinesOverwriteBuildServerFiles Condition="'$(ModularPipelinesOverwriteBuildServerFiles)' == ''">false</ModularPipelinesOverwriteBuildServerFiles>
+  </PropertyGroup>
+
+  <Target
+    Name="GenerateModularPipelinesBuildServerFiles"
+    BeforeTargets="BeforeBuild"
+    Condition="'$(ModularPipelinesBuildSystem)' != '' and '$(DesignTimeBuild)' != 'true' and '$(IsCrossTargetingBuild)' != 'true'">
+    <PropertyGroup>
+      <_ModularPipelinesRepositoryRoot>$([System.IO.Path]::GetFullPath('$(ModularPipelinesRepositoryRoot)'))</_ModularPipelinesRepositoryRoot>
+      <_ModularPipelinesPipelineProject Condition="'$(ModularPipelinesPipelineProject)' == ''">$([MSBuild]::MakeRelative('$(_ModularPipelinesRepositoryRoot)', '$(MSBuildProjectFullPath)'))</_ModularPipelinesPipelineProject>
+      <_ModularPipelinesPipelineProject Condition="'$(ModularPipelinesPipelineProject)' != ''">$(ModularPipelinesPipelineProject)</_ModularPipelinesPipelineProject>
+      <_ModularPipelinesPipelineProject>$([System.String]::Copy('$(_ModularPipelinesPipelineProject)').Replace('\', '/'))</_ModularPipelinesPipelineProject>
+
+      <_ModularPipelinesGitHubFile>$(_ModularPipelinesRepositoryRoot)\.github\workflows\modular-pipelines.yml</_ModularPipelinesGitHubFile>
+      <_ModularPipelinesGitLabFile>$(_ModularPipelinesRepositoryRoot)\.gitlab-ci.yml</_ModularPipelinesGitLabFile>
+      <_ModularPipelinesAzureFile>$(_ModularPipelinesRepositoryRoot)\azure-pipelines.yml</_ModularPipelinesAzureFile>
+
+      <_ModularPipelinesGitHubWorkflow><![CDATA[name: ModularPipelines
+
+on:
+  push:
+    branches: [$(ModularPipelinesBuildBranch)]
+  pull_request:
+    branches: [$(ModularPipelinesBuildBranch)]
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: $(ModularPipelinesDotNetVersion)
+      - run: dotnet run --project "$(_ModularPipelinesPipelineProject)" --configuration Release
+]]></_ModularPipelinesGitHubWorkflow>
+
+      <_ModularPipelinesGitLabPipeline><![CDATA[stages:
+  - pipeline
+
+modular-pipelines:
+  image: $(ModularPipelinesDotNetSdkImage)
+  stage: pipeline
+  script:
+    - dotnet run --project "$(_ModularPipelinesPipelineProject)" --configuration Release
+]]></_ModularPipelinesGitLabPipeline>
+
+      <_ModularPipelinesAzurePipeline><![CDATA[trigger:
+  - $(ModularPipelinesBuildBranch)
+
+pr:
+  - $(ModularPipelinesBuildBranch)
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: UseDotNet@2
+    inputs:
+      packageType: sdk
+      version: $(ModularPipelinesDotNetVersion)
+  - script: dotnet run --project "$(_ModularPipelinesPipelineProject)" --configuration Release
+    displayName: Run ModularPipelines
+]]></_ModularPipelinesAzurePipeline>
+
+      <_ModularPipelinesOutputFile Condition="'$(ModularPipelinesBuildSystem)' == 'GitHubActions'">$(_ModularPipelinesGitHubFile)</_ModularPipelinesOutputFile>
+      <_ModularPipelinesOutputFile Condition="'$(ModularPipelinesBuildSystem)' == 'GitLab'">$(_ModularPipelinesGitLabFile)</_ModularPipelinesOutputFile>
+      <_ModularPipelinesOutputFile Condition="'$(ModularPipelinesBuildSystem)' == 'AzurePipelines'">$(_ModularPipelinesAzureFile)</_ModularPipelinesOutputFile>
+      <_ModularPipelinesOutputContent Condition="'$(ModularPipelinesBuildSystem)' == 'GitHubActions'">$(_ModularPipelinesGitHubWorkflow)</_ModularPipelinesOutputContent>
+      <_ModularPipelinesOutputContent Condition="'$(ModularPipelinesBuildSystem)' == 'GitLab'">$(_ModularPipelinesGitLabPipeline)</_ModularPipelinesOutputContent>
+      <_ModularPipelinesOutputContent Condition="'$(ModularPipelinesBuildSystem)' == 'AzurePipelines'">$(_ModularPipelinesAzurePipeline)</_ModularPipelinesOutputContent>
+      <_ModularPipelinesOutputFileExisted>$([System.IO.File]::Exists('$(_ModularPipelinesOutputFile)'))</_ModularPipelinesOutputFileExisted>
+    </PropertyGroup>
+
+    <Error
+      Condition="'$(ModularPipelinesBuildSystem)' != 'GitHubActions' and '$(ModularPipelinesBuildSystem)' != 'GitLab' and '$(ModularPipelinesBuildSystem)' != 'AzurePipelines'"
+      Text="Unsupported ModularPipelinesBuildSystem '$(ModularPipelinesBuildSystem)'. Use GitHubActions, GitLab, or AzurePipelines." />
+    <Error
+      Condition="!Exists('$(_ModularPipelinesRepositoryRoot)')"
+      Text="ModularPipelinesRepositoryRoot '$(_ModularPipelinesRepositoryRoot)' does not exist." />
+
+    <MakeDir
+      Directories="$([System.IO.Path]::GetDirectoryName('$(_ModularPipelinesOutputFile)'))"
+      Condition="'$(_ModularPipelinesOutputFileExisted)' != 'True'" />
+
+    <WriteLinesToFile
+      File="$(_ModularPipelinesOutputFile)"
+      Lines="$(_ModularPipelinesOutputContent)"
+      Overwrite="true"
+      WriteOnlyWhenDifferent="true"
+      Encoding="UTF-8"
+      Condition="'$(_ModularPipelinesOutputFileExisted)' != 'True' or '$(ModularPipelinesOverwriteBuildServerFiles)' == 'true'" />
+
+    <Message
+      Importance="high"
+      Text="Generated $(_ModularPipelinesOutputFile)"
+      Condition="'$(_ModularPipelinesOutputFileExisted)' != 'True' or '$(ModularPipelinesOverwriteBuildServerFiles)' == 'true'" />
+    <Message
+      Importance="high"
+      Text="Kept existing $(_ModularPipelinesOutputFile). Set ModularPipelinesOverwriteBuildServerFiles=true to replace it."
+      Condition="'$(_ModularPipelinesOutputFileExisted)' == 'True' and '$(ModularPipelinesOverwriteBuildServerFiles)' != 'true'" />
+  </Target>
+</Project>
