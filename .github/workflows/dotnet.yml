@@ -21,32 +21,35 @@ jobs:
     name: ${{ matrix.check_name }}
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
     strategy:
+      # Each platform runs the pipeline independently in standalone (non-distributed) mode.
+      # Distributed mode relied on Redis (Upstash) discovery + a SignalR/cloudflared mesh;
+      # with Redis unavailable it always fell back to a single overloaded instance doing the
+      # whole build+test load, which the runner kept reclaiming (see #3179). Running each
+      # platform standalone removes that failure mode.
       matrix:
         include:
           - os: ubuntu-latest
-            instance: 0
             check_name: pipeline (ubuntu-latest)
           - os: windows-latest
-            instance: 1
             check_name: pipeline (windows-latest, 1)
           - os: macos-latest
-            instance: 2
             check_name: pipeline (macos-latest, 2)
-          - os: ubuntu-latest
-            instance: 3
-            check_name: pipeline (ubuntu-latest, 3)
-          - os: ubuntu-latest
-            instance: 4
-            check_name: pipeline (ubuntu-latest, 4)
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    # Bound the job so a hung pipeline (e.g. the distributed master waiting on a
-    # departed worker - see #3174) fails fast instead of tying up a runner for the
+    # Bound the job so a stuck pipeline fails fast instead of tying up a runner for the
     # default 6 hours. The "Upload Hang Dumps" step runs on if:always() so dumps are
     # still collected when this timeout trips.
     timeout-minutes: 60
     env:
       NUGET_PACKAGES: ${{ matrix.os == 'windows-latest' && 'E:\nuget' || null }}
+      # Tear down MSBuild worker/compiler nodes after each build instead of keeping them
+      # resident. BuildSolutionsModule builds several solutions in sequence; with node reuse
+      # the persistent nodes accumulate memory across those builds, which contributed to the
+      # runner reclaim in #3179. Disabling reuse keeps peak memory bounded per build.
+      MSBUILDDISABLENODEREUSE: "1"
+      # Workstation GC keeps the build/test footprint lower than server GC (which allocates a
+      # heap per core) on these multi-core runners.
+      DOTNET_gcServer: "0"
 
     steps:
       - name: Add mask
@@ -66,6 +69,19 @@ jobs:
         uses: samypr100/setup-dev-drive@v4
         with:
           drive-size: 5GB
+      - name: Increase swap space
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          # Extra headroom for the full-solution build on the Linux runner.
+          sudo swapoff -a || true
+          sudo rm -f /mnt/swapfile || true
+          sudo fallocate -l 10G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+          echo "Memory and swap after reconfiguration:"
+          free -h
       - name: Setup .NET
         uses: actions/setup-dotnet@v6.0.0
         with:
@@ -85,25 +101,6 @@ jobs:
             dotnet restore $SOLUTION
           done
 
-      - name: Install cloudflared
-        if: matrix.instance == 0
-        shell: bash
-        env:
-          CLOUDFLARED_VERSION: "2026.2.0"
-        run: |
-          if [[ "$RUNNER_OS" == "Linux" ]]; then
-            curl -fsSL "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-linux-amd64" -o /usr/local/bin/cloudflared
-            chmod +x /usr/local/bin/cloudflared
-          elif [[ "$RUNNER_OS" == "macOS" ]]; then
-            curl -fsSL "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-darwin-amd64.tgz" -o cloudflared.tgz
-            tar -xzf cloudflared.tgz
-            sudo mv cloudflared /usr/local/bin/cloudflared
-            chmod +x /usr/local/bin/cloudflared
-          elif [[ "$RUNNER_OS" == "Windows" ]]; then
-            curl -fsSL "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-windows-amd64.exe" -o cloudflared.exe
-            echo "$PWD" >> $GITHUB_PATH
-          fi
-
       - name: Run Pipeline
         run: dotnet run -c Release --framework net10.0
         working-directory: "src/ModularPipelines.Build"
@@ -120,19 +117,16 @@ jobs:
           Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
           CodeCov__Token: ${{ secrets.CODECOV_TOKEN }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-          INSTANCE_INDEX: ${{ matrix.instance }}
-          TOTAL_INSTANCES: ${{ strategy.job-total }}
-          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
-          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
-          R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
-          R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
-          R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
+          # Standalone (non-distributed): TOTAL_INSTANCES=1 makes the pipeline skip the
+          # Redis/SignalR discovery path entirely and run everything on this single runner.
+          INSTANCE_INDEX: 0
+          TOTAL_INSTANCES: 1
 
       - name: Upload Hang Dumps
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: hang-dumps-${{ matrix.os }}-${{ matrix.instance }}
+          name: hang-dumps-${{ matrix.os }}
           path: |
             **/*.dmp
           if-no-files-found: ignore
