@@ -4,9 +4,13 @@ $guardScript = Join-Path $PSScriptRoot 'Invoke-AgentDotNet.ps1'
 $testRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("agent-dotnet-guard-{0}" -f [guid]::NewGuid())
 $captureScript = Join-Path $testRoot 'Capture-Invocation.ps1'
 $timeoutScript = Join-Path $testRoot 'Spawn-Child.ps1'
+$orphanParentScript = Join-Path $testRoot 'Spawn-OrphanParent.ps1'
+$orphanIntermediateScript = Join-Path $testRoot 'Spawn-OrphanIntermediate.ps1'
+$orphanGrandchildScript = Join-Path $testRoot 'OrphanGrandchild.ps1'
 $capturePath = Join-Path $testRoot 'capture.json'
 $childPidPath = Join-Path $testRoot 'child.pid'
 $normalExitChildPidPath = Join-Path $testRoot 'normal-exit-child.pid'
+$orphanPidPath = Join-Path $testRoot 'orphan.pid'
 $pwshPath = (Get-Process -Id $PID).Path
 
 $resolvedTempRoot = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
@@ -27,7 +31,8 @@ function Test-SavedProcessIsRunning($Identity) {
     try {
         $candidate = [System.Diagnostics.Process]::GetProcessById($Identity.ProcessId)
         try {
-            return $candidate.StartTime.ToUniversalTime().Ticks -eq $Identity.StartTimeUtcTicks
+            return (-not $candidate.HasExited) -and
+                $candidate.StartTime.ToUniversalTime().Ticks -eq $Identity.StartTimeUtcTicks
         }
         finally {
             $candidate.Dispose()
@@ -89,6 +94,12 @@ param(
     BuildInParallel = $env:BuildInParallel
     MsBuildDisableNodeReuse = $env:MSBUILDDISABLENODEREUSE
     UseSharedCompilation = $env:UseSharedCompilation
+    Priority = if ($IsWindows) {
+        (Get-Process -Id $PID).PriorityClass.ToString()
+    }
+    else {
+        (& ps -o ni= -p $PID).Trim()
+    }
 } | ConvertTo-Json | Set-Content -LiteralPath $OutputPath
 '@ | Set-Content -LiteralPath $captureScript
 
@@ -111,6 +122,11 @@ param(
         ($capture.MsBuildDisableNodeReuse -ne '1') -or
         ($capture.UseSharedCompilation -ne 'false')) {
         throw 'Guarded build environment was not applied to the child process.'
+    }
+
+    if (($IsWindows -and $capture.Priority -ne 'BelowNormal') -or
+        ((-not $IsWindows) -and [int]$capture.Priority -le 0)) {
+        throw "Guarded child priority was not lowered: $($capture.Priority)"
     }
 
     @'
@@ -166,6 +182,77 @@ Start-Sleep -Milliseconds $ParentDelayMilliseconds
         throw "Timed-out descendant process $($timedOutChild.ProcessId) is still running."
     }
 
+    if (-not $IsWindows) {
+        @'
+param([string]$PidPath)
+
+[pscustomobject]@{
+    ProcessId = $PID
+    StartTimeUtcTicks = (Get-Process -Id $PID).StartTime.ToUniversalTime().Ticks
+} | ConvertTo-Json | Set-Content -LiteralPath $PidPath
+Start-Sleep -Seconds 60
+'@ | Set-Content -LiteralPath $orphanGrandchildScript
+
+        @'
+param(
+    [string]$GrandchildScript,
+    [string]$PidPath
+)
+
+$child = Start-Process `
+    -FilePath (Get-Process -Id $PID).Path `
+    -ArgumentList @('-NoProfile', '-File', $GrandchildScript, $PidPath) `
+    -PassThru
+
+$deadline = [DateTimeOffset]::UtcNow.AddSeconds(10)
+while ((-not (Test-Path -LiteralPath $PidPath)) -and
+    [DateTimeOffset]::UtcNow -lt $deadline) {
+    Start-Sleep -Milliseconds 50
+}
+'@ | Set-Content -LiteralPath $orphanIntermediateScript
+
+        @'
+param(
+    [string]$IntermediateScript,
+    [string]$GrandchildScript,
+    [string]$PidPath
+)
+
+$intermediate = Start-Process `
+    -FilePath (Get-Process -Id $PID).Path `
+    -ArgumentList @(
+        '-NoProfile',
+        '-File',
+        $IntermediateScript,
+        $GrandchildScript,
+        $PidPath) `
+    -PassThru
+$intermediate.WaitForExit()
+Start-Sleep -Seconds 60
+'@ | Set-Content -LiteralPath $orphanParentScript
+
+        $guardExitCode = Invoke-Guard `
+            -TimeoutSeconds 4 `
+            -MemoryLimitMb 512 `
+            -PollIntervalMilliseconds 10000 `
+            -Arguments @(
+                '-NoProfile',
+                '-File',
+                $orphanParentScript,
+                $orphanIntermediateScript,
+                $orphanGrandchildScript,
+                $orphanPidPath)
+
+        if ($guardExitCode -ne 124) {
+            throw "Unix orphan timeout returned $guardExitCode instead of 124."
+        }
+
+        $orphan = Get-SavedProcessIdentity $orphanPidPath
+        if (Test-SavedProcessIsRunning $orphan) {
+            throw "Reparented Unix descendant process $($orphan.ProcessId) is still running."
+        }
+    }
+
     $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
     $guardExitCode = Invoke-Guard `
         -TimeoutSeconds 1 `
@@ -195,7 +282,7 @@ Start-Sleep -Milliseconds $ParentDelayMilliseconds
     Write-Output 'OK forwarding, normal-exit cleanup, bounded timeout, timeout cleanup, and memory limit passed.'
 }
 finally {
-    foreach ($pidPath in @($childPidPath, $normalExitChildPidPath)) {
+    foreach ($pidPath in @($childPidPath, $normalExitChildPidPath, $orphanPidPath)) {
         if (Test-Path -LiteralPath $pidPath) {
             Stop-SavedProcess (Get-SavedProcessIdentity $pidPath)
         }
