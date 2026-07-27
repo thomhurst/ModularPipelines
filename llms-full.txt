@@ -2429,6 +2429,7 @@ By default, dependencies declared with `[DependsOn<T>]` are **required**. This m
 
 1. **Auto-registration**: If the dependency module is not explicitly registered, ModularPipelines will automatically register it for you
 2. **Validation**: The pipeline validates that all required dependencies can be resolved before execution
+3. **Cascade skipping**: If a required dependency is skipped by a run condition or category filter, the dependent module is skipped too
 
 ```csharp
 // Required dependency (default)
@@ -2485,12 +2486,12 @@ public class Module2 : Module<string>
 Optional dependencies are useful when:
 
 - A module can work with or without another module's output
-- You're using category filters and some dependencies may be excluded
+- A module should still run when a dependency is excluded by a category filter or run condition
 - You want conditional behavior based on what modules are registered
 
-### Category Filters and Optional Dependencies
+### Category Filters and Skipped Dependencies
 
-When using `RunOnlyCategories` to filter which modules run, dependencies in other categories may not execute. Mark such dependencies as optional:
+When a category filter skips a required dependency, ModularPipelines cascade-skips the dependent module and any modules that require it. Use an optional dependency when the dependent module should still execute:
 
 ```csharp
 [ModuleCategory("test")]
@@ -2503,7 +2504,7 @@ public class TestModule : Module<string>
 
         if (compile == null)
         {
-            // CompileModule was filtered out - handle gracefully
+            // Optional dependencies are not auto-registered
             return "Running tests without compile";
         }
 
@@ -2514,6 +2515,8 @@ public class TestModule : Module<string>
     }
 }
 ```
+
+If the dependency above were required (`[DependsOn<CompileModule>]`), `TestModule` would be skipped whenever the category filter skipped `CompileModule`.
 
 ## Accessing Dependency Results
 
