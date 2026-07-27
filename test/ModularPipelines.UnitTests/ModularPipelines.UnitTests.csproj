@@ -32,6 +32,7 @@
     <ProjectReference Include="..\..\src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Git\ModularPipelines.Git.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
+    <ProjectReference Include="..\ModularPipelines.FSharp.TestFixtures\ModularPipelines.FSharp.TestFixtures.fsproj" />
     <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
   </ItemGroup>
   <ItemGroup>
