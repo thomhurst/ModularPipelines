@@ -583,9 +583,10 @@ jobs:
           fi
 
           {
-            echo 'coverage-report<<EOF'
+            coverage_delimiter="coverage_$(openssl rand -hex 16)"
+            echo "coverage-report<<$coverage_delimiter"
             sed -n '/^Command coverage report:/,$p' "$RUNNER_TEMP/generator-output.log"
-            echo 'EOF'
+            echo "$coverage_delimiter"
           } >> "$GITHUB_OUTPUT"
         working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
 
@@ -831,12 +832,13 @@ jobs:
           }
 
           $marker = $generatorOutput | Select-String -Pattern '^Command coverage report:' | Select-Object -Last 1
-          "coverage-report<<EOF" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          $coverageDelimiter = "coverage_$([Guid]::NewGuid().ToString('N'))"
+          "coverage-report<<$coverageDelimiter" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           if ($marker) {
             $generatorOutput[($marker.LineNumber - 1)..($generatorOutput.Count - 1)] |
               Out-File -FilePath $env:GITHUB_OUTPUT -Append
           }
-          "EOF" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          $coverageDelimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
 
       - name: Check for changes

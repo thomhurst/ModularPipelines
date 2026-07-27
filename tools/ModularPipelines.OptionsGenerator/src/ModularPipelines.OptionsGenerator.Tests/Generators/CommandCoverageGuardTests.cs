@@ -165,6 +165,42 @@ public class CommandCoverageGuardTests
         }
     }
 
+    [Test]
+    public async Task FirstManifest_Uses_CheckedInGeneratedApis_AsBaseline()
+    {
+        var outputDirectory = CreateOutputDirectory();
+        var optionsDirectory = Path.Combine(
+            outputDirectory,
+            "src",
+            "ModularPipelines.Fake",
+            "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        await File.WriteAllTextAsync(
+            Path.Combine(optionsDirectory, "FakeProjectCreateOptions.Generated.cs"),
+            """
+            [CliSubCommand("project", "create")]
+            public record FakeProjectCreateOptions;
+            """);
+
+        try
+        {
+            var evaluation = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake status")),
+                outputDirectory,
+                approveShrinkage: false);
+
+            await Assert.That(evaluation.UsedGeneratedApiBaseline).IsTrue();
+            await Assert.That(evaluation.RemovedCommands)
+                .IsEquivalentTo(["fake project create"]);
+            await Assert.That(evaluation.Violations).Contains(
+                violation => violation.Contains("fake project create", StringComparison.Ordinal));
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
     private static string CreateOutputDirectory()
     {
         var path = Path.Combine(Path.GetTempPath(), "mp-command-coverage-tests", Guid.NewGuid().ToString("N"));

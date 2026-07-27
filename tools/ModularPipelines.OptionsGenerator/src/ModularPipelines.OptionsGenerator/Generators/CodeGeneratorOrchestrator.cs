@@ -63,145 +63,26 @@ public class CodeGeneratorOrchestrator
         // Build a lookup of CLI scrapers by tool name
         var cliScrapersByTool = _cliScrapers.ToDictionary(s => s.ToolName, s => s, StringComparer.OrdinalIgnoreCase);
 
-        // Process each HTML scraper (as the baseline list of tools)
-        foreach (var htmlScraper in _htmlScrapers)
-        {
-            if (!ShouldProcess(htmlScraper.ToolName, toolList))
-            {
-                _logger.LogInformation("Skipping {Tool}", htmlScraper.ToolName);
-                continue;
-            }
+        await ProcessHtmlScrapersAsync(
+            toolList,
+            cliScrapersByTool,
+            processedTools,
+            outputDirectory,
+            result,
+            emittedPaths,
+            useCliFirst,
+            approveCommandCoverageShrinkage,
+            cancellationToken);
 
-            if (processedTools.Contains(htmlScraper.ToolName))
-            {
-                continue;
-            }
-
-            _logger.LogInformation("Processing {Tool}...", htmlScraper.ToolName);
-
-            try
-            {
-                processedTools.Add(htmlScraper.ToolName);
-                result.ToolsProcessed.Add(htmlScraper.ToolName);
-
-                // Try CLI scraper first if enabled
-                if (useCliFirst && cliScrapersByTool.TryGetValue(htmlScraper.ToolName, out var cliScraper))
-                {
-                    var cliFailureReason = await GenerateFromCliAsync(
-                        cliScraper,
-                        outputDirectory,
-                        result,
-                        emittedPaths,
-                        approveCommandCoverageShrinkage,
-                        cancellationToken);
-                    if (cliFailureReason is null)
-                    {
-                        continue;
-                    }
-
-                    _logger.LogWarning("{Reason} Falling back to HTML scraper.", cliFailureReason);
-                }
-
-                // Fall back to HTML scraper (batch mode)
-                _logger.LogInformation("Using HTML scraper for {Tool}", htmlScraper.ToolName);
-
-                var htmlToolDefinition = await htmlScraper.ScrapeAsync(cancellationToken);
-
-                if (htmlToolDefinition.Errors.Count > 0)
-                {
-                    result.Errors.AddRange(htmlToolDefinition.Errors);
-                    _logger.LogWarning("Encountered {Count} errors while scraping {Tool}",
-                        htmlToolDefinition.Errors.Count, htmlScraper.ToolName);
-                }
-
-                _logger.LogInformation("Scraped {Count} commands for {Tool}",
-                    htmlToolDefinition.Commands.Count, htmlScraper.ToolName);
-
-                // Enhance types if enhancer is available
-                if (_typeEnhancer is not null)
-                {
-                    _logger.LogInformation("Enhancing types for {Tool} using CLI help...", htmlScraper.ToolName);
-                    try
-                    {
-                        htmlToolDefinition = await _typeEnhancer.EnhanceAsync(htmlToolDefinition, cancellationToken);
-                        _logger.LogInformation("Type enhancement complete for {Tool}", htmlScraper.ToolName);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogWarning(ex, "Type enhancement failed for {Tool}, using scraped types", htmlScraper.ToolName);
-                    }
-                }
-
-                await GenerateForToolAsync(
-                    htmlToolDefinition,
-                    outputDirectory,
-                    result,
-                    emittedPaths,
-                    approveCommandCoverageShrinkage,
-                    cancellationToken);
-
-                _logger.LogInformation("Generated files for {Tool}", htmlScraper.ToolName);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to process {Tool}", htmlScraper.ToolName);
-                result.Errors.Add(new ScrapingError
-                {
-                    Source = htmlScraper.ToolName,
-                    Message = ex.Message,
-                    Exception = ex
-                });
-            }
-        }
-
-        // Process CLI-only scrapers (tools that have no HTML scraper)
-        if (useCliFirst)
-        {
-            foreach (var cliScraper in _cliScrapers)
-            {
-                if (processedTools.Contains(cliScraper.ToolName))
-                {
-                    continue;
-                }
-
-                if (!ShouldProcess(cliScraper.ToolName, toolList))
-                {
-                    _logger.LogInformation("Skipping CLI-only tool {Tool}", cliScraper.ToolName);
-                    continue;
-                }
-
-                _logger.LogInformation("Processing CLI-only tool {Tool}...", cliScraper.ToolName);
-
-                try
-                {
-                    processedTools.Add(cliScraper.ToolName);
-                    result.ToolsProcessed.Add(cliScraper.ToolName);
-
-                    var failureReason = await GenerateFromCliAsync(
-                        cliScraper,
-                        outputDirectory,
-                        result,
-                        emittedPaths,
-                        approveCommandCoverageShrinkage,
-                        cancellationToken);
-                    if (failureReason is not null)
-                    {
-                        throw new InvalidOperationException(
-                            $"{failureReason} This is a CLI-only tool with no HTML fallback.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Failed to process CLI-only tool {Tool}", cliScraper.ToolName);
-                    result.Errors.Add(new ScrapingError
-                    {
-                        Source = cliScraper.ToolName,
-                        Message = ex.Message,
-                        Exception = ex
-                    });
-                }
-            }
-        }
+        await ProcessCliOnlyScrapersAsync(
+            toolList,
+            processedTools,
+            outputDirectory,
+            result,
+            emittedPaths,
+            useCliFirst,
+            approveCommandCoverageShrinkage,
+            cancellationToken);
 
         if (!result.HasErrors)
         {
@@ -214,6 +95,238 @@ public class CodeGeneratorOrchestrator
         }
 
         return result;
+    }
+
+    private async Task ProcessHtmlScrapersAsync(
+        List<string> toolList,
+        IReadOnlyDictionary<string, ICliScraper> cliScrapersByTool,
+        ISet<string> processedTools,
+        string outputDirectory,
+        GenerationResult result,
+        HashSet<string> emittedPaths,
+        bool useCliFirst,
+        bool approveCommandCoverageShrinkage,
+        CancellationToken cancellationToken)
+    {
+        foreach (var htmlScraper in _htmlScrapers)
+        {
+            if (!ShouldProcess(htmlScraper.ToolName, toolList))
+            {
+                _logger.LogInformation("Skipping {Tool}", htmlScraper.ToolName);
+                continue;
+            }
+
+            if (!processedTools.Add(htmlScraper.ToolName))
+            {
+                continue;
+            }
+
+            result.ToolsProcessed.Add(htmlScraper.ToolName);
+            await ProcessHtmlScraperAsync(
+                htmlScraper,
+                cliScrapersByTool,
+                outputDirectory,
+                result,
+                emittedPaths,
+                useCliFirst,
+                approveCommandCoverageShrinkage,
+                cancellationToken);
+        }
+    }
+
+    private async Task ProcessHtmlScraperAsync(
+        ICliDocumentationScraper htmlScraper,
+        IReadOnlyDictionary<string, ICliScraper> cliScrapersByTool,
+        string outputDirectory,
+        GenerationResult result,
+        HashSet<string> emittedPaths,
+        bool useCliFirst,
+        bool approveCommandCoverageShrinkage,
+        CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Processing {Tool}...", htmlScraper.ToolName);
+
+        try
+        {
+            if (useCliFirst && cliScrapersByTool.TryGetValue(htmlScraper.ToolName, out var cliScraper))
+            {
+                var cliFailureReason = await GenerateFromCliAsync(
+                    cliScraper,
+                    outputDirectory,
+                    result,
+                    emittedPaths,
+                    approveCommandCoverageShrinkage,
+                    cancellationToken);
+                if (cliFailureReason is null)
+                {
+                    return;
+                }
+
+                _logger.LogWarning("{Reason} Falling back to HTML scraper.", cliFailureReason);
+            }
+
+            await GenerateFromHtmlAsync(
+                htmlScraper,
+                outputDirectory,
+                result,
+                emittedPaths,
+                approveCommandCoverageShrinkage,
+                cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            AddScrapingError(result, htmlScraper.ToolName, ex, cliOnly: false);
+        }
+    }
+
+    private async Task GenerateFromHtmlAsync(
+        ICliDocumentationScraper htmlScraper,
+        string outputDirectory,
+        GenerationResult result,
+        HashSet<string> emittedPaths,
+        bool approveCommandCoverageShrinkage,
+        CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Using HTML scraper for {Tool}", htmlScraper.ToolName);
+        var toolDefinition = await htmlScraper.ScrapeAsync(cancellationToken);
+
+        if (toolDefinition.Errors.Count > 0)
+        {
+            result.Errors.AddRange(toolDefinition.Errors);
+            _logger.LogWarning(
+                "Encountered {Count} errors while scraping {Tool}",
+                toolDefinition.Errors.Count,
+                htmlScraper.ToolName);
+        }
+
+        _logger.LogInformation(
+            "Scraped {Count} commands for {Tool}",
+            toolDefinition.Commands.Count,
+            htmlScraper.ToolName);
+        toolDefinition = await EnhanceTypesAsync(toolDefinition, htmlScraper.ToolName, cancellationToken);
+
+        await GenerateForToolAsync(
+            toolDefinition,
+            outputDirectory,
+            result,
+            emittedPaths,
+            approveCommandCoverageShrinkage,
+            cancellationToken);
+
+        _logger.LogInformation("Generated files for {Tool}", htmlScraper.ToolName);
+    }
+
+    private async Task<CliToolDefinition> EnhanceTypesAsync(
+        CliToolDefinition toolDefinition,
+        string toolName,
+        CancellationToken cancellationToken)
+    {
+        if (_typeEnhancer is null)
+        {
+            return toolDefinition;
+        }
+
+        _logger.LogInformation("Enhancing types for {Tool} using CLI help...", toolName);
+        try
+        {
+            var enhanced = await _typeEnhancer.EnhanceAsync(toolDefinition, cancellationToken);
+            _logger.LogInformation("Type enhancement complete for {Tool}", toolName);
+            return enhanced;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Type enhancement failed for {Tool}, using scraped types", toolName);
+            return toolDefinition;
+        }
+    }
+
+    private async Task ProcessCliOnlyScrapersAsync(
+        List<string> toolList,
+        ISet<string> processedTools,
+        string outputDirectory,
+        GenerationResult result,
+        HashSet<string> emittedPaths,
+        bool useCliFirst,
+        bool approveCommandCoverageShrinkage,
+        CancellationToken cancellationToken)
+    {
+        if (!useCliFirst)
+        {
+            return;
+        }
+
+        foreach (var cliScraper in _cliScrapers)
+        {
+            if (processedTools.Contains(cliScraper.ToolName))
+            {
+                continue;
+            }
+
+            if (!ShouldProcess(cliScraper.ToolName, toolList))
+            {
+                _logger.LogInformation("Skipping CLI-only tool {Tool}", cliScraper.ToolName);
+                continue;
+            }
+
+            processedTools.Add(cliScraper.ToolName);
+            result.ToolsProcessed.Add(cliScraper.ToolName);
+            await ProcessCliOnlyScraperAsync(
+                cliScraper,
+                outputDirectory,
+                result,
+                emittedPaths,
+                approveCommandCoverageShrinkage,
+                cancellationToken);
+        }
+    }
+
+    private async Task ProcessCliOnlyScraperAsync(
+        ICliScraper cliScraper,
+        string outputDirectory,
+        GenerationResult result,
+        HashSet<string> emittedPaths,
+        bool approveCommandCoverageShrinkage,
+        CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Processing CLI-only tool {Tool}...", cliScraper.ToolName);
+
+        try
+        {
+            var failureReason = await GenerateFromCliAsync(
+                cliScraper,
+                outputDirectory,
+                result,
+                emittedPaths,
+                approveCommandCoverageShrinkage,
+                cancellationToken);
+            if (failureReason is not null)
+            {
+                throw new InvalidOperationException(
+                    $"{failureReason} This is a CLI-only tool with no HTML fallback.");
+            }
+        }
+        catch (Exception ex)
+        {
+            AddScrapingError(result, cliScraper.ToolName, ex, cliOnly: true);
+        }
+    }
+
+    private void AddScrapingError(
+        GenerationResult result,
+        string toolName,
+        Exception exception,
+        bool cliOnly)
+    {
+        _logger.LogError(
+            exception,
+            cliOnly ? "Failed to process CLI-only tool {Tool}" : "Failed to process {Tool}",
+            toolName);
+        result.Errors.Add(new ScrapingError
+        {
+            Source = toolName,
+            Message = exception.Message,
+            Exception = exception,
+        });
     }
 
     /// <summary>
@@ -628,6 +741,10 @@ public class GenerationResult
             if (!coverage.HasPreviousBaseline)
             {
                 lines.Add("  - Baseline: created");
+            }
+            else if (coverage.UsedGeneratedApiBaseline)
+            {
+                lines.Add("  - Baseline: checked-in generated APIs");
             }
 
             AppendDiff(lines, "Added", coverage.AddedCommands);
