@@ -183,14 +183,22 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                 tool.PreferredDocumentationExampleCommand,
                 StringComparison.OrdinalIgnoreCase));
 
-        return command is
+        if (command is null)
         {
-            IsSafeForDocumentation: true,
-            IsInteractive: false,
-            IsDestructive: false,
+            throw new InvalidOperationException(
+                $"Preferred documentation example command "
+                + $"'{tool.PreferredDocumentationExampleCommand}' for '{tool.ToolName}' "
+                + "does not match an emitted command.");
         }
-            ? command
-            : null;
+
+        if (!command.IsSafeForDocumentation || command.IsInteractive || command.IsDestructive)
+        {
+            throw new InvalidOperationException(
+                $"Preferred documentation example command '{command.FullCommand}' for "
+                + $"'{tool.ToolName}' does not have complete safe-example metadata.");
+        }
+
+        return command;
     }
 
     private static string BuildOptionsExpression(CliCommandDefinition command)

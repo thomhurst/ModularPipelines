@@ -254,6 +254,88 @@ public class MarkdownDocumentationGeneratorTests
     }
 
     [Test]
+    public async Task GenerateAsync_RejectsMissingPreferredCommand()
+    {
+        var tool = Tool("fake", Command("fake run", "FakeRunOptions", ["run"])) with
+        {
+            PreferredDocumentationExampleCommand = "fake status",
+        };
+
+        void GenerateDocumentation() =>
+            _ = new MarkdownDocumentationGenerator().GenerateAsync(tool);
+
+        await Assert.That(GenerateDocumentation)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("'fake status' for 'fake' does not match an emitted command");
+    }
+
+    [Test]
+    public async Task Apply_RejectsCatalogCommandsMissingFromScraperOutput()
+    {
+        var tool = Tool(
+            "vault",
+            Command("vault state", "VaultStateOptions", ["state"]));
+
+        void ApplyCatalog() => DocumentationExampleCatalog.Apply(tool);
+
+        await Assert.That(ApplyCatalog)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(
+                "catalog for 'vault' references missing command(s): vault delete, vault status");
+    }
+
+    [Test]
+    public async Task ValidateRegisteredTools_CoversEveryRegisteredCli()
+    {
+        var registeredTools = new[]
+        {
+            "ansible", "argocd", "aws", "az", "brew", "buildah", "cargo", "choco",
+            "cosign", "docker", "dotnet", "eksctl", "flux", "flyway", "gcloud", "gh",
+            "git", "go", "gradle", "grype", "hadolint", "helm", "jq", "kind", "kubectl",
+            "kustomize", "liquibase", "minikube", "mvn", "newman", "packer", "pip", "pnpm",
+            "podman", "pulumi", "shellcheck", "skopeo", "snyk", "sonar-scanner", "syft",
+            "terraform", "trivy", "vault", "winget", "yarn", "yq",
+        };
+
+        void ValidateCatalog() =>
+            DocumentationExampleCatalog.ValidateRegisteredTools(registeredTools);
+
+        await Assert.That(ValidateCatalog).ThrowsNothing();
+    }
+
+    [Test]
+    public async Task ValidateRegisteredTools_RejectsUnclassifiedCli()
+    {
+        void ValidateCatalog() =>
+            DocumentationExampleCatalog.ValidateRegisteredTools(["unclassified"]);
+
+        await Assert.That(ValidateCatalog)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("unclassified");
+    }
+
+    [Test]
+    public async Task GenerateAsync_EnforcesIntentionalCatalogOmission()
+    {
+        var tool = Tool(
+            "docker",
+            Command("docker version", "DockerVersionOptions", ["version"]) with
+            {
+                IsSafeForDocumentation = true,
+            }) with
+        {
+            PreferredDocumentationExampleCommand = "docker version",
+        };
+
+        var documentation = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
+
+        await Assert.That(documentation[0].Content)
+            .Contains("A runnable example is omitted when no command has complete safety metadata");
+        await Assert.That(documentation[0].Content)
+            .DoesNotContain("context.Fake().Version(");
+    }
+
+    [Test]
     public async Task GenerateAsync_RejectsIncompleteExampleValues()
     {
         var command = Command("fake run", "FakeRunOptions", ["run"]) with
