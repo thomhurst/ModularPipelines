@@ -582,6 +582,63 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Generation_Rejects_Path_Claimed_By_Another_Owner()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var orchestrator = CreateOrchestrator();
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var firstTool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            await orchestrator.GenerateFromDefinitionAsync(firstTool, outputDirectory);
+
+            var claimedFile = Path.Combine(
+                outputDirectory,
+                "generated",
+                "Options",
+                "PrivateWidgetDeployOptions.Generated.cs");
+            var originalContent = await File.ReadAllTextAsync(claimedFile);
+            var command = firstTool.Commands.Single();
+            var secondTool = firstTool with
+            {
+                OwnershipId = "other-widget-integration",
+                ToolName = "other-widget",
+                NamespacePrefix = "OtherWidget",
+                TargetNamespace = "Example.Build.OtherWidget",
+                Commands =
+                [
+                    command with
+                    {
+                        FullCommand = "other-widget deploy",
+                        ParentClassName = "OtherWidgetOptions",
+                        ToolNamespacePrefix = "OtherWidget",
+                    },
+                ],
+            };
+
+            await Assert.That(async () =>
+                    await orchestrator.GenerateFromDefinitionAsync(secondTool, outputDirectory))
+                .Throws<InvalidOperationException>();
+            await Assert.That(await File.ReadAllTextAsync(claimedFile))
+                .IsEqualTo(originalContent);
+            await Assert.That(File.Exists(Path.Combine(
+                    outputDirectory,
+                    ".modular-pipelines-options",
+                    "OtherWidget.files")))
+                .IsFalse();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Generation_Isolates_Prefix_Related_Tool_Ownership()
     {
         var workspace = CreateTemporaryDirectory();
@@ -688,6 +745,73 @@ public class ExternalToolDefinitionTests
                             {
                                 PropertyName = "environment",
                                 CSharpType = "string?",
+                            },
+                        ],
+                    },
+                ],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Conflicting_Same_Name_Enums()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var tool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var deploy = tool.Commands.Single();
+            var environment = new CliEnumDefinition
+            {
+                EnumName = "PrivateWidgetEnvironment",
+                Values =
+                [
+                    new CliEnumValue
+                    {
+                        MemberName = "Production",
+                        CliValue = "production",
+                    },
+                ],
+            };
+            tool = tool with
+            {
+                Commands =
+                [
+                    deploy with
+                    {
+                        Enums = [environment],
+                    },
+                    deploy with
+                    {
+                        FullCommand = "private-widget destroy",
+                        CommandParts = ["destroy"],
+                        ClassName = "PrivateWidgetDestroyOptions",
+                        Enums =
+                        [
+                            environment with
+                            {
+                                Values =
+                                [
+                                    new CliEnumValue
+                                    {
+                                        MemberName = "Staging",
+                                        CliValue = "staging",
+                                    },
+                                ],
                             },
                         ],
                     },

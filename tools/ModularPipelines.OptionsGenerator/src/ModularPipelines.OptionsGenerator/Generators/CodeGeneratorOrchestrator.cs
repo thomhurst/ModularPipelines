@@ -133,6 +133,9 @@ public class CodeGeneratorOrchestrator
                 previousCoverageManifest,
                 outputDirectory,
                 "previous command coverage manifest");
+        var externallyClaimedPaths = GetExternallyClaimedPaths(
+            outputDirectory,
+            tool.OwnershipId!);
 
         var result = new GenerationResult
         {
@@ -142,7 +145,7 @@ public class CodeGeneratorOrchestrator
             tool,
             outputDirectory,
             result,
-            new HashSet<string>(StringComparer.OrdinalIgnoreCase),
+            externallyClaimedPaths,
             approveCommandCoverageShrinkage,
             cancellationToken,
             enforceOutputContainment: true,
@@ -226,6 +229,46 @@ public class CodeGeneratorOrchestrator
         }
 
         return expected;
+    }
+
+    private static HashSet<string> GetExternallyClaimedPaths(
+        string outputDirectory,
+        string ownershipId)
+    {
+        var claimedPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var ownershipDirectory = ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
+            ExternalOwnershipDirectory,
+            outputDirectory,
+            "external ownership directory");
+        if (!Directory.Exists(ownershipDirectory))
+        {
+            return claimedPaths;
+        }
+
+        foreach (var path in Directory.GetFiles(
+                     ownershipDirectory,
+                     "*.files",
+                     SearchOption.TopDirectoryOnly))
+        {
+            var relativePath = Path.GetRelativePath(outputDirectory, path);
+            var manifest = ReadExternalOwnershipManifest(outputDirectory, relativePath);
+            if (string.Equals(manifest.OwnershipId, ownershipId, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            foreach (var ownedPath in manifest.OwnedPaths)
+            {
+                var fullPath = ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
+                    ownedPath,
+                    outputDirectory,
+                    "external ownership manifest path");
+                claimedPaths.Add(
+                    Path.GetRelativePath(outputDirectory, fullPath).Replace('\\', '/'));
+            }
+        }
+
+        return claimedPaths;
     }
 
     private static ExternalOwnershipManifest ReadExternalOwnershipManifest(

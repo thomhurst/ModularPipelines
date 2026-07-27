@@ -104,6 +104,7 @@ public static class ExternalToolDefinitionLoader
 
         ValidateOptions(tool.GlobalOptions, "tool.globalOptions");
         ValidateOptions(tool.SupplementalGlobalOptions, "tool.supplementalGlobalOptions");
+        ValidateEquivalentEnumDefinitions(tool);
     }
 
     internal static string ValidateRelativeOutputPath(
@@ -243,6 +244,42 @@ public static class ExternalToolDefinitionLoader
             RequireIdentifier(value.MemberName, $"{propertyName}.values[].memberName");
         }
     }
+
+    private static void ValidateEquivalentEnumDefinitions(CliToolDefinition tool)
+    {
+        var definitions = tool.Commands
+            .SelectMany(command => command.Enums.Concat(
+                command.Options
+                    .Where(option => option.EnumDefinition is not null)
+                    .Select(option => option.EnumDefinition!)))
+            .Concat(tool.GlobalOptions
+                .Concat(tool.SupplementalGlobalOptions)
+                .Where(option => option.EnumDefinition is not null)
+                .Select(option => option.EnumDefinition!));
+
+        foreach (var group in definitions.GroupBy(
+                     definition => definition.EnumName,
+                     StringComparer.Ordinal))
+        {
+            var expected = group.First();
+            if (group.Skip(1).Any(definition => !AreEquivalent(expected, definition)))
+            {
+                throw new InvalidDataException(
+                    $"External tool metadata contains conflicting definitions for enum '{group.Key}'.");
+            }
+        }
+    }
+
+    private static bool AreEquivalent(
+        CliEnumDefinition first,
+        CliEnumDefinition second) =>
+        string.Equals(first.Description, second.Description, StringComparison.Ordinal)
+        && first.Values.Count == second.Values.Count
+        && first.Values.Zip(second.Values).All(pair =>
+            string.Equals(pair.First.MemberName, pair.Second.MemberName, StringComparison.Ordinal)
+            && string.Equals(pair.First.CliValue, pair.Second.CliValue, StringComparison.Ordinal)
+            && string.Equals(pair.First.Description, pair.Second.Description, StringComparison.Ordinal)
+            && pair.First.NumericValue == pair.Second.NumericValue);
 
     private static void ValidateCompatibilityMetadata(CliCommandDefinition command)
     {
