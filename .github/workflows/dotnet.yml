@@ -98,22 +98,15 @@ jobs:
         # Doing the heavy compile out-of-process means the pipeline's own
         # BuildSolutionsModule finds everything already built (it runs with --no-restore and
         # MSBuild incremental, so it becomes a fast no-op) instead of doing the large
-        # All.sln compile inside the long-lived pipeline process that kept getting the Linux
-        # runner reclaimed (#3179).
-        #
-        # -maxcpucount:1 forces a fully serial build (one project at a time). A previous run
-        # (cc573f2) proved the reclaim happens *here*, during the All.sln compile, not during
-        # tests: ~50 projects compiled in ~60s, then the build went completely silent for
-        # ~10 minutes and the runner was reclaimed with "Child node exited prematurely"
-        # (MSB4166) errors from MSBuild's *parallel* worker nodes. Serialising removes the
-        # parallel nodes (the thing that wedged) and keeps peak memory low; it also makes the
-        # per-project log a precise trace, so if a specific project hangs the last line
-        # printed identifies it.
+        # All.sln compile inside the long-lived pipeline process (#3179). Default MSBuild
+        # parallelism - the real fix for the runner reclaim was removing 30+ unused project
+        # references (including the huge AWS/Azure/Google SDKs) from ModularPipelines.UnitTests,
+        # which was the single oversized compilation unit that stalled.
         run: |
           for SOLUTION in ModularPipelines.Analyzers.sln ModularPipelines.All.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln src/ModularPipelines.Google/ModularPipelines.Google.sln
           do
             echo "::group::Build $SOLUTION"
-            dotnet build "$SOLUTION" -c Release --no-restore -maxcpucount:1
+            dotnet build "$SOLUTION" -c Release --no-restore
             echo "::endgroup::"
           done
 
