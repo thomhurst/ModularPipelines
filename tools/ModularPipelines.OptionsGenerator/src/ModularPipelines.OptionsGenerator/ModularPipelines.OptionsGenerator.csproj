@@ -5,6 +5,13 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>modular-pipelines-options</ToolCommandName>
+    <PackageId>ModularPipelines.OptionsGenerator</PackageId>
+    <Description>Generates strongly typed ModularPipelines integrations from CLI metadata.</Description>
+    <PackageTags>ModularPipelines CLI code-generation dotnet-tool</PackageTags>
+    <!-- Microsoft.Playwright ships helper scripts inside the self-contained tool package. -->
+    <NoWarn>$(NoWarn);NU5111</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,6 +2,7 @@ using System.CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Scrapers;
 using ModularPipelines.OptionsGenerator.Scrapers.Base;
@@ -16,8 +17,13 @@ var toolsOption = new Option<string>("--tools", "-t")
 
 var outputOption = new Option<string>("--output-dir", "-o")
 {
-    Description = "Output directory (repository root)",
+    Description = "Root directory for generated output",
     DefaultValueFactory = _ => "."
+};
+
+var inputOption = new Option<string?>("--input", "-i")
+{
+    Description = "Versioned JSON metadata for an external or private CLI integration"
 };
 
 var useCliFirstOption = new Option<bool>("--use-cli-first")
@@ -46,6 +52,7 @@ var changeManifestOption = new Option<string?>("--change-manifest")
 var rootCommand = new RootCommand("ModularPipelines CLI Options Generator");
 rootCommand.Options.Add(toolsOption);
 rootCommand.Options.Add(outputOption);
+rootCommand.Options.Add(inputOption);
 rootCommand.Options.Add(useCliFirstOption);
 rootCommand.Options.Add(enhanceTypesOption);
 rootCommand.Options.Add(approveCommandCoverageShrinkageOption);
@@ -55,14 +62,24 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
 {
     var tools = parseResult.GetValue(toolsOption) ?? "all";
     var outputDir = parseResult.GetValue(outputOption) ?? ".";
+    var input = parseResult.GetValue(inputOption);
     var useCliFirst = parseResult.GetValue(useCliFirstOption);
     var enhanceTypes = parseResult.GetValue(enhanceTypesOption);
     var approveCommandCoverageShrinkage = parseResult.GetValue(approveCommandCoverageShrinkageOption);
     var changeManifest = parseResult.GetValue(changeManifestOption);
 
-    ExecutableOverrideValidator.Validate(
-        tools,
-        Environment.GetEnvironmentVariable(ProcessCliCommandExecutor.ExecutableOverrideVariableName));
+    if (input is not null && !string.Equals(tools, "all", StringComparison.OrdinalIgnoreCase))
+    {
+        Console.Error.WriteLine("--input cannot be combined with --tools.");
+        return 1;
+    }
+
+    if (input is null)
+    {
+        ExecutableOverrideValidator.Validate(
+            tools,
+            Environment.GetEnvironmentVariable(ProcessCliCommandExecutor.ExecutableOverrideVariableName));
+    }
 
     var builder = Host.CreateApplicationBuilder();
 
@@ -194,29 +211,77 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
 
     var host = builder.Build();
 
-    DocumentationExampleCatalog.ValidateRegisteredTools(
-        host.Services.GetServices<ICliScraper>()
-            .Select(scraper => scraper.ToolName)
-            .Concat(host.Services.GetServices<ICliDocumentationScraper>()
-                .Select(scraper => scraper.ToolName)));
-
-    var orchestrator = host.Services.GetRequiredService<CodeGeneratorOrchestrator>();
     var logger = host.Services.GetRequiredService<ILogger<Program>>();
+    CodeGeneratorOrchestrator orchestrator;
+    if (input is null)
+    {
+        DocumentationExampleCatalog.ValidateRegisteredTools(
+            host.Services.GetServices<ICliScraper>()
+                .Select(scraper => scraper.ToolName)
+                .Concat(host.Services.GetServices<ICliDocumentationScraper>()
+                    .Select(scraper => scraper.ToolName)));
+        orchestrator = host.Services.GetRequiredService<CodeGeneratorOrchestrator>();
+    }
+    else
+    {
+        orchestrator = new CodeGeneratorOrchestrator(
+            cliScrapers: [],
+            htmlScrapers: [],
+            host.Services.GetServices<ICodeGenerator>(),
+            host.Services.GetRequiredService<ILogger<CodeGeneratorOrchestrator>>());
+    }
 
     logger.LogInformation("Starting CLI Options Generator");
-    logger.LogInformation("Tools: {Tools}", tools);
+    if (input is null)
+    {
+        logger.LogInformation("Tools: {Tools}", tools);
+    }
+    else
+    {
+        logger.LogInformation("External metadata: {Input}", Path.GetFullPath(input));
+    }
+
     logger.LogInformation("Output directory: {OutputDir}", Path.GetFullPath(outputDir));
-    logger.LogInformation("CLI-first scraping: {UseCliFirst}", useCliFirst ? "Enabled" : "Disabled");
-    logger.LogInformation("Type enhancement: {EnhanceTypes}", enhanceTypes ? "Enabled" : "Disabled");
+    if (input is null)
+    {
+        logger.LogInformation("CLI-first scraping: {UseCliFirst}", useCliFirst ? "Enabled" : "Disabled");
+        logger.LogInformation("Type enhancement: {EnhanceTypes}", enhanceTypes ? "Enabled" : "Disabled");
+    }
+
     logger.LogInformation(
         "Command coverage shrinkage approval: {Approval}",
         approveCommandCoverageShrinkage ? "Enabled" : "Disabled");
 
-    var result = await orchestrator.GenerateAsync(
-        tools,
-        outputDir,
-        useCliFirst,
-        approveCommandCoverageShrinkage);
+    GenerationResult result;
+    try
+    {
+        if (input is null)
+        {
+            result = await orchestrator.GenerateAsync(
+                tools,
+                outputDir,
+                useCliFirst,
+                approveCommandCoverageShrinkage,
+                cancellationToken);
+        }
+        else
+        {
+            var tool = await ExternalToolDefinitionLoader.LoadAsync(
+                input,
+                outputDir,
+                cancellationToken);
+            result = await orchestrator.GenerateFromDefinitionAsync(
+                tool,
+                outputDir,
+                approveCommandCoverageShrinkage,
+                cancellationToken);
+        }
+    }
+    catch (Exception exception)
+    {
+        logger.LogError(exception, "Generation failed");
+        return 1;
+    }
 
     if (!string.IsNullOrWhiteSpace(changeManifest))
     {

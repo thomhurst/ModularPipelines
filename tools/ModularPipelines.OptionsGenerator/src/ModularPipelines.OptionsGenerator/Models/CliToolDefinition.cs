@@ -26,6 +26,13 @@ public record CliToolDefinition
     public required string OutputDirectory { get; init; }
 
     /// <summary>
+    /// Optional documentation output directory relative to the selected output root.
+    /// Set to <see langword="null"/> to omit generated documentation.
+    /// </summary>
+    public string? DocumentationOutputDirectory { get; init; } =
+        Path.Combine("docs", "docs", "mp-packages", "cli");
+
+    /// <summary>
     /// All commands for this tool.
     /// </summary>
     public required IReadOnlyList<CliCommandDefinition> Commands { get; init; }

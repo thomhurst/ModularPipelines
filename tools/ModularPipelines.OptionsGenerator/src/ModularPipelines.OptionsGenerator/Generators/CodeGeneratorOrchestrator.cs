@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Base;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -94,6 +95,31 @@ public class CodeGeneratorOrchestrator
             CleanupReconciledGeneratedFiles(outputDirectory, registeredToolNames, result.FilesDeleted);
         }
 
+        return result;
+    }
+
+    /// <summary>
+    /// Generates an integration from a caller-supplied tool definition.
+    /// </summary>
+    public async Task<GenerationResult> GenerateFromDefinitionAsync(
+        CliToolDefinition tool,
+        string outputDirectory,
+        bool approveCommandCoverageShrinkage = false,
+        CancellationToken cancellationToken = default)
+    {
+        ExternalToolDefinitionLoader.Validate(tool, outputDirectory);
+
+        var result = new GenerationResult
+        {
+            ToolsProcessed = { tool.ToolName },
+        };
+        await GenerateForToolAsync(
+            tool,
+            outputDirectory,
+            result,
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase),
+            approveCommandCoverageShrinkage,
+            cancellationToken);
         return result;
     }
 

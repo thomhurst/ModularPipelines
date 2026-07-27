@@ -50,6 +50,7 @@ builder.Services
     .AddModule<RunJqUnitTestsModule>()
     .AddModule<RunLiquibaseUnitTestsModule>()
     .AddModule<RunNodeUnitTestsModule>()
+    .AddModule<RunOptionsGeneratorUnitTestsModule>()
     .AddModule<RunShellcheckUnitTestsModule>()
     .AddModule<RunSnykUnitTestsModule>()
     .AddModule<RunSonarScannerUnitTestsModule>()

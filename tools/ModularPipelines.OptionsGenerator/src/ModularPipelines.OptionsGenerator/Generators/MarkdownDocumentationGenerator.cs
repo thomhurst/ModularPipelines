@@ -16,11 +16,17 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         CliToolDefinition tool,
         CancellationToken cancellationToken = default)
     {
+        var documentationOutputDirectory = tool.DocumentationOutputDirectory;
+        if (string.IsNullOrWhiteSpace(documentationOutputDirectory))
+        {
+            return Task.FromResult<IReadOnlyList<GeneratedFile>>([]);
+        }
+
         tool = DocumentationExampleCatalog.Apply(tool);
         tool = ExecutablePrerequisiteCatalog.Apply(tool);
         var file = new GeneratedFile
         {
-            RelativePath = Path.Combine(DocumentationDirectory, GetFileName(tool.ToolName)),
+            RelativePath = Path.Combine(documentationOutputDirectory, GetFileName(tool.ToolName)),
             Content = GenerateMarkdown(tool),
         };
 
