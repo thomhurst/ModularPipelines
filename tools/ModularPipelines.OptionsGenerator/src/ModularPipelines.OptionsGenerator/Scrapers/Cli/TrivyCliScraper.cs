@@ -111,7 +111,11 @@ public partial class TrivyCliScraper : CobraCliScraper
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
         var sourceArgument = positionalArguments.Count > 0
-            ? positionalArguments[0]
+            ? positionalArguments[0] with
+            {
+                PropertyName = "Source",
+                PlaceholderName = "NAME | URL | FILE_PATH",
+            }
             : RequiredArgument("Source", "NAME | URL | FILE_PATH");
 
         return

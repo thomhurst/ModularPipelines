@@ -76,6 +76,7 @@ public partial class NewmanCliScraper : CliScraperBase
                 {
                     var commandName = match.Groups["name"].Value.Trim();
                     if (!string.IsNullOrEmpty(commandName) &&
+                        !UsageSynopsisParser.IsPlaceholderToken(commandName) &&
                         seenCommands.Add(commandName))
                     {
                         subcommands.Add(commandName);
@@ -104,6 +105,7 @@ public partial class NewmanCliScraper : CliScraperBase
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
+        var usage = ParseUsageSynopsis(commandPath, helpText);
 
         var className = GenerateClassName(commandPath);
 
@@ -117,20 +119,9 @@ public partial class NewmanCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://www.npmjs.com/package/newman",
             Options = options,
-            PositionalArguments = commandParts.Contains("run")
-                ?
-                [
-                    new CliPositionalArgument
-                    {
-                        PropertyName = "Collection",
-                        PlaceholderName = "collection",
-                        CSharpType = "string?",
-                        IsRequired = true,
-                        PositionIndex = 0,
-                        Description = "Postman collection file or URL"
-                    }
-                ]
-                : [],
+            PositionalArguments = usage.PositionalArguments,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,
             Enums = []
         };

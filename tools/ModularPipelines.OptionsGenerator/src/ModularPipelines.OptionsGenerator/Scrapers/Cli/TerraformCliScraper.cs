@@ -159,6 +159,7 @@ public partial class TerraformCliScraper : CliScraperBase
 
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
+        var usage = ParseUsageSynopsis(commandPath, helpText);
 
         // Extract enums from options
         var enums = options
@@ -178,7 +179,9 @@ public partial class TerraformCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = null,
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments = usage.PositionalArguments,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,
             Enums = enums
         };

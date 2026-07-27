@@ -123,6 +123,7 @@ public partial class CargoCliScraper : CliScraperBase
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
+        var usage = ParseUsageSynopsis(commandPath, helpText);
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
@@ -140,7 +141,9 @@ public partial class CargoCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://doc.rust-lang.org/cargo/commands/",
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments = usage.PositionalArguments,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,
             Enums = enums
         };

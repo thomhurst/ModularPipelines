@@ -94,6 +94,7 @@ public partial class PackerCliScraper : CliScraperBase
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
+        var usage = ParseUsageSynopsis(commandPath, helpText);
 
         var className = GenerateClassName(commandPath);
 
@@ -107,7 +108,9 @@ public partial class PackerCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://developer.hashicorp.com/packer/docs/commands",
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments = usage.PositionalArguments,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,
             Enums = []
         };

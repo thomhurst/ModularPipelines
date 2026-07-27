@@ -56,6 +56,16 @@ public record CliCommandDefinition
     public IReadOnlyList<CliPositionalArgument> PositionalArguments { get; init; } = [];
 
     /// <summary>
+    /// Usage synopsis from which positional arguments were parsed.
+    /// </summary>
+    public string? UsageSynopsis { get; init; }
+
+    /// <summary>
+    /// Whether the usage synopsis declares one or more positional operands.
+    /// </summary>
+    public bool HasOperandTakingUsage { get; init; }
+
+    /// <summary>
     /// Required options that should be constructor parameters.
     /// </summary>
     public IReadOnlyList<CliOptionDefinition> RequiredOptions =>
@@ -108,6 +118,21 @@ public record CliCommandDefinition
     /// </summary>
     public IReadOnlyDictionary<string, string> DocumentationExampleValues { get; init; } =
         new Dictionary<string, string>(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Verifies that operand-taking usage cannot silently generate an unusable API.
+    /// </summary>
+    public void ValidateOperandCoverage()
+    {
+        if (!HasOperandTakingUsage || PositionalArguments.Count > 0)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException(
+            $"{FullCommand} declares positional operands in usage '{UsageSynopsis}', " +
+            "but no CliPositionalArgument values were generated.");
+    }
 }
 
 /// <summary>

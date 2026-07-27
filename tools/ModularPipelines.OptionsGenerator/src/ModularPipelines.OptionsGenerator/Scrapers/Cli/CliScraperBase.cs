@@ -404,7 +404,9 @@ public abstract partial class CliScraperBase : ICliScraper
         Channel<CliCommandDefinition> commandChannel,
         CancellationToken cancellationToken)
     {
-        if (!HasOptions(helpText) || (path.Length == 1 && subcommands.Count > 0))
+        var usage = ParseUsageSynopsis(path, helpText);
+        if ((!HasOptions(helpText) && !usage.HasOperandTokens)
+            || (path.Length == 1 && subcommands.Count > 0))
         {
             return;
         }
@@ -417,6 +419,7 @@ public abstract partial class CliScraperBase : ICliScraper
             {
                 ValidateOptionShapes(command, helpText);
                 ValidateArgumentGroups(command);
+                command.ValidateOperandCoverage();
             }
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
@@ -571,6 +574,24 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) => [];
 
     /// <summary>
+    /// Supplies extra usage synopses when a CLI omits operands from its primary usage text.
+    /// </summary>
+    protected virtual IEnumerable<string> GetAdditionalUsageSynopses(
+        string[] commandPath,
+        string helpText) => [];
+
+    /// <summary>
+    /// Parses positional operands through the shared usage/synopsis model.
+    /// </summary>
+    protected UsageSynopsisParseResult ParseUsageSynopsis(
+        string[] commandPath,
+        string helpText) =>
+        UsageSynopsisParser.Parse(
+            helpText,
+            commandPath,
+            GetAdditionalUsageSynopses(commandPath, helpText));
+
+    /// <summary>
     /// Checks if help text indicates the command has options/flags.
     /// Override if the CLI has a different pattern for leaf commands.
     /// </summary>
@@ -608,7 +629,7 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         // Skip flag-like names (e.g., "--tls", "--tlsverify", "-h")
         // These are CLI flags that sometimes appear in help output sections
-        if (subcommand.StartsWith('-'))
+        if (subcommand.StartsWith('-') || UsageSynopsisParser.IsPlaceholderToken(subcommand))
         {
             return true;
         }
