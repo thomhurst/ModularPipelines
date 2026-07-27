@@ -342,9 +342,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
         foreach (var buffer in newlyPopulatedBuffers.Where(buffer => buffer.IsComplete))
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            await _outputCoordinator
-                .OnModuleCompletedAsync(buffer, buffer.ModuleType, cancellationToken)
+            await FlushBufferSafelyAsync(buffer, OutputFlushKind.Complete, cancellationToken)
                 .ConfigureAwait(false);
         }
 
@@ -355,10 +353,68 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
         foreach (var buffer in buffers)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            await _outputCoordinator
-                .EnqueueAndFlushAsync(buffer, OutputFlushKind.Incremental, cancellationToken)
+            await FlushBufferSafelyAsync(buffer, OutputFlushKind.Incremental, cancellationToken)
                 .ConfigureAwait(false);
+        }
+
+        if (_unattributedBuffer.HasOutput)
+        {
+            await FlushBufferSafelyAsync(
+                    _unattributedBuffer,
+                    OutputFlushKind.Incremental,
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
+    private async Task FlushBufferSafelyAsync(
+        IModuleOutputBuffer buffer,
+        OutputFlushKind flushKind,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        try
+        {
+            if (flushKind is OutputFlushKind.Complete)
+            {
+                await _outputCoordinator
+                    .OnModuleCompletedAsync(buffer, buffer.ModuleType, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                await _outputCoordinator
+                    .EnqueueAndFlushAsync(buffer, flushKind, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            ReportFlushFailure(buffer, exception);
+        }
+    }
+
+    private void ReportFlushFailure(IModuleOutputBuffer buffer, Exception exception)
+    {
+        try
+        {
+            var logger = _outputLogger ?? _loggerFactory.CreateLogger<ConsoleCoordinator>();
+            logger.LogWarning(
+                exception,
+                "Failed to flush output for {ModuleType}",
+                buffer.ModuleType);
+        }
+        catch
+        {
+            // The output provider itself may be the failing sink. Preserve a fallback
+            // diagnostic without preventing unrelated buffers from being flushed.
+            _deferredExceptions.Enqueue(
+                $"Failed to flush output for {buffer.ModuleType}: {exception}");
         }
     }
 

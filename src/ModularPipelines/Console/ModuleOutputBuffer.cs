@@ -313,11 +313,6 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            // Output sinks are not transactional: they can accept this item and then
-            // throw. Count it as attempted before delivery so only untouched later
-            // items are restored and an accepted item is never duplicated.
-            renderedCount++;
-
             if (output.IsString)
             {
                 WriteDirect(directConsole, console, output.StringValue);
@@ -331,6 +326,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 logger.Log(logEvent.Level, logEvent.EventId, logEvent.State, logEvent.Exception,
                     (state, ex) => logEvent.Formatter(state, ex));
             }
+
+            // Advance only after the sink returns successfully. A sink that accepts
+            // output and then throws may cause a duplicate on retry, but retaining
+            // the item avoids guaranteed data loss when delivery never happened.
+            renderedCount++;
         }
     }
 

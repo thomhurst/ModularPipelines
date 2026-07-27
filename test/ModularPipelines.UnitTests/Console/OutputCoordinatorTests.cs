@@ -68,7 +68,7 @@ public class OutputCoordinatorTests
     }
 
     [Test]
-    public async Task DeferredFlush_FailureOnlyRequeuesUnstartedOutputs()
+    public async Task DeferredFlush_FailureRequeuesCurrentAndUnstartedOutputs()
     {
         var firstBuffer = new FailingOnceOutputBuffer();
         var secondBuffer = new CancellingOutputBuffer();
@@ -83,12 +83,12 @@ public class OutputCoordinatorTests
 
         await coordinator.FlushDeferredAsync();
 
-        await Assert.That(firstBuffer.FlushCount).IsEqualTo(1);
+        await Assert.That(firstBuffer.FlushCount).IsEqualTo(2);
         await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
     }
 
     [Test]
-    public async Task DeferredFlush_ProviderCancellationOnlyRequeuesUnstartedOutputs()
+    public async Task DeferredFlush_ProviderCancellationRequeuesCurrentAndUnstartedOutputs()
     {
         var firstBuffer = new FailingOnceOutputBuffer(new OperationCanceledException("provider cancelled"));
         var secondBuffer = new CancellingOutputBuffer();
@@ -103,7 +103,7 @@ public class OutputCoordinatorTests
 
         await coordinator.FlushDeferredAsync();
 
-        await Assert.That(firstBuffer.FlushCount).IsEqualTo(1);
+        await Assert.That(firstBuffer.FlushCount).IsEqualTo(2);
         await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
     }
 

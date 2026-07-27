@@ -160,10 +160,9 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         }
         catch
         {
-            // A sink may have accepted part of the current buffer before throwing.
-            // Retrying that buffer could duplicate delivered output, so only retain
-            // buffers that have not started rendering.
-            RequeueDeferredOutputs(toFlush.Skip(nextOutputIndex + 1));
+            // Preserve the current buffer too. Its own render cursor retains the
+            // failed item, preferring a possible duplicate over lost diagnostics.
+            RequeueDeferredOutputs(toFlush.Skip(nextOutputIndex));
 
             throw;
         }

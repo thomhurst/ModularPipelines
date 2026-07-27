@@ -238,4 +238,7 @@ public record PipelineOptions
     /// </para>
     /// </remarks>
     public bool ThrowOnPipelineFailure { get; set; } = true;
+
+    internal static TimeSpan MaximumModuleOutputFlushInterval { get; } =
+        TimeSpan.FromMilliseconds(uint.MaxValue - 1);
 }

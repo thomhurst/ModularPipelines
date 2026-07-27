@@ -117,6 +117,17 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
             _consoleCoordinator = consoleCoordinator;
             _outputCoordinator = outputCoordinator;
             _logger = logger;
+
+            if (liveFlushInterval < TimeSpan.Zero
+                || liveFlushInterval > PipelineOptions.MaximumModuleOutputFlushInterval)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(liveFlushInterval),
+                    liveFlushInterval,
+                    $"The interval must be between {TimeSpan.Zero} and " +
+                    $"{PipelineOptions.MaximumModuleOutputFlushInterval}.");
+            }
+
             _liveFlushTask = liveFlushInterval > TimeSpan.Zero
                 ? FlushPeriodicallyAsync(liveFlushInterval)
                 : Task.CompletedTask;

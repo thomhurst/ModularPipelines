@@ -299,7 +299,7 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task Flush_RenderingFailure_Retains_Only_Unattempted_Output()
+    public async Task Flush_RenderingFailure_Retains_Failed_Output()
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer)
@@ -327,13 +327,13 @@ public class ModuleOutputBufferTests
             loggerControl,
             OutputFlushKind.Complete);
 
-        await Assert.That(writer.ToString()).DoesNotContain("structured log");
+        await Assert.That(writer.ToString()).Contains("structured log");
         await Assert.That(writer.ToString()).Contains("remaining output");
         await Assert.That(buffer.HasOutput).IsFalse();
     }
 
     [Test]
-    public async Task IncrementalFlush_DoesNotRetry_LogAcceptedBeforeProviderFailure()
+    public async Task IncrementalFlush_Retries_LogAcceptedBeforeProviderFailure()
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer)
@@ -359,7 +359,7 @@ public class ModuleOutputBufferTests
             loggerControl,
             OutputFlushKind.Incremental);
 
-        await Assert.That(CountOccurrences(writer.ToString(), "structured log")).IsEqualTo(1);
+        await Assert.That(CountOccurrences(writer.ToString(), "structured log")).IsEqualTo(2);
         await Assert.That(writer.ToString()).Contains("remaining output");
         await Assert.That(buffer.HasOutput).IsFalse();
     }
