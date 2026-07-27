@@ -19,10 +19,7 @@ public static class GeneratedModuleEventMetadata
         Func<IReadOnlyList<Attribute>> attributeFactory,
         bool isComplete = true)
     {
-        if (!Factories.TryAdd(moduleType, new AttributeMetadata(attributeFactory, isComplete)))
-        {
-            throw new InvalidOperationException($"Module event metadata is already registered for {moduleType}.");
-        }
+        Factories.TryAdd(moduleType, new AttributeMetadata(attributeFactory, isComplete));
     }
 
     internal static bool TryCreateAttributes(

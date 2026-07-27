@@ -229,7 +229,7 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         var namedArguments = new List<string>();
         foreach (var argument in attribute.NamedArguments)
         {
-            var member = attributeType.GetMembers(argument.Key).FirstOrDefault();
+            var member = FindNamedArgumentMember(attributeType, argument.Key);
             var expression = FormatTypedConstant(argument.Value, currentAssembly);
             if (member is null
                 || expression is null
@@ -242,6 +242,20 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         }
 
         return namedArguments;
+    }
+
+    private static ISymbol? FindNamedArgumentMember(INamedTypeSymbol attributeType, string name)
+    {
+        for (var current = attributeType; current is not null; current = current.BaseType)
+        {
+            var member = current.GetMembers(name).FirstOrDefault();
+            if (member is not null)
+            {
+                return member;
+            }
+        }
+
+        return null;
     }
 
     private static string BuildAttributeExpression(
@@ -274,47 +288,46 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
             return null;
         }
 
-        if (constant.Kind == TypedConstantKind.Array)
+        return constant.Kind switch
         {
-            if (constant.Type is not IArrayTypeSymbol arrayType)
-            {
-                return null;
-            }
-
-            var values = new List<string>();
-            foreach (var value in constant.Values)
-            {
-                var expression = FormatTypedConstant(value, currentAssembly);
-                if (expression is null)
-                {
-                    return null;
-                }
-
-                values.Add(expression);
-            }
-
-            var elementType = arrayType.ElementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-            return $"new {elementType}[] {{ {string.Join(", ", values)} }}";
-        }
-
-        if (constant.Kind == TypedConstantKind.Type && constant.Value is ITypeSymbol type)
-        {
-            if (!IsTypeReferenceAccessible(type, currentAssembly))
-            {
-                return null;
-            }
-
-            return $"typeof({type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)})";
-        }
-
-        if (constant.Type?.TypeKind == TypeKind.Enum)
-        {
-            var enumType = constant.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-            return $"({enumType}){FormatEnumValue(constant.Value!)}";
-        }
-
-        return FormatPrimitive(constant.Value);
+            TypedConstantKind.Array => FormatArrayConstant(constant, currentAssembly),
+            TypedConstantKind.Type => FormatTypeConstant(constant, currentAssembly),
+            _ when constant.Type?.TypeKind == TypeKind.Enum
+                => FormatEnumConstant(constant),
+            _ => FormatPrimitive(constant.Value),
+        };
     }
+
+    private static string? FormatArrayConstant(
+        TypedConstant constant,
+        IAssemblySymbol currentAssembly)
+    {
+        if (constant.Type is not IArrayTypeSymbol arrayType)
+        {
+            return null;
+        }
+
+        var values = FormatArguments(constant.Values, currentAssembly);
+        if (values is null)
+        {
+            return null;
+        }
+
+        var elementType = arrayType.ElementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        return $"new {elementType}[] {{ {string.Join(", ", values)} }}";
+    }
+
+    private static string? FormatTypeConstant(
+        TypedConstant constant,
+        IAssemblySymbol currentAssembly) =>
+        constant.Value is ITypeSymbol type
+        && IsTypeReferenceAccessible(type, currentAssembly)
+            ? $"typeof({type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)})"
+            : null;
+
+    private static string FormatEnumConstant(TypedConstant constant) =>
+        $"({constant.Type!.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)})"
+        + FormatEnumValue(constant.Value!);
 
     private static bool IsTypeReferenceAccessible(
         ITypeSymbol type,
@@ -407,7 +420,7 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         }
 
         return type.TypeArguments.All(typeArgument =>
-            typeArgument is not INamedTypeSymbol namedType || IsTypeAccessible(namedType, currentAssembly));
+            IsTypeReferenceAccessible(typeArgument, currentAssembly));
     }
 
     private static bool IsAccessible(
@@ -418,7 +431,8 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         return accessibility == Accessibility.Public
             || ((accessibility == Accessibility.Internal
                     || accessibility == Accessibility.ProtectedOrInternal)
-                && SymbolEqualityComparer.Default.Equals(containingAssembly, currentAssembly));
+                && (SymbolEqualityComparer.Default.Equals(containingAssembly, currentAssembly)
+                    || containingAssembly.GivesAccessTo(currentAssembly)));
     }
 
     private static string Generate(ImmutableArray<ModuleEventMetadata> items)

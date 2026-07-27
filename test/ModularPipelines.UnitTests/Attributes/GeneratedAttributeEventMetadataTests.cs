@@ -1,3 +1,4 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
@@ -66,6 +67,54 @@ public static class GeneratedInaccessibleTypeArgument
     private sealed class InaccessibleType
     {
     }
+}
+
+public static class GeneratedNestedInaccessibleTypeArgument
+{
+    [AttributeUsage(AttributeTargets.Class)]
+    public sealed class MarkerAttribute(Type type) : Attribute
+    {
+        public Type Type { get; } = type;
+    }
+
+    public sealed class Wrapper<T>;
+
+    [Marker(typeof(Wrapper<InaccessibleType[]>))]
+    public sealed class TestModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+            => Task.FromResult<string?>("fallback");
+    }
+
+    private sealed class InaccessibleType;
+}
+
+public abstract class GeneratedNamedArgumentBaseAttribute : Attribute
+{
+    public string? InheritedValue { get; set; }
+}
+
+[AttributeUsage(AttributeTargets.Class)]
+public sealed class GeneratedInheritedNamedArgumentAttribute : GeneratedNamedArgumentBaseAttribute;
+
+[GeneratedInheritedNamedArgument(InheritedValue = "inherited")]
+public sealed class GeneratedInheritedNamedArgumentModule : Module<string>
+{
+    protected internal override Task<string?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+        => Task.FromResult<string?>("generated");
+}
+
+[MatrixTarget("friend")]
+public sealed class GeneratedFriendAttributeModule : Module<string>
+{
+    protected internal override Task<string?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+        => Task.FromResult<string?>("generated");
 }
 
 public class GeneratedAttributeEventMetadataTests
@@ -156,16 +205,70 @@ public class GeneratedAttributeEventMetadataTests
     }
 
     [Test]
-    public async Task Registry_RejectsDuplicateRegistration()
+    public async Task Generator_FallsBackForNestedInaccessibleTypeArgument()
+    {
+        var generated = GeneratedModuleEventMetadata.TryCreateAttributes(
+            typeof(GeneratedNestedInaccessibleTypeArgument.TestModule),
+            out _);
+        var service = new ModuleAttributeEventService();
+
+        var attributes = service.GetAttributes(typeof(GeneratedNestedInaccessibleTypeArgument.TestModule));
+        var marker = attributes
+            .OfType<GeneratedNestedInaccessibleTypeArgument.MarkerAttribute>()
+            .Single();
+
+        await Assert.That(generated).IsFalse();
+        await Assert.That(marker.Type.Name).IsEqualTo("Wrapper`1");
+    }
+
+    [Test]
+    public async Task Generator_ResolvesInheritedNamedArgumentMembers()
+    {
+        var generated = GeneratedModuleEventMetadata.TryCreateAttributes(
+            typeof(GeneratedInheritedNamedArgumentModule),
+            out var attributes);
+
+        await Assert.That(generated).IsTrue();
+        await Assert.That(attributes
+                .OfType<GeneratedInheritedNamedArgumentAttribute>()
+                .Single()
+                .InheritedValue)
+            .IsEqualTo("inherited");
+    }
+
+    [Test]
+    public async Task Generator_UsesInternalsVisibleToForFriendAssemblyAttributes()
+    {
+        var generated = GeneratedModuleEventMetadata.TryCreateAttributes(
+            typeof(GeneratedFriendAttributeModule),
+            out var attributes);
+
+        await Assert.That(generated).IsTrue();
+        await Assert.That(attributes
+                .OfType<MatrixTargetAttribute>()
+                .Single()
+                .Targets)
+            .IsEquivalentTo(["friend"]);
+    }
+
+    [Test]
+    public async Task Registry_KeepsFirstDuplicateRegistration()
     {
         GeneratedModuleEventMetadata.Register(
             typeof(DuplicateRegistrationType),
-            static () => Array.Empty<Attribute>());
+            static () => [new GeneratedMarkerAttribute("first")]);
 
-        await Assert.That(() => GeneratedModuleEventMetadata.Register(
-                typeof(DuplicateRegistrationType),
-                static () => Array.Empty<Attribute>()))
-            .Throws<InvalidOperationException>();
+        GeneratedModuleEventMetadata.Register(
+            typeof(DuplicateRegistrationType),
+            static () => [new GeneratedMarkerAttribute("second")]);
+
+        var found = GeneratedModuleEventMetadata.TryCreateAttributes(
+            typeof(DuplicateRegistrationType),
+            out var attributes);
+
+        await Assert.That(found).IsTrue();
+        await Assert.That(attributes.OfType<GeneratedMarkerAttribute>().Single().Value)
+            .IsEqualTo("first");
     }
 
     private sealed class ReflectionFallbackStartAttribute : Attribute, IModuleStartHandler
