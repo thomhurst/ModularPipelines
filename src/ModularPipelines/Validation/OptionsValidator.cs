@@ -9,6 +9,9 @@ namespace ModularPipelines.Validation;
 /// </summary>
 internal class OptionsValidator : IOptionsValidator
 {
+    private static readonly TimeSpan MaximumPeriodicTimerInterval =
+        TimeSpan.FromMilliseconds(uint.MaxValue - 1);
+
     /// <inheritdoc />
     public int Order => 100;
 
@@ -49,6 +52,13 @@ internal class OptionsValidator : IOptionsValidator
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
                 $"ModuleOutputFlushInterval cannot be negative. Current value: {options.ModuleOutputFlushInterval}"));
+        }
+        else if (options.ModuleOutputFlushInterval > MaximumPeriodicTimerInterval)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"ModuleOutputFlushInterval cannot exceed {MaximumPeriodicTimerInterval}. " +
+                $"Current value: {options.ModuleOutputFlushInterval}"));
         }
 
         // Validate concurrency options
