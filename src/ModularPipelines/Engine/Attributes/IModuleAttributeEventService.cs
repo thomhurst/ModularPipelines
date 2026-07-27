@@ -7,6 +7,8 @@ namespace ModularPipelines.Engine.Attributes;
 /// </summary>
 internal interface IModuleAttributeEventService
 {
+    IReadOnlyList<Attribute> GetAttributes(Type moduleType);
+
     IReadOnlyList<IModuleRegistrationEventReceiver> GetRegistrationReceivers(Type moduleType);
 
     IReadOnlyList<IModuleReadyHandler> GetReadyHandlers(Type moduleType);

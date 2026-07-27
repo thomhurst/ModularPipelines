@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ModularPipelines.Attributes.Events;
 
@@ -13,6 +14,9 @@ namespace ModularPipelines.Engine.Attributes;
 internal class ModuleAttributeEventService : IModuleAttributeEventService
 {
     private readonly ConcurrentDictionary<Type, AttributeHandlerCache> _cache = new();
+
+    public IReadOnlyList<Attribute> GetAttributes(Type moduleType)
+        => CreateAttributes(moduleType);
 
     public IReadOnlyList<IModuleRegistrationEventReceiver> GetRegistrationReceivers(Type moduleType)
         => GetCache(moduleType).RegistrationReceivers;
@@ -37,9 +41,18 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
 
     private static AttributeHandlerCache DiscoverHandlers(Type moduleType)
     {
-        // Get attributes in declaration order
-        var attributes = moduleType.GetCustomAttributes(inherit: true);
+        return CreateHandlerCache(CreateAttributes(moduleType));
+    }
 
+    private static IReadOnlyList<Attribute> CreateAttributes(Type moduleType)
+    {
+        return GeneratedModuleEventMetadata.TryCreateAttributes(moduleType, out var generatedAttributes)
+            ? generatedAttributes
+            : GetAttributesWithReflection(moduleType);
+    }
+
+    private static AttributeHandlerCache CreateHandlerCache(IReadOnlyList<Attribute> attributes)
+    {
         var registrationReceivers = new List<IModuleRegistrationEventReceiver>();
         var readyHandlers = new List<IModuleReadyHandler>();
         var startHandlers = new List<IModuleStartHandler>();
@@ -91,6 +104,18 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
             SortByPriority(skippedHandlers));
     }
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "This fallback is used only for dynamic or plugin module types without generated metadata.")]
+    private static IReadOnlyList<Attribute> GetAttributesWithReflection(Type moduleType)
+        => DiscoverAttributesWithReflection(moduleType);
+
+    [RequiresUnreferencedCode(
+        "Reflection fallback requires module attribute constructors. Ensure ModularPipelines.SourceGenerator runs for trim-safe event invocation.")]
+    private static IReadOnlyList<Attribute> DiscoverAttributesWithReflection(Type moduleType)
+        => [.. moduleType.GetCustomAttributes(inherit: true).OfType<Attribute>()];
+
     private static IReadOnlyList<T> SortByPriority<T>(List<T> handlers)
     {
         if (handlers.Count <= 1)
@@ -99,9 +124,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         }
 
         // Use stable sort to preserve declaration order for handlers with same priority
-        return handlers
-            .OrderBy(r => GetPriority(r))
-            .ToList();
+        return [.. handlers.OrderBy(GetPriority)];
     }
 
     private static int GetPriority<T>(T handler)
