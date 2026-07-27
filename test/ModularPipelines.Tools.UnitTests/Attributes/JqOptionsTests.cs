@@ -2,7 +2,7 @@ using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Jq.Options;
 using ModularPipelines.Models;
 
-namespace ModularPipelines.UnitTests.Attributes;
+namespace ModularPipelines.Tools.UnitTests.Attributes;
 
 public class JqOptionsTests
 {

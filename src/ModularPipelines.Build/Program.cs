@@ -37,6 +37,7 @@ builder.Services
     .AddModule<BuildSolutionOnWindowsModule>()
     .AddModule<BuildSolutionOnMacOSModule>()
     .AddModule<RunCoreUnitTestsModule>()
+    .AddModule<RunToolsUnitTestsModule>()
     .AddModule<RunAzureUnitTestsModule>()
     .AddModule<RunAnalyzersUnitTestsModule>()
     .AddModule<RunDistributedUnitTestsModule>()

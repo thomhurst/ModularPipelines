@@ -9,7 +9,7 @@ using ModularPipelines.Options;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
-namespace ModularPipelines.UnitTests.Helpers;
+namespace ModularPipelines.Tools.UnitTests.Helpers;
 
 public class DockerTests : TestBase
 {

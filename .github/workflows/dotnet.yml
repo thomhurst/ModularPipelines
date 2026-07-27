@@ -48,6 +48,16 @@ jobs:
       # Workstation GC keeps the build/test footprint lower than server GC (which allocates a
       # heap per core) on these multi-core runners.
       DOTNET_gcServer: "0"
+      # Single source of truth for the solutions CI restores and builds, so the Restore and
+      # Build steps below can't drift apart. This mirrors BuildSolutionsModule.Solutions in
+      # src/ModularPipelines.Build; keep the two in sync when adding a solution.
+      SOLUTIONS: >-
+        ModularPipelines.Analyzers.sln
+        ModularPipelines.All.sln
+        ModularPipelines.Examples.sln
+        src/ModularPipelines.Azure/ModularPipelines.Azure.sln
+        src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln
+        src/ModularPipelines.Google/ModularPipelines.Google.sln
 
     steps:
       - name: Add mask
@@ -87,9 +97,9 @@ jobs:
       - name: Restore
         shell: bash
         run: |
-          for SOLUTION in ModularPipelines.Analyzers.sln ModularPipelines.All.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln src/ModularPipelines.Google/ModularPipelines.Google.sln
+          for SOLUTION in $SOLUTIONS
           do
-            dotnet restore $SOLUTION
+            dotnet restore "$SOLUTION"
           done
 
       - name: Build solutions
@@ -103,7 +113,7 @@ jobs:
         # references (including the huge AWS/Azure/Google SDKs) from ModularPipelines.UnitTests,
         # which was the single oversized compilation unit that stalled.
         run: |
-          for SOLUTION in ModularPipelines.Analyzers.sln ModularPipelines.All.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln src/ModularPipelines.Google/ModularPipelines.Google.sln
+          for SOLUTION in $SOLUTIONS
           do
             echo "::group::Build $SOLUTION"
             dotnet build "$SOLUTION" -c Release --no-restore

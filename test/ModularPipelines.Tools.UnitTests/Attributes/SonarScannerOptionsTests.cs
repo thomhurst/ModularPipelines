@@ -6,7 +6,7 @@ using ModularPipelines.Options;
 using ModularPipelines.SonarScanner.Options;
 using Moq;
 
-namespace ModularPipelines.UnitTests.Attributes;
+namespace ModularPipelines.Tools.UnitTests.Attributes;
 
 public class SonarScannerOptionsTests
 {

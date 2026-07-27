@@ -5,7 +5,7 @@ using ModularPipelines.Node.Extensions;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
 
-namespace ModularPipelines.UnitTests.Helpers;
+namespace ModularPipelines.Tools.UnitTests.Helpers;
 
 public class NodeTests : TestBase
 {

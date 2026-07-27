@@ -2,7 +2,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Git;
 using ModularPipelines.Node;
 
-namespace ModularPipelines.UnitTests.Api;
+namespace ModularPipelines.Tools.UnitTests.Api;
 
 public class CancellationTokenApiTests
 {

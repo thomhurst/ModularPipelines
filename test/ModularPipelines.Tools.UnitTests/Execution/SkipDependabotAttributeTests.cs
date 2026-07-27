@@ -9,7 +9,7 @@ using ModularPipelines.TestHelpers;
 using Moq;
 using Status = ModularPipelines.Enums.Status;
 
-namespace ModularPipelines.UnitTests.Execution;
+namespace ModularPipelines.Tools.UnitTests.Execution;
 
 public class SkipDependabotAttributeTests : TestBase
 {

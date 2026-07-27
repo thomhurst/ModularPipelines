@@ -3,7 +3,7 @@ using ModularPipelines.Java.Enums;
 using ModularPipelines.Java.Options;
 using ModularPipelines.Models;
 
-namespace ModularPipelines.UnitTests.Attributes;
+namespace ModularPipelines.Tools.UnitTests.Attributes;
 
 public class JavaOptionsTests
 {

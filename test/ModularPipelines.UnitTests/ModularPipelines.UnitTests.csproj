@@ -19,35 +19,18 @@
     <PackageReference Include="TUnit" />
   </ItemGroup>
   <!--
-    This project references only the tool integrations its tests actually use. It used to
-    reference every tool integration (50+), which made it a single enormous compilation
-    unit: csc had to load the metadata of every referenced assembly - including the very
-    large AWS, Azure and Google cloud SDKs, none of which any test here uses - into one
-    compile. That was the project that stalled and got the CI runner reclaimed (#3179).
-    Keep this list to references that are genuinely used; add one only when a test here
-    starts using that integration.
+    Core framework tests only reference the core framework plus the handful of integrations
+    used as test infrastructure: Cmd (base command execution), Git (nearly every test resolves
+    paths from the git root) and DotNet (TRX/test-result parsing is exercised here). Tool
+    integration tests live in ModularPipelines.Tools.UnitTests so this project does not have
+    to reference every integration - referencing all 50+ made it one oversized compilation
+    unit that stalled the CI runner (#3179). Do not add tool integration references here; add
+    the test to ModularPipelines.Tools.UnitTests instead.
   -->
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ModularPipelines.Ansible\ModularPipelines.Ansible.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.ArgoCd\ModularPipelines.ArgoCd.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Cosign\ModularPipelines.Cosign.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Docker\ModularPipelines.Docker.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Eksctl\ModularPipelines.Eksctl.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Email\ModularPipelines.Email.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Ftp\ModularPipelines.Ftp.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.GitHub\ModularPipelines.GitHub.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Git\ModularPipelines.Git.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Hadolint\ModularPipelines.Hadolint.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Java\ModularPipelines.Java.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Jq\ModularPipelines.Jq.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Liquibase\ModularPipelines.Liquibase.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Node\ModularPipelines.Node.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Shellcheck\ModularPipelines.Shellcheck.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Snyk\ModularPipelines.Snyk.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.SonarScanner\ModularPipelines.SonarScanner.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Trivy\ModularPipelines.Trivy.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
   </ItemGroup>
