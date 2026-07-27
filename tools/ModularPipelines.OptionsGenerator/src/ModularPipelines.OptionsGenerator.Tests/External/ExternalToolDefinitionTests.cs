@@ -829,6 +829,119 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Generation_Includes_Option_Local_Enum()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var tool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var deploy = tool.Commands.Single();
+            var environment = new CliEnumDefinition
+            {
+                EnumName = "PrivateWidgetEnvironment",
+                Values =
+                [
+                    new CliEnumValue
+                    {
+                        MemberName = "Production",
+                        CliValue = "production",
+                    },
+                ],
+            };
+            tool = tool with
+            {
+                Commands =
+                [
+                    deploy with
+                    {
+                        Options =
+                        [
+                            deploy.Options.Single() with
+                            {
+                                CSharpType = "PrivateWidgetEnvironment?",
+                                EnumDefinition = environment,
+                            },
+                        ],
+                    },
+                ],
+            };
+
+            await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory);
+
+            await Assert.That(File.Exists(Path.Combine(
+                    outputDirectory,
+                    "generated",
+                    "Enums",
+                    "PrivateWidgetEnvironment.Generated.cs")))
+                .IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Duplicate_Enum_Member_Names()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var tool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var deploy = tool.Commands.Single();
+            tool = tool with
+            {
+                Commands =
+                [
+                    deploy with
+                    {
+                        Enums =
+                        [
+                            new CliEnumDefinition
+                            {
+                                EnumName = "PrivateWidgetEnvironment",
+                                Values =
+                                [
+                                    new CliEnumValue
+                                    {
+                                        MemberName = "Production",
+                                        CliValue = "production",
+                                    },
+                                    new CliEnumValue
+                                    {
+                                        MemberName = "Production",
+                                        CliValue = "prod",
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Metadata_Reconciles_Previously_Owned_Documentation()
     {
         var workspace = CreateTemporaryDirectory();

@@ -731,6 +731,28 @@ public class GeneratorHardeningTests
             .And.HasMessageContaining("Network (tool network, tool Network)");
     }
 
+    [Test]
+    public async Task SubDomainClassGenerator_Throws_When_Direct_Commands_Normalize_To_Same_Method()
+    {
+        var tool = Tool(
+            Command(
+                "ToolNetworkFooBarOptions",
+                "ToolOptions",
+                ["network", "foo-bar"],
+                subDomainGroup: "network"),
+            Command(
+                "ToolNetworkFooBar2Options",
+                "ToolOptions",
+                ["network", "foo_bar"],
+                subDomainGroup: "network"));
+
+        void Generate() => _ = new SubDomainClassGenerator().GenerateAsync(tool);
+
+        await Assert.That(Generate)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("FooBar");
+    }
+
     #endregion
 
     #region Root command collision filter

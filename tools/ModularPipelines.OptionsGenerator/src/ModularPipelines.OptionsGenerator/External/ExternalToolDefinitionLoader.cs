@@ -243,6 +243,15 @@ public static class ExternalToolDefinitionLoader
         {
             RequireIdentifier(value.MemberName, $"{propertyName}.values[].memberName");
         }
+
+        var duplicateMember = enumDefinition.Values
+            .GroupBy(value => value.MemberName, StringComparer.Ordinal)
+            .FirstOrDefault(group => group.Skip(1).Any());
+        if (duplicateMember is not null)
+        {
+            throw new InvalidDataException(
+                $"{propertyName} contains duplicate member name '{duplicateMember.Key}'.");
+        }
     }
 
     private static void ValidateEquivalentEnumDefinitions(CliToolDefinition tool)

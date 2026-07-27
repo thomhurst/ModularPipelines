@@ -194,6 +194,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         var filteredCommands = excludedCommands != null
             ? node.Commands.Where(c => !excludedCommands.Contains(c)).ToList()
             : node.Commands;
+        EnsureUniqueCommandMethodNames(tool, node, filteredCommands);
 
         var hasCommands = filteredCommands.Count > 0 || parentCommand is not null;
         if (hasCommands)
@@ -222,6 +223,27 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine("}");
 
         return sb.ToString();
+    }
+
+    private static void EnsureUniqueCommandMethodNames(
+        CliToolDefinition tool,
+        CommandTreeNode node,
+        IReadOnlyList<CliCommandDefinition> commands)
+    {
+        var duplicates = commands
+            .GroupBy(
+                GeneratorUtils.GenerateMethodNameFromLastCommandPart,
+                StringComparer.OrdinalIgnoreCase)
+            .Where(group => group.Skip(1).Any())
+            .Select(group =>
+                $"{group.Key} ({string.Join(", ", group.Select(command => command.FullCommand))})")
+            .ToList();
+        if (duplicates.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"Multiple {tool.ToolName} commands in sub-domain '{node.Segment}' "
+                + $"normalize to the same method name: {string.Join("; ", duplicates)}.");
+        }
     }
 
     private static void GenerateExecuteMethod(StringBuilder sb, CliCommandDefinition command)

@@ -106,7 +106,10 @@ public record CliToolDefinition
     /// check fails the tool loudly instead.
     /// </summary>
     public IReadOnlyList<CliEnumDefinition> AllEnums => Commands
-        .SelectMany(c => c.Enums)
+        .SelectMany(command => command.Enums.Concat(
+            command.Options
+                .Where(option => option.EnumDefinition is not null)
+                .Select(option => option.EnumDefinition!)))
         .Concat(GetGlobalOptions()
             .Where(option => option.EnumDefinition is not null)
             .Select(option => option.EnumDefinition!))
