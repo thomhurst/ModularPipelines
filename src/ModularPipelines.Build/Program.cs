@@ -49,6 +49,7 @@ builder.Services
     .AddModule<RunJavaUnitTestsModule>()
     .AddModule<RunJqUnitTestsModule>()
     .AddModule<RunLiquibaseUnitTestsModule>()
+    .AddModule<RunNerdbankGitVersioningUnitTestsModule>()
     .AddModule<RunNodeUnitTestsModule>()
     .AddModule<RunShellcheckUnitTestsModule>()
     .AddModule<RunSnykUnitTestsModule>()
