@@ -81,6 +81,28 @@ public record CliCommandDefinition
     /// Public methods retained as obsolete forwarding aliases for compatibility.
     /// </summary>
     public IReadOnlyList<CliCompatibilityMethod> CompatibilityMethods { get; init; } = [];
+
+    /// <summary>
+    /// Whether this command has been explicitly reviewed as safe for a runnable documentation example.
+    /// Commands are unsafe by default; scraped names and descriptions are not enough to establish safety.
+    /// </summary>
+    public bool IsSafeForDocumentation { get; init; }
+
+    /// <summary>
+    /// Whether executing this command can wait for interactive input.
+    /// </summary>
+    public bool IsInteractive { get; init; }
+
+    /// <summary>
+    /// Whether executing this command can modify or delete external state.
+    /// </summary>
+    public bool IsDestructive { get; init; }
+
+    /// <summary>
+    /// C# expressions keyed by generated property name for a complete documentation example.
+    /// </summary>
+    public IReadOnlyDictionary<string, string> DocumentationExampleValues { get; init; } =
+        new Dictionary<string, string>(StringComparer.Ordinal);
 }
 
 /// <summary>

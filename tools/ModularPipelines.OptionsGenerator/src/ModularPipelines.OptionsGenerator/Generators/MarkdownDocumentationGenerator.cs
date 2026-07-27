@@ -16,6 +16,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         CliToolDefinition tool,
         CancellationToken cancellationToken = default)
     {
+        tool = DocumentationExampleCatalog.Apply(tool);
         var file = new GeneratedFile
         {
             RelativePath = Path.Combine(DocumentationDirectory, GetFileName(tool.ToolName)),
@@ -128,13 +129,12 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine("## Module example");
         sb.AppendLine();
 
-        var rootCommands = GeneratorUtils.GetNonCollidingRootCommands(tool);
-        var command = rootCommands
-            .OrderBy(candidate => candidate.FullCommand, StringComparer.OrdinalIgnoreCase)
-            .FirstOrDefault();
+        var command = SelectExampleCommand(tool);
         if (command is null)
         {
-            sb.AppendLine("Resolve the service in a module, then select a generated sub-domain and command from the table below:");
+            sb.AppendLine(
+                "Resolve the service in a module, then select a command from the table below. "
+                + "A runnable example is omitted when no command has complete safety metadata:");
             sb.AppendLine();
             sb.AppendLine("```csharp");
             sb.AppendLine($"using {tool.TargetNamespace}.Extensions;");
@@ -146,8 +146,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         }
 
         var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
-        var constructorArguments = GeneratorUtils.GetRequiredConstructorParameters(command)
-            .Select(parameter => ExampleValue(parameter.CSharpType));
+        var optionsExpression = BuildOptionsExpression(command);
 
         sb.AppendLine("```csharp");
         sb.AppendLine("using ModularPipelines.Context;");
@@ -163,12 +162,127 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine("        CancellationToken cancellationToken)");
         sb.AppendLine("    {");
         sb.AppendLine($"        return await context.{tool.NamespacePrefix}().{methodName}(");
-        sb.AppendLine($"            new {command.ClassName}({string.Join(", ", constructorArguments)}),");
+        AppendIndentedExpression(sb, optionsExpression, "            ", appendComma: true);
         sb.AppendLine("            cancellationToken: cancellationToken);");
         sb.AppendLine("    }");
         sb.AppendLine("}");
         sb.AppendLine("```");
         sb.AppendLine();
+    }
+
+    private static CliCommandDefinition? SelectExampleCommand(CliToolDefinition tool)
+    {
+        if (string.IsNullOrWhiteSpace(tool.PreferredDocumentationExampleCommand))
+        {
+            return null;
+        }
+
+        var command = GeneratorUtils.GetNonCollidingRootCommands(tool)
+            .FirstOrDefault(candidate => string.Equals(
+                candidate.FullCommand,
+                tool.PreferredDocumentationExampleCommand,
+                StringComparison.OrdinalIgnoreCase));
+
+        return command is
+        {
+            IsSafeForDocumentation: true,
+            IsInteractive: false,
+            IsDestructive: false,
+        }
+            ? command
+            : null;
+    }
+
+    private static string BuildOptionsExpression(CliCommandDefinition command)
+    {
+        var values = command.DocumentationExampleValues;
+        var requiredParameters = GeneratorUtils.GetRequiredConstructorParameters(command);
+        var positionalArguments = CliPositionalArgument.MergeDuplicates(command.PositionalArguments);
+        var knownProperties = command.Options
+            .Select(option => option.PropertyName)
+            .Concat(positionalArguments.Select(argument => argument.PropertyName))
+            .Distinct(StringComparer.Ordinal)
+            .ToArray();
+
+        foreach (var value in values)
+        {
+            if (string.IsNullOrWhiteSpace(value.Value))
+            {
+                throw InvalidExample(command, $"sample value for '{value.Key}' is empty");
+            }
+
+            if (!knownProperties.Contains(value.Key, StringComparer.Ordinal))
+            {
+                throw InvalidExample(command, $"sample property '{value.Key}' is not generated");
+            }
+        }
+
+        foreach (var parameter in requiredParameters)
+        {
+            if (!values.ContainsKey(parameter.PropertyName))
+            {
+                throw InvalidExample(command, $"required property '{parameter.PropertyName}' has no sample value");
+            }
+        }
+
+        var constructorValues = requiredParameters
+            .Select(parameter => values[parameter.PropertyName])
+            .ToArray();
+        var expression = new StringBuilder()
+            .Append("new ")
+            .Append(command.ClassName)
+            .Append('(')
+            .AppendJoin(", ", constructorValues)
+            .Append(')');
+        var requiredPropertyNames = requiredParameters
+            .Select(parameter => parameter.PropertyName)
+            .ToHashSet(StringComparer.Ordinal);
+        var initializedProperties = knownProperties
+            .Where(values.ContainsKey)
+            .Where(property => !requiredPropertyNames.Contains(property))
+            .ToArray();
+
+        if (initializedProperties.Length == 0)
+        {
+            return expression.ToString();
+        }
+
+        expression.AppendLine()
+            .AppendLine("{");
+        foreach (var property in initializedProperties)
+        {
+            expression.Append("    ")
+                .Append(property)
+                .Append(" = ")
+                .Append(values[property])
+                .AppendLine(",");
+        }
+
+        return expression.Append('}').ToString();
+    }
+
+    private static InvalidOperationException InvalidExample(
+        CliCommandDefinition command,
+        string reason) =>
+        new($"Documentation example metadata for '{command.FullCommand}' is invalid: {reason}.");
+
+    private static void AppendIndentedExpression(
+        StringBuilder sb,
+        string expression,
+        string indentation,
+        bool appendComma)
+    {
+        var lines = expression.ReplaceLineEndings("\n").Split('\n');
+        for (var index = 0; index < lines.Length; index++)
+        {
+            sb.Append(indentation).Append(lines[index]);
+            if (appendComma && index == lines.Length - 1)
+            {
+                sb.Append(',');
+            }
+
+            sb.AppendLine();
+        }
     }
 
     private static IReadOnlyList<CliCommandDefinition> GetExposedCommands(CliToolDefinition tool)
@@ -181,32 +295,6 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
             .Where(command => command.SubDomainGroup is not null || rootCommands.Contains(command.ClassName))
             .DistinctBy(command => command.ClassName)
             .ToList();
-    }
-
-    private static string ExampleValue(string cSharpType)
-    {
-        var type = cSharpType.TrimEnd('?');
-        if (type == "string")
-        {
-            return "\"value\"";
-        }
-
-        if (type.Contains("string", StringComparison.Ordinal)
-            && (type.EndsWith("[]", StringComparison.Ordinal)
-                || type.StartsWith("IEnumerable<", StringComparison.Ordinal)
-                || type.StartsWith("IReadOnly", StringComparison.Ordinal)
-                || type.StartsWith("List<", StringComparison.Ordinal)))
-        {
-            return "[\"value\"]";
-        }
-
-        return type switch
-        {
-            "bool" => "true",
-            "byte" or "short" or "int" or "long" or "float" or "double" or "decimal" => "1",
-            "TimeSpan" => "TimeSpan.FromSeconds(30)",
-            _ => "default!",
-        };
     }
 
     private static string EscapeTableCell(string value) => value.Replace("|", "\\|", StringComparison.Ordinal);

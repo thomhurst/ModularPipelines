@@ -381,6 +381,7 @@ public class CodeGeneratorOrchestrator
             CommandCoverage = toolDefinition.CommandCoverage,
             GlobalOptions = toolDefinition.GlobalOptions,
             SupplementalGlobalOptions = toolDefinition.SupplementalGlobalOptions,
+            PreferredDocumentationExampleCommand = toolDefinition.PreferredDocumentationExampleCommand,
             Errors = []
         };
 
