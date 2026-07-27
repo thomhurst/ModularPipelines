@@ -6,6 +6,7 @@ $captureScript = Join-Path $testRoot 'Capture-Invocation.ps1'
 $timeoutScript = Join-Path $testRoot 'Spawn-Child.ps1'
 $capturePath = Join-Path $testRoot 'capture.json'
 $childPidPath = Join-Path $testRoot 'child.pid'
+$normalExitChildPidPath = Join-Path $testRoot 'normal-exit-child.pid'
 $pwshPath = (Get-Process -Id $PID).Path
 
 $resolvedTempRoot = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
@@ -77,15 +78,39 @@ param(
     }
 
     @'
-param([string]$ChildPidPath)
+param(
+    [string]$ChildPidPath,
+    [int]$ParentDelayMilliseconds = 60000
+)
 
-$child = Start-Process `
-    -FilePath (Get-Process -Id $PID).Path `
-    -ArgumentList '-NoProfile', '-Command', 'Start-Sleep -Seconds 60' `
-    -PassThru
+$startProcessParameters = @{
+    FilePath = (Get-Process -Id $PID).Path
+    ArgumentList = @('-NoProfile', '-Command', 'Start-Sleep -Seconds 60')
+    PassThru = $true
+}
+if ($IsWindows) {
+    $startProcessParameters.WindowStyle = 'Hidden'
+}
+
+$child = Start-Process @startProcessParameters
 Set-Content -LiteralPath $ChildPidPath -Value $child.Id
-Start-Sleep -Seconds 60
+Start-Sleep -Milliseconds $ParentDelayMilliseconds
 '@ | Set-Content -LiteralPath $timeoutScript
+
+    $guardExitCode = Invoke-Guard `
+        -TimeoutSeconds 30 `
+        -MemoryLimitMb 512 `
+        -PollIntervalMilliseconds 100 `
+        -Arguments @('-NoProfile', '-File', $timeoutScript, $normalExitChildPidPath, '500')
+
+    if ($guardExitCode -ne 0) {
+        throw "Normal-exit cleanup command failed with exit code $guardExitCode."
+    }
+
+    $normalExitChildPid = [int](Get-Content -LiteralPath $normalExitChildPidPath -Raw)
+    if (Get-Process -Id $normalExitChildPid -ErrorAction SilentlyContinue) {
+        throw "Normal-exit descendant process $normalExitChildPid is still running."
+    }
 
     $guardExitCode = Invoke-Guard `
         -TimeoutSeconds 2 `
@@ -102,6 +127,22 @@ Start-Sleep -Seconds 60
         throw "Timed-out descendant process $childPid is still running."
     }
 
+    $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+    $guardExitCode = Invoke-Guard `
+        -TimeoutSeconds 1 `
+        -MemoryLimitMb 512 `
+        -PollIntervalMilliseconds 10000 `
+        -Arguments @('-NoProfile', '-Command', 'Start-Sleep -Seconds 2')
+    $stopwatch.Stop()
+
+    if ($guardExitCode -ne 124) {
+        throw "Bounded timeout returned $guardExitCode instead of 124."
+    }
+
+    if ($stopwatch.Elapsed -ge [TimeSpan]::FromSeconds(3)) {
+        throw "Bounded timeout took too long: $($stopwatch.Elapsed)."
+    }
+
     $guardExitCode = Invoke-Guard `
         -TimeoutSeconds 30 `
         -MemoryLimitMb 64 `
@@ -112,12 +153,14 @@ Start-Sleep -Seconds 60
         throw "Memory limit returned $guardExitCode instead of 137."
     }
 
-    Write-Output 'OK guarded dotnet forwarding, timeout cleanup, and memory limit passed.'
+    Write-Output 'OK forwarding, normal-exit cleanup, bounded timeout, timeout cleanup, and memory limit passed.'
 }
 finally {
-    if (Test-Path -LiteralPath $childPidPath) {
-        $childPid = [int](Get-Content -LiteralPath $childPidPath -Raw)
-        Stop-Process -Id $childPid -Force -ErrorAction SilentlyContinue
+    foreach ($pidPath in @($childPidPath, $normalExitChildPidPath)) {
+        if (Test-Path -LiteralPath $pidPath) {
+            $childPid = [int](Get-Content -LiteralPath $pidPath -Raw)
+            Stop-Process -Id $childPid -Force -ErrorAction SilentlyContinue
+        }
     }
 
     if (Test-Path -LiteralPath $testRoot) {

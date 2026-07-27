@@ -84,24 +84,94 @@ function Get-ProcessTreeState([int]$RootProcessId) {
     }
 }
 
+function Get-ProcessStartTimeUtcTicks([int]$ProcessId) {
+    try {
+        $candidate = [System.Diagnostics.Process]::GetProcessById($ProcessId)
+        try {
+            return $candidate.StartTime.ToUniversalTime().Ticks
+        }
+        finally {
+            $candidate.Dispose()
+        }
+    }
+    catch [System.ArgumentException] {
+        Write-Verbose "Process $ProcessId exited before its identity could be read."
+        return $null
+    }
+    catch [System.InvalidOperationException] {
+        Write-Verbose "Process $ProcessId became unavailable before its identity could be read."
+        return $null
+    }
+    catch [System.ComponentModel.Win32Exception] {
+        Write-Verbose "Process $ProcessId identity could not be read: $_"
+        return $null
+    }
+}
+
+function Sync-TrackedProcesses(
+    [System.Collections.Generic.Dictionary[int, long]]$TrackedProcesses,
+    [System.Collections.Generic.HashSet[int]]$CurrentProcessIds) {
+    foreach ($processId in @($TrackedProcesses.Keys)) {
+        $currentStartTimeUtcTicks = Get-ProcessStartTimeUtcTicks $processId
+        if (($null -eq $currentStartTimeUtcTicks) -or
+            ($currentStartTimeUtcTicks -ne $TrackedProcesses[$processId])) {
+            $null = $TrackedProcesses.Remove($processId)
+        }
+    }
+
+    foreach ($processId in $CurrentProcessIds) {
+        if ($TrackedProcesses.ContainsKey($processId)) {
+            continue
+        }
+
+        $startTimeUtcTicks = Get-ProcessStartTimeUtcTicks $processId
+        if ($null -ne $startTimeUtcTicks) {
+            $TrackedProcesses[$processId] = $startTimeUtcTicks
+        }
+    }
+}
+
 function Stop-ProcessTree(
     [System.Diagnostics.Process]$RootProcess,
-    [System.Collections.Generic.HashSet[int]]$TrackedProcessIds) {
+    [System.Collections.Generic.Dictionary[int, long]]$TrackedProcesses) {
     try {
         if (-not $RootProcess.HasExited) {
             $RootProcess.Kill($true)
         }
     }
     catch [System.InvalidOperationException] {
-        # Root exited between HasExited and Kill.
+        Write-Verbose 'Root process exited before process-tree cleanup completed.'
+    }
+    catch [System.ComponentModel.Win32Exception] {
+        Write-Verbose "Root process-tree cleanup was unavailable: $_"
     }
 
-    foreach ($processId in $TrackedProcessIds) {
+    foreach ($trackedProcess in $TrackedProcesses.GetEnumerator()) {
+        $processId = $trackedProcess.Key
         if ($processId -eq $PID) {
             continue
         }
 
-        Stop-Process -Id $processId -Force -ErrorAction SilentlyContinue
+        try {
+            $candidate = [System.Diagnostics.Process]::GetProcessById($processId)
+            try {
+                if ($candidate.StartTime.ToUniversalTime().Ticks -eq $trackedProcess.Value) {
+                    $candidate.Kill($true)
+                }
+            }
+            finally {
+                $candidate.Dispose()
+            }
+        }
+        catch [System.ArgumentException] {
+            Write-Verbose "Tracked process $processId already exited."
+        }
+        catch [System.InvalidOperationException] {
+            Write-Verbose "Tracked process $processId became unavailable during cleanup."
+        }
+        catch [System.ComponentModel.Win32Exception] {
+            Write-Verbose "Tracked process $processId could not be stopped: $_"
+        }
     }
 }
 
@@ -146,7 +216,7 @@ foreach ($argument in $effectiveArguments) {
 $process = [System.Diagnostics.Process]::new()
 $process.StartInfo = $startInfo
 $processStarted = $false
-$trackedProcessIds = [System.Collections.Generic.HashSet[int]]::new()
+$trackedProcesses = [System.Collections.Generic.Dictionary[int, long]]::new()
 $deadline = [DateTimeOffset]::UtcNow.AddSeconds($TimeoutSeconds)
 $memoryLimitBytes = [long]$MemoryLimitMb * 1MB
 $guardExitCode = $null
@@ -158,19 +228,18 @@ try {
     }
 
     $processStarted = $true
+    $trackedProcesses[$process.Id] = $process.StartTime.ToUniversalTime().Ticks
 
     try {
         $process.PriorityClass = [System.Diagnostics.ProcessPriorityClass]::BelowNormal
     }
     catch {
-        # Priority adjustment is best-effort on platforms that do not permit it.
+        Write-Verbose "Could not lower process priority: $_"
     }
 
-    while (-not $process.WaitForExit($PollIntervalMilliseconds)) {
+    while ($true) {
         $treeState = Get-ProcessTreeState $process.Id
-        foreach ($processId in $treeState.ProcessIds) {
-            $null = $trackedProcessIds.Add($processId)
-        }
+        Sync-TrackedProcesses $trackedProcesses $treeState.ProcessIds
 
         if ($treeState.WorkingSetBytes -gt $memoryLimitBytes) {
             $workingSetMb = [math]::Round($treeState.WorkingSetBytes / 1MB)
@@ -180,16 +249,32 @@ try {
             break
         }
 
-        if ([DateTimeOffset]::UtcNow -ge $deadline) {
+        $remaining = $deadline - [DateTimeOffset]::UtcNow
+        if ($remaining -le [TimeSpan]::Zero) {
             [Console]::Error.WriteLine(
                 "Agent dotnet command exceeded ${TimeoutSeconds}s timeout.")
             $guardExitCode = 124
             break
         }
+
+        $waitMilliseconds = [math]::Min(
+            $PollIntervalMilliseconds,
+            [math]::Max(1, [math]::Ceiling($remaining.TotalMilliseconds)))
+        if ($process.WaitForExit([int]$waitMilliseconds)) {
+            $treeState = Get-ProcessTreeState $process.Id
+            Sync-TrackedProcesses $trackedProcesses $treeState.ProcessIds
+
+            if ([DateTimeOffset]::UtcNow -gt $deadline) {
+                [Console]::Error.WriteLine(
+                    "Agent dotnet command exceeded ${TimeoutSeconds}s timeout.")
+                $guardExitCode = 124
+            }
+
+            break
+        }
     }
 
     if ($null -ne $guardExitCode) {
-        Stop-ProcessTree $process $trackedProcessIds
         $finalExitCode = $guardExitCode
     }
     else {
@@ -198,8 +283,8 @@ try {
     }
 }
 finally {
-    if ($processStarted -and -not $process.HasExited) {
-        Stop-ProcessTree $process $trackedProcessIds
+    if ($processStarted) {
+        Stop-ProcessTree $process $trackedProcesses
     }
 
     $process.Dispose()
