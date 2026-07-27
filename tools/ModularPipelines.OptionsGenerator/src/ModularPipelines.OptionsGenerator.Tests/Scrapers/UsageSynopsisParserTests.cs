@@ -120,6 +120,22 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Preserves_Operands_Grouped_Behind_Option_Terminator()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: cargo login [OPTIONS] [-- [args]...]",
+            ["cargo", "login"]);
+
+        var argument = result.PositionalArguments.Single();
+
+        await Assert.That(result.HasOperandTokens).IsTrue();
+        await Assert.That(argument.PropertyName).IsEqualTo("Args");
+        await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(argument.IsVariadic).IsTrue();
+        await Assert.That(argument.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+    }
+
+    [Test]
     public async Task Prefers_Full_Command_Path_Over_Suffix_With_More_Operands()
     {
         const string helpText = """

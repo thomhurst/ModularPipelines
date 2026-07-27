@@ -122,15 +122,18 @@ public static class UsageSynopsisParser
                 placement = PositionalArgumentPosition.AfterOptions;
             }
 
-            if (TryApplyStandaloneRepeat(token, arguments) || IsControlToken(token))
+            var operandToken = TryUnwrapOptionTerminatedOperand(token, out var unwrappedOperand)
+                ? unwrappedOperand
+                : token;
+            if (TryApplyStandaloneRepeat(operandToken, arguments) || IsControlToken(operandToken))
             {
                 continue;
             }
 
-            var argument = ParseOperand(token, arguments.Count, placement);
+            var argument = ParseOperand(operandToken, arguments.Count, placement);
             if (argument is null)
             {
-                unparsedTokens.Add(token);
+                unparsedTokens.Add(operandToken);
                 continue;
             }
 
@@ -409,6 +412,23 @@ public static class UsageSynopsisParser
             IsVariadic = true,
         };
         return true;
+    }
+
+    private static bool TryUnwrapOptionTerminatedOperand(
+        string token,
+        out string operand)
+    {
+        var content = TrimWrapper(token).Trim();
+        if (!content.StartsWith("--", StringComparison.Ordinal)
+            || content.Length == 2
+            || !char.IsWhiteSpace(content[2]))
+        {
+            operand = "";
+            return false;
+        }
+
+        operand = content[2..].Trim();
+        return !string.IsNullOrWhiteSpace(operand);
     }
 
     private static bool IsControlToken(string token)
