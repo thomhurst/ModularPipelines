@@ -9,6 +9,7 @@
     <ModularPipelinesTargetFramework Condition="'$(ModularPipelinesTargetFramework.Length)' == '0' and '$(TargetFramework.Length)' != '0'">$(TargetFramework)</ModularPipelinesTargetFramework>
     <ModularPipelinesTargetFramework Condition="'$(ModularPipelinesTargetFramework.Length)' == '0' and '$(TargetFrameworks.Length)' != '0'">$(TargetFrameworks.Split(';')[0])</ModularPipelinesTargetFramework>
     <ModularPipelinesOverwriteBuildServerFiles Condition="'$(ModularPipelinesOverwriteBuildServerFiles.Length)' == '0'">false</ModularPipelinesOverwriteBuildServerFiles>
+    <_ModularPipelinesIsWindows Condition="'$(_ModularPipelinesIsWindows.Length)' == '0'">$([MSBuild]::IsOSPlatform('Windows'))</_ModularPipelinesIsWindows>
   </PropertyGroup>
 
   <Target
@@ -50,7 +51,7 @@
     <PropertyGroup>
       <_ModularPipelinesPipelineProject Condition="'$(_ModularPipelinesPipelineProjectSpecified)' == 'false'">@(_ModularPipelinesAssignedProject->'%(TargetPath)')</_ModularPipelinesPipelineProject>
       <_ModularPipelinesPipelineProject Condition="'$(_ModularPipelinesPipelineProjectSpecified)' == 'true'">$(ModularPipelinesPipelineProject)</_ModularPipelinesPipelineProject>
-      <_ModularPipelinesPipelineProject>$(_ModularPipelinesPipelineProject.Replace('\', '/'))</_ModularPipelinesPipelineProject>
+      <_ModularPipelinesPipelineProject Condition="'$(_ModularPipelinesIsWindows)' == 'true'">$(_ModularPipelinesPipelineProject.Replace('\', '/'))</_ModularPipelinesPipelineProject>
       <_ModularPipelinesPipelineProjectEncoded>$([System.Uri]::EscapeDataString($(_ModularPipelinesPipelineProject)))</_ModularPipelinesPipelineProjectEncoded>
       <_ModularPipelinesTargetFrameworkEncoded>$([System.Uri]::EscapeDataString($(ModularPipelinesTargetFramework)))</_ModularPipelinesTargetFrameworkEncoded>
 
