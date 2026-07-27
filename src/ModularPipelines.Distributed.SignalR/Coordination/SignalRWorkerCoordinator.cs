@@ -16,6 +16,7 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
     private readonly Channel<ModuleAssignment> _assignmentChannel;
 
     private WorkerRegistration? _lastRegistration;
+    private ModuleAssignment? _inFlightAssignment;
     private volatile bool _awaitingAssignment;
 
     public SignalRWorkerCoordinator(HubConnection connection, ILogger<SignalRWorkerCoordinator> logger)
@@ -90,6 +91,12 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
     public async Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
     {
         await _connection.InvokeAsync(HubMethodNames.PublishResult, result, cancellationToken);
+
+        var assignment = Volatile.Read(ref _inFlightAssignment);
+        if (assignment?.ModuleTypeName == result.ModuleTypeName)
+        {
+            Interlocked.CompareExchange(ref _inFlightAssignment, null, assignment);
+        }
     }
 
     public Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
@@ -101,7 +108,11 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
     public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
         _lastRegistration = registration;
-        await _connection.InvokeAsync(HubMethodNames.RegisterWorker, registration, cancellationToken);
+        await _connection.InvokeAsync(
+            HubMethodNames.RegisterWorker,
+            registration,
+            Volatile.Read(ref _inFlightAssignment)?.ModuleTypeName,
+            cancellationToken);
         _logger.LogInformation("Worker {Index} registered with master via SignalR", registration.WorkerIndex);
     }
 
@@ -119,7 +130,10 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
                 "Reconnected to master (connection {ConnectionId}); re-registering worker {Index}",
                 connectionId, registration.WorkerIndex);
 
-            await _connection.InvokeAsync(HubMethodNames.RegisterWorker, registration);
+            await _connection.InvokeAsync(
+                HubMethodNames.RegisterWorker,
+                registration,
+                Volatile.Read(ref _inFlightAssignment)?.ModuleTypeName);
 
             // Only re-request work if we're idle and waiting for an assignment. If we're
             // mid-execution, the master restored our in-flight module on re-registration;
@@ -151,6 +165,7 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
     private void OnReceiveAssignment(ModuleAssignment assignment)
     {
         _logger.LogDebug("Received assignment: {Module}", assignment.ModuleTypeName);
+        Volatile.Write(ref _inFlightAssignment, assignment);
         _assignmentChannel.Writer.TryWrite(assignment);
     }
 

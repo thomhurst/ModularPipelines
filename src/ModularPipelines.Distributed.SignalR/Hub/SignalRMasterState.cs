@@ -8,6 +8,10 @@ namespace ModularPipelines.Distributed.SignalR.Hub;
 /// </summary>
 internal class SignalRMasterState
 {
+    private readonly object _pendingReconnectLock = new();
+    private readonly Dictionary<string, PendingReconnect> _pendingReconnects = new();
+    private readonly ConcurrentDictionary<string, SemaphoreSlim> _assignmentDeliveryFences = new();
+
     /// <summary>
     /// Connected workers indexed by SignalR connection ID.
     /// </summary>
@@ -29,14 +33,6 @@ internal class SignalRMasterState
     public ConcurrentDictionary<string, TaskCompletionSource<SerializedModuleResult>> ResultWaiters { get; } = new();
 
     /// <summary>
-    /// Workers that disconnected with an in-flight assignment, keyed by worker index
-    /// (stable across reconnects). The assignment is re-enqueued only after
-    /// <see cref="ReconnectGracePeriod"/> elapses; if the worker reconnects first, the
-    /// pending re-enqueue is cancelled so the module isn't run twice on a transient blip.
-    /// </summary>
-    public ConcurrentDictionary<int, (ModuleAssignment Assignment, CancellationTokenSource Cts)> PendingReconnects { get; } = new();
-
-    /// <summary>
     /// How long to wait for a disconnected worker to reconnect before re-enqueuing its
     /// in-flight work. Should exceed the client's total auto-reconnect window.
     /// </summary>
@@ -52,4 +48,222 @@ internal class SignalRMasterState
     /// Used by <see cref="Coordination.SignalRMasterCoordinator.DequeueModuleAsync"/> to avoid polling.
     /// </summary>
     public SemaphoreSlim WorkAvailable { get; } = new(0);
+
+    public PendingReconnect? TrackPendingReconnect(
+        WorkerState disconnectedWorker,
+        ModuleAssignment assignment)
+    {
+        PendingReconnect pending;
+        PendingReconnect? previous;
+
+        lock (_pendingReconnectLock)
+        {
+            if (ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
+                && waiter.Task.IsCompleted)
+            {
+                return null;
+            }
+
+            _pendingReconnects.TryGetValue(assignment.ModuleTypeName, out previous);
+
+            // A late original participant is not the owner of an active redispatch.
+            // Its disconnect must not replace that claim and schedule a third execution.
+            if (previous is { IsRedispatched: true }
+                && previous.IsTracking(disconnectedWorker)
+                && !previous.IsRedispatchClaimant(disconnectedWorker))
+            {
+                previous.UntrackWorker(disconnectedWorker);
+                return null;
+            }
+
+            pending = new PendingReconnect(
+                disconnectedWorker.Registration.WorkerIndex,
+                assignment);
+            var trackedWorkers = previous?.Complete() ?? [];
+            pending.TrackWorkers(trackedWorkers.Where(worker => worker != disconnectedWorker));
+            _pendingReconnects[assignment.ModuleTypeName] = pending;
+        }
+
+        previous?.CancelDelay();
+        previous?.Dispose();
+        return pending;
+    }
+
+    public PendingReconnect? GetPendingReconnect(int workerIndex)
+    {
+        lock (_pendingReconnectLock)
+        {
+            return _pendingReconnects.Values
+                .FirstOrDefault(pending => pending.WorkerIndex == workerIndex);
+        }
+    }
+
+    public bool TryRestoreReconnect(
+        WorkerState worker,
+        string? resumingModuleTypeName,
+        out ModuleAssignment? assignment)
+    {
+        PendingReconnect? pending;
+        PendingReconnect? completedPending = null;
+        var restored = false;
+        assignment = null;
+
+        lock (_pendingReconnectLock)
+        {
+            pending = _pendingReconnects.Values
+                .FirstOrDefault(candidate =>
+                    candidate.WorkerIndex == worker.Registration.WorkerIndex
+                    && candidate.Assignment.ModuleTypeName == resumingModuleTypeName);
+
+            if (pending is not null)
+            {
+                if (ResultWaiters.TryGetValue(pending.Assignment.ModuleTypeName, out var waiter)
+                    && !waiter.Task.IsCompleted)
+                {
+                    assignment = pending.Assignment;
+
+                    if (worker.TryAssign(assignment))
+                    {
+                        if (pending.TryResume())
+                        {
+                            pending.TrackWorker(worker);
+                            restored = true;
+                        }
+                        else
+                        {
+                            worker.TryCompleteAssignment(assignment.ModuleTypeName);
+                            assignment = null;
+                        }
+                    }
+                }
+                else if (_pendingReconnects.Remove(
+                             pending.Assignment.ModuleTypeName,
+                             out completedPending))
+                {
+                    completedPending.Complete();
+                }
+            }
+        }
+
+        if (restored)
+        {
+            pending?.CancelDelay();
+        }
+
+        completedPending?.Dispose();
+        return restored;
+    }
+
+    public bool TryClaimRedispatch(
+        ModuleAssignment assignment,
+        WorkerState? worker = null)
+    {
+        lock (_pendingReconnectLock)
+        {
+            if (ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
+                && waiter.Task.IsCompleted)
+            {
+                return false;
+            }
+
+            if (!_pendingReconnects.TryGetValue(assignment.ModuleTypeName, out var pending))
+            {
+                return true;
+            }
+
+            if (!pending.TryClaimRedispatch())
+            {
+                return false;
+            }
+
+            if (worker is not null)
+            {
+                pending.TrackRedispatchClaimant(worker);
+            }
+
+            return true;
+        }
+    }
+
+    public bool TryReturnRedispatchToQueue(
+        ModuleAssignment assignment,
+        WorkerState? worker = null)
+    {
+        lock (_pendingReconnectLock)
+        {
+            if (ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
+                && waiter.Task.IsCompleted)
+            {
+                return false;
+            }
+
+            return !_pendingReconnects.TryGetValue(
+                       assignment.ModuleTypeName,
+                       out var pending)
+                   || pending.TryReturnToQueue(worker);
+        }
+    }
+
+    public async Task<IDisposable> EnterAssignmentDeliveryFenceAsync(string moduleTypeName)
+    {
+        var deliveryFence = _assignmentDeliveryFences.GetOrAdd(
+            moduleTypeName,
+            _ => new SemaphoreSlim(1, 1));
+        await deliveryFence.WaitAsync();
+        return new SemaphoreReleaser(deliveryFence);
+    }
+
+    public void CompletePendingReconnect(string moduleTypeName)
+    {
+        PendingReconnect? pending;
+        lock (_pendingReconnectLock)
+        {
+            if (!_pendingReconnects.Remove(moduleTypeName, out pending))
+            {
+                return;
+            }
+
+            pending.Complete();
+        }
+
+        pending.CancelDelay();
+        pending.Dispose();
+    }
+
+    public async Task<IReadOnlyList<WorkerState>> CompleteResultAsync(SerializedModuleResult result)
+    {
+        using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName);
+        return CompleteResult(result);
+    }
+
+    private IReadOnlyList<WorkerState> CompleteResult(SerializedModuleResult result)
+    {
+        PendingReconnect? pending = null;
+        IReadOnlyList<WorkerState> trackedWorkers = [];
+
+        lock (_pendingReconnectLock)
+        {
+            if (ResultWaiters.TryGetValue(result.ModuleTypeName, out var waiter))
+            {
+                waiter.TrySetResult(result);
+            }
+
+            if (_pendingReconnects.Remove(result.ModuleTypeName, out pending))
+            {
+                trackedWorkers = pending.Complete();
+            }
+        }
+
+        pending?.CancelDelay();
+        pending?.Dispose();
+        return trackedWorkers;
+    }
+
+    private sealed class SemaphoreReleaser(SemaphoreSlim semaphore) : IDisposable
+    {
+        public void Dispose()
+        {
+            semaphore.Release();
+        }
+    }
 }

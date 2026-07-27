@@ -6,18 +6,17 @@ namespace ModularPipelines.Distributed.SignalR.Hub;
 internal class WorkerState
 {
     public required string ConnectionId { get; init; }
+
     public required WorkerRegistration Registration { get; init; }
 
     /// <summary>
     /// 0 = idle, 1 = busy. Updated via <see cref="System.Threading.Interlocked.CompareExchange(ref int, int, int)"/>.
     /// </summary>
-    public int BusyFlag;
+    private int _busyFlag;
 
     private ModuleAssignment? _currentAssignment;
 
-    public bool TryMarkBusy() => Interlocked.CompareExchange(ref BusyFlag, 1, 0) == 0;
-    public void MarkIdle() => Interlocked.Exchange(ref BusyFlag, 0);
-    public bool IsIdle => Volatile.Read(ref BusyFlag) == 0;
+    public bool IsIdle => Volatile.Read(ref _busyFlag) == 0;
 
     /// <summary>
     /// The assignment this worker is currently executing, if any. Set when work is
@@ -26,10 +25,52 @@ internal class WorkerState
     /// </summary>
     public ModuleAssignment? CurrentAssignment => Volatile.Read(ref _currentAssignment);
 
-    public void SetAssignment(ModuleAssignment assignment) => Volatile.Write(ref _currentAssignment, assignment);
+    /// <summary>
+    /// Atomically claims this worker and records the assignment.
+    /// </summary>
+    public bool TryAssign(ModuleAssignment assignment)
+    {
+        if (Interlocked.CompareExchange(ref _busyFlag, 1, 0) != 0)
+        {
+            return false;
+        }
+
+        if (Interlocked.CompareExchange(ref _currentAssignment, assignment, null) is null)
+        {
+            return true;
+        }
+
+        Interlocked.Exchange(ref _busyFlag, 0);
+        return false;
+    }
 
     /// <summary>
     /// Atomically clears and returns the current assignment.
     /// </summary>
     public ModuleAssignment? ClearAssignment() => Interlocked.Exchange(ref _currentAssignment, null);
+
+    /// <summary>
+    /// Clears this worker only when the result belongs to its tracked assignment.
+    /// </summary>
+    public bool TryCompleteAssignment(string moduleTypeName)
+    {
+        while (true)
+        {
+            var assignment = CurrentAssignment;
+            if (assignment is null
+                || !string.Equals(
+                    assignment.ModuleTypeName,
+                    moduleTypeName,
+                    StringComparison.Ordinal))
+            {
+                return false;
+            }
+
+            if (Interlocked.CompareExchange(ref _currentAssignment, null, assignment) == assignment)
+            {
+                Interlocked.Exchange(ref _busyFlag, 0);
+                return true;
+            }
+        }
+    }
 }

@@ -115,22 +115,25 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
                 continue;
             }
 
+            if (!_state.TryClaimRedispatch(assignment))
+            {
+                continue;
+            }
+
             return assignment;
         }
 
         return null;
     }
 
-    public Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
+    public async Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
     {
         // Master receives results through the hub's PublishResult method.
         // This is called when the master itself produces a result (e.g., modules executed locally by the master's worker loop).
-        if (_state.ResultWaiters.TryGetValue(result.ModuleTypeName, out var tcs))
+        foreach (var worker in await _state.CompleteResultAsync(result))
         {
-            tcs.TrySetResult(result);
+            worker.TryCompleteAssignment(result.ModuleTypeName);
         }
-
-        return Task.CompletedTask;
     }
 
     public async Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
@@ -199,12 +202,19 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
             }
 
             // Try to claim this worker
-            if (worker.TryMarkBusy())
+            if (worker.TryAssign(assignment))
             {
                 _logger.LogDebug("Pushing {Module} to worker {Index}",
                     assignment.ModuleTypeName, worker.Registration.WorkerIndex);
 
-                worker.SetAssignment(assignment);
+                using var deliveryFence =
+                    await _state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleTypeName);
+                if (!_state.TryClaimRedispatch(assignment, worker))
+                {
+                    worker.TryCompleteAssignment(assignment.ModuleTypeName);
+                    continue;
+                }
+
                 try
                 {
                     await _hubContext.Clients.Client(worker.ConnectionId)
@@ -215,8 +225,11 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
                 {
                     _logger.LogWarning(ex, "Failed to push assignment to worker {Index}, marking idle",
                         worker.Registration.WorkerIndex);
-                    worker.ClearAssignment();
-                    worker.MarkIdle();
+                    worker.TryCompleteAssignment(assignment.ModuleTypeName);
+                    if (!_state.TryReturnRedispatchToQueue(assignment, worker))
+                    {
+                        return true;
+                    }
                 }
             }
         }
