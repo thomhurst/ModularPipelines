@@ -38,8 +38,9 @@ public class IgnoredModuleResultRegistrarTests
             contextProvider
                 .Setup(provider => provider.GetModuleContext())
                 .Returns(Mock.Of<IPipelineHookContext>());
+            var resultRegistry = new ModuleResultRegistry();
             var registrar = new IgnoredModuleResultRegistrar(
-                new ModuleResultRegistry(),
+                resultRegistry,
                 new NoOpModuleResultRepository(),
                 contextProvider.Object,
                 new ModuleDependencyRegistry(),
@@ -54,6 +55,8 @@ public class IgnoredModuleResultRegistrarTests
                 .Contains(dependent);
             await Assert.That(result.IgnoredModules.Select(module => module.Module))
                 .DoesNotContain(dependent);
+            await Assert.That(resultRegistry.GetResult(dependency.GetType())).IsNull();
+            await Assert.That(((IModule) dependency).ResultTask.IsCompleted).IsFalse();
         }
         finally
         {

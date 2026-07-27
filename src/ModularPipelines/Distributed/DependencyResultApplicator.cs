@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
+using ModularPipelines.Engine;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Distributed;
@@ -30,7 +31,8 @@ internal static class DependencyResultApplicator
     }
 
     /// <summary>
-    /// Applies dependency results received in an assignment to local module instances.
+    /// Applies dependency results received in an assignment to local module instances
+    /// and the result registry.
     /// This enables <c>GetModule&lt;T&gt;()</c> to resolve cross-process dependencies.
     /// <c>TrySetResult</c> is idempotent — safe if CompletionSource was already set.
     /// </summary>
@@ -38,6 +40,7 @@ internal static class DependencyResultApplicator
         IReadOnlyList<SerializedModuleResult> dependencyResults,
         Dictionary<string, IModule> moduleLookup,
         ModuleResultSerializer serializer,
+        IModuleResultRegistry resultRegistry,
         ILogger logger)
     {
         foreach (var serializedDep in dependencyResults)
@@ -61,6 +64,7 @@ internal static class DependencyResultApplicator
                 var result = serializer.Deserialize(toDeserialize);
                 if (result is not null)
                 {
+                    resultRegistry.RegisterResult(depModule.GetType(), result);
                     ModuleCompletionSourceApplicator.TryApply(depModule, result);
                 }
             }

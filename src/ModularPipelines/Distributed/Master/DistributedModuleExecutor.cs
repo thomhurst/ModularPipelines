@@ -283,7 +283,12 @@ internal class DistributedModuleExecutor(
         // Apply dependency results so that GetModule<T>() works
         if (assignment.DependencyResults is { Count: > 0 })
         {
-            DependencyResultApplicator.Apply(assignment.DependencyResults, moduleLookup, _serializer, _logger);
+            DependencyResultApplicator.Apply(
+                assignment.DependencyResults,
+                moduleLookup,
+                _serializer,
+                _resultRegistry,
+                _logger);
         }
 
         try

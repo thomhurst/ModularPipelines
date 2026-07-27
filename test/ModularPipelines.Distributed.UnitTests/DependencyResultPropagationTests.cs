@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Serialization;
-using ModularPipelines.Distributed.Worker;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -84,25 +84,32 @@ public class DependencyResultPropagationTests
         var depModule = new DependencyModule();
         var consumerModule = new ConsumerModule();
         IReadOnlyList<IModule> modules = [depModule, consumerModule];
+        var resultRegistry = new ModuleResultRegistry();
+        var localSkip = new ModuleResult.Skipped(SkipDecision.Skip("Unavailable on this worker"))
+        {
+            ModuleName = nameof(DependencyModule),
+            ModuleTypeName = typeof(DependencyModule).FullName,
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = DateTimeOffset.UtcNow,
+            ModuleEnd = DateTimeOffset.UtcNow,
+            ModuleStatus = Status.Skipped,
+        };
+        resultRegistry.RegisterResult(typeof(DependencyModule), localSkip);
 
         // Act — apply dependency results (simulating what WorkerModuleExecutor does)
-        foreach (var dep in assignment.DependencyResults!)
-        {
-            var localModule = modules.FirstOrDefault(m => m.GetType().FullName == dep.ModuleTypeName);
-            if (localModule is not null)
-            {
-                var result = serializer.Deserialize(dep);
-                if (result is not null)
-                {
-                    ModuleCompletionSourceApplicator.TryApply(localModule, result);
-                }
-            }
-        }
+        DependencyResultApplicator.Apply(
+            assignment.DependencyResults!,
+            DependencyResultApplicator.BuildModuleLookup(modules),
+            serializer,
+            resultRegistry,
+            NullLogger.Instance);
 
         // Assert — GetModule<DependencyModule> should now resolve (ResultTask completes)
         var moduleResult = await ((IModule) depModule).ResultTask;
         await Assert.That(moduleResult).IsNotNull();
         await Assert.That(moduleResult!.IsSuccess).IsTrue();
+        await Assert.That(resultRegistry.GetResult(typeof(DependencyModule))?.ModuleStatus)
+            .IsEqualTo(Status.Successful);
     }
 
     [Test]

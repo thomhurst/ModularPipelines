@@ -53,6 +53,11 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
     /// <inheritdoc />
     public async Task<OrganizedModules> RegisterIgnoredModuleResultsAsync(OrganizedModules organizedModules)
     {
+        if (IsDistributedWorker())
+        {
+            return organizedModules;
+        }
+
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
         var runnableModules = organizedModules.RunnableModules.ToList();
         var ignoredModules = organizedModules.IgnoredModules.ToList();
@@ -67,11 +72,6 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             foreach (var ignoredModule in pendingIgnoredModules)
             {
                 await RegisterIgnoredModuleResultAsync(ignoredModule, pipelineContext).ConfigureAwait(false);
-            }
-
-            if (IsDistributedWorker())
-            {
-                break;
             }
 
             var runnableModuleTypes = runnableModules
