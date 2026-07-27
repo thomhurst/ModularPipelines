@@ -13,7 +13,7 @@ on:
       # Development: dotnet, go, cargo, mvn, gradle, yarn, pnpm, gh
       # Kubernetes/GitOps: eksctl, argocd, flux, kind, minikube
       # Security/Quality: sonar-scanner, snyk, shellcheck, cosign, syft, grype
-      # Other: newman, jq, yq, pip
+      # Other: newman, nbgv, jq, yq, pip
       # Windows-only: choco, winget
       tools:
         description: 'Tools to run (comma-separated, empty = all). Example: helm,kubectl,docker'
@@ -102,6 +102,8 @@ jobs:
           - grype
           # Testing
           - newman
+          # Versioning
+          - nbgv
           # Data processing
           - jq
           - yq
@@ -217,6 +219,8 @@ jobs:
             ["grype"]="ModularPipelines.Grype:Grype"
             # Testing
             ["newman"]="ModularPipelines.Newman:Newman"
+            # Versioning
+            ["nbgv"]="ModularPipelines.NerdbankGitVersioning:Nbgv"
             # Data processing
             ["jq"]="ModularPipelines.Jq:Jq"
             ["yq"]="ModularPipelines.Yq:Yq"
@@ -401,6 +405,12 @@ jobs:
         run: |
           test "$(npm view snyk@1.1306.1 dist.integrity)" = "sha512-Ywt01xrkDjh5ZWRFJTL+2OXifGu3sUyD+BZ0QBTnVLgendrwt34iupgVAYcfdImmZYJRmeAwkicV5lTDrI8cLw=="
           npm install -g snyk@1.1306.1
+
+      - name: Install nbgv
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'nbgv'
+        run: |
+          dotnet tool install --tool-path "$CLI_TOOLS_ROOT/bin" nbgv --version 3.10.91
+          nbgv --version
 
       - name: Install jq
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'jq'

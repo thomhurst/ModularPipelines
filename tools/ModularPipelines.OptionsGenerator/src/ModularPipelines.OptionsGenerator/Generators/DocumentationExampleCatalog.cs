@@ -86,6 +86,11 @@ internal static class DocumentationExampleCatalog
                     Unsafe("newman run", isDestructive: true),
                     Unsafe("newman URL"),
                 ]),
+            ["nbgv"] = new(
+                "nbgv get-version",
+                [
+                    Safe("nbgv get-version"),
+                ]),
             ["packer"] = new(
                 null,
                 [

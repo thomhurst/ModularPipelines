@@ -1,0 +1,18 @@
+{
+  "formatVersion": 1,
+  "toolName": "nbgv",
+  "toolVersion": "3.10.91\u002Be05abbcae4",
+  "commandCount": 7,
+  "commandTreeSha256": "7a9c8d889f1ee1248bbdd066caabfaaf53477dea0c81e97ea9f405b33bda6b63",
+  "commands": [
+    "nbgv cloud",
+    "nbgv get-commits",
+    "nbgv get-version",
+    "nbgv install",
+    "nbgv prepare-release",
+    "nbgv set-version",
+    "nbgv tag"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}

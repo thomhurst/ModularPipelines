@@ -180,6 +180,7 @@ internal static class OptionsGeneratorCommand
         services.AddSingleton<ICliScraper, PnpmCliScraper>();
         services.AddSingleton<ICliScraper, GhCliScraper>();
         services.AddSingleton<ICliScraper, GoCliScraper>();
+        services.AddSingleton<ICliScraper, NbgvCliScraper>();
         services.AddSingleton<ICliScraper, TrivyCliScraper>();
         services.AddSingleton<ICliScraper, PipCliScraper>();
         services.AddSingleton<ICliScraper, MavenCliScraper>();

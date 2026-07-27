@@ -43,6 +43,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
             Sourcy.DotNet.Projects.ModularPipelines_Jq,
             Sourcy.DotNet.Projects.ModularPipelines_Kubernetes,
             Sourcy.DotNet.Projects.ModularPipelines_Liquibase,
+            Sourcy.DotNet.Projects.ModularPipelines_NerdbankGitVersioning,
             Sourcy.DotNet.Projects.ModularPipelines_MicrosoftTeams,
             Sourcy.DotNet.Projects.ModularPipelines_Shellcheck,
             Sourcy.DotNet.Projects.ModularPipelines_Slack,
