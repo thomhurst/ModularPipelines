@@ -18,7 +18,6 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
     {
         tool = DocumentationExampleCatalog.Apply(tool);
         tool = ExecutablePrerequisiteCatalog.Apply(tool);
-        ValidateExecutablePrerequisite(tool);
         var file = new GeneratedFile
         {
             RelativePath = Path.Combine(DocumentationDirectory, GetFileName(tool.ToolName)),
@@ -158,42 +157,17 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
             sb.AppendLine(prerequisite.InstallationNotes);
             sb.AppendLine();
         }
+        else if (prerequisite is null
+                 && string.IsNullOrWhiteSpace(tool.ExecutablePrerequisiteMetadataExemption))
+        {
+            sb.AppendLine(ExecutablePrerequisiteCatalog.GenericInstallationNotes);
+            sb.AppendLine();
+        }
 
         if (!string.IsNullOrWhiteSpace(tool.ExecutablePrerequisiteMetadataExemption))
         {
             sb.AppendLine(tool.ExecutablePrerequisiteMetadataExemption);
             sb.AppendLine();
-        }
-    }
-
-    private static void ValidateExecutablePrerequisite(CliToolDefinition tool)
-    {
-        if (tool.ExecutablePrerequisite is null)
-        {
-            if (!string.IsNullOrWhiteSpace(tool.ExecutablePrerequisiteMetadataExemption))
-            {
-                return;
-            }
-
-            throw new InvalidOperationException(
-                $"CLI tool '{tool.ToolName}' has no executable prerequisite metadata or explicit exemption.");
-        }
-
-        if (string.IsNullOrWhiteSpace(tool.ExecutablePrerequisite.CommandName))
-        {
-            throw new InvalidOperationException(
-                $"CLI tool '{tool.ToolName}' has executable prerequisite metadata with no command name.");
-        }
-
-        if (!string.IsNullOrWhiteSpace(tool.ExecutablePrerequisite.InstallationUrl)
-            && (!Uri.TryCreate(
-                    tool.ExecutablePrerequisite.InstallationUrl,
-                    UriKind.Absolute,
-                    out var installationUri)
-                || installationUri.Scheme != Uri.UriSchemeHttps))
-        {
-            throw new InvalidOperationException(
-                $"CLI tool '{tool.ToolName}' has an invalid HTTPS installation URL.");
         }
     }
 

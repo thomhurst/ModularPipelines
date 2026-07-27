@@ -419,12 +419,13 @@ public class CodeGeneratorOrchestrator
     {
         var globalOptions = tool.GetGlobalOptions();
         var normalizedCommands = GeneratorUtils.NormalizeCommandClassNames(tool.Commands);
-        var toolDefinition = tool with
+        var toolDefinition = ExecutablePrerequisiteCatalog.PrepareForGeneration(tool with
         {
             Commands = normalizedCommands,
             GlobalOptions = globalOptions,
             SupplementalGlobalOptions = [],
-        };
+        });
+
         toolDefinition = EnumDefinitionStabilizer.Stabilize(toolDefinition, outputDirectory);
         var coverage = CommandCoverageGuard.Evaluate(
             toolDefinition,

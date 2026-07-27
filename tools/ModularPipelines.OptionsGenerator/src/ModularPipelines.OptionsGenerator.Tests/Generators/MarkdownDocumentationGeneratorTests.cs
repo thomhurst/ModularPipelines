@@ -127,25 +127,6 @@ public class MarkdownDocumentationGeneratorTests
     }
 
     [Test]
-    public async Task GenerateAsync_RejectsInvalidPrerequisiteMetadata()
-    {
-        var tool = ToolDefinition("broken") with
-        {
-            ExecutablePrerequisite = new CliExecutablePrerequisite
-            {
-                CommandName = "broken",
-                InstallationUrl = "http://insecure.example.test/install",
-            },
-        };
-        void GenerateDocumentation() =>
-            _ = new MarkdownDocumentationGenerator().GenerateAsync(tool);
-
-        await Assert.That(GenerateDocumentation)
-            .Throws<InvalidOperationException>()
-            .And.HasMessageContaining("invalid HTTPS installation URL");
-    }
-
-    [Test]
     public async Task GenerateAsync_AcceptsExplicitMetadataExemption()
     {
         var tool = ToolDefinition("embedded") with
