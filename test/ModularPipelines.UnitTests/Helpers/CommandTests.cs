@@ -12,6 +12,26 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class CommandTests : TestBase
 {
+    [Test]
+    public async Task Command_Execution_Default_Timeout_Is_Thirty_Minutes()
+    {
+        var executionOptions = new CommandExecutionOptions();
+
+        await Assert.That(CommandExecutionOptions.DefaultExecutionTimeout)
+            .IsEqualTo(TimeSpan.FromMinutes(30));
+        await Assert.That(executionOptions.ExecutionTimeout)
+            .IsEqualTo(CommandExecutionOptions.DefaultExecutionTimeout);
+    }
+
+    [Test]
+    public async Task Command_Execution_Timeout_Can_Be_Overridden()
+    {
+        var timeout = TimeSpan.FromMinutes(5);
+        var executionOptions = new CommandExecutionOptions { ExecutionTimeout = timeout };
+
+        await Assert.That(executionOptions.ExecutionTimeout).IsEqualTo(timeout);
+    }
+
     private class CommandEchoModule : Module<CommandResult>
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
