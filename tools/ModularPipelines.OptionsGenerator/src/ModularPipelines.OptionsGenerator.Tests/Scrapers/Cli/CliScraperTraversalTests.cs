@@ -148,6 +148,27 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task SharedTraversal_Propagates_Invalid_Operand_Coverage()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Execute a command.
+
+                Usage:
+                  fake <TARGET>
+                """,
+        });
+        var scraper = new OperandCoverageMismatchScraper(executor);
+
+        async Task Scrape() => await ScrapeAsync(scraper);
+
+        await Assert.That(Scrape)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("no CliPositionalArgument");
+    }
+
+    [Test]
     public async Task Shared_Skip_Filter_Preserves_Uppercase_Subcommands()
     {
         var scraper = new ShapeMismatchScraper(new StubExecutor(
@@ -241,6 +262,42 @@ public class CliScraperTraversalTests
                         Description = "May be specified multiple times",
                     },
                 ],
+            });
+    }
+
+    private sealed class OperandCoverageMismatchScraper : CliScraperBase
+    {
+        public OperandCoverageMismatchScraper(ICliCommandExecutor executor)
+            : base(
+                executor,
+                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+                NullLogger<OperandCoverageMismatchScraper>.Instance)
+        {
+        }
+
+        public override string ToolName => "fake";
+
+        public override string NamespacePrefix => "Fake";
+
+        public override string TargetNamespace => "ModularPipelines.Fake";
+
+        public override string OutputDirectory => "src/ModularPipelines.Fake";
+
+        protected override IEnumerable<string> ExtractSubcommands(string helpText) => [];
+
+        protected override Task<CliCommandDefinition?> ParseCommandAsync(
+            string[] commandPath,
+            string helpText,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<CliCommandDefinition?>(new CliCommandDefinition
+            {
+                FullCommand = "fake",
+                CommandParts = [],
+                ClassName = "FakeOptions",
+                ParentClassName = "FakeOptions",
+                ToolNamespacePrefix = "Fake",
+                HasOperandTakingUsage = true,
+                Options = [],
             });
     }
 

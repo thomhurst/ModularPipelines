@@ -417,6 +417,7 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
+        command.ValidateOperandCoverage();
         await commandChannel.Writer.WriteAsync(command, cancellationToken);
     }
 
@@ -444,7 +445,6 @@ public abstract partial class CliScraperBase : ICliScraper
 
             ValidateOptionShapes(command, helpText);
             ValidateArgumentGroups(command);
-            command.ValidateOperandCoverage();
             return command;
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
