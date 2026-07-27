@@ -59,14 +59,13 @@ public class JqOptionsTests
     }
 
     [Test]
-    public async Task Renders_Portable_Library_Path_And_Documented_Trailing_Options()
+    public async Task Renders_RunTests_After_Positionals()
     {
         var arguments = BuildArguments(new JqExecuteOptions
         {
             LibraryPath = ["modules"],
             Binary = true,
-            RunTestsFile = "tests.jq",
-            EndOfOptions = true,
+            RunTests = "tests.jq",
             Filter = "-1",
         });
 
@@ -74,16 +73,30 @@ public class JqOptionsTests
         [
             "-L", "modules",
             "-b",
-            "--run-tests", "tests.jq",
-            "--",
             "-1",
-        ]);
+            "--run-tests", "tests.jq",
+        ],
+        TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Renders_EndOfOptions_Before_DashPrefixed_Filter()
+    {
+        var arguments = BuildArguments(new JqExecuteOptions
+        {
+            EndOfOptions = true,
+            Filter = "-1",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            ["--", "-1"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
     public async Task Renders_Bare_RunTests_For_Standard_Input()
     {
-        var arguments = BuildArguments(new JqExecuteOptions { RunTests = true });
+        var arguments = BuildArguments(new JqExecuteOptions { RunTests = string.Empty });
 
         await Assert.That(arguments).IsEquivalentTo(["--run-tests"]);
     }

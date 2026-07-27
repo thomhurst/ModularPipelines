@@ -1,3 +1,5 @@
+using ModularPipelines.Attributes;
+
 namespace ModularPipelines.OptionsGenerator.Models;
 
 /// <summary>
@@ -49,6 +51,16 @@ public record CliOptionDefinition
     /// Whether this is a boolean flag (no value).
     /// </summary>
     public bool IsFlag { get; init; }
+
+    /// <summary>
+    /// Whether a value is required, optional, or absent.
+    /// </summary>
+    public CliOptionValueArity ValueArity { get; init; } = CliOptionValueArity.Required;
+
+    /// <summary>
+    /// Semantic rendering phase for this option.
+    /// </summary>
+    public CommandLinePhase Phase { get; init; } = CommandLinePhase.Normal;
 
     /// <summary>
     /// Whether the option is required.

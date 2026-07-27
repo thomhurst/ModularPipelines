@@ -43,6 +43,36 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Places_Terminal_Options_After_Manual_Arguments()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["."],
+            RunTests = "tests.jq",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq . --run-tests tests.jq");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Terminal_Options_With_RunSettings()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            RunTests = "tests.jq",
+            RunSettings = ["--filter", "Category=Unit"],
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("end-of-options marker");
+    }
+
+    [Test]
     public async Task Build_FromAttributeBasedOptions_ResolvesToolAndSubcommands()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -178,6 +208,17 @@ public class CommandLineBuilderTests : TestBase
 
         [CliArgument(1, Placement = ArgumentPlacement.AfterOptions)]
         public string? ConfigPath { get; set; }
+    }
+
+    [CliTool("jq")]
+    [CliCommand("jq")]
+    private record TestTerminalOptions : CommandLineToolOptions
+    {
+        [CliOption(
+            "--run-tests",
+            ValueArity = CliOptionValueArity.Optional,
+            Phase = CommandLinePhase.Terminal)]
+        public string? RunTests { get; set; }
     }
 
     [CliTool("liquibase")]

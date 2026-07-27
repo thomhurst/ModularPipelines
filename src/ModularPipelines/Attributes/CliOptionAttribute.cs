@@ -55,6 +55,18 @@ public sealed class CliOptionAttribute : Attribute
     public bool AllowMultiple { get; set; }
 
     /// <summary>
+    /// Gets or sets whether this option requires a value.
+    /// For <see cref="CliOptionValueArity.Optional"/>, a null property omits the option,
+    /// an empty string renders the bare option, and a non-empty string renders its value.
+    /// </summary>
+    public CliOptionValueArity ValueArity { get; set; } = CliOptionValueArity.Required;
+
+    /// <summary>
+    /// Gets or sets the semantic phase used to order this option.
+    /// </summary>
+    public CommandLinePhase Phase { get; set; } = CommandLinePhase.Normal;
+
+    /// <summary>
     /// Gets or sets a custom separator string. When set, this overrides <see cref="Format"/>.
     /// Useful for non-standard separators.
     /// </summary>

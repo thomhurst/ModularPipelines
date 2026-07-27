@@ -11,6 +11,16 @@ public abstract record PropertyCommandLinePart(string PropertyName, Func<object,
     /// Gets a value indicating whether the property belongs before command parts.
     /// </summary>
     public bool IsGlobalOption { get; init; }
+
+    /// <summary>
+    /// Gets the semantic rendering phase.
+    /// </summary>
+    public abstract CommandLinePhase Phase { get; }
+
+    /// <summary>
+    /// Gets the number-of-values contract for this command-line part.
+    /// </summary>
+    public abstract CliOptionValueArity ValueArity { get; }
 }
 
 /// <summary>
@@ -19,7 +29,14 @@ public abstract record PropertyCommandLinePart(string PropertyName, Func<object,
 public sealed record ArgumentPart(
     string PropertyName,
     Func<object, object?> Getter,
-    CliArgumentAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter);
+    CliArgumentAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter)
+{
+    /// <inheritdoc />
+    public override CommandLinePhase Phase => Attribute.Phase;
+
+    /// <inheritdoc />
+    public override CliOptionValueArity ValueArity => CliOptionValueArity.Required;
+}
 
 /// <summary>
 /// Representation of a boolean flag.
@@ -27,7 +44,14 @@ public sealed record ArgumentPart(
 public sealed record FlagPart(
     string PropertyName,
     Func<object, object?> Getter,
-    CliFlagAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter);
+    CliFlagAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter)
+{
+    /// <inheritdoc />
+    public override CommandLinePhase Phase => Attribute.Phase;
+
+    /// <inheritdoc />
+    public override CliOptionValueArity ValueArity => CliOptionValueArity.None;
+}
 
 /// <summary>
 /// Representation of an option with a value.
@@ -35,4 +59,11 @@ public sealed record FlagPart(
 public sealed record OptionPart(
     string PropertyName,
     Func<object, object?> Getter,
-    CliOptionAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter);
+    CliOptionAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter)
+{
+    /// <inheritdoc />
+    public override CommandLinePhase Phase => Attribute.Phase;
+
+    /// <inheritdoc />
+    public override CliOptionValueArity ValueArity => Attribute.ValueArity;
+}

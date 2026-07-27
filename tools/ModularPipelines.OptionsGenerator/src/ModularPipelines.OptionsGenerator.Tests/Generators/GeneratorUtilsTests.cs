@@ -1,4 +1,5 @@
 using System.Text;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 
@@ -373,6 +374,60 @@ public class GeneratorUtilsTests
         var result = GeneratorUtils.GenerateCliAttributeString(option);
 
         await Assert.That(result).Contains("AllowMultiple = true");
+    }
+
+    [Test]
+    public async Task GenerateCliAttributeString_Includes_OptionalArity_And_TerminalPhase()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--run-tests",
+            PropertyName = "RunTests",
+            CSharpType = "string?",
+            ValueArity = CliOptionValueArity.Optional,
+            Phase = CommandLinePhase.Terminal,
+        };
+
+        var result = GeneratorUtils.GenerateCliAttributeString(option);
+
+        await Assert.That(result).IsEqualTo(
+            "CliOption(\"--run-tests\", ValueArity = CliOptionValueArity.Optional, " +
+            "Phase = CommandLinePhase.Terminal)");
+    }
+
+    [Test]
+    public async Task GenerateCliAttributeString_Includes_NoneArity_For_Option()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--valueless",
+            PropertyName = "Valueless",
+            CSharpType = "string?",
+            ValueArity = CliOptionValueArity.None,
+        };
+
+        var result = GeneratorUtils.GenerateCliAttributeString(option);
+
+        await Assert.That(result).IsEqualTo(
+            "CliOption(\"--valueless\", ValueArity = CliOptionValueArity.None)");
+    }
+
+    [Test]
+    public async Task GenerateCliAttributeString_Includes_EndOfOptions_Phase_For_Flag()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--",
+            PropertyName = "EndOfOptions",
+            CSharpType = "bool?",
+            IsFlag = true,
+            Phase = CommandLinePhase.EndOfOptions,
+        };
+
+        var result = GeneratorUtils.GenerateCliAttributeString(option);
+
+        await Assert.That(result).IsEqualTo(
+            "CliFlag(\"--\", Phase = CommandLinePhase.EndOfOptions)");
     }
 
     #endregion

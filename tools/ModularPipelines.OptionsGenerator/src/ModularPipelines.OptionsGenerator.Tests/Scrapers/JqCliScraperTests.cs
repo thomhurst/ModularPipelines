@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -28,7 +29,7 @@ public class JqCliScraperTests
     {
         var command = await new TestJqCliScraper().Parse(HelpText);
 
-        await Assert.That(command.Options).Count().IsEqualTo(11);
+        await Assert.That(command.Options).Count().IsEqualTo(10);
 
         var nullInput = command.Options.Single(x => x.PropertyName == "NullInput");
         await Assert.That(nullInput.ShortForm).IsEqualTo("-n");
@@ -57,16 +58,15 @@ public class JqCliScraperTests
         await Assert.That(binary.PreferShortForm).IsTrue();
 
         var runTests = command.Options.Single(x => x.PropertyName == "RunTests");
-        await Assert.That(runTests.CSharpType).IsEqualTo("bool?");
-        await Assert.That(runTests.IsFlag).IsTrue();
-
-        var runTestsFile = command.Options.Single(x => x.PropertyName == "RunTestsFile");
-        await Assert.That(runTestsFile.CSharpType).IsEqualTo("string?");
-        await Assert.That(runTestsFile.IsFlag).IsFalse();
+        await Assert.That(runTests.CSharpType).IsEqualTo("string?");
+        await Assert.That(runTests.IsFlag).IsFalse();
+        await Assert.That(runTests.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+        await Assert.That(runTests.Phase).IsEqualTo(CommandLinePhase.Terminal);
 
         var endOfOptions = command.Options.Single(x => x.PropertyName == "EndOfOptions");
         await Assert.That(endOfOptions.SwitchName).IsEqualTo("--");
         await Assert.That(endOfOptions.IsFlag).IsTrue();
+        await Assert.That(endOfOptions.Phase).IsEqualTo(CommandLinePhase.EndOfOptions);
     }
 
     [Test]

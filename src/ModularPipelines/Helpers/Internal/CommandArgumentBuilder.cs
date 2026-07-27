@@ -27,16 +27,74 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         // Add arguments before options
         AddArguments(args, argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.BeforeOptions), optionsObject);
 
-        // Add flags and options
-        AddFlagsAndOptions(args, flagsAndOptions, optionsObject);
+        var argumentsAfterOptions =
+            argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.AfterOptions) ?? [];
 
-        // Add arguments after options
-        AddArguments(args, argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.AfterOptions), optionsObject);
+        var normal = RenderPhase(
+            CommandLinePhase.Normal,
+            flagsAndOptions,
+            argumentsAfterOptions,
+            optionsObject);
+        var endOfOptions = RenderPhase(
+            CommandLinePhase.EndOfOptions,
+            flagsAndOptions,
+            argumentsAfterOptions,
+            optionsObject);
+        var passthrough = RenderPhase(
+            CommandLinePhase.Passthrough,
+            flagsAndOptions,
+            argumentsAfterOptions,
+            optionsObject);
+        var terminal = RenderPhase(
+            CommandLinePhase.Terminal,
+            flagsAndOptions,
+            argumentsAfterOptions,
+            optionsObject,
+            argumentsFirst: true);
+
+        if (endOfOptions.Count > 0 && terminal.Count > 0)
+        {
+            throw new InvalidOperationException(
+                "Terminal options cannot be combined with an end-of-options marker.");
+        }
+
+        args.AddRange(normal);
+        args.AddRange(endOfOptions);
+        args.AddRange(passthrough);
+        args.AddRange(terminal);
 
         return args;
     }
 
-    private static void AddArguments(List<string> args, List<ArgumentPart>? argumentParts, object optionsObject)
+    private static List<string> RenderPhase(
+        CommandLinePhase phase,
+        IEnumerable<PropertyCommandLinePart> flagsAndOptions,
+        IEnumerable<ArgumentPart> arguments,
+        object optionsObject,
+        bool argumentsFirst = false)
+    {
+        var rendered = new List<string>();
+        var phaseOptions = flagsAndOptions.Where(part => part.Phase == phase);
+        var phaseArguments = arguments.Where(part => part.Phase == phase);
+
+        if (argumentsFirst)
+        {
+            AddArguments(rendered, phaseArguments, optionsObject);
+            AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
+        }
+        else
+        {
+            AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
+            AddArguments(rendered, phaseArguments, optionsObject);
+        }
+
+        return rendered;
+    }
+
+    private static void AddArguments(
+        List<string> args,
+        IEnumerable<ArgumentPart>? argumentParts,
+        object optionsObject)
     {
         if (argumentParts is null)
         {
@@ -63,7 +121,10 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
     }
 
-    private static void AddFlagsAndOptions(List<string> args, List<PropertyCommandLinePart> parts, object optionsObject)
+    private static void AddFlagsAndOptions(
+        List<string> args,
+        IEnumerable<PropertyCommandLinePart> parts,
+        object optionsObject)
     {
         foreach (var part in parts)
         {
@@ -100,6 +161,16 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
     private static void AddOption(List<string> args, OptionPart optionPart, object rawValue)
     {
+        if (optionPart.ValueArity == CliOptionValueArity.None)
+        {
+            if (rawValue is not bool value || value)
+            {
+                args.Add(optionPart.Attribute.GetEffectiveName());
+            }
+
+            return;
+        }
+
         if (TryAddOptionValuePairs(args, optionPart, rawValue))
         {
             return;
@@ -111,6 +182,11 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         {
             if (string.IsNullOrWhiteSpace(value))
             {
+                if (optionPart.ValueArity == CliOptionValueArity.Optional)
+                {
+                    args.Add(optionPart.Attribute.GetEffectiveName());
+                }
+
                 continue;
             }
 
