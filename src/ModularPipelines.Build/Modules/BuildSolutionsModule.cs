@@ -28,10 +28,10 @@ public class BuildSolutionsModule : Module<CommandResult[]>
         var gitRoot = context.Git().RootDirectory.Path;
 
         // Build all solutions with --no-restore (the workflow already restored and, in CI,
-        // natively built them, so this is a fast MSBuild-incremental pass). Default
-        // parallelism: the runner reclaim in #3179 was caused by an oversized compilation
-        // unit (ModularPipelines.UnitTests referencing 50+ projects, including the huge
-        // AWS/Azure/Google SDKs it never used), not by MSBuild parallelism.
+        // natively built them, so this is a fast MSBuild-incremental pass). Keep project and
+        // compiler-server parallelism disabled here too: if anything invalidates between the
+        // native build and this pass, it must not recreate the MSB4166 memory failure from
+        // the full-solution build.
         var results = await Solutions
             .ToAsyncProcessorBuilder()
             .SelectAsync(async solution => await context.DotNet().Build(new DotNetBuildOptions
@@ -39,6 +39,12 @@ public class BuildSolutionsModule : Module<CommandResult[]>
                 ProjectSolution = Path.Combine(gitRoot, solution),
                 Configuration = "Release",
                 NoRestore = true,
+                DisableBuildServers = true,
+                Properties =
+                [
+                    new KeyValue("BuildInParallel", "false"),
+                    new KeyValue("UseSharedCompilation", "false"),
+                ],
             }, cancellationToken: cancellationToken))
             .ProcessOneAtATime();
 

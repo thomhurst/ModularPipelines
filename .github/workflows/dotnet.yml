@@ -108,15 +108,21 @@ jobs:
         # Doing the heavy compile out-of-process means the pipeline's own
         # BuildSolutionsModule finds everything already built (it runs with --no-restore and
         # MSBuild incremental, so it becomes a fast no-op) instead of doing the large
-        # All.sln compile inside the long-lived pipeline process (#3179). Default MSBuild
-        # parallelism - the real fix for the runner reclaim was removing 30+ unused project
-        # references (including the huge AWS/Azure/Google SDKs) from ModularPipelines.UnitTests,
-        # which was the single oversized compilation unit that stalled.
+        # All.sln compile inside the long-lived pipeline process (#3179). Keep MSBuild and
+        # Roslyn single-process/sequential: the full solution exhausted the hosted runner
+        # again with MSB4166 when child node 2 was reclaimed, even after adding swap.
         run: |
           for SOLUTION in $SOLUTIONS
           do
             echo "::group::Build $SOLUTION"
-            dotnet build "$SOLUTION" -c Release --no-restore
+            dotnet build "$SOLUTION" \
+              -c Release \
+              --no-restore \
+              --disable-build-servers \
+              --maxcpucount:1 \
+              -p:BuildInParallel=false \
+              -p:UseSharedCompilation=false \
+              /nr:false
             echo "::endgroup::"
           done
 
