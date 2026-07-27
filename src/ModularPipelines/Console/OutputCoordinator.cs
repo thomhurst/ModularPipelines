@@ -88,6 +88,11 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     /// <inheritdoc />
     public async Task OnModuleCompletedAsync(IModuleOutputBuffer buffer, Type moduleType, CancellationToken cancellationToken = default)
     {
+        if (!buffer.NeedsCompletionFlush)
+        {
+            return;
+        }
+
         if (_isProgressActive)
         {
             // Progress is active - defer output until pipeline end
@@ -104,7 +109,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         else
         {
             // No progress - flush immediately (existing behavior)
-            await EnqueueAndFlushAsync(buffer, cancellationToken).ConfigureAwait(false);
+            await EnqueueAndFlushAsync(buffer, OutputFlushKind.Complete, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -142,7 +147,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                 await FlushBufferAsync(
                         toFlush[nextOutputIndex].Buffer,
                         formatter,
-                        isComplete: true,
+                        OutputFlushKind.Complete,
                         cancellationToken)
                     .ConfigureAwait(false);
             }
@@ -172,35 +177,22 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     }
 
     /// <inheritdoc />
-    public async Task EnqueueAndFlushAsync(IModuleOutputBuffer buffer, CancellationToken cancellationToken = default)
-    {
-        await EnqueueAndFlushAsync(buffer, isComplete: true, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public async Task EnqueueAndFlushIncrementalAsync(
+    public async Task EnqueueAndFlushAsync(
         IModuleOutputBuffer buffer,
+        OutputFlushKind flushKind,
         CancellationToken cancellationToken = default)
     {
-        if (buffer.IsComplete)
+        if (flushKind is OutputFlushKind.Incremental && buffer.IsComplete)
         {
             return;
         }
 
-        await EnqueueAndFlushAsync(buffer, isComplete: false, cancellationToken).ConfigureAwait(false);
-    }
-
-    private async Task EnqueueAndFlushAsync(
-        IModuleOutputBuffer buffer,
-        bool isComplete,
-        CancellationToken cancellationToken)
-    {
-        if (!isComplete && !buffer.HasOutput)
+        if (flushKind is OutputFlushKind.Incremental && !buffer.HasOutput)
         {
             return;
         }
 
-        var pending = new PendingFlush(buffer, isComplete, cancellationToken);
+        var pending = new PendingFlush(buffer, flushKind, cancellationToken);
         bool shouldProcess;
 
         lock (_queueLock)
@@ -272,7 +264,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     {
         try
         {
-            if (!pending.IsComplete && pending.Buffer.IsComplete)
+            if (pending.FlushKind is OutputFlushKind.Incremental && pending.Buffer.IsComplete)
             {
                 pending.CompletionSource.TrySetResult();
                 return;
@@ -310,7 +302,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                 await FlushBufferAsync(
                         pending.Buffer,
                         formatter,
-                        pending.IsComplete,
+                        pending.FlushKind,
                         cancellationToken)
                     .ConfigureAwait(false);
             }
@@ -361,7 +353,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     private async Task FlushBufferAsync(
         IModuleOutputBuffer buffer,
         IBuildSystemFormatter formatter,
-        bool isComplete,
+        OutputFlushKind flushKind,
         CancellationToken cancellationToken)
     {
         var loggerType = typeof(ILogger<>).MakeGenericType(buffer.ModuleType);
@@ -369,18 +361,9 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                            ?? _loggerFactory.CreateLogger(buffer.ModuleType);
 
         using var directWrite = CoordinatedTextWriter.BeginDirectWrite();
-        if (isComplete)
-        {
-            await buffer
-                .FlushToAsync(_console, formatter, moduleLogger, _loggerControl, cancellationToken)
-                .ConfigureAwait(false);
-        }
-        else
-        {
-            await buffer
-                .FlushIncrementallyToAsync(_console, formatter, moduleLogger, _loggerControl, cancellationToken)
-                .ConfigureAwait(false);
-        }
+        await buffer
+            .FlushToAsync(_console, formatter, moduleLogger, _loggerControl, flushKind, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     private sealed class PendingFlush
@@ -389,17 +372,17 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
         public CancellationToken CancellationToken { get; }
 
-        public bool IsComplete { get; }
+        public OutputFlushKind FlushKind { get; }
 
         public TaskCompletionSource CompletionSource { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         public PendingFlush(
             IModuleOutputBuffer buffer,
-            bool isComplete,
+            OutputFlushKind flushKind,
             CancellationToken cancellationToken)
         {
             Buffer = buffer;
-            IsComplete = isComplete;
+            FlushKind = flushKind;
             CancellationToken = cancellationToken;
         }
     }

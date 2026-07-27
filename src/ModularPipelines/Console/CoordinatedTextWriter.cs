@@ -373,15 +373,11 @@ internal class CoordinatedTextWriter : TextWriter
             {
                 var shouldBuffer = state.ShouldBuffer ?? ShouldBuffer();
                 ObfuscateCompletePatterns(state, patterns);
-
-                var retainedLength = patterns.Length == 0
-                    ? 0
-                    : GetPotentialPatternPrefixLength(state.Buffer.ToString(), patterns);
-                FlushSafePrefix(state, state.Buffer.Length - retainedLength, shouldBuffer);
+                FlushSafeOutput(state, patterns, shouldBuffer);
 
                 if (shouldBuffer)
                 {
-                    retainedLength = patterns.Length == 0
+                    var retainedLength = patterns.Length == 0
                         ? 0
                         : GetPotentialPatternPrefixLength(state.Buffer.ToString(), patterns);
                     FlushPartialPrefix(state, state.Buffer.Length - retainedLength, shouldBuffer);

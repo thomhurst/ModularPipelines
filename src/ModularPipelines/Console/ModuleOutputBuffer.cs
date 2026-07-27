@@ -30,6 +30,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly DateTime _startTimeUtc;
     private Exception? _exception;
     private bool _isComplete;
+    private bool _isIncrementalFlushInProgress;
     private bool _hasRenderedIncrementalOutput;
 
     /// <inheritdoc />
@@ -115,6 +116,20 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
+    public bool NeedsCompletionFlush
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _outputs.Count > 0
+                       || _isIncrementalFlushInProgress
+                       || _hasRenderedIncrementalOutput;
+            }
+        }
+    }
+
+    /// <inheritdoc />
     public void MarkComplete()
     {
         lock (_lock)
@@ -129,43 +144,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         IBuildSystemFormatter formatter,
         ILogger logger,
         ISpectreConsoleLoggerControl loggerControl,
+        OutputFlushKind flushKind,
         CancellationToken cancellationToken = default)
     {
-        return FlushToAsync(
-            console,
-            formatter,
-            logger,
-            loggerControl,
-            isComplete: true,
-            cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public Task FlushIncrementallyToAsync(
-        TextWriter console,
-        IBuildSystemFormatter formatter,
-        ILogger logger,
-        ISpectreConsoleLoggerControl loggerControl,
-        CancellationToken cancellationToken = default)
-    {
-        return FlushToAsync(
-            console,
-            formatter,
-            logger,
-            loggerControl,
-            isComplete: false,
-            cancellationToken);
-    }
-
-    private Task FlushToAsync(
-        TextWriter console,
-        IBuildSystemFormatter formatter,
-        ILogger logger,
-        ISpectreConsoleLoggerControl loggerControl,
-        bool isComplete,
-        CancellationToken cancellationToken)
-    {
-        if (!TryTakeOutputs(isComplete, out var outputs, out var exception))
+        if (!TryTakeOutputs(flushKind, out var outputs, out var exception))
         {
             return Task.CompletedTask;
         }
@@ -182,41 +164,42 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 logger,
                 loggerControl.SynchronizationLock,
                 exception,
-                isComplete,
+                flushKind,
                 outputs,
                 ref renderedCount,
                 cancellationToken);
         }
         catch
         {
-            if (!isComplete)
+            if (flushKind is OutputFlushKind.Incremental)
             {
-                RecordRenderedOutput(isComplete: false, renderedCount);
+                RecordRenderedOutput(OutputFlushKind.Incremental, renderedCount);
             }
 
             RestoreUnrenderedOutputs(outputs, renderedCount);
             throw;
         }
 
-        RecordRenderedOutput(isComplete, renderedCount);
+        RecordRenderedOutput(flushKind, renderedCount);
         return Task.CompletedTask;
     }
 
     private bool TryTakeOutputs(
-        bool isComplete,
+        OutputFlushKind flushKind,
         out List<BufferedOutput> outputs,
         out Exception? exception)
     {
         lock (_lock)
         {
-            if (!isComplete && _isComplete)
+            if (flushKind is OutputFlushKind.Incremental && _isComplete)
             {
                 outputs = null!;
                 exception = null;
                 return false;
             }
 
-            if (_outputs.Count == 0 && (!isComplete || !_hasRenderedIncrementalOutput))
+            if (_outputs.Count == 0
+                && (flushKind is OutputFlushKind.Incremental || !_hasRenderedIncrementalOutput))
             {
                 outputs = null!;
                 exception = null;
@@ -225,6 +208,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
             outputs = new List<BufferedOutput>(_outputs);
             _outputs.Clear();
+            _isIncrementalFlushInProgress = flushKind is OutputFlushKind.Incremental;
             exception = _exception;
             return true;
         }
@@ -237,7 +221,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ILogger logger,
         object synchronizationLock,
         Exception? exception,
-        bool isComplete,
+        OutputFlushKind flushKind,
         List<BufferedOutput> outputs,
         ref int renderedCount,
         CancellationToken cancellationToken)
@@ -251,7 +235,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 formatter,
                 logger,
                 exception,
-                isComplete,
+                flushKind,
                 outputs,
                 ref renderedCount,
                 cancellationToken);
@@ -268,12 +252,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         IBuildSystemFormatter formatter,
         ILogger logger,
         Exception? exception,
-        bool isComplete,
+        OutputFlushKind flushKind,
         List<BufferedOutput> outputs,
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
-        var header = FormatHeader(exception, isComplete);
+        var header = FormatHeader(exception, flushKind);
         var startCommand = formatter.GetStartBlockCommand(header);
         var endCommand = formatter.GetEndBlockCommand(header);
         var groupStarted = false;
@@ -350,17 +334,21 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
     }
 
-    private void RecordRenderedOutput(bool isComplete, int renderedCount)
+    private void RecordRenderedOutput(OutputFlushKind flushKind, int renderedCount)
     {
         lock (_lock)
         {
-            if (isComplete)
+            if (flushKind is OutputFlushKind.Complete)
             {
                 _hasRenderedIncrementalOutput = false;
             }
-            else if (renderedCount > 0)
+            else
             {
-                _hasRenderedIncrementalOutput = true;
+                _isIncrementalFlushInProgress = false;
+                if (renderedCount > 0)
+                {
+                    _hasRenderedIncrementalOutput = true;
+                }
             }
         }
     }
@@ -389,7 +377,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
     }
 
-    private string FormatHeader(Exception? exception, bool isComplete)
+    private string FormatHeader(Exception? exception, OutputFlushKind flushKind)
     {
         var duration = DateTime.UtcNow - _startTimeUtc;
         var durationText = duration.ToDisplayString();
@@ -399,7 +387,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return $"{_moduleName} \u2717 ({durationText}) - {exception.GetType().Name}";
         }
 
-        return isComplete
+        return flushKind is OutputFlushKind.Complete
             ? $"{_moduleName} \u2713 ({durationText})"
             : $"{_moduleName} \u2026 ({durationText})";
     }

@@ -58,48 +58,41 @@ internal interface IModuleOutputBuffer
     void SetException(Exception exception);
 
     /// <summary>
-    /// Gets whether there is any output to flush.
+    /// Gets a value indicating whether there is any output to flush.
     /// </summary>
     bool HasOutput { get; }
 
     /// <summary>
-    /// Gets whether the owning module has completed.
+    /// Gets a value indicating whether the owning module has completed.
     /// </summary>
-    bool IsComplete => false;
+    bool IsComplete { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether completing the module requires a final flush.
+    /// This remains true while an incremental flush owns output and until its final status is rendered.
+    /// </summary>
+    bool NeedsCompletionFlush { get; }
 
     /// <summary>
     /// Marks the owning module as complete so periodic flushing no longer selects it.
     /// </summary>
-    void MarkComplete()
-    {
-    }
+    void MarkComplete();
 
     /// <summary>
-    /// Flushes all buffered output to the console with CI formatting.
+    /// Flushes buffered output to the console with CI formatting.
     /// </summary>
     /// <param name="console">The console to write to.</param>
     /// <param name="formatter">The CI-specific formatter for log groups.</param>
     /// <param name="logger">The logger for structured log output.</param>
     /// <param name="loggerControl">Coordinates log rendering with direct console writes.</param>
+    /// <param name="flushKind">Whether this is an incremental or complete flush.</param>
     /// <param name="cancellationToken">Cancellation token for the flush operation.</param>
+    /// <returns>A task that completes when buffered output has been rendered.</returns>
     Task FlushToAsync(
         TextWriter console,
         IBuildSystemFormatter formatter,
         ILogger logger,
         ISpectreConsoleLoggerControl loggerControl,
+        OutputFlushKind flushKind,
         CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Flushes output accumulated so far while the module is still running.
-    /// </summary>
-    /// <remarks>
-    /// The default implementation preserves compatibility for alternate buffer implementations.
-    /// </remarks>
-    Task FlushIncrementallyToAsync(
-        TextWriter console,
-        IBuildSystemFormatter formatter,
-        ILogger logger,
-        ISpectreConsoleLoggerControl loggerControl,
-        CancellationToken cancellationToken = default)
-        => FlushToAsync(console, formatter, logger, loggerControl, cancellationToken);
 }

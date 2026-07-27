@@ -302,10 +302,10 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     /// <inheritdoc />
     public Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync()
     {
-        return FlushPendingWritesAsync(isFinal: true);
+        return FlushPendingWritesAsync(OutputFlushKind.Complete);
     }
 
-    private async Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync(bool isFinal)
+    private async Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync(OutputFlushKind flushKind)
     {
         var populatedBeforeFlush = _moduleBuffers.Values
             .Where(buffer => buffer.HasOutput)
@@ -321,12 +321,12 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
         if (output is not null)
         {
-            await FlushWriterAsync(output, isFinal).ConfigureAwait(false);
+            await FlushWriterAsync(output, flushKind).ConfigureAwait(false);
         }
 
         if (error is not null && !ReferenceEquals(error, output))
         {
-            await FlushWriterAsync(error, isFinal).ConfigureAwait(false);
+            await FlushWriterAsync(error, flushKind).ConfigureAwait(false);
         }
 
         return _moduleBuffers.Values
@@ -338,7 +338,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     /// <inheritdoc />
     public async Task FlushInProgressModuleOutputAsync(CancellationToken cancellationToken = default)
     {
-        var newlyPopulatedBuffers = await FlushPendingWritesAsync(isFinal: false).ConfigureAwait(false);
+        var newlyPopulatedBuffers = await FlushPendingWritesAsync(OutputFlushKind.Incremental).ConfigureAwait(false);
 
         foreach (var buffer in newlyPopulatedBuffers.Where(buffer => buffer.IsComplete))
         {
@@ -357,14 +357,14 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         {
             cancellationToken.ThrowIfCancellationRequested();
             await _outputCoordinator
-                .EnqueueAndFlushIncrementalAsync(buffer, cancellationToken)
+                .EnqueueAndFlushAsync(buffer, OutputFlushKind.Incremental, cancellationToken)
                 .ConfigureAwait(false);
         }
     }
 
-    private static Task FlushWriterAsync(CoordinatedTextWriter writer, bool isFinal)
+    private static Task FlushWriterAsync(CoordinatedTextWriter writer, OutputFlushKind flushKind)
     {
-        return isFinal
+        return flushKind is OutputFlushKind.Complete
             ? writer.FlushAsync()
             : writer.FlushAvailableAsync();
     }
@@ -387,7 +387,12 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         {
             var unattributedLogger = _outputLogger ?? _loggerFactory.CreateLogger("ModularPipelines.Output");
             await _unattributedBuffer
-                .FlushToAsync(_originalConsoleOut, formatter, unattributedLogger, _loggerControl)
+                .FlushToAsync(
+                    _originalConsoleOut,
+                    formatter,
+                    unattributedLogger,
+                    _loggerControl,
+                    OutputFlushKind.Complete)
                 .ConfigureAwait(false);
         }
     }

@@ -14,7 +14,12 @@ public class ModuleOutputBufferTests
         var loggerControl = new SynchronousLoggerControl(writer);
         var buffer = CreateBufferWithStructuredLog();
 
-        await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
 
         var output = writer.ToString();
         var structuredLog = output.IndexOf("structured log", StringComparison.Ordinal);
@@ -32,7 +37,12 @@ public class ModuleOutputBufferTests
         var buffer = CreateBufferWithStructuredLog();
         buffer.WriteLine("direct output");
 
-        await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
 
         var output = writer.ToString();
         var groupStart = output.IndexOf("::group::", StringComparison.Ordinal);
@@ -54,7 +64,12 @@ public class ModuleOutputBufferTests
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
         buffer.WriteLine("[green]direct output[/]");
 
-        await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
 
         var output = writer.ToString();
         await Assert.That(output).Contains("direct output");
@@ -69,17 +84,19 @@ public class ModuleOutputBufferTests
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
         buffer.WriteLine("partial output");
 
-        await buffer.FlushIncrementallyToAsync(
+        await buffer.FlushToAsync(
             writer,
             new GitHubActionsFormatter(),
             loggerControl,
-            loggerControl);
+            loggerControl,
+            OutputFlushKind.Incremental);
 
         var output = writer.ToString();
         await Assert.That(output).Contains("ModuleOutputBufferTests …");
         await Assert.That(output).Contains("partial output");
         await Assert.That(output).DoesNotContain("ModuleOutputBufferTests ✓");
         await Assert.That(buffer.HasOutput).IsFalse();
+        await Assert.That(buffer.NeedsCompletionFlush).IsTrue();
     }
 
     [Test]
@@ -91,16 +108,22 @@ public class ModuleOutputBufferTests
         buffer.WriteLine("completed output");
         buffer.MarkComplete();
 
-        await buffer.FlushIncrementallyToAsync(
+        await buffer.FlushToAsync(
             writer,
             new GitHubActionsFormatter(),
             loggerControl,
-            loggerControl);
+            loggerControl,
+            OutputFlushKind.Incremental);
 
         await Assert.That(writer.ToString()).IsEmpty();
         await Assert.That(buffer.HasOutput).IsTrue();
 
-        await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
         await Assert.That(writer.ToString()).Contains("completed output");
     }
 
@@ -112,22 +135,70 @@ public class ModuleOutputBufferTests
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
         buffer.WriteLine("partial output");
 
-        await buffer.FlushIncrementallyToAsync(
+        await buffer.FlushToAsync(
             writer,
             new GitHubActionsFormatter(),
             loggerControl,
-            loggerControl);
+            loggerControl,
+            OutputFlushKind.Incremental);
         buffer.MarkComplete();
         await buffer.FlushToAsync(
             writer,
             new GitHubActionsFormatter(),
             loggerControl,
-            loggerControl);
+            loggerControl,
+            OutputFlushKind.Complete);
 
         var output = writer.ToString();
         await Assert.That(output).Contains("ModuleOutputBufferTests …");
         await Assert.That(output).Contains("ModuleOutputBufferTests ✓");
         await Assert.That(output).Contains("partial output");
+        await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
+    }
+
+    [Test]
+    public async Task CompletionNeed_Remains_While_IncrementalFlush_Owns_Output()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = CreateBufferWithStructuredLog();
+        var renderingStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseRendering = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        loggerControl.AfterLog = () =>
+        {
+            renderingStarted.TrySetResult();
+            releaseRendering.Task.GetAwaiter().GetResult();
+        };
+
+        var incrementalFlush = Task.Run(() => buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental));
+        await renderingStarted.Task.WaitAsync(TimeSpan.FromSeconds(1));
+
+        try
+        {
+            await Assert.That(buffer.HasOutput).IsFalse();
+            await Assert.That(buffer.NeedsCompletionFlush).IsTrue();
+            buffer.MarkComplete();
+        }
+        finally
+        {
+            releaseRendering.TrySetResult();
+        }
+
+        await incrementalFlush;
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        await Assert.That(writer.ToString()).Contains("ModuleOutputBufferTests ✓");
+        await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
     }
 
     [Test]
@@ -155,7 +226,12 @@ public class ModuleOutputBufferTests
             gateAttemptCompleted.Wait();
         };
 
-        await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
         await outsideLog!;
 
         var output = writer.ToString();
@@ -181,6 +257,7 @@ public class ModuleOutputBufferTests
                 new GitHubActionsFormatter(),
                 loggerControl,
                 loggerControl,
+                OutputFlushKind.Complete,
                 cancellationTokenSource.Token));
 
         await Assert.That(buffer.HasOutput).IsTrue();
@@ -202,6 +279,7 @@ public class ModuleOutputBufferTests
                 new GitHubActionsFormatter(),
                 loggerControl,
                 loggerControl,
+                OutputFlushKind.Complete,
                 cancellationTokenSource.Token));
 
         var cancelledOutput = writer.ToString();
@@ -209,7 +287,12 @@ public class ModuleOutputBufferTests
             .IsGreaterThan(cancelledOutput.IndexOf("structured log", StringComparison.Ordinal));
         await Assert.That(buffer.HasOutput).IsTrue();
 
-        await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
 
         await Assert.That(writer.ToString()).Contains("remaining output");
         await Assert.That(buffer.HasOutput).IsFalse();
@@ -227,12 +310,22 @@ public class ModuleOutputBufferTests
         buffer.WriteLine("remaining output");
 
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
-            await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl));
+            await buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                OutputFlushKind.Complete));
 
         await Assert.That(buffer.HasOutput).IsTrue();
 
         loggerControl.LogException = null;
-        await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
 
         await Assert.That(writer.ToString()).DoesNotContain("structured log");
         await Assert.That(writer.ToString()).Contains("remaining output");
@@ -251,18 +344,20 @@ public class ModuleOutputBufferTests
         buffer.WriteLine("remaining output");
 
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
-            await buffer.FlushIncrementallyToAsync(
+            await buffer.FlushToAsync(
                 writer,
                 new GitHubActionsFormatter(),
                 loggerControl,
-                loggerControl));
+                loggerControl,
+                OutputFlushKind.Incremental));
 
         loggerControl.LogExceptionAfterWrite = null;
-        await buffer.FlushIncrementallyToAsync(
+        await buffer.FlushToAsync(
             writer,
             new GitHubActionsFormatter(),
             loggerControl,
-            loggerControl);
+            loggerControl,
+            OutputFlushKind.Incremental);
 
         await Assert.That(CountOccurrences(writer.ToString(), "structured log")).IsEqualTo(1);
         await Assert.That(writer.ToString()).Contains("remaining output");
@@ -296,6 +391,7 @@ public class ModuleOutputBufferTests
                     new GitHubActionsFormatter(),
                     loggerControl,
                     loggerControl,
+                    OutputFlushKind.Complete,
                     cancellationTokenSource.Token));
         }
         finally
