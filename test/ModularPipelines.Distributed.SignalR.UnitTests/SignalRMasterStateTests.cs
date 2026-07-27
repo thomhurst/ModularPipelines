@@ -335,6 +335,39 @@ public class SignalRMasterStateTests
         await Assert.That(retryWorker.IsIdle).IsTrue();
     }
 
+    [Test]
+    public async Task Redispatch_Claimant_Disconnect_Starts_New_Reconnect_Grace()
+    {
+        var state = new SignalRMasterState();
+        var assignment = CreateAssignment();
+        var retryWorker = CreateWorker(2, "retry");
+        var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
+        pending.TryMakeAvailableForRedispatch();
+        await Assert.That(retryWorker.TryAssign(assignment)).IsTrue();
+        await Assert.That(state.TryClaimRedispatch(assignment, retryWorker)).IsTrue();
+
+        var replacement = state.TrackPendingReconnect(retryWorker, assignment);
+
+        await Assert.That(replacement).IsNotNull();
+        await Assert.That(state.GetPendingReconnect(retryWorker.Registration.WorkerIndex))
+            .IsSameReferenceAs(replacement);
+    }
+
+    [Test]
+    public async Task Failed_Redispatch_Untracks_Remote_Claimant()
+    {
+        var state = new SignalRMasterState();
+        var assignment = CreateAssignment();
+        var retryWorker = CreateWorker(2, "retry");
+        var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
+        pending.TryMakeAvailableForRedispatch();
+        await Assert.That(state.TryClaimRedispatch(assignment, retryWorker)).IsTrue();
+
+        await Assert.That(pending.IsTracking(retryWorker)).IsTrue();
+        await Assert.That(state.TryReturnRedispatchToQueue(assignment, retryWorker)).IsTrue();
+        await Assert.That(pending.IsTracking(retryWorker)).IsFalse();
+    }
+
     private static WorkerState CreateWorker(
         int workerIndex = 1,
         string connectionId = "connection")

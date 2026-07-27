@@ -223,7 +223,7 @@ internal class DistributedPipelineHub(
                     _logger.LogWarning(ex, "Failed to assign {Module} to worker {Index}; re-queuing",
                         assignment.ModuleTypeName, workerState.Registration.WorkerIndex);
                     workerState.TryCompleteAssignment(assignment.ModuleTypeName);
-                    if (state.TryReturnRedispatchToQueue(assignment))
+                    if (state.TryReturnRedispatchToQueue(assignment, workerState))
                     {
                         state.PendingAssignments.Enqueue(assignment);
 

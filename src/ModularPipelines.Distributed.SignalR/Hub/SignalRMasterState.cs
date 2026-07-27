@@ -68,7 +68,8 @@ internal class SignalRMasterState
             // A late original participant is not the owner of an active redispatch.
             // Its disconnect must not replace that claim and schedule a third execution.
             if (previous is { IsRedispatched: true }
-                && previous.IsTracking(disconnectedWorker))
+                && previous.IsTracking(disconnectedWorker)
+                && !previous.IsRedispatchClaimant(disconnectedWorker))
             {
                 previous.UntrackWorker(disconnectedWorker);
                 return null;
@@ -176,14 +177,16 @@ internal class SignalRMasterState
 
             if (worker is not null)
             {
-                pending.TrackWorker(worker);
+                pending.TrackRedispatchClaimant(worker);
             }
 
             return true;
         }
     }
 
-    public bool TryReturnRedispatchToQueue(ModuleAssignment assignment)
+    public bool TryReturnRedispatchToQueue(
+        ModuleAssignment assignment,
+        WorkerState? worker = null)
     {
         lock (_pendingReconnectLock)
         {
@@ -196,7 +199,7 @@ internal class SignalRMasterState
             return !_pendingReconnects.TryGetValue(
                        assignment.ModuleTypeName,
                        out var pending)
-                   || pending.TryReturnToQueue();
+                   || pending.TryReturnToQueue(worker);
         }
     }
 

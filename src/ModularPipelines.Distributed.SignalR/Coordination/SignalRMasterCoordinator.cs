@@ -226,7 +226,7 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
                     _logger.LogWarning(ex, "Failed to push assignment to worker {Index}, marking idle",
                         worker.Registration.WorkerIndex);
                     worker.TryCompleteAssignment(assignment.ModuleTypeName);
-                    if (!_state.TryReturnRedispatchToQueue(assignment))
+                    if (!_state.TryReturnRedispatchToQueue(assignment, worker))
                     {
                         return true;
                     }

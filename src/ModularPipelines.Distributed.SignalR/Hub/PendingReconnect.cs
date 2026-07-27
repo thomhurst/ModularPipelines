@@ -19,6 +19,7 @@ internal sealed class PendingReconnect(
 {
     private readonly CancellationTokenSource _delayCancellation = new();
     private readonly HashSet<WorkerState> _trackedWorkers = [];
+    private WorkerState? _redispatchClaimant;
     private int _state = (int) PendingReconnectState.WaitingForReconnect;
     private int _disposed;
 
@@ -62,11 +63,23 @@ internal sealed class PendingReconnect(
             PendingReconnectState.Redispatched);
     }
 
-    public bool TryReturnToQueue()
+    public bool TryReturnToQueue(WorkerState? claimant = null)
     {
-        return TryTransition(
-            PendingReconnectState.Redispatched,
-            PendingReconnectState.AvailableForRedispatch);
+        if (!TryTransition(
+                PendingReconnectState.Redispatched,
+                PendingReconnectState.AvailableForRedispatch))
+        {
+            return false;
+        }
+
+        if (claimant is not null
+            && ReferenceEquals(_redispatchClaimant, claimant))
+        {
+            _trackedWorkers.Remove(claimant);
+            _redispatchClaimant = null;
+        }
+
+        return true;
     }
 
     public IReadOnlyList<WorkerState> Complete()
@@ -80,6 +93,12 @@ internal sealed class PendingReconnect(
         _trackedWorkers.Add(worker);
     }
 
+    public void TrackRedispatchClaimant(WorkerState worker)
+    {
+        _redispatchClaimant = worker;
+        TrackWorker(worker);
+    }
+
     public void TrackWorkers(IEnumerable<WorkerState> workers)
     {
         _trackedWorkers.UnionWith(workers);
@@ -88,6 +107,11 @@ internal sealed class PendingReconnect(
     public bool IsTracking(WorkerState worker)
     {
         return _trackedWorkers.Contains(worker);
+    }
+
+    public bool IsRedispatchClaimant(WorkerState worker)
+    {
+        return ReferenceEquals(_redispatchClaimant, worker);
     }
 
     public void UntrackWorker(WorkerState worker)
