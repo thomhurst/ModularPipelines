@@ -83,9 +83,9 @@ jobs:
         with:
           dotnet-version: "$(_ModularPipelinesYamlDotNetVersion)"
       - run: |
-          PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\\\x/g'`
+          PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\x/g'`
           PIPELINE_PROJECT=`printf '%b' "$PIPELINE_PROJECT"`
-          PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_ENCODED" | sed 's/%/\\\\x/g'`
+          PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_ENCODED" | sed 's/%/\\x/g'`
           PIPELINE_FRAMEWORK=`printf '%b' "$PIPELINE_FRAMEWORK"`
           dotnet run --project "$PIPELINE_PROJECT" --configuration Release --framework "$PIPELINE_FRAMEWORK"
         env:
@@ -115,9 +115,9 @@ modular-pipelines:
       value: "$(_ModularPipelinesTargetFrameworkEncoded)"
       expand: false
   script:
-    - PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\\\x/g'`
+    - PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\x/g'`
     - PIPELINE_PROJECT=`printf '%b' "$PIPELINE_PROJECT"`
-    - PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_ENCODED" | sed 's/%/\\\\x/g'`
+    - PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_ENCODED" | sed 's/%/\\x/g'`
     - PIPELINE_FRAMEWORK=`printf '%b' "$PIPELINE_FRAMEWORK"`
     - dotnet run --project "$PIPELINE_PROJECT" --configuration Release --framework "$PIPELINE_FRAMEWORK"
 ]]></_ModularPipelinesGitLabPipeline>
@@ -137,9 +137,9 @@ steps:
       packageType: sdk
       version: "$(_ModularPipelinesYamlDotNetVersion)"
   - script: |
-      PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\\\x/g'`
+      PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\x/g'`
       PIPELINE_PROJECT=`printf '%b' "$PIPELINE_PROJECT"`
-      PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_ENCODED" | sed 's/%/\\\\x/g'`
+      PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_ENCODED" | sed 's/%/\\x/g'`
       PIPELINE_FRAMEWORK=`printf '%b' "$PIPELINE_FRAMEWORK"`
       dotnet run --project "$PIPELINE_PROJECT" --configuration Release --framework "$PIPELINE_FRAMEWORK"
     displayName: Run ModularPipelines
