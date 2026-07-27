@@ -41,6 +41,37 @@ function global:git {
 try {
     . $cleanupScript
 
+    if ((Get-PrNumberFromWorktreePath -Path (Join-Path $testRoot 'pr-3045-review')) -ne 3045) {
+        throw 'Canonical PR worktree number was not parsed.'
+    }
+    if ($null -ne (Get-PrNumberFromWorktreePath -Path (Join-Path $testRoot 'issue-3045-review'))) {
+        throw 'Issue worktree was incorrectly parsed as a PR worktree.'
+    }
+    if (-not (Test-BranchIdentifiesPrNumber -Branch 'codex/pr-3045-r3' -PrNumber 3045)) {
+        throw 'PR-numbered review branch was not recognized.'
+    }
+    if (Test-BranchIdentifiesPrNumber -Branch 'fix/signalr-reconnect-handoff' -PrNumber 3178) {
+        throw 'Unrelated branch was matched from a misleading worktree name.'
+    }
+
+    $canonicalPrRoot = Join-Path $testRoot 'primary-worktrees'
+    $canonicalPrWorktree = Join-Path $canonicalPrRoot 'pr-3045-review'
+    if (-not (Test-IsCanonicalPrWorktree -Path $canonicalPrWorktree -WorktreeRoot $canonicalPrRoot `
+            -Branch 'codex/pr-3045-r3' -PrNumber 3045)) {
+        throw 'Canonical named PR worktree identity was not recognized.'
+    }
+    if (-not (Test-IsCanonicalPrWorktree -Path $canonicalPrWorktree -WorktreeRoot $canonicalPrRoot `
+            -Detached -PrNumber 3045)) {
+        throw 'Canonical detached PR worktree identity was not recognized.'
+    }
+    if (Test-IsCanonicalPrWorktree -Path $canonicalPrWorktree -WorktreeRoot $canonicalPrRoot `
+            -Branch 'codex/pr-9999' -PrNumber 3045) {
+        throw 'Mismatched branch/path PR identity was accepted.'
+    }
+    if (-not (Test-IsDescendantPath -Path (Join-Path $primaryRoot '.claude/worktrees/test') -Parent $primaryRoot)) {
+        throw 'Harness-managed descendant worktree was not recognized.'
+    }
+
     $explicitSelection = Select-MergeCleanupWorktree `
         -ValidatedWorktree $isolatedRoot `
         -CurrentBranchWorktree $null `

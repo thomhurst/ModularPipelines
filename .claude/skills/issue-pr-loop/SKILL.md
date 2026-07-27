@@ -140,6 +140,13 @@ if (-not [string]::Equals($actualRoot, $expectedRoot, [System.StringComparison]:
 }
 ```
 
+The `pr-<N>-*` directory name is durable cleanup identity for review/rebase worktrees
+whose local branch or commit may differ from GitHub's PR head after a squash merge.
+Keep the correct PR number in the name; never rename or reuse that directory for another
+PR. Cleanup verifies GitHub has no open PR associated with the current commit before it
+trusts detached identity. Named worktrees must also use a local branch containing the
+same `pr-<N>` identity.
+
 For tool calls, prefer two separate calls for PR work: first create the worktree from the shared repo,
 then call `gh pr checkout <N>` with the tool `workdir` set to the worktree path. If `gh pr checkout` is run
 from the shared checkout by mistake and no files were modified, immediately return the shared checkout to its
@@ -279,17 +286,21 @@ Do not rely on branch protection being present, current, or configured for every
 
 The guard enforces only the **mechanical** MERGE signals. The judgment-only signals from the MERGE row — approval (or repo-does-not-gate), zero unaddressed comments, and a bot CI cycle since your last fix push — are still yours to confirm before you run it; a passing guard is necessary, not sufficient.
 
-Merge with the single command `scripts/Merge-Pr.ps1 -Pr <n>`. It runs the gate, merges only if the gate passes, then performs best-effort cleanup of that PR's isolated worktree and head branches:
+Merge with `scripts/Merge-Pr.ps1 -Pr <n> -Worktree <path>` when you own that PR's
+worktree. The explicit path lets cleanup remove review/rebase branches whose local name
+differs from GitHub's head branch. Omit `-Worktree` only when no isolated worktree exists;
+exact-head-branch auto-discovery remains a fallback. The command runs the gate, merges
+only if the gate passes, then performs best-effort cleanup:
 
 ```powershell
-pwsh scripts/Merge-Pr.ps1 -Pr <n>
+pwsh scripts/Merge-Pr.ps1 -Pr <n> -Worktree $worktree
 if ($LASTEXITCODE -ne 0) {
   # NOT merged (gate denied or merge failed) — nothing destroyed.
   # Leave a short update, skip the PR, advance to the next iteration.
 }
 ```
 
-`Merge-Pr.ps1` internally: (1) calls the pure `Assert-PrGreen.ps1` gate (re-fetches fresh state; exits 0 only when OPEN + `MERGEABLE` + `CLEAN` + every check terminal-and-passing + no unresolved threads); (2) on exit 0, runs `gh pr merge <n> --squash` without asking `gh` to delete a branch that may still be checked out; (3) finds and removes the clean worktree by the PR's head branch; (4) only after the worktree is gone, deletes the remote and local head branches. If the worktree has uncommitted tracked changes, it and both branches are preserved. Once the merge succeeds, later cleanup failures warn and still exit 0 — never retry an already-completed merge because cleanup was incomplete. The gate remains a separate read-only predicate — do not fold merging into it; `Merge-Pr.ps1` composes it.
+`Merge-Pr.ps1` internally: (1) calls the pure `Assert-PrGreen.ps1` gate (re-fetches fresh state; exits 0 only when OPEN + `MERGEABLE` + `CLEAN` + every check terminal-and-passing + no unresolved threads); (2) validates the explicit isolated worktree, or finds the PR's exact head-branch worktree; (3) on exit 0, runs `gh pr merge <n> --squash` without asking `gh` to delete a branch that may still be checked out; (4) removes that same validated clean worktree; (5) only after the worktree is gone, deletes the remote and local head branches. If tracked changes exist, it preserves the worktree and both branches. Once the merge succeeds, later cleanup failures warn and still exit 0 — never retry an already-completed merge because cleanup was incomplete. The gate remains a separate read-only predicate — do not fold merging into it; `Merge-Pr.ps1` composes it.
 
 Hard rules — no exceptions:
 
@@ -300,7 +311,7 @@ Hard rules — no exceptions:
 
 Worktree and branch cleanup are part of `Merge-Pr.ps1`. It removes a clean merged-PR worktree before deleting its remote/local head branches. If tracked changes exist, it preserves the worktree and both branches (untracked build artifacts are cleared). Post-merge cleanup failures are warnings because the merge cannot safely be retried. You do **not** run a separate removal step after merge.
 
-**Per-iteration safety-net sweep.** Once per loop iteration, run `pwsh scripts/Remove-MergedWorktrees.ps1`. It reaps any worktree whose branch has a **merged PR** — including PRs squash-merged by another agent or a human, which `Merge-Pr.ps1` never saw. Detection is via GitHub's merged-PR head branches (`gh pr list --state merged`), the only signal that survives squash/rebase (the branch tip is not an ancestor of `main`, so ancestry checks miss it). It is squash-safe, skips branches with an open PR, skips detached worktrees, and preserves dirty worktrees. A `[gone]` branch is deliberately **not** treated as merged — that also happens to closed-unmerged PRs.
+**Per-iteration safety-net sweep.** Once per loop iteration, run `pwsh scripts/Remove-MergedWorktrees.ps1`. It reaps worktrees with a **merged PR**, including squash-merged review/rebase variants. It first uses GitHub branch, tip, and commit association. If those miss a local-only tip, a named worktree requires matching `pr-<N>` path and branch identities; a detached worktree additionally requires a successful GitHub lookup confirming the current commit has no open PR. It preserves dirty, open-PR, locked, and harness-managed worktrees. It also removes failed-cleanup remnants with dangling `.git` markers. For legacy remnants where Git already removed `.git`, deletion requires canonical root/name, a merged PR number, and no meaningful file newer than the merge. A `[gone]` branch remains insufficient evidence because closed-unmerged PRs also lose remote refs.
 
 ### Other Rules
 

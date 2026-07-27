@@ -40,6 +40,58 @@ function Test-SameNativePath {
     }
 }
 
+function Get-PrNumberFromWorktreePath {
+    param([Parameter(Mandatory)][string]$Path)
+
+    $leaf = Split-Path -Path $Path -Leaf
+    if ($leaf -match '^pr-(?<Number>\d+)(?:-|$)') {
+        return [int]$Matches.Number
+    }
+    return $null
+}
+
+function Test-BranchIdentifiesPrNumber {
+    param(
+        [Parameter(Mandatory)][string]$Branch,
+        [Parameter(Mandatory)][int]$PrNumber
+    )
+
+    return $Branch -match "(?:^|/)pr-$PrNumber(?:$|[-/])"
+}
+
+function Test-IsCanonicalPrWorktree {
+    param(
+        [Parameter(Mandatory)][string]$Path,
+        [Parameter(Mandatory)][string]$WorktreeRoot,
+        [AllowNull()][string]$Branch,
+        [switch]$Detached,
+        [Parameter(Mandatory)][int]$PrNumber
+    )
+
+    $parent = Split-Path -Path $Path -Parent
+    if (-not (Test-SameNativePath -Left $parent -Right $WorktreeRoot)) { return $false }
+    if ((Get-PrNumberFromWorktreePath -Path $Path) -ne $PrNumber) { return $false }
+    if ($Detached) { return $true }
+    return $Branch -and (Test-BranchIdentifiesPrNumber -Branch $Branch -PrNumber $PrNumber)
+}
+
+function Test-IsDescendantPath {
+    param(
+        [Parameter(Mandatory)][string]$Path,
+        [Parameter(Mandatory)][string]$Parent
+    )
+
+    try {
+        $pathValue = [IO.Path]::GetFullPath($Path).TrimEnd([char[]]@('/', '\'))
+        $parentValue = [IO.Path]::GetFullPath($Parent).TrimEnd([char[]]@('/', '\'))
+        $comparison = if ($IsWindows) { [StringComparison]::OrdinalIgnoreCase } else { [StringComparison]::Ordinal }
+        return $pathValue.StartsWith($parentValue + [IO.Path]::DirectorySeparatorChar, $comparison)
+    }
+    catch {
+        return $false
+    }
+}
+
 function Select-MergeCleanupWorktree {
     param(
         [string]$ValidatedWorktree,
