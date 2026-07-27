@@ -678,9 +678,9 @@ public static partial class GeneratorUtils
         // Distinct commands can normalize to the same method name (e.g. "build-server"
         // and "build_server" both become BuildServer). Emitting both would produce
         // duplicate members the duplicate-path check cannot see, so fail loudly here.
-        var duplicateMethodNames = rootCommands
-            .GroupBy(c => GenerateMethodNameFromCommandParts(c.CommandParts), StringComparer.OrdinalIgnoreCase)
-            .Where(g => g.Count() > 1)
+        var duplicateMethodNames = GetDuplicateCommandGroups(
+                rootCommands,
+                command => GenerateMethodNameFromCommandParts(command.CommandParts))
             .Select(g => $"{g.Key} ({string.Join(", ", g.Select(c => c.FullCommand))})")
             .ToList();
 
@@ -709,9 +709,9 @@ public static partial class GeneratorUtils
             .Where(command => subDomainNames.Contains(GetCommandGroupIdentifier(command)))
             .ToList();
 
-        var duplicateParentNames = parentCommands
-            .GroupBy(GetCommandGroupIdentifier, StringComparer.OrdinalIgnoreCase)
-            .Where(group => group.Count() > 1)
+        var duplicateParentNames = GetDuplicateCommandGroups(
+                parentCommands,
+                GetCommandGroupIdentifier)
             .Select(group => group.First().CommandParts[0])
             .ToList();
 
@@ -762,6 +762,13 @@ public static partial class GeneratorUtils
         new(
             tool.SubDomainGroups.Select(group => GetSubDomainIdentifier(tool, group)),
             StringComparer.OrdinalIgnoreCase);
+
+    private static IEnumerable<IGrouping<string, CliCommandDefinition>> GetDuplicateCommandGroups(
+        IEnumerable<CliCommandDefinition> commands,
+        Func<CliCommandDefinition, string> identifierSelector) =>
+        commands
+            .GroupBy(identifierSelector, StringComparer.OrdinalIgnoreCase)
+            .Where(group => group.Skip(1).Any());
 
     private static bool NeedsClassNameNormalization(CliCommandDefinition command) =>
         string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase);
