@@ -1,7 +1,10 @@
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
@@ -23,6 +26,8 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
     private readonly IPipelineContextProvider _pipelineContextProvider;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
+    private readonly IOptions<DistributedOptions> _distributedOptions;
+    private readonly RoleDetector _roleDetector;
     private readonly ILogger<IgnoredModuleResultRegistrar> _logger;
 
     public IgnoredModuleResultRegistrar(
@@ -31,6 +36,8 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         IPipelineContextProvider pipelineContextProvider,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
+        IOptions<DistributedOptions> distributedOptions,
+        RoleDetector roleDetector,
         ILogger<IgnoredModuleResultRegistrar> logger)
     {
         _resultRegistry = resultRegistry;
@@ -38,6 +45,8 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         _pipelineContextProvider = pipelineContextProvider;
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
+        _distributedOptions = distributedOptions;
+        _roleDetector = roleDetector;
         _logger = logger;
     }
 
@@ -58,6 +67,11 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             foreach (var ignoredModule in pendingIgnoredModules)
             {
                 await RegisterIgnoredModuleResultAsync(ignoredModule, pipelineContext).ConfigureAwait(false);
+            }
+
+            if (IsDistributedWorker())
+            {
+                break;
             }
 
             var runnableModuleTypes = runnableModules
@@ -110,6 +124,14 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         }
 
         return new OrganizedModules(runnableModules, ignoredModules);
+    }
+
+    private bool IsDistributedWorker()
+    {
+        var options = _distributedOptions.Value;
+        return options.Enabled
+               && options.TotalInstances > 1
+               && _roleDetector.DetectRole() == DistributedRole.Worker;
     }
 
     private async Task RegisterIgnoredModuleResultAsync(

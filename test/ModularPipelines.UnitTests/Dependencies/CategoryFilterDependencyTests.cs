@@ -225,6 +225,28 @@ public class CategoryFilterDependencyTests : TestBase
     }
 
     [Test]
+    public async Task Repeated_Factory_Module_Instance_Is_Resolved_Once_For_Dependents()
+    {
+        var compileModule = new CompileModule();
+
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .AddModule<CompileModule>(_ => compileModule)
+            .AddModule<CompileModule>(_ => compileModule)
+            .AddModule<CompileResultConsumerModule>()
+            .ConfigurePipelineOptions(opt => opt.RunOnlyCategories = ["compile"])
+            .ExecutePipelineAsync();
+
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Modules.Count(module => ReferenceEquals(module, compileModule)))
+            .IsEqualTo(1);
+
+        var consumerResult = await pipelineSummary.Modules
+            .OfType<CompileResultConsumerModule>()
+            .Single();
+        await Assert.That(consumerResult.ValueOrDefault).IsEqualTo("compiled");
+    }
+
+    [Test]
     public async Task Fluent_Skip_Cascade_Skips_Required_Dependent()
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()

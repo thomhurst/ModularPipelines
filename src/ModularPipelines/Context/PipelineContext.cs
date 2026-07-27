@@ -106,11 +106,15 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
     public TModule? GetModule<TModule>()
         where TModule : class, IModule
     {
-        return _serviceProvider.GetServices<IModule>().OfType<TModule>().SingleOrDefault();
+        return GetDistinctModules().OfType<TModule>().SingleOrDefault();
     }
 
     public IModule? GetModule(Type type)
     {
-        return _serviceProvider.GetServices<IModule>().SingleOrDefault(module => module.GetType() == type);
+        return GetDistinctModules().SingleOrDefault(module => module.GetType() == type);
     }
+
+    private IEnumerable<IModule> GetDistinctModules() =>
+        _serviceProvider.GetServices<IModule>()
+            .Distinct<IModule>(ReferenceEqualityComparer.Instance);
 }
