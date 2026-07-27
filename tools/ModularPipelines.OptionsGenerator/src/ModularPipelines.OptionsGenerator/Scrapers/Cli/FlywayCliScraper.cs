@@ -44,6 +44,8 @@ public partial class FlywayCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Flyway";
 
+    protected override string VersionArguments => "-v";
+
     /// <summary>
     /// Flyway is a single-level CLI (flyway [options] command), not multi-level.
     /// Limit depth to prevent the scraper from treating repeated help output as nested subcommands.
@@ -57,6 +59,28 @@ public partial class FlywayCliScraper : CliScraperBase
     {
         "--help", "-h", "--version", "help", "version"
     };
+
+    /// <inheritdoc />
+    public override CliToolDefinition CreateToolDefinition()
+    {
+        return base.CreateToolDefinition() with
+        {
+            CommandCoverage = new CliCommandCoveragePolicy
+            {
+                MinimumCommandCount = 19,
+                SentinelCommands =
+                [
+                    "flyway add",
+                    "flyway auth",
+                    "flyway diff",
+                    "flyway diffApply",
+                    "flyway diffText",
+                    "flyway generate",
+                    "flyway undo",
+                ],
+            },
+        };
+    }
 
     /// <summary>
     /// Extracts subcommand names from Flyway help text.

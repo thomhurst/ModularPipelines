@@ -48,6 +48,7 @@ public class CodeGeneratorOrchestrator
         string toolsToGenerate,
         string outputDirectory,
         bool useCliFirst = true,
+        bool approveCommandCoverageShrinkage = false,
         CancellationToken cancellationToken = default)
     {
         var result = new GenerationResult();
@@ -86,7 +87,13 @@ public class CodeGeneratorOrchestrator
                 // Try CLI scraper first if enabled
                 if (useCliFirst && cliScrapersByTool.TryGetValue(htmlScraper.ToolName, out var cliScraper))
                 {
-                    var cliFailureReason = await GenerateFromCliAsync(cliScraper, outputDirectory, result, emittedPaths, cancellationToken);
+                    var cliFailureReason = await GenerateFromCliAsync(
+                        cliScraper,
+                        outputDirectory,
+                        result,
+                        emittedPaths,
+                        approveCommandCoverageShrinkage,
+                        cancellationToken);
                     if (cliFailureReason is null)
                     {
                         continue;
@@ -125,7 +132,13 @@ public class CodeGeneratorOrchestrator
                     }
                 }
 
-                await GenerateForToolAsync(htmlToolDefinition, outputDirectory, result, emittedPaths, cancellationToken);
+                await GenerateForToolAsync(
+                    htmlToolDefinition,
+                    outputDirectory,
+                    result,
+                    emittedPaths,
+                    approveCommandCoverageShrinkage,
+                    cancellationToken);
 
                 _logger.LogInformation("Generated files for {Tool}", htmlScraper.ToolName);
             }
@@ -164,7 +177,13 @@ public class CodeGeneratorOrchestrator
                     processedTools.Add(cliScraper.ToolName);
                     result.ToolsProcessed.Add(cliScraper.ToolName);
 
-                    var failureReason = await GenerateFromCliAsync(cliScraper, outputDirectory, result, emittedPaths, cancellationToken);
+                    var failureReason = await GenerateFromCliAsync(
+                        cliScraper,
+                        outputDirectory,
+                        result,
+                        emittedPaths,
+                        approveCommandCoverageShrinkage,
+                        cancellationToken);
                     if (failureReason is not null)
                     {
                         throw new InvalidOperationException(
@@ -208,6 +227,7 @@ public class CodeGeneratorOrchestrator
         string outputDirectory,
         GenerationResult result,
         HashSet<string> emittedPaths,
+        bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
         if (!await cliScraper.IsAvailableAsync(cancellationToken))
@@ -225,6 +245,7 @@ public class CodeGeneratorOrchestrator
         }
 
         var toolDefinition = cliScraper.CreateToolDefinition();
+        var toolVersion = await cliScraper.GetVersionAsync(cancellationToken);
 
         _logger.LogInformation("Scraped {Count} commands for {Tool}", allCommands.Count, cliScraper.ToolName);
 
@@ -243,12 +264,20 @@ public class CodeGeneratorOrchestrator
             TargetNamespace = toolDefinition.TargetNamespace,
             OutputDirectory = toolDefinition.OutputDirectory,
             Commands = allCommands,
+            ToolVersion = toolVersion,
+            CommandCoverage = toolDefinition.CommandCoverage,
             GlobalOptions = toolDefinition.GlobalOptions,
             SupplementalGlobalOptions = toolDefinition.SupplementalGlobalOptions,
             Errors = []
         };
 
-        await GenerateForToolAsync(completeToolDefinition, outputDirectory, result, emittedPaths, cancellationToken);
+        await GenerateForToolAsync(
+            completeToolDefinition,
+            outputDirectory,
+            result,
+            emittedPaths,
+            approveCommandCoverageShrinkage,
+            cancellationToken);
 
         _logger.LogInformation("Generated files for {Tool} ({Count} commands, {SubDomainCount} sub-domains)",
             cliScraper.ToolName, allCommands.Count, completeToolDefinition.SubDomainGroups.Count);
@@ -269,6 +298,7 @@ public class CodeGeneratorOrchestrator
         string outputDirectory,
         GenerationResult result,
         HashSet<string> emittedPaths,
+        bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
         var globalOptions = tool.GetGlobalOptions();
@@ -279,6 +309,18 @@ public class CodeGeneratorOrchestrator
             GlobalOptions = globalOptions,
             SupplementalGlobalOptions = [],
         };
+        var coverage = CommandCoverageGuard.Evaluate(
+            toolDefinition,
+            outputDirectory,
+            approveCommandCoverageShrinkage);
+        result.CommandCoverage.Add(coverage);
+
+        if (coverage.Violations.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"Command coverage validation failed for {tool.ToolName}:{Environment.NewLine}"
+                + string.Join(Environment.NewLine, coverage.Violations.Select(violation => $"- {violation}")));
+        }
 
         var generatedFiles = new List<GeneratedFile>();
 
@@ -302,6 +344,9 @@ public class CodeGeneratorOrchestrator
 
         // Only after every replacement is on disk is it safe to prune stale files.
         CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory, toolDefinition.NamespacePrefix, writtenFullPaths);
+
+        await CommandCoverageGuard.WriteManifestAsync(coverage, cancellationToken);
+        result.FilesGenerated.Add(Path.GetRelativePath(outputDirectory, coverage.ManifestPath));
 
         // AssemblyInfo is deliberately outside collision tracking. Its metadata is
         // package-level, so tools sharing an output directory generate identical content.
@@ -548,15 +593,68 @@ public class GenerationResult
     public List<string> FilesGenerated { get; } = [];
     public List<ScrapingError> Errors { get; } = [];
 
+    internal List<CommandCoverageEvaluation> CommandCoverage { get; } = [];
+
     public bool HasErrors => Errors.Count > 0;
 
     public string GetSummary()
     {
-        return $"""
+        var summary = $"""
             Generation Summary:
             - Tools processed: {ToolsProcessed.Count} ({string.Join(", ", ToolsProcessed)})
             - Files generated: {FilesGenerated.Count}
             - Errors: {Errors.Count}
             """;
+
+        if (CommandCoverage.Count == 0)
+        {
+            return summary;
+        }
+
+        return summary + Environment.NewLine + GetCommandCoverageSummary();
+    }
+
+    private string GetCommandCoverageSummary()
+    {
+        var lines = new List<string> { "Command coverage report:" };
+
+        foreach (var coverage in CommandCoverage.OrderBy(item => item.Manifest.ToolName, StringComparer.OrdinalIgnoreCase))
+        {
+            var version = coverage.Manifest.ToolVersion ?? "unknown version";
+            lines.Add(
+                $"- {coverage.Manifest.ToolName} ({version}): {coverage.Manifest.CommandCount} commands, "
+                + $"tree {coverage.Manifest.CommandTreeSha256}");
+
+            if (!coverage.HasPreviousBaseline)
+            {
+                lines.Add("  - Baseline: created");
+            }
+
+            AppendDiff(lines, "Added", coverage.AddedCommands);
+            AppendDiff(lines, coverage.ShrinkageApproved ? "Removed (approved)" : "Removed", coverage.RemovedCommands);
+            AppendDiff(lines, "Groups without children", coverage.KnownGroupsWithoutChildren);
+            AppendDiff(
+                lines,
+                "Excluded",
+                coverage.Manifest.Exclusions
+                    .Select(exclusion => $"{exclusion.Command} ({exclusion.Reason})")
+                    .ToArray());
+            AppendDiff(lines, "Violations", coverage.Violations);
+        }
+
+        return string.Join(Environment.NewLine, lines);
+    }
+
+    private static void AppendDiff(List<string> lines, string label, IReadOnlyList<string> values)
+    {
+        if (values.Count == 0)
+        {
+            return;
+        }
+
+        const int displayLimit = 50;
+        var displayed = values.Take(displayLimit);
+        var suffix = values.Count > displayLimit ? $" (+{values.Count - displayLimit} more; see manifest)" : string.Empty;
+        lines.Add($"  - {label}: {string.Join(", ", displayed)}{suffix}");
     }
 }

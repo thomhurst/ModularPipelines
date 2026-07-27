@@ -30,7 +30,14 @@ public class CodeGeneratorOrchestratorTests
 
         public IReadOnlyList<CliOptionDefinition> GlobalOptions { get; init; } = [];
 
+        public CliCommandCoveragePolicy CommandCoverage { get; init; } = new();
+
+        public string? Version { get; init; } = "fake 1.0";
+
         public Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default) => Task.FromResult(Available);
+
+        public Task<string?> GetVersionAsync(CancellationToken cancellationToken = default) =>
+            Task.FromResult(Version);
 
         public async IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(
             [EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -50,6 +57,7 @@ public class CodeGeneratorOrchestratorTests
             TargetNamespace = TargetNamespace,
             OutputDirectory = OutputDirectory,
             Commands = [],
+            CommandCoverage = CommandCoverage,
             GlobalOptions = GlobalOptions,
         };
     }
@@ -324,6 +332,104 @@ public class CodeGeneratorOrchestratorTests
 
             await Assert.That(result.HasErrors).IsFalse();
             await Assert.That(generatedGlobalOptions).IsEquivalentTo([globalOption]);
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task CommandCoverageShrinkage_FailsBeforeMutatingGeneratedOutput()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(outputRoot);
+        var generator = new FakeGenerator
+        {
+            OnGenerate = tool => tool.Commands.Select(command => new GeneratedFile
+            {
+                RelativePath = Path.Combine(
+                    ToolOutputDirectory,
+                    "Options",
+                    $"{command.ClassName}.Generated.cs"),
+                Content = $"// {command.FullCommand}",
+            }).ToArray(),
+        };
+        var firstCommand = FakeCommand();
+        var secondCommand = firstCommand with
+        {
+            FullCommand = "fake deploy",
+            CommandParts = ["deploy"],
+            ClassName = "FakeDeployOptions",
+        };
+
+        try
+        {
+            var baselineResult = await Orchestrator(
+                    new FakeCliScraper { Commands = [firstCommand, secondCommand] },
+                    generator)
+                .GenerateAsync("fake", outputRoot);
+            var deployFile = Path.Combine(
+                outputRoot,
+                ToolOutputDirectory,
+                "Options",
+                "FakeDeployOptions.Generated.cs");
+
+            var shrinkResult = await Orchestrator(
+                    new FakeCliScraper { Commands = [firstCommand] },
+                    generator)
+                .GenerateAsync("fake", outputRoot);
+
+            await Assert.That(baselineResult.HasErrors).IsFalse();
+            await Assert.That(shrinkResult.HasErrors).IsTrue();
+            await Assert.That(shrinkResult.GetSummary()).Contains("Removed: fake deploy");
+            await Assert.That(File.Exists(deployFile)).IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApprovedCommandCoverageShrinkage_UpdatesBaseline()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(outputRoot);
+        var generator = new FakeGenerator();
+        var firstCommand = FakeCommand();
+        var secondCommand = firstCommand with
+        {
+            FullCommand = "fake deploy",
+            CommandParts = ["deploy"],
+            ClassName = "FakeDeployOptions",
+        };
+
+        try
+        {
+            await Orchestrator(
+                    new FakeCliScraper { Commands = [firstCommand, secondCommand] },
+                    generator)
+                .GenerateAsync("fake", outputRoot);
+
+            var approved = await Orchestrator(
+                    new FakeCliScraper { Commands = [firstCommand] },
+                    generator)
+                .GenerateAsync(
+                    "fake",
+                    outputRoot,
+                    approveCommandCoverageShrinkage: true);
+
+            await Assert.That(approved.HasErrors).IsFalse();
+            await Assert.That(approved.GetSummary()).Contains("Removed (approved): fake deploy");
+
+            var manifest = await File.ReadAllTextAsync(Path.Combine(
+                outputRoot,
+                ToolOutputDirectory,
+                "Generated",
+                "Fake.CommandCoverage.json"));
+            await Assert.That(manifest).Contains("\"commandCount\": 1");
+            await Assert.That(manifest).DoesNotContain("fake deploy");
         }
         finally
         {

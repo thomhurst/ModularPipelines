@@ -34,6 +34,12 @@ public interface ICliScraper
     Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Gets the installed CLI version for command coverage reporting, when available.
+    /// </summary>
+    Task<string?> GetVersionAsync(CancellationToken cancellationToken = default) =>
+        Task.FromResult<string?>(null);
+
+    /// <summary>
     /// Scrapes the CLI by parsing --help output, yielding commands as they are discovered.
     /// This enables incremental file generation instead of waiting for all commands.
     /// </summary>

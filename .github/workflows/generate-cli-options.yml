@@ -25,6 +25,11 @@ on:
         required: false
         default: true
         type: boolean
+      approve-command-coverage-shrinkage:
+        description: 'Explicitly approve removed commands for this run'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   # Generate options for each tool in parallel (Linux)
@@ -558,17 +563,30 @@ jobs:
         working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
 
       - name: Run Generator for ${{ matrix.tool }}
+        id: generator
         if: steps.should-run.outputs.run == 'true'
         run: |
           set -o pipefail
+          COVERAGE_ARGS=()
+          if [[ "${{ github.event_name == 'workflow_dispatch' && inputs['approve-command-coverage-shrinkage'] || false }}" == "true" ]]; then
+            COVERAGE_ARGS+=(--approve-command-coverage-shrinkage)
+          fi
+
           dotnet run -c Release -- \
             --tools "${{ matrix.tool }}" \
-            --output-dir "${{ github.workspace }}" | tee "$RUNNER_TEMP/generator-output.log"
+            --output-dir "${{ github.workspace }}" \
+            "${COVERAGE_ARGS[@]}" | tee "$RUNNER_TEMP/generator-output.log"
 
           if ! grep -Eq -- '- Files generated: [1-9][0-9]*$' "$RUNNER_TEMP/generator-output.log"; then
             echo "Generator produced zero files for ${{ matrix.tool }}" >&2
             exit 1
           fi
+
+          {
+            echo 'coverage-report<<EOF'
+            sed -n '/^Command coverage report:/,$p' "$RUNNER_TEMP/generator-output.log"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
         working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
 
       - name: Check for changes
@@ -576,7 +594,7 @@ jobs:
         id: changes
         run: |
           # Stage generated APIs and the matching CLI reference page.
-          git add 'src/**/*.cs' 'docs/docs/mp-packages/cli/*.md'
+          git add 'src/**/*.cs' 'src/**/Generated/*.CommandCoverage.json' 'docs/docs/mp-packages/cli/*.md'
 
           # Check for actual content changes (ignore whitespace-only changes)
           if git diff --staged --quiet --ignore-all-space --ignore-blank-lines; then
@@ -621,6 +639,9 @@ jobs:
             - Updated options classes to reflect latest CLI documentation
             - Added new commands if any were detected
             - Updated option types and descriptions
+
+            ## Command coverage
+            ${{ steps.generator.outputs.coverage-report }}
 
             ## Verification
             - [x] Solution builds successfully
@@ -787,12 +808,19 @@ jobs:
         working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
 
       - name: Run Generator for ${{ matrix.tool }}
+        id: generator
         if: steps.should-run.outputs.run == 'true'
         shell: pwsh
         run: |
-          $generatorOutput = dotnet run -c Release -- `
+          $coverageArgs = @()
+          if ("${{ github.event_name == 'workflow_dispatch' && inputs['approve-command-coverage-shrinkage'] || false }}" -eq "true") {
+            $coverageArgs += "--approve-command-coverage-shrinkage"
+          }
+
+          $generatorOutput = @(dotnet run -c Release -- `
             --tools "${{ matrix.tool }}" `
-            --output-dir "${{ github.workspace }}" 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/generator-output.log"
+            --output-dir "${{ github.workspace }}" `
+            @coverageArgs 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/generator-output.log")
 
           if ($LASTEXITCODE -ne 0) {
             throw "Generator failed for ${{ matrix.tool }}"
@@ -801,6 +829,14 @@ jobs:
           if (-not ($generatorOutput | Select-String -Pattern '- Files generated: [1-9][0-9]*' -Quiet)) {
             throw "Generator produced zero files for ${{ matrix.tool }}"
           }
+
+          $marker = $generatorOutput | Select-String -Pattern '^Command coverage report:' | Select-Object -Last 1
+          "coverage-report<<EOF" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          if ($marker) {
+            $generatorOutput[($marker.LineNumber - 1)..($generatorOutput.Count - 1)] |
+              Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          }
+          "EOF" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
 
       - name: Check for changes
@@ -809,7 +845,7 @@ jobs:
         shell: pwsh
         run: |
           # Stage generated APIs and the matching CLI reference page.
-          git add 'src/**/*.cs' 'docs/docs/mp-packages/cli/*.md'
+          git add 'src/**/*.cs' 'src/**/Generated/*.CommandCoverage.json' 'docs/docs/mp-packages/cli/*.md'
 
           # Check for actual content changes (ignore whitespace-only changes)
           git diff --staged --quiet --ignore-all-space --ignore-blank-lines
@@ -861,6 +897,9 @@ jobs:
             - Updated options classes to reflect latest CLI documentation
             - Added new commands if any were detected
             - Updated option types and descriptions
+
+            ## Command coverage
+            ${{ steps.generator.outputs.coverage-report }}
 
             ## Verification
             - [x] Solution builds successfully
