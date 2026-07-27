@@ -27,6 +27,12 @@ internal interface IOutputCoordinator
         CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Waits until every queued or active immediate flush has released its buffer.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    Task WaitForPendingFlushesAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Sets whether live progress is currently active.
     /// When active, module output is deferred until pipeline end.
     /// </summary>

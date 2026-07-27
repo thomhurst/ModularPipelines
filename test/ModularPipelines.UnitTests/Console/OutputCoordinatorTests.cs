@@ -275,6 +275,33 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    public async Task WaitForPendingFlushes_WaitsForCanceledActiveFlushToReleaseBuffer()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var buffer = new BlockingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        var flush = coordinator.EnqueueAndFlushAsync(
+            buffer,
+            OutputFlushKind.Incremental,
+            cancellationTokenSource.Token);
+        await buffer.FlushStarted.Task;
+
+        await cancellationTokenSource.CancelAsync();
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await flush);
+
+        var waitForPendingFlushes = coordinator.WaitForPendingFlushesAsync();
+        var completedBeforeRelease = ReferenceEquals(
+            await Task.WhenAny(waitForPendingFlushes, Task.Delay(TimeSpan.FromMilliseconds(50))),
+            waitForPendingFlushes);
+
+        buffer.ReleaseFlush.TrySetResult();
+        await waitForPendingFlushes;
+
+        await Assert.That(completedBeforeRelease).IsFalse();
+    }
+
+    [Test]
     public async Task ImmediateFlush_OwnerReturnsBeforeLaterBufferCompletes()
     {
         var firstBuffer = new BlockingOutputBuffer();

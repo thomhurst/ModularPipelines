@@ -137,6 +137,10 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         {
             await _liveFlushCancellation.CancelAsync().ConfigureAwait(false);
             await _liveFlushTask.ConfigureAwait(false);
+
+            // A canceled caller can finish before its queue processor releases the buffer.
+            // Final drains must not start until that processor has quiesced.
+            await _outputCoordinator.WaitForPendingFlushesAsync().ConfigureAwait(false);
             _liveFlushCancellation.Dispose();
 
             // CRITICAL: Order matters!

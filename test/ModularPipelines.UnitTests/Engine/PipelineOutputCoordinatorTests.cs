@@ -62,6 +62,9 @@ public class PipelineOutputCoordinatorTests
         outputCoordinator.Setup(x => x.FlushDeferredAsync(It.IsAny<CancellationToken>()))
             .Callback(() => events.Add("deferred"))
             .Returns(Task.CompletedTask);
+        outputCoordinator.Setup(x => x.WaitForPendingFlushesAsync(It.IsAny<CancellationToken>()))
+            .Callback(() => events.Add("quiesced"))
+            .Returns(Task.CompletedTask);
 
         var coordinator = new PipelineOutputCoordinator(
             new RecordingProgressExecutor(events),
@@ -80,7 +83,7 @@ public class PipelineOutputCoordinatorTests
         await scope.DisposeAsync();
 
         await Assert.That(string.Join(",", events))
-            .IsEqualTo("retained,scheduled,progress,deferred,unattributed");
+            .IsEqualTo("quiesced,retained,scheduled,progress,deferred,unattributed");
         outputCoordinator.VerifyAll();
     }
 
@@ -102,6 +105,9 @@ public class PipelineOutputCoordinatorTests
         var outputCoordinator = new Mock<IOutputCoordinator>();
         outputCoordinator
             .Setup(x => x.FlushDeferredAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        outputCoordinator
+            .Setup(x => x.WaitForPendingFlushesAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         var coordinator = new PipelineOutputCoordinator(
             new RecordingProgressExecutor([]),

@@ -25,11 +25,12 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     // Separate lock for deferred output operations to reduce contention
     // with immediate flush operations that use _queueLock
     private readonly object _deferredLock = new();
+    private readonly List<DeferredModuleOutput> _deferredOutputs = new();
 
     private IProgressController _progressController = NoOpProgressController.Instance;
     private bool _isProcessingQueue;
+    private TaskCompletionSource _queueIdle = CreateCompletedQueueIdleSource();
     private volatile bool _isProgressActive;
-    private readonly List<DeferredModuleOutput> _deferredOutputs = new();
 
     private readonly record struct DeferredModuleOutput(
         IModuleOutputBuffer Buffer,
@@ -201,6 +202,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             if (shouldProcess)
             {
                 _isProcessingQueue = true;
+                _queueIdle = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
             }
         }
 
@@ -214,6 +216,15 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         using var cancellationRegistration = cancellationToken.Register(
             () => pending.CompletionSource.TrySetCanceled(cancellationToken));
         await pending.CompletionSource.Task.ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public Task WaitForPendingFlushesAsync(CancellationToken cancellationToken = default)
+    {
+        lock (_queueLock)
+        {
+            return _queueIdle.Task.WaitAsync(cancellationToken);
+        }
     }
 
     private async Task ProcessQueueAsync()
@@ -340,12 +351,20 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             _isProcessingQueue = false;
             if (_pendingQueue.Count == 0)
             {
+                _queueIdle.TrySetResult();
                 return false;
             }
 
             _isProcessingQueue = true;
             return true;
         }
+    }
+
+    private static TaskCompletionSource CreateCompletedQueueIdleSource()
+    {
+        var completionSource = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        completionSource.SetResult();
+        return completionSource;
     }
 
     private async Task FlushBufferAsync(
