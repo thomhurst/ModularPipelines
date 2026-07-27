@@ -28,8 +28,7 @@ internal sealed class PendingReconnect(
 
     public CancellationToken DelayToken => _delayCancellation.Token;
 
-    private PendingReconnectState State =>
-        (PendingReconnectState) Volatile.Read(ref _state);
+    public bool IsRedispatched => State == PendingReconnectState.Redispatched;
 
     public bool TryMakeAvailableForRedispatch()
     {
@@ -43,11 +42,6 @@ internal sealed class PendingReconnect(
         while (true)
         {
             var state = State;
-            if (state == PendingReconnectState.Resumed)
-            {
-                return true;
-            }
-
             if (state is not (PendingReconnectState.WaitingForReconnect
                 or PendingReconnectState.AvailableForRedispatch))
             {
@@ -86,6 +80,21 @@ internal sealed class PendingReconnect(
         _trackedWorkers.Add(worker);
     }
 
+    public void TrackWorkers(IEnumerable<WorkerState> workers)
+    {
+        _trackedWorkers.UnionWith(workers);
+    }
+
+    public bool IsTracking(WorkerState worker)
+    {
+        return _trackedWorkers.Contains(worker);
+    }
+
+    public void UntrackWorker(WorkerState worker)
+    {
+        _trackedWorkers.Remove(worker);
+    }
+
     public void CancelDelay()
     {
         if (Volatile.Read(ref _disposed) != 0)
@@ -110,6 +119,9 @@ internal sealed class PendingReconnect(
             _delayCancellation.Dispose();
         }
     }
+
+    private PendingReconnectState State =>
+        (PendingReconnectState) Volatile.Read(ref _state);
 
     private bool TryTransition(PendingReconnectState from, PendingReconnectState to)
     {

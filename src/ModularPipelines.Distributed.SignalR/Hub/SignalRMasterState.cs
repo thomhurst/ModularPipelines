@@ -48,15 +48,37 @@ internal class SignalRMasterState
     /// </summary>
     public SemaphoreSlim WorkAvailable { get; } = new(0);
 
-    public PendingReconnect TrackPendingReconnect(int workerIndex, ModuleAssignment assignment)
+    public PendingReconnect? TrackPendingReconnect(
+        WorkerState disconnectedWorker,
+        ModuleAssignment assignment)
     {
-        var pending = new PendingReconnect(workerIndex, assignment);
+        PendingReconnect pending;
         PendingReconnect? previous;
 
         lock (_pendingReconnectLock)
         {
+            if (ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
+                && waiter.Task.IsCompleted)
+            {
+                return null;
+            }
+
             _pendingReconnects.TryGetValue(assignment.ModuleTypeName, out previous);
-            previous?.Complete();
+
+            // A late original participant is not the owner of an active redispatch.
+            // Its disconnect must not replace that claim and schedule a third execution.
+            if (previous is { IsRedispatched: true }
+                && previous.IsTracking(disconnectedWorker))
+            {
+                previous.UntrackWorker(disconnectedWorker);
+                return null;
+            }
+
+            pending = new PendingReconnect(
+                disconnectedWorker.Registration.WorkerIndex,
+                assignment);
+            var trackedWorkers = previous?.Complete() ?? [];
+            pending.TrackWorkers(trackedWorkers.Where(worker => worker != disconnectedWorker));
             _pendingReconnects[assignment.ModuleTypeName] = pending;
         }
 
@@ -77,14 +99,12 @@ internal class SignalRMasterState
     public bool TryRestoreReconnect(
         WorkerState worker,
         string? resumingModuleTypeName,
-        out ModuleAssignment? assignment,
-        out bool resumed)
+        out ModuleAssignment? assignment)
     {
         PendingReconnect? pending;
         PendingReconnect? completedPending = null;
         var restored = false;
         assignment = null;
-        resumed = false;
 
         lock (_pendingReconnectLock)
         {
@@ -98,13 +118,20 @@ internal class SignalRMasterState
                 if (ResultWaiters.TryGetValue(pending.Assignment.ModuleTypeName, out var waiter)
                     && !waiter.Task.IsCompleted)
                 {
-                    resumed = pending.TryResume();
                     assignment = pending.Assignment;
 
                     if (worker.TryAssign(assignment))
                     {
-                        pending.TrackWorker(worker);
-                        restored = true;
+                        if (pending.TryResume())
+                        {
+                            pending.TrackWorker(worker);
+                            restored = true;
+                        }
+                        else
+                        {
+                            worker.TryCompleteAssignment(assignment.ModuleTypeName);
+                            assignment = null;
+                        }
                     }
                 }
                 else if (_pendingReconnects.Remove(
@@ -116,31 +143,47 @@ internal class SignalRMasterState
             }
         }
 
-        pending?.CancelDelay();
+        if (restored)
+        {
+            pending?.CancelDelay();
+        }
+
         completedPending?.Dispose();
         return restored;
     }
 
     public bool TryClaimRedispatch(ModuleAssignment assignment)
     {
-        PendingReconnect? pending;
         lock (_pendingReconnectLock)
         {
-            _pendingReconnects.TryGetValue(assignment.ModuleTypeName, out pending);
-        }
+            if (ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
+                && waiter.Task.IsCompleted)
+            {
+                return false;
+            }
 
-        return pending is null || pending.TryClaimRedispatch();
+            return !_pendingReconnects.TryGetValue(
+                       assignment.ModuleTypeName,
+                       out var pending)
+                   || pending.TryClaimRedispatch();
+        }
     }
 
-    public void ReturnRedispatchToQueue(ModuleAssignment assignment)
+    public bool TryReturnRedispatchToQueue(ModuleAssignment assignment)
     {
-        PendingReconnect? pending;
         lock (_pendingReconnectLock)
         {
-            _pendingReconnects.TryGetValue(assignment.ModuleTypeName, out pending);
-        }
+            if (ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
+                && waiter.Task.IsCompleted)
+            {
+                return false;
+            }
 
-        pending?.TryReturnToQueue();
+            return !_pendingReconnects.TryGetValue(
+                       assignment.ModuleTypeName,
+                       out var pending)
+                   || pending.TryReturnToQueue();
+        }
     }
 
     public void CompletePendingReconnect(string moduleTypeName)

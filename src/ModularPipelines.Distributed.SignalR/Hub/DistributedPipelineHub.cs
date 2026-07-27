@@ -37,13 +37,10 @@ internal class DistributedPipelineHub(
         if (state.TryRestoreReconnect(
                 workerState,
                 resumingModuleTypeName,
-                out var recoveredAssignment,
-                out var resumed))
+                out var recoveredAssignment))
         {
             _logger.LogInformation(
-                resumed
-                    ? "Worker {Index} reclaimed in-flight {Module}"
-                    : "Worker {Index} reconnected after {Module} was claimed for redispatch; tracking its original execution",
+                "Worker {Index} reclaimed in-flight {Module}",
                 registration.WorkerIndex,
                 recoveredAssignment!.ModuleTypeName);
         }
@@ -120,8 +117,11 @@ internal class DistributedPipelineHub(
                 && _masterState.ResultWaiters.TryGetValue(inflight.ModuleTypeName, out var waiter)
                 && !waiter.Task.IsCompleted)
             {
-                var pending = _masterState.TrackPendingReconnect(workerIndex, inflight);
-                _ = ReEnqueueAfterGraceAsync(_masterState, _logger, pending);
+                var pending = _masterState.TrackPendingReconnect(workerState, inflight);
+                if (pending is not null)
+                {
+                    _ = ReEnqueueAfterGraceAsync(_masterState, _logger, pending);
+                }
             }
         }
 
@@ -223,12 +223,14 @@ internal class DistributedPipelineHub(
                     _logger.LogWarning(ex, "Failed to assign {Module} to worker {Index}; re-queuing",
                         assignment.ModuleTypeName, workerState.Registration.WorkerIndex);
                     workerState.TryCompleteAssignment(assignment.ModuleTypeName);
-                    state.ReturnRedispatchToQueue(assignment);
-                    state.PendingAssignments.Enqueue(assignment);
+                    if (state.TryReturnRedispatchToQueue(assignment))
+                    {
+                        state.PendingAssignments.Enqueue(assignment);
 
-                    // Wake the master's dequeue loop so the re-queued work is picked up
-                    // promptly instead of stalling until an unrelated event.
-                    state.WorkAvailable.Release();
+                        // Wake the master's dequeue loop so the re-queued work is picked up
+                        // promptly instead of stalling until an unrelated event.
+                        state.WorkAvailable.Release();
+                    }
                 }
 
                 return;

@@ -121,11 +121,20 @@ public class SignalRMasterStateTests
     }
 
     [Test]
+    public async Task PendingReconnect_Allows_Only_One_Resume_Owner()
+    {
+        using var pending = new PendingReconnect(1, CreateAssignment());
+
+        await Assert.That(pending.TryResume()).IsTrue();
+        await Assert.That(pending.TryResume()).IsFalse();
+    }
+
+    [Test]
     public async Task Reconnect_Reclaims_Queued_Retry_Until_Dispatch_Claims_It()
     {
         var state = new SignalRMasterState();
         var assignment = CreateAssignment();
-        var pending = state.TrackPendingReconnect(1, assignment);
+        var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
 
         await Assert.That(pending.TryMakeAvailableForRedispatch()).IsTrue();
         await Assert.That(pending.TryResume()).IsTrue();
@@ -139,7 +148,7 @@ public class SignalRMasterStateTests
     {
         var state = new SignalRMasterState();
         var assignment = CreateAssignment();
-        var pending = state.TrackPendingReconnect(1, assignment);
+        var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
         var replacement = new WorkerState
         {
             ConnectionId = "replacement",
@@ -148,7 +157,7 @@ public class SignalRMasterStateTests
 
         await Assert.That(pending.TryMakeAvailableForRedispatch()).IsTrue();
 
-        var restored = state.TryRestoreReconnect(replacement, null, out _, out _);
+        var restored = state.TryRestoreReconnect(replacement, null, out _);
 
         await Assert.That(restored).IsFalse();
         await Assert.That(replacement.IsIdle).IsTrue();
@@ -168,7 +177,7 @@ public class SignalRMasterStateTests
                 new TaskCompletionSource<SerializedModuleResult>(
                     TaskCreationOptions.RunContinuationsAsynchronously);
 
-            var pending = state.TrackPendingReconnect(1, assignment);
+            var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
             pending.TryMakeAvailableForRedispatch();
             pending.TryClaimRedispatch();
 
@@ -185,7 +194,6 @@ public class SignalRMasterStateTests
                 return state.TryRestoreReconnect(
                     worker,
                     assignment.ModuleTypeName,
-                    out _,
                     out _);
             });
             var completion = Task.Run(async () =>
@@ -206,6 +214,111 @@ public class SignalRMasterStateTests
             await Assert.That(worker.IsIdle).IsTrue();
             await Assert.That(reconnectRestored).IsEqualTo(workersToRelease.Contains(worker));
         }
+    }
+
+    [Test]
+    public async Task Redispatched_Assignment_Cannot_Be_Reclaimed_By_Late_Reconnect()
+    {
+        var state = new SignalRMasterState();
+        var assignment = CreateAssignment();
+        state.ResultWaiters[assignment.ModuleTypeName] =
+            new TaskCompletionSource<SerializedModuleResult>(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+        var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
+        var reconnect = CreateWorker(connectionId: "reconnect");
+
+        pending.TryMakeAvailableForRedispatch();
+        await Assert.That(state.TryClaimRedispatch(assignment)).IsTrue();
+
+        var restored = state.TryRestoreReconnect(
+            reconnect,
+            assignment.ModuleTypeName,
+            out var restoredAssignment);
+
+        await Assert.That(restored).IsFalse();
+        await Assert.That(restoredAssignment).IsNull();
+        await Assert.That(reconnect.IsIdle).IsTrue();
+    }
+
+    [Test]
+    public async Task Completed_Assignment_Cannot_Be_Claimed_After_Pending_Record_Is_Removed()
+    {
+        var state = new SignalRMasterState();
+        var assignment = CreateAssignment();
+        state.ResultWaiters[assignment.ModuleTypeName] =
+            new TaskCompletionSource<SerializedModuleResult>(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+        var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
+        pending.TryMakeAvailableForRedispatch();
+
+        state.CompleteResult(CreateResult());
+
+        await Assert.That(state.TryClaimRedispatch(assignment)).IsFalse();
+    }
+
+    [Test]
+    public async Task Replacing_Pending_Reconnect_Preserves_Other_Tracked_Workers()
+    {
+        var state = new SignalRMasterState();
+        var assignment = CreateAssignment();
+        var firstOwner = CreateWorker(connectionId: "first-owner");
+        var trackedWorker = CreateWorker(2, "tracked");
+        var replacementOwner = CreateWorker(3, "replacement-owner");
+        var first = state.TrackPendingReconnect(firstOwner, assignment)!;
+        first.TrackWorker(trackedWorker);
+
+        var replacement = state.TrackPendingReconnect(replacementOwner, assignment);
+        var workersToRelease = state.CompleteResult(CreateResult());
+
+        await Assert.That(replacement).IsNotNull();
+        await Assert.That(workersToRelease).Contains(trackedWorker);
+    }
+
+    [Test]
+    public async Task Tracked_Original_Disconnect_Does_Not_Replace_Active_Redispatch()
+    {
+        var state = new SignalRMasterState();
+        var assignment = CreateAssignment();
+        var original = CreateWorker(connectionId: "original");
+        var pending = state.TrackPendingReconnect(original, assignment)!;
+        pending.TrackWorker(original);
+        pending.TryMakeAvailableForRedispatch();
+        pending.TryClaimRedispatch();
+
+        var replacement = state.TrackPendingReconnect(original, assignment);
+
+        await Assert.That(replacement).IsNull();
+        await Assert.That(state.GetPendingReconnect(original.Registration.WorkerIndex))
+            .IsSameReferenceAs(pending);
+        await Assert.That(state.TryReturnRedispatchToQueue(assignment)).IsTrue();
+    }
+
+    [Test]
+    public async Task Failed_Redispatch_Is_Not_Requeued_After_Result_Completes()
+    {
+        var state = new SignalRMasterState();
+        var assignment = CreateAssignment();
+        state.ResultWaiters[assignment.ModuleTypeName] =
+            new TaskCompletionSource<SerializedModuleResult>(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+        var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
+        pending.TryMakeAvailableForRedispatch();
+        state.TryClaimRedispatch(assignment);
+
+        state.CompleteResult(CreateResult());
+
+        await Assert.That(state.TryReturnRedispatchToQueue(assignment)).IsFalse();
+    }
+
+    private static WorkerState CreateWorker(
+        int workerIndex = 1,
+        string connectionId = "connection")
+    {
+        return new WorkerState
+        {
+            ConnectionId = connectionId,
+            Registration = new WorkerRegistration(workerIndex, [], DateTimeOffset.UtcNow),
+        };
     }
 
     private static ModuleAssignment CreateAssignment()

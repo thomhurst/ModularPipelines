@@ -80,9 +80,13 @@ public class SignalRMasterCoordinatorTests
             new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
 
-        var pending = state.TrackPendingReconnect(1, assignment);
+        var disconnectedWorker = new WorkerState
+        {
+            ConnectionId = "disconnected-worker",
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+        };
+        var pending = state.TrackPendingReconnect(disconnectedWorker, assignment)!;
         pending.TryMakeAvailableForRedispatch();
-        pending.TryClaimRedispatch();
 
         var worker = new WorkerState
         {
@@ -93,7 +97,6 @@ public class SignalRMasterCoordinatorTests
         var restored = state.TryRestoreReconnect(
             worker,
             assignment.ModuleTypeName,
-            out _,
             out _);
         await coordinator.PublishResultAsync(CreateResult("TestModule"), CancellationToken.None);
 
