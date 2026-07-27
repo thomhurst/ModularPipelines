@@ -1,10 +1,10 @@
 using System.Diagnostics;
-using System.Reflection;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Events;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
@@ -32,6 +32,7 @@ internal class ModuleRunner : IModuleRunner
     private readonly IDependencyWaiter _dependencyWaiter;
     private readonly IParallelLimitHandler _parallelLimitHandler;
     private readonly IModuleLifecycleEventInvoker _lifecycleEventInvoker;
+    private readonly IModuleAttributeEventService _moduleAttributeEventService;
     private readonly IModuleResultRegistrar _resultRegistrar;
 
     public ModuleRunner(
@@ -47,6 +48,7 @@ internal class ModuleRunner : IModuleRunner
         IDependencyWaiter dependencyWaiter,
         IParallelLimitHandler parallelLimitHandler,
         IModuleLifecycleEventInvoker lifecycleEventInvoker,
+        IModuleAttributeEventService moduleAttributeEventService,
         IModuleResultRegistrar resultRegistrar)
     {
         _serviceProvider = serviceProvider;
@@ -61,6 +63,7 @@ internal class ModuleRunner : IModuleRunner
         _dependencyWaiter = dependencyWaiter;
         _parallelLimitHandler = parallelLimitHandler;
         _lifecycleEventInvoker = lifecycleEventInvoker;
+        _moduleAttributeEventService = moduleAttributeEventService;
         _resultRegistrar = resultRegistrar;
     }
 
@@ -204,8 +207,7 @@ internal class ModuleRunner : IModuleRunner
 
         // Track start time for lifecycle events
         var startTime = DateTimeOffset.UtcNow;
-        var moduleAttributes = moduleType.GetCustomAttributes(inherit: true).OfType<Attribute>().ToArray();
-
+        var moduleAttributes = _moduleAttributeEventService.GetAttributes(moduleType);
         var lifecycleContext = new ModuleLifecycleContext(
             module,
             moduleType,
@@ -215,7 +217,7 @@ internal class ModuleRunner : IModuleRunner
             scopedServiceProvider,
             cancellationToken)
         {
-            ReadyTime = moduleState.ReadyTime ?? startTime
+            ReadyTime = moduleState.ReadyTime ?? startTime,
         };
 
         try

@@ -85,7 +85,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
 
             var context = new ModuleRegistrationContext(
                 moduleType,
-                moduleType.GetCustomAttributes(inherit: true).OfType<Attribute>().ToArray(),
+                _attributeEventService.GetAttributes(moduleType),
                 _configuration,
                 _environment,
                 registeredModuleTypes,
