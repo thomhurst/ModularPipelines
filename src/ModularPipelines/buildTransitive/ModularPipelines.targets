@@ -52,8 +52,8 @@
       <_ModularPipelinesPipelineProject Condition="'$(_ModularPipelinesPipelineProjectSpecified)' == 'false'">@(_ModularPipelinesAssignedProject->'%(TargetPath)')</_ModularPipelinesPipelineProject>
       <_ModularPipelinesPipelineProject Condition="'$(_ModularPipelinesPipelineProjectSpecified)' == 'true'">$(ModularPipelinesPipelineProject)</_ModularPipelinesPipelineProject>
       <_ModularPipelinesPipelineProject Condition="'$(_ModularPipelinesIsWindows)' == 'true'">$(_ModularPipelinesPipelineProject.Replace('\', '/'))</_ModularPipelinesPipelineProject>
-      <_ModularPipelinesPipelineProjectEncoded>$([System.Uri]::EscapeDataString($(_ModularPipelinesPipelineProject)))</_ModularPipelinesPipelineProjectEncoded>
-      <_ModularPipelinesTargetFrameworkEncoded>$([System.Uri]::EscapeDataString($(ModularPipelinesTargetFramework)))</_ModularPipelinesTargetFrameworkEncoded>
+      <_ModularPipelinesPipelineProjectBase64>$([MSBuild]::ConvertToBase64($(_ModularPipelinesPipelineProject)))</_ModularPipelinesPipelineProjectBase64>
+      <_ModularPipelinesTargetFrameworkBase64>$([MSBuild]::ConvertToBase64($(ModularPipelinesTargetFramework)))</_ModularPipelinesTargetFrameworkBase64>
 
       <_ModularPipelinesGitHubDirectory>$(_ModularPipelinesRepositoryRoot)/.github/workflows</_ModularPipelinesGitHubDirectory>
       <_ModularPipelinesGitHubFile>$(_ModularPipelinesGitHubDirectory)/modular-pipelines.yml</_ModularPipelinesGitHubFile>
@@ -83,14 +83,12 @@ jobs:
         with:
           dotnet-version: "$(_ModularPipelinesYamlDotNetVersion)"
       - run: |
-          PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\x/g'`
-          PIPELINE_PROJECT=`printf '%b' "$PIPELINE_PROJECT"`
-          PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_ENCODED" | sed 's/%/\\x/g'`
-          PIPELINE_FRAMEWORK=`printf '%b' "$PIPELINE_FRAMEWORK"`
+          PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_BASE64" | base64 -d`
+          PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_BASE64" | base64 -d`
           dotnet run --project "$PIPELINE_PROJECT" --configuration Release --framework "$PIPELINE_FRAMEWORK"
         env:
-          PIPELINE_PROJECT_ENCODED: "$(_ModularPipelinesPipelineProjectEncoded)"
-          PIPELINE_FRAMEWORK_ENCODED: "$(_ModularPipelinesTargetFrameworkEncoded)"
+          PIPELINE_PROJECT_BASE64: "$(_ModularPipelinesPipelineProjectBase64)"
+          PIPELINE_FRAMEWORK_BASE64: "$(_ModularPipelinesTargetFrameworkBase64)"
 ]]></_ModularPipelinesGitHubWorkflow>
 
       <_ModularPipelinesGitLabPipeline><![CDATA[variables:
@@ -108,17 +106,15 @@ modular-pipelines:
     - if: '$CI_COMMIT_BRANCH == $MODULAR_PIPELINES_BUILD_BRANCH'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MODULAR_PIPELINES_BUILD_BRANCH'
   variables:
-    PIPELINE_PROJECT_ENCODED:
-      value: "$(_ModularPipelinesPipelineProjectEncoded)"
+    PIPELINE_PROJECT_BASE64:
+      value: "$(_ModularPipelinesPipelineProjectBase64)"
       expand: false
-    PIPELINE_FRAMEWORK_ENCODED:
-      value: "$(_ModularPipelinesTargetFrameworkEncoded)"
+    PIPELINE_FRAMEWORK_BASE64:
+      value: "$(_ModularPipelinesTargetFrameworkBase64)"
       expand: false
   script:
-    - PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\x/g'`
-    - PIPELINE_PROJECT=`printf '%b' "$PIPELINE_PROJECT"`
-    - PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_ENCODED" | sed 's/%/\\x/g'`
-    - PIPELINE_FRAMEWORK=`printf '%b' "$PIPELINE_FRAMEWORK"`
+    - PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_BASE64" | base64 -d`
+    - PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_BASE64" | base64 -d`
     - dotnet run --project "$PIPELINE_PROJECT" --configuration Release --framework "$PIPELINE_FRAMEWORK"
 ]]></_ModularPipelinesGitLabPipeline>
 
@@ -137,15 +133,13 @@ steps:
       packageType: sdk
       version: "$(_ModularPipelinesYamlDotNetVersion)"
   - script: |
-      PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\x/g'`
-      PIPELINE_PROJECT=`printf '%b' "$PIPELINE_PROJECT"`
-      PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_ENCODED" | sed 's/%/\\x/g'`
-      PIPELINE_FRAMEWORK=`printf '%b' "$PIPELINE_FRAMEWORK"`
+      PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_BASE64" | base64 -d`
+      PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_BASE64" | base64 -d`
       dotnet run --project "$PIPELINE_PROJECT" --configuration Release --framework "$PIPELINE_FRAMEWORK"
     displayName: Run ModularPipelines
     env:
-      PIPELINE_PROJECT_ENCODED: "$(_ModularPipelinesPipelineProjectEncoded)"
-      PIPELINE_FRAMEWORK_ENCODED: "$(_ModularPipelinesTargetFrameworkEncoded)"
+      PIPELINE_PROJECT_BASE64: "$(_ModularPipelinesPipelineProjectBase64)"
+      PIPELINE_FRAMEWORK_BASE64: "$(_ModularPipelinesTargetFrameworkBase64)"
 ]]></_ModularPipelinesAzurePipeline>
 
       <_ModularPipelinesOutputFile Condition="'$(ModularPipelinesBuildSystem)' == 'GitHubActions'">$(_ModularPipelinesGitHubFile)</_ModularPipelinesOutputFile>
