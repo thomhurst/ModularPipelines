@@ -112,8 +112,22 @@ public static class CliGlobalOptionMerger
                && left.IsSecret == right.IsSecret
                && left.SecretValueKeys.SequenceEqual(right.SecretValueKeys, StringComparer.OrdinalIgnoreCase)
                && left.ValueSeparator.Equals(right.ValueSeparator, StringComparison.Ordinal)
-               && Equals(left.EnumDefinition, right.EnumDefinition)
+               && EnumDefinitionsEqual(left.EnumDefinition, right.EnumDefinition)
                && Equals(left.ValidationConstraints, right.ValidationConstraints);
+    }
+
+    private static bool EnumDefinitionsEqual(CliEnumDefinition? left, CliEnumDefinition? right)
+    {
+        if (ReferenceEquals(left, right))
+        {
+            return true;
+        }
+
+        return left is not null
+               && right is not null
+               && left.EnumName.Equals(right.EnumName, StringComparison.Ordinal)
+               && string.Equals(left.Description, right.Description, StringComparison.Ordinal)
+               && left.Values.SequenceEqual(right.Values);
     }
 
     private static bool StringEquals(string? left, string? right)

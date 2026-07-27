@@ -41,6 +41,24 @@ public class CliGlobalOptionMergerTests
     }
 
     [Test]
+    public async Task Merge_Deduplicates_Structurally_Equivalent_Enum_Definitions()
+    {
+        var scraped = Option("--format", "Format") with
+        {
+            CSharpType = "OutputFormat?",
+            EnumDefinition = EnumDefinition(),
+        };
+        var supplemental = scraped with
+        {
+            EnumDefinition = EnumDefinition(),
+        };
+
+        var merged = CliGlobalOptionMerger.Merge([scraped], [supplemental]);
+
+        await Assert.That(merged).Count().IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Merge_Rejects_Conflicting_Definitions_For_The_Same_Switch()
     {
         await Assert.That(() => CliGlobalOptionMerger.Merge(
@@ -76,5 +94,20 @@ public class CliGlobalOptionMergerTests
         PropertyName = propertyName,
         CSharpType = "string?",
         ValueSeparator = "=",
+    };
+
+    private static CliEnumDefinition EnumDefinition() => new()
+    {
+        EnumName = "OutputFormat",
+        Description = "Output format.",
+        Values =
+        [
+            new CliEnumValue
+            {
+                MemberName = "Json",
+                CliValue = "json",
+                Description = "JSON output.",
+            },
+        ],
     };
 }
