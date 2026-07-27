@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
@@ -148,7 +149,6 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         private int _outstandingWork;
         private readonly Channel<string[]> _workChannel;
-        private readonly TaskCompletionSource _completionSignal = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         public WorkCoordinator(Channel<string[]> workChannel)
         {
@@ -175,19 +175,8 @@ public abstract partial class CliScraperBase : ICliScraper
             if (remaining == 0)
             {
                 _workChannel.Writer.TryComplete();
-                _completionSignal.TrySetResult();
             }
         }
-
-        /// <summary>
-        /// Gets a task that completes when all work is done.
-        /// </summary>
-        public Task CompletionTask => _completionSignal.Task;
-
-        /// <summary>
-        /// Current count of outstanding work items (for diagnostics).
-        /// </summary>
-        public int OutstandingWork => Volatile.Read(ref _outstandingWork);
     }
 
     /// <summary>
@@ -224,22 +213,26 @@ public abstract partial class CliScraperBase : ICliScraper
 
         // Coordinator handles completion signaling atomically
         var coordinator = new WorkCoordinator(workChannel);
+        var visitedPaths = new ConcurrentDictionary<string, byte>(StringComparer.OrdinalIgnoreCase);
 
         // Start discovery with root path - increment BEFORE adding to channel
+        visitedPaths.TryAdd(ToolName, 0);
         coordinator.IncrementWork();
         await workChannel.Writer.WriteAsync([ToolName], cancellationToken);
 
         // Start worker tasks
         var workerTasks = Enumerable.Range(0, MaxParallelism)
-            .Select(_ => ProcessWorkQueueAsync(workChannel, commandChannel, coordinator, cancellationToken))
+            .Select(_ => ProcessWorkQueueAsync(
+                workChannel,
+                commandChannel,
+                coordinator,
+                visitedPaths,
+                cancellationToken))
             .ToList();
 
-        // Background task to complete command channel when all work is done
-        _ = Task.Run(async () =>
-        {
-            await Task.WhenAll(workerTasks);
-            commandChannel.Writer.Complete();
-        }, cancellationToken);
+        // Always complete the result channel, including when a worker faults. Without this,
+        // the consumer can wait forever after a malformed command group fails validation.
+        _ = CompleteCommandChannelAsync(workerTasks, commandChannel);
 
         // Yield commands as they're discovered
         var commandCount = 0;
@@ -261,6 +254,7 @@ public abstract partial class CliScraperBase : ICliScraper
         Channel<string[]> workChannel,
         Channel<CliCommandDefinition> commandChannel,
         WorkCoordinator coordinator,
+        ConcurrentDictionary<string, byte> visitedPaths,
         CancellationToken cancellationToken)
     {
         // ReadAllAsync handles channel completion cleanly - no polling needed
@@ -268,7 +262,13 @@ public abstract partial class CliScraperBase : ICliScraper
         {
             try
             {
-                await ProcessPathAsync(path, workChannel, commandChannel, coordinator, cancellationToken);
+                await ProcessPathAsync(
+                    path,
+                    workChannel,
+                    commandChannel,
+                    coordinator,
+                    visitedPaths,
+                    cancellationToken);
             }
             finally
             {
@@ -286,6 +286,7 @@ public abstract partial class CliScraperBase : ICliScraper
         Channel<string[]> workChannel,
         Channel<CliCommandDefinition> commandChannel,
         WorkCoordinator coordinator,
+        ConcurrentDictionary<string, byte> visitedPaths,
         CancellationToken cancellationToken)
     {
         if (ShouldSkipDeepPath(path))
@@ -310,9 +311,15 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var subcommands = ExtractSubcommands(helpText).ToList();
-        LogMissingRootSubcommands(path, helpText, subcommands);
+        ValidateSubcommandDiscovery(path, helpText, subcommands);
         await ParseAndWriteCommandAsync(path, helpText, subcommands, commandChannel, cancellationToken);
-        await EnqueueSubcommandsAsync(path, subcommands, workChannel, coordinator, cancellationToken);
+        await EnqueueSubcommandsAsync(
+            path,
+            subcommands,
+            workChannel,
+            coordinator,
+            visitedPaths,
+            cancellationToken);
     }
 
     private bool ShouldSkipDeepPath(string[] path)
@@ -338,21 +345,19 @@ public abstract partial class CliScraperBase : ICliScraper
         return true;
     }
 
-    private void LogMissingRootSubcommands(
+    private void ValidateSubcommandDiscovery(
         string[] path,
         string helpText,
         IReadOnlyCollection<string> subcommands)
     {
-        if (path.Length != 1 || subcommands.Count != 0)
+        if (subcommands.Count != 0 || !HelpDeclaresCommandGroup(helpText))
         {
             return;
         }
 
-        Logger.LogWarning(
-            "[{Tool}] No subcommands extracted from root help text. Help text length: {Length} chars. First 500 chars: {Preview}",
-            ToolName,
-            helpText.Length,
-            helpText.Length > 500 ? helpText[..500] : helpText);
+        throw new InvalidOperationException(
+            $"{string.Join(' ', path)} help declares a command group, but no child commands were extracted. "
+            + "Update the shared command-section parser or the tool adapter before generating partial output.");
     }
 
     private async Task ParseAndWriteCommandAsync(
@@ -367,17 +372,21 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
+        CliCommandDefinition? command;
         try
         {
-            var command = await ParseCommandAsync(path, helpText, cancellationToken);
-            if (command is not null)
-            {
-                await commandChannel.Writer.WriteAsync(command, cancellationToken);
-            }
+            command = await ParseCommandAsync(path, helpText, cancellationToken);
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             Logger.LogWarning(ex, "Failed to parse command: {Command}", string.Join(" ", path));
+            return;
+        }
+
+        if (command is not null)
+        {
+            ValidateOptionShapes(command, helpText);
+            await commandChannel.Writer.WriteAsync(command, cancellationToken);
         }
     }
 
@@ -386,6 +395,7 @@ public abstract partial class CliScraperBase : ICliScraper
         IEnumerable<string> subcommands,
         Channel<string[]> workChannel,
         WorkCoordinator coordinator,
+        ConcurrentDictionary<string, byte> visitedPaths,
         CancellationToken cancellationToken)
     {
         foreach (var subcommand in subcommands)
@@ -396,10 +406,33 @@ public abstract partial class CliScraperBase : ICliScraper
             }
 
             var childPath = path.Append(subcommand).ToArray();
+            if (!visitedPaths.TryAdd(string.Join(' ', childPath), 0))
+            {
+                continue;
+            }
+
             // Increment before writing to avoid completing the work queue before the child is visible.
             coordinator.IncrementWork();
             await workChannel.Writer.WriteAsync(childPath, cancellationToken);
         }
+    }
+
+    private static async Task CompleteCommandChannelAsync(
+        IReadOnlyCollection<Task> workerTasks,
+        Channel<CliCommandDefinition> commandChannel)
+    {
+        Exception? failure = null;
+
+        try
+        {
+            await Task.WhenAll(workerTasks);
+        }
+        catch (Exception ex)
+        {
+            failure = ex;
+        }
+
+        commandChannel.Writer.TryComplete(failure);
     }
 
     /// <summary>
@@ -501,6 +534,15 @@ public abstract partial class CliScraperBase : ICliScraper
                helpText.Contains("Global Flags:") ||
                OptionLinePattern().IsMatch(helpText);
     }
+
+    /// <summary>
+    /// Returns whether help declares a parent command group that must have discoverable children.
+    /// Requiring both a usage placeholder and a command-section heading avoids confusing ordinary
+    /// positional operands named "command" with command-tree nodes.
+    /// </summary>
+    protected virtual bool HelpDeclaresCommandGroup(string helpText) =>
+        CommandGroupUsagePattern().IsMatch(helpText)
+        && CommandSectionHeadingPattern().IsMatch(helpText);
 
     /// <summary>
     /// Default subcommands to always skip.
@@ -631,10 +673,77 @@ public abstract partial class CliScraperBase : ICliScraper
     protected static string ToPascalCase(string input) => GeneratorUtils.ToPascalCase(input);
 
     /// <summary>
+    /// Returns whether an option description requires an explicit Boolean value.
+    /// </summary>
+    protected static bool HelpDeclaresExplicitBooleanValue(string description) =>
+        ExplicitBooleanValuePattern().IsMatch(description);
+
+    /// <summary>
+    /// Returns whether help describes an option as repeatable.
+    /// </summary>
+    protected static bool HelpDeclaresRepeatableOption(
+        string helpText,
+        string switchName,
+        string description)
+    {
+        if (RepeatableValuePattern().IsMatch(description))
+        {
+            return true;
+        }
+
+        var optionPattern = $@"(?<![\w-]){Regex.Escape(switchName)}(?![\w-])";
+        return helpText
+            .ReplaceLineEndings("\n")
+            .Split("\n\n", StringSplitOptions.RemoveEmptyEntries)
+            .Where(paragraph => Regex.IsMatch(paragraph, optionPattern, RegexOptions.IgnoreCase))
+            .Any(paragraph => RepeatableValuePattern().IsMatch(paragraph));
+    }
+
+    private static void ValidateOptionShapes(CliCommandDefinition command, string helpText)
+    {
+        foreach (var option in command.Options)
+        {
+            var description = option.Description ?? string.Empty;
+            if (HelpDeclaresExplicitBooleanValue(description) && option.IsFlag)
+            {
+                throw new InvalidOperationException(
+                    $"{command.FullCommand} {option.SwitchName} declares explicit true/false values, "
+                    + "but the parsed model marks it as a presence-only flag.");
+            }
+
+            if (HelpDeclaresRepeatableOption(helpText, option.SwitchName, description)
+                && !option.AcceptsMultipleValues)
+            {
+                throw new InvalidOperationException(
+                    $"{command.FullCommand} {option.SwitchName} is documented as repeatable, "
+                    + "but the parsed model is scalar.");
+            }
+        }
+    }
+
+    /// <summary>
     /// Pattern to match option lines (e.g., "-f, --flag" or "--option").
     /// </summary>
     [GeneratedRegex(@"^\s*(?:-\w,\s*)?--[\w-]+", RegexOptions.Multiline)]
     protected static partial Regex OptionLinePattern();
+
+    [GeneratedRegex(
+        @"^[ \t]*(?:Usage:?[ \t]*(?:\r?\n[ \t]*)?)?[^\r\n]*(?:<command>|\[command\])[^\r\n]*$",
+        RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex CommandGroupUsagePattern();
+
+    [GeneratedRegex(@"^[ \t]*[A-Z][A-Z0-9 _/-]*COMMANDS?:?[ \t]*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex CommandSectionHeadingPattern();
+
+    [GeneratedRegex(
+        @"(?:[\[{(<]\s*true\s*(?:\||/|or)\s*false\s*[\]})>]|(?:boolean|bool)\s+value|true\s+or\s+false)",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex ExplicitBooleanValuePattern();
+
+    [GeneratedRegex(
+        @"\b(?:one\s+or\s+more|zero\s+or\s+more|multiple\s+(?:times|values)|more\s+than\s+once|repeat(?:able|ed|edly)?)\b",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex RepeatableValuePattern();
 
     #endregion
 }

@@ -309,7 +309,13 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 var isInteger = IsKnownIntegerType(actualType);
                 var isFloat = IsKnownFloatType(actualType);
                 var isDuration = IsKnownDurationType(actualType);
-                var isArray = IsKnownArrayType(actualType);
+                var isArray = IsKnownArrayType(actualType)
+                              || IsRepeatableOption(
+                                  commandParts,
+                                  longForm,
+                                  actualType,
+                                  description,
+                                  helpText);
                 var isKeyValue = IsKnownKeyValueType(actualType);
 
                 // Try to detect enum values
@@ -397,6 +403,20 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// Applies tool-specific normalization before option descriptions are generated.
     /// </summary>
     protected virtual string NormalizeOptionDescription(string description) => description;
+
+    /// <summary>
+    /// Determines whether an option accepts repeated values when the source type is scalar.
+    /// Tool adapters may extend this for repeatability that their help format does not encode
+    /// directly; the resulting cardinality remains shared <see cref="CliOptionDefinition"/>
+    /// metadata.
+    /// </summary>
+    protected virtual bool IsRepeatableOption(
+        string[] commandParts,
+        string switchName,
+        string typeHint,
+        string description,
+        string helpText) =>
+        HelpDeclaresRepeatableOption(helpText, switchName, description);
 
     /// <summary>
     /// Extracts the Flags and Global Flags sections from help text.
@@ -804,7 +824,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
         string[] commandParts,
         string switchName,
         string description) =>
-        description.Contains("(default true)", StringComparison.OrdinalIgnoreCase);
+        description.Contains("(default true)", StringComparison.OrdinalIgnoreCase)
+        || HelpDeclaresExplicitBooleanValue(description);
 
     #region Type Detection - HashSet-based for extensibility
 
@@ -942,13 +963,15 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// "Common Commands:", "Management Commands:", "Swarm Commands:", "Scanning Commands:",
     /// "Utility Commands:", etc. Uses a flexible pattern to match any word prefix.
     /// </summary>
-    [GeneratedRegex(@"^[A-Z][\w ]*Commands?:?\s*$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[A-Z][\w ]*Commands?:?\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex CommandsSectionPattern();
 
     /// <summary>
     /// Matches section headers like "Flags:", "Usage:", etc.
     /// </summary>
-    [GeneratedRegex(@"^(?:[A-Z][\w\s]*:|[A-Z][\w ]*(?:Commands|Flags|Options|Usage|Examples))\s*$", RegexOptions.Multiline)]
+    [GeneratedRegex(
+        @"^(?:[A-Z][\w\s]*:|[A-Z][\w ]*(?:Commands|Flags|Options|Usage|Examples))\s*$",
+        RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
 
     /// <summary>
@@ -956,7 +979,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// or "command    description".
     /// Also handles Docker's asterisk markers for extensions: "  buildx*    description"
     /// </summary>
-    [GeneratedRegex(@"^\s*(?<name>[\w-]+)\*?\s+", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?<name>[\w-]+)\*?:?\s+", RegexOptions.Multiline)]
     private static partial Regex SubcommandLinePattern();
 
     /// <summary>
