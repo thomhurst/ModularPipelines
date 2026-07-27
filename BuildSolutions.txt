@@ -1,0 +1,7 @@
+# Solutions restored and built by CI and BuildSolutionsModule.
+ModularPipelines.Analyzers.sln
+ModularPipelines.All.sln
+ModularPipelines.Examples.sln
+src/ModularPipelines.Azure/ModularPipelines.Azure.sln
+src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln
+src/ModularPipelines.Google/ModularPipelines.Google.sln
