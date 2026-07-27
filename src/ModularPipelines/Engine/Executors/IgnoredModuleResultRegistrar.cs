@@ -61,69 +61,27 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
         var runnableModules = organizedModules.RunnableModules.ToList();
         var ignoredModules = organizedModules.IgnoredModules.ToList();
-        var pendingIgnoredModules = ignoredModules.ToList();
-        var availableModuleTypes = organizedModules.AllModules
-            .Select(module => module.GetType())
-            .Distinct()
-            .ToArray();
-
-        while (pendingIgnoredModules.Count > 0)
-        {
-            foreach (var ignoredModule in pendingIgnoredModules)
+        var cascadeResult = await DependencySkipCascade.ApplyAsync(
+            organizedModules.AllModules.ToArray(),
+            runnableModules.Select(runnableModule => runnableModule.Module),
+            ignoredModules,
+            _dependencyRegistry,
+            _metadataRegistry,
+            async pendingIgnoredModules =>
             {
-                await RegisterIgnoredModuleResultAsync(ignoredModule, pipelineContext).ConfigureAwait(false);
-            }
-
-            var runnableModuleTypes = runnableModules
-                .Select(runnableModule => runnableModule.Module.GetType())
-                .ToHashSet();
-            var skippedIgnoredModulesByType = ignoredModules
-                .Where(ignoredModule => !runnableModuleTypes.Contains(ignoredModule.Module.GetType()))
-                .Where(ignoredModule =>
-                    _resultRegistry.GetResult(ignoredModule.Module.GetType())?.ModuleStatus == Status.Skipped)
-                .GroupBy(ignoredModule => ignoredModule.Module.GetType())
-                .ToDictionary(group => group.Key, group => group.First());
-            var newlyIgnoredModules = runnableModules
-                .Select(runnableModule => new
+                foreach (var ignoredModule in pendingIgnoredModules)
                 {
-                    RunnableModule = runnableModule,
-                    SkippedDependencies = ModuleDependencyResolver
-                        .GetAllDependencies(
-                            runnableModule.Module,
-                            availableModuleTypes,
-                            _dependencyRegistry,
-                            _metadataRegistry)
-                        .Where(dependency => !dependency.Optional)
-                        .Select(dependency => dependency.DependencyType)
-                        .Where(skippedIgnoredModulesByType.ContainsKey)
-                        .Distinct()
-                        .OrderBy(dependencyType => dependencyType.FullName, StringComparer.Ordinal)
-                        .ToArray(),
-                })
-                .Where(item => item.SkippedDependencies.Length > 0)
-                .Select(item => new IgnoredModule(
-                    item.RunnableModule.Module,
-                    ModuleRetriever.CreateDependencySkipDecision(
-                        item.SkippedDependencies,
-                        skippedIgnoredModulesByType)))
-                .ToList();
+                    await RegisterIgnoredModuleResultAsync(ignoredModule, pipelineContext).ConfigureAwait(false);
+                }
+            },
+            moduleType => _resultRegistry.GetResult(moduleType)?.ModuleStatus == Status.Skipped)
+            .ConfigureAwait(false);
+        var remainingModules = cascadeResult.RunnableModules.ToHashSet<IModule>(
+            ReferenceEqualityComparer.Instance);
 
-            if (newlyIgnoredModules.Count == 0)
-            {
-                break;
-            }
-
-            foreach (var ignoredModule in newlyIgnoredModules)
-            {
-                runnableModules.RemoveAll(runnableModule =>
-                    ReferenceEquals(runnableModule.Module, ignoredModule.Module));
-                ignoredModules.Add(ignoredModule);
-            }
-
-            pendingIgnoredModules = newlyIgnoredModules;
-        }
-
-        return new OrganizedModules(runnableModules, ignoredModules);
+        return new OrganizedModules(
+            runnableModules.Where(runnableModule => remainingModules.Contains(runnableModule.Module)).ToList(),
+            cascadeResult.IgnoredModules);
     }
 
     private bool IsDistributedWorker()

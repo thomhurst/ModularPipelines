@@ -19,6 +19,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
     private readonly IConfiguration _configuration;
     private readonly IHostEnvironment _environment;
     private Task? _invocationTask;
+    private HashSet<Type>? _registeredModuleTypes;
 
     public RegistrationEventExecutor(
         IModuleAttributeEventService attributeEventService,
@@ -38,11 +39,33 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
 
     public Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules)
     {
+        var moduleArray = modules.ToArray();
+
         lock (_lock)
         {
+            if (_invocationTask is not null)
+            {
+                var missingModuleTypes = moduleArray
+                    .Select(module => module.GetType())
+                    .Where(moduleType => !_registeredModuleTypes!.Contains(moduleType))
+                    .Distinct()
+                    .ToArray();
+                if (missingModuleTypes.Length > 0)
+                {
+                    throw new InvalidOperationException(
+                        "Registration events were initialized without these module types: "
+                        + string.Join(", ", missingModuleTypes.Select(moduleType => moduleType.Name)));
+                }
+
+                return _invocationTask;
+            }
+
             // Discovery invokes registration events early so dynamic dependencies can affect filtering.
             // Executors invoke this service again, so share the first invocation rather than running receivers twice.
-            return _invocationTask ??= InvokeRegistrationEventsInternalAsync(modules.ToArray());
+            _registeredModuleTypes = moduleArray
+                .Select(module => module.GetType())
+                .ToHashSet();
+            return _invocationTask = InvokeRegistrationEventsInternalAsync(moduleArray);
         }
     }
 

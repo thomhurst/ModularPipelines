@@ -69,7 +69,11 @@ internal class DistributedModuleExecutor(
         // Revalidate the runnable set now that registration-event dependencies are populated, so
         // missing/self/cyclic dependencies (including ones added via AddDependency) fail fast here
         // rather than the master hanging or failing late. Mirrors the standalone ModuleExecutor.
-        ModuleDependencyValidator.Validate(modules, _dependencyRegistry, _metadataRegistry);
+        ModuleDependencyValidator.Validate(
+            modules,
+            _dependencyRegistry,
+            _metadataRegistry,
+            UsedHistoryModuleSchedulerInitializer.GetPrecompletedModuleTypes(modules, _resultRegistry));
 
         // Wait for workers to register before distributing work
         await WaitForWorkersAsync(_lifetime.ApplicationStopping);

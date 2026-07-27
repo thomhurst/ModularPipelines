@@ -119,7 +119,11 @@ internal class ModuleExecutor : IModuleExecutor
         // the runnable set against itself mirrors the DependencyWaiter check (a required
         // dependency outside the runnable set throws), surfacing missing/cyclic dependencies
         // eagerly with a clear message instead of failing later in the scheduler.
-        ModuleDependencyValidator.Validate(modules, _dependencyRegistry, _metadataRegistry);
+        ModuleDependencyValidator.Validate(
+            modules,
+            _dependencyRegistry,
+            _metadataRegistry,
+            UsedHistoryModuleSchedulerInitializer.GetPrecompletedModuleTypes(modules, _resultRegistry));
 
         var scheduler = _schedulerFactory.Create();
         scheduler.InitializeModules(modules);

@@ -5,6 +5,16 @@ namespace ModularPipelines.Engine;
 
 internal static class UsedHistoryModuleSchedulerInitializer
 {
+    public static HashSet<Type> GetPrecompletedModuleTypes(
+        IReadOnlyList<IModule> modules,
+        IModuleResultRegistry resultRegistry)
+    {
+        return modules
+            .Select(module => module.GetType())
+            .Where(moduleType => resultRegistry.GetResult(moduleType)?.ModuleStatus == Status.UsedHistory)
+            .ToHashSet();
+    }
+
     public static void Precomplete(
         IReadOnlyList<IModule> modules,
         IModuleScheduler scheduler,

@@ -85,94 +85,20 @@ internal class ModuleRetriever
 
         if (cascadeSkippedDependencies)
         {
-            CascadeSkippedDependencies(modulesToProcess, modulesToIgnore, cancellationToken);
+            var cascadeResult = await DependencySkipCascade.ApplyAsync(
+                _modules,
+                modulesToProcess,
+                modulesToIgnore,
+                _dependencyRegistry,
+                _metadataRegistry,
+                _ => Task.CompletedTask,
+                _ => true,
+                cancellationToken).ConfigureAwait(false);
+            modulesToProcess = cascadeResult.RunnableModules.ToList();
+            modulesToIgnore = cascadeResult.IgnoredModules.ToList();
         }
 
         return new DiscoveredModules(modulesToProcess, modulesToIgnore);
-    }
-
-    private void CascadeSkippedDependencies(
-        List<IModule> runnableModules,
-        List<IgnoredModule> ignoredModules,
-        CancellationToken cancellationToken)
-    {
-        var availableModuleTypes = _modules
-            .Select(module => module.GetType())
-            .Distinct()
-            .ToArray();
-        var runnableModuleTypes = runnableModules
-            .Select(module => module.GetType())
-            .ToHashSet();
-        var ignoredModulesByType = ignoredModules
-            .Where(ignoredModule => !runnableModuleTypes.Contains(ignoredModule.Module.GetType()))
-            .GroupBy(ignoredModule => ignoredModule.Module.GetType())
-            .ToDictionary(group => group.Key, group => group.First());
-        var requiredDependenciesByModule = runnableModules.ToDictionary<IModule, IModule, Type[]>(
-            module => module,
-            module => ModuleDependencyResolver
-                .GetAllDependencies(module, availableModuleTypes, _dependencyRegistry, _metadataRegistry)
-                .Where(dependency => !dependency.Optional)
-                .Select(dependency => dependency.DependencyType)
-                .Distinct()
-                .OrderBy(dependencyType => dependencyType.FullName, StringComparer.Ordinal)
-                .ToArray(),
-            ReferenceEqualityComparer.Instance);
-
-        while (true)
-        {
-            var newlyIgnoredModules = new List<IgnoredModule>();
-
-            foreach (var module in runnableModules)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-
-                var skippedDependencies = requiredDependenciesByModule[module]
-                    .Where(ignoredModulesByType.ContainsKey)
-                    .ToArray();
-
-                if (skippedDependencies.Length == 0)
-                {
-                    continue;
-                }
-
-                newlyIgnoredModules.Add(new IgnoredModule(
-                    module,
-                    CreateDependencySkipDecision(skippedDependencies, ignoredModulesByType)));
-            }
-
-            if (newlyIgnoredModules.Count == 0)
-            {
-                return;
-            }
-
-            foreach (var ignoredModule in newlyIgnoredModules)
-            {
-                runnableModules.Remove(ignoredModule.Module);
-                ignoredModules.Add(ignoredModule);
-            }
-
-            foreach (var ignoredModuleGroup in newlyIgnoredModules.GroupBy(
-                         ignoredModule => ignoredModule.Module.GetType()))
-            {
-                var moduleType = ignoredModuleGroup.Key;
-                if (runnableModules.All(module => module.GetType() != moduleType))
-                {
-                    ignoredModulesByType[moduleType] = ignoredModuleGroup.First();
-                }
-            }
-        }
-    }
-
-    internal static SkipDecision CreateDependencySkipDecision(
-        IReadOnlyList<Type> skippedDependencies,
-        IReadOnlyDictionary<Type, IgnoredModule> ignoredModulesByType)
-    {
-        return DependencySkipDecisionFactory.Create(
-            skippedDependencies
-                .Select(dependencyType => (
-                    ModuleType: dependencyType,
-                    SkipDecision: (SkipDecision?) ignoredModulesByType[dependencyType].SkipDecision))
-                .ToArray());
     }
 
     private async Task<OrganizedModules> GetInternal(CancellationToken cancellationToken)
