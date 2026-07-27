@@ -130,6 +130,31 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task AvailableFlush_MasksCompleteSecretOverlappingRetainedPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("abc");
+        provider.AddSecret("bcx");
+        var outputBuffer = new Mock<IModuleOutputBuffer>();
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetUnattributedBuffer()).Returns(outputBuffer.Object);
+
+        using var writer = new CoordinatedTextWriter(
+            coordinator.Object,
+            new StringWriter(),
+            () => true,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("abc");
+        await writer.FlushAvailableAsync();
+        writer.WriteLine("y");
+
+        outputBuffer.Verify(x => x.WriteLine(It.Is<string>(value => value.Contains("abc"))), Times.Never);
+        outputBuffer.Verify(x => x.WriteLine(It.Is<string>(value => value.Contains("**********"))), Times.Once);
+    }
+
+    [Test]
     public async Task DirectConsoleWrites_MaskSecretSplitAcrossChunks()
     {
         var provider = CreateProvider(out _);

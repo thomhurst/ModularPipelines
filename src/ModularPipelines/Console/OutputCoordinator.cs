@@ -269,10 +269,9 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                 return;
             }
 
-            // Output sinks are not transactional. A provider can deliver an event and
-            // then throw, so retrying here could duplicate output already accepted by
-            // that provider. Preserve the buffer's unrendered tail and surface failure
-            // to the caller instead.
+            // Output sinks are not transactional. The buffer retains a failed item,
+            // preferring a possible duplicate on a later retry over guaranteed data loss.
+            // Surface this attempt's failure so the caller controls when to retry.
             await FlushPendingOnceAsync(pending, formatter).ConfigureAwait(false);
             pending.CompletionSource.TrySetResult();
         }
@@ -355,14 +354,24 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         OutputFlushKind flushKind,
         CancellationToken cancellationToken)
     {
-        var loggerType = typeof(ILogger<>).MakeGenericType(buffer.ModuleType);
-        var moduleLogger = _serviceProvider.GetService(loggerType) as ILogger
-                           ?? _loggerFactory.CreateLogger(buffer.ModuleType);
+        var moduleLogger = GetModuleLogger(buffer.ModuleType);
 
         using var directWrite = CoordinatedTextWriter.BeginDirectWrite();
         await buffer
             .FlushToAsync(_console, formatter, moduleLogger, _loggerControl, flushKind, cancellationToken)
             .ConfigureAwait(false);
+    }
+
+    private ILogger GetModuleLogger(Type moduleType)
+    {
+        if (moduleType == typeof(void))
+        {
+            return _loggerFactory.CreateLogger(moduleType);
+        }
+
+        var loggerType = typeof(ILogger<>).MakeGenericType(moduleType);
+        return _serviceProvider.GetService(loggerType) as ILogger
+               ?? _loggerFactory.CreateLogger(moduleType);
     }
 
     private sealed class PendingFlush

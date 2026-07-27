@@ -179,6 +179,34 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    public async Task IncrementalFlush_UsesNonGenericLoggerForUnattributedOutput()
+    {
+        var buffer = new Mock<IModuleOutputBuffer>();
+        buffer.SetupGet(x => x.ModuleType).Returns(typeof(void));
+        buffer.SetupGet(x => x.HasOutput).Returns(true);
+        buffer
+            .Setup(x => x.FlushToAsync(
+                It.IsAny<TextWriter>(),
+                It.IsAny<IBuildSystemFormatter>(),
+                It.IsAny<ILogger>(),
+                It.IsAny<ISpectreConsoleLoggerControl>(),
+                OutputFlushKind.Incremental,
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        await coordinator.EnqueueAndFlushAsync(buffer.Object, OutputFlushKind.Incremental);
+
+        buffer.Verify(x => x.FlushToAsync(
+            It.IsAny<TextWriter>(),
+            It.IsAny<IBuildSystemFormatter>(),
+            It.IsAny<ILogger>(),
+            It.IsAny<ISpectreConsoleLoggerControl>(),
+            OutputFlushKind.Incremental,
+            It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Test]
     public async Task Completion_IsQueuedWhileIncrementalFlushOwnsOutput()
     {
         var buffer = new BlockingIncrementalOutputBuffer();

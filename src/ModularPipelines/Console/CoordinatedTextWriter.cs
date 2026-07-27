@@ -169,7 +169,10 @@ internal class CoordinatedTextWriter : TextWriter
             .OrderByDescending(pattern => pattern.Length)
             .ToArray();
 
-    private void ObfuscateCompletePatterns(LineBufferState state, IReadOnlyList<string> patterns)
+    private void ObfuscateCompletePatterns(
+        LineBufferState state,
+        IReadOnlyList<string> patterns,
+        bool preservePotentialLongerMatch = true)
     {
         if (state.Buffer.Length == 0 || patterns.Count == 0)
         {
@@ -192,7 +195,8 @@ internal class CoordinatedTextWriter : TextWriter
                 break;
             }
 
-            if (retainedPrefixLength > 0
+            if (preservePotentialLongerMatch
+                && retainedPrefixLength > 0
                 && match.Index + match.Length > retainedPrefixStart)
             {
                 output.Append(pending, searchIndex, pending.Length - searchIndex);
@@ -372,7 +376,7 @@ internal class CoordinatedTextWriter : TextWriter
             foreach (var state in _lineBuffers.Values.Where(state => state.Buffer.Length > 0))
             {
                 var shouldBuffer = state.ShouldBuffer ?? ShouldBuffer();
-                ObfuscateCompletePatterns(state, patterns);
+                ObfuscateCompletePatterns(state, patterns, preservePotentialLongerMatch: false);
                 FlushSafeOutput(state, patterns, shouldBuffer);
 
                 if (shouldBuffer)
