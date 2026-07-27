@@ -672,12 +672,20 @@ public class GeneratorHardeningTests
     {
         var tool = Tool(
             Command("ToolNetworkCreateOptions", "ToolOptions", ["network", "create"], subDomainGroup: "network"),
-            Command("ToolNetworkOptions", "ToolOptions", ["network"]),
-            Command("ToolNetwork2Options", "ToolOptions", ["Network"]));
+            Command("ToolNetworkOptions", "ToolOptions", ["network"]) with
+            {
+                FullCommand = "tool network",
+            },
+            Command("ToolNetwork2Options", "ToolOptions", ["Network"]) with
+            {
+                FullCommand = "tool Network",
+            });
 
-        await Assert.That(() => new SubDomainClassGenerator().GenerateAsync(tool))
+        void Generate() => _ = new SubDomainClassGenerator().GenerateAsync(tool);
+
+        await Assert.That(Generate)
             .Throws<InvalidOperationException>()
-            .And.HasMessageContaining("network");
+            .And.HasMessageContaining("Network (tool network, tool Network)");
     }
 
     #endregion

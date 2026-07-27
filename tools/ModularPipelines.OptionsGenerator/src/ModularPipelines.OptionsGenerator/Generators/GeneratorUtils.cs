@@ -709,17 +709,18 @@ public static partial class GeneratorUtils
             .Where(command => subDomainNames.Contains(GetCommandGroupIdentifier(command)))
             .ToList();
 
-        var duplicateParentNames = GetDuplicateCommandGroups(
+        var duplicateParentGroups = GetDuplicateCommandGroups(
                 parentCommands,
                 GetCommandGroupIdentifier)
-            .Select(group => group.First().CommandParts[0])
+            .Select(group =>
+                $"{group.Key} ({string.Join(", ", group.Select(command => command.FullCommand))})")
             .ToList();
 
-        if (duplicateParentNames.Count > 0)
+        if (duplicateParentGroups.Count > 0)
         {
             throw new InvalidOperationException(
                 $"The {tool.ToolName} scraper produced multiple definitions for the same root command(s): " +
-                $"{string.Join(", ", duplicateParentNames)}. Fix the scraper to emit each command once.");
+                $"{string.Join("; ", duplicateParentGroups)}. Fix the scraper to emit each command once.");
         }
 
         return parentCommands;
