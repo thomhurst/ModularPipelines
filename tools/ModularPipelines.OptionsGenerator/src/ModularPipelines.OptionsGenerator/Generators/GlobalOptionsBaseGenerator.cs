@@ -70,7 +70,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine("/// </summary>");
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
-        sb.AppendLine($"[CliTool(\"{tool.ToolName}\")]");
+        sb.AppendLine($"[CliTool({GeneratorUtils.FormatStringLiteral(tool.ToolName)})]");
         sb.AppendLine("[CliGlobalOptions]");
 
         // Class declaration

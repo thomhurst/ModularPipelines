@@ -571,7 +571,7 @@ public class GeneratorUtilsTests
 
         GeneratorUtils.GenerateValidationAttributes(sb, constraints);
 
-        await Assert.That(sb.ToString()).Contains("[RegularExpression(@\"^[a-z]+$\")]");
+        await Assert.That(sb.ToString()).Contains("[RegularExpression(\"^[a-z]+$\")]");
     }
 
     [Test]

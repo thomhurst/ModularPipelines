@@ -102,7 +102,9 @@ public class OptionsClassGenerator : ICodeGenerator
         // CliSubCommand attribute - contains only the subcommand parts (tool name comes from base class)
         if (command.CommandParts.Length > 0)
         {
-            var args = string.Join(", ", command.CommandParts.Select(p => $"\"{p}\""));
+            var args = string.Join(
+                ", ",
+                command.CommandParts.Select(GeneratorUtils.FormatStringLiteral));
             sb.AppendLine($"[CliSubCommand({args})]");
         }
     }
@@ -231,8 +233,7 @@ public class OptionsClassGenerator : ICodeGenerator
             return "SecretValue";
         }
 
-        var keys = option.SecretValueKeys
-            .Select(key => $"\"{key.Replace("\\", "\\\\").Replace("\"", "\\\"")}\"");
+        var keys = option.SecretValueKeys.Select(GeneratorUtils.FormatStringLiteral);
         return $"SecretValue({string.Join(", ", keys)})";
     }
 

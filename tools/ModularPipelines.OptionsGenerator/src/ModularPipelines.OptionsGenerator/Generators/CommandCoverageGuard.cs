@@ -22,11 +22,16 @@ internal static partial class CommandCoverageGuard
     public static CommandCoverageEvaluation Evaluate(
         CliToolDefinition tool,
         string outputDirectory,
-        bool approveShrinkage)
+        bool approveShrinkage,
+        string? fallbackManifestPath = null)
     {
         var commands = NormalizeCommands(tool.Commands.Select(command => command.FullCommand));
         var manifestPath = GetManifestPath(tool, outputDirectory);
-        var (previous, usedGeneratedApiBaseline) = ReadBaseline(tool, outputDirectory, manifestPath);
+        var (previous, usedGeneratedApiBaseline) = ReadBaseline(
+            tool,
+            outputDirectory,
+            manifestPath,
+            fallbackManifestPath);
         var exclusions = ValidateExclusions(tool.CommandCoverage.Exclusions);
         var excludedCommands = exclusions
             .Select(exclusion => NormalizeCommand(exclusion.Command))
@@ -72,12 +77,26 @@ internal static partial class CommandCoverageGuard
     private static (CommandCoverageManifest? Manifest, bool UsedGeneratedApiBaseline) ReadBaseline(
         CliToolDefinition tool,
         string outputDirectory,
-        string manifestPath)
+        string manifestPath,
+        string? fallbackManifestPath)
     {
         var manifest = ReadManifest(manifestPath);
         if (manifest is not null)
         {
             return (manifest, false);
+        }
+
+        if (!string.IsNullOrEmpty(fallbackManifestPath)
+            && !string.Equals(
+                manifestPath,
+                fallbackManifestPath,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            manifest = ReadManifest(fallbackManifestPath);
+            if (manifest is not null)
+            {
+                return (manifest, false);
+            }
         }
 
         var generatedApiBaseline = ReadGeneratedApiBaseline(tool, outputDirectory);

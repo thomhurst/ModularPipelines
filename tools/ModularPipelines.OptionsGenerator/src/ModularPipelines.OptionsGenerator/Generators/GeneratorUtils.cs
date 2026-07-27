@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis.CSharp;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 
@@ -259,6 +260,12 @@ public static partial class GeneratorUtils
     }
 
     /// <summary>
+    /// Formats a value as an escaped C# string literal, including quotes.
+    /// </summary>
+    public static string FormatStringLiteral(string value) =>
+        SymbolDisplay.FormatLiteral(value, quote: true);
+
+    /// <summary>
     /// Generates the CLI attribute string for an option definition.
     /// Used by both OptionsClassGenerator and GlobalOptionsBaseGenerator.
     /// </summary>
@@ -273,11 +280,11 @@ public static partial class GeneratorUtils
 
     private static string GenerateCliFlagAttributeString(CliOptionDefinition option)
     {
-        var parts = new List<string> { $"\"{option.SwitchName}\"" };
+        var parts = new List<string> { FormatStringLiteral(option.SwitchName) };
 
         if (!string.IsNullOrEmpty(option.ShortForm))
         {
-            parts.Add($"ShortForm = \"{option.ShortForm}\"");
+            parts.Add($"ShortForm = {FormatStringLiteral(option.ShortForm)}");
         }
 
         if (option.PreferShortForm)
@@ -295,11 +302,11 @@ public static partial class GeneratorUtils
 
     private static string GenerateCliOptionAttributeString(CliOptionDefinition option)
     {
-        var optionParts = new List<string> { $"\"{option.SwitchName}\"" };
+        var optionParts = new List<string> { FormatStringLiteral(option.SwitchName) };
 
         if (!string.IsNullOrEmpty(option.ShortForm))
         {
-            optionParts.Add($"ShortForm = \"{option.ShortForm}\"");
+            optionParts.Add($"ShortForm = {FormatStringLiteral(option.ShortForm)}");
         }
 
         if (option.PreferShortForm)
@@ -321,7 +328,7 @@ public static partial class GeneratorUtils
         }
         else if (option.ValueSeparator != " " && !string.IsNullOrEmpty(option.ValueSeparator))
         {
-            optionParts.Add($"CustomSeparator = \"{option.ValueSeparator}\"");
+            optionParts.Add($"CustomSeparator = {FormatStringLiteral(option.ValueSeparator)}");
         }
 
         if (option.AcceptsMultipleValues)
@@ -362,7 +369,8 @@ public static partial class GeneratorUtils
 
         if (!string.IsNullOrEmpty(constraints.Pattern))
         {
-            sb.AppendLine($"{indent}[RegularExpression(@\"{constraints.Pattern}\")]");
+            sb.AppendLine(
+                $"{indent}[RegularExpression({FormatStringLiteral(constraints.Pattern)})]");
         }
     }
 
