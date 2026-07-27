@@ -148,6 +148,8 @@ jobs:
 
   cross-platform-build:
     name: build (${{ matrix.os }})
+    permissions:
+      contents: read
     strategy:
       matrix:
         os:
@@ -158,8 +160,9 @@ jobs:
     timeout-minutes: 60
     env:
       MSBUILDDISABLENODEREUSE: "1"
+      DOTNET_gcServer: "0"
 
-    # Compile only: running ModularPipelines.Build while it builds the full solution
+    # Compile only: running ModularPipelines.Build while it builds the listed solutions
     # would lock its own executable on Windows (MSB3027).
     steps:
       - uses: actions/checkout@v7.0.1
@@ -177,7 +180,25 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
-      - name: Restore
-        run: dotnet restore ModularPipelines.All.sln
-      - name: Build
-        run: dotnet build ModularPipelines.All.sln -c Release --no-restore
+      - name: Restore and build solutions
+        shell: pwsh
+        run: |
+          $solutions = Get-Content BuildSolutions.txt |
+            ForEach-Object { $_.Trim() } |
+            Where-Object { $_ -and -not $_.StartsWith('#') }
+
+          foreach ($solution in $solutions) {
+            Write-Output "::group::Restore $solution"
+            dotnet restore $solution
+            if ($LASTEXITCODE -ne 0) {
+              exit $LASTEXITCODE
+            }
+            Write-Output "::endgroup::"
+
+            Write-Output "::group::Build $solution"
+            dotnet build $solution -c Release --no-restore
+            if ($LASTEXITCODE -ne 0) {
+              exit $LASTEXITCODE
+            }
+            Write-Output "::endgroup::"
+          }
