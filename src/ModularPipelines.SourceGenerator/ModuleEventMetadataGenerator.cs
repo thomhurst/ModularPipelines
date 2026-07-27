@@ -174,7 +174,7 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
             return null;
         }
 
-        var constructorArguments = FormatArguments(attribute.ConstructorArguments);
+        var constructorArguments = FormatArguments(attribute.ConstructorArguments, currentAssembly);
         var namedArguments = FormatNamedArguments(attribute, attributeType, currentAssembly);
         if (constructorArguments is null || namedArguments is null)
         {
@@ -202,12 +202,14 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         return attributeType;
     }
 
-    private static List<string>? FormatArguments(ImmutableArray<TypedConstant> arguments)
+    private static List<string>? FormatArguments(
+        ImmutableArray<TypedConstant> arguments,
+        IAssemblySymbol currentAssembly)
     {
         var expressions = new List<string>();
         foreach (var argument in arguments)
         {
-            var expression = FormatTypedConstant(argument);
+            var expression = FormatTypedConstant(argument, currentAssembly);
             if (expression is null)
             {
                 return null;
@@ -228,7 +230,7 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         foreach (var argument in attribute.NamedArguments)
         {
             var member = attributeType.GetMembers(argument.Key).FirstOrDefault();
-            var expression = FormatTypedConstant(argument.Value);
+            var expression = FormatTypedConstant(argument.Value, currentAssembly);
             if (member is null
                 || expression is null
                 || !IsAccessible(member.DeclaredAccessibility, member.ContainingAssembly, currentAssembly))
@@ -257,11 +259,19 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         return result;
     }
 
-    private static string? FormatTypedConstant(TypedConstant constant)
+    private static string? FormatTypedConstant(
+        TypedConstant constant,
+        IAssemblySymbol currentAssembly)
     {
         if (constant.IsNull)
         {
             return "null";
+        }
+
+        if (constant.Type is not null
+            && !IsTypeReferenceAccessible(constant.Type, currentAssembly))
+        {
+            return null;
         }
 
         if (constant.Kind == TypedConstantKind.Array)
@@ -274,7 +284,7 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
             var values = new List<string>();
             foreach (var value in constant.Values)
             {
-                var expression = FormatTypedConstant(value);
+                var expression = FormatTypedConstant(value, currentAssembly);
                 if (expression is null)
                 {
                     return null;
@@ -289,6 +299,11 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
 
         if (constant.Kind == TypedConstantKind.Type && constant.Value is ITypeSymbol type)
         {
+            if (!IsTypeReferenceAccessible(type, currentAssembly))
+            {
+                return null;
+            }
+
             return $"typeof({type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)})";
         }
 
@@ -299,6 +314,22 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         }
 
         return FormatPrimitive(constant.Value);
+    }
+
+    private static bool IsTypeReferenceAccessible(
+        ITypeSymbol type,
+        IAssemblySymbol currentAssembly)
+    {
+        return type switch
+        {
+            IArrayTypeSymbol arrayType
+                => IsTypeReferenceAccessible(arrayType.ElementType, currentAssembly),
+            IPointerTypeSymbol pointerType
+                => IsTypeReferenceAccessible(pointerType.PointedAtType, currentAssembly),
+            INamedTypeSymbol namedType => IsTypeAccessible(namedType, currentAssembly),
+            ITypeParameterSymbol => false,
+            _ => true,
+        };
     }
 
     private static string? FormatPrimitive(object? value)

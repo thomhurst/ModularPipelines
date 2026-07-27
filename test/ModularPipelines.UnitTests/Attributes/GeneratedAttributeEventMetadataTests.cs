@@ -46,6 +46,28 @@ public sealed class GeneratedNoEventModule : Module<string>
         => Task.FromResult<string?>("none");
 }
 
+public static class GeneratedInaccessibleTypeArgument
+{
+    [AttributeUsage(AttributeTargets.Class)]
+    public sealed class MarkerAttribute(Type type) : Attribute
+    {
+        public Type Type { get; } = type;
+    }
+
+    [Marker(typeof(InaccessibleType))]
+    public sealed class TestModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+            => Task.FromResult<string?>("fallback");
+    }
+
+    private sealed class InaccessibleType
+    {
+    }
+}
+
 public class GeneratedAttributeEventMetadataTests
 {
     [Test]
@@ -114,6 +136,23 @@ public class GeneratedAttributeEventMetadataTests
         await Assert.That(generated).IsFalse();
         await Assert.That(handlers).HasSingleItem();
         await Assert.That(handlers[0]).IsTypeOf<ReflectionFallbackStartAttribute>();
+    }
+
+    [Test]
+    public async Task Generator_FallsBackForInaccessibleTypeArgument()
+    {
+        var generated = GeneratedModuleEventMetadata.TryCreateAttributes(
+            typeof(GeneratedInaccessibleTypeArgument.TestModule),
+            out _);
+        var service = new ModuleAttributeEventService();
+
+        var attributes = service.GetAttributes(typeof(GeneratedInaccessibleTypeArgument.TestModule));
+        var marker = attributes
+            .OfType<GeneratedInaccessibleTypeArgument.MarkerAttribute>()
+            .Single();
+
+        await Assert.That(generated).IsFalse();
+        await Assert.That(marker.Type.Name).IsEqualTo("InaccessibleType");
     }
 
     [Test]
