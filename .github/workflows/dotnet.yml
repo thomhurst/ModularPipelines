@@ -21,19 +21,18 @@ jobs:
     name: ${{ matrix.check_name }}
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
     strategy:
-      # Each platform runs the pipeline independently in standalone (non-distributed) mode.
-      # Distributed mode relied on Redis (Upstash) discovery + a SignalR/cloudflared mesh;
-      # with Redis unavailable it always fell back to a single overloaded instance doing the
-      # whole build+test load, which the runner kept reclaiming (see #3179). Running each
-      # platform standalone removes that failure mode.
+      # Single standalone (non-distributed) Linux job. Distributed mode relied on Redis
+      # (Upstash) discovery + a SignalR/cloudflared mesh; with Redis unavailable it fell back
+      # to one overloaded instance doing the whole build+test load, which the runner kept
+      # reclaiming (see #3179). Windows/macOS can't run this standalone either: their
+      # BuildSolutionOn*Module builds ModularPipelines.All.sln, which includes the running
+      # ModularPipelines.Build executable, so the build fails to overwrite its own locked
+      # binary (MSB3027, see #3084). The unit tests are Linux-only, so a single ubuntu job
+      # covers the real work; cross-platform build coverage can be reintroduced separately.
       matrix:
         include:
           - os: ubuntu-latest
             check_name: pipeline (ubuntu-latest)
-          - os: windows-latest
-            check_name: pipeline (windows-latest, 1)
-          - os: macos-latest
-            check_name: pipeline (macos-latest, 2)
       fail-fast: false
     runs-on: ${{ matrix.os }}
     # Bound the job so a stuck pipeline fails fast instead of tying up a runner for the

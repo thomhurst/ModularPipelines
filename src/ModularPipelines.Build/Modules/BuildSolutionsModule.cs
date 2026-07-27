@@ -27,7 +27,11 @@ public class BuildSolutionsModule : Module<CommandResult[]>
     {
         var gitRoot = context.Git().RootDirectory.Path;
 
-        // Build all solutions with --no-restore (workflow already restored)
+        // Build all solutions with --no-restore (workflow already restored).
+        // -maxcpucount:1 forces a serial build (one project compiled at a time). Building the
+        // 60+ project ModularPipelines.All.sln with default parallelism is CPU- and memory-heavy
+        // enough to get the CI runner reclaimed mid-build (#3179); serialising keeps peak CPU and
+        // memory low. Slower, but the pipeline is standalone on a single runner now.
         var results = await Solutions
             .ToAsyncProcessorBuilder()
             .SelectAsync(async solution => await context.DotNet().Build(new DotNetBuildOptions
@@ -35,6 +39,7 @@ public class BuildSolutionsModule : Module<CommandResult[]>
                 ProjectSolution = Path.Combine(gitRoot, solution),
                 Configuration = "Release",
                 NoRestore = true,
+                Arguments = ["-maxcpucount:1"],
             }, cancellationToken: cancellationToken))
             .ProcessOneAtATime();
 
