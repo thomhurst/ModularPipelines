@@ -51,6 +51,9 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(files[0].RelativePath.Replace('\\', '/'))
             .IsEqualTo("docs/docs/mp-packages/cli/fake-cli.md");
         await Assert.That(files[0].Content).Contains("dotnet add package ModularPipelines.Fake");
+        await Assert.That(files[0].Content)
+            .Contains("This package does not install the `fake-cli` executable");
+        await Assert.That(files[0].Content).Contains("`fake-cli` is available on `PATH`");
         await Assert.That(files[0].Content).Contains("context.Fake()");
         await Assert.That(files[0].Content).Contains("using ModularPipelines.Context;");
         await Assert.That(files[0].Content).Contains("using ModularPipelines.Models;");
@@ -60,6 +63,102 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(files[0].Content).Contains("return await context.Fake()");
         await Assert.That(files[0].Content).Contains("| `fake-cli run` | `FakeRunOptions` |");
         await Assert.That(files[0].Content).Contains("new FakeRunOptions(\"sample.csproj\")");
+    }
+
+    [Test]
+    [Arguments(
+        "syft",
+        "https://oss.anchore.com/docs/installation/syft/")]
+    [Arguments(
+        "sonar-scanner",
+        "https://docs.sonarsource.com/sonarqube-server/analyzing-source-code/scanners/sonarscanner")]
+    [Arguments(
+        "terraform",
+        "https://developer.hashicorp.com/terraform/install")]
+    public async Task GenerateAsync_EmitsToolSpecificExecutablePrerequisites(
+        string toolName,
+        string installationUrl)
+    {
+        var documentation = await GenerateDocumentation(ToolDefinition(toolName));
+
+        await Assert.That(documentation).Contains($"does not install the `{toolName}` executable");
+        await Assert.That(documentation).Contains($"[{toolName} installation guide]({installationUrl})");
+    }
+
+    [Test]
+    public async Task GenerateAsync_EmitsPinnedGeneratorVersion()
+    {
+        var documentation = await GenerateDocumentation(ToolDefinition("sonar-scanner"));
+
+        await Assert.That(documentation)
+            .Contains("generation workflow is pinned to `sonar-scanner` version `8.0.1.6346`");
+    }
+
+    [Test]
+    public async Task GenerateAsync_UsesSafeGenericExecutableFallback()
+    {
+        var documentation = await GenerateDocumentation(ToolDefinition("future-cli"));
+
+        await Assert.That(documentation).Contains("does not install the `future-cli` executable");
+        await Assert.That(documentation)
+            .Contains("Follow the executable's official documentation for installation instructions.");
+    }
+
+    [Test]
+    public async Task GenerateAsync_UsesExplicitPrerequisiteMetadata()
+    {
+        var tool = ToolDefinition("custom-cli") with
+        {
+            ExecutablePrerequisite = new CliExecutablePrerequisite
+            {
+                CommandName = "custom",
+                SupportedVersion = "2.4.1",
+                InstallationUrl = "https://example.test/custom/install",
+                InstallationNotes = "Install the platform-specific archive.",
+            },
+        };
+
+        var documentation = await GenerateDocumentation(tool);
+
+        await Assert.That(documentation).Contains("does not install the `custom` executable");
+        await Assert.That(documentation).Contains("version `2.4.1`");
+        await Assert.That(documentation).Contains("https://example.test/custom/install");
+        await Assert.That(documentation).Contains("Install the platform-specific archive.");
+    }
+
+    [Test]
+    public async Task GenerateAsync_RejectsInvalidPrerequisiteMetadata()
+    {
+        var tool = ToolDefinition("broken") with
+        {
+            ExecutablePrerequisite = new CliExecutablePrerequisite
+            {
+                CommandName = "broken",
+                InstallationUrl = "http://insecure.example.test/install",
+            },
+        };
+        void GenerateDocumentation() =>
+            _ = new MarkdownDocumentationGenerator().GenerateAsync(tool);
+
+        await Assert.That(GenerateDocumentation)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("invalid HTTPS installation URL");
+    }
+
+    [Test]
+    public async Task GenerateAsync_AcceptsExplicitMetadataExemption()
+    {
+        var tool = ToolDefinition("embedded") with
+        {
+            ExecutablePrerequisiteMetadataExemption =
+                "This integration is supplied by the host environment.",
+        };
+
+        var documentation = await GenerateDocumentation(tool);
+
+        await Assert.That(documentation).Contains("does not install the `embedded` executable");
+        await Assert.That(documentation)
+            .Contains("This integration is supplied by the host environment.");
     }
 
     [Test]
@@ -623,4 +722,16 @@ public class MarkdownDocumentationGeneratorTests
             Options = [],
             SubDomainGroup = subDomainGroup,
         };
+
+    private static CliToolDefinition ToolDefinition(string toolName) => new()
+    {
+        ToolName = toolName,
+        NamespacePrefix = "Fake",
+        TargetNamespace = "ModularPipelines.Fake",
+        OutputDirectory = "src/ModularPipelines.Fake",
+        Commands = [Command($"{toolName} status", "FakeStatusOptions", ["status"])],
+    };
+
+    private static async Task<string> GenerateDocumentation(CliToolDefinition tool) =>
+        (await new MarkdownDocumentationGenerator().GenerateAsync(tool))[0].Content;
 }

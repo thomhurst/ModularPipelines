@@ -34,6 +34,10 @@ public class CodeGeneratorOrchestratorTests
 
         public string? Version { get; init; } = "fake 1.0";
 
+        public CliExecutablePrerequisite? ExecutablePrerequisite { get; init; }
+
+        public string? ExecutablePrerequisiteMetadataExemption { get; init; }
+
         public Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default) => Task.FromResult(Available);
 
         public Task<string?> GetVersionAsync(CancellationToken cancellationToken = default) =>
@@ -59,6 +63,8 @@ public class CodeGeneratorOrchestratorTests
             Commands = [],
             CommandCoverage = CommandCoverage,
             GlobalOptions = GlobalOptions,
+            ExecutablePrerequisite = ExecutablePrerequisite,
+            ExecutablePrerequisiteMetadataExemption = ExecutablePrerequisiteMetadataExemption,
         };
     }
 
@@ -86,6 +92,44 @@ public class CodeGeneratorOrchestratorTests
             htmlScrapers: [],
             generators,
             NullLogger<CodeGeneratorOrchestrator>.Instance);
+
+    [Test]
+    public async Task Cli_Metadata_Is_Preserved_For_Generators()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        var prerequisite = new CliExecutablePrerequisite
+        {
+            CommandName = "fake-cli",
+            SupportedVersion = "1.2.3",
+        };
+        CliToolDefinition? generatedTool = null;
+        var scraper = new FakeCliScraper
+        {
+            Commands = [FakeCommand()],
+            ExecutablePrerequisite = prerequisite,
+        };
+        var generator = new FakeGenerator
+        {
+            OnGenerate = tool =>
+            {
+                generatedTool = tool;
+                return [];
+            },
+        };
+
+        try
+        {
+            var result = await Orchestrator(scraper, generator).GenerateAsync("fake", outputRoot);
+
+            await Assert.That(result.HasErrors).IsFalse();
+            await Assert.That(generatedTool).IsNotNull();
+            await Assert.That(generatedTool!.ExecutablePrerequisite).IsSameReferenceAs(prerequisite);
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
 
     /// <summary>
     /// Creates a temp output root containing one pre-existing generated file for the tool,

@@ -382,6 +382,8 @@ public class CodeGeneratorOrchestrator
             GlobalOptions = toolDefinition.GlobalOptions,
             SupplementalGlobalOptions = toolDefinition.SupplementalGlobalOptions,
             PreferredDocumentationExampleCommand = toolDefinition.PreferredDocumentationExampleCommand,
+            ExecutablePrerequisite = toolDefinition.ExecutablePrerequisite,
+            ExecutablePrerequisiteMetadataExemption = toolDefinition.ExecutablePrerequisiteMetadataExemption,
             Errors = []
         };
 
