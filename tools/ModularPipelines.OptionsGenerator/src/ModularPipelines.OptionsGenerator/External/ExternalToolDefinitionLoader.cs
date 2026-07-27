@@ -304,6 +304,8 @@ public static class ExternalToolDefinitionLoader
         string candidate,
         string propertyName)
     {
+        RejectLinkedPath(root, propertyName);
+
         var relativePath = Path.GetRelativePath(root, candidate);
         var current = root;
         foreach (var component in relativePath.Split(
@@ -311,18 +313,23 @@ public static class ExternalToolDefinitionLoader
                      StringSplitOptions.RemoveEmptyEntries))
         {
             current = Path.Combine(current, component);
-            var fileSystemInfo = new DirectoryInfo(current);
-            if (!fileSystemInfo.Exists && fileSystemInfo.LinkTarget is null)
-            {
-                continue;
-            }
+            RejectLinkedPath(current, propertyName);
+        }
+    }
 
-            if ((fileSystemInfo.Attributes & FileAttributes.ReparsePoint) != 0
-                || fileSystemInfo.LinkTarget is not null)
-            {
-                throw new InvalidDataException(
-                    $"{propertyName} cannot traverse symbolic links or reparse points.");
-            }
+    private static void RejectLinkedPath(string path, string propertyName)
+    {
+        var fileSystemInfo = new DirectoryInfo(path);
+        if (!fileSystemInfo.Exists && fileSystemInfo.LinkTarget is null)
+        {
+            return;
+        }
+
+        if ((fileSystemInfo.Attributes & FileAttributes.ReparsePoint) != 0
+            || fileSystemInfo.LinkTarget is not null)
+        {
+            throw new InvalidDataException(
+                $"{propertyName} cannot traverse symbolic links or reparse points.");
         }
     }
 }

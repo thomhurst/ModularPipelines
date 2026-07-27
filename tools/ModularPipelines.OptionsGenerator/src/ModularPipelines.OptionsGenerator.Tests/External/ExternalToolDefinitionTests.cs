@@ -178,6 +178,38 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Metadata_Rejects_Linked_Output_Root()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var outsideDirectory = Path.Combine(workspace, "outside");
+
+        try
+        {
+            Directory.CreateDirectory(outsideDirectory);
+            try
+            {
+                Directory.CreateSymbolicLink(outputDirectory, outsideDirectory);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return;
+            }
+
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+
+            await Assert.That(async () =>
+                    await ExternalToolDefinitionLoader.LoadAsync(metadataPath, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Metadata_Rejects_Invalid_CSharp_Identifiers()
     {
         var workspace = CreateTemporaryDirectory();
