@@ -319,6 +319,9 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
             .AddSingleton<IBuildSystemFormatterProvider, BuildSystemFormatterProvider>();
+
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<ILoggerProvider, BuildSystemLogIssueLoggerProvider>());
     }
 
     /// <summary>
