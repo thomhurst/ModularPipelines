@@ -169,12 +169,7 @@ public class CommandCoverageGuardTests
     public async Task FirstManifest_Uses_CheckedInGeneratedApis_AsBaseline()
     {
         var outputDirectory = CreateOutputDirectory();
-        var optionsDirectory = Path.Combine(
-            outputDirectory,
-            "src",
-            "ModularPipelines.Fake",
-            "Options");
-        Directory.CreateDirectory(optionsDirectory);
+        var optionsDirectory = CreateGeneratedOptionsDirectory(outputDirectory);
         await File.WriteAllTextAsync(
             Path.Combine(optionsDirectory, "FakeProjectCreateOptions.Generated.cs"),
             """
@@ -201,9 +196,78 @@ public class CommandCoverageGuardTests
         }
     }
 
+    [Test]
+    public async Task FirstManifest_Uses_CheckedInSingleCommandApi_AsBaseline()
+    {
+        var outputDirectory = CreateOutputDirectory();
+        var optionsDirectory = CreateGeneratedOptionsDirectory(outputDirectory);
+        await File.WriteAllTextAsync(
+            Path.Combine(optionsDirectory, "FakeExecuteOptions.Generated.cs"),
+            """
+            public record FakeExecuteOptions : FakeOptions;
+            """);
+
+        try
+        {
+            var evaluation = CommandCoverageGuard.Evaluate(
+                Tool(),
+                outputDirectory,
+                approveShrinkage: false);
+
+            await Assert.That(evaluation.UsedGeneratedApiBaseline).IsTrue();
+            await Assert.That(evaluation.RemovedCommands).IsEquivalentTo(["fake"]);
+            await Assert.That(evaluation.Violations).Contains(
+                violation => violation.Contains("fake", StringComparison.Ordinal));
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task FirstManifest_FailsWhenGeneratedApiCannotBeReconstructed()
+    {
+        var outputDirectory = CreateOutputDirectory();
+        var optionsDirectory = CreateGeneratedOptionsDirectory(outputDirectory);
+        await File.WriteAllTextAsync(
+            Path.Combine(optionsDirectory, "FakeUnknownOptions.Generated.cs"),
+            """
+            public record FakeUnknownOptions;
+            """);
+
+        try
+        {
+            void Evaluate() =>
+                CommandCoverageGuard.Evaluate(
+                    Tool(Command("fake status")),
+                    outputDirectory,
+                    approveShrinkage: false);
+
+            await Assert.That(Evaluate)
+                .Throws<InvalidOperationException>()
+                .And.HasMessageContaining("could not reconstruct a command coverage baseline");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
     private static string CreateOutputDirectory()
     {
         var path = Path.Combine(Path.GetTempPath(), "mp-command-coverage-tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(path);
+        return path;
+    }
+
+    private static string CreateGeneratedOptionsDirectory(string outputDirectory)
+    {
+        var path = Path.Combine(
+            outputDirectory,
+            "src",
+            "ModularPipelines.Fake",
+            "Options");
         Directory.CreateDirectory(path);
         return path;
     }

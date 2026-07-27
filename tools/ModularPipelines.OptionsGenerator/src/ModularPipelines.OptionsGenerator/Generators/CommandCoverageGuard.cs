@@ -206,20 +206,32 @@ internal static partial class CommandCoverageGuard
             return null;
         }
 
-        var commands = NormalizeCommands(
-            Directory.EnumerateFiles(
-                    optionsDirectory,
-                    $"{tool.NamespacePrefix}*Options.Generated.cs",
-                    SearchOption.TopDirectoryOnly)
-                .SelectMany(ReadGeneratedSubcommands)
-                .Select(parts => string.Join(' ', parts.Prepend(tool.ToolName))));
+        var generatedFiles = Directory.EnumerateFiles(
+                optionsDirectory,
+                $"{tool.NamespacePrefix}*Options.Generated.cs",
+                SearchOption.TopDirectoryOnly)
+            .ToArray();
+        if (generatedFiles.Length == 0)
+        {
+            return null;
+        }
 
-        return commands.Count == 0
-            ? null
-            : CreateManifest(tool.ToolName, null, commands, []);
+        var commands = NormalizeCommands(
+            generatedFiles.SelectMany(path => ReadGeneratedCommands(path, tool)));
+        if (commands.Count == 0)
+        {
+            throw new InvalidOperationException(
+                $"Found generated option files for '{tool.ToolName}' but could not reconstruct a command "
+                + $"coverage baseline from {optionsDirectory}. Commit an explicit coverage manifest or "
+                + "update the generated API baseline parser.");
+        }
+
+        return CreateManifest(tool.ToolName, null, commands, []);
     }
 
-    private static IEnumerable<IReadOnlyList<string>> ReadGeneratedSubcommands(string path)
+    private static IEnumerable<string> ReadGeneratedCommands(
+        string path,
+        CliToolDefinition tool)
     {
         var content = File.ReadAllText(path);
         foreach (Match attribute in CliSubCommandAttributePattern().Matches(content))
@@ -230,9 +242,25 @@ internal static partial class CommandCoverageGuard
                 .ToArray();
             if (commandParts.Length > 0)
             {
-                yield return commandParts;
+                yield return string.Join(' ', commandParts.Prepend(tool.ToolName));
             }
         }
+
+        if (ContainsGeneratedRootCommand(content, tool.NamespacePrefix))
+        {
+            yield return tool.ToolName;
+        }
+    }
+
+    private static bool ContainsGeneratedRootCommand(
+        string content,
+        string namespacePrefix)
+    {
+        var escapedPrefix = Regex.Escape(namespacePrefix);
+        var pattern =
+            $@"\bpublic\s+record\s+{escapedPrefix}(?:Execute)+Options"
+            + $@"(?:\s*\([^{{;]*\))?\s*:\s*{escapedPrefix}Options\b";
+        return Regex.IsMatch(content, pattern, RegexOptions.CultureInvariant);
     }
 
     private static CommandCoverageManifest CreateManifest(
