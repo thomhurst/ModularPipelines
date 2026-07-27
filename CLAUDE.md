@@ -19,7 +19,34 @@ and analyzers only). Each tool/CLI integration has its **own** solution next to 
 > single tool's own solution. Reach for `ModularPipelines.All.sln` only when a human
 > explicitly asks for a full build and the machine can handle it.
 
+> [!IMPORTANT]
+> **Agents: run every local `dotnet` command through
+> `scripts/Invoke-AgentDotNet.ps1`; never invoke `dotnet` directly.** The guard
+> disables reusable MSBuild/Roslyn servers, uses below-normal priority, and kills
+> the entire process tree if it exceeds 10 minutes or 2 GB by default. Exit code
+> `124` means timeout; `137` means memory limit. Do not raise either limit and retry
+> automatically—record the local validation limit and let CI run the expensive check.
+> Set the shell/tool timeout at least 30 seconds longer than `-TimeoutSeconds` so the
+> guard, rather than the outer shell, owns cleanup.
+
+```powershell
+# Core build
+pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
+  -DotNetArguments @('build', 'ModularPipelines.sln', '-c', 'Release')
+
+# Tool-specific build
+pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
+  -DotNetArguments @(
+    'build',
+    'src/ModularPipelines.Docker/ModularPipelines.Docker.sln',
+    '-c',
+    'Release'
+  )
+```
+
 ```bash
+# Human/manual equivalents:
+
 # DEFAULT: build the core library (fast). This is ModularPipelines.sln - the core
 # framework, Cmd, source generator, and analyzers only.
 dotnet build ModularPipelines.sln -c Release
@@ -51,10 +78,21 @@ solution when working on it. `ModularPipelines.All.sln` exists for CI's full bui
 see the caution above; agents should not build it.
 
 ### Running Tests
-```bash
+```powershell
 # PREFER: run only the test project relevant to your change. This avoids
 # building the whole solution and every tool integration.
-dotnet run --project <path-to-test-project> --framework net10.0 -- --coverage --coverage-output-format cobertura
+pwsh scripts/Invoke-AgentDotNet.ps1 `
+  -DotNetArguments @(
+    'run',
+    '--project',
+    '<path-to-test-project>',
+    '--framework',
+    'net10.0',
+    '--',
+    '--coverage',
+    '--coverage-output-format',
+    'cobertura'
+  )
 ```
 
 > [!CAUTION]
@@ -63,14 +101,23 @@ dotnet run --project <path-to-test-project> --framework net10.0 -- --coverage --
 > machine. Run the single relevant test project instead; let CI run the full suite.
 
 ### Code Formatting
-```bash
+```powershell
 # Format code (automatically done in CI). Target the solution you built - the
 # core solution (ModularPipelines.sln) for core changes, or the relevant tool solution.
-dotnet format ModularPipelines.sln
-dotnet format ModularPipelines.sln whitespace
+pwsh scripts/Invoke-AgentDotNet.ps1 `
+  -DotNetArguments @('format', 'ModularPipelines.sln')
+pwsh scripts/Invoke-AgentDotNet.ps1 `
+  -DotNetArguments @('format', 'ModularPipelines.sln', 'whitespace')
 
 # Verify formatting without changes
-dotnet format ModularPipelines.sln --verify-no-changes --severity info
+pwsh scripts/Invoke-AgentDotNet.ps1 `
+  -DotNetArguments @(
+    'format',
+    'ModularPipelines.sln',
+    '--verify-no-changes',
+    '--severity',
+    'info'
+  )
 ```
 
 ## High-Level Architecture
