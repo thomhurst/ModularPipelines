@@ -48,6 +48,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
 
     private static readonly HashSet<string> BooleanOptions = new(StringComparer.OrdinalIgnoreCase)
     {
+        "--databricks-diff-tblproperties-ignore-all",
         "--prompt-for-non-local-database"
     };
 
@@ -95,6 +96,44 @@ public partial class LiquibaseCliScraper : CliScraperBase
     {
         "--help", "-h", "--version", "help", "version", "lpm"
     };
+
+    protected override IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions =>
+    [
+        new()
+        {
+            SwitchName = "--databricks-diff-tblproperties-exclude-patterns",
+            PropertyName = "DatabricksDiffTblPropertiesExcludePatterns",
+            CSharpType = "string?",
+            Description = "Comma-separated TBLPROPERTIES key prefixes to exclude from Databricks diff operations.",
+            Availability = "Liquibase Secure with the Databricks extension",
+            IsFlag = false,
+            ValueSeparator = "=",
+            IsSecret = false,
+        },
+        new()
+        {
+            SwitchName = "--databricks-diff-tblproperties-ignore-all",
+            PropertyName = "DatabricksDiffTblPropertiesIgnoreAll",
+            CSharpType = "bool?",
+            Description = "Ignore all TBLPROPERTIES during Databricks diff operations.",
+            Availability = "Liquibase Secure with the Databricks extension",
+            IsFlag = false,
+            ValueSeparator = "=",
+            IsSecret = false,
+        },
+        new()
+        {
+            SwitchName = "--license-key",
+            PropertyName = "LicenseKey",
+            CSharpType = "string?",
+            Description = "Specifies the license key that enables Liquibase Secure functionality.",
+            DocumentationUrl = "https://docs.liquibase.com/community/reference-guide-5-0/parameters/what-are-parameters",
+            Availability = "Liquibase Secure",
+            IsFlag = false,
+            ValueSeparator = "=",
+            IsSecret = true,
+        },
+    ];
 
     /// <summary>
     /// Extracts subcommand names from liquibase help text.
@@ -155,7 +194,9 @@ public partial class LiquibaseCliScraper : CliScraperBase
         }
 
         var description = ExtractDescription(helpText);
-        var globalSwitches = GlobalOptions.Select(option => option.SwitchName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var globalSwitches = EffectiveGlobalOptions
+            .Select(option => option.SwitchName)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
         var options = ParseOptions(helpText)
             .Where(option => !globalSwitches.Contains(option.SwitchName))
             .ToList();
@@ -314,34 +355,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
     /// <inheritdoc />
     protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText)
     {
-        var options = ParseOptions(helpText);
-        AddDocumentedDatabricksOptions(options);
-        return options;
-    }
-
-    private static void AddDocumentedDatabricksOptions(List<CliOptionDefinition> options)
-    {
-        AddIfMissing(options, new CliOptionDefinition
-        {
-            SwitchName = "--databricks-diff-tblproperties-exclude-patterns",
-            PropertyName = "DatabricksDiffTblPropertiesExcludePatterns",
-            CSharpType = "string?",
-            Description = "Comma-separated TBLPROPERTIES key prefixes to exclude from Databricks diff operations.",
-            IsFlag = false,
-            ValueSeparator = "=",
-            IsSecret = GeneratorUtils.IsSecretOption("DatabricksDiffTblPropertiesExcludePatterns", isFlag: false),
-        });
-
-        AddIfMissing(options, new CliOptionDefinition
-        {
-            SwitchName = "--databricks-diff-tblproperties-ignore-all",
-            PropertyName = "DatabricksDiffTblPropertiesIgnoreAll",
-            CSharpType = "bool?",
-            Description = "Ignore all TBLPROPERTIES during Databricks diff operations.",
-            IsFlag = false,
-            ValueSeparator = "=",
-            IsSecret = GeneratorUtils.IsSecretOption("DatabricksDiffTblPropertiesIgnoreAll", isFlag: false),
-        });
+        return ParseOptions(helpText);
     }
 
     private static void AddDocumentedCommandOptions(

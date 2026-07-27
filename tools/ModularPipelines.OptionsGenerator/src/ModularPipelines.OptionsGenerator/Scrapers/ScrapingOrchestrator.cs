@@ -187,14 +187,11 @@ public class ScrapingOrchestrator
             commands.Add(command);
         }
 
-        var toolDefinition = new CliToolDefinition
+        var scrapedMetadata = scraper.CreateToolDefinition();
+        var toolDefinition = scrapedMetadata with
         {
-            ToolName = scraper.ToolName,
-            NamespacePrefix = scraper.NamespacePrefix,
-            TargetNamespace = scraper.TargetNamespace,
-            OutputDirectory = scraper.OutputDirectory,
             Commands = commands,
-            Errors = []
+            Errors = [],
         };
 
         _logger.LogInformation(

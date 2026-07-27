@@ -108,13 +108,13 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     public virtual string? DatabaseClass { get; set; }
 
     /// <summary>
-    /// Comma-separated TBLPROPERTIES key prefixes to exclude from Databricks diff operations.
+    /// Comma-separated TBLPROPERTIES key prefixes to exclude from Databricks diff operations. Availability: Liquibase Secure with the Databricks extension.
     /// </summary>
     [CliOption("--databricks-diff-tblproperties-exclude-patterns", Format = OptionFormat.EqualsSeparated)]
     public virtual string? DatabricksDiffTblPropertiesExcludePatterns { get; set; }
 
     /// <summary>
-    /// Ignore all TBLPROPERTIES during Databricks diff operations.
+    /// Ignore all TBLPROPERTIES during Databricks diff operations. Availability: Liquibase Secure with the Databricks extension.
     /// </summary>
     [CliOption("--databricks-diff-tblproperties-ignore-all", Format = OptionFormat.EqualsSeparated)]
     public virtual bool? DatabricksDiffTblPropertiesIgnoreAll { get; set; }
@@ -232,6 +232,13 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     /// </summary>
     [CliOption("--include-system-classpath", Format = OptionFormat.EqualsSeparated)]
     public virtual bool? IncludeSystemClasspath { get; set; }
+
+    /// <summary>
+    /// Specifies the license key that enables Liquibase Secure functionality. Availability: Liquibase Secure. Documentation: https://docs.liquibase.com/community/reference-guide-5-0/parameters/what-are-parameters
+    /// </summary>
+    [SecretValue]
+    [CliOption("--license-key", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? LicenseKey { get; set; }
 
     /// <summary>
     /// Catalog to use for Liquibase objects

@@ -36,6 +36,16 @@ public record CliOptionDefinition
     public string? Description { get; init; }
 
     /// <summary>
+    /// Documentation URL for options whose metadata does not come from CLI help.
+    /// </summary>
+    public string? DocumentationUrl { get; init; }
+
+    /// <summary>
+    /// Optional edition, license, plugin, or environment availability note.
+    /// </summary>
+    public string? Availability { get; init; }
+
+    /// <summary>
     /// Whether this is a boolean flag (no value).
     /// </summary>
     public bool IsFlag { get; init; }

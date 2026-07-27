@@ -244,6 +244,7 @@ public class CodeGeneratorOrchestrator
             OutputDirectory = toolDefinition.OutputDirectory,
             Commands = allCommands,
             GlobalOptions = toolDefinition.GlobalOptions,
+            SupplementalGlobalOptions = toolDefinition.SupplementalGlobalOptions,
             Errors = []
         };
 
@@ -270,10 +271,14 @@ public class CodeGeneratorOrchestrator
         HashSet<string> emittedPaths,
         CancellationToken cancellationToken)
     {
+        var globalOptions = tool.GetGlobalOptions();
         var normalizedCommands = GeneratorUtils.NormalizeCommandClassNames(tool.Commands);
-        var toolDefinition = ReferenceEquals(normalizedCommands, tool.Commands)
-            ? tool
-            : tool with { Commands = normalizedCommands };
+        var toolDefinition = tool with
+        {
+            Commands = normalizedCommands,
+            GlobalOptions = globalOptions,
+            SupplementalGlobalOptions = [],
+        };
 
         var generatedFiles = new List<GeneratedFile>();
 

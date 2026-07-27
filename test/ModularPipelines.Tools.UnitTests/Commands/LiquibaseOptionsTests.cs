@@ -55,6 +55,23 @@ public class LiquibaseOptionsTests : TestBase
     }
 
     [Test]
+    public async Task License_Key_Renders_Before_Command_And_Is_Secret()
+    {
+        var result = await GetResult(new LiquibaseUpdateOptions
+        {
+            ChangelogFile = "changelog.xml",
+            LicenseKey = "secret-license",
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "liquibase --license-key=secret-license update --changelog-file=changelog.xml");
+
+        var licenseKeyProperty = typeof(LiquibaseUpdateOptions).GetProperty(nameof(LiquibaseUpdateOptions.LicenseKey));
+        await Assert.That(licenseKeyProperty).IsNotNull();
+        await Assert.That(licenseKeyProperty!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
+    }
+
+    [Test]
     public async Task Monitor_Performance_Renders_A_Filename()
     {
         var result = await GetResult(new LiquibaseUpdateOptions

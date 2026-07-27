@@ -95,10 +95,11 @@ public class LiquibaseCliScraperTests
     }
 
     [Test]
-    public async Task Global_Options_Include_Documented_Databricks_Diff_Filters()
+    public async Task ParseGlobalOptions_Parses_Databricks_Diff_Filters()
     {
         const string helpText = """
                   --databricks-diff-tblproperties-exclude-patterns=PARAM   Excluded TBLPROPERTIES
+                  --databricks-diff-tblproperties-ignore-all=PARAM        Ignore all TBLPROPERTIES
             """;
         var options = _scraper.ParseLiquibaseGlobalOptions(helpText);
 
@@ -158,6 +159,7 @@ public class LiquibaseCliScraperTests
             Global Options:
                   --search-path=PARAM   Paths to search for changelogs
                   --log-level=PARAM     Logging level
+                  --databricks-diff-tblproperties-ignore-all=PARAM  Ignore all TBLPROPERTIES
             """;
         const string updateHelp = """
             Usage: liquibase update [OPTIONS]
@@ -174,17 +176,23 @@ public class LiquibaseCliScraperTests
         }
 
         var tool = scraper.CreateToolDefinition();
-        await Assert.That(tool.GlobalOptions.Select(option => option.SwitchName))
+        await Assert.That(tool.GetGlobalOptions().Select(option => option.SwitchName))
             .IsEquivalentTo(
             [
                 "--search-path",
                 "--log-level",
                 "--databricks-diff-tblproperties-exclude-patterns",
                 "--databricks-diff-tblproperties-ignore-all",
+                "--license-key",
             ]);
         await Assert.That(commands.Count).IsEqualTo(1);
         await Assert.That(commands[0].Options.Select(option => option.SwitchName))
             .IsEquivalentTo(["--changelog-file"]);
+
+        var licenseKey = tool.GetGlobalOptions().Single(option => option.SwitchName == "--license-key");
+        await Assert.That(licenseKey.IsSecret).IsTrue();
+        await Assert.That(licenseKey.ValueSeparator).IsEqualTo("=");
+        await Assert.That(licenseKey.Availability).IsEqualTo("Liquibase Secure");
     }
 
     [Test]
