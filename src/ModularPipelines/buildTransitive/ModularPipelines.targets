@@ -79,7 +79,9 @@ jobs:
 ]]></_ModularPipelinesGitHubWorkflow>
 
       <_ModularPipelinesGitLabPipeline><![CDATA[variables:
-  MODULAR_PIPELINES_BUILD_BRANCH: "$(_ModularPipelinesYamlBranch)"
+  MODULAR_PIPELINES_BUILD_BRANCH:
+    value: "$(_ModularPipelinesYamlBranch)"
+    expand: false
 
 stages:
   - pipeline
@@ -89,8 +91,11 @@ modular-pipelines:
   stage: pipeline
   rules:
     - if: '$CI_COMMIT_BRANCH == $MODULAR_PIPELINES_BUILD_BRANCH'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MODULAR_PIPELINES_BUILD_BRANCH'
   variables:
-    PIPELINE_PROJECT: "$(_ModularPipelinesYamlPipelineProject)"
+    PIPELINE_PROJECT:
+      value: "$(_ModularPipelinesYamlPipelineProject)"
+      expand: false
   script:
     - dotnet run --project "$PIPELINE_PROJECT" --configuration Release
 ]]></_ModularPipelinesGitLabPipeline>
