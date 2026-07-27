@@ -668,9 +668,7 @@ public static partial class GeneratorUtils
     {
         ArgumentNullException.ThrowIfNull(tool);
 
-        var subDomainNames = new HashSet<string>(
-            tool.SubDomainGroups.Select(group => GetSubDomainIdentifier(tool, group)),
-            StringComparer.OrdinalIgnoreCase);
+        var subDomainNames = GetSubDomainIdentifiers(tool);
 
         var rootCommands = tool.Commands
             .Where(c => c.SubDomainGroup is null)
@@ -680,9 +678,9 @@ public static partial class GeneratorUtils
         // Distinct commands can normalize to the same method name (e.g. "build-server"
         // and "build_server" both become BuildServer). Emitting both would produce
         // duplicate members the duplicate-path check cannot see, so fail loudly here.
-        var duplicateMethodNames = rootCommands
-            .GroupBy(c => GenerateMethodNameFromCommandParts(c.CommandParts), StringComparer.OrdinalIgnoreCase)
-            .Where(g => g.Count() > 1)
+        var duplicateMethodNames = GetDuplicateCommandGroups(
+                rootCommands,
+                command => GenerateMethodNameFromCommandParts(command.CommandParts))
             .Select(g => $"{g.Key} ({string.Join(", ", g.Select(c => c.FullCommand))})")
             .ToList();
 
@@ -694,6 +692,38 @@ public static partial class GeneratorUtils
         }
 
         return rootCommands;
+    }
+
+    /// <summary>
+    /// Returns executable root commands that own a generated sub-domain. These commands
+    /// are exposed as <c>Execute</c> on the matching sub-domain class.
+    /// </summary>
+    internal static IReadOnlyList<CliCommandDefinition> GetSubDomainParentCommands(CliToolDefinition tool)
+    {
+        ArgumentNullException.ThrowIfNull(tool);
+
+        var subDomainNames = GetSubDomainIdentifiers(tool);
+        var parentCommands = tool.Commands
+            .Where(command => command.SubDomainGroup is null)
+            .Where(command => command.CommandParts.Length == 1)
+            .Where(command => subDomainNames.Contains(GetCommandGroupIdentifier(command)))
+            .ToList();
+
+        var duplicateParentGroups = GetDuplicateCommandGroups(
+                parentCommands,
+                GetCommandGroupIdentifier)
+            .Select(group =>
+                $"{group.Key} ({string.Join(", ", group.Select(command => command.FullCommand))})")
+            .ToList();
+
+        if (duplicateParentGroups.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"The {tool.ToolName} scraper produced multiple definitions for the same root command(s): " +
+                $"{string.Join("; ", duplicateParentGroups)}. Fix the scraper to emit each command once.");
+        }
+
+        return parentCommands;
     }
 
     /// <summary>
@@ -725,9 +755,21 @@ public static partial class GeneratorUtils
         };
     }
 
-    private static string GetCommandGroupIdentifier(CliCommandDefinition command) =>
+    internal static string GetCommandGroupIdentifier(CliCommandDefinition command) =>
         command.CommandGroupIdentifierOverride
         ?? GenerateMethodNameFromCommandParts(command.CommandParts);
+
+    private static HashSet<string> GetSubDomainIdentifiers(CliToolDefinition tool) =>
+        new(
+            tool.SubDomainGroups.Select(group => GetSubDomainIdentifier(tool, group)),
+            StringComparer.OrdinalIgnoreCase);
+
+    private static IEnumerable<IGrouping<string, CliCommandDefinition>> GetDuplicateCommandGroups(
+        IEnumerable<CliCommandDefinition> commands,
+        Func<CliCommandDefinition, string> identifierSelector) =>
+        commands
+            .GroupBy(identifierSelector, StringComparer.OrdinalIgnoreCase)
+            .Where(group => group.Skip(1).Any());
 
     private static bool NeedsClassNameNormalization(CliCommandDefinition command) =>
         string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase);

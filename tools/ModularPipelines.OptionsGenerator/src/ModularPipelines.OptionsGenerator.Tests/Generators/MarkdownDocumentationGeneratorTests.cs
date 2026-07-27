@@ -63,7 +63,7 @@ public class MarkdownDocumentationGeneratorTests
     }
 
     [Test]
-    public async Task GenerateAsync_ExcludesRootCommandsHiddenBySubDomainProperties()
+    public async Task GenerateAsync_IncludesRootCommandsExposedBySubDomainExecute()
     {
         var tool = new CliToolDefinition
         {
@@ -80,7 +80,7 @@ public class MarkdownDocumentationGeneratorTests
 
         var files = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
 
-        await Assert.That(files[0].Content).DoesNotContain("| `fake app` | `FakeAppOptions` |");
+        await Assert.That(files[0].Content).Contains("| `fake app` | `FakeAppOptions` |");
         await Assert.That(files[0].Content).Contains("| `fake app get` | `FakeAppGetOptions` |");
     }
 

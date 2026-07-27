@@ -295,12 +295,15 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
 
     private static IReadOnlyList<CliCommandDefinition> GetExposedCommands(CliToolDefinition tool)
     {
-        var rootCommands = GeneratorUtils.GetNonCollidingRootCommands(tool)
+        var exposedRootCommands = GeneratorUtils.GetNonCollidingRootCommands(tool)
+            .Concat(GeneratorUtils.GetSubDomainParentCommands(tool))
             .Select(command => command.ClassName)
             .ToHashSet(StringComparer.Ordinal);
 
         return tool.Commands
-            .Where(command => command.SubDomainGroup is not null || rootCommands.Contains(command.ClassName))
+            .Where(command =>
+                command.SubDomainGroup is not null ||
+                exposedRootCommands.Contains(command.ClassName))
             .DistinctBy(command => command.ClassName)
             .ToList();
     }
