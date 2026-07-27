@@ -1352,6 +1352,183 @@ public class ExternalToolDefinitionTests
         }
     }
 
+    [Test]
+    public async Task External_Metadata_Preserves_Enum_Ordinals_When_Output_Moves()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var orchestrator = CreateOrchestrator();
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated-a"));
+            var firstTool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var deploy = firstTool.Commands.Single();
+            var environment = new CliEnumDefinition
+            {
+                EnumName = "PrivateWidgetEnvironment",
+                Values =
+                [
+                    new CliEnumValue
+                    {
+                        MemberName = "Production",
+                        CliValue = "production",
+                    },
+                    new CliEnumValue
+                    {
+                        MemberName = "Staging",
+                        CliValue = "staging",
+                    },
+                ],
+            };
+            firstTool = firstTool with
+            {
+                Commands =
+                [
+                    deploy with
+                    {
+                        Enums = [environment],
+                    },
+                ],
+            };
+            await orchestrator.GenerateFromDefinitionAsync(firstTool, outputDirectory);
+
+            var secondTool = firstTool with
+            {
+                OutputDirectory = "generated-b",
+                Commands =
+                [
+                    deploy with
+                    {
+                        Enums =
+                        [
+                            environment with
+                            {
+                                Values =
+                                [
+                                    environment.Values[1],
+                                    new CliEnumValue
+                                    {
+                                        MemberName = "Development",
+                                        CliValue = "development",
+                                    },
+                                    environment.Values[0],
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            };
+            await orchestrator.GenerateFromDefinitionAsync(secondTool, outputDirectory);
+
+            var generatedEnum = await File.ReadAllTextAsync(Path.Combine(
+                outputDirectory,
+                "generated-b",
+                "Enums",
+                "PrivateWidgetEnvironment.Generated.cs"));
+            await Assert.That(generatedEnum).Contains("Production = 0");
+            await Assert.That(generatedEnum).Contains("Staging = 1");
+            await Assert.That(generatedEnum).Contains("Development = 2");
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Reconciles_Case_Only_Output_Renames()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var orchestrator = CreateOrchestrator();
+
+        try
+        {
+            if (!IsCaseSensitiveFileSystem(workspace))
+            {
+                return;
+            }
+
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var firstTool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            await orchestrator.GenerateFromDefinitionAsync(firstTool, outputDirectory);
+
+            var oldOptionsPath = Path.Combine(
+                outputDirectory,
+                "generated",
+                "Options",
+                "PrivateWidgetDeployOptions.Generated.cs");
+            var newOptionsPath = Path.Combine(
+                outputDirectory,
+                "Generated",
+                "Options",
+                "PrivateWidgetDeployOptions.Generated.cs");
+            await Assert.That(File.Exists(oldOptionsPath)).IsTrue();
+
+            await orchestrator.GenerateFromDefinitionAsync(
+                firstTool with { OutputDirectory = "Generated" },
+                outputDirectory);
+
+            await Assert.That(File.Exists(oldOptionsPath)).IsFalse();
+            await Assert.That(File.Exists(newOptionsPath)).IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Missing_Compatibility_Forwarding_Target()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var tool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var deploy = tool.Commands.Single();
+            tool = tool with
+            {
+                Commands =
+                [
+                    deploy with
+                    {
+                        CompatibilityProperties =
+                        [
+                            new CliCompatibilityProperty
+                            {
+                                PropertyName = "OldEnvironment",
+                                CSharpType = "string?",
+                                ForwardToPropertyName = "Environmnt",
+                                ObsoleteMessage = "Use Environment.",
+                            },
+                        ],
+                    },
+                ],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
     private static CodeGeneratorOrchestrator CreateOrchestrator() =>
         new(
             cliScrapers: [],
@@ -1384,6 +1561,25 @@ public class ExternalToolDefinitionTests
             Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(path);
         return path;
+    }
+
+    private static bool IsCaseSensitiveFileSystem(string directory)
+    {
+        var probePath = Path.Combine(
+            directory,
+            $"case-probe-a{Guid.NewGuid():N}");
+
+        try
+        {
+            File.WriteAllText(probePath, string.Empty);
+            return !File.Exists(Path.Combine(
+                directory,
+                Path.GetFileName(probePath).ToUpperInvariant()));
+        }
+        finally
+        {
+            File.Delete(probePath);
+        }
     }
 
     private static string ValidMetadata(string outputDirectory, int schemaVersion = 1) =>

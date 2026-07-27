@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.CodeAnalysis.CSharp;
+using ModularPipelines.Options;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 
@@ -109,6 +110,7 @@ public static class ExternalToolDefinitionLoader
         var globalOptions = tool.GetGlobalOptions();
         foreach (var command in tool.Commands)
         {
+            ValidateCompatibilityMetadata(command, globalOptions);
             ValidateUniqueEffectiveSwitches(command, globalOptions);
         }
     }
@@ -162,7 +164,6 @@ public static class ExternalToolDefinitionLoader
         ValidatePositionalArguments(command.PositionalArguments);
         ValidateUniqueGeneratedMemberNames(command);
         ValidateEnums(command.Enums, "tool.commands[].enums");
-        ValidateCompatibilityMetadata(command);
         command.ValidateOperandCoverage();
     }
 
@@ -356,8 +357,19 @@ public static class ExternalToolDefinitionLoader
         propertiesBySwitch.Add(switchName, propertyName);
     }
 
-    private static void ValidateCompatibilityMetadata(CliCommandDefinition command)
+    private static void ValidateCompatibilityMetadata(
+        CliCommandDefinition command,
+        IReadOnlyList<CliOptionDefinition> globalOptions)
     {
+        var forwardingTargets = command.Options
+            .Select(option => option.PropertyName)
+            .Concat(command.PositionalArguments.Select(argument => argument.PropertyName))
+            .Concat(globalOptions.Select(option => option.PropertyName))
+            .Concat(typeof(CommandLineToolOptions)
+                .GetProperties()
+                .Select(property => property.Name))
+            .ToHashSet(StringComparer.Ordinal);
+
         foreach (var property in command.CompatibilityProperties)
         {
             RequireIdentifier(
@@ -369,6 +381,14 @@ public static class ExternalToolDefinitionLoader
             ValidateOptionalIdentifier(
                 property.ForwardToPropertyName,
                 "tool.commands[].compatibilityProperties[].forwardToPropertyName");
+            if (property.ForwardToPropertyName is not null
+                && !forwardingTargets.Contains(property.ForwardToPropertyName))
+            {
+                throw new InvalidDataException(
+                    $"Compatibility property '{property.PropertyName}' on command "
+                    + $"'{command.FullCommand}' forwards to missing property "
+                    + $"'{property.ForwardToPropertyName}'.");
+            }
         }
 
         foreach (var method in command.CompatibilityMethods)

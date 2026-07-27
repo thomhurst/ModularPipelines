@@ -14,7 +14,10 @@ internal static partial class EnumDefinitionStabilizer
         "them",
     };
 
-    public static CliToolDefinition Stabilize(CliToolDefinition tool, string outputDirectory)
+    public static CliToolDefinition Stabilize(
+        CliToolDefinition tool,
+        string outputDirectory,
+        IReadOnlyDictionary<string, string>? fallbackExistingFiles = null)
     {
         var stabilizedEnums = tool.AllEnums.ToDictionary(
             definition => definition.EnumName,
@@ -24,7 +27,8 @@ internal static partial class EnumDefinitionStabilizer
                     outputDirectory,
                     tool.OutputDirectory,
                     "Enums",
-                    $"{definition.EnumName}.Generated.cs")),
+                    $"{definition.EnumName}.Generated.cs"),
+                fallbackExistingFiles?.GetValueOrDefault(definition.EnumName)),
             StringComparer.Ordinal);
 
         var commands = tool.Commands
@@ -50,12 +54,18 @@ internal static partial class EnumDefinitionStabilizer
                 : option with { EnumDefinition = stabilizedEnums[option.EnumDefinition.EnumName] })
             .ToList();
 
-    private static CliEnumDefinition Stabilize(CliEnumDefinition definition, string existingFile)
+    private static CliEnumDefinition Stabilize(
+        CliEnumDefinition definition,
+        string existingFile,
+        string? fallbackExistingFile)
     {
         ValidateValues(definition);
 
-        var existingValues = File.Exists(existingFile)
-            ? ParseExistingValues(File.ReadAllText(existingFile))
+        var baselineFile = File.Exists(existingFile)
+            ? existingFile
+            : fallbackExistingFile;
+        var existingValues = baselineFile is not null && File.Exists(baselineFile)
+            ? ParseExistingValues(File.ReadAllText(baselineFile))
             : [];
 
         var existingByCliValue = existingValues.ToDictionary(value => value.CliValue, StringComparer.Ordinal);

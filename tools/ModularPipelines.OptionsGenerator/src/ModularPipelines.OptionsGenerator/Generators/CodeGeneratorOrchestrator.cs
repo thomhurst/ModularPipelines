@@ -136,13 +136,17 @@ public class CodeGeneratorOrchestrator
         var externallyClaimedPaths = GetExternallyClaimedPaths(
             outputDirectory,
             tool.OwnershipId!);
-        var replaceableExistingPaths = previousOwnership.OwnedPaths
+        var fileSystemPathComparer = GetFileSystemPathComparer(outputDirectory);
+        var previouslyOwnedFullPaths = previousOwnership.OwnedPaths
             .Select(path => ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
                 path,
                 outputDirectory,
                 "external ownership manifest path"))
             .Select(Path.GetFullPath)
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            .ToArray();
+        var replaceableExistingPaths = previouslyOwnedFullPaths
+            .ToHashSet(fileSystemPathComparer);
+        var enumBaselinePaths = GetOwnedEnumPaths(previouslyOwnedFullPaths);
 
         var result = new GenerationResult
         {
@@ -159,17 +163,19 @@ public class CodeGeneratorOrchestrator
             cleanupGeneratedFilesByNamespacePrefix: false,
             writeAssemblyInfo: false,
             commandCoverageBaselinePath: previousCoverageManifestPath,
-            replaceableExistingPaths: replaceableExistingPaths);
+            replaceableExistingPaths: replaceableExistingPaths,
+            enumBaselinePaths: enumBaselinePaths);
 
         var currentlyOwnedPaths = result.FilesGenerated
             .Select(path => path.Replace('\\', '/'))
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .Order(StringComparer.OrdinalIgnoreCase)
+            .Distinct(fileSystemPathComparer)
+            .Order(fileSystemPathComparer)
             .ToArray();
         ReconcileExternalOwnedFiles(
             outputDirectory,
             previousOwnership.OwnedPaths,
             currentlyOwnedPaths,
+            fileSystemPathComparer,
             result.FilesDeleted);
         await WriteExternalOwnershipManifestAsync(
             outputDirectory,
@@ -178,10 +184,9 @@ public class CodeGeneratorOrchestrator
             currentlyOwnedPaths,
             cancellationToken);
         result.FilesGenerated.Add(ownershipRelativePath);
-        if (!string.Equals(
+        if (!fileSystemPathComparer.Equals(
                 previousOwnership.RelativePath,
-                ownershipRelativePath,
-                StringComparison.OrdinalIgnoreCase))
+                ownershipRelativePath))
         {
             var previousManifestPath = ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
                 previousOwnership.RelativePath,
@@ -336,9 +341,10 @@ public class CodeGeneratorOrchestrator
         string outputDirectory,
         IReadOnlyCollection<string> previouslyOwnedPaths,
         IReadOnlyCollection<string> currentlyOwnedPaths,
+        StringComparer fileSystemPathComparer,
         ICollection<string> deletedPaths)
     {
-        var current = currentlyOwnedPaths.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var current = currentlyOwnedPaths.ToHashSet(fileSystemPathComparer);
         foreach (var relativePath in previouslyOwnedPaths.Where(path => !current.Contains(path)))
         {
             var fullPath = ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
@@ -354,6 +360,53 @@ public class CodeGeneratorOrchestrator
                     deletedPaths,
                     validateContainment: true);
             }
+        }
+    }
+
+    private static IReadOnlyDictionary<string, string> GetOwnedEnumPaths(
+        IEnumerable<string> ownedFullPaths)
+    {
+        const string generatedSuffix = ".Generated.cs";
+        return ownedFullPaths
+            .Where(path => string.Equals(
+                Path.GetFileName(Path.GetDirectoryName(path)),
+                "Enums",
+                StringComparison.Ordinal))
+            .Where(path => Path.GetFileName(path).EndsWith(
+                generatedSuffix,
+                StringComparison.Ordinal))
+            .ToDictionary(
+                path => Path.GetFileName(path)[..^generatedSuffix.Length],
+                StringComparer.Ordinal);
+    }
+
+    private static StringComparer GetFileSystemPathComparer(string outputDirectory)
+    {
+        var probeName = $".modular-pipelines-case-probe-a{Guid.NewGuid():N}";
+        var probePath = Path.Combine(outputDirectory, probeName);
+        var alternateCasePath = Path.Combine(outputDirectory, probeName.ToUpperInvariant());
+
+        try
+        {
+            using var probe = new FileStream(
+                probePath,
+                new FileStreamOptions
+                {
+                    Mode = FileMode.CreateNew,
+                    Access = FileAccess.ReadWrite,
+                    Share = FileShare.ReadWrite | FileShare.Delete,
+                    Options = FileOptions.DeleteOnClose,
+                });
+            return File.Exists(alternateCasePath)
+                ? StringComparer.OrdinalIgnoreCase
+                : StringComparer.Ordinal;
+        }
+        catch (Exception exception)
+            when (exception is IOException or UnauthorizedAccessException)
+        {
+            return OperatingSystem.IsWindows()
+                ? StringComparer.OrdinalIgnoreCase
+                : StringComparer.Ordinal;
         }
     }
 
@@ -720,7 +773,8 @@ public class CodeGeneratorOrchestrator
         bool cleanupGeneratedFilesByNamespacePrefix = true,
         bool writeAssemblyInfo = true,
         string? commandCoverageBaselinePath = null,
-        IReadOnlySet<string>? replaceableExistingPaths = null)
+        IReadOnlySet<string>? replaceableExistingPaths = null,
+        IReadOnlyDictionary<string, string>? enumBaselinePaths = null)
     {
         var globalOptions = tool.GetGlobalOptions();
         var normalizedCommands = GeneratorUtils.NormalizeCommandClassNames(tool.Commands);
@@ -750,7 +804,10 @@ public class CodeGeneratorOrchestrator
                 "command coverage manifest");
         }
 
-        toolDefinition = EnumDefinitionStabilizer.Stabilize(toolDefinition, outputDirectory);
+        toolDefinition = EnumDefinitionStabilizer.Stabilize(
+            toolDefinition,
+            outputDirectory,
+            enumBaselinePaths);
         var generatedFiles = new List<GeneratedFile>();
 
         foreach (var generator in _generators)
