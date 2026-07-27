@@ -144,6 +144,40 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Parses_Inline_Usage_Continuation_Lines()
+    {
+        const string helpText = """
+            Usage: tool upload [OPTIONS]
+                   <SOURCE> <DESTINATION>
+
+            Options:
+              --force
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "upload"]);
+
+        await Assert.That(result.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["Source", "Destination"]);
+        await Assert.That(result.PositionalArguments.All(argument =>
+                argument.Placement == PositionalArgumentPosition.AfterOptions))
+            .IsTrue();
+    }
+
+    [Test]
+    public async Task Carries_Standalone_Option_Terminator_To_Following_Operand()
+    {
+        var required = UsageSynopsisParser.Parse(
+            "Usage: tool run [OPTIONS] -- <ARGS>",
+            ["tool", "run"]);
+        var optional = UsageSynopsisParser.Parse(
+            "Usage: tool run [OPTIONS] [--] [ARGS...]",
+            ["tool", "run"]);
+
+        await Assert.That(required.PositionalArguments.Single().PrependOptionTerminator).IsTrue();
+        await Assert.That(optional.PositionalArguments.Single().PrependOptionTerminator).IsTrue();
+    }
+
+    [Test]
     public async Task Relaxes_Operands_Absent_From_Alternate_Invocation_Forms()
     {
         const string helpText = """
@@ -159,6 +193,22 @@ public class UsageSynopsisParserTests
         await Assert.That(result.MatchedSynopsisCount).IsEqualTo(3);
         await Assert.That(dependency.IsRequired).IsFalse();
         await Assert.That(dependency.CSharpType).IsEqualTo("string?");
+    }
+
+    [Test]
+    public async Task Relaxes_Operands_When_An_Alternate_Form_Is_Operandless()
+    {
+        const string helpText = """
+            Usage:
+              tool run <FILE>
+              tool run
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "run"]);
+        var file = result.PositionalArguments.Single();
+
+        await Assert.That(file.IsRequired).IsFalse();
+        await Assert.That(file.CSharpType).IsEqualTo("string?");
     }
 
     [Test]

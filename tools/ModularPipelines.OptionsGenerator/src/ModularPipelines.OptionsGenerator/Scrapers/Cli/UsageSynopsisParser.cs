@@ -48,8 +48,13 @@ public static class UsageSynopsisParser
         ArgumentNullException.ThrowIfNull(helpText);
         ArgumentNullException.ThrowIfNull(commandPath);
 
+        var suppliedSynopses = (additionalSynopses ?? [])
+            .Where(synopsis => !string.IsNullOrWhiteSpace(synopsis))
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+        var suppliedSynopsisSet = suppliedSynopses.ToHashSet(StringComparer.Ordinal);
         var synopses = ExtractSynopses(helpText)
-            .Concat(additionalSynopses ?? [])
+            .Concat(suppliedSynopses)
             .Where(synopsis => !string.IsNullOrWhiteSpace(synopsis))
             .Distinct(StringComparer.Ordinal)
             .ToList();
@@ -73,6 +78,11 @@ public static class UsageSynopsisParser
             .Where(candidate =>
                 candidate.MatchedCommandPartCount == selected.MatchedCommandPartCount)
             .ToList();
+        List<UsageSynopsisParseResult> requirednessCandidates =
+            suppliedSynopsisSet.Contains(selected.Synopsis ?? "")
+            ? [.. sameCommandCandidates
+                .Where(candidate => suppliedSynopsisSet.Contains(candidate.Synopsis ?? ""))]
+            : sameCommandCandidates;
 
         return selected with
         {
@@ -82,7 +92,7 @@ public static class UsageSynopsisParser
                 .Any(candidate => HasSameScore(selected, candidate)),
             PositionalArguments = RelaxArgumentsMissingFromAlternatives(
                 selected.PositionalArguments,
-                sameCommandCandidates),
+                requirednessCandidates),
         };
     }
 
@@ -117,6 +127,7 @@ public static class UsageSynopsisParser
 
         var arguments = new List<CliPositionalArgument>();
         var unparsedTokens = new List<string>();
+        var prependOptionTerminatorToNextOperand = false;
         var placement = tokens
             .Take(commandMatch.EndIndex + 1)
             .Any(IsOptionControlToken)
@@ -129,9 +140,15 @@ public static class UsageSynopsisParser
                 placement = PositionalArgumentPosition.AfterOptions;
             }
 
-            var prependOptionTerminator =
+            if (IsStandaloneOptionTerminator(token))
+            {
+                prependOptionTerminatorToNextOperand = true;
+                continue;
+            }
+
+            var groupedBehindOptionTerminator =
                 TryUnwrapOptionTerminatedOperand(token, out var unwrappedOperand);
-            var operandToken = prependOptionTerminator ? unwrappedOperand : token;
+            var operandToken = groupedBehindOptionTerminator ? unwrappedOperand : token;
             if (TryApplyStandaloneRepeat(operandToken, arguments)
                 || IsNonOperandSyntax(operandToken))
             {
@@ -145,12 +162,13 @@ public static class UsageSynopsisParser
                 continue;
             }
 
-            if (prependOptionTerminator)
+            if (groupedBehindOptionTerminator || prependOptionTerminatorToNextOperand)
             {
                 argument = argument with { PrependOptionTerminator = true };
             }
 
             arguments.Add(argument);
+            prependOptionTerminatorToNextOperand = false;
         }
 
         return new UsageSynopsisParseResult
@@ -173,18 +191,15 @@ public static class UsageSynopsisParser
 
     private static IReadOnlyList<CliPositionalArgument> RelaxArgumentsMissingFromAlternatives(
         IReadOnlyList<CliPositionalArgument> selectedArguments,
-        IReadOnlyList<UsageSynopsisParseResult> alternatives)
+        List<UsageSynopsisParseResult> alternatives)
     {
-        var operandAlternatives = alternatives
-            .Where(alternative => alternative.PositionalArguments.Count > 0)
-            .ToList();
-        if (operandAlternatives.Count <= 1)
+        if (alternatives.Count <= 1)
         {
             return selectedArguments;
         }
 
         return selectedArguments
-            .Select(argument => operandAlternatives.All(alternative =>
+            .Select(argument => alternatives.All(alternative =>
                 alternative.PositionalArguments.Any(candidate =>
                     candidate.IsRequired
                     && candidate.PropertyName.Equals(
@@ -217,7 +232,11 @@ public static class UsageSynopsisParser
 
             if (!string.IsNullOrWhiteSpace(inlineSynopsis))
             {
-                synopses.Add(inlineSynopsis);
+                index = ReadInlineSynopsis(
+                    lines,
+                    index + 1,
+                    inlineSynopsis,
+                    synopses);
                 continue;
             }
 
@@ -225,6 +244,53 @@ public static class UsageSynopsisParser
         }
 
         return synopses;
+    }
+
+    private static int ReadInlineSynopsis(
+        string[] lines,
+        int startIndex,
+        string inlineSynopsis,
+        List<string> synopses)
+    {
+        var parts = new List<string> { inlineSynopsis };
+        var index = startIndex;
+        for (; index < lines.Length; index++)
+        {
+            var line = lines[index];
+            var trimmed = line.Trim();
+            if (!IsSynopsisContinuation(line, trimmed))
+            {
+                break;
+            }
+
+            parts.Add(trimmed);
+        }
+
+        synopses.Add(string.Join(' ', parts));
+        return index - 1;
+    }
+
+    private static bool IsSynopsisContinuation(string line, string trimmed)
+    {
+        if (string.IsNullOrWhiteSpace(trimmed)
+            || line.Length == trimmed.Length)
+        {
+            return false;
+        }
+
+        var firstToken = trimmed.Split(' ', 2)[0];
+        if (LooksLikeSectionHeading(trimmed) && !IsWrapped(firstToken))
+        {
+            return false;
+        }
+
+        if (IsPlaceholderToken(firstToken))
+        {
+            return true;
+        }
+
+        return firstToken.StartsWith('-')
+               || firstToken is "|" or "...";
     }
 
     private static bool TryReadUsageHeading(string line, out string synopsis)
@@ -471,6 +537,9 @@ public static class UsageSynopsisParser
         operand = content[2..].Trim();
         return !string.IsNullOrWhiteSpace(operand);
     }
+
+    private static bool IsStandaloneOptionTerminator(string token) =>
+        TrimWrapper(token).Trim() == "--";
 
     private static bool IsControlToken(string token)
     {
