@@ -40,14 +40,6 @@ jobs:
     # still collected when this timeout trips.
     timeout-minutes: 60
     env:
-      # Tear down MSBuild worker/compiler nodes after each build instead of keeping them
-      # resident. BuildSolutionsModule builds several solutions in sequence; with node reuse
-      # the persistent nodes accumulate memory across those builds, which contributed to the
-      # runner reclaim in #3179. Disabling reuse keeps peak memory bounded per build.
-      MSBUILDDISABLENODEREUSE: "1"
-      # Workstation GC keeps the build/test footprint lower than server GC (which allocates a
-      # heap per core) on these multi-core runners.
-      DOTNET_gcServer: "0"
       # Single source of truth for the solutions CI restores and builds, so the Restore and
       # Build steps below can't drift apart. This mirrors BuildSolutionsModule.Solutions in
       # src/ModularPipelines.Build; keep the two in sync when adding a solution.
@@ -70,19 +62,6 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Increase swap space
-        if: runner.os == 'Linux'
-        shell: bash
-        run: |
-          # Extra headroom for the full-solution build on the Linux runner.
-          sudo swapoff -a || true
-          sudo rm -f /mnt/swapfile || true
-          sudo fallocate -l 10G /mnt/swapfile
-          sudo chmod 600 /mnt/swapfile
-          sudo mkswap /mnt/swapfile
-          sudo swapon /mnt/swapfile
-          echo "Memory and swap after reconfiguration:"
-          free -h
       - name: Setup .NET
         uses: actions/setup-dotnet@v6.0.0
         with:
