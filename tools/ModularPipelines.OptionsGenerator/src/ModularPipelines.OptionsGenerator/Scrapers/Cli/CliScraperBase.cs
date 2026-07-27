@@ -376,6 +376,10 @@ public abstract partial class CliScraperBase : ICliScraper
         try
         {
             command = await ParseCommandAsync(path, helpText, cancellationToken);
+            if (command is not null)
+            {
+                ValidateOptionShapes(command, helpText);
+            }
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
@@ -385,7 +389,6 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (command is not null)
         {
-            ValidateOptionShapes(command, helpText);
             await commandChannel.Writer.WriteAsync(command, cancellationToken);
         }
     }
@@ -692,11 +695,31 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var optionPattern = $@"(?<![\w-]){Regex.Escape(switchName)}(?![\w-])";
-        return helpText
-            .ReplaceLineEndings("\n")
-            .Split("\n\n", StringSplitOptions.RemoveEmptyEntries)
-            .Where(paragraph => Regex.IsMatch(paragraph, optionPattern, RegexOptions.IgnoreCase))
-            .Any(paragraph => RepeatableValuePattern().IsMatch(paragraph));
+        var lines = helpText.ReplaceLineEndings("\n").Split('\n');
+
+        for (var index = 0; index < lines.Length; index++)
+        {
+            if (!OptionLinePattern().IsMatch(lines[index])
+                || !Regex.IsMatch(lines[index], optionPattern, RegexOptions.IgnoreCase))
+            {
+                continue;
+            }
+
+            var end = index + 1;
+            while (end < lines.Length
+                   && !string.IsNullOrWhiteSpace(lines[end])
+                   && !OptionLinePattern().IsMatch(lines[end]))
+            {
+                end++;
+            }
+
+            if (RepeatableValuePattern().IsMatch(string.Join('\n', lines[index..end])))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static void ValidateOptionShapes(CliCommandDefinition command, string helpText)
@@ -724,7 +747,9 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <summary>
     /// Pattern to match option lines (e.g., "-f, --flag" or "--option").
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:-\w,\s*)?--[\w-]+", RegexOptions.Multiline)]
+    [GeneratedRegex(
+        @"^[ \t]*(?:-\w(?:[ \t]+[^,\s]+)?[ \t]*,[ \t]*)?--[\w-]+(?:[ \t]|,|$)",
+        RegexOptions.Multiline)]
     protected static partial Regex OptionLinePattern();
 
     [GeneratedRegex(

@@ -82,14 +82,30 @@ public class AnsibleCliScraperTests
         await Assert.That(GetOption(command, "--private-key").IsSecret).IsTrue();
     }
 
+    [Test]
+    public async Task ScrapeAsync_Validates_Only_The_Matching_Option_Entry()
+    {
+        var scraper = new TestAnsibleCliScraper(new StubExecutor(HelpText));
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var ansible = commands.Single();
+        await Assert.That(GetOption(ansible, "--become-password-file").AcceptsMultipleValues).IsFalse();
+        await Assert.That(GetOption(ansible, "--extra-vars").AcceptsMultipleValues).IsTrue();
+    }
+
     private static CliOptionDefinition GetOption(CliCommandDefinition command, string switchName) =>
         command.Options.Single(option => option.SwitchName == switchName);
 
     private sealed class TestAnsibleCliScraper : AnsibleCliScraper
     {
-        public TestAnsibleCliScraper()
+        public TestAnsibleCliScraper(ICliCommandExecutor? executor = null)
             : base(
-                new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
                 new HelpTextCache(NullLogger<HelpTextCache>.Instance),
                 NullLogger<AnsibleCliScraper>.Instance)
         {
@@ -97,5 +113,25 @@ public class AnsibleCliScraperTests
 
         public Task<CliCommandDefinition?> Parse(string helpText) =>
             ParseCommandAsync(["ansible"], helpText, CancellationToken.None);
+    }
+
+    private sealed class StubExecutor(string helpText) : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null) =>
+            Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = helpText,
+                StandardError = string.Empty,
+            });
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 }

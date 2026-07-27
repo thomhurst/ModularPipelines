@@ -58,6 +58,14 @@ public class CliScraperTraversalTests
     [Test]
     public async Task SharedTraversal_Fails_When_Declared_Group_Has_No_Children()
     {
+        const string emptyGroupHelp = """
+            Manage parent resources.
+
+            Usage:
+              fake parent <command>
+
+            Available Commands:
+            """;
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
             ["--help"] = """
@@ -69,18 +77,16 @@ public class CliScraperTraversalTests
                 Available Commands:
                   parent:  Manage parent resources
                 """,
-            ["parent --help"] = """
-                Manage parent resources.
-
-                Usage:
-                  fake parent <command>
-
-                Available Commands:
-                """,
+            ["parent --help"] = emptyGroupHelp,
         });
         var scraper = new TestCobraScraper(executor);
 
-        await Assert.That(() => ScrapeForExceptionAssertionAsync(scraper))
+        await Assert.That(scraper.DeclaresCommandGroup(emptyGroupHelp)).IsTrue();
+        await Assert.That(scraper.GetSubcommands(emptyGroupHelp)).IsEmpty();
+        await Assert.That(async () =>
+            {
+                await ScrapeAsync(scraper);
+            })
             .Throws<InvalidOperationException>()
             .And.HasMessageContaining("no child commands were extracted");
     }
@@ -107,9 +113,28 @@ public class CliScraperTraversalTests
         await Assert.That(tag.CSharpType).IsEqualTo("IEnumerable<string>?");
     }
 
-    private static async Task<IReadOnlyList<CliCommandDefinition>?> ScrapeForExceptionAssertionAsync(
-        ICliScraper scraper) =>
-        await ScrapeAsync(scraper);
+    [Test]
+    public async Task SharedTraversal_Skips_One_Invalid_Option_Shape()
+    {
+        const string helpText = """
+            Execute a command.
+
+            Usage:
+              fake [flags]
+
+            Flags:
+              --tag string   May be specified multiple times
+            """;
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = helpText,
+        });
+        var scraper = new ShapeMismatchScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands).IsEmpty();
+    }
 
     private static async Task<IReadOnlyList<CliCommandDefinition>> ScrapeAsync(ICliScraper scraper)
     {
@@ -144,6 +169,54 @@ public class CliScraperTraversalTests
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+
+        public bool DeclaresCommandGroup(string helpText) => HelpDeclaresCommandGroup(helpText);
+
+        public IReadOnlyList<string> GetSubcommands(string helpText) => ExtractSubcommands(helpText).ToList();
+    }
+
+    private sealed class ShapeMismatchScraper : CliScraperBase
+    {
+        public ShapeMismatchScraper(ICliCommandExecutor executor)
+            : base(
+                executor,
+                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+                NullLogger<ShapeMismatchScraper>.Instance)
+        {
+        }
+
+        public override string ToolName => "fake";
+
+        public override string NamespacePrefix => "Fake";
+
+        public override string TargetNamespace => "ModularPipelines.Fake";
+
+        public override string OutputDirectory => "src/ModularPipelines.Fake";
+
+        protected override IEnumerable<string> ExtractSubcommands(string helpText) => [];
+
+        protected override Task<CliCommandDefinition?> ParseCommandAsync(
+            string[] commandPath,
+            string helpText,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<CliCommandDefinition?>(new CliCommandDefinition
+            {
+                FullCommand = "fake",
+                CommandParts = [],
+                ClassName = "FakeOptions",
+                ParentClassName = "FakeOptions",
+                ToolNamespacePrefix = "Fake",
+                Options =
+                [
+                    new CliOptionDefinition
+                    {
+                        SwitchName = "--tag",
+                        PropertyName = "Tag",
+                        CSharpType = "string?",
+                        Description = "May be specified multiple times",
+                    },
+                ],
+            });
     }
 
     private sealed class StubExecutor(IReadOnlyDictionary<string, string> helpByArguments)
