@@ -60,5 +60,5 @@ methods:
 
 ```fsharp
 override _.DeclareDependencies(dependencies) =
-    dependencies.DependsOn<BuildModule>()
+    dependencies.DependsOn<BuildModule>() |> ignore
 ```
