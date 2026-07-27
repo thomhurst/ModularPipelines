@@ -183,6 +183,12 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
 
     var host = builder.Build();
 
+    DocumentationExampleCatalog.ValidateRegisteredTools(
+        host.Services.GetServices<ICliScraper>()
+            .Select(scraper => scraper.ToolName)
+            .Concat(host.Services.GetServices<ICliDocumentationScraper>()
+                .Select(scraper => scraper.ToolName)));
+
     var orchestrator = host.Services.GetRequiredService<CodeGeneratorOrchestrator>();
     var logger = host.Services.GetRequiredService<ILogger<Program>>();
 

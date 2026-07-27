@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 
@@ -33,8 +35,14 @@ public class MarkdownDocumentationGeneratorTests
                             IsRequired = true,
                         },
                     ],
+                    IsSafeForDocumentation = true,
+                    DocumentationExampleValues = new Dictionary<string, string>
+                    {
+                        ["Project"] = "\"sample.csproj\"",
+                    },
                 },
             ],
+            PreferredDocumentationExampleCommand = "fake-cli run",
         };
 
         var files = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
@@ -51,7 +59,7 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(files[0].Content).Contains("Task<CommandResult?> ExecuteAsync");
         await Assert.That(files[0].Content).Contains("return await context.Fake()");
         await Assert.That(files[0].Content).Contains("| `fake-cli run` | `FakeRunOptions` |");
-        await Assert.That(files[0].Content).Contains("new FakeRunOptions(\"value\")");
+        await Assert.That(files[0].Content).Contains("new FakeRunOptions(\"sample.csproj\")");
     }
 
     [Test]
@@ -112,6 +120,12 @@ public class MarkdownDocumentationGeneratorTests
                     IsRequired = true,
                 },
             ],
+            IsSafeForDocumentation = true,
+            DocumentationExampleValues = new Dictionary<string, string>
+            {
+                ["Target"] = "42",
+                ["Files"] = "[\"input.txt\"]",
+            },
         };
         var tool = new CliToolDefinition
         {
@@ -120,12 +134,13 @@ public class MarkdownDocumentationGeneratorTests
             TargetNamespace = "ModularPipelines.Fake",
             OutputDirectory = "src/ModularPipelines.Fake",
             Commands = [command],
+            PreferredDocumentationExampleCommand = "fake run",
         };
 
         var documentation = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
         var options = await new OptionsClassGenerator().GenerateAsync(tool);
 
-        await Assert.That(documentation[0].Content).Contains("new FakeRunOptions(1, [\"value\"])");
+        await Assert.That(documentation[0].Content).Contains("new FakeRunOptions(42, [\"input.txt\"])");
         await Assert.That(options[0].Content).Contains("int Target");
         await Assert.That(options[0].Content).Contains("IEnumerable<string> Files");
         await Assert.That(options[0].Content).DoesNotContain("string target");
@@ -142,14 +157,22 @@ public class MarkdownDocumentationGeneratorTests
             OutputDirectory = "src/ModularPipelines.Fake",
             Commands =
             [
-                Command("fake zeta", "FakeZetaOptions", ["zeta"]),
-                Command("fake alpha", "FakeAlphaOptions", ["alpha"]),
+                Command("fake zeta", "FakeZetaOptions", ["zeta"]) with
+                {
+                    IsSafeForDocumentation = true,
+                },
+                Command("fake alpha", "FakeAlphaOptions", ["alpha"]) with
+                {
+                    IsSafeForDocumentation = true,
+                },
             ],
+            PreferredDocumentationExampleCommand = "fake zeta",
         };
 
         var documentation = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
 
-        await Assert.That(documentation[0].Content).Contains("context.Fake().Alpha(");
+        await Assert.That(documentation[0].Content).Contains("context.Fake().Zeta(");
+        await Assert.That(documentation[0].Content).DoesNotContain("context.Fake().Alpha(");
     }
 
     [Test]
@@ -217,6 +240,374 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(documentation[0].Content)
             .Contains("| `fake enterprise` | Requires an enterprise license. |");
     }
+
+    [Test]
+    public async Task GenerateAsync_OmitsRunnableExampleWithoutQualifiedMetadata()
+    {
+        var tool = Tool("fake", Command("fake delete", "FakeDeleteOptions", ["delete"]));
+
+        var documentation = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
+
+        await Assert.That(documentation[0].Content)
+            .Contains("A runnable example is omitted when no command has complete safety metadata");
+        await Assert.That(documentation[0].Content).DoesNotContain("context.Fake().Delete(");
+    }
+
+    [Test]
+    public async Task GenerateAsync_RejectsMissingPreferredCommand()
+    {
+        var tool = Tool("fake", Command("fake run", "FakeRunOptions", ["run"])) with
+        {
+            PreferredDocumentationExampleCommand = "fake status",
+        };
+
+        void GenerateDocumentation() =>
+            _ = new MarkdownDocumentationGenerator().GenerateAsync(tool);
+
+        await Assert.That(GenerateDocumentation)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("'fake status' for 'fake' does not match an emitted command");
+    }
+
+    [Test]
+    public async Task Apply_RejectsCatalogCommandsMissingFromScraperOutput()
+    {
+        var tool = Tool(
+            "vault",
+            Command("vault state", "VaultStateOptions", ["state"]));
+
+        void ApplyCatalog() => DocumentationExampleCatalog.Apply(tool);
+
+        await Assert.That(ApplyCatalog)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(
+                "catalog for 'vault' references missing command(s): vault delete, vault status");
+    }
+
+    [Test]
+    public async Task ValidateRegisteredTools_CoversEveryRegisteredCli()
+    {
+        var registeredTools = new[]
+        {
+            "ansible", "argocd", "aws", "az", "brew", "buildah", "cargo", "choco",
+            "cosign", "docker", "dotnet", "eksctl", "flux", "flyway", "gcloud", "gh",
+            "git", "go", "gradle", "grype", "hadolint", "helm", "jq", "kind", "kubectl",
+            "kustomize", "liquibase", "minikube", "mvn", "newman", "packer", "pip", "pnpm",
+            "podman", "pulumi", "shellcheck", "skopeo", "snyk", "sonar-scanner", "syft",
+            "terraform", "trivy", "vault", "winget", "yarn", "yq",
+        };
+
+        void ValidateCatalog() =>
+            DocumentationExampleCatalog.ValidateRegisteredTools(registeredTools);
+
+        await Assert.That(ValidateCatalog).ThrowsNothing();
+    }
+
+    [Test]
+    public async Task ValidateRegisteredTools_RejectsUnclassifiedCli()
+    {
+        void ValidateCatalog() =>
+            DocumentationExampleCatalog.ValidateRegisteredTools(["unclassified"]);
+
+        await Assert.That(ValidateCatalog)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("unclassified");
+    }
+
+    [Test]
+    public async Task GenerateAsync_EnforcesIntentionalCatalogOmission()
+    {
+        var tool = Tool(
+            "docker",
+            Command("docker version", "DockerVersionOptions", ["version"]) with
+            {
+                IsSafeForDocumentation = true,
+            }) with
+        {
+            PreferredDocumentationExampleCommand = "docker version",
+        };
+
+        var documentation = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
+
+        await Assert.That(documentation[0].Content)
+            .Contains("A runnable example is omitted when no command has complete safety metadata");
+        await Assert.That(documentation[0].Content)
+            .DoesNotContain("context.Fake().Version(");
+    }
+
+    [Test]
+    public async Task GenerateAsync_RejectsIncompleteExampleValues()
+    {
+        var command = Command("fake run", "FakeRunOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--project",
+                    PropertyName = "Project",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+            ],
+            IsSafeForDocumentation = true,
+        };
+        var tool = Tool("fake", command) with
+        {
+            PreferredDocumentationExampleCommand = "fake run",
+        };
+
+        void GenerateDocumentation() =>
+            _ = new MarkdownDocumentationGenerator().GenerateAsync(tool);
+
+        await Assert.That(GenerateDocumentation)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("required property 'Project' has no sample value");
+    }
+
+    [Test]
+    public async Task GenerateAsync_UsesCuratedSafeRegressionExamples()
+    {
+        var ansible = Tool(
+            "ansible",
+            Command("ansible", "AnsibleExecuteOptions", []) with
+            {
+                Options =
+                [
+                    Option("--list-hosts", "ListHosts", "bool?"),
+                ],
+                PositionalArguments =
+                [
+                    Positional("Pattern", "string", isRequired: true),
+                ],
+            });
+        var buildah = Tool(
+            "buildah",
+            Command("buildah add", "BuildahAddOptions", ["add"]),
+            Command("buildah containers", "BuildahContainersOptions", ["containers"]));
+        var jq = Tool(
+            "jq",
+            Command("jq", "JqExecuteOptions", []) with
+            {
+                PositionalArguments =
+                [
+                    Positional("Filter", "string?"),
+                    Positional("InputFiles", "IEnumerable<string>?"),
+                ],
+            });
+        var newman = Tool(
+            "newman",
+            Command("newman URL", "NewmanUrlOptions", ["URL"]),
+            Command("newman run", "NewmanRunOptions", ["run"]) with
+            {
+                PositionalArguments =
+                [
+                    Positional("Collection", "string", isRequired: true),
+                ],
+            });
+        var packer = Tool(
+            "packer",
+            Command("packer console", "PackerConsoleOptions", ["console"]));
+        var vault = Tool(
+            "vault",
+            Command("vault delete", "VaultDeleteOptions", ["delete"]),
+            Command("vault status", "VaultStatusOptions", ["status"]));
+
+        var generator = new MarkdownDocumentationGenerator();
+        var ansibleDocumentation = (await generator.GenerateAsync(ansible))[0].Content;
+        var buildahDocumentation = (await generator.GenerateAsync(buildah))[0].Content;
+        var jqDocumentation = (await generator.GenerateAsync(jq))[0].Content;
+        var newmanDocumentation = (await generator.GenerateAsync(newman))[0].Content;
+        var packerDocumentation = (await generator.GenerateAsync(packer))[0].Content;
+        var vaultDocumentation = (await generator.GenerateAsync(vault))[0].Content;
+
+        await Assert.That(ansibleDocumentation).Contains("new AnsibleExecuteOptions(\"localhost\")");
+        await Assert.That(ansibleDocumentation).Contains("ListHosts = true");
+        await Assert.That(buildahDocumentation).Contains("context.Fake().Containers(");
+        await Assert.That(buildahDocumentation).DoesNotContain("context.Fake().Add(");
+        await Assert.That(jqDocumentation).Contains("Filter = \".\"");
+        await Assert.That(jqDocumentation).Contains("InputFiles = [\"input.json\"]");
+        await Assert.That(newmanDocumentation)
+            .Contains("A runnable example is omitted when no command has complete safety metadata");
+        await Assert.That(newmanDocumentation).DoesNotContain("context.Fake().Run(");
+        await Assert.That(newmanDocumentation).DoesNotContain("context.Fake().Url(");
+        await Assert.That(packerDocumentation).DoesNotContain("context.Fake().Console(");
+        await Assert.That(vaultDocumentation).Contains("context.Fake().Status(");
+        await Assert.That(vaultDocumentation).DoesNotContain("context.Fake().Delete(");
+
+        foreach (var tool in new[] { ansible, buildah, jq, vault })
+        {
+            await AssertDocumentationExampleCompiles(tool);
+        }
+    }
+
+    private static async Task AssertDocumentationExampleCompiles(CliToolDefinition tool)
+    {
+        var preparedTool = DocumentationExampleCatalog.Apply(tool);
+        var command = preparedTool.Commands.Single(candidate => string.Equals(
+            candidate.FullCommand,
+            preparedTool.PreferredDocumentationExampleCommand,
+            StringComparison.OrdinalIgnoreCase));
+        var documentation = (await new MarkdownDocumentationGenerator().GenerateAsync(tool))[0].Content;
+        var example = ExtractCSharpExample(documentation);
+        var stubs = GenerateCompilationStubs(preparedTool, command);
+        var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
+            .Split(Path.PathSeparator)
+            .Select(path => MetadataReference.CreateFromFile(path));
+        var compilation = CSharpCompilation.Create(
+            $"{tool.ToolName}-documentation-example",
+            [
+                CSharpSyntaxTree.ParseText(
+                    "global using System;\n"
+                    + "global using System.Collections.Generic;\n"
+                    + "global using System.Threading;\n"
+                    + "global using System.Threading.Tasks;"),
+                CSharpSyntaxTree.ParseText(stubs),
+                CSharpSyntaxTree.ParseText(example),
+            ],
+            references,
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        var errors = compilation.GetDiagnostics()
+            .Where(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error)
+            .Select(diagnostic => diagnostic.ToString())
+            .ToArray();
+
+        await Assert.That(errors).IsEmpty();
+    }
+
+    private static string ExtractCSharpExample(string documentation)
+    {
+        const string openingFence = "```csharp\n";
+        const string closingFence = "```";
+        var normalizedDocumentation = documentation.ReplaceLineEndings("\n");
+        var start = normalizedDocumentation.IndexOf(openingFence, StringComparison.Ordinal);
+        if (start < 0)
+        {
+            throw new InvalidOperationException("Documentation has no C# example.");
+        }
+
+        start += openingFence.Length;
+        var end = normalizedDocumentation.IndexOf(closingFence, start, StringComparison.Ordinal);
+        if (end < 0)
+        {
+            throw new InvalidOperationException("Documentation example fence is not closed.");
+        }
+
+        return normalizedDocumentation[start..end];
+    }
+
+    private static string GenerateCompilationStubs(
+        CliToolDefinition tool,
+        CliCommandDefinition command)
+    {
+        var requiredParameters = GeneratorUtils.GetRequiredConstructorParameters(command);
+        var requiredNames = requiredParameters
+            .Select(parameter => parameter.PropertyName)
+            .ToHashSet(StringComparer.Ordinal);
+        var properties = command.Options
+            .Select(option => (option.PropertyName, option.CSharpType))
+            .Concat(CliPositionalArgument.MergeDuplicates(command.PositionalArguments)
+                .Select(argument => (argument.PropertyName, argument.CSharpType)))
+            .DistinctBy(property => property.PropertyName, StringComparer.Ordinal)
+            .Where(property => !requiredNames.Contains(property.PropertyName))
+            .ToArray();
+        var constructor = requiredParameters.Count == 0
+            ? string.Empty
+            : $"({string.Join(", ", requiredParameters.Select(parameter => $"{parameter.CSharpType} {parameter.PropertyName}"))})";
+        var propertyDeclarations = string.Join(
+            Environment.NewLine,
+            properties.Select(property =>
+                $"        public {property.CSharpType} {property.PropertyName} {{ get; set; }}"));
+        var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
+
+        return $$"""
+            #nullable enable
+
+            namespace ModularPipelines.Context
+            {
+                public interface IModuleContext
+                {
+                }
+            }
+
+            namespace ModularPipelines.Models
+            {
+                public sealed class CommandResult
+                {
+                }
+            }
+
+            namespace ModularPipelines.Modules
+            {
+                public abstract class Module<T>
+                {
+                    protected abstract Task<T?> ExecuteAsync(
+                        ModularPipelines.Context.IModuleContext context,
+                        CancellationToken cancellationToken);
+                }
+            }
+
+            namespace {{tool.TargetNamespace}}.Options
+            {
+                public record {{command.ClassName}}{{constructor}}
+                {
+            {{propertyDeclarations}}
+                }
+            }
+
+            namespace {{tool.TargetNamespace}}.Extensions
+            {
+                using ModularPipelines.Context;
+                using ModularPipelines.Models;
+                using {{tool.TargetNamespace}}.Options;
+
+                public interface I{{tool.NamespacePrefix}}Service
+                {
+                    Task<CommandResult?> {{methodName}}(
+                        {{command.ClassName}} options,
+                        CancellationToken cancellationToken = default);
+                }
+
+                public static class {{tool.NamespacePrefix}}Extensions
+                {
+                    public static I{{tool.NamespacePrefix}}Service {{tool.NamespacePrefix}}(
+                        this IModuleContext context) =>
+                        throw new NotImplementedException();
+                }
+            }
+            """;
+    }
+
+    private static CliToolDefinition Tool(
+        string toolName,
+        params CliCommandDefinition[] commands) => new()
+        {
+            ToolName = toolName,
+            NamespacePrefix = "Fake",
+            TargetNamespace = "ModularPipelines.Fake",
+            OutputDirectory = "src/ModularPipelines.Fake",
+            Commands = commands,
+        };
+
+    private static CliOptionDefinition Option(
+        string switchName,
+        string propertyName,
+        string cSharpType) => new()
+        {
+            SwitchName = switchName,
+            PropertyName = propertyName,
+            CSharpType = cSharpType,
+        };
+
+    private static CliPositionalArgument Positional(
+        string propertyName,
+        string cSharpType,
+        bool isRequired = false) => new()
+        {
+            PropertyName = propertyName,
+            CSharpType = cSharpType,
+            IsRequired = isRequired,
+        };
 
     private static CliCommandDefinition Command(
         string fullCommand,

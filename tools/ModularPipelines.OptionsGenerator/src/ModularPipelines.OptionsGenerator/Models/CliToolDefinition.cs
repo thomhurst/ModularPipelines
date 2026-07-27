@@ -57,6 +57,11 @@ public record CliToolDefinition
     public IReadOnlyList<CliOptionDefinition> GetGlobalOptions() =>
         CliGlobalOptionMerger.Merge(GlobalOptions, SupplementalGlobalOptions);
 
+    /// Full command name selected for the runnable documentation example.
+    /// A missing value deliberately omits the runnable example.
+    /// </summary>
+    public string? PreferredDocumentationExampleCommand { get; init; }
+
     /// <summary>
     /// Sub-domain groups for organizing commands (e.g., "Container", "Image" for Docker).
     /// </summary>
