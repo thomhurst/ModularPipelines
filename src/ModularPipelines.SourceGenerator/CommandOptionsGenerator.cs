@@ -19,6 +19,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     internal const string CliGlobalOptionsAttributeFullName = "ModularPipelines.Attributes.CliGlobalOptionsAttribute";
     internal const string SecretValueAttributeFullName = "ModularPipelines.Attributes.SecretValueAttribute";
 
+    // Keep synchronized with CommandLinePhase.Passthrough; GeneratedRuntimeMetadataTests guards the ordinal.
     private const int PassthroughCommandLinePhase = 3;
 
     public void Initialize(IncrementalGeneratorInitializationContext context)

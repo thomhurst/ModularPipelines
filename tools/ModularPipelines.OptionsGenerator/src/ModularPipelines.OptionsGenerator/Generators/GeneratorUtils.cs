@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
@@ -328,9 +329,9 @@ public static partial class GeneratorUtils
             optionParts.Add("AllowMultiple = true");
         }
 
-        if (option.ValueArity == CliOptionValueArity.Optional)
+        if (option.ValueArity != CliOptionValueArity.Required)
         {
-            optionParts.Add("ValueArity = CliOptionValueArity.Optional");
+            optionParts.Add($"ValueArity = CliOptionValueArity.{option.ValueArity}");
         }
 
         if (option.Phase != CommandLinePhase.Normal)

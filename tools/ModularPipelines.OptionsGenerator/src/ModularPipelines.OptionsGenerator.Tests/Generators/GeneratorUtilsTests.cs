@@ -1,4 +1,5 @@
 using System.Text;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 
@@ -392,6 +393,23 @@ public class GeneratorUtilsTests
         await Assert.That(result).IsEqualTo(
             "CliOption(\"--run-tests\", ValueArity = CliOptionValueArity.Optional, " +
             "Phase = CommandLinePhase.Terminal)");
+    }
+
+    [Test]
+    public async Task GenerateCliAttributeString_Includes_NoneArity_For_Option()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--valueless",
+            PropertyName = "Valueless",
+            CSharpType = "string?",
+            ValueArity = CliOptionValueArity.None,
+        };
+
+        var result = GeneratorUtils.GenerateCliAttributeString(option);
+
+        await Assert.That(result).IsEqualTo(
+            "CliOption(\"--valueless\", ValueArity = CliOptionValueArity.None)");
     }
 
     [Test]

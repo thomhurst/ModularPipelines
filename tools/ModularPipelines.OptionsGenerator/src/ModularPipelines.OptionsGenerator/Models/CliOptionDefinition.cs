@@ -1,3 +1,5 @@
+using ModularPipelines.Attributes;
+
 namespace ModularPipelines.OptionsGenerator.Models;
 
 /// <summary>
@@ -130,27 +132,6 @@ public enum OptionAttributeType
     CommandSwitch,
     BooleanCommandSwitch,
     CommandEqualsSeparatorSwitch
-}
-
-/// <summary>
-/// Value arity for a generated CLI option.
-/// </summary>
-public enum CliOptionValueArity
-{
-    Required,
-    Optional,
-    None,
-}
-
-/// <summary>
-/// Semantic command-line rendering phases.
-/// </summary>
-public enum CommandLinePhase
-{
-    Normal,
-    Terminal,
-    EndOfOptions,
-    Passthrough,
 }
 
 /// <summary>
