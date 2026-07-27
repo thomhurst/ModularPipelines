@@ -27,6 +27,14 @@ The next build creates the provider's conventional file:
 The generated job installs .NET and runs the pipeline project in Release
 configuration. Commit the generated YAML to the repository.
 
+## Azure Repos pull request validation
+
+Azure Repos Git does not support YAML `pr` triggers. After creating the Azure
+Pipeline, configure it as an automatic **Build validation** branch policy for
+the target branch. The generated `pr` block applies only when Azure Pipelines
+builds a GitHub or Bitbucket Cloud repository. See
+[Set build validation](https://learn.microsoft.com/azure/devops/repos/git/branch-policies?view=azure-devops#set-build-validation).
+
 ## Pipeline projects below the repository root
 
 Generation defaults to the directory containing the pipeline project. If that

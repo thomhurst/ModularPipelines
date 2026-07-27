@@ -121,6 +121,8 @@ modular-pipelines:
       <_ModularPipelinesAzurePipeline><![CDATA[trigger:
   - "$(_ModularPipelinesYamlBranch)"
 
+# YAML PR triggers apply to GitHub and Bitbucket Cloud repositories.
+# Azure Repos Git requires a Build Validation branch policy instead.
 pr:
   - "$(_ModularPipelinesYamlBranch)"
 
