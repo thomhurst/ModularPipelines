@@ -300,7 +300,12 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     public IModuleOutputBuffer GetUnattributedBuffer() => _unattributedBuffer;
 
     /// <inheritdoc />
-    public async Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync()
+    public Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync()
+    {
+        return FlushPendingWritesAsync(isFinal: true);
+    }
+
+    private async Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync(bool isFinal)
     {
         var populatedBeforeFlush = _moduleBuffers.Values
             .Where(buffer => buffer.HasOutput)
@@ -316,12 +321,12 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
         if (output is not null)
         {
-            await output.FlushAsync().ConfigureAwait(false);
+            await FlushWriterAsync(output, isFinal).ConfigureAwait(false);
         }
 
         if (error is not null && !ReferenceEquals(error, output))
         {
-            await error.FlushAsync().ConfigureAwait(false);
+            await FlushWriterAsync(error, isFinal).ConfigureAwait(false);
         }
 
         return _moduleBuffers.Values
@@ -333,7 +338,15 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     /// <inheritdoc />
     public async Task FlushInProgressModuleOutputAsync(CancellationToken cancellationToken = default)
     {
-        await FlushPendingWritesAsync().ConfigureAwait(false);
+        var newlyPopulatedBuffers = await FlushPendingWritesAsync(isFinal: false).ConfigureAwait(false);
+
+        foreach (var buffer in newlyPopulatedBuffers.Where(buffer => buffer.IsComplete))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await _outputCoordinator
+                .OnModuleCompletedAsync(buffer, buffer.ModuleType, cancellationToken)
+                .ConfigureAwait(false);
+        }
 
         var buffers = _moduleBuffers.Values
             .Where(buffer => !buffer.IsComplete && buffer.HasOutput)
@@ -347,6 +360,13 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 .EnqueueAndFlushIncrementalAsync(buffer, cancellationToken)
                 .ConfigureAwait(false);
         }
+    }
+
+    private static Task FlushWriterAsync(CoordinatedTextWriter writer, bool isFinal)
+    {
+        return isFinal
+            ? writer.FlushAsync()
+            : writer.FlushAvailableAsync();
     }
 
     /// <inheritdoc />
