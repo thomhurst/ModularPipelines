@@ -32,11 +32,18 @@ var enhanceTypesOption = new Option<bool>("--enhance-types")
     DefaultValueFactory = _ => true
 };
 
+var approveCommandCoverageShrinkageOption = new Option<bool>("--approve-command-coverage-shrinkage")
+{
+    Description = "Explicitly approve removed commands and command groups losing all children. Sentinel and minimum coverage checks still apply.",
+    DefaultValueFactory = _ => false
+};
+
 var rootCommand = new RootCommand("ModularPipelines CLI Options Generator");
 rootCommand.Options.Add(toolsOption);
 rootCommand.Options.Add(outputOption);
 rootCommand.Options.Add(useCliFirstOption);
 rootCommand.Options.Add(enhanceTypesOption);
+rootCommand.Options.Add(approveCommandCoverageShrinkageOption);
 
 rootCommand.SetAction(async (parseResult, cancellationToken) =>
 {
@@ -44,6 +51,7 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     var outputDir = parseResult.GetValue(outputOption) ?? ".";
     var useCliFirst = parseResult.GetValue(useCliFirstOption);
     var enhanceTypes = parseResult.GetValue(enhanceTypesOption);
+    var approveCommandCoverageShrinkage = parseResult.GetValue(approveCommandCoverageShrinkageOption);
 
     var builder = Host.CreateApplicationBuilder();
 
@@ -183,8 +191,15 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     logger.LogInformation("Output directory: {OutputDir}", Path.GetFullPath(outputDir));
     logger.LogInformation("CLI-first scraping: {UseCliFirst}", useCliFirst ? "Enabled" : "Disabled");
     logger.LogInformation("Type enhancement: {EnhanceTypes}", enhanceTypes ? "Enabled" : "Disabled");
+    logger.LogInformation(
+        "Command coverage shrinkage approval: {Approval}",
+        approveCommandCoverageShrinkage ? "Enabled" : "Disabled");
 
-    var result = await orchestrator.GenerateAsync(tools, outputDir, useCliFirst);
+    var result = await orchestrator.GenerateAsync(
+        tools,
+        outputDir,
+        useCliFirst,
+        approveCommandCoverageShrinkage);
 
     Console.WriteLine(result.GetSummary());
 

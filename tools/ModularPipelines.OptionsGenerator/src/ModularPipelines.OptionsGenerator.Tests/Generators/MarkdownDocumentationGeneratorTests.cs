@@ -188,6 +188,36 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(documentation[0].Content).Contains("rendered before the selected subcommand");
     }
 
+    [Test]
+    public async Task GenerateAsync_DocumentsMachineReadableCoverageExclusions()
+    {
+        var tool = new CliToolDefinition
+        {
+            ToolName = "fake",
+            NamespacePrefix = "Fake",
+            TargetNamespace = "ModularPipelines.Fake",
+            OutputDirectory = "src/ModularPipelines.Fake",
+            Commands = [Command("fake run", "FakeRunOptions", ["run"])],
+            CommandCoverage = new CliCommandCoveragePolicy
+            {
+                Exclusions =
+                [
+                    new CliCommandCoverageExclusion
+                    {
+                        Command = "fake enterprise",
+                        Reason = "Requires an enterprise license.",
+                    },
+                ],
+            },
+        };
+
+        var documentation = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
+
+        await Assert.That(documentation[0].Content).Contains("## Intentionally excluded commands");
+        await Assert.That(documentation[0].Content)
+            .Contains("| `fake enterprise` | Requires an enterprise license. |");
+    }
+
     private static CliCommandDefinition Command(
         string fullCommand,
         string className,

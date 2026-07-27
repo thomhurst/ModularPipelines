@@ -60,6 +60,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine();
         AppendExample(sb, tool);
         AppendGlobalOptions(sb, tool);
+        AppendCoverageExclusions(sb, tool);
         sb.AppendLine("## Commands");
         sb.AppendLine();
         sb.AppendLine("| CLI command | Options record |");
@@ -95,6 +96,28 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                 : $"[`{EscapeTableCell(option.SwitchName)}`]({option.DocumentationUrl})";
             sb.AppendLine(
                 $"| {optionName} | `{EscapeTableCell(option.PropertyName)}` | {EscapeTableCell(option.Availability ?? "All editions")} | {EscapeTableCell(option.Description ?? string.Empty)} |");
+        }
+
+        sb.AppendLine();
+    }
+
+    private static void AppendCoverageExclusions(StringBuilder sb, CliToolDefinition tool)
+    {
+        if (tool.CommandCoverage.Exclusions.Count == 0)
+        {
+            return;
+        }
+
+        sb.AppendLine("## Intentionally excluded commands");
+        sb.AppendLine();
+        sb.AppendLine("| CLI command | Reason |");
+        sb.AppendLine("| --- | --- |");
+
+        foreach (var exclusion in tool.CommandCoverage.Exclusions
+                     .OrderBy(item => item.Command, StringComparer.OrdinalIgnoreCase))
+        {
+            sb.AppendLine(
+                $"| `{EscapeTableCell(exclusion.Command)}` | {EscapeTableCell(exclusion.Reason)} |");
         }
 
         sb.AppendLine();

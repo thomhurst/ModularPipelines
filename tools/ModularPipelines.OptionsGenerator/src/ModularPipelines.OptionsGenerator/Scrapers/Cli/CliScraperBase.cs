@@ -69,6 +69,11 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual string BaseOptionsClassName => $"{NamespacePrefix}Options";
 
     /// <summary>
+    /// Arguments used to query the installed CLI version.
+    /// </summary>
+    protected virtual string VersionArguments => "--version";
+
+    /// <summary>
     /// Converts a CLI command segment into its generated C# identifier.
     /// Override for tool-specific compound names that cannot be inferred from separators.
     /// </summary>
@@ -138,6 +143,27 @@ public abstract partial class CliScraperBase : ICliScraper
     public virtual async Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default)
     {
         return await Executor.IsAvailableAsync(ExecutablePath, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<string?> GetVersionAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var result = await Executor.ExecuteAsync(ExecutablePath, VersionArguments, cancellationToken);
+            var version = result.CombinedOutput.ReplaceLineEndings(" ").Trim();
+            return version.Length switch
+            {
+                0 => null,
+                > 500 => version[..500],
+                _ => version,
+            };
+        }
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        {
+            Logger.LogWarning(ex, "Could not determine installed {Tool} version", ToolName);
+            return null;
+        }
     }
 
     /// <summary>

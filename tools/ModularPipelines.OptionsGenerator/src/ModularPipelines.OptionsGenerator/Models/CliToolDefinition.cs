@@ -31,6 +31,16 @@ public record CliToolDefinition
     public required IReadOnlyList<CliCommandDefinition> Commands { get; init; }
 
     /// <summary>
+    /// Version reported by the installed CLI, when available.
+    /// </summary>
+    public string? ToolVersion { get; init; }
+
+    /// <summary>
+    /// Tool-specific invariants used by the shared command coverage guard.
+    /// </summary>
+    public CliCommandCoveragePolicy CommandCoverage { get; init; } = new();
+
+    /// <summary>
     /// Global options that apply to all commands.
     /// </summary>
     public IReadOnlyList<CliOptionDefinition> GlobalOptions { get; init; } = [];
@@ -77,6 +87,43 @@ public record CliToolDefinition
     /// Any scraping errors encountered.
     /// </summary>
     public IReadOnlyList<ScrapingError> Errors { get; init; } = [];
+}
+
+/// <summary>
+/// Configures command coverage invariants for a CLI tool.
+/// </summary>
+public record CliCommandCoveragePolicy
+{
+    /// <summary>
+    /// Minimum number of distinct commands that a successful scrape must contain.
+    /// </summary>
+    public int? MinimumCommandCount { get; init; }
+
+    /// <summary>
+    /// Commands that must remain discoverable unless they have a documented exclusion.
+    /// </summary>
+    public IReadOnlyList<string> SentinelCommands { get; init; } = [];
+
+    /// <summary>
+    /// Commands intentionally omitted from generation, with machine-readable reasons.
+    /// </summary>
+    public IReadOnlyList<CliCommandCoverageExclusion> Exclusions { get; init; } = [];
+}
+
+/// <summary>
+/// Documents why a command is intentionally excluded from generated output.
+/// </summary>
+public record CliCommandCoverageExclusion
+{
+    /// <summary>
+    /// Full CLI command path.
+    /// </summary>
+    public required string Command { get; init; }
+
+    /// <summary>
+    /// Human-readable reason, such as edition, licensing, or unsupported syntax.
+    /// </summary>
+    public required string Reason { get; init; }
 }
 
 /// <summary>
