@@ -1,4 +1,4 @@
-# Solutions restored and built by CI and BuildSolutionsModule.
+  # Solutions restored and built by CI and BuildSolutionsModule.
 ModularPipelines.Analyzers.sln
 ModularPipelines.All.sln
 ModularPipelines.Examples.sln

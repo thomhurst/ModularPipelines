@@ -91,7 +91,7 @@ jobs:
           do
             [[ -z "$SOLUTION" || "$SOLUTION" == \#* ]] && continue
             dotnet restore "$SOLUTION"
-          done < BuildSolutions.txt
+          done < <(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' BuildSolutions.txt)
 
       - name: Build solutions
         shell: bash
@@ -111,7 +111,7 @@ jobs:
             echo "::group::Build $SOLUTION"
             dotnet build "$SOLUTION" -c Release --no-restore
             echo "::endgroup::"
-          done < BuildSolutions.txt
+          done < <(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' BuildSolutions.txt)
 
       - name: Run Pipeline
         run: dotnet run -c Release --framework net10.0
