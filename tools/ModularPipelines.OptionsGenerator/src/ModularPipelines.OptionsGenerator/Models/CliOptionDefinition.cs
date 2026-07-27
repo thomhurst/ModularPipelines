@@ -51,6 +51,16 @@ public record CliOptionDefinition
     public bool IsFlag { get; init; }
 
     /// <summary>
+    /// Whether a value is required, optional, or absent.
+    /// </summary>
+    public CliOptionValueArity ValueArity { get; init; } = CliOptionValueArity.Required;
+
+    /// <summary>
+    /// Semantic rendering phase for this option.
+    /// </summary>
+    public CommandLinePhase Phase { get; init; } = CommandLinePhase.Normal;
+
+    /// <summary>
     /// Whether the option is required.
     /// </summary>
     public bool IsRequired { get; init; }
@@ -120,6 +130,27 @@ public enum OptionAttributeType
     CommandSwitch,
     BooleanCommandSwitch,
     CommandEqualsSeparatorSwitch
+}
+
+/// <summary>
+/// Value arity for a generated CLI option.
+/// </summary>
+public enum CliOptionValueArity
+{
+    Required,
+    Optional,
+    None,
+}
+
+/// <summary>
+/// Semantic command-line rendering phases.
+/// </summary>
+public enum CommandLinePhase
+{
+    Normal,
+    Terminal,
+    EndOfOptions,
+    Passthrough,
 }
 
 /// <summary>

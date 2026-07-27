@@ -19,6 +19,7 @@ namespace ModularPipelines.Jq.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("jq")]
+[CliGlobalOptions]
 public abstract record JqOptions : CommandLineToolOptions
 {
 }

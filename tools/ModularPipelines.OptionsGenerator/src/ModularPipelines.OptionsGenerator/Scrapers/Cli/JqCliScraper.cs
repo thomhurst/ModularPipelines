@@ -223,9 +223,11 @@ public partial class JqCliScraper : CliScraperBase
         {
             SwitchName = "--run-tests",
             PropertyName = "RunTests",
-            CSharpType = "bool?",
-            Description = "Run jq tests from standard input",
-            IsFlag = true
+            CSharpType = "string?",
+            Description = "Run jq tests from standard input or the specified file",
+            IsFlag = false,
+            ValueArity = CliOptionValueArity.Optional,
+            Phase = CommandLinePhase.Terminal
         });
 
         // jq's Linux help omits this Windows-supported option.
@@ -240,15 +242,6 @@ public partial class JqCliScraper : CliScraperBase
             IsFlag = true
         });
 
-        options.Add(new CliOptionDefinition
-        {
-            SwitchName = "--run-tests",
-            PropertyName = "RunTestsFile",
-            CSharpType = "string?",
-            Description = "Run jq tests from the specified file",
-            IsFlag = false
-        });
-
         // jq -h omits the POSIX end-of-options marker documented by its manual.
         options.Add(new CliOptionDefinition
         {
@@ -256,7 +249,9 @@ public partial class JqCliScraper : CliScraperBase
             PropertyName = "EndOfOptions",
             CSharpType = "bool?",
             Description = "Stop processing options so filters beginning with a dash are treated as positional arguments",
-            IsFlag = true
+            IsFlag = true,
+            ValueArity = CliOptionValueArity.None,
+            Phase = CommandLinePhase.EndOfOptions
         });
     }
 

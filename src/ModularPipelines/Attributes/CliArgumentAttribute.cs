@@ -42,6 +42,12 @@ public sealed class CliArgumentAttribute : Attribute
     public string? Name { get; set; }
 
     /// <summary>
+    /// Gets or sets the semantic phase used to order this argument.
+    /// Positional arguments default to the pass-through phase after option parsing.
+    /// </summary>
+    public CommandLinePhase Phase { get; set; } = CommandLinePhase.Passthrough;
+
+    /// <summary>
     /// Initialises a new instance of the <see cref="CliArgumentAttribute"/> class.
     /// Initializes a new instance of the <see cref="CliArgumentAttribute"/> class with default position 0.
     /// </summary>

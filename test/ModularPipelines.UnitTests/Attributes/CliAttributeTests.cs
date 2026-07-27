@@ -111,6 +111,7 @@ public class CliAttributeTests
         var attribute = new CliArgumentAttribute(0);
 
         await Assert.That(attribute.Placement).IsEqualTo(ArgumentPlacement.AfterOptions);
+        await Assert.That(attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
     }
 
     [Test]
@@ -182,6 +183,60 @@ public class CliAttributeTests
         var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(new[] { "--values", "file1.yaml", "--values", "file2.yaml" });
+    }
+
+    [Test]
+    public async Task Parser_Renders_Bare_OptionalValue_Option()
+    {
+        var options = new TestCliOptionsWithSemanticPhases
+        {
+            Normal = true,
+            Terminal = string.Empty,
+            EndOfOptions = true,
+            Passthrough = "input.txt",
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--normal", "--terminal", "--", "input.txt"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Renders_OptionalValue_And_Orders_By_Semantic_Phase()
+    {
+        var options = new TestCliOptionsWithSemanticPhases
+        {
+            Normal = true,
+            Terminal = "tests.txt",
+            EndOfOptions = true,
+            Passthrough = "input.txt",
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--normal", "--terminal", "tests.txt", "--", "input.txt"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Renders_None_Arity_Option_Without_Value()
+    {
+        var list = BuildArguments(new TestCliOptionsWithSemanticPhases
+        {
+            Valueless = true,
+        });
+
+        await Assert.That(list).IsEquivalentTo(["--valueless"]);
+    }
+
+    [Test]
+    public async Task CommandModel_Rejects_Duplicate_Switches()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithDuplicateSwitch()))
+            .Throws<InvalidOperationException>();
     }
 
     [Test]
@@ -283,6 +338,36 @@ public class CliAttributeTests
     {
         [CliOption("--values", AllowMultiple = true)]
         public string[]? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithSemanticPhases
+    {
+        [CliFlag("--", Phase = CommandLinePhase.EndOfOptions)]
+        public bool? EndOfOptions { get; set; }
+
+        [CliOption(
+            "--terminal",
+            ValueArity = CliOptionValueArity.Optional,
+            Phase = CommandLinePhase.Terminal)]
+        public string? Terminal { get; set; }
+
+        [CliArgument(0)]
+        public string? Passthrough { get; set; }
+
+        [CliFlag("--normal")]
+        public bool? Normal { get; set; }
+
+        [CliOption("--valueless", ValueArity = CliOptionValueArity.None)]
+        public bool? Valueless { get; set; }
+    }
+
+    private record TestCliOptionsWithDuplicateSwitch
+    {
+        [CliFlag("--duplicate")]
+        public bool? First { get; set; }
+
+        [CliOption("--duplicate")]
+        public string? Second { get; set; }
     }
 
     private record TestCliOptionsWithArgumentAfterOptions

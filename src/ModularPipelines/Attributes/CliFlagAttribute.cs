@@ -40,6 +40,11 @@ public sealed class CliFlagAttribute : Attribute
     public bool PreferShortForm { get; set; }
 
     /// <summary>
+    /// Gets or sets the semantic phase used to order this flag.
+    /// </summary>
+    public CommandLinePhase Phase { get; set; } = CommandLinePhase.Normal;
+
+    /// <summary>
     /// Initialises a new instance of the <see cref="CliFlagAttribute"/> class.
     /// Initializes a new instance of the <see cref="CliFlagAttribute"/> class.
     /// </summary>

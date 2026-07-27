@@ -280,6 +280,11 @@ public static partial class GeneratorUtils
                 parts.Add("PreferShortForm = true");
             }
 
+            if (option.Phase != CommandLinePhase.Normal)
+            {
+                parts.Add($"Phase = CommandLinePhase.{option.Phase}");
+            }
+
             return $"CliFlag({string.Join(", ", parts)})";
         }
 
@@ -316,6 +321,16 @@ public static partial class GeneratorUtils
         if (option.AcceptsMultipleValues)
         {
             optionParts.Add("AllowMultiple = true");
+        }
+
+        if (option.ValueArity == CliOptionValueArity.Optional)
+        {
+            optionParts.Add("ValueArity = CliOptionValueArity.Optional");
+        }
+
+        if (option.Phase != CommandLinePhase.Normal)
+        {
+            optionParts.Add($"Phase = CommandLinePhase.{option.Phase}");
         }
 
         return $"CliOption({string.Join(", ", optionParts)})";

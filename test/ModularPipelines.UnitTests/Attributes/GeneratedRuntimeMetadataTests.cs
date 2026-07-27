@@ -15,7 +15,12 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
     [CliFlag("--verbose", ShortForm = "-v", PreferShortForm = true)]
     public bool? Verbose { get; init; }
 
-    [CliOption("--output", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption(
+        "--output",
+        Format = OptionFormat.EqualsSeparated,
+        AllowMultiple = true,
+        ValueArity = CliOptionValueArity.Optional,
+        Phase = CommandLinePhase.Terminal)]
     public string[]? Output { get; init; }
 
     [SecretValue]
@@ -122,16 +127,22 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(argument.Getter(options)).IsEqualTo("pipeline.yml");
         await Assert.That(argument.Attribute.Position).IsEqualTo(0);
         await Assert.That(argument.Attribute.Placement).IsEqualTo(ArgumentPlacement.BeforeOptions);
+        await Assert.That(argument.Attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
         await Assert.That(argument.Attribute.Name).IsEqualTo("<FILE>");
 
         var flag = model.OfType<FlagPart>().Single();
         await Assert.That((bool) flag.Getter(options)!).IsTrue();
         await Assert.That(flag.Attribute.GetEffectiveName()).IsEqualTo("-v");
+        await Assert.That(flag.Attribute.Phase).IsEqualTo(CommandLinePhase.Normal);
+        await Assert.That(flag.ValueArity).IsEqualTo(CliOptionValueArity.None);
 
         var option = model.OfType<OptionPart>().Single();
         await Assert.That(option.Getter(options)).IsEqualTo(options.Output);
         await Assert.That(option.Attribute.GetSeparator()).IsEqualTo("=");
         await Assert.That(option.Attribute.AllowMultiple).IsTrue();
+        await Assert.That(option.Attribute.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+        await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+        await Assert.That(option.Attribute.Phase).IsEqualTo(CommandLinePhase.Terminal);
     }
 
     [Test]

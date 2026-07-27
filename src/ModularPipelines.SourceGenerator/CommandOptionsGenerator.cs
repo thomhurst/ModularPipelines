@@ -19,6 +19,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     internal const string CliGlobalOptionsAttributeFullName = "ModularPipelines.Attributes.CliGlobalOptionsAttribute";
     internal const string SecretValueAttributeFullName = "ModularPipelines.Attributes.SecretValueAttribute";
 
+    private const int PassthroughCommandLinePhase = 3;
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var metadata = context.SyntaxProvider
@@ -145,6 +147,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     false,
                     0,
                     0,
+                    0,
+                    0,
                     null,
                     GetConstructorStrings(secretAttribute),
                     false));
@@ -184,6 +188,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 false,
                 GetConstructorInt(attribute),
                 GetNamedInt(attribute, "Placement"),
+                GetNamedInt(attribute, "Phase", defaultValue: PassthroughCommandLinePhase),
+                0,
                 null,
                 [],
                 isGlobalOption);
@@ -199,6 +205,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedBool(attribute, "PreferShortForm"),
                 0,
                 0,
+                GetNamedInt(attribute, "Phase"),
+                0,
                 null,
                 [],
                 isGlobalOption);
@@ -212,6 +220,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetNamedBool(attribute, "PreferShortForm"),
             GetNamedInt(attribute, "Format"),
             GetNamedBool(attribute, "AllowMultiple") ? 1 : 0,
+            GetNamedInt(attribute, "Phase"),
+            GetNamedInt(attribute, "ValueArity"),
             GetNamedString(attribute, "CustomSeparator"),
             [],
             isGlobalOption);
@@ -287,6 +297,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliArgumentAttribute({property.FirstInt})");
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        Placement = (global::ModularPipelines.Attributes.ArgumentPlacement){property.SecondInt},");
+                    sb.AppendLine($"                        Phase = (global::ModularPipelines.Attributes.CommandLinePhase){property.Phase},");
                     sb.AppendLine($"                        Name = {NullableLiteral(property.PrimaryValue)},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;
@@ -297,6 +308,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        ShortForm = {NullableLiteral(property.ShortForm)},");
                     sb.AppendLine($"                        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
+                    sb.AppendLine($"                        Phase = (global::ModularPipelines.Attributes.CommandLinePhase){property.Phase},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;
                 case PropertyKind.Option:
@@ -308,6 +320,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
                     sb.AppendLine($"                        Format = (global::ModularPipelines.Attributes.OptionFormat){property.FirstInt},");
                     sb.AppendLine($"                        AllowMultiple = {BooleanLiteral(property.SecondInt == 1)},");
+                    sb.AppendLine($"                        ValueArity = (global::ModularPipelines.Attributes.CliOptionValueArity){property.ValueArity},");
+                    sb.AppendLine($"                        Phase = (global::ModularPipelines.Attributes.CommandLinePhase){property.Phase},");
                     sb.AppendLine($"                        CustomSeparator = {NullableLiteral(property.CustomSeparator)},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;
@@ -410,10 +424,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static bool GetNamedBool(AttributeData attribute, string name) =>
         attribute.NamedArguments.FirstOrDefault(argument => argument.Key == name).Value.Value as bool? ?? false;
 
-    private static int GetNamedInt(AttributeData attribute, string name)
+    private static int GetNamedInt(AttributeData attribute, string name, int defaultValue = 0)
     {
         var value = attribute.NamedArguments.FirstOrDefault(argument => argument.Key == name).Value.Value;
-        return value is null ? 0 : Convert.ToInt32(value);
+        return value is null ? defaultValue : Convert.ToInt32(value);
     }
 
     private static string BooleanLiteral(bool value) => value ? "true" : "false";
@@ -450,6 +464,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool BooleanValue,
         int FirstInt,
         int SecondInt,
+        int Phase,
+        int ValueArity,
         string? CustomSeparator,
         ImmutableArray<string> SecretValueKeys,
         bool IsGlobalOption);

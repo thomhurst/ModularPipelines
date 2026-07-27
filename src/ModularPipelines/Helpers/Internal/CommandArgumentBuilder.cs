@@ -27,16 +27,29 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         // Add arguments before options
         AddArguments(args, argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.BeforeOptions), optionsObject);
 
-        // Add flags and options
-        AddFlagsAndOptions(args, flagsAndOptions, optionsObject);
+        var argumentsAfterOptions =
+            argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.AfterOptions) ?? [];
 
-        // Add arguments after options
-        AddArguments(args, argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.AfterOptions), optionsObject);
+        // Render semantic phases explicitly rather than relying on declaration order.
+        foreach (var phase in Enum.GetValues<CommandLinePhase>())
+        {
+            AddFlagsAndOptions(
+                args,
+                flagsAndOptions.Where(part => part.Phase == phase),
+                optionsObject);
+            AddArguments(
+                args,
+                argumentsAfterOptions.Where(part => part.Phase == phase),
+                optionsObject);
+        }
 
         return args;
     }
 
-    private static void AddArguments(List<string> args, List<ArgumentPart>? argumentParts, object optionsObject)
+    private static void AddArguments(
+        List<string> args,
+        IEnumerable<ArgumentPart>? argumentParts,
+        object optionsObject)
     {
         if (argumentParts is null)
         {
@@ -63,7 +76,10 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
     }
 
-    private static void AddFlagsAndOptions(List<string> args, List<PropertyCommandLinePart> parts, object optionsObject)
+    private static void AddFlagsAndOptions(
+        List<string> args,
+        IEnumerable<PropertyCommandLinePart> parts,
+        object optionsObject)
     {
         foreach (var part in parts)
         {
@@ -100,6 +116,16 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
     private static void AddOption(List<string> args, OptionPart optionPart, object rawValue)
     {
+        if (optionPart.ValueArity == CliOptionValueArity.None)
+        {
+            if (rawValue is not bool value || value)
+            {
+                args.Add(optionPart.Attribute.GetEffectiveName());
+            }
+
+            return;
+        }
+
         if (TryAddOptionValuePairs(args, optionPart, rawValue))
         {
             return;
@@ -111,6 +137,11 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         {
             if (string.IsNullOrWhiteSpace(value))
             {
+                if (optionPart.ValueArity == CliOptionValueArity.Optional)
+                {
+                    args.Add(optionPart.Attribute.GetEffectiveName());
+                }
+
                 continue;
             }
 

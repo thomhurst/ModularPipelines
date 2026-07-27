@@ -14,12 +14,15 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     [RequiresUnreferencedCode("Calls ModularPipelines.Helpers.Internal.CommandModelProvider.BuildModel(Type)")]
     public IReadOnlyList<PropertyCommandLinePart> GetCommandModel(Type optionsType)
     {
-        if (GeneratedCommandMetadata.TryGet(optionsType, out var generatedModel))
+        return _cache.GetOrAdd(optionsType, static type =>
         {
-            return generatedModel;
-        }
+            var model = GeneratedCommandMetadata.TryGet(type, out var generatedModel)
+                ? generatedModel
+                : BuildModel(type);
 
-        return _cache.GetOrAdd(optionsType, BuildModel);
+            ValidateUniqueSwitches(type, model);
+            return model;
+        });
     }
 
     [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties. Ensure ModularPipelines.SourceGenerator runs for trim-safe command models.")]
@@ -79,5 +82,49 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         }
 
         return false;
+    }
+
+    private static void ValidateUniqueSwitches(
+        Type optionsType,
+        IReadOnlyList<PropertyCommandLinePart> parts)
+    {
+        var switches = new Dictionary<string, string>(StringComparer.Ordinal);
+
+        foreach (var part in parts)
+        {
+            foreach (var switchName in GetSwitchNames(part))
+            {
+                if (switches.TryGetValue(switchName, out var existingProperty))
+                {
+                    throw new InvalidOperationException(
+                        $"{optionsType.Name} defines CLI switch '{switchName}' more than once " +
+                        $"on properties '{existingProperty}' and '{part.PropertyName}'. " +
+                        "Model aliases with ShortForm on a single property.");
+                }
+
+                switches.Add(switchName, part.PropertyName);
+            }
+        }
+    }
+
+    private static IEnumerable<string> GetSwitchNames(PropertyCommandLinePart part)
+    {
+        return part switch
+        {
+            FlagPart flag => GetNames(flag.Attribute.Name, flag.Attribute.ShortForm),
+            OptionPart option => GetNames(option.Attribute.Name, option.Attribute.ShortForm),
+            _ => [],
+        };
+    }
+
+    private static IEnumerable<string> GetNames(string name, string? shortForm)
+    {
+        yield return name;
+
+        if (!string.IsNullOrWhiteSpace(shortForm) &&
+            !string.Equals(name, shortForm, StringComparison.Ordinal))
+        {
+            yield return shortForm;
+        }
     }
 }
