@@ -668,9 +668,7 @@ public static partial class GeneratorUtils
     {
         ArgumentNullException.ThrowIfNull(tool);
 
-        var subDomainNames = new HashSet<string>(
-            tool.SubDomainGroups.Select(group => GetSubDomainIdentifier(tool, group)),
-            StringComparer.OrdinalIgnoreCase);
+        var subDomainNames = GetSubDomainIdentifiers(tool);
 
         var rootCommands = tool.Commands
             .Where(c => c.SubDomainGroup is null)
@@ -694,6 +692,37 @@ public static partial class GeneratorUtils
         }
 
         return rootCommands;
+    }
+
+    /// <summary>
+    /// Returns executable root commands that own a generated sub-domain. These commands
+    /// are exposed as <c>Execute</c> on the matching sub-domain class.
+    /// </summary>
+    internal static IReadOnlyList<CliCommandDefinition> GetSubDomainParentCommands(CliToolDefinition tool)
+    {
+        ArgumentNullException.ThrowIfNull(tool);
+
+        var subDomainNames = GetSubDomainIdentifiers(tool);
+        var parentCommands = tool.Commands
+            .Where(command => command.SubDomainGroup is null)
+            .Where(command => command.CommandParts.Length == 1)
+            .Where(command => subDomainNames.Contains(GetCommandGroupIdentifier(command)))
+            .ToList();
+
+        var duplicateParentNames = parentCommands
+            .GroupBy(GetCommandGroupIdentifier, StringComparer.OrdinalIgnoreCase)
+            .Where(group => group.Count() > 1)
+            .Select(group => group.First().CommandParts[0])
+            .ToList();
+
+        if (duplicateParentNames.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"The {tool.ToolName} scraper produced multiple definitions for the same root command(s): " +
+                $"{string.Join(", ", duplicateParentNames)}. Fix the scraper to emit each command once.");
+        }
+
+        return parentCommands;
     }
 
     /// <summary>
@@ -725,9 +754,14 @@ public static partial class GeneratorUtils
         };
     }
 
-    private static string GetCommandGroupIdentifier(CliCommandDefinition command) =>
+    internal static string GetCommandGroupIdentifier(CliCommandDefinition command) =>
         command.CommandGroupIdentifierOverride
         ?? GenerateMethodNameFromCommandParts(command.CommandParts);
+
+    private static HashSet<string> GetSubDomainIdentifiers(CliToolDefinition tool) =>
+        new(
+            tool.SubDomainGroups.Select(group => GetSubDomainIdentifier(tool, group)),
+            StringComparer.OrdinalIgnoreCase);
 
     private static bool NeedsClassNameNormalization(CliCommandDefinition command) =>
         string.Equals(command.ClassName, command.ParentClassName, StringComparison.OrdinalIgnoreCase);

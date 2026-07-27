@@ -30,8 +30,8 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Kubernetes().Autoscale(
-            new KubernetesAutoscaleOptions(),
+        return await context.Kubernetes().Annotate(
+            new KubernetesAnnotateOptions(),
             cancellationToken: cancellationToken);
     }
 }
@@ -42,17 +42,22 @@ public class RunCommandModule : Module<CommandResult>
 | CLI command | Options record |
 | --- | --- |
 | `kubectl annotate` | `KubernetesAnnotateOptions` |
+| `kubectl apply` | `KubernetesApplyOptions` |
 | `kubectl apply edit-last-applied` | `KubernetesApplyEditLastAppliedOptions` |
 | `kubectl apply set-last-applied` | `KubernetesApplySetLastAppliedOptions` |
 | `kubectl apply view-last-applied` | `KubernetesApplyViewLastAppliedOptions` |
 | `kubectl attach` | `KubernetesAttachOptions` |
+| `kubectl auth` | `KubernetesAuthOptions` |
 | `kubectl auth can-i` | `KubernetesAuthCanIOptions` |
 | `kubectl auth reconcile` | `KubernetesAuthReconcileOptions` |
 | `kubectl auth whoami` | `KubernetesAuthWhoamiOptions` |
 | `kubectl autoscale` | `KubernetesAutoscaleOptions` |
+| `kubectl certificate` | `KubernetesCertificateOptions` |
 | `kubectl certificate approve` | `KubernetesCertificateApproveOptions` |
 | `kubectl certificate deny` | `KubernetesCertificateDenyOptions` |
+| `kubectl cluster-info` | `KubernetesClusterInfoOptions` |
 | `kubectl cluster-info dump` | `KubernetesClusterInfoDumpOptions` |
+| `kubectl config` | `KubernetesConfigOptions` |
 | `kubectl config get-contexts` | `KubernetesConfigGetContextsOptions` |
 | `kubectl config set` | `KubernetesConfigSetOptions` |
 | `kubectl config set-cluster` | `KubernetesConfigSetClusterOptions` |
@@ -67,6 +72,7 @@ public class RunCommandModule : Module<CommandResult>
 | `kubectl drain` | `KubernetesDrainOptions` |
 | `kubectl events` | `KubernetesEventsOptions` |
 | `kubectl exec` | `KubernetesExecOptions` |
+| `kubectl kuberc` | `KubernetesKubercOptions` |
 | `kubectl kuberc set` | `KubernetesKubercSetOptions` |
 | `kubectl kuberc view` | `KubernetesKubercViewOptions` |
 | `kubectl label` | `KubernetesLabelOptions` |
@@ -75,6 +81,7 @@ public class RunCommandModule : Module<CommandResult>
 | `kubectl port-forward` | `KubernetesPortForwardOptions` |
 | `kubectl proxy` | `KubernetesProxyOptions` |
 | `kubectl replace` | `KubernetesReplaceOptions` |
+| `kubectl rollout` | `KubernetesRolloutOptions` |
 | `kubectl rollout history` | `KubernetesRolloutHistoryOptions` |
 | `kubectl rollout pause` | `KubernetesRolloutPauseOptions` |
 | `kubectl rollout restart` | `KubernetesRolloutRestartOptions` |
@@ -83,6 +90,7 @@ public class RunCommandModule : Module<CommandResult>
 | `kubectl rollout undo` | `KubernetesRolloutUndoOptions` |
 | `kubectl scale` | `KubernetesScaleOptions` |
 | `kubectl taint` | `KubernetesTaintOptions` |
+| `kubectl top` | `KubernetesTopOptions` |
 | `kubectl top node` | `KubernetesTopNodeOptions` |
 | `kubectl top pod` | `KubernetesTopPodOptions` |
 | `kubectl uncordon` | `KubernetesUncordonOptions` |

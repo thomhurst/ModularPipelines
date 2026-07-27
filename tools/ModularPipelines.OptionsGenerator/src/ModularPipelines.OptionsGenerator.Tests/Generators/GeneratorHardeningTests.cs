@@ -210,6 +210,77 @@ public class GeneratorHardeningTests
         await Assert.That(repoService.Content).Contains("public virtual async Task<CommandResult> Execute(");
     }
 
+    [Test]
+    public async Task SubDomain_Generators_Expose_Executable_Parent_And_Child()
+    {
+        var tool = Tool(
+            Command("ToolGroupOptions", "ToolOptions", ["group"]),
+            Command(
+                "ToolGroupChildOptions",
+                "ToolOptions",
+                ["group", "child"],
+                subDomainGroup: "group"));
+
+        var optionFiles = await new OptionsClassGenerator().GenerateAsync(tool);
+        var subDomainFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
+        var interfaceFiles = await new ServiceInterfaceGenerator().GenerateAsync(tool);
+        var groupService = subDomainFiles.Single();
+
+        await Assert.That(groupService.Content).Contains("ToolGroupOptions? options = null");
+        await Assert.That(groupService.Content)
+            .Contains("public virtual async Task<CommandResult> Execute(");
+        await Assert.That(groupService.Content)
+            .Contains("public virtual async Task<CommandResult> Child(");
+        await Assert.That(interfaceFiles.Single().Content).Contains("ToolGroup Group { get; }");
+        await Assert.That(optionFiles.Single(file =>
+                file.RelativePath.EndsWith("ToolGroupOptions.Generated.cs")).Content)
+            .Contains("[CliSubCommand(\"group\")]");
+        await Assert.That(optionFiles.Single(file =>
+                file.RelativePath.EndsWith("ToolGroupChildOptions.Generated.cs")).Content)
+            .Contains("[CliSubCommand(\"group\", \"child\")]");
+    }
+
+    [Test]
+    public async Task SubDomain_Generators_Expose_Kubectl_ClusterInfo_Parent()
+    {
+        var tool = Tool(
+            Command(
+                "KubernetesClusterInfoOptions",
+                "KubernetesOptions",
+                ["cluster-info"]),
+            Command(
+                "KubernetesClusterInfoDumpOptions",
+                "KubernetesOptions",
+                ["cluster-info", "dump"],
+                subDomainGroup: "ClusterInfo")) with
+        {
+            ToolName = "kubectl",
+            NamespacePrefix = "Kubernetes",
+            TargetNamespace = "ModularPipelines.Kubernetes",
+            OutputDirectory = "src/ModularPipelines.Kubernetes",
+        };
+
+        var subDomainFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
+        var interfaceFiles = await new ServiceInterfaceGenerator().GenerateAsync(tool);
+        var implementationFiles = await new ServiceImplementationGenerator().GenerateAsync(tool);
+        var registrationFiles = await new DependencyRegistrationGenerator().GenerateAsync(tool);
+        var clusterInfoService = subDomainFiles.Single(file =>
+            file.RelativePath.EndsWith("KubernetesClusterinfo.Generated.cs"));
+
+        await Assert.That(clusterInfoService.Content)
+            .Contains("KubernetesClusterInfoOptions? options = null");
+        await Assert.That(clusterInfoService.Content)
+            .Contains("public virtual async Task<CommandResult> Execute(");
+        await Assert.That(clusterInfoService.Content)
+            .Contains("public virtual async Task<CommandResult> Dump(");
+        await Assert.That(interfaceFiles.Single().Content)
+            .Contains("KubernetesClusterinfo Clusterinfo { get; }");
+        await Assert.That(implementationFiles.Single().Content)
+            .Contains("KubernetesClusterinfo Clusterinfo { get; }");
+        await Assert.That(registrationFiles.Single().Content)
+            .Contains("TryAddScoped<KubernetesClusterinfo>()");
+    }
+
     #endregion
 
     #region Positional argument deduplication
