@@ -26,7 +26,10 @@
     Name="GenerateModularPipelinesBuildServerFiles"
     BeforeTargets="BeforeBuild"
     Condition="'$(ModularPipelinesBuildSystem.Length)' != '0' and '$(DesignTimeBuild)' != 'true' and '$(_ModularPipelinesSkipBuildServerFileGeneration)' != 'true'">
-    <ConvertToAbsolutePath Paths="$(ModularPipelinesRepositoryRoot)">
+    <PropertyGroup>
+      <_ModularPipelinesEscapedRepositoryRoot>$([MSBuild]::Escape($(ModularPipelinesRepositoryRoot)))</_ModularPipelinesEscapedRepositoryRoot>
+    </PropertyGroup>
+    <ConvertToAbsolutePath Paths="$(_ModularPipelinesEscapedRepositoryRoot)">
       <Output TaskParameter="AbsolutePaths" PropertyName="_ModularPipelinesRepositoryRoot" />
     </ConvertToAbsolutePath>
     <FindUnderPath
@@ -46,24 +49,26 @@
       <_ModularPipelinesPipelineProject Condition="'$(_ModularPipelinesPipelineProjectSpecified)' == 'false'">@(_ModularPipelinesAssignedProject->'%(TargetPath)')</_ModularPipelinesPipelineProject>
       <_ModularPipelinesPipelineProject Condition="'$(_ModularPipelinesPipelineProjectSpecified)' == 'true'">$(ModularPipelinesPipelineProject)</_ModularPipelinesPipelineProject>
       <_ModularPipelinesPipelineProject>$(_ModularPipelinesPipelineProject.Replace('\', '/'))</_ModularPipelinesPipelineProject>
+      <_ModularPipelinesPipelineProjectEncoded>$([System.Uri]::EscapeDataString($(_ModularPipelinesPipelineProject)))</_ModularPipelinesPipelineProjectEncoded>
 
       <_ModularPipelinesGitHubDirectory>$(_ModularPipelinesRepositoryRoot)/.github/workflows</_ModularPipelinesGitHubDirectory>
       <_ModularPipelinesGitHubFile>$(_ModularPipelinesGitHubDirectory)/modular-pipelines.yml</_ModularPipelinesGitHubFile>
       <_ModularPipelinesGitLabFile>$(_ModularPipelinesRepositoryRoot)/.gitlab-ci.yml</_ModularPipelinesGitLabFile>
       <_ModularPipelinesAzureFile>$(_ModularPipelinesRepositoryRoot)/azure-pipelines.yml</_ModularPipelinesAzureFile>
 
+      <_ModularPipelinesGitHubBranchPattern>$(ModularPipelinesBuildBranch.Replace('\', '\\').Replace('*', '\*').Replace('+', '\+').Replace('?', '\?').Replace('!', '\!').Replace('[', '\[').Replace(']', '\]'))</_ModularPipelinesGitHubBranchPattern>
+      <_ModularPipelinesYamlGitHubBranchPattern>$(_ModularPipelinesGitHubBranchPattern.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlGitHubBranchPattern>
       <_ModularPipelinesYamlBranch>$(ModularPipelinesBuildBranch.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlBranch>
       <_ModularPipelinesYamlDotNetVersion>$(ModularPipelinesDotNetVersion.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlDotNetVersion>
       <_ModularPipelinesYamlDotNetSdkImage>$(ModularPipelinesDotNetSdkImage.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlDotNetSdkImage>
-      <_ModularPipelinesYamlPipelineProject>$(_ModularPipelinesPipelineProject.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlPipelineProject>
 
       <_ModularPipelinesGitHubWorkflow><![CDATA[name: ModularPipelines
 
 on:
   push:
-    branches: ["$(_ModularPipelinesYamlBranch)"]
+    branches: ["$(_ModularPipelinesYamlGitHubBranchPattern)"]
   pull_request:
-    branches: ["$(_ModularPipelinesYamlBranch)"]
+    branches: ["$(_ModularPipelinesYamlGitHubBranchPattern)"]
 
 jobs:
   pipeline:
@@ -73,9 +78,12 @@ jobs:
       - uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: "$(_ModularPipelinesYamlDotNetVersion)"
-      - run: dotnet run --project "$PIPELINE_PROJECT" --configuration Release
+      - run: |
+          PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\\\x/g'`
+          PIPELINE_PROJECT=`printf '%b' "$PIPELINE_PROJECT"`
+          dotnet run --project "$PIPELINE_PROJECT" --configuration Release
         env:
-          PIPELINE_PROJECT: "$(_ModularPipelinesYamlPipelineProject)"
+          PIPELINE_PROJECT_ENCODED: "$(_ModularPipelinesPipelineProjectEncoded)"
 ]]></_ModularPipelinesGitHubWorkflow>
 
       <_ModularPipelinesGitLabPipeline><![CDATA[variables:
@@ -93,10 +101,12 @@ modular-pipelines:
     - if: '$CI_COMMIT_BRANCH == $MODULAR_PIPELINES_BUILD_BRANCH'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MODULAR_PIPELINES_BUILD_BRANCH'
   variables:
-    PIPELINE_PROJECT:
-      value: "$(_ModularPipelinesYamlPipelineProject)"
+    PIPELINE_PROJECT_ENCODED:
+      value: "$(_ModularPipelinesPipelineProjectEncoded)"
       expand: false
   script:
+    - PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\\\x/g'`
+    - PIPELINE_PROJECT=`printf '%b' "$PIPELINE_PROJECT"`
     - dotnet run --project "$PIPELINE_PROJECT" --configuration Release
 ]]></_ModularPipelinesGitLabPipeline>
 
@@ -114,10 +124,13 @@ steps:
     inputs:
       packageType: sdk
       version: "$(_ModularPipelinesYamlDotNetVersion)"
-  - script: dotnet run --project "$PIPELINE_PROJECT" --configuration Release
+  - script: |
+      PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\\\x/g'`
+      PIPELINE_PROJECT=`printf '%b' "$PIPELINE_PROJECT"`
+      dotnet run --project "$PIPELINE_PROJECT" --configuration Release
     displayName: Run ModularPipelines
     env:
-      PIPELINE_PROJECT: "$(_ModularPipelinesYamlPipelineProject)"
+      PIPELINE_PROJECT_ENCODED: "$(_ModularPipelinesPipelineProjectEncoded)"
 ]]></_ModularPipelinesAzurePipeline>
 
       <_ModularPipelinesOutputFile Condition="'$(ModularPipelinesBuildSystem)' == 'GitHubActions'">$(_ModularPipelinesGitHubFile)</_ModularPipelinesOutputFile>
