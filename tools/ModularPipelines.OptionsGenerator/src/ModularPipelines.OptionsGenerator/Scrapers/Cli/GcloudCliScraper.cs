@@ -99,7 +99,8 @@ public partial class GcloudCliScraper : CliScraperBase
 
         var subDomain = commandParts.Length > 1 ? ToPascalCase(commandParts[0]) : null;
         var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText, commandParts);
+        var parsedOptions = ParseOptions(helpText, commandParts);
+        var options = parsedOptions.Options;
         var positionalArgs = ParsePositionalArguments(helpText);
 
         var enums = options
@@ -119,6 +120,7 @@ public partial class GcloudCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = $"https://cloud.google.com/sdk/gcloud/reference/{string.Join("/", commandParts)}",
             Options = options,
+            ArgumentGroups = parsedOptions.ArgumentGroups,
             PositionalArguments = positionalArgs,
             SubDomainGroup = subDomain,
             Enums = enums
@@ -200,7 +202,9 @@ public partial class GcloudCliScraper : CliScraperBase
         return null;
     }
 
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups) ParseOptions(
+        string helpText,
+        string[] commandParts)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -210,7 +214,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var flagsMatch = Regex.Match(helpText, @"^FLAGS\s*$", RegexOptions.Multiline);
         if (!flagsMatch.Success)
         {
-            return options;
+            return (options, []);
         }
 
         var sectionStart = flagsMatch.Index + flagsMatch.Length;
@@ -220,15 +224,13 @@ public partial class GcloudCliScraper : CliScraperBase
         var sectionEnd = nextSectionMatch.Success ? sectionStart + nextSectionMatch.Index : helpText.Length;
 
         var flagsSection = helpText[sectionStart..sectionEnd];
+        var argumentGroup = ParseArgumentGroups(flagsSection, ParseGcloudArgument);
 
-        // Parse each flag: "     --flag" or "     --option=VALUE"
-        var flagMatches = GcloudFlagPattern().Matches(flagsSection);
-
-        foreach (Match match in flagMatches)
+        foreach (var argument in argumentGroup.FlattenArguments())
         {
-            var negatable = !string.IsNullOrEmpty(match.Groups["negatable"].Value);
-            var longForm = match.Groups["long"].Value;
-            var valueHint = match.Groups["value"].Value;
+            var negatable = argument.IsNegatable;
+            var longForm = argument.SwitchName;
+            var valueHint = argument.ValueHint ?? string.Empty;
 
             if (string.IsNullOrEmpty(longForm) || seenOptions.Contains(longForm))
             {
@@ -243,10 +245,7 @@ public partial class GcloudCliScraper : CliScraperBase
                 continue;
             }
 
-            // Get description (lines following the flag with more indentation)
-            var flagEnd = match.Index + match.Length;
-            var descMatch = Regex.Match(flagsSection[flagEnd..], @"^\s{8,}(.+?)(?=\n\s{5}--|\n\n\s{5}--|\z)", RegexOptions.Singleline);
-            var description = descMatch.Success ? descMatch.Groups[1].Value.Trim().Replace("\n", " ").Replace("  ", " ") : null;
+            var description = argument.Documentation;
 
             var isFlag = string.IsNullOrEmpty(valueHint) || negatable;
             var isArray = valueHint.Contains("...") || (description?.Contains("may be repeated") ?? false);
@@ -273,7 +272,29 @@ public partial class GcloudCliScraper : CliScraperBase
             });
         }
 
-        return options;
+        return (options, [argumentGroup]);
+    }
+
+    private static CliArgumentDefinition? ParseGcloudArgument(string line)
+    {
+        var match = GcloudFlagPattern().Match(line);
+        if (!match.Success)
+        {
+            return null;
+        }
+
+        var negatable = match.Groups["negatable"].Success;
+        var name = negatable
+            ? $"--{match.Groups["negatableName"].Value}"
+            : match.Groups["long"].Value;
+
+        return new CliArgumentDefinition
+        {
+            SwitchName = name,
+            ValueHint = match.Groups["value"].Value,
+            IsNegatable = negatable,
+            Indentation = match.Groups["indent"].Value.Length,
+        };
     }
 
     private static List<CliPositionalArgument> ParsePositionalArguments(string helpText)
@@ -405,7 +426,8 @@ public partial class GcloudCliScraper : CliScraperBase
     /// --[no-]flag
     /// --option=VALUE
     /// </summary>
-    [GeneratedRegex(@"^\s{5}(?<negatable>--\[no-\])?(?<long>--?[\w-]+)(?:=(?<value>[^\s\n]+))?", RegexOptions.Multiline)]
+    [GeneratedRegex(
+        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\s]+))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?$")]
     private static partial Regex GcloudFlagPattern();
 
     #endregion

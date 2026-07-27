@@ -414,6 +414,7 @@ public abstract partial class CliScraperBase : ICliScraper
             if (command is not null)
             {
                 ValidateOptionShapes(command, helpText);
+                ValidateArgumentGroups(command);
             }
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
@@ -757,6 +758,16 @@ public abstract partial class CliScraperBase : ICliScraper
         return false;
     }
 
+    /// <summary>
+    /// Parses indentation-based argument declarations into a reusable nested group model.
+    /// The adapter only recognizes one tool-specific declaration line; traversal,
+    /// documentation boundaries, group classification, and flattening stay shared.
+    /// </summary>
+    protected static CliArgumentGroup ParseArgumentGroups(
+        string section,
+        Func<string, CliArgumentDefinition?> parseArgument) =>
+        CliArgumentGroupParser.Parse(section, parseArgument);
+
     private static void ValidateOptionShapes(CliCommandDefinition command, string helpText)
     {
         foreach (var option in command.Options)
@@ -776,6 +787,31 @@ public abstract partial class CliScraperBase : ICliScraper
                     $"{command.FullCommand} {option.SwitchName} is documented as repeatable, "
                     + "but the parsed model is scalar.");
             }
+        }
+    }
+
+    private static void ValidateArgumentGroups(CliCommandDefinition command)
+    {
+        if (command.ArgumentGroups.Count == 0)
+        {
+            return;
+        }
+
+        var emittedSwitches = command.Options
+            .Select(option => option.SwitchName)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var missingSwitches = command.ArgumentGroups
+            .SelectMany(group => group.FlattenArguments())
+            .Select(argument => argument.SwitchName)
+            .Where(switchName => !emittedSwitches.Contains(switchName))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+        if (missingSwitches.Length != 0)
+        {
+            throw new InvalidOperationException(
+                $"{command.FullCommand} declares grouped arguments that were swallowed or omitted: "
+                + string.Join(", ", missingSwitches));
         }
     }
 
