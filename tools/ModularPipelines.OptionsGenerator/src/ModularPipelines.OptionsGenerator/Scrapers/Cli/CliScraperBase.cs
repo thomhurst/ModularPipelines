@@ -406,32 +406,51 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         var usage = ParseUsageSynopsis(path, helpText);
         LogUsageSynopsisSelection(path, usage);
-        if ((!HasOptions(helpText) && !usage.HasOperandTokens)
-            || (path.Length == 1 && subcommands.Count > 0))
+        if (ShouldSkipCommand(path, helpText, subcommands, usage))
         {
             return;
         }
 
-        CliCommandDefinition? command;
+        var command = await TryParseCommandAsync(path, helpText, usage, cancellationToken);
+        if (command is null)
+        {
+            return;
+        }
+
+        await commandChannel.Writer.WriteAsync(command, cancellationToken);
+    }
+
+    private bool ShouldSkipCommand(
+        string[] path,
+        string helpText,
+        IReadOnlyCollection<string> subcommands,
+        UsageSynopsisParseResult usage) =>
+        (!HasOptions(helpText) && !usage.HasOperandTokens)
+        || (path.Length == 1 && subcommands.Count > 0);
+
+    private async Task<CliCommandDefinition?> TryParseCommandAsync(
+        string[] path,
+        string helpText,
+        UsageSynopsisParseResult usage,
+        CancellationToken cancellationToken)
+    {
         try
         {
-            command = await ParseCommandAsync(path, helpText, usage, cancellationToken);
-            if (command is not null)
+            var command = await ParseCommandAsync(path, helpText, usage, cancellationToken);
+            if (command is null)
             {
-                ValidateOptionShapes(command, helpText);
-                ValidateArgumentGroups(command);
-                command.ValidateOperandCoverage();
+                return null;
             }
+
+            ValidateOptionShapes(command, helpText);
+            ValidateArgumentGroups(command);
+            command.ValidateOperandCoverage();
+            return command;
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             Logger.LogWarning(ex, "Failed to parse command: {Command}", string.Join(" ", path));
-            return;
-        }
-
-        if (command is not null)
-        {
-            await commandChannel.Writer.WriteAsync(command, cancellationToken);
+            return null;
         }
     }
 
@@ -666,7 +685,7 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         // Skip flag-like names (e.g., "--tls", "--tlsverify", "-h")
         // These are CLI flags that sometimes appear in help output sections
-        if (subcommand.StartsWith('-') || UsageSynopsisParser.IsPlaceholderToken(subcommand))
+        if (subcommand.StartsWith('-'))
         {
             return true;
         }

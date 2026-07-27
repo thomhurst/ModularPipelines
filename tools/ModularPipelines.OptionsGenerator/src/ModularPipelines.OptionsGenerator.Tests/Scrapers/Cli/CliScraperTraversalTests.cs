@@ -147,6 +147,15 @@ public class CliScraperTraversalTests
         await Assert.That(commands).IsEmpty();
     }
 
+    [Test]
+    public async Task Shared_Skip_Filter_Preserves_Uppercase_Subcommands()
+    {
+        var scraper = new ShapeMismatchScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+
+        await Assert.That(scraper.Skips("SSH")).IsFalse();
+    }
+
     private static async Task<IReadOnlyList<CliCommandDefinition>> ScrapeAsync(ICliScraper scraper)
     {
         var commands = new List<CliCommandDefinition>();
@@ -208,6 +217,8 @@ public class CliScraperTraversalTests
         public override string OutputDirectory => "src/ModularPipelines.Fake";
 
         protected override IEnumerable<string> ExtractSubcommands(string helpText) => [];
+
+        public bool Skips(string subcommand) => IsSkippableSubcommand(subcommand);
 
         protected override Task<CliCommandDefinition?> ParseCommandAsync(
             string[] commandPath,
