@@ -60,7 +60,7 @@
       <_ModularPipelinesGitLabFile>$(_ModularPipelinesRepositoryRoot)/.gitlab-ci.yml</_ModularPipelinesGitLabFile>
       <_ModularPipelinesAzureFile>$(_ModularPipelinesRepositoryRoot)/azure-pipelines.yml</_ModularPipelinesAzureFile>
 
-      <_ModularPipelinesGitHubBranchPattern>$(ModularPipelinesBuildBranch.Replace('\', '\\').Replace('*', '\*').Replace('+', '\+').Replace('?', '\?').Replace('!', '\!').Replace('[', '\[').Replace(']', '\]'))</_ModularPipelinesGitHubBranchPattern>
+      <_ModularPipelinesGitHubBranchPattern>$(ModularPipelinesBuildBranch.Replace('\', '\\').Replace('*', '\*').Replace('+', '\+').Replace('?', '\?').Replace('!', '\!').Replace('[', '\[').Replace(']', '\]').Replace('$', '[$]'))</_ModularPipelinesGitHubBranchPattern>
       <_ModularPipelinesYamlGitHubBranchPattern>$(_ModularPipelinesGitHubBranchPattern.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlGitHubBranchPattern>
       <_ModularPipelinesYamlBranch>$(ModularPipelinesBuildBranch.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlBranch>
       <_ModularPipelinesYamlDotNetVersion>$(ModularPipelinesDotNetVersion.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlDotNetVersion>
