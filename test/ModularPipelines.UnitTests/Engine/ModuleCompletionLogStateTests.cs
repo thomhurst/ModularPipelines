@@ -13,7 +13,7 @@ public class ModuleCompletionLogStateTests
         var properties = state.ToDictionary(x => x.Key, x => x.Value);
 
         await Assert.That(state.Message).IsEqualTo(
-            "Module ExampleModule completed after 23s & 737ms with lock keys: (none) (Active: Q=1, E=2)");
+            "Module ExampleModule completed after 23s 737ms with lock keys: (none) (Active: Q=1, E=2)");
         await Assert.That(properties["Duration"]).IsTypeOf<TimeSpan>();
         await Assert.That(properties["Duration"]).IsEqualTo(duration);
         await Assert.That(properties["ExecutionTime"]).IsTypeOf<double>();
