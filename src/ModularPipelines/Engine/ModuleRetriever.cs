@@ -35,8 +35,8 @@ internal class ModuleRetriever
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
 
-        // Re-registering one pre-created module adds another service descriptor,
-        // but the module object still represents one execution.
+        // Defend against direct service registrations that repeat one module instance.
+        // The module object still represents one execution.
         _modules = modules
             .Distinct<IModule>(ReferenceEqualityComparer.Instance)
             .ToList();

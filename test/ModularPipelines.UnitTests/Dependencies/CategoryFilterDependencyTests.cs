@@ -17,6 +17,19 @@ public class CategoryFilterDependencyTests : TestBase
         protected override string Result => "compiled";
     }
 
+    [ModuleCategory("compile")]
+    [ModularPipelines.Attributes.DependsOn<CompileModule>]
+    private class CompileResultConsumerModule : Module<string>
+    {
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var result = await context.GetModule<CompileModule>();
+            return result.ValueOrDefault;
+        }
+    }
+
     [ModuleCategory("test")]
     [ModularPipelines.Attributes.DependsOn<CompileModule>(Optional = true)]  // Optional - gracefully handle if dependency is filtered
     private class TestModuleWithOptionalDep : Module<string>
@@ -155,13 +168,14 @@ public class CategoryFilterDependencyTests : TestBase
     }
 
     [Test]
-    public async Task Repeated_Runnable_Module_Instance_Is_Discovered_Once()
+    public async Task Repeated_Runnable_Module_Instance_Is_Registered_Once_For_Dependents()
     {
         var compileModule = new CompileModule();
 
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule(compileModule)
             .AddModule(compileModule)
+            .AddModule<CompileResultConsumerModule>()
             .ConfigurePipelineOptions(opt => opt.RunOnlyCategories = ["compile"])
             .ExecutePipelineAsync();
 
@@ -169,6 +183,11 @@ public class CategoryFilterDependencyTests : TestBase
         await Assert.That(pipelineSummary.Modules.Count(module => ReferenceEquals(module, compileModule)))
             .IsEqualTo(1);
         await Assert.That((await compileModule).ValueOrDefault).IsEqualTo("compiled");
+
+        var consumerResult = await pipelineSummary.Modules
+            .OfType<CompileResultConsumerModule>()
+            .Single();
+        await Assert.That(consumerResult.ValueOrDefault).IsEqualTo("compiled");
     }
 
     [Test]
