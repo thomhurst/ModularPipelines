@@ -7,12 +7,13 @@
     <ModularPipelinesDotNetVersion Condition="'$(ModularPipelinesDotNetVersion.Length)' == '0'">10.0.x</ModularPipelinesDotNetVersion>
     <ModularPipelinesDotNetSdkImage Condition="'$(ModularPipelinesDotNetSdkImage.Length)' == '0'">mcr.microsoft.com/dotnet/sdk:10.0</ModularPipelinesDotNetSdkImage>
     <ModularPipelinesOverwriteBuildServerFiles Condition="'$(ModularPipelinesOverwriteBuildServerFiles.Length)' == '0'">false</ModularPipelinesOverwriteBuildServerFiles>
+    <_ModularPipelinesFirstTargetFramework Condition="'$(TargetFrameworks.Length)' != '0'">$([System.Text.RegularExpressions.Regex]::Match('$(TargetFrameworks)', '^[^;]+').Value)</_ModularPipelinesFirstTargetFramework>
   </PropertyGroup>
 
   <Target
     Name="GenerateModularPipelinesBuildServerFiles"
     BeforeTargets="BeforeBuild"
-    Condition="'$(ModularPipelinesBuildSystem.Length)' != '0' and '$(DesignTimeBuild)' != 'true' and '$(IsCrossTargetingBuild)' != 'true'">
+    Condition="'$(ModularPipelinesBuildSystem.Length)' != '0' and '$(DesignTimeBuild)' != 'true' and '$(IsCrossTargetingBuild)' != 'true' and ('$(TargetFrameworks.Length)' == '0' or '$(TargetFramework)' == '$(_ModularPipelinesFirstTargetFramework)')">
     <ConvertToAbsolutePath Paths="$(ModularPipelinesRepositoryRoot)">
       <Output TaskParameter="AbsolutePaths" PropertyName="_ModularPipelinesRepositoryRoot" />
     </ConvertToAbsolutePath>
@@ -42,6 +43,7 @@
       <_ModularPipelinesYamlBranch>$(ModularPipelinesBuildBranch.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlBranch>
       <_ModularPipelinesYamlDotNetVersion>$(ModularPipelinesDotNetVersion.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlDotNetVersion>
       <_ModularPipelinesYamlDotNetSdkImage>$(ModularPipelinesDotNetSdkImage.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlDotNetSdkImage>
+      <_ModularPipelinesYamlPipelineProject>$(_ModularPipelinesPipelineProject.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlPipelineProject>
 
       <_ModularPipelinesGitHubWorkflow><![CDATA[name: ModularPipelines
 
@@ -59,7 +61,9 @@ jobs:
       - uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: "$(_ModularPipelinesYamlDotNetVersion)"
-      - run: dotnet run --project "$(_ModularPipelinesPipelineProject)" --configuration Release
+      - run: dotnet run --project "$PIPELINE_PROJECT" --configuration Release
+        env:
+          PIPELINE_PROJECT: "$(_ModularPipelinesYamlPipelineProject)"
 ]]></_ModularPipelinesGitHubWorkflow>
 
       <_ModularPipelinesGitLabPipeline><![CDATA[stages:
@@ -68,8 +72,10 @@ jobs:
 modular-pipelines:
   image: "$(_ModularPipelinesYamlDotNetSdkImage)"
   stage: pipeline
+  variables:
+    PIPELINE_PROJECT: "$(_ModularPipelinesYamlPipelineProject)"
   script:
-    - dotnet run --project "$(_ModularPipelinesPipelineProject)" --configuration Release
+    - dotnet run --project "$PIPELINE_PROJECT" --configuration Release
 ]]></_ModularPipelinesGitLabPipeline>
 
       <_ModularPipelinesAzurePipeline><![CDATA[trigger:
@@ -86,8 +92,10 @@ steps:
     inputs:
       packageType: sdk
       version: "$(_ModularPipelinesYamlDotNetVersion)"
-  - script: dotnet run --project "$(_ModularPipelinesPipelineProject)" --configuration Release
+  - script: dotnet run --project "$PIPELINE_PROJECT" --configuration Release
     displayName: Run ModularPipelines
+    env:
+      PIPELINE_PROJECT: "$(_ModularPipelinesYamlPipelineProject)"
 ]]></_ModularPipelinesAzurePipeline>
 
       <_ModularPipelinesOutputFile Condition="'$(ModularPipelinesBuildSystem)' == 'GitHubActions'">$(_ModularPipelinesGitHubFile)</_ModularPipelinesOutputFile>
