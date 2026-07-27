@@ -46,6 +46,11 @@ public record CliCommandDefinition
     public required IReadOnlyList<CliOptionDefinition> Options { get; init; }
 
     /// <summary>
+    /// Nested argument-group declarations retained from CLI help.
+    /// </summary>
+    public IReadOnlyList<CliArgumentGroup> ArgumentGroups { get; init; } = [];
+
+    /// <summary>
     /// Positional arguments for this command.
     /// </summary>
     public IReadOnlyList<CliPositionalArgument> PositionalArguments { get; init; } = [];
