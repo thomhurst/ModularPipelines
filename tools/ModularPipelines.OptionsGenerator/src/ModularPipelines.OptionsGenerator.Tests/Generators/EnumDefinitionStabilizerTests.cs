@@ -60,6 +60,47 @@ public class EnumDefinitionStabilizerTests
     }
 
     [Test]
+    public async Task Stabilize_RoundTrips_EnumGenerator_Output()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-enum-tests", Guid.NewGuid().ToString("N"));
+        var enumDirectory = Path.Combine(outputRoot, "src", "Fake", "Enums");
+        Directory.CreateDirectory(enumDirectory);
+        var enumPath = Path.Combine(enumDirectory, "FakeVisibility.Generated.cs");
+
+        try
+        {
+            var initial = EnumDefinitionStabilizer.Stabilize(
+                Tool(Value("public"), Value("private")),
+                outputRoot);
+            var initialGenerated = (await new EnumGenerator().GenerateAsync(initial)).Single().Content;
+            await File.WriteAllTextAsync(enumPath, initialGenerated);
+
+            var reordered = Tool(Value("private"), Value("public"), Value("enterprise"));
+            var stabilized = EnumDefinitionStabilizer.Stabilize(reordered, outputRoot);
+            var values = stabilized.AllEnums.Single().Values;
+
+            await Assert.That(values[0].CliValue).IsEqualTo("public");
+            await Assert.That(values[1].CliValue).IsEqualTo("private");
+            await Assert.That(values[2].CliValue).IsEqualTo("enterprise");
+            await Assert.That(values[0].NumericValue).IsEqualTo(0);
+            await Assert.That(values[1].NumericValue).IsEqualTo(1);
+            await Assert.That(values[2].NumericValue).IsEqualTo(2);
+
+            var generated = (await new EnumGenerator().GenerateAsync(stabilized)).Single().Content;
+            await File.WriteAllTextAsync(enumPath, generated);
+
+            var restabilized = EnumDefinitionStabilizer.Stabilize(reordered, outputRoot);
+            var regenerated = (await new EnumGenerator().GenerateAsync(restabilized)).Single().Content;
+
+            await Assert.That(regenerated).IsEqualTo(generated);
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Stabilize_Rejects_Suspicious_Prose_Values()
     {
         var tool = Tool(Value("them"), Value("accepts"));
