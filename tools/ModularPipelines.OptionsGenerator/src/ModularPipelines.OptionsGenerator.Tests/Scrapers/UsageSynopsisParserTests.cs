@@ -17,23 +17,23 @@ public class UsageSynopsisParserTests
                 "vault",
                 "Usage: vault delete [options] PATH",
                 ["vault", "delete"],
-                Required("Path")),
+                Required("Path", placement: PositionalArgumentPosition.AfterOptions)),
             Fixture(
                 "terraform",
                 "Usage: terraform [global options] import [options] ADDRESS ID",
                 ["terraform", "import"],
-                Required("Address"),
-                Required("Id")),
+                Required("Address", placement: PositionalArgumentPosition.AfterOptions),
+                Required("Id", placement: PositionalArgumentPosition.AfterOptions)),
             Fixture(
                 "cargo",
-                "Usage: cargo new [OPTIONS] <PATH>",
-                ["cargo", "new"],
-                Required("Path")),
+                "Usage: cargo run [OPTIONS] [ARGS]...",
+                ["cargo", "run"],
+                Optional("Args", isVariadic: true, placement: PositionalArgumentPosition.AfterOptions)),
             Fixture(
                 "packer",
                 "Usage: packer build [options] TEMPLATE",
                 ["packer", "build"],
-                Required("Template")),
+                Required("Template", placement: PositionalArgumentPosition.AfterOptions)),
             Fixture(
                 "gh",
                 "USAGE\n  gh api <endpoint> [flags]",
@@ -43,19 +43,19 @@ public class UsageSynopsisParserTests
                 "podman",
                 "Usage:\n  podman attach [options] CONTAINER",
                 ["podman", "attach"],
-                Required("Container")),
+                Required("Container", placement: PositionalArgumentPosition.AfterOptions)),
             Fixture(
                 "buildah",
                 "Usage: buildah add [options] container source [source ...] destination",
                 ["buildah", "add"],
-                Required("Container"),
-                Required("Source", isVariadic: true),
-                Required("Destination")),
+                Required("Container", placement: PositionalArgumentPosition.AfterOptions),
+                Required("Source", isVariadic: true, placement: PositionalArgumentPosition.AfterOptions),
+                Required("Destination", placement: PositionalArgumentPosition.AfterOptions)),
             Fixture(
                 "newman",
                 "Usage: newman run [options] <collection|URL>",
                 ["newman", "run"],
-                Required("Collection")),
+                Required("Collection", placement: PositionalArgumentPosition.AfterOptions)),
         };
 
         foreach (var fixture in fixtures)
@@ -76,9 +76,33 @@ public class UsageSynopsisParserTests
                 await Assert.That(actual.PropertyName).IsEqualTo(expected.PropertyName).Because(fixture.Tool);
                 await Assert.That(actual.IsRequired).IsEqualTo(expected.IsRequired).Because(fixture.Tool);
                 await Assert.That(actual.IsVariadic).IsEqualTo(expected.IsVariadic).Because(fixture.Tool);
+                await Assert.That(actual.Placement).IsEqualTo(expected.Placement).Because(fixture.Tool);
                 await Assert.That(actual.PositionIndex).IsEqualTo(index).Because(fixture.Tool);
             }
         }
+    }
+
+    [Test]
+    public async Task Preserves_Operand_Order_Around_Options()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool copy <SOURCE> [OPTIONS] <DESTINATION>",
+            ["tool", "copy"]);
+
+        var source = result.PositionalArguments.Single(argument => argument.PropertyName == "Source");
+        var destination = result.PositionalArguments.Single(argument => argument.PropertyName == "Destination");
+
+        await Assert.That(source.Placement).IsEqualTo(PositionalArgumentPosition.BeforeOptions);
+        await Assert.That(source.PositionIndex).IsEqualTo(0);
+        await Assert.That(destination.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(destination.PositionIndex).IsEqualTo(0);
+
+        var globalOptions = UsageSynopsisParser.Parse(
+            "Usage: tool [GLOBAL OPTIONS] copy <SOURCE>",
+            ["tool", "copy"]);
+
+        await Assert.That(globalOptions.PositionalArguments.Single().Placement)
+            .IsEqualTo(PositionalArgumentPosition.AfterOptions);
     }
 
     [Test]
@@ -254,8 +278,17 @@ public class UsageSynopsisParserTests
         params ExpectedArgument[] expectedArguments) =>
         new(tool, helpText, commandPath, expectedArguments);
 
-    private static ExpectedArgument Required(string propertyName, bool isVariadic = false) =>
-        new(propertyName, IsRequired: true, IsVariadic: isVariadic);
+    private static ExpectedArgument Required(
+        string propertyName,
+        bool isVariadic = false,
+        PositionalArgumentPosition placement = PositionalArgumentPosition.BeforeOptions) =>
+        new(propertyName, IsRequired: true, IsVariadic: isVariadic, Placement: placement);
+
+    private static ExpectedArgument Optional(
+        string propertyName,
+        bool isVariadic = false,
+        PositionalArgumentPosition placement = PositionalArgumentPosition.BeforeOptions) =>
+        new(propertyName, IsRequired: false, IsVariadic: isVariadic, Placement: placement);
 
     private sealed record OperandFixture(
         string Tool,
@@ -266,7 +299,8 @@ public class UsageSynopsisParserTests
     private sealed record ExpectedArgument(
         string PropertyName,
         bool IsRequired,
-        bool IsVariadic);
+        bool IsVariadic,
+        PositionalArgumentPosition Placement);
 
     private sealed class TestKustomizeCliScraper : KustomizeCliScraper
     {

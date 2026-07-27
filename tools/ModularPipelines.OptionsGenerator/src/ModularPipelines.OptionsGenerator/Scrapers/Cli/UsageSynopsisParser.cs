@@ -27,6 +27,16 @@ public static class UsageSynopsisParser
         "subcommands",
     };
 
+    private static readonly HashSet<string> OptionControlTokens = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "flag",
+        "flags",
+        "global option",
+        "global options",
+        "option",
+        "options",
+    };
+
     /// <summary>
     /// Parses the best matching synopsis for a command.
     /// </summary>
@@ -100,14 +110,24 @@ public static class UsageSynopsisParser
 
         var arguments = new List<CliPositionalArgument>();
         var unparsedTokens = new List<string>();
+        var placement = tokens
+            .Take(commandMatch.EndIndex + 1)
+            .Any(IsOptionControlToken)
+                ? PositionalArgumentPosition.AfterOptions
+                : PositionalArgumentPosition.BeforeOptions;
         foreach (var token in CollapseAlternatives(tokens.Skip(commandMatch.EndIndex + 1)))
         {
+            if (IsOptionControlToken(token))
+            {
+                placement = PositionalArgumentPosition.AfterOptions;
+            }
+
             if (TryApplyStandaloneRepeat(token, arguments) || IsControlToken(token))
             {
                 continue;
             }
 
-            var argument = ParseOperand(token, arguments.Count);
+            var argument = ParseOperand(token, arguments.Count, placement);
             if (argument is null)
             {
                 unparsedTokens.Add(token);
@@ -293,7 +313,10 @@ public static class UsageSynopsisParser
         return null;
     }
 
-    private static CliPositionalArgument? ParseOperand(string token, int positionIndex)
+    private static CliPositionalArgument? ParseOperand(
+        string token,
+        int positionIndex,
+        PositionalArgumentPosition placement)
     {
         var trimmed = token.Trim().TrimEnd(',', ';');
         var isRequired = !trimmed.StartsWith('[');
@@ -323,6 +346,7 @@ public static class UsageSynopsisParser
             IsRequired = isRequired,
             IsVariadic = isVariadic,
             PositionIndex = positionIndex,
+            Placement = placement,
             Description = $"The {canonicalName} operand.",
         };
     }
@@ -394,6 +418,13 @@ public static class UsageSynopsisParser
                || content.StartsWith('-')
                || ControlTokens.Contains(content)
                || content.All(character => !char.IsLetterOrDigit(character));
+    }
+
+    private static bool IsOptionControlToken(string token)
+    {
+        var content = TrimWrapper(token).Trim();
+        return content.StartsWith('-')
+               || OptionControlTokens.Contains(content);
     }
 
     private static string NormalizeLiteral(string token) =>
