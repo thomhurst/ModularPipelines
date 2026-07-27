@@ -40,7 +40,6 @@ jobs:
     # still collected when this timeout trips.
     timeout-minutes: 60
     env:
-      NUGET_PACKAGES: ${{ matrix.os == 'windows-latest' && 'E:\nuget' || null }}
       # Tear down MSBuild worker/compiler nodes after each build instead of keeping them
       # resident. BuildSolutionsModule builds several solutions in sequence; with node reuse
       # the persistent nodes accumulate memory across those builds, which contributed to the
@@ -61,11 +60,6 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Set Up Performant Windows Drive
-        if: matrix.os == 'windows-latest'
-        uses: samypr100/setup-dev-drive@v4
-        with:
-          drive-size: 5GB
       - name: Increase swap space
         if: runner.os == 'Linux'
         shell: bash
@@ -86,7 +80,7 @@ jobs:
       - name: Cache NuGet
         uses: actions/cache@v6
         with:
-          path: ${{ matrix.os == 'windows-latest' && format('{0}\{1}', env.DEV_DRIVE, 'nuget') || '~/.nuget/packages' }}
+          path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
@@ -96,6 +90,26 @@ jobs:
           for SOLUTION in ModularPipelines.Analyzers.sln ModularPipelines.All.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln src/ModularPipelines.Google/ModularPipelines.Google.sln
           do
             dotnet restore $SOLUTION
+          done
+
+      - name: Build solutions
+        shell: bash
+        # Compile every solution here, in a native build step, BEFORE the pipeline runs.
+        # A native `dotnet build` streams progress and reports a clear pass/fail, exactly
+        # like the CodeQL "Analyze (csharp)" step which builds the same code without the
+        # runner being reclaimed. Doing the heavy compile out-of-process means the
+        # pipeline's own BuildSolutionsModule finds everything already built (it runs with
+        # --no-restore and MSBuild incremental, so it becomes a fast no-op) instead of
+        # doing the large All.sln compile inside the long-lived pipeline process that kept
+        # getting the Linux runner reclaimed (#3179). It also isolates the diagnosis: if
+        # the build passes here but the pipeline still fails, the cause is test execution,
+        # not the build.
+        run: |
+          for SOLUTION in ModularPipelines.Analyzers.sln ModularPipelines.All.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln src/ModularPipelines.Google/ModularPipelines.Google.sln
+          do
+            echo "::group::Build $SOLUTION"
+            dotnet build "$SOLUTION" -c Release --no-restore
+            echo "::endgroup::"
           done
 
       - name: Run Pipeline
