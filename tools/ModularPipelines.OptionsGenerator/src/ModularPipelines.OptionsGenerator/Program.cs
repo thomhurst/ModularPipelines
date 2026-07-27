@@ -107,6 +107,7 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     builder.Services.AddSingleton<ICliScraper, PnpmCliScraper>();
     builder.Services.AddSingleton<ICliScraper, GhCliScraper>();
     builder.Services.AddSingleton<ICliScraper, GoCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, NbgvCliScraper>();
     builder.Services.AddSingleton<ICliScraper, TrivyCliScraper>();
     builder.Services.AddSingleton<ICliScraper, PipCliScraper>();
 

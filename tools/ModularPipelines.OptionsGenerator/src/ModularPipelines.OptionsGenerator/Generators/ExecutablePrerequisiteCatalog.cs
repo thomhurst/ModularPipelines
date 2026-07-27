@@ -44,6 +44,15 @@ internal static class ExecutablePrerequisiteCatalog
             ["liquibase"] = Declared("liquibase"),
             ["minikube"] = Declared("minikube"),
             ["mvn"] = Declared("mvn"),
+            ["nbgv"] = new()
+            {
+                CommandName = "nbgv",
+                SupportedVersion = "3.10.91",
+                InstallationUrl =
+                    "https://dotnet.github.io/Nerdbank.GitVersioning/docs/nbgv-cli.html",
+                InstallationNotes =
+                    "Install the nbgv .NET tool globally or in a tool path available on PATH.",
+            },
             ["newman"] = Declared("newman"),
             ["packer"] = Declared("packer"),
             ["pip"] = Declared("pip"),
