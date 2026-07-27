@@ -97,7 +97,7 @@ public static class ExternalToolDefinitionLoader
 
         foreach (var command in tool.Commands)
         {
-            ValidateCommand(command, tool.NamespacePrefix);
+            ValidateCommand(command, tool.ToolName, tool.NamespacePrefix);
         }
 
         ValidateOptions(tool.GlobalOptions, "tool.globalOptions");
@@ -129,9 +129,13 @@ public static class ExternalToolDefinitionLoader
         return candidate;
     }
 
-    private static void ValidateCommand(CliCommandDefinition command, string namespacePrefix)
+    private static void ValidateCommand(
+        CliCommandDefinition command,
+        string toolName,
+        string namespacePrefix)
     {
         RequireValue(command.FullCommand, "tool.commands[].fullCommand");
+        ValidateCommandPath(command, toolName);
         RequireIdentifier(command.ClassName, "tool.commands[].className");
         RequireIdentifier(command.ParentClassName, "tool.commands[].parentClassName");
         RequireIdentifier(command.ToolNamespacePrefix, "tool.commands[].toolNamespacePrefix");
@@ -150,6 +154,33 @@ public static class ExternalToolDefinitionLoader
         ValidateEnums(command.Enums, "tool.commands[].enums");
         ValidateCompatibilityMetadata(command);
         command.ValidateOperandCoverage();
+    }
+
+    private static void ValidateCommandPath(CliCommandDefinition command, string toolName)
+    {
+        foreach (var commandPart in command.CommandParts)
+        {
+            RequireValue(commandPart, "tool.commands[].commandParts[]");
+            if (commandPart.Any(char.IsWhiteSpace))
+            {
+                throw new InvalidDataException(
+                    "tool.commands[].commandParts[] must contain one command path component.");
+            }
+        }
+
+        var normalizedFullCommand = string.Join(
+            ' ',
+            command.FullCommand.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries));
+        var expectedFullCommand = string.Join(' ', new[] { toolName }.Concat(command.CommandParts));
+        if (!string.Equals(
+                normalizedFullCommand,
+                expectedFullCommand,
+                StringComparison.Ordinal))
+        {
+            throw new InvalidDataException(
+                "tool.commands[].fullCommand must match tool.toolName plus "
+                + "tool.commands[].commandParts.");
+        }
     }
 
     private static void ValidateOptions(
@@ -243,7 +274,8 @@ public static class ExternalToolDefinitionLoader
     private static void RequireIdentifier(string value, string propertyName)
     {
         RequireValue(value, propertyName);
-        if (!SyntaxFacts.IsValidIdentifier(value))
+        if (!SyntaxFacts.IsValidIdentifier(value)
+            || SyntaxFacts.GetKeywordKind(value) != SyntaxKind.None)
         {
             throw new InvalidDataException($"{propertyName} must be a valid C# identifier.");
         }
@@ -282,7 +314,7 @@ public static class ExternalToolDefinitionLoader
             var fileSystemInfo = new DirectoryInfo(current);
             if (!fileSystemInfo.Exists && fileSystemInfo.LinkTarget is null)
             {
-                break;
+                continue;
             }
 
             if ((fileSystemInfo.Attributes & FileAttributes.ReparsePoint) != 0

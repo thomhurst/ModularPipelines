@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
@@ -148,16 +149,57 @@ internal static partial class CommandCoverageGuard
 
     public static async Task WriteManifestAsync(
         CommandCoverageEvaluation evaluation,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        string? containmentRoot = null)
     {
+        ValidateManifestContainment(evaluation.ManifestPath, containmentRoot);
         var directory = Path.GetDirectoryName(evaluation.ManifestPath);
         if (!string.IsNullOrEmpty(directory))
         {
             Directory.CreateDirectory(directory);
         }
 
+        ValidateManifestContainment(evaluation.ManifestPath, containmentRoot);
         var json = JsonSerializer.Serialize(evaluation.Manifest, JsonOptions) + Environment.NewLine;
         await File.WriteAllTextAsync(evaluation.ManifestPath, json, cancellationToken);
+    }
+
+    internal static bool IsGeneratedManifest(string path)
+    {
+        if (!path.EndsWith(
+                ".CommandCoverage.json",
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        try
+        {
+            return ReadManifest(path) is not null;
+        }
+        catch (JsonException)
+        {
+            return false;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
+    }
+
+    private static void ValidateManifestContainment(
+        string manifestPath,
+        string? containmentRoot)
+    {
+        if (containmentRoot is null)
+        {
+            return;
+        }
+
+        ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
+            Path.GetRelativePath(containmentRoot, manifestPath),
+            containmentRoot,
+            "command coverage manifest");
     }
 
     private static CommandCoverageManifest? ReadManifest(string path)

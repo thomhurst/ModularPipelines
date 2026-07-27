@@ -204,6 +204,94 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Metadata_Rejects_Reserved_CSharp_Keywords()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var metadata = ValidMetadata("generated")
+                .Replace(
+                    "\"className\": \"PrivateWidgetDeployOptions\"",
+                    "\"className\": \"class\"",
+                    StringComparison.Ordinal);
+            await File.WriteAllTextAsync(metadataPath, metadata);
+
+            await Assert.That(async () =>
+                    await ExternalToolDefinitionLoader.LoadAsync(metadataPath, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Mismatched_Full_Command()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var metadata = ValidMetadata("generated")
+                .Replace(
+                    "\"fullCommand\": \"private-widget deploy\"",
+                    "\"fullCommand\": \"private-widget destroy\"",
+                    StringComparison.Ordinal);
+            await File.WriteAllTextAsync(metadataPath, metadata);
+
+            await Assert.That(async () =>
+                    await ExternalToolDefinitionLoader.LoadAsync(metadataPath, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Generation_Rejects_Link_Added_After_Metadata_Validation()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var generatedDirectory = Path.Combine(outputDirectory, "generated");
+        var outsideDirectory = Path.Combine(workspace, "outside");
+        var linkedOptionsDirectory = Path.Combine(generatedDirectory, "Options");
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var tool = await ExternalToolDefinitionLoader.LoadAsync(metadataPath, outputDirectory);
+            Directory.CreateDirectory(generatedDirectory);
+            Directory.CreateDirectory(outsideDirectory);
+            try
+            {
+                Directory.CreateSymbolicLink(linkedOptionsDirectory, outsideDirectory);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return;
+            }
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+            await Assert.That(Directory.GetFiles(outsideDirectory)).IsEmpty();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Metadata_Rejects_Traversal_In_Enum_Name()
     {
         var workspace = CreateTemporaryDirectory();
@@ -275,6 +363,10 @@ public class ExternalToolDefinitionTests
                     "\"toolName\": \"private-widget-next\"",
                     StringComparison.Ordinal)
                 .Replace(
+                    "\"fullCommand\": \"private-widget deploy\"",
+                    "\"fullCommand\": \"private-widget-next deploy\"",
+                    StringComparison.Ordinal)
+                .Replace(
                     "\"documentationOutputDirectory\": null",
                     "\"documentationOutputDirectory\": \"docs-b\"",
                     StringComparison.Ordinal);
@@ -284,7 +376,8 @@ public class ExternalToolDefinitionTests
                 outputDirectory);
             var result = await orchestrator.GenerateFromDefinitionAsync(
                 secondTool,
-                outputDirectory);
+                outputDirectory,
+                approveCommandCoverageShrinkage: true);
 
             await Assert.That(File.Exists(oldDocumentation)).IsFalse();
             await Assert.That(File.Exists(Path.Combine(
@@ -305,13 +398,17 @@ public class ExternalToolDefinitionTests
                 ValidMetadata("generated").Replace(
                     "\"toolName\": \"private-widget\"",
                     "\"toolName\": \"private-widget-next\"",
+                    StringComparison.Ordinal).Replace(
+                    "\"fullCommand\": \"private-widget deploy\"",
+                    "\"fullCommand\": \"private-widget-next deploy\"",
                     StringComparison.Ordinal));
             var thirdTool = await ExternalToolDefinitionLoader.LoadAsync(
                 metadataPath,
                 outputDirectory);
             var thirdResult = await orchestrator.GenerateFromDefinitionAsync(
                 thirdTool,
-                outputDirectory);
+                outputDirectory,
+                approveCommandCoverageShrinkage: true);
 
             await Assert.That(File.Exists(Path.Combine(
                     outputDirectory,
@@ -320,6 +417,47 @@ public class ExternalToolDefinitionTests
                 .IsFalse();
             await Assert.That(thirdResult.FilesDeleted.Select(path => path.Replace('\\', '/')))
                 .Contains("docs-b/private-widget-next.md");
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Reconciles_Previously_Owned_Command_Coverage()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var orchestrator = CreateOrchestrator();
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated-a"));
+            var firstTool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            await orchestrator.GenerateFromDefinitionAsync(firstTool, outputDirectory);
+
+            var oldCoverage = Path.Combine(
+                outputDirectory,
+                "generated-a",
+                "Generated",
+                "PrivateWidget.CommandCoverage.json");
+            await Assert.That(File.Exists(oldCoverage)).IsTrue();
+
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated-b"));
+            var secondTool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var result = await orchestrator.GenerateFromDefinitionAsync(
+                secondTool,
+                outputDirectory);
+
+            await Assert.That(File.Exists(oldCoverage)).IsFalse();
+            await Assert.That(result.FilesDeleted.Select(path => path.Replace('\\', '/')))
+                .Contains("generated-a/Generated/PrivateWidget.CommandCoverage.json");
         }
         finally
         {
