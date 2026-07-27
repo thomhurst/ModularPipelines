@@ -427,7 +427,7 @@ public partial class GcloudCliScraper : CliScraperBase
     /// --option=VALUE
     /// </summary>
     [GeneratedRegex(
-        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\s]+))?$")]
+        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\s]+))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?$")]
     private static partial Regex GcloudFlagPattern();
 
     #endregion

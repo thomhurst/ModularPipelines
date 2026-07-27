@@ -72,6 +72,55 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task SharedParser_Preserves_Undocumented_Sibling_And_Final_Declarations()
+    {
+        const string section = """
+              --quiet
+              --verbosity=VERBOSITY
+                 Override the default verbosity.
+              --recursive
+            """;
+
+        var arguments = TestArgumentGroupScraper.ParseGroups(section)
+            .FlattenArguments()
+            .ToArray();
+
+        await Assert.That(arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(["--quiet", "--verbosity", "--recursive"]);
+        await Assert.That(arguments.Single(argument => argument.SwitchName == "--quiet").Description)
+            .IsNull();
+        await Assert.That(arguments.Single(argument => argument.SwitchName == "--recursive").Description)
+            .IsNull();
+    }
+
+    [Test]
+    public async Task Gcloud_Emits_Long_Options_With_Short_Aliases()
+    {
+        const string helpText = """
+            NAME
+                gcloud compute instances list - list instances
+
+            SYNOPSIS
+                gcloud compute instances list
+
+            FLAGS
+                 --zone=ZONE, -z ZONE
+                    Zone to list.
+                 --tag=TAG, -t TAG
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "compute", "instances", "list"],
+            helpText);
+
+        await Assert.That(command!.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--zone", "--tag"]);
+    }
+
+    [Test]
     public async Task GcloudAgentIdentityUpdate_Emits_Nested_Scope_Credential_And_Negatable_Flags()
     {
         const string helpText = """

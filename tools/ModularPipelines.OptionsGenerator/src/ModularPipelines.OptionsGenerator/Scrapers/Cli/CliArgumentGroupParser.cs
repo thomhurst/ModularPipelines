@@ -75,32 +75,40 @@ internal static partial class CliArgumentGroupParser
         var declarations = new List<ParsedArgumentLine>();
         for (var index = 0; index < lines.Length; index++)
         {
-            if (parseArgument(lines[index]) is { } argument
-                && HasDocumentationBlock(lines, index, argument.Indentation))
+            if (parseArgument(lines[index]) is not { } argument)
             {
-                declarations.Add(new ParsedArgumentLine(index, argument));
+                continue;
             }
+
+            if (declarations.Count > 0
+                && IsInsideDocumentationBlock(lines, declarations[^1], index, argument.Indentation))
+            {
+                continue;
+            }
+
+            declarations.Add(new ParsedArgumentLine(index, argument));
         }
 
         return declarations;
     }
 
-    private static bool HasDocumentationBlock(
+    private static bool IsInsideDocumentationBlock(
         IReadOnlyList<string> lines,
-        int declarationIndex,
-        int declarationIndentation)
+        ParsedArgumentLine previousDeclaration,
+        int candidateIndex,
+        int candidateIndentation)
     {
-        for (var index = declarationIndex + 1; index < lines.Count; index++)
+        var declarationIndentation = previousDeclaration.Argument.Indentation;
+        if (candidateIndentation <= declarationIndentation)
         {
-            if (string.IsNullOrWhiteSpace(lines[index]))
-            {
-                continue;
-            }
-
-            return GetIndentation(lines[index]) > declarationIndentation;
+            return false;
         }
 
-        return false;
+        return lines
+            .Skip(previousDeclaration.LineIndex + 1)
+            .Take(candidateIndex - previousDeclaration.LineIndex - 1)
+            .Where(line => !string.IsNullOrWhiteSpace(line))
+            .All(line => GetIndentation(line) > declarationIndentation);
     }
 
     private static void MoveToContainingGroup(
@@ -217,6 +225,8 @@ internal static partial class CliArgumentGroupParser
             return CliArgumentGroupKind.None;
         }
 
+        // Help headings are free-form prose, so classification is deliberately best-effort.
+        // Tool adapters can retain the group tree even when their phrasing maps to None.
         var kind = CliArgumentGroupKind.None;
         if (AtMostOnePattern().IsMatch(description))
         {
