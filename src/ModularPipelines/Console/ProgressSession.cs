@@ -91,7 +91,11 @@ internal class ProgressSession : IProgressSession, IProgressController
                     new TaskDescriptionColumn(),
                     new ProgressBarColumn(),
                     new ElapsedTimeColumn(),
-                    new SpinnerColumn())
+                    new SpinnerColumn(ProgressDisplayStyle.Spinner)
+                    {
+                        CompletedText = ProgressDisplayStyle.CompletedSpinnerText,
+                        PendingText = ProgressDisplayStyle.PendingMarker,
+                    })
                 .StartAsync(async ctx =>
                 {
                     _progressContext = ctx;
@@ -194,7 +198,7 @@ internal class ProgressSession : IProgressSession, IProgressController
         foreach (var ignored in _modules.IgnoredModules)
         {
             var name = FormatModuleName(ignored.Module.GetType().Name);
-            ctx.AddTask($"[yellow]⊘ {name}[/]").StopTask();
+            ctx.AddTask(ProgressDisplayStyle.FormatTask(name, ProgressTaskStatus.Skipped)).StopTask();
         }
     }
 
@@ -208,7 +212,9 @@ internal class ProgressSession : IProgressSession, IProgressController
 
                 // Create task in paused state with dim waiting status
                 // autoStart: false means task is paused, NOT stopped (stopped tasks can't restart)
-                var task = ctx.AddTask($"[dim]○ {name}[/]", autoStart: false);
+                var task = ctx.AddTask(
+                    ProgressDisplayStyle.FormatTask(name, ProgressTaskStatus.Pending),
+                    autoStart: false);
 
                 // Store for lookup when module actually starts
                 _moduleTasks[runnableModule.Module] = task;
@@ -240,14 +246,16 @@ internal class ProgressSession : IProgressSession, IProgressController
                 }
 
                 // Update to running status with cyan color
-                task.Description = $"[cyan]◉ {name}[/]";
+                task.Description = ProgressDisplayStyle.FormatTask(name, ProgressTaskStatus.Running);
                 task.Value = 0;
                 task.StartTask();
             }
             else
             {
                 // Fallback: create new task if not pre-registered
-                task = _progressContext.AddTask($"[cyan]◉ {name}[/]", autoStart: true);
+                task = _progressContext.AddTask(
+                    ProgressDisplayStyle.FormatTask(name, ProgressTaskStatus.Running),
+                    autoStart: true);
                 _moduleTasks[state.Module] = task;
             }
 
@@ -275,8 +283,8 @@ internal class ProgressSession : IProgressSession, IProgressController
 
                     var name = FormatModuleName(state.ModuleType.Name);
                     task.Description = isSuccessful
-                        ? $"[green]✓ {name}[/]"
-                        : $"[red]✗ {name}[/]";
+                        ? ProgressDisplayStyle.FormatTask(name, ProgressTaskStatus.Succeeded)
+                        : ProgressDisplayStyle.FormatTask(name, ProgressTaskStatus.Failed);
 
                     task.StopTask();
                 }
@@ -309,7 +317,7 @@ internal class ProgressSession : IProgressSession, IProgressController
 
             if (_moduleTasks.TryGetValue(state.Module, out var task))
             {
-                task.Description = $"[yellow]⊘ {name}[/]";
+                task.Description = ProgressDisplayStyle.FormatTask(name, ProgressTaskStatus.Skipped);
                 if (!task.IsFinished)
                 {
                     task.StopTask();
@@ -317,7 +325,8 @@ internal class ProgressSession : IProgressSession, IProgressController
             }
             else
             {
-                var newTask = _progressContext.AddTask($"[yellow]⊘ {name}[/]");
+                var newTask = _progressContext.AddTask(
+                    ProgressDisplayStyle.FormatTask(name, ProgressTaskStatus.Skipped));
                 newTask.StopTask();
             }
 
@@ -349,7 +358,10 @@ internal class ProgressSession : IProgressSession, IProgressController
 
             var subModuleName = SpectreMarkupEscaper.Escape(subModule.Name);
             var task = _progressContext.AddTaskAfter(
-                $"[cyan]  ◉ {subModuleName}[/]",
+                ProgressDisplayStyle.FormatTask(
+                    subModuleName,
+                    ProgressTaskStatus.Running,
+                    isSubModule: true),
                 new ProgressTaskSettings { AutoStart = true },
                 parentTask);
 
@@ -381,8 +393,14 @@ internal class ProgressSession : IProgressSession, IProgressController
 
                     var subModuleName = SpectreMarkupEscaper.Escape(subModule.Name);
                     task.Description = isSuccessful
-                        ? $"[green]  ✓ {subModuleName}[/]"
-                        : $"[red]  ✗ {subModuleName}[/]";
+                        ? ProgressDisplayStyle.FormatTask(
+                            subModuleName,
+                            ProgressTaskStatus.Succeeded,
+                            isSubModule: true)
+                        : ProgressDisplayStyle.FormatTask(
+                            subModuleName,
+                            ProgressTaskStatus.Failed,
+                            isSubModule: true);
 
                     task.StopTask();
                 }
