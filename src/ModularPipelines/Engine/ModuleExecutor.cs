@@ -27,6 +27,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IModuleRunner _moduleRunner;
     private readonly IAlwaysRunHandler _alwaysRunHandler;
     private readonly IModuleResultRegistrar _resultRegistrar;
+    private readonly IModuleResultRegistry _resultRegistry;
     private readonly IParallelLimitProvider _parallelLimitProvider;
     private readonly IRegistrationEventExecutor _registrationEventExecutor;
     private readonly IMetricsCollector _metricsCollector;
@@ -40,6 +41,7 @@ internal class ModuleExecutor : IModuleExecutor
         IModuleRunner moduleRunner,
         IAlwaysRunHandler alwaysRunHandler,
         IModuleResultRegistrar resultRegistrar,
+        IModuleResultRegistry resultRegistry,
         IParallelLimitProvider parallelLimitProvider,
         IRegistrationEventExecutor registrationEventExecutor,
         IMetricsCollector metricsCollector,
@@ -52,6 +54,7 @@ internal class ModuleExecutor : IModuleExecutor
         _moduleRunner = moduleRunner;
         _alwaysRunHandler = alwaysRunHandler;
         _resultRegistrar = resultRegistrar;
+        _resultRegistry = resultRegistry;
         _parallelLimitProvider = parallelLimitProvider;
         _registrationEventExecutor = registrationEventExecutor;
         _metricsCollector = metricsCollector;
@@ -120,6 +123,27 @@ internal class ModuleExecutor : IModuleExecutor
 
         var scheduler = _schedulerFactory.Create();
         scheduler.InitializeModules(modules);
+
+        foreach (var module in modules)
+        {
+            var moduleType = module.GetType();
+            var existingResult = _resultRegistry.GetResult(moduleType);
+            if (existingResult?.ModuleStatus != Enums.Status.UsedHistory)
+            {
+                continue;
+            }
+
+            var moduleState = scheduler.GetModuleState(moduleType);
+            if (moduleState != null)
+            {
+                moduleState.Result = existingResult;
+            }
+
+            scheduler.MarkModuleCompleted(
+                moduleType,
+                success: true,
+                statusOverride: Enums.Status.UsedHistory);
+        }
 
         return scheduler;
     }

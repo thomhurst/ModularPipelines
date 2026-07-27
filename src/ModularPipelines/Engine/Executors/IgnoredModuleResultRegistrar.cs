@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
@@ -20,65 +21,138 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
     private readonly IModuleResultRegistry _resultRegistry;
     private readonly IModuleResultRepository _resultRepository;
     private readonly IPipelineContextProvider _pipelineContextProvider;
+    private readonly IModuleDependencyRegistry _dependencyRegistry;
+    private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly ILogger<IgnoredModuleResultRegistrar> _logger;
 
     public IgnoredModuleResultRegistrar(
         IModuleResultRegistry resultRegistry,
         IModuleResultRepository resultRepository,
         IPipelineContextProvider pipelineContextProvider,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
         ILogger<IgnoredModuleResultRegistrar> logger)
     {
         _resultRegistry = resultRegistry;
         _resultRepository = resultRepository;
         _pipelineContextProvider = pipelineContextProvider;
+        _dependencyRegistry = dependencyRegistry;
+        _metadataRegistry = metadataRegistry;
         _logger = logger;
     }
 
     /// <inheritdoc />
-    public async Task RegisterIgnoredModuleResultsAsync(IReadOnlyList<IgnoredModule> ignoredModules)
+    public async Task<OrganizedModules> RegisterIgnoredModuleResultsAsync(OrganizedModules organizedModules)
     {
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
+        var runnableModules = organizedModules.RunnableModules.ToList();
+        var ignoredModules = organizedModules.IgnoredModules.ToList();
+        var pendingIgnoredModules = ignoredModules.ToList();
+        var availableModuleTypes = organizedModules.AllModules
+            .Select(module => module.GetType())
+            .Distinct()
+            .ToArray();
 
-        foreach (var ignoredModule in ignoredModules)
+        while (pendingIgnoredModules.Count > 0)
         {
-            var module = ignoredModule.Module;
-            var moduleType = module.GetType();
-            var resultType = module.ResultType;
-
-            // For ignored modules, always check for historical data if a repository is configured
-            if (_resultRepository.GetType() != typeof(NoOpModuleResultRepository))
+            foreach (var ignoredModule in pendingIgnoredModules)
             {
-                var historicalResult = await TryGetHistoricalResultAsync(module, resultType, pipelineContext).ConfigureAwait(false);
-                if (historicalResult != null)
-                {
-                    // Update the status to UsedHistory using the factory method
-                    var usedHistoryResult = ModuleResultFactory.WithStatus(historicalResult, Status.UsedHistory);
-                    _logger.LogDebug("Using historical result for ignored module {ModuleName}",
-                        moduleType.Name);
-                    _resultRegistry.RegisterResult(moduleType, usedHistoryResult);
-
-                    // Set the completion source so awaiting the module returns immediately
-                    SetModuleCompletionSource(module, resultType, usedHistoryResult);
-                    continue;
-                }
+                await RegisterIgnoredModuleResultAsync(ignoredModule, pipelineContext).ConfigureAwait(false);
             }
 
-            _logger.LogDebug("Registering skipped result for ignored module {ModuleName}",
-                moduleType.Name);
+            var runnableModuleTypes = runnableModules
+                .Select(runnableModule => runnableModule.Module.GetType())
+                .ToHashSet();
+            var skippedIgnoredModulesByType = ignoredModules
+                .Where(ignoredModule => !runnableModuleTypes.Contains(ignoredModule.Module.GetType()))
+                .Where(ignoredModule =>
+                    _resultRegistry.GetResult(ignoredModule.Module.GetType())?.ModuleStatus == Status.Skipped)
+                .GroupBy(ignoredModule => ignoredModule.Module.GetType())
+                .ToDictionary(group => group.Key, group => group.First());
+            var newlyIgnoredModules = runnableModules
+                .Select(runnableModule => new
+                {
+                    RunnableModule = runnableModule,
+                    SkippedDependencies = ModuleDependencyResolver
+                        .GetAllDependencies(
+                            runnableModule.Module,
+                            availableModuleTypes,
+                            _dependencyRegistry,
+                            _metadataRegistry)
+                        .Where(dependency => !dependency.Optional)
+                        .Select(dependency => dependency.DependencyType)
+                        .Where(skippedIgnoredModulesByType.ContainsKey)
+                        .Distinct()
+                        .OrderBy(dependencyType => dependencyType.FullName, StringComparer.Ordinal)
+                        .ToArray(),
+                })
+                .Where(item => item.SkippedDependencies.Length > 0)
+                .Select(item => new IgnoredModule(
+                    item.RunnableModule.Module,
+                    ModuleRetriever.CreateDependencySkipDecision(
+                        item.SkippedDependencies,
+                        skippedIgnoredModulesByType)))
+                .ToList();
 
-            // Create execution context with Skipped status using compiled delegate factory
-            var executionContext = ExecutionContextFactory.Create(module, moduleType);
-            executionContext.Status = Status.Skipped;
-            executionContext.SkipResult = ignoredModule.SkipDecision;
+            if (newlyIgnoredModules.Count == 0)
+            {
+                break;
+            }
 
-            // Create ModuleResult<T> with the skipped status using compiled delegate factory
-            var result = ModuleResultFactory.CreateSkipped(resultType, executionContext);
+            foreach (var ignoredModule in newlyIgnoredModules)
+            {
+                runnableModules.RemoveAll(runnableModule =>
+                    ReferenceEquals(runnableModule.Module, ignoredModule.Module));
+                ignoredModules.Add(ignoredModule);
+            }
 
-            _resultRegistry.RegisterResult(moduleType, result);
-
-            // Set the completion source so awaiting the module returns immediately
-            SetModuleCompletionSource(module, resultType, result);
+            pendingIgnoredModules = newlyIgnoredModules;
         }
+
+        return new OrganizedModules(runnableModules, ignoredModules);
+    }
+
+    private async Task RegisterIgnoredModuleResultAsync(
+        IgnoredModule ignoredModule,
+        IPipelineHookContext pipelineContext)
+    {
+        var module = ignoredModule.Module;
+        var moduleType = module.GetType();
+        var resultType = module.ResultType;
+
+        // For ignored modules, always check for historical data if a repository is configured
+        if (_resultRepository.GetType() != typeof(NoOpModuleResultRepository))
+        {
+            var historicalResult = await TryGetHistoricalResultAsync(module, resultType, pipelineContext).ConfigureAwait(false);
+            if (historicalResult != null)
+            {
+                // Update the status to UsedHistory using the factory method
+                var usedHistoryResult = ModuleResultFactory.WithStatus(historicalResult, Status.UsedHistory);
+                _logger.LogDebug("Using historical result for ignored module {ModuleName}",
+                    moduleType.Name);
+                _resultRegistry.RegisterResult(moduleType, usedHistoryResult);
+
+                // Set the completion source so awaiting the module returns immediately
+                SetModuleCompletionSource(module, resultType, usedHistoryResult);
+                return;
+            }
+        }
+
+        _logger.LogDebug("Registering skipped result for ignored module {ModuleName}",
+            moduleType.Name);
+
+        // Create execution context with Skipped status using compiled delegate factory
+        var executionContext = ExecutionContextFactory.Create(module, moduleType);
+        executionContext.Status = Status.Skipped;
+        executionContext.SkipResult = ignoredModule.SkipDecision;
+
+        // Create ModuleResult<T> with the skipped status using compiled delegate factory
+        var result = ModuleResultFactory.CreateSkipped(resultType, executionContext);
+
+        _resultRegistry.RegisterResult(moduleType, result);
+
+        // Set the completion source so awaiting the module returns immediately
+        SetModuleCompletionSource(module, resultType, result);
     }
 
     /// <summary>

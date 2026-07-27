@@ -22,6 +22,17 @@ public class ModuleHistoryTests
         }
     }
 
+    [ModularPipelines.Attributes.DependsOn<SkipFromCategory>]
+    private class UsesCategoryDependency : Module<Status>
+    {
+        protected internal override async Task<Status> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return (await context.GetModule<SkipFromCategory>()).ModuleStatus;
+        }
+    }
+
     private class SkipRunConditionAttribute : RunConditionAttribute
     {
         public override Task<bool> Condition(IPipelineHookContext pipelineContext)
@@ -217,6 +228,26 @@ public class ModuleHistoryTests
         var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.UsedHistory);
+    }
+
+    [Test]
+    public async Task Required_Dependency_With_History_Does_Not_Skip_Dependent()
+    {
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<SkipFromCategory>()
+            .AddModule<UsesCategoryDependency>()
+            .IgnoreCategories("1")
+            .AddResultsRepository<GoodModuleRepository>()
+            .BuildHostAsync();
+
+        var summary = await host.ExecutePipelineAsync();
+
+        var dependencyResult = await summary.Modules.OfType<SkipFromCategory>().Single();
+        var dependentResult = await summary.Modules.OfType<UsesCategoryDependency>().Single();
+
+        await Assert.That(dependencyResult.ModuleStatus).IsEqualTo(Status.UsedHistory);
+        await Assert.That(dependentResult.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(dependentResult.ValueOrDefault).IsEqualTo(Status.UsedHistory);
     }
 
     [Test]

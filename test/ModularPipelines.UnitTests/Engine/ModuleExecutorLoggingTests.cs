@@ -49,6 +49,7 @@ public class ModuleExecutorLoggingTests
             Mock.Of<IModuleRunner>(),
             Mock.Of<IAlwaysRunHandler>(),
             Mock.Of<IModuleResultRegistrar>(),
+            Mock.Of<IModuleResultRegistry>(),
             parallelLimitProvider.Object,
             registrationEvents.Object,
             Mock.Of<IMetricsCollector>(),

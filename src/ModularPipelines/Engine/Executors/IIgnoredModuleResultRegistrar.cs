@@ -10,7 +10,8 @@ namespace ModularPipelines.Engine.Executors;
 internal interface IIgnoredModuleResultRegistrar
 {
     /// <summary>
-    /// Registers results for all ignored modules.
+    /// Registers ignored results and cascades modules whose required dependencies
+    /// remain skipped after history restoration.
     /// </summary>
-    Task RegisterIgnoredModuleResultsAsync(IReadOnlyList<IgnoredModule> ignoredModules);
+    Task<OrganizedModules> RegisterIgnoredModuleResultsAsync(OrganizedModules organizedModules);
 }

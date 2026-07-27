@@ -82,17 +82,19 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             // Setup cancellation based on AlwaysRun behavior
             SetupCancellation(config, executionContext, engineCancellationToken);
 
-            // Check for skip condition
-            if (config.SkipCondition != null)
+            // A required dependency can skip after discovery through a fluent condition.
+            var skipDecision = executionContext.SkipResult;
+            if (!skipDecision.ShouldSkip && config.SkipCondition != null)
             {
-                var skipDecision = await config.SkipCondition(moduleContext).ConfigureAwait(false);
-                if (skipDecision.ShouldSkip)
-                {
-                    // Call direct skip hook first
-                    await _directHookInvoker.InvokeSkippedAsync(module, moduleContext, skipDecision, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
+                skipDecision = await config.SkipCondition(moduleContext).ConfigureAwait(false);
+            }
 
-                    return await HandleSkipped(module, executionContext, moduleContext, skipDecision, logger).ConfigureAwait(false);
-                }
+            if (skipDecision.ShouldSkip)
+            {
+                // Call direct skip hook first
+                await _directHookInvoker.InvokeSkippedAsync(module, moduleContext, skipDecision, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
+
+                return await HandleSkipped(module, executionContext, moduleContext, skipDecision, logger).ConfigureAwait(false);
             }
 
             // Check for cancellation after skip check

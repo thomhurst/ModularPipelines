@@ -1,5 +1,7 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
@@ -76,6 +78,38 @@ public class CategoryFilterDependencyTests : TestBase
     private class TransitiveRequiredDepModule : SimpleTestModule<string>
     {
         protected override string Result => throw new InvalidOperationException("A transitively cascade-skipped module must not execute");
+    }
+
+    private class FluentlySkippedModule : SimpleTestModule<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(() => SkipDecision.Skip("Fluent skip"))
+            .Build();
+
+        protected override string Result => throw new InvalidOperationException("A fluently skipped module must not execute");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<FluentlySkippedModule>]
+    private class FluentSkipDependentModule : SimpleTestModule<string>
+    {
+        protected override string Result => throw new InvalidOperationException("A dependent of a skipped module must not execute");
+    }
+
+    private abstract class ValueEqualModule : SimpleTestModule<string>
+    {
+        public override bool Equals(object? obj) => obj is ValueEqualModule;
+
+        public override int GetHashCode() => 1;
+    }
+
+    private class FirstValueEqualModule : ValueEqualModule
+    {
+        protected override string Result => "first";
+    }
+
+    private class SecondValueEqualModule : ValueEqualModule
+    {
+        protected override string Result => "second";
     }
 
     [Test]
@@ -188,6 +222,37 @@ public class CategoryFilterDependencyTests : TestBase
             .OfType<CompileResultConsumerModule>()
             .Single();
         await Assert.That(consumerResult.ValueOrDefault).IsEqualTo("compiled");
+    }
+
+    [Test]
+    public async Task Fluent_Skip_Cascade_Skips_Required_Dependent()
+    {
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .AddModule<FluentlySkippedModule>()
+            .AddModule<FluentSkipDependentModule>()
+            .ExecutePipelineAsync();
+
+        var dependentResult = await pipelineSummary.Modules
+            .OfType<FluentSkipDependentModule>()
+            .Single();
+
+        await Assert.That(dependentResult.IsSkipped).IsTrue();
+        await Assert.That(dependentResult.SkipDecisionOrDefault.Reason)
+            .Contains(nameof(FluentlySkippedModule));
+    }
+
+    [Test]
+    public async Task Value_Equal_Module_Instances_Are_Discovered_Independently()
+    {
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .AddModule<FirstValueEqualModule>()
+            .AddModule<SecondValueEqualModule>()
+            .ExecutePipelineAsync();
+
+        await Assert.That((await pipelineSummary.Modules.OfType<FirstValueEqualModule>().Single()).ValueOrDefault)
+            .IsEqualTo("first");
+        await Assert.That((await pipelineSummary.Modules.OfType<SecondValueEqualModule>().Single()).ValueOrDefault)
+            .IsEqualTo("second");
     }
 
     [Test]

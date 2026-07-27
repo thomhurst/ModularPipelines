@@ -51,10 +51,12 @@ internal class ModuleRetriever
     internal async Task<IReadOnlyList<IModule>> GetRunnableModulesForValidation(
         CancellationToken cancellationToken = default)
     {
-        return (await DiscoverModules(cancellationToken).ConfigureAwait(false)).RunnableModules;
+        return (await DiscoverModules(cancellationToken, cascadeSkippedDependencies: true).ConfigureAwait(false)).RunnableModules;
     }
 
-    private async Task<DiscoveredModules> DiscoverModules(CancellationToken cancellationToken)
+    private async Task<DiscoveredModules> DiscoverModules(
+        CancellationToken cancellationToken,
+        bool cascadeSkippedDependencies)
     {
         if (_modules.Count == 0)
         {
@@ -81,7 +83,10 @@ internal class ModuleRetriever
             }
         }
 
-        CascadeSkippedDependencies(modulesToProcess, modulesToIgnore, cancellationToken);
+        if (cascadeSkippedDependencies)
+        {
+            CascadeSkippedDependencies(modulesToProcess, modulesToIgnore, cancellationToken);
+        }
 
         return new DiscoveredModules(modulesToProcess, modulesToIgnore);
     }
@@ -102,7 +107,7 @@ internal class ModuleRetriever
             .Where(ignoredModule => !runnableModuleTypes.Contains(ignoredModule.Module.GetType()))
             .GroupBy(ignoredModule => ignoredModule.Module.GetType())
             .ToDictionary(group => group.Key, group => group.First());
-        var requiredDependenciesByModule = runnableModules.ToDictionary(
+        var requiredDependenciesByModule = runnableModules.ToDictionary<IModule, IModule, Type[]>(
             module => module,
             module => ModuleDependencyResolver
                 .GetAllDependencies(module, availableModuleTypes, _dependencyRegistry, _metadataRegistry)
@@ -110,7 +115,8 @@ internal class ModuleRetriever
                 .Select(dependency => dependency.DependencyType)
                 .Distinct()
                 .OrderBy(dependencyType => dependencyType.FullName, StringComparer.Ordinal)
-                .ToArray());
+                .ToArray(),
+            ReferenceEqualityComparer.Instance);
 
         while (true)
         {
@@ -157,29 +163,23 @@ internal class ModuleRetriever
         }
     }
 
-    private static SkipDecision CreateDependencySkipDecision(
+    internal static SkipDecision CreateDependencySkipDecision(
         IReadOnlyList<Type> skippedDependencies,
         IReadOnlyDictionary<Type, IgnoredModule> ignoredModulesByType)
     {
-        if (skippedDependencies.Count == 1)
-        {
-            var dependencyType = skippedDependencies[0];
-            var dependencyReason = ignoredModulesByType[dependencyType].SkipDecision.Reason;
-            var reasonSuffix = string.IsNullOrWhiteSpace(dependencyReason)
-                ? string.Empty
-                : $": {dependencyReason}";
-            return SkipDecision.Skip($"Required dependency '{dependencyType.Name}' was skipped{reasonSuffix}");
-        }
-
-        var dependencyNames = string.Join(
-            ", ",
-            skippedDependencies.Select(dependencyType => $"'{dependencyType.Name}'"));
-        return SkipDecision.Skip($"Required dependencies {dependencyNames} were skipped");
+        return DependencySkipDecisionFactory.Create(
+            skippedDependencies
+                .Select(dependencyType => (
+                    ModuleType: dependencyType,
+                    SkipDecision: (SkipDecision?) ignoredModulesByType[dependencyType].SkipDecision))
+                .ToArray());
     }
 
     private async Task<OrganizedModules> GetInternal(CancellationToken cancellationToken)
     {
-        var discoveredModules = await DiscoverModules(cancellationToken).ConfigureAwait(false);
+        var discoveredModules = await DiscoverModules(
+            cancellationToken,
+            cascadeSkippedDependencies: false).ConfigureAwait(false);
         var runnableModulesWithEstimatatedDuration = await discoveredModules.RunnableModules.ToAsyncProcessorBuilder()
             .SelectAsync(async module =>
             {
