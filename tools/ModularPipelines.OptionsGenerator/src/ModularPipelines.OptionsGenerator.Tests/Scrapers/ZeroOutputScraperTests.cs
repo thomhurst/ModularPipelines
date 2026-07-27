@@ -26,6 +26,21 @@ public class ZeroOutputScraperTests
     }
 
     [Test]
+    public async Task Aws_Extracts_Service_List_With_Ansi_Formatting()
+    {
+        const string helpText = "\u001b[4mAVAILABLE SERVICES\u001b[24m\n\n"
+            + "       \u001b[1mo \u001b]8;;https://example.test\u001b\\accessanalyzer\u001b]8;;\u001b\\\u001b[22m\n"
+            + "       \u001b[1mo cloudformation\u001b[22m\n"
+            + "       \u001b[1mo ec2\u001b[22m\n";
+        const string commandHelp = "OPTIONS\n       --enabled (boolean)\n";
+        var scraper = new TestAwsCliScraper(new StubExecutor(arguments =>
+            arguments == "help" ? helpText : commandHelp));
+
+        await Assert.That((await ScrapeAsync(scraper)).Select(command => command.FullCommand))
+            .IsEquivalentTo(["aws accessanalyzer", "aws cloudformation", "aws ec2"]);
+    }
+
+    [Test]
     public async Task Gh_Parses_Uppercase_Usage_And_Flags_Sections()
     {
         const string helpText = """
@@ -192,11 +207,44 @@ public class ZeroOutputScraperTests
             .IsEquivalentTo(["add", "install", "workspace"]);
     }
 
+    [Test]
+    public async Task Yarn_Extracts_Berry_Commands_With_Ansi_Formatting()
+    {
+        const string helpText = "\u001b[1m━━━ General commands ━━━━━━━━━━━\u001b[0m\n\n"
+            + "  \u001b[1myarn \u001b]8;;https://example.test\u001b\\add\u001b]8;;\u001b\\ [--json]\u001b[22m\n"
+            + "    add dependencies to the project\n\n"
+            + "  \u001b[1myarn cache clean [--mirror]\u001b[22m\n"
+            + "    remove the shared cache files\n\n"
+            + "\u001b[1m━━━ Npm-related commands ━━━━━━━\u001b[0m\n\n"
+            + "  \u001b[1myarn npm info [--json]\u001b[22m\n";
+        const string commandHelp = "━━━ Details ━━━\nCommand details.\n\n"
+            + "━━━ Options ━━━\n  --json  Format output as JSON.\n";
+        var scraper = new TestYarnCliScraper(new StubExecutor(arguments => arguments switch
+        {
+            "--help" => helpText,
+            _ => commandHelp,
+        }));
+
+        await Assert.That((await ScrapeAsync(scraper)).Select(command => command.FullCommand))
+            .IsEquivalentTo(["yarn add", "yarn cache", "yarn cache clean", "yarn npm", "yarn npm info"]);
+    }
+
+    private static async Task<IReadOnlyList<CliCommandDefinition>> ScrapeAsync(ICliScraper scraper)
+    {
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        return commands;
+    }
+
     private sealed class TestAwsCliScraper : AwsCliScraper
     {
-        public TestAwsCliScraper()
+        public TestAwsCliScraper(ICliCommandExecutor? executor = null)
             : base(
-                new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
                 new HelpTextCache(NullLogger<HelpTextCache>.Instance),
                 NullLogger<AwsCliScraper>.Instance)
         {
@@ -223,14 +271,45 @@ public class ZeroOutputScraperTests
 
     private sealed class TestYarnCliScraper : YarnCliScraper
     {
-        public TestYarnCliScraper()
+        public TestYarnCliScraper(ICliCommandExecutor? executor = null)
             : base(
-                new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
                 new HelpTextCache(NullLogger<HelpTextCache>.Instance),
                 NullLogger<YarnCliScraper>.Instance)
         {
         }
 
         public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+
+        protected override async Task<string?> GetHelpTextAsync(
+            string[] commandPath,
+            CancellationToken cancellationToken)
+        {
+            var arguments = commandPath.Length > 1
+                ? string.Join(" ", commandPath.Skip(1)) + " --help"
+                : "--help";
+            var result = await Executor.ExecuteAsync(ToolName, arguments, cancellationToken);
+            return result.StandardOutput;
+        }
+    }
+
+    private sealed class StubExecutor(Func<string, string> outputByArguments) : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null) =>
+            Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = outputByArguments(arguments),
+                StandardError = string.Empty,
+            });
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 }

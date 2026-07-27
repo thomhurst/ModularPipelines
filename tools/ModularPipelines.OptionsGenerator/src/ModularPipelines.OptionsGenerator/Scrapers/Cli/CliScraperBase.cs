@@ -326,6 +326,8 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
+        helpText = NormalizeHelpText(helpText);
+
         if (path.Length == 1)
         {
             GlobalOptions = ParseGlobalOptions(helpText);
@@ -542,6 +544,13 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Each CLI has different formatting - must be implemented per CLI type.
     /// </summary>
     protected abstract IEnumerable<string> ExtractSubcommands(string helpText);
+
+    /// <summary>
+    /// Removes terminal formatting that changes the text shape consumed by scraper parsers.
+    /// Some CLIs emit ANSI sequences even when output is redirected and <c>NO_COLOR</c> is set.
+    /// </summary>
+    protected static string NormalizeHelpText(string helpText) =>
+        AnsiEscapeSequencePattern().Replace(helpText, string.Empty);
 
     /// <summary>
     /// Parses a command from its help text into a CliCommandDefinition.
@@ -840,6 +849,9 @@ public abstract partial class CliScraperBase : ICliScraper
         @"\b(?:one\s+or\s+more|zero\s+or\s+more|multiple\s+(?:times|values)|more\s+than\s+once|repeat(?:able|ed|edly)?)\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex RepeatableValuePattern();
+
+    [GeneratedRegex(@"\x1B(?:\][^\x07\x1B]*(?:\x07|\x1B\\)|\[[0-?]*[ -/]*[@-~])")]
+    private static partial Regex AnsiEscapeSequencePattern();
 
     #endregion
 }
