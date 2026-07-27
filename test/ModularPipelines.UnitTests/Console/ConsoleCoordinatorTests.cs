@@ -1,6 +1,5 @@
 using MEL.Spectre;
 using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
@@ -34,7 +33,7 @@ public class ConsoleCoordinatorTests
             Mock.Of<IResultsPrinter>(),
             secretObfuscator.Object,
             secretProvider.Object,
-            Options.Create(new PipelineOptions()),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             NullLoggerFactory.Instance,
             Mock.Of<IBuildSystemDetector>(),
             Mock.Of<IServiceProvider>(),
