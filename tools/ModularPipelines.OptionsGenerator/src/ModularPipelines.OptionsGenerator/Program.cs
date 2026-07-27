@@ -38,12 +38,18 @@ var approveCommandCoverageShrinkageOption = new Option<bool>("--approve-command-
     DefaultValueFactory = _ => false
 };
 
+var changeManifestOption = new Option<string?>("--change-manifest")
+{
+    Description = "Write the repository-relative generated and deleted paths to this file"
+};
+
 var rootCommand = new RootCommand("ModularPipelines CLI Options Generator");
 rootCommand.Options.Add(toolsOption);
 rootCommand.Options.Add(outputOption);
 rootCommand.Options.Add(useCliFirstOption);
 rootCommand.Options.Add(enhanceTypesOption);
 rootCommand.Options.Add(approveCommandCoverageShrinkageOption);
+rootCommand.Options.Add(changeManifestOption);
 
 rootCommand.SetAction(async (parseResult, cancellationToken) =>
 {
@@ -52,6 +58,11 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     var useCliFirst = parseResult.GetValue(useCliFirstOption);
     var enhanceTypes = parseResult.GetValue(enhanceTypesOption);
     var approveCommandCoverageShrinkage = parseResult.GetValue(approveCommandCoverageShrinkageOption);
+    var changeManifest = parseResult.GetValue(changeManifestOption);
+
+    ExecutableOverrideValidator.Validate(
+        tools,
+        Environment.GetEnvironmentVariable(ProcessCliCommandExecutor.ExecutableOverrideVariableName));
 
     var builder = Host.CreateApplicationBuilder();
 
@@ -206,6 +217,16 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
         outputDir,
         useCliFirst,
         approveCommandCoverageShrinkage);
+
+    if (!string.IsNullOrWhiteSpace(changeManifest))
+    {
+        var manifestPath = Path.GetFullPath(changeManifest);
+        Directory.CreateDirectory(Path.GetDirectoryName(manifestPath)!);
+        await File.WriteAllLinesAsync(
+            manifestPath,
+            result.ChangedPaths.Order(StringComparer.OrdinalIgnoreCase),
+            cancellationToken);
+    }
 
     Console.WriteLine(result.GetSummary());
 

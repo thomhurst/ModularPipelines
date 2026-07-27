@@ -269,6 +269,8 @@ public class CodeGeneratorOrchestratorTests
             await Assert.That(result.HasErrors).IsFalse();
             await Assert.That(File.Exists(existingFile)).IsFalse();
             await Assert.That(File.Exists(Path.Combine(outputRoot, ToolOutputDirectory, "Options", "FakeRunOptions.Generated.cs"))).IsTrue();
+            await Assert.That(result.FilesDeleted)
+                .Contains(Path.GetRelativePath(outputRoot, existingFile));
         }
         finally
         {
@@ -299,6 +301,8 @@ public class CodeGeneratorOrchestratorTests
             await Assert.That(File.Exists(Path.Combine(documentationDirectory, "fake.md"))).IsTrue();
             await Assert.That(File.Exists(staleGeneratedFile)).IsFalse();
             await Assert.That(File.Exists(handWrittenFile)).IsTrue();
+            await Assert.That(result.FilesDeleted)
+                .Contains(Path.GetRelativePath(outputRoot, staleGeneratedFile));
         }
         finally
         {

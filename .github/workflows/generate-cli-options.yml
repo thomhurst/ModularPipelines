@@ -32,8 +32,19 @@ on:
         type: boolean
 
 jobs:
+  validate-generation-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: Test exact generated-file staging
+        shell: pwsh
+        run: tools/ModularPipelines.OptionsGenerator/scripts/Test-StageGeneratedChanges.ps1
+
   # Generate options for each tool in parallel (Linux)
   generate:
+    needs: validate-generation-safety
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -142,6 +153,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      - name: Prepare isolated CLI workspace
+        if: steps.should-run.outputs.run == 'true'
+        run: |
+          mkdir -p "$RUNNER_TEMP/cli-tools/bin" "$RUNNER_TEMP/generator-work"
+          echo "CLI_TOOLS_ROOT=$RUNNER_TEMP/cli-tools" >> "$GITHUB_ENV"
+          echo "$RUNNER_TEMP/cli-tools/bin" >> "$GITHUB_PATH"
+
       # Clean up legacy manual files before generation
       # Only delete specific service interface/implementation files that will be replaced
       - name: Pack API baseline and clean up legacy files
@@ -223,16 +241,25 @@ jobs:
           dotnet pack "$PROJECT" -c Release --output "$RUNNER_TEMP/api-baseline"
 
           echo "Cleaning up legacy files in $PKG_DIR for prefix $PREFIX..."
+          LEGACY_PATHS="$RUNNER_TEMP/legacy-generated-paths.txt"
+          : > "$LEGACY_PATHS"
+
+          remove_legacy_file() {
+            if [ -e "$1" ]; then
+              printf '%s\n' "$1" >> "$LEGACY_PATHS"
+              rm -f "$1"
+            fi
+          }
 
           # Only delete specific service interface/implementation files (not all I*.cs files)
           # These are the exact files the generator will create in Services/
-          rm -f "$PKG_DIR/I${PREFIX}.cs" 2>/dev/null || true
-          rm -f "$PKG_DIR/${PREFIX}.cs" 2>/dev/null || true
+          remove_legacy_file "$PKG_DIR/I${PREFIX}.cs"
+          remove_legacy_file "$PKG_DIR/${PREFIX}.cs"
 
           # Delete only this tool's generated service files. Packages such as
           # ModularPipelines.Java contain services for multiple CLI tools.
-          rm -f "$PKG_DIR/Services/I${PREFIX}.Generated.cs" 2>/dev/null || true
-          rm -f "$PKG_DIR/Services/${PREFIX}.Generated.cs" 2>/dev/null || true
+          remove_legacy_file "$PKG_DIR/Services/I${PREFIX}.Generated.cs"
+          remove_legacy_file "$PKG_DIR/Services/${PREFIX}.Generated.cs"
 
           echo "Cleanup complete for $PACKAGE"
 
@@ -240,14 +267,15 @@ jobs:
       - name: Install Helm
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'helm'
         run: |
+          cd "$RUNNER_TEMP"
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
       - name: Install kubectl
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'kubectl'
         run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-          chmod +x kubectl
-          sudo mv kubectl /usr/local/bin/
+          curl -fL "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+            -o "$CLI_TOOLS_ROOT/bin/kubectl"
+          chmod +x "$CLI_TOOLS_ROOT/bin/kubectl"
 
       - name: Install Azure CLI
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'az'
@@ -296,29 +324,31 @@ jobs:
       - name: Install Kustomize
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'kustomize'
         run: |
+          cd "$RUNNER_TEMP"
           curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
-          sudo mv kustomize /usr/local/bin/
+          install -m 0755 kustomize "$CLI_TOOLS_ROOT/bin/kustomize"
 
       - name: Install Trivy
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'trivy'
         run: |
-          wget -q https://github.com/aquasecurity/trivy/releases/download/v0.70.0/trivy_0.70.0_Linux-64bit.tar.gz -O trivy.tar.gz
-          echo "8b4376d5d6befe5c24d503f10ff136d9e0c49f9127a4279fd110b727929a5aa9  trivy.tar.gz" | sha256sum --check
-          tar -xzf trivy.tar.gz trivy
-          sudo install -m 0755 trivy /usr/local/bin/trivy
+          TRIVY_ARCHIVE="$RUNNER_TEMP/trivy.tar.gz"
+          wget -q https://github.com/aquasecurity/trivy/releases/download/v0.70.0/trivy_0.70.0_Linux-64bit.tar.gz -O "$TRIVY_ARCHIVE"
+          echo "8b4376d5d6befe5c24d503f10ff136d9e0c49f9127a4279fd110b727929a5aa9  $TRIVY_ARCHIVE" | sha256sum --check
+          tar -xzf "$TRIVY_ARCHIVE" -C "$CLI_TOOLS_ROOT/bin" trivy
+          chmod +x "$CLI_TOOLS_ROOT/bin/trivy"
 
       - name: Install Hadolint
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'hadolint'
         run: |
-          wget -O hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-linux-x86_64
-          chmod +x hadolint
-          sudo mv hadolint /usr/local/bin/
+          wget -O "$CLI_TOOLS_ROOT/bin/hadolint" https://github.com/hadolint/hadolint/releases/latest/download/hadolint-linux-x86_64
+          chmod +x "$CLI_TOOLS_ROOT/bin/hadolint"
 
       - name: Install Flyway
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'flyway'
         run: |
-          wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.20.1/flyway-commandline-10.20.1-linux-x64.tar.gz | tar xvz
-          sudo ln -s "$(pwd)/flyway-10.20.1/flyway" /usr/local/bin/flyway
+          wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.20.1/flyway-commandline-10.20.1-linux-x64.tar.gz |
+            tar xvz -C "$CLI_TOOLS_ROOT"
+          ln -s "$CLI_TOOLS_ROOT/flyway-10.20.1/flyway" "$CLI_TOOLS_ROOT/bin/flyway"
 
       - name: Install Go
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'go'
@@ -331,11 +361,12 @@ jobs:
         run: |
           MAVEN_VERSION=3.9.16
           MAVEN_ARCHIVE="apache-maven-${MAVEN_VERSION}-bin.tar.gz"
-          wget -q "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/${MAVEN_ARCHIVE}"
-          echo "831a8591fe20c8243b1dbe7d71e3244f31d1665b0804b2e825e38cbbe5ce0cafb8338851f90780735568773e0a6cd07bbec107cda0b896b008b861075358b6f6  ${MAVEN_ARCHIVE}" | sha512sum --check
-          sudo tar -xzf "${MAVEN_ARCHIVE}" -C /opt
-          echo "/opt/apache-maven-${MAVEN_VERSION}/bin" >> "$GITHUB_PATH"
-          "/opt/apache-maven-${MAVEN_VERSION}/bin/mvn" --version
+          MAVEN_PATH="$RUNNER_TEMP/$MAVEN_ARCHIVE"
+          wget -q "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/${MAVEN_ARCHIVE}" -O "$MAVEN_PATH"
+          echo "831a8591fe20c8243b1dbe7d71e3244f31d1665b0804b2e825e38cbbe5ce0cafb8338851f90780735568773e0a6cd07bbec107cda0b896b008b861075358b6f6  ${MAVEN_PATH}" | sha512sum --check
+          tar -xzf "$MAVEN_PATH" -C "$CLI_TOOLS_ROOT"
+          echo "$CLI_TOOLS_ROOT/apache-maven-${MAVEN_VERSION}/bin" >> "$GITHUB_PATH"
+          "$CLI_TOOLS_ROOT/apache-maven-${MAVEN_VERSION}/bin/mvn" --version
 
       - name: Install Gradle
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gradle'
@@ -358,11 +389,12 @@ jobs:
       - name: Install SonarScanner
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'sonar-scanner'
         run: |
-          wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-8.0.1.6346-linux-x64.zip -O sonar-scanner.zip
-          echo "4bd40bf8411ed104853e94a3746ec92bc92845fde2b27dbf5c33fb5cfa8ecbe9  sonar-scanner.zip" | sha256sum --check
-          unzip -q sonar-scanner.zip
-          sudo mv sonar-scanner-8.0.1.6346-linux-x64 /opt/sonar-scanner
-          sudo ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
+          SONAR_ARCHIVE="$RUNNER_TEMP/sonar-scanner.zip"
+          wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-8.0.1.6346-linux-x64.zip -O "$SONAR_ARCHIVE"
+          echo "4bd40bf8411ed104853e94a3746ec92bc92845fde2b27dbf5c33fb5cfa8ecbe9  $SONAR_ARCHIVE" | sha256sum --check
+          unzip -q "$SONAR_ARCHIVE" -d "$CLI_TOOLS_ROOT"
+          ln -s "$CLI_TOOLS_ROOT/sonar-scanner-8.0.1.6346-linux-x64/bin/sonar-scanner" \
+            "$CLI_TOOLS_ROOT/bin/sonar-scanner"
 
       - name: Install Snyk
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'snyk'
@@ -375,18 +407,17 @@ jobs:
         run: |
           JQ_VERSION=1.8.2
           JQ_SHA256=b1c22172dd303f3be49e935aa56aa48a8b7a46e0bc838b4997d3bb451495870f
-          curl --fail --location --output /tmp/jq \
+          curl --fail --location --output "$CLI_TOOLS_ROOT/bin/jq" \
             "https://github.com/jqlang/jq/releases/download/jq-${JQ_VERSION}/jq-linux-amd64"
-          echo "${JQ_SHA256}  /tmp/jq" | sha256sum --check --strict
-          sudo install -m 0755 /tmp/jq /usr/local/bin/jq
+          echo "${JQ_SHA256}  $CLI_TOOLS_ROOT/bin/jq" | sha256sum --check --strict
+          chmod +x "$CLI_TOOLS_ROOT/bin/jq"
           jq --version
 
       - name: Install yq
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'yq'
         run: |
-          wget -qO /tmp/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-          chmod +x /tmp/yq
-          sudo mv /tmp/yq /usr/local/bin/yq
+          wget -qO "$CLI_TOOLS_ROOT/bin/yq" https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          chmod +x "$CLI_TOOLS_ROOT/bin/yq"
 
       # Container tools (Docker alternatives)
       - name: Install Podman
@@ -438,27 +469,26 @@ jobs:
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'liquibase'
         run: |
           LIQUIBASE_VERSION="5.0.3"
-          mkdir -p /tmp/liquibase
-          wget -q "https://github.com/liquibase/liquibase/releases/download/v${LIQUIBASE_VERSION}/liquibase-${LIQUIBASE_VERSION}.tar.gz" -O /tmp/liquibase.tar.gz
-          echo "865aab391be9cbe3fee22461392d5d29aa76652596598b14700a3f5f05c9e2b7  /tmp/liquibase.tar.gz" | sha256sum --check
-          tar xzf /tmp/liquibase.tar.gz -C /tmp/liquibase
-          # Find the liquibase executable (could be directly in /tmp/liquibase or in a subdirectory)
-          LIQUIBASE_BIN=$(find /tmp/liquibase -name "liquibase" -type f -executable 2>/dev/null | head -1)
+          LIQUIBASE_ROOT="$CLI_TOOLS_ROOT/liquibase"
+          LIQUIBASE_ARCHIVE="$RUNNER_TEMP/liquibase.tar.gz"
+          mkdir -p "$LIQUIBASE_ROOT"
+          wget -q "https://github.com/liquibase/liquibase/releases/download/v${LIQUIBASE_VERSION}/liquibase-${LIQUIBASE_VERSION}.tar.gz" -O "$LIQUIBASE_ARCHIVE"
+          echo "865aab391be9cbe3fee22461392d5d29aa76652596598b14700a3f5f05c9e2b7  $LIQUIBASE_ARCHIVE" | sha256sum --check
+          tar xzf "$LIQUIBASE_ARCHIVE" -C "$LIQUIBASE_ROOT"
+          LIQUIBASE_BIN=$(find "$LIQUIBASE_ROOT" -name "liquibase" -type f -executable 2>/dev/null | head -1)
           if [ -z "$LIQUIBASE_BIN" ]; then
-            # Try without executable check (might need chmod)
-            LIQUIBASE_BIN=$(find /tmp/liquibase -name "liquibase" -type f 2>/dev/null | head -1)
+            LIQUIBASE_BIN=$(find "$LIQUIBASE_ROOT" -name "liquibase" -type f 2>/dev/null | head -1)
             if [ -n "$LIQUIBASE_BIN" ]; then
               chmod +x "$LIQUIBASE_BIN"
             fi
           fi
           if [ -z "$LIQUIBASE_BIN" ]; then
             echo "Error: Could not find liquibase executable"
-            ls -laR /tmp/liquibase
+            ls -laR "$LIQUIBASE_ROOT"
             exit 1
           fi
           echo "Found liquibase at: $LIQUIBASE_BIN"
-          sudo ln -sf "$LIQUIBASE_BIN" /usr/local/bin/liquibase
-          # Verify installation
+          ln -sf "$LIQUIBASE_BIN" "$CLI_TOOLS_ROOT/bin/liquibase"
           liquibase --version
 
       # Rust ecosystem
@@ -474,57 +504,57 @@ jobs:
         run: |
           ARCH=amd64
           PLATFORM=$(uname -s)_$ARCH
-          curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
-          tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp
-          sudo mv /tmp/eksctl /usr/local/bin
+          EKSCTL_ARCHIVE="$RUNNER_TEMP/eksctl_$PLATFORM.tar.gz"
+          curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz" \
+            -o "$EKSCTL_ARCHIVE"
+          tar -xzf "$EKSCTL_ARCHIVE" -C "$CLI_TOOLS_ROOT/bin"
 
       - name: Install ArgoCD CLI
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'argocd'
         run: |
-          curl -sSL -o /tmp/argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-          chmod +x /tmp/argocd-linux-amd64
-          sudo mv /tmp/argocd-linux-amd64 /usr/local/bin/argocd
+          curl -sSL -o "$CLI_TOOLS_ROOT/bin/argocd" https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          chmod +x "$CLI_TOOLS_ROOT/bin/argocd"
 
       - name: Install Flux CLI
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'flux'
         run: |
+          cd "$RUNNER_TEMP"
           curl -s https://fluxcd.io/install.sh | sudo bash
 
       # Local Kubernetes tools
       - name: Install Kind
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'kind'
         run: |
-          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
-          chmod +x ./kind
-          sudo mv ./kind /usr/local/bin/kind
+          curl -fLo "$CLI_TOOLS_ROOT/bin/kind" https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
+          chmod +x "$CLI_TOOLS_ROOT/bin/kind"
 
       - name: Install Minikube
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'minikube'
         run: |
-          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-          chmod +x minikube
-          sudo mv minikube /usr/local/bin/
+          curl -fLo "$CLI_TOOLS_ROOT/bin/minikube" https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          chmod +x "$CLI_TOOLS_ROOT/bin/minikube"
 
       # Supply chain security tools
       - name: Install Cosign
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'cosign'
         run: |
-          # Use -fL to fail on HTTP errors and follow redirects
-          curl -fLo cosign https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64
-          chmod +x cosign
-          sudo mv cosign /usr/local/bin/
-          # Verify installation
+          curl -fLo "$CLI_TOOLS_ROOT/bin/cosign" https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64
+          chmod +x "$CLI_TOOLS_ROOT/bin/cosign"
           cosign version
 
       - name: Install Syft
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'syft'
         run: |
-          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+          cd "$RUNNER_TEMP"
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh |
+            sh -s -- -b "$CLI_TOOLS_ROOT/bin"
 
       - name: Install Grype
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'grype'
         run: |
-          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+          cd "$RUNNER_TEMP"
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh |
+            sh -s -- -b "$CLI_TOOLS_ROOT/bin"
 
       # Code quality tools
       - name: Install ShellCheck
@@ -534,7 +564,7 @@ jobs:
           curl -fsSL "https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz" -o /tmp/shellcheck.tar.xz
           echo "8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198  /tmp/shellcheck.tar.xz" | sha256sum --check
           tar -xJf /tmp/shellcheck.tar.xz -C /tmp
-          sudo install "/tmp/shellcheck-v${SHELLCHECK_VERSION}/shellcheck" /usr/local/bin/shellcheck
+          install "/tmp/shellcheck-v${SHELLCHECK_VERSION}/shellcheck" "$CLI_TOOLS_ROOT/bin/shellcheck"
           shellcheck --version
 
       # Testing tools
@@ -557,6 +587,19 @@ jobs:
             *) "${{ matrix.tool }}" --version ;;
           esac
 
+      - name: Pin resolved executable for scraper
+        if: steps.should-run.outputs.run == 'true'
+        run: |
+          EXECUTABLE_PATH="$(command -v "${{ matrix.tool }}")"
+          if [ -z "$EXECUTABLE_PATH" ]; then
+            echo "Could not resolve executable for ${{ matrix.tool }}" >&2
+            exit 1
+          fi
+
+          # Each matrix job handles one tool. Pin the binary that passed verification so
+          # a later PATH mutation cannot redirect the scraper to a runner-preinstalled copy.
+          echo "MODULARPIPELINES_CLI_EXECUTABLE=$EXECUTABLE_PATH" >> "$GITHUB_ENV"
+
       - name: Build Generator
         if: steps.should-run.outputs.run == 'true'
         run: dotnet build -c Release
@@ -567,14 +610,18 @@ jobs:
         if: steps.should-run.outputs.run == 'true'
         run: |
           set -o pipefail
+          cd "$RUNNER_TEMP/generator-work"
           COVERAGE_ARGS=()
           if [[ "${{ github.event_name == 'workflow_dispatch' && inputs['approve-command-coverage-shrinkage'] || false }}" == "true" ]]; then
             COVERAGE_ARGS+=(--approve-command-coverage-shrinkage)
           fi
 
-          dotnet run -c Release -- \
+          dotnet run \
+            --project "$GITHUB_WORKSPACE/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj" \
+            -c Release -- \
             --tools "${{ matrix.tool }}" \
-            --output-dir "${{ github.workspace }}" \
+            --output-dir "$GITHUB_WORKSPACE" \
+            --change-manifest "$RUNNER_TEMP/generated-paths.txt" \
             "${COVERAGE_ARGS[@]}" | tee "$RUNNER_TEMP/generator-output.log"
 
           if ! grep -Eq -- '- Files generated: [1-9][0-9]*$' "$RUNNER_TEMP/generator-output.log"; then
@@ -588,24 +635,34 @@ jobs:
             sed -n '/^Command coverage report:/,$p' "$RUNNER_TEMP/generator-output.log"
             echo "$coverage_delimiter"
           } >> "$GITHUB_OUTPUT"
-        working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
 
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'
         id: changes
+        shell: pwsh
         run: |
-          # Stage generated APIs and the matching CLI reference page.
-          git add 'src/**/*.cs' 'src/**/Generated/*.CommandCoverage.json' 'docs/docs/mp-packages/cli/*.md'
+          tools/ModularPipelines.OptionsGenerator/scripts/Stage-GeneratedChanges.ps1 `
+            -RepositoryRoot "$env:GITHUB_WORKSPACE" `
+            -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
+            -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -MaximumFileSizeBytes 5242880
 
           # Check for actual content changes (ignore whitespace-only changes)
-          if git diff --staged --quiet --ignore-all-space --ignore-blank-lines; then
-            echo "has_changes=false" >> $GITHUB_OUTPUT
-            echo "No meaningful changes detected for ${{ matrix.tool }}"
-          else
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-            echo "Changed files:"
-            git diff --staged --name-only
-          fi
+          git diff --staged --quiet --ignore-all-space --ignore-blank-lines
+          $hasChanges = $LASTEXITCODE -ne 0
+          if ($hasChanges) {
+            "has_changes=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            $stagedPaths = @(git diff --staged --name-only)
+            $delimiter = [guid]::NewGuid().ToString()
+            "add_paths<<$delimiter" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            $stagedPaths | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            $delimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            Write-Host "Changed files:"
+            $stagedPaths
+          } else {
+            "has_changes=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            Write-Host "No meaningful changes detected for ${{ matrix.tool }}"
+          }
 
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
@@ -628,6 +685,7 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
+          add-paths: ${{ steps.changes.outputs.add_paths }}
           commit-message: "chore: Update ${{ matrix.tool }} CLI options"
           title: "[Automated] Update ${{ matrix.tool }} CLI Options"
           body: |
@@ -673,6 +731,7 @@ jobs:
 
   # Generate options for Windows-only tools
   generate-windows:
+    needs: validate-generation-safety
     runs-on: windows-latest
     permissions:
       contents: write
@@ -731,6 +790,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      - name: Prepare isolated CLI workspace
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        run: |
+          $cliToolsRoot = Join-Path $env:RUNNER_TEMP 'cli-tools'
+          New-Item -ItemType Directory -Force (Join-Path $cliToolsRoot 'bin') | Out-Null
+          New-Item -ItemType Directory -Force (Join-Path $env:RUNNER_TEMP 'generator-work') | Out-Null
+          "CLI_TOOLS_ROOT=$cliToolsRoot" | Out-File -FilePath $env:GITHUB_ENV -Append
+          (Join-Path $cliToolsRoot 'bin') | Out-File -FilePath $env:GITHUB_PATH -Append
+
       # Clean up legacy manual files before generation
       # Only delete specific service interface/implementation files that will be replaced
       - name: Pack API baseline and clean up legacy files
@@ -764,27 +833,31 @@ jobs:
           }
 
           Write-Host "Cleaning up legacy files in $pkgDir for prefix $prefix..."
+          $legacyPaths = Join-Path $env:RUNNER_TEMP 'legacy-generated-paths.txt'
+          Set-Content -LiteralPath $legacyPaths -Value ''
+
+          function Remove-LegacyFile([string] $path) {
+            if (Test-Path -LiteralPath $path) {
+              Add-Content -LiteralPath $legacyPaths -Value $path
+              Remove-Item -LiteralPath $path -Force
+              Write-Host "Removed $path"
+            }
+          }
 
           # Only delete specific service interface/implementation files (not all I*.cs files)
           # These are the exact files the generator will create in Services/
           $interfaceFile = Join-Path $pkgDir "I$prefix.cs"
           $implFile = Join-Path $pkgDir "$prefix.cs"
 
-          if (Test-Path $interfaceFile) {
-            Remove-Item $interfaceFile -Force -ErrorAction SilentlyContinue
-            Write-Host "Removed $interfaceFile"
-          }
-          if (Test-Path $implFile) {
-            Remove-Item $implFile -Force -ErrorAction SilentlyContinue
-            Write-Host "Removed $implFile"
-          }
+          Remove-LegacyFile $interfaceFile
+          Remove-LegacyFile $implFile
 
           # Delete only this tool's generated service files. A package may
           # contain services for multiple CLI tools.
           $servicesDir = Join-Path $pkgDir "Services"
           if (Test-Path $servicesDir) {
-            Remove-Item (Join-Path $servicesDir "I$prefix.Generated.cs") -Force -ErrorAction SilentlyContinue
-            Remove-Item (Join-Path $servicesDir "$prefix.Generated.cs") -Force -ErrorAction SilentlyContinue
+            Remove-LegacyFile (Join-Path $servicesDir "I$prefix.Generated.cs")
+            Remove-LegacyFile (Join-Path $servicesDir "$prefix.Generated.cs")
           }
 
           Write-Host "Cleanup complete for $package"
@@ -803,6 +876,16 @@ jobs:
           # WinGet is pre-installed on windows-latest (Windows Server 2022)
           winget --version
 
+      - name: Pin resolved executable for scraper
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        run: |
+          $command = Get-Command "${{ matrix.tool }}" -ErrorAction Stop
+          # Each matrix job handles one tool. Pin the binary that passed verification so
+          # a later PATH mutation cannot redirect the scraper to a runner-preinstalled copy.
+          "MODULARPIPELINES_CLI_EXECUTABLE=$($command.Source)" |
+            Out-File -FilePath $env:GITHUB_ENV -Append
+
       - name: Build Generator
         if: steps.should-run.outputs.run == 'true'
         run: dotnet build -c Release
@@ -813,14 +896,18 @@ jobs:
         if: steps.should-run.outputs.run == 'true'
         shell: pwsh
         run: |
+          Set-Location (Join-Path $env:RUNNER_TEMP 'generator-work')
+          $generatorProject = Join-Path $env:GITHUB_WORKSPACE `
+            'tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj'
           $coverageArgs = @()
           if ("${{ github.event_name == 'workflow_dispatch' && inputs['approve-command-coverage-shrinkage'] || false }}" -eq "true") {
             $coverageArgs += "--approve-command-coverage-shrinkage"
           }
 
-          $generatorOutput = @(dotnet run -c Release -- `
+          $generatorOutput = @(dotnet run --project $generatorProject -c Release -- `
             --tools "${{ matrix.tool }}" `
-            --output-dir "${{ github.workspace }}" `
+            --output-dir "$env:GITHUB_WORKSPACE" `
+            --change-manifest "$env:RUNNER_TEMP/generated-paths.txt" `
             @coverageArgs 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/generator-output.log")
 
           if ($LASTEXITCODE -ne 0) {
@@ -839,23 +926,30 @@ jobs:
               Out-File -FilePath $env:GITHUB_OUTPUT -Append
           }
           $coverageDelimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
 
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'
         id: changes
         shell: pwsh
         run: |
-          # Stage generated APIs and the matching CLI reference page.
-          git add 'src/**/*.cs' 'src/**/Generated/*.CommandCoverage.json' 'docs/docs/mp-packages/cli/*.md'
+          tools/ModularPipelines.OptionsGenerator/scripts/Stage-GeneratedChanges.ps1 `
+            -RepositoryRoot "$env:GITHUB_WORKSPACE" `
+            -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
+            -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -MaximumFileSizeBytes 5242880
 
           # Check for actual content changes (ignore whitespace-only changes)
           git diff --staged --quiet --ignore-all-space --ignore-blank-lines
           $hasChanges = $LASTEXITCODE -ne 0
           if ($hasChanges) {
             "has_changes=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            $stagedPaths = @(git diff --staged --name-only)
+            $delimiter = [guid]::NewGuid().ToString()
+            "add_paths<<$delimiter" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            $stagedPaths | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            $delimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
             Write-Host "Changed files:"
-            git diff --staged --name-only
+            $stagedPaths
           } else {
             "has_changes=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
             Write-Host "No meaningful changes detected for ${{ matrix.tool }}"
@@ -887,6 +981,7 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
+          add-paths: ${{ steps.changes.outputs.add_paths }}
           commit-message: "chore: Update ${{ matrix.tool }} CLI options"
           title: "[Automated] Update ${{ matrix.tool }} CLI Options"
           body: |

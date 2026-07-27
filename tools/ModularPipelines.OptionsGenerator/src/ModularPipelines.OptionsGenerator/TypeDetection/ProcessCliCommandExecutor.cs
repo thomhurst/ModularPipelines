@@ -9,6 +9,8 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 /// </summary>
 public class ProcessCliCommandExecutor : ICliCommandExecutor
 {
+    internal const string ExecutableOverrideVariableName = "MODULARPIPELINES_CLI_EXECUTABLE";
+
     private readonly ILogger<ProcessCliCommandExecutor> _logger;
     private readonly TimeSpan _timeout;
 
@@ -112,12 +114,21 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         }
     }
 
-    private static string? ResolveExecutablePath(string command) => ResolveExecutablePath(
-        command,
-        Environment.GetEnvironmentVariable("PATH"),
-        Environment.GetEnvironmentVariable("PATHEXT"),
-        OperatingSystem.IsWindows(),
-        Environment.CurrentDirectory);
+    private static string? ResolveExecutablePath(string command)
+    {
+        var configuredPath = Environment.GetEnvironmentVariable(ExecutableOverrideVariableName);
+        if (!string.IsNullOrWhiteSpace(configuredPath))
+        {
+            return Path.GetFullPath(configuredPath);
+        }
+
+        return ResolveExecutablePath(
+            command,
+            Environment.GetEnvironmentVariable("PATH"),
+            Environment.GetEnvironmentVariable("PATHEXT"),
+            OperatingSystem.IsWindows(),
+            Environment.CurrentDirectory);
+    }
 
     internal static string? ResolveExecutablePath(
         string command,

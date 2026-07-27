@@ -6,6 +6,13 @@ namespace ModularPipelines.OptionsGenerator.Tests.TypeDetection;
 public class ProcessCliCommandExecutorTests
 {
     [Test]
+    public async Task ExecutableOverrideVariable_Is_Matrix_Scoped()
+    {
+        await Assert.That(ProcessCliCommandExecutor.ExecutableOverrideVariableName)
+            .IsEqualTo("MODULARPIPELINES_CLI_EXECUTABLE");
+    }
+
+    [Test]
     public async Task Resolves_Each_Path_Directory_Before_Trying_The_Next_Extension()
     {
         var root = Path.Combine(Path.GetTempPath(), "mp-cli-executor-tests", Guid.NewGuid().ToString("N"));
