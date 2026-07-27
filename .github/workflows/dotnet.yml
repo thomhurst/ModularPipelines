@@ -70,6 +70,19 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Increase swap space
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          # Two consecutive builds exhausted the hosted runner while compiling
+          # ModularPipelines.Examples.sln after the full solution (MSB4166).
+          sudo swapoff -a || true
+          sudo rm -f /mnt/swapfile || true
+          sudo fallocate -l 10G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+          free -h
       - name: Setup .NET
         uses: actions/setup-dotnet@v6.0.0
         with:
