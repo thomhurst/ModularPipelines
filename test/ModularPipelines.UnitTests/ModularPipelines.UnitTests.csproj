@@ -22,10 +22,10 @@
     Core framework tests only reference the core framework plus the handful of integrations
     used as test infrastructure: Cmd (base command execution), Git (nearly every test resolves
     paths from the git root) and DotNet (TRX/test-result parsing is exercised here). Tool
-    integration tests live in ModularPipelines.Tools.UnitTests so this project does not have
+    integration tests live in one test project per integration so this project does not have
     to reference every integration - referencing all 50+ made it one oversized compilation
     unit that stalled the CI runner (#3179). Do not add tool integration references here; add
-    the test to ModularPipelines.Tools.UnitTests instead.
+    each test to the matching ModularPipelines.<Integration>.UnitTests project instead.
   -->
   <ItemGroup>
     <ProjectReference Include="..\..\src\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
