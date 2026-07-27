@@ -1,3 +1,4 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -56,10 +57,17 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
         // on a [CliGlobalOptions] base belong before the subcommand; command-specific
         // properties retain their normal position after it.
         var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
-        var globalCommandModel = commandModel.Where(part => part.IsGlobalOption).ToList();
-        var commandSpecificModel = commandModel.Where(part => !part.IsGlobalOption).ToList();
+        var terminalCommandModel = commandModel
+            .Where(part => part.Phase == CommandLinePhase.Terminal)
+            .ToList();
+        var nonTerminalCommandModel = commandModel
+            .Where(part => part.Phase != CommandLinePhase.Terminal)
+            .ToList();
+        var globalCommandModel = nonTerminalCommandModel.Where(part => part.IsGlobalOption).ToList();
+        var commandSpecificModel = nonTerminalCommandModel.Where(part => !part.IsGlobalOption).ToList();
         var globalArgs = _commandArgumentBuilder.BuildArguments(globalCommandModel, options);
         var propertyArgs = _commandArgumentBuilder.BuildArguments(commandSpecificModel, options);
+        var terminalArgs = _commandArgumentBuilder.BuildArguments(terminalCommandModel, options);
 
         // 4. Combine: global args + preceding args (subcommands) + property args
         var allArgs = new List<string>(globalArgs);
@@ -74,6 +82,22 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
             manualArgs = manualArgs.Skip(1).ToList();
         }
 
+        if (terminalArgs.Count > 0)
+        {
+            var endOfOptionsModel = commandModel
+                .Where(part => part.Phase == CommandLinePhase.EndOfOptions)
+                .ToList();
+            var hasPropertyEndOfOptions =
+                _commandArgumentBuilder.BuildArguments(endOfOptionsModel, options).Count > 0;
+            var hasManualEndOfOptions = manualArgs.Contains("--", StringComparer.Ordinal);
+
+            if (hasPropertyEndOfOptions || hasManualEndOfOptions || options.RunSettings is not null)
+            {
+                throw new InvalidOperationException(
+                    "Terminal options cannot be combined with an end-of-options marker.");
+            }
+        }
+
         allArgs.AddRange(manualArgs);
 
         // 6. Add RunSettings after "--" if present
@@ -82,6 +106,9 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
             allArgs.Add("--");
             allArgs.AddRange(options.RunSettings);
         }
+
+        // 7. Terminal options must follow every positional argument source.
+        allArgs.AddRange(terminalArgs);
 
         return new CommandLine(tool, allArgs);
     }
