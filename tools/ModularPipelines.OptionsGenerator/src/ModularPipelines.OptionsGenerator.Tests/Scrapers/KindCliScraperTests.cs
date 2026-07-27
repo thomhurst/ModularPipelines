@@ -98,10 +98,12 @@ public class KindCliScraperTests
         string expectedValues)
     {
         var command = await Parse(
-            [toolName],
+            [toolName, "run"],
             $"""
+             {toolName} production enum fixture
+
              Usage:
-               {toolName} [flags]
+               {toolName} run [flags]
 
              Flags:
                    --value string   {description}
