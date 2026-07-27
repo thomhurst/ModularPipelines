@@ -48,6 +48,12 @@ public sealed class CliArgumentAttribute : Attribute
     public CommandLinePhase Phase { get; set; } = CommandLinePhase.Passthrough;
 
     /// <summary>
+    /// Gets or sets a value indicating whether <c>--</c> is emitted immediately
+    /// before this argument when it has a value.
+    /// </summary>
+    public bool PrependOptionTerminator { get; set; }
+
+    /// <summary>
     /// Initialises a new instance of the <see cref="CliArgumentAttribute"/> class.
     /// Initializes a new instance of the <see cref="CliArgumentAttribute"/> class with default position 0.
     /// </summary>

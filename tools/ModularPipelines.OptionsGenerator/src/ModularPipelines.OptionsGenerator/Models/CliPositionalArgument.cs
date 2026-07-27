@@ -6,8 +6,9 @@ namespace ModularPipelines.OptionsGenerator.Models;
 public record CliPositionalArgument
 {
     public static IReadOnlyList<CliPositionalArgument> MergeDuplicates(
-        IEnumerable<CliPositionalArgument> positionalArguments) =>
-        positionalArguments
+        IEnumerable<CliPositionalArgument> positionalArguments)
+    {
+        var merged = positionalArguments
             .GroupBy(argument => argument.PropertyName, StringComparer.OrdinalIgnoreCase)
             .Select(group =>
             {
@@ -21,10 +22,25 @@ public record CliPositionalArgument
                 {
                     CSharpType = required ? type : $"{type}?",
                     IsRequired = required,
+                    IsVariadic = group.Any(argument => argument.IsVariadic)
+                                 || collection is not null,
+                    PrependOptionTerminator = group.Any(argument =>
+                        argument.PrependOptionTerminator),
                 };
             })
             .OrderBy(argument => argument.PositionIndex)
             .ToList();
+
+        var nextPositions = new Dictionary<PositionalArgumentPosition, int>();
+        return merged
+            .Select(argument =>
+            {
+                var position = nextPositions.GetValueOrDefault(argument.Placement);
+                nextPositions[argument.Placement] = position + 1;
+                return argument with { PositionIndex = position };
+            })
+            .ToList();
+    }
 
     /// <summary>
     /// Placeholder name in documentation (e.g., "[<PROJECT>]").
@@ -61,6 +77,16 @@ public record CliPositionalArgument
     /// Whether this positional argument is required.
     /// </summary>
     public bool IsRequired { get; init; }
+
+    /// <summary>
+    /// Whether this positional argument accepts repeated values.
+    /// </summary>
+    public bool IsVariadic { get; init; }
+
+    /// <summary>
+    /// Whether the generated CLI argument must be preceded by the <c>--</c> option terminator.
+    /// </summary>
+    public bool PrependOptionTerminator { get; init; }
 
     /// <summary>
     /// Whether this positional argument contains a secret value that should be obfuscated in logs.

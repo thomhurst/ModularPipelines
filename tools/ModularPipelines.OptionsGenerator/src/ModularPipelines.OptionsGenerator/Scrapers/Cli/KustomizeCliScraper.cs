@@ -55,6 +55,16 @@ public partial class KustomizeCliScraper : CobraCliScraper
     public override string OutputDirectory => "src/ModularPipelines.Kubernetes";
 
     /// <summary>
+    /// Kustomize validates buildmetadata operands but omits them from Cobra's Use value.
+    /// </summary>
+    protected override IEnumerable<string> GetAdditionalUsageSynopses(
+        string[] commandPath,
+        string helpText) =>
+        commandPath.Skip(1).ToArray() is [.., "buildmetadata"]
+            ? [$"{string.Join(" ", commandPath)} <metadata>"]
+            : base.GetAdditionalUsageSynopses(commandPath, helpText);
+
+    /// <summary>
     /// Skip utility commands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)

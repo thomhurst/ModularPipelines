@@ -404,31 +404,81 @@ public abstract partial class CliScraperBase : ICliScraper
         Channel<CliCommandDefinition> commandChannel,
         CancellationToken cancellationToken)
     {
-        if (!HasOptions(helpText) || (path.Length == 1 && subcommands.Count > 0))
+        var usage = ParseUsageSynopsis(path, helpText);
+        LogUsageSynopsisSelection(path, usage);
+        if (ShouldSkipCommand(path, helpText, subcommands, usage))
         {
             return;
         }
 
-        CliCommandDefinition? command;
+        var command = await TryParseCommandAsync(path, helpText, usage, cancellationToken);
+        if (command is null)
+        {
+            return;
+        }
+
+        command.ValidateOperandCoverage(
+            usage.HasOperandTokens,
+            usage.Synopsis);
+        await commandChannel.Writer.WriteAsync(command, cancellationToken);
+    }
+
+    private bool ShouldSkipCommand(
+        string[] path,
+        string helpText,
+        IReadOnlyCollection<string> subcommands,
+        UsageSynopsisParseResult usage) =>
+        (!HasOptions(helpText) && !usage.HasOperandTokens)
+        || (path.Length == 1 && subcommands.Count > 0);
+
+    private async Task<CliCommandDefinition?> TryParseCommandAsync(
+        string[] path,
+        string helpText,
+        UsageSynopsisParseResult usage,
+        CancellationToken cancellationToken)
+    {
         try
         {
-            command = await ParseCommandAsync(path, helpText, cancellationToken);
-            if (command is not null)
+            var command = await ParseCommandAsync(path, helpText, usage, cancellationToken);
+            if (command is null)
             {
-                ValidateOptionShapes(command, helpText);
-                ValidateArgumentGroups(command);
+                return null;
             }
+
+            ValidateOptionShapes(command, helpText);
+            ValidateArgumentGroups(command);
+            return command;
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             Logger.LogWarning(ex, "Failed to parse command: {Command}", string.Join(" ", path));
+            return null;
+        }
+    }
+
+    private void LogUsageSynopsisSelection(
+        string[] commandPath,
+        UsageSynopsisParseResult usage)
+    {
+        if (usage.MatchedSynopsisCount <= 1)
+        {
             return;
         }
 
-        if (command is not null)
+        if (usage.HasAmbiguousMatch)
         {
-            await commandChannel.Writer.WriteAsync(command, cancellationToken);
+            Logger.LogWarning(
+                "Multiple equally ranked usage synopses matched {Command}; selected: {Synopsis}",
+                string.Join(" ", commandPath),
+                usage.Synopsis);
+            return;
         }
+
+        Logger.LogDebug(
+            "Selected usage synopsis for {Command} from {Count} matching candidates: {Synopsis}",
+            string.Join(" ", commandPath),
+            usage.MatchedSynopsisCount,
+            usage.Synopsis);
     }
 
     private async Task EnqueueSubcommandsAsync(
@@ -561,6 +611,17 @@ public abstract partial class CliScraperBase : ICliScraper
         string helpText,
         CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Parses a command using the synopsis result already computed by shared traversal.
+    /// Override when a scraper consumes positional operands.
+    /// </summary>
+    protected virtual Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
+        CancellationToken cancellationToken) =>
+        ParseCommandAsync(commandPath, helpText, cancellationToken);
+
     #endregion
 
     #region Virtual Hooks - Can Override
@@ -569,6 +630,24 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Parses options from root help that must appear before a subcommand.
     /// </summary>
     protected virtual IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) => [];
+
+    /// <summary>
+    /// Supplies extra usage synopses when a CLI omits operands from its primary usage text.
+    /// </summary>
+    protected virtual IEnumerable<string> GetAdditionalUsageSynopses(
+        string[] commandPath,
+        string helpText) => [];
+
+    /// <summary>
+    /// Parses positional operands through the shared usage/synopsis model.
+    /// </summary>
+    protected UsageSynopsisParseResult ParseUsageSynopsis(
+        string[] commandPath,
+        string helpText) =>
+        UsageSynopsisParser.Parse(
+            helpText,
+            commandPath,
+            GetAdditionalUsageSynopses(commandPath, helpText));
 
     /// <summary>
     /// Checks if help text indicates the command has options/flags.

@@ -354,6 +354,7 @@ public class CodeGeneratorOrchestrator
 
         await foreach (var command in cliScraper.ScrapeAsync(cancellationToken))
         {
+            command.ValidateOperandCoverage();
             allCommands.Add(command);
         }
 

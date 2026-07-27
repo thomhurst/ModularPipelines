@@ -38,6 +38,7 @@ public class ArgoCdCliScraperTests
     {
         var scraper = new TestArgoCdCliScraper();
         var arguments = scraper.ParseArguments(
+            ["argocd", "app", "rollback"],
             "Usage:\n  argocd app rollback APPNAME [ID] [flags]");
 
         await Assert.That(arguments).Count().IsEqualTo(2);
@@ -48,13 +49,16 @@ public class ArgoCdCliScraperTests
     }
 
     [Test]
-    public async Task Shared_Cobra_Parser_Does_Not_Parse_Bare_Kubectl_Qualifier_Tokens()
+    public async Task Shared_Usage_Parser_Keeps_Kubectl_Qualified_Name_As_One_Operand()
     {
         var scraper = new TestArgoCdCliScraper();
-        var arguments = scraper.ParseBaseArguments(
+        var arguments = scraper.ParseArguments(
+            ["kubectl", "get"],
             "Usage:\n  kubectl get TYPE[.VERSION][.GROUP]/NAME [flags]");
 
-        await Assert.That(arguments).IsEmpty();
+        await Assert.That(arguments).Count().IsEqualTo(1);
+        await Assert.That(arguments[0].PlaceholderName).IsEqualTo("TYPE[.VERSION][.GROUP]/NAME");
+        await Assert.That(arguments[0].IsRequired).IsTrue();
     }
 
     [Test]
@@ -107,6 +111,7 @@ public class ArgoCdCliScraperTests
     {
         var scraper = new TestArgoCdCliScraper();
         var parsedArguments = scraper.ParseArguments(
+            ["argocd", "app", "rollback"],
             "Usage:\n  argocd app rollback APPNAME [ID] [flags]");
 
         var arguments = scraper.ApplyFix(["app", "rollback"], parsedArguments);
@@ -120,6 +125,7 @@ public class ArgoCdCliScraperTests
     {
         var scraper = new TestArgoCdCliScraper();
         var parsedArguments = scraper.ParseArguments(
+            ["argocd", "admin", "settings", "rbac", "can"],
             "Usage:\n  argocd admin settings rbac can ROLE/SUBJECT ACTION RESOURCE [SUB-RESOURCE] [flags]");
         var arguments = scraper.ApplyFix(["admin", "settings", "rbac", "can"], parsedArguments);
 
@@ -137,6 +143,7 @@ public class ArgoCdCliScraperTests
     {
         var scraper = new TestArgoCdCliScraper();
         var parsedArguments = scraper.ParseArguments(
+            ["argocd", "app", command],
             $"Usage:\n  argocd app {command} [APPNAME... | -l selector] [flags]");
 
         var arguments = scraper.ApplyFix(["app", command], parsedArguments);
@@ -152,6 +159,7 @@ public class ArgoCdCliScraperTests
     {
         var scraper = new TestArgoCdCliScraper();
         var parsedArguments = scraper.ParseArguments(
+            ["argocd", "repo", "rm"],
             "Usage:\n  argocd repo rm REPO ... [flags]");
 
         var arguments = scraper.ApplyFix(["repo", "rm"], parsedArguments);
@@ -245,6 +253,7 @@ public class ArgoCdCliScraperTests
     {
         var scraper = new TestArgoCdCliScraper();
         var parsedArguments = scraper.ParseArguments(
+            ["argocd", "context"],
             "Usage:\n  argocd context [CONTEXT] [flags]");
 
         var arguments = scraper.ApplyFix(["context"], parsedArguments);
@@ -260,6 +269,7 @@ public class ArgoCdCliScraperTests
     {
         var scraper = new TestArgoCdCliScraper();
         var parsedArguments = scraper.ParseArguments(
+            ["argocd", "admin", "cluster", "kubeconfig"],
             "Usage:\n  argocd admin cluster kubeconfig CLUSTER_URL OUTPUT_PATH [flags]");
 
         var arguments = scraper.ApplyFix(["admin", "cluster", "kubeconfig"], parsedArguments);
@@ -283,7 +293,7 @@ public class ArgoCdCliScraperTests
         string? lastProperty)
     {
         var scraper = new TestArgoCdCliScraper();
-        var parsedArguments = scraper.ParseArguments(helpText);
+        var parsedArguments = scraper.ParseArguments(["argocd", parentCommand, command], helpText);
 
         var arguments = scraper.ApplyFix([parentCommand, command], parsedArguments);
 
@@ -308,6 +318,7 @@ public class ArgoCdCliScraperTests
     {
         var scraper = new TestArgoCdCliScraper();
         var parsedArguments = scraper.ParseArguments(
+            ["argocd", "proj", command],
             $"Usage:\n  argocd proj {command} PROJECT SERVER {trailingOperands} [flags]");
 
         var arguments = scraper.ApplyFix(["proj", command], parsedArguments);
@@ -327,6 +338,7 @@ public class ArgoCdCliScraperTests
     {
         var scraper = new TestArgoCdCliScraper();
         var parsedArguments = scraper.ParseArguments(
+            ["argocd", parentCommand, command],
             $"Usage:\n  argocd {parentCommand} {command} {placeholder} [flags]");
 
         var arguments = scraper.ApplyFix([parentCommand, command], parsedArguments);
@@ -414,18 +426,20 @@ public class ArgoCdCliScraperTests
         public IReadOnlyList<string> ExtractCommands(string helpText) =>
             ExtractSubcommands(helpText).ToList();
 
-        public IReadOnlyList<CliPositionalArgument> ParseArguments(string helpText) =>
-            ParsePositionalArguments(helpText);
-
-        public IReadOnlyList<CliPositionalArgument> ParseBaseArguments(string helpText) =>
-            base.ParsePositionalArguments(helpText);
+        public IReadOnlyList<CliPositionalArgument> ParseArguments(
+            string[] commandPath,
+            string helpText) =>
+            ParseUsageSynopsis(commandPath, helpText).PositionalArguments;
 
         public IReadOnlyList<CliPositionalArgument> ApplyFix(
             string[] commandParts,
             IReadOnlyList<CliPositionalArgument> positionalArguments) =>
             ApplyPositionalArgumentFixes(commandParts, positionalArguments);
 
-        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
-            ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        {
+            var usage = ParseUsageSynopsis(commandPath, helpText);
+            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+        }
     }
 }

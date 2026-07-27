@@ -135,8 +135,11 @@ public class CosignCliScraperTests
 
         public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
 
-        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
-            ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        {
+            var usage = ParseUsageSynopsis(commandPath, helpText);
+            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+        }
 
         public IReadOnlyList<CliPositionalArgument> ApplyFix(
             string[] commandParts,

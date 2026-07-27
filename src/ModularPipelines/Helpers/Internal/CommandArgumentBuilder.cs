@@ -117,6 +117,11 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             }
 
             var values = GetValues(rawValue);
+            if (argumentPart.Attribute.PrependOptionTerminator && values.Count > 0)
+            {
+                args.Add("--");
+            }
+
             args.AddRange(values);
         }
     }

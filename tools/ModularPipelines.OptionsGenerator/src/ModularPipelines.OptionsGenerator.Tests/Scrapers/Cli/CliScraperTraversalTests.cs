@@ -147,6 +147,36 @@ public class CliScraperTraversalTests
         await Assert.That(commands).IsEmpty();
     }
 
+    [Test]
+    public async Task SharedTraversal_Propagates_Invalid_Operand_Coverage()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Execute a command.
+
+                Usage:
+                  fake <TARGET>
+                """,
+        });
+        var scraper = new OperandCoverageMismatchScraper(executor);
+
+        async Task Scrape() => await ScrapeAsync(scraper);
+
+        await Assert.That(Scrape)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("no CliPositionalArgument");
+    }
+
+    [Test]
+    public async Task Shared_Skip_Filter_Preserves_Uppercase_Subcommands()
+    {
+        var scraper = new ShapeMismatchScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+
+        await Assert.That(scraper.Skips("SSH")).IsFalse();
+    }
+
     private static async Task<IReadOnlyList<CliCommandDefinition>> ScrapeAsync(ICliScraper scraper)
     {
         var commands = new List<CliCommandDefinition>();
@@ -178,8 +208,11 @@ public class CliScraperTraversalTests
 
         protected override int MaxParallelism => 2;
 
-        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
-            ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        {
+            var usage = ParseUsageSynopsis(commandPath, helpText);
+            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+        }
 
         public bool DeclaresCommandGroup(string helpText) => HelpDeclaresCommandGroup(helpText);
 
@@ -206,6 +239,8 @@ public class CliScraperTraversalTests
 
         protected override IEnumerable<string> ExtractSubcommands(string helpText) => [];
 
+        public bool Skips(string subcommand) => IsSkippableSubcommand(subcommand);
+
         protected override Task<CliCommandDefinition?> ParseCommandAsync(
             string[] commandPath,
             string helpText,
@@ -227,6 +262,41 @@ public class CliScraperTraversalTests
                         Description = "May be specified multiple times",
                     },
                 ],
+            });
+    }
+
+    private sealed class OperandCoverageMismatchScraper : CliScraperBase
+    {
+        public OperandCoverageMismatchScraper(ICliCommandExecutor executor)
+            : base(
+                executor,
+                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+                NullLogger<OperandCoverageMismatchScraper>.Instance)
+        {
+        }
+
+        public override string ToolName => "fake";
+
+        public override string NamespacePrefix => "Fake";
+
+        public override string TargetNamespace => "ModularPipelines.Fake";
+
+        public override string OutputDirectory => "src/ModularPipelines.Fake";
+
+        protected override IEnumerable<string> ExtractSubcommands(string helpText) => [];
+
+        protected override Task<CliCommandDefinition?> ParseCommandAsync(
+            string[] commandPath,
+            string helpText,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<CliCommandDefinition?>(new CliCommandDefinition
+            {
+                FullCommand = "fake",
+                CommandParts = [],
+                ClassName = "FakeOptions",
+                ParentClassName = "FakeOptions",
+                ToolNamespacePrefix = "Fake",
+                Options = [],
             });
     }
 

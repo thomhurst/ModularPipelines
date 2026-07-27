@@ -76,6 +76,7 @@ public partial class NewmanCliScraper : CliScraperBase
                 {
                     var commandName = match.Groups["name"].Value.Trim();
                     if (!string.IsNullOrEmpty(commandName) &&
+                        !UsageSynopsisParser.IsPlaceholderToken(commandName) &&
                         seenCommands.Add(commandName))
                     {
                         subcommands.Add(commandName);
@@ -93,6 +94,13 @@ public partial class NewmanCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray();
@@ -117,20 +125,9 @@ public partial class NewmanCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://www.npmjs.com/package/newman",
             Options = options,
-            PositionalArguments = commandParts.Contains("run")
-                ?
-                [
-                    new CliPositionalArgument
-                    {
-                        PropertyName = "Collection",
-                        PlaceholderName = "collection",
-                        CSharpType = "string?",
-                        IsRequired = true,
-                        PositionIndex = 0,
-                        Description = "Postman collection file or URL"
-                    }
-                ]
-                : [],
+            PositionalArguments = usage.PositionalArguments,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,
             Enums = []
         };

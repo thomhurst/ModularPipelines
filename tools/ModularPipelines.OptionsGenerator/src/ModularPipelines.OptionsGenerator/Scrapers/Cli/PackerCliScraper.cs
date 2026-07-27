@@ -83,6 +83,13 @@ public partial class PackerCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray();
@@ -107,7 +114,9 @@ public partial class PackerCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://developer.hashicorp.com/packer/docs/commands",
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments = usage.PositionalArguments,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,
             Enums = []
         };

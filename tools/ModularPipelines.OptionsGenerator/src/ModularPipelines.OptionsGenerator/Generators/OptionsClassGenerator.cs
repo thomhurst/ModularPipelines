@@ -282,6 +282,11 @@ public class OptionsClassGenerator : ICodeGenerator
             parts.Add($"Placement = {placement}");
         }
 
+        if (positional.PrependOptionTerminator)
+        {
+            parts.Add("PrependOptionTerminator = true");
+        }
+
         // Note: We intentionally do NOT add the Name property here.
         // The Name property is only for documentation/help text and causes
         // CommandArgumentBuilder to skip the argument (it assumes Name means

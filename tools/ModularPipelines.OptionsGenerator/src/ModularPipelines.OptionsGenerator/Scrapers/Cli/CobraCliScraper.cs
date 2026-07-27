@@ -110,6 +110,13 @@ public abstract partial class CobraCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray(); // Skip tool name
@@ -150,8 +157,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
 
-        // Parse positional arguments from usage line
-        var positionalArgs = ApplyPositionalArgumentFixes(commandParts, ParsePositionalArguments(helpText));
+        // Parse positional arguments from usage/synopsis text
+        var positionalArgs = ApplyPositionalArgumentFixes(commandParts, usage.PositionalArguments);
 
         // Extract enums from options
         var enums = options
@@ -172,6 +179,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
             DocumentationUrl = null, // CLI-first, no URL
             Options = options,
             PositionalArguments = positionalArgs,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,
             CommandGroupIdentifierOverride = commandGroupIdentifierOverride,
             Enums = enums
@@ -724,58 +733,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
     }
 
     /// <summary>
-    /// Parses positional arguments from usage line.
-    /// </summary>
-    protected virtual List<CliPositionalArgument> ParsePositionalArguments(string helpText)
-    {
-        var args = new List<CliPositionalArgument>();
-
-        // Find usage line
-        var usageMatch = UsageLinePattern().Match(helpText);
-        if (!usageMatch.Success)
-        {
-            return args;
-        }
-
-        var usageLine = usageMatch.Groups["usage"].Value;
-
-        // Find positional arguments in brackets: [RELEASE] [CHART] <NAME>
-        var argMatches = PositionalArgPattern().Matches(usageLine);
-        var position = 0;
-
-        foreach (Match match in argMatches)
-        {
-            var argName = match.Groups["name"].Value;
-            var isRequired = match.Value.StartsWith('<'); // <NAME> is required, [NAME] is optional
-            var isMultiple = match.Groups["multiple"].Success;
-
-            var propertyName = NormalizePropertyName(argName.Replace('.', '-'));
-            if (propertyName is null)
-            {
-                continue;
-            }
-
-            var csharpType = isMultiple ? "IEnumerable<string>?" : "string?";
-            if (isRequired)
-            {
-                csharpType = csharpType.TrimEnd('?');
-            }
-
-            args.Add(new CliPositionalArgument
-            {
-                PropertyName = propertyName,
-                PlaceholderName = argName,
-                CSharpType = csharpType,
-                IsRequired = isRequired,
-                PositionIndex = position++,
-                Description = null
-            });
-        }
-
-        return CliPositionalArgument.MergeDuplicates(args).ToList();
-    }
-
-    /// <summary>
     /// Applies tool-specific corrections when Cobra's usage line omits or misrepresents
     /// positional arguments.
     /// </summary>
@@ -994,12 +951,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^[ \t]*Usage:?[ \t]*(?:\r?\n[ \t]*)?(?<usage>[^\r\n]+)", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex UsageLinePattern();
-
-    /// <summary>
-    /// Matches positional arguments in usage: [NAME], &lt;NAME&gt;, or [NAME...].
-    /// </summary>
-    [GeneratedRegex(@"[\[<](?<name>[A-Z][A-Za-z0-9_.-]*?)(?<multiple>\.\.\.)?[\]>]")]
-    private static partial Regex PositionalArgPattern();
 
     /// <summary>
     /// Validates that a command part looks like a real CLI command/subcommand.
