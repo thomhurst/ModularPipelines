@@ -105,6 +105,12 @@ public static class ExternalToolDefinitionLoader
         ValidateOptions(tool.GlobalOptions, "tool.globalOptions");
         ValidateOptions(tool.SupplementalGlobalOptions, "tool.supplementalGlobalOptions");
         ValidateEquivalentEnumDefinitions(tool);
+
+        var globalOptions = tool.GetGlobalOptions();
+        foreach (var command in tool.Commands)
+        {
+            ValidateUniqueEffectiveSwitches(command, globalOptions);
+        }
     }
 
     internal static string ValidateRelativeOutputPath(
@@ -203,8 +209,15 @@ public static class ExternalToolDefinitionLoader
     {
         foreach (var option in options)
         {
+            RequireValue(option.SwitchName, $"{propertyName}[].switchName");
             RequireIdentifier(option.PropertyName, $"{propertyName}[].propertyName");
             RequireTypeName(option.CSharpType, $"{propertyName}[].cSharpType");
+            if (option.SecretValueKeys.Count > 0 && !option.IsSecret)
+            {
+                throw new InvalidDataException(
+                    $"{propertyName}[].isSecret must be true when secretValueKeys are declared.");
+            }
+
             if (option.EnumDefinition is not null)
             {
                 ValidateEnum(option.EnumDefinition, $"{propertyName}[].enumDefinition");
@@ -289,6 +302,38 @@ public static class ExternalToolDefinitionLoader
             && string.Equals(pair.First.CliValue, pair.Second.CliValue, StringComparison.Ordinal)
             && string.Equals(pair.First.Description, pair.Second.Description, StringComparison.Ordinal)
             && pair.First.NumericValue == pair.Second.NumericValue);
+
+    private static void ValidateUniqueEffectiveSwitches(
+        CliCommandDefinition command,
+        IReadOnlyList<CliOptionDefinition> globalOptions)
+    {
+        var propertiesBySwitch = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (var option in globalOptions.Concat(command.Options))
+        {
+            RegisterSwitch(option.SwitchName, option.PropertyName, propertiesBySwitch, command);
+            if (!string.IsNullOrWhiteSpace(option.ShortForm)
+                && !string.Equals(option.SwitchName, option.ShortForm, StringComparison.Ordinal))
+            {
+                RegisterSwitch(option.ShortForm, option.PropertyName, propertiesBySwitch, command);
+            }
+        }
+    }
+
+    private static void RegisterSwitch(
+        string switchName,
+        string propertyName,
+        IDictionary<string, string> propertiesBySwitch,
+        CliCommandDefinition command)
+    {
+        if (propertiesBySwitch.TryGetValue(switchName, out var existingProperty))
+        {
+            throw new InvalidDataException(
+                $"Command '{command.FullCommand}' defines CLI switch '{switchName}' more than once "
+                + $"on properties '{existingProperty}' and '{propertyName}'.");
+        }
+
+        propertiesBySwitch.Add(switchName, propertyName);
+    }
 
     private static void ValidateCompatibilityMetadata(CliCommandDefinition command)
     {
