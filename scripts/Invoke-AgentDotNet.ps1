@@ -154,12 +154,207 @@ public static class AgentDotNetWindowsJob
 }
 else {
     Add-Type -TypeDefinition @'
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices;
 
 public static class AgentDotNetUnixNative
 {
     [DllImport("libc", SetLastError = true)]
     public static extern int kill(int processId, int signal);
+}
+
+public sealed class AgentDotNetUnixProcessInfo
+{
+    public int ProcessId { get; set; }
+    public int ParentProcessId { get; set; }
+    public long WorkingSetBytes { get; set; }
+    public string StartIdentity { get; set; }
+}
+
+public static class AgentDotNetLinuxProcessSnapshot
+{
+    public static AgentDotNetUnixProcessInfo[] Capture()
+    {
+        var processes = new List<AgentDotNetUnixProcessInfo>();
+        foreach (string directory in Directory.EnumerateDirectories("/proc"))
+        {
+            string name = Path.GetFileName(directory);
+            if (!int.TryParse(name, NumberStyles.None, CultureInfo.InvariantCulture, out int processId))
+            {
+                continue;
+            }
+
+            try
+            {
+                string stat = File.ReadAllText(Path.Combine(directory, "stat"));
+                int commandEnd = stat.LastIndexOf(") ", StringComparison.Ordinal);
+                if (commandEnd < 0)
+                {
+                    continue;
+                }
+
+                string[] fields = stat.Substring(commandEnd + 2)
+                    .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (fields.Length < 22)
+                {
+                    continue;
+                }
+
+                processes.Add(new AgentDotNetUnixProcessInfo
+                {
+                    ProcessId = processId,
+                    ParentProcessId = int.Parse(fields[1], CultureInfo.InvariantCulture),
+                    StartIdentity = fields[19],
+                    WorkingSetBytes =
+                        long.Parse(fields[21], CultureInfo.InvariantCulture) * Environment.SystemPageSize,
+                });
+            }
+            catch (IOException)
+            {
+                // The process exited while its snapshot was being read.
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // The process cannot be inspected by this user.
+            }
+        }
+
+        return processes.ToArray();
+    }
+}
+
+public static class AgentDotNetMacProcessSnapshot
+{
+    private const int ProcPidTBsdInfo = 3;
+    private const int ProcPidTaskInfo = 4;
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct ProcBsdInfo
+    {
+        public uint Flags;
+        public uint Status;
+        public uint ExitStatus;
+        public uint ProcessId;
+        public uint ParentProcessId;
+        public uint UserId;
+        public uint GroupId;
+        public uint RealUserId;
+        public uint RealGroupId;
+        public uint SavedUserId;
+        public uint SavedGroupId;
+        public uint Reserved;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
+        public byte[] Command;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+        public byte[] Name;
+        public uint OpenFileCount;
+        public uint ProcessGroupId;
+        public uint JobControlCount;
+        public uint ControllingTerminalDevice;
+        public uint TerminalProcessGroupId;
+        public int Nice;
+        public ulong StartTimeSeconds;
+        public ulong StartTimeMicroseconds;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct ProcTaskInfo
+    {
+        public ulong VirtualSize;
+        public ulong ResidentSize;
+        public ulong TotalUserTime;
+        public ulong TotalSystemTime;
+        public ulong ThreadsUserTime;
+        public ulong ThreadsSystemTime;
+        public int Policy;
+        public int Faults;
+        public int PageIns;
+        public int CopyOnWriteFaults;
+        public int MessagesSent;
+        public int MessagesReceived;
+        public int MachSystemCalls;
+        public int UnixSystemCalls;
+        public int ContextSwitches;
+        public int ThreadCount;
+        public int RunningThreadCount;
+        public int Priority;
+    }
+
+    [DllImport("/usr/lib/libproc.dylib")]
+    private static extern int proc_listallpids([Out] int[] buffer, int bufferSize);
+
+    [DllImport("/usr/lib/libproc.dylib")]
+    private static extern int proc_pidinfo(
+        int processId,
+        int flavor,
+        ulong argument,
+        IntPtr buffer,
+        int bufferSize);
+
+    public static AgentDotNetUnixProcessInfo[] Capture()
+    {
+        var processIds = new int[131072];
+        int processCount = proc_listallpids(processIds, processIds.Length * sizeof(int));
+        var processes = new List<AgentDotNetUnixProcessInfo>(Math.Max(processCount, 0));
+
+        for (int index = 0; index < processCount && index < processIds.Length; index++)
+        {
+            int processId = processIds[index];
+            if (processId <= 0 ||
+                !TryRead(processId, ProcPidTBsdInfo, out ProcBsdInfo before))
+            {
+                continue;
+            }
+
+            TryRead(processId, ProcPidTaskInfo, out ProcTaskInfo task);
+            if (!TryRead(processId, ProcPidTBsdInfo, out ProcBsdInfo after) ||
+                before.ProcessId != after.ProcessId ||
+                before.ParentProcessId != after.ParentProcessId ||
+                before.StartTimeSeconds != after.StartTimeSeconds ||
+                before.StartTimeMicroseconds != after.StartTimeMicroseconds)
+            {
+                continue;
+            }
+
+            processes.Add(new AgentDotNetUnixProcessInfo
+            {
+                ProcessId = processId,
+                ParentProcessId = (int)after.ParentProcessId,
+                WorkingSetBytes = checked((long)task.ResidentSize),
+                StartIdentity = string.Concat(
+                    after.StartTimeSeconds.ToString(CultureInfo.InvariantCulture),
+                    ":",
+                    after.StartTimeMicroseconds.ToString(CultureInfo.InvariantCulture)),
+            });
+        }
+
+        return processes.ToArray();
+    }
+
+    private static bool TryRead<T>(int processId, int flavor, out T value)
+        where T : struct
+    {
+        int size = Marshal.SizeOf<T>();
+        IntPtr buffer = Marshal.AllocHGlobal(size);
+        try
+        {
+            if (proc_pidinfo(processId, flavor, 0, buffer, size) != size)
+            {
+                value = default(T);
+                return false;
+            }
+
+            value = Marshal.PtrToStructure<T>(buffer);
+            return true;
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(buffer);
+        }
+    }
 }
 '@
 }
@@ -179,17 +374,11 @@ function Get-ProcessSnapshot {
             }
     }
 
-    return & ps -eo pid=,ppid=,rss=,lstart= |
-        ForEach-Object {
-            if ($_ -match '^\s*(\d+)\s+(\d+)\s+(\d+)\s+(.+?)\s*$') {
-                [pscustomobject]@{
-                    ProcessId = [int]$Matches[1]
-                    ParentProcessId = [int]$Matches[2]
-                    WorkingSetBytes = [long]$Matches[3] * 1KB
-                    StartIdentity = $Matches[4]
-                }
-            }
-        }
+    if ($IsMacOS) {
+        return [AgentDotNetMacProcessSnapshot]::Capture()
+    }
+
+    return [AgentDotNetLinuxProcessSnapshot]::Capture()
 }
 
 function Get-ProcessTreeState([int]$RootProcessId) {
