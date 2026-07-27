@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.CodeAnalysis.CSharp;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.External;
@@ -76,8 +77,8 @@ public static class ExternalToolDefinitionLoader
         ArgumentException.ThrowIfNullOrWhiteSpace(outputDirectory);
 
         RequireValue(tool.ToolName, "tool.toolName");
-        RequireValue(tool.NamespacePrefix, "tool.namespacePrefix");
-        RequireValue(tool.TargetNamespace, "tool.targetNamespace");
+        RequireIdentifier(tool.NamespacePrefix, "tool.namespacePrefix");
+        RequireNamespace(tool.TargetNamespace, "tool.targetNamespace");
         RequireValue(tool.OutputDirectory, "tool.outputDirectory");
 
         if (tool.Commands is not { Count: > 0 })
@@ -85,7 +86,6 @@ public static class ExternalToolDefinitionLoader
             throw new InvalidDataException("External tool metadata must define at least one command.");
         }
 
-        RequireFileNameComponent(tool.NamespacePrefix, "tool.namespacePrefix");
         ValidateRelativeOutputPath(tool.OutputDirectory, outputDirectory, "tool.outputDirectory");
         if (!string.IsNullOrWhiteSpace(tool.DocumentationOutputDirectory))
         {
@@ -97,24 +97,14 @@ public static class ExternalToolDefinitionLoader
 
         foreach (var command in tool.Commands)
         {
-            RequireValue(command.FullCommand, "tool.commands[].fullCommand");
-            RequireFileNameComponent(command.ClassName, "tool.commands[].className");
-            RequireFileNameComponent(command.ParentClassName, "tool.commands[].parentClassName");
-            RequireFileNameComponent(command.ToolNamespacePrefix, "tool.commands[].toolNamespacePrefix");
-            if (!string.Equals(
-                    command.ToolNamespacePrefix,
-                    tool.NamespacePrefix,
-                    StringComparison.Ordinal))
-            {
-                throw new InvalidDataException(
-                    "tool.commands[].toolNamespacePrefix must match tool.namespacePrefix.");
-            }
-
-            command.ValidateOperandCoverage();
+            ValidateCommand(command, tool.NamespacePrefix);
         }
+
+        ValidateOptions(tool.GlobalOptions, "tool.globalOptions");
+        ValidateOptions(tool.SupplementalGlobalOptions, "tool.supplementalGlobalOptions");
     }
 
-    private static void ValidateRelativeOutputPath(
+    internal static string ValidateRelativeOutputPath(
         string relativePath,
         string outputDirectory,
         string propertyName)
@@ -134,6 +124,139 @@ public static class ExternalToolDefinitionLoader
         {
             throw new InvalidDataException($"{propertyName} must stay within --output-dir.");
         }
+
+        RejectLinkedPathComponents(root, candidate, propertyName);
+        return candidate;
+    }
+
+    private static void ValidateCommand(CliCommandDefinition command, string namespacePrefix)
+    {
+        RequireValue(command.FullCommand, "tool.commands[].fullCommand");
+        RequireIdentifier(command.ClassName, "tool.commands[].className");
+        RequireIdentifier(command.ParentClassName, "tool.commands[].parentClassName");
+        RequireIdentifier(command.ToolNamespacePrefix, "tool.commands[].toolNamespacePrefix");
+        if (!string.Equals(command.ToolNamespacePrefix, namespacePrefix, StringComparison.Ordinal))
+        {
+            throw new InvalidDataException(
+                "tool.commands[].toolNamespacePrefix must match tool.namespacePrefix.");
+        }
+
+        ValidateOptionalIdentifier(command.SubDomainGroup, "tool.commands[].subDomainGroup");
+        ValidateOptionalIdentifier(
+            command.CommandGroupIdentifierOverride,
+            "tool.commands[].commandGroupIdentifierOverride");
+        ValidateOptions(command.Options, "tool.commands[].options");
+        ValidatePositionalArguments(command.PositionalArguments);
+        ValidateEnums(command.Enums, "tool.commands[].enums");
+        ValidateCompatibilityMetadata(command);
+        command.ValidateOperandCoverage();
+    }
+
+    private static void ValidateOptions(
+        IReadOnlyList<CliOptionDefinition> options,
+        string propertyName)
+    {
+        foreach (var option in options)
+        {
+            RequireIdentifier(option.PropertyName, $"{propertyName}[].propertyName");
+            RequireTypeName(option.CSharpType, $"{propertyName}[].cSharpType");
+            if (option.EnumDefinition is not null)
+            {
+                ValidateEnum(option.EnumDefinition, $"{propertyName}[].enumDefinition");
+            }
+        }
+    }
+
+    private static void ValidatePositionalArguments(
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        foreach (var positionalArgument in positionalArguments)
+        {
+            RequireIdentifier(
+                positionalArgument.PropertyName,
+                "tool.commands[].positionalArguments[].propertyName");
+            RequireTypeName(
+                positionalArgument.CSharpType,
+                "tool.commands[].positionalArguments[].cSharpType");
+        }
+    }
+
+    private static void ValidateEnums(
+        IReadOnlyList<CliEnumDefinition> enums,
+        string propertyName)
+    {
+        foreach (var enumDefinition in enums)
+        {
+            ValidateEnum(enumDefinition, $"{propertyName}[]");
+        }
+    }
+
+    private static void ValidateEnum(CliEnumDefinition enumDefinition, string propertyName)
+    {
+        RequireIdentifier(enumDefinition.EnumName, $"{propertyName}.enumName");
+        foreach (var value in enumDefinition.Values)
+        {
+            RequireIdentifier(value.MemberName, $"{propertyName}.values[].memberName");
+        }
+    }
+
+    private static void ValidateCompatibilityMetadata(CliCommandDefinition command)
+    {
+        foreach (var property in command.CompatibilityProperties)
+        {
+            RequireIdentifier(
+                property.PropertyName,
+                "tool.commands[].compatibilityProperties[].propertyName");
+            RequireTypeName(
+                property.CSharpType,
+                "tool.commands[].compatibilityProperties[].cSharpType");
+            ValidateOptionalIdentifier(
+                property.ForwardToPropertyName,
+                "tool.commands[].compatibilityProperties[].forwardToPropertyName");
+        }
+
+        foreach (var method in command.CompatibilityMethods)
+        {
+            RequireIdentifier(
+                method.MethodName,
+                "tool.commands[].compatibilityMethods[].methodName");
+        }
+    }
+
+    private static void RequireNamespace(string value, string propertyName)
+    {
+        RequireValue(value, propertyName);
+        foreach (var component in value.Split('.'))
+        {
+            RequireIdentifier(component, propertyName);
+        }
+    }
+
+    private static void ValidateOptionalIdentifier(string? value, string propertyName)
+    {
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            RequireIdentifier(value, propertyName);
+        }
+    }
+
+    private static void RequireIdentifier(string value, string propertyName)
+    {
+        RequireValue(value, propertyName);
+        if (!SyntaxFacts.IsValidIdentifier(value))
+        {
+            throw new InvalidDataException($"{propertyName} must be a valid C# identifier.");
+        }
+    }
+
+    private static void RequireTypeName(string value, string propertyName)
+    {
+        RequireValue(value, propertyName);
+        var type = SyntaxFactory.ParseTypeName(value);
+        if (type.ContainsDiagnostics || type.ToFullString() != value)
+        {
+            throw new InvalidDataException($"{propertyName} must be a valid C# type name.");
+        }
     }
 
     private static void RequireValue(string value, string propertyName)
@@ -144,14 +267,30 @@ public static class ExternalToolDefinitionLoader
         }
     }
 
-    private static void RequireFileNameComponent(string value, string propertyName)
+    private static void RejectLinkedPathComponents(
+        string root,
+        string candidate,
+        string propertyName)
     {
-        RequireValue(value, propertyName);
-        if (value.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0
-            || value.Contains(Path.DirectorySeparatorChar)
-            || value.Contains(Path.AltDirectorySeparatorChar))
+        var relativePath = Path.GetRelativePath(root, candidate);
+        var current = root;
+        foreach (var component in relativePath.Split(
+                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                     StringSplitOptions.RemoveEmptyEntries))
         {
-            throw new InvalidDataException($"{propertyName} must be a single valid name.");
+            current = Path.Combine(current, component);
+            var fileSystemInfo = new DirectoryInfo(current);
+            if (!fileSystemInfo.Exists && fileSystemInfo.LinkTarget is null)
+            {
+                break;
+            }
+
+            if ((fileSystemInfo.Attributes & FileAttributes.ReparsePoint) != 0
+                || fileSystemInfo.LinkTarget is not null)
+            {
+                throw new InvalidDataException(
+                    $"{propertyName} cannot traverse symbolic links or reparse points.");
+            }
         }
     }
 }

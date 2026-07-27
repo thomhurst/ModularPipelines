@@ -143,6 +143,190 @@ public class ExternalToolDefinitionTests
         }
     }
 
+    [Test]
+    public async Task External_Metadata_Rejects_Linked_Output_Component()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var outsideDirectory = Path.Combine(workspace, "outside");
+        var linkedDirectory = Path.Combine(outputDirectory, "linked");
+
+        try
+        {
+            Directory.CreateDirectory(outputDirectory);
+            Directory.CreateDirectory(outsideDirectory);
+            try
+            {
+                Directory.CreateSymbolicLink(linkedDirectory, outsideDirectory);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return;
+            }
+
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("linked"));
+
+            await Assert.That(async () =>
+                    await ExternalToolDefinitionLoader.LoadAsync(metadataPath, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Invalid_CSharp_Identifiers()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var metadata = ValidMetadata("generated")
+                .Replace(
+                    "\"className\": \"PrivateWidgetDeployOptions\"",
+                    "\"className\": \"123Deploy\"",
+                    StringComparison.Ordinal);
+            await File.WriteAllTextAsync(metadataPath, metadata);
+
+            await Assert.That(async () =>
+                    await ExternalToolDefinitionLoader.LoadAsync(metadataPath, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Traversal_In_Enum_Name()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var metadata = ValidMetadata("generated")
+                .Replace(
+                    "\"options\": [",
+                    """
+                    "enums": [
+                      {
+                        "enumName": "../../../../outside",
+                        "values": [
+                          {
+                            "memberName": "Production",
+                            "cliValue": "production"
+                          }
+                        ]
+                      }
+                    ],
+                    "options": [
+                    """,
+                    StringComparison.Ordinal);
+            await File.WriteAllTextAsync(metadataPath, metadata);
+
+            await Assert.That(async () =>
+                    await ExternalToolDefinitionLoader.LoadAsync(metadataPath, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Reconciles_Previously_Owned_Documentation()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var orchestrator = CreateOrchestrator();
+
+        try
+        {
+            var firstMetadata = ValidMetadata("generated")
+                .Replace(
+                    "\"documentationOutputDirectory\": null",
+                    "\"documentationOutputDirectory\": \"docs-a\"",
+                    StringComparison.Ordinal);
+            await File.WriteAllTextAsync(metadataPath, firstMetadata);
+            var firstTool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            await orchestrator.GenerateFromDefinitionAsync(firstTool, outputDirectory);
+
+            var oldDocumentation = Path.Combine(
+                outputDirectory,
+                "docs-a",
+                "private-widget.md");
+            await Assert.That(File.Exists(oldDocumentation)).IsTrue();
+
+            var secondMetadata = ValidMetadata("generated")
+                .Replace(
+                    "\"toolName\": \"private-widget\"",
+                    "\"toolName\": \"private-widget-next\"",
+                    StringComparison.Ordinal)
+                .Replace(
+                    "\"documentationOutputDirectory\": null",
+                    "\"documentationOutputDirectory\": \"docs-b\"",
+                    StringComparison.Ordinal);
+            await File.WriteAllTextAsync(metadataPath, secondMetadata);
+            var secondTool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var result = await orchestrator.GenerateFromDefinitionAsync(
+                secondTool,
+                outputDirectory);
+
+            await Assert.That(File.Exists(oldDocumentation)).IsFalse();
+            await Assert.That(File.Exists(Path.Combine(
+                    outputDirectory,
+                    "docs-b",
+                    "private-widget-next.md")))
+                .IsTrue();
+            await Assert.That(result.FilesDeleted.Select(path => path.Replace('\\', '/')))
+                .Contains("docs-a/private-widget.md");
+            await Assert.That(File.Exists(Path.Combine(
+                    outputDirectory,
+                    ".modular-pipelines-options",
+                    "PrivateWidget.files")))
+                .IsTrue();
+
+            await File.WriteAllTextAsync(
+                metadataPath,
+                ValidMetadata("generated").Replace(
+                    "\"toolName\": \"private-widget\"",
+                    "\"toolName\": \"private-widget-next\"",
+                    StringComparison.Ordinal));
+            var thirdTool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var thirdResult = await orchestrator.GenerateFromDefinitionAsync(
+                thirdTool,
+                outputDirectory);
+
+            await Assert.That(File.Exists(Path.Combine(
+                    outputDirectory,
+                    "docs-b",
+                    "private-widget-next.md")))
+                .IsFalse();
+            await Assert.That(thirdResult.FilesDeleted.Select(path => path.Replace('\\', '/')))
+                .Contains("docs-b/private-widget-next.md");
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
     private static CodeGeneratorOrchestrator CreateOrchestrator() =>
         new(
             cliScrapers: [],
