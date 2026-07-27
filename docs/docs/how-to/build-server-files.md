@@ -35,7 +35,7 @@ project is in a subdirectory, set the repository root:
 ```xml
 <PropertyGroup>
   <ModularPipelinesBuildSystem>GitHubActions</ModularPipelinesBuildSystem>
-  <ModularPipelinesRepositoryRoot>$(MSBuildProjectDirectory)\..\..</ModularPipelinesRepositoryRoot>
+  <ModularPipelinesRepositoryRoot>$(MSBuildProjectDirectory)/../..</ModularPipelinesRepositoryRoot>
 </PropertyGroup>
 ```
 
