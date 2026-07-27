@@ -44,6 +44,20 @@ internal class OptionsValidator : IOptionsValidator
                 $"DefaultModuleTimeout cannot be negative. Current value: {options.DefaultModuleTimeout}"));
         }
 
+        if (options.ModuleOutputFlushInterval < TimeSpan.Zero)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"ModuleOutputFlushInterval cannot be negative. Current value: {options.ModuleOutputFlushInterval}"));
+        }
+        else if (options.ModuleOutputFlushInterval > PipelineOptions.MaximumModuleOutputFlushInterval)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"ModuleOutputFlushInterval cannot exceed {PipelineOptions.MaximumModuleOutputFlushInterval}. " +
+                $"Current value: {options.ModuleOutputFlushInterval}"));
+        }
+
         // Validate concurrency options
         if (options.Concurrency.MaxParallelism < 1)
         {

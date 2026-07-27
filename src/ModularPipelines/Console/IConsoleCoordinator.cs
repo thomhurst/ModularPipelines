@@ -78,6 +78,12 @@ internal interface IConsoleCoordinator : IAsyncDisposable
     Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync();
 
     /// <summary>
+    /// Flushes output accumulated by modules that may still be running.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    Task FlushInProgressModuleOutputAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Flushes any remaining unattributed output.
     /// Module output is flushed immediately when modules complete.
     /// </summary>

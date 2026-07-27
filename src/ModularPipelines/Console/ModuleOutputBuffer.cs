@@ -29,6 +29,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly string _moduleName;
     private readonly DateTime _startTimeUtc;
     private Exception? _exception;
+    private bool _isComplete;
+    private bool _isIncrementalFlushInProgress;
+    private bool _hasRenderedIncrementalOutput;
 
     /// <inheritdoc />
     public Type ModuleType { get; }
@@ -101,26 +104,52 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
+    public bool IsComplete
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _isComplete;
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    public bool NeedsCompletionFlush
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _outputs.Count > 0
+                       || _isIncrementalFlushInProgress
+                       || _hasRenderedIncrementalOutput;
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    public void MarkComplete()
+    {
+        lock (_lock)
+        {
+            _isComplete = true;
+        }
+    }
+
+    /// <inheritdoc />
     public Task FlushToAsync(
         TextWriter console,
         IBuildSystemFormatter formatter,
         ILogger logger,
         ISpectreConsoleLoggerControl loggerControl,
+        OutputFlushKind flushKind,
         CancellationToken cancellationToken = default)
     {
-        List<BufferedOutput> outputs;
-        Exception? exception;
-
-        lock (_lock)
+        if (!TryTakeOutputs(flushKind, out var outputs, out var exception))
         {
-            if (_outputs.Count == 0)
-            {
-                return Task.CompletedTask;
-            }
-
-            outputs = new List<BufferedOutput>(_outputs);
-            _outputs.Clear();
-            exception = _exception;
+            return Task.CompletedTask;
         }
 
         var directConsole = CreateDirectConsole(console);
@@ -128,78 +157,200 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         try
         {
-            var synchronizationLock = loggerControl.SynchronizationLock;
-            EnterSynchronizationLock(synchronizationLock, cancellationToken);
-            try
-            {
-                var header = FormatHeader(exception);
-                var startCommand = formatter.GetStartBlockCommand(header);
-                var endCommand = formatter.GetEndBlockCommand(header);
-                var groupStarted = false;
-                var flushCompleted = false;
-
-                try
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    // Keep the synchronization gate for the complete group. MEL.Spectre uses
-                    // synchronous rendering, so unrelated logger calls cannot enter this group.
-                    if (startCommand != null)
-                    {
-                        WriteDirect(directConsole, console, startCommand);
-                        groupStarted = true;
-                    }
-
-                    foreach (var output in outputs)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-
-                        if (output.IsString)
-                        {
-                            WriteDirect(directConsole, console, output.StringValue);
-                        }
-                        else if (output.LogEvent.HasValue)
-                        {
-                            var logEvent = output.LogEvent.Value;
-
-                            // Synchronous MEL.Spectre rendering preserves this buffer's position
-                            // while other providers (for example file logging) still receive the event.
-                            logger.Log(logEvent.Level, logEvent.EventId, logEvent.State, logEvent.Exception,
-                                (state, ex) => logEvent.Formatter(state, ex));
-                        }
-
-                        renderedCount++;
-                    }
-
-                    cancellationToken.ThrowIfCancellationRequested();
-                    flushCompleted = true;
-                }
-                finally
-                {
-                    if (groupStarted && endCommand != null)
-                    {
-                        console.WriteLine(endCommand);
-                    }
-
-                    if (groupStarted || flushCompleted)
-                    {
-                        // Add blank line between module sections for visual separation.
-                        console.WriteLine();
-                    }
-                }
-            }
-            finally
-            {
-                Monitor.Exit(synchronizationLock);
-            }
+            RenderOutputs(
+                console,
+                directConsole,
+                formatter,
+                logger,
+                loggerControl.SynchronizationLock,
+                exception,
+                flushKind,
+                outputs,
+                ref renderedCount,
+                cancellationToken);
         }
         catch
         {
+            if (flushKind is OutputFlushKind.Incremental)
+            {
+                RecordRenderedOutput(OutputFlushKind.Incremental, renderedCount);
+            }
+
             RestoreUnrenderedOutputs(outputs, renderedCount);
             throw;
         }
 
+        RecordRenderedOutput(flushKind, renderedCount);
         return Task.CompletedTask;
+    }
+
+    private bool TryTakeOutputs(
+        OutputFlushKind flushKind,
+        out List<BufferedOutput> outputs,
+        out Exception? exception)
+    {
+        lock (_lock)
+        {
+            if (flushKind is OutputFlushKind.Incremental && _isComplete)
+            {
+                outputs = null!;
+                exception = null;
+                return false;
+            }
+
+            if (_outputs.Count == 0
+                && (flushKind is OutputFlushKind.Incremental || !_hasRenderedIncrementalOutput))
+            {
+                outputs = null!;
+                exception = null;
+                return false;
+            }
+
+            outputs = new List<BufferedOutput>(_outputs);
+            _outputs.Clear();
+            _isIncrementalFlushInProgress = flushKind is OutputFlushKind.Incremental;
+            exception = _exception;
+            return true;
+        }
+    }
+
+    private void RenderOutputs(
+        TextWriter console,
+        IAnsiConsole directConsole,
+        IBuildSystemFormatter formatter,
+        ILogger logger,
+        object synchronizationLock,
+        Exception? exception,
+        OutputFlushKind flushKind,
+        List<BufferedOutput> outputs,
+        ref int renderedCount,
+        CancellationToken cancellationToken)
+    {
+        EnterSynchronizationLock(synchronizationLock, cancellationToken);
+        try
+        {
+            RenderOutputGroup(
+                console,
+                directConsole,
+                formatter,
+                logger,
+                exception,
+                flushKind,
+                outputs,
+                ref renderedCount,
+                cancellationToken);
+        }
+        finally
+        {
+            Monitor.Exit(synchronizationLock);
+        }
+    }
+
+    private void RenderOutputGroup(
+        TextWriter console,
+        IAnsiConsole directConsole,
+        IBuildSystemFormatter formatter,
+        ILogger logger,
+        Exception? exception,
+        OutputFlushKind flushKind,
+        List<BufferedOutput> outputs,
+        ref int renderedCount,
+        CancellationToken cancellationToken)
+    {
+        var header = FormatHeader(exception, flushKind);
+        var startCommand = formatter.GetStartBlockCommand(header);
+        var endCommand = formatter.GetEndBlockCommand(header);
+        var groupStarted = false;
+        var flushCompleted = false;
+
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // Keep the synchronization gate for the complete group. MEL.Spectre uses
+            // synchronous rendering, so unrelated logger calls cannot enter this group.
+            if (startCommand != null)
+            {
+                WriteDirect(directConsole, console, startCommand);
+                groupStarted = true;
+            }
+
+            RenderBufferedOutputs(
+                console,
+                directConsole,
+                logger,
+                outputs,
+                ref renderedCount,
+                cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
+            flushCompleted = true;
+        }
+        finally
+        {
+            if (groupStarted && endCommand != null)
+            {
+                console.WriteLine(endCommand);
+            }
+
+            if (groupStarted || flushCompleted)
+            {
+                // Add blank line between module sections for visual separation.
+                console.WriteLine();
+            }
+        }
+    }
+
+    private static void RenderBufferedOutputs(
+        TextWriter console,
+        IAnsiConsole directConsole,
+        ILogger logger,
+        List<BufferedOutput> outputs,
+        ref int renderedCount,
+        CancellationToken cancellationToken)
+    {
+        foreach (var output in outputs)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (output.IsString)
+            {
+                WriteDirect(directConsole, console, output.StringValue);
+            }
+            else if (output.LogEvent.HasValue)
+            {
+                var logEvent = output.LogEvent.Value;
+
+                // Synchronous MEL.Spectre rendering preserves this buffer's position
+                // while other providers (for example file logging) still receive the event.
+                logger.Log(logEvent.Level, logEvent.EventId, logEvent.State, logEvent.Exception,
+                    (state, ex) => logEvent.Formatter(state, ex));
+            }
+
+            // Advance only after the sink returns successfully. A sink that accepts
+            // output and then throws may cause a duplicate on retry, but retaining
+            // the item avoids guaranteed data loss when delivery never happened.
+            renderedCount++;
+        }
+    }
+
+    private void RecordRenderedOutput(OutputFlushKind flushKind, int renderedCount)
+    {
+        lock (_lock)
+        {
+            if (flushKind is OutputFlushKind.Complete)
+            {
+                _hasRenderedIncrementalOutput = false;
+            }
+            else
+            {
+                _isIncrementalFlushInProgress = false;
+                if (renderedCount > 0)
+                {
+                    _hasRenderedIncrementalOutput = true;
+                }
+            }
+        }
     }
 
     private static void EnterSynchronizationLock(
@@ -226,7 +377,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
     }
 
-    private string FormatHeader(Exception? exception)
+    private string FormatHeader(Exception? exception, OutputFlushKind flushKind)
     {
         var duration = DateTime.UtcNow - _startTimeUtc;
         var durationText = duration.ToDisplayString();
@@ -236,7 +387,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return $"{_moduleName} \u2717 ({durationText}) - {exception.GetType().Name}";
         }
 
-        return $"{_moduleName} \u2713 ({durationText})";
+        return flushKind is OutputFlushKind.Complete
+            ? $"{_moduleName} \u2713 ({durationText})"
+            : $"{_moduleName} \u2026 ({durationText})";
     }
 
     private static IAnsiConsole CreateDirectConsole(TextWriter writer)

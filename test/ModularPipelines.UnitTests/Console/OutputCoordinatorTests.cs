@@ -38,7 +38,7 @@ public class OutputCoordinatorTests
             null,
             static (state, _) => state.ToString()!);
 
-        await coordinator.EnqueueAndFlushAsync(moduleBuffer);
+        await coordinator.EnqueueAndFlushAsync(moduleBuffer, OutputFlushKind.Complete);
         await coordinatedWriter.FlushAsync();
 
         await Assert.That(directOutput.ToString()).Contains("replayed log");
@@ -68,7 +68,7 @@ public class OutputCoordinatorTests
     }
 
     [Test]
-    public async Task DeferredFlush_FailureOnlyRequeuesUnstartedOutputs()
+    public async Task DeferredFlush_FailureRequeuesCurrentAndUnstartedOutputs()
     {
         var firstBuffer = new FailingOnceOutputBuffer();
         var secondBuffer = new CancellingOutputBuffer();
@@ -83,12 +83,12 @@ public class OutputCoordinatorTests
 
         await coordinator.FlushDeferredAsync();
 
-        await Assert.That(firstBuffer.FlushCount).IsEqualTo(1);
+        await Assert.That(firstBuffer.FlushCount).IsEqualTo(2);
         await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
     }
 
     [Test]
-    public async Task DeferredFlush_ProviderCancellationOnlyRequeuesUnstartedOutputs()
+    public async Task DeferredFlush_ProviderCancellationRequeuesCurrentAndUnstartedOutputs()
     {
         var firstBuffer = new FailingOnceOutputBuffer(new OperationCanceledException("provider cancelled"));
         var secondBuffer = new CancellingOutputBuffer();
@@ -103,8 +103,28 @@ public class OutputCoordinatorTests
 
         await coordinator.FlushDeferredAsync();
 
-        await Assert.That(firstBuffer.FlushCount).IsEqualTo(1);
+        await Assert.That(firstBuffer.FlushCount).IsEqualTo(2);
         await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Completion_Skips_Buffer_That_Has_Never_Produced_Output()
+    {
+        var buffer = new Mock<IModuleOutputBuffer>();
+        buffer.SetupGet(x => x.ModuleType).Returns(typeof(OutputCoordinatorTests));
+        buffer.SetupGet(x => x.NeedsCompletionFlush).Returns(false);
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        await coordinator.OnModuleCompletedAsync(buffer.Object, buffer.Object.ModuleType);
+        await coordinator.FlushDeferredAsync();
+
+        buffer.Verify(x => x.FlushToAsync(
+            It.IsAny<TextWriter>(),
+            It.IsAny<IBuildSystemFormatter>(),
+            It.IsAny<ILogger>(),
+            It.IsAny<ISpectreConsoleLoggerControl>(),
+            It.IsAny<OutputFlushKind>(),
+            It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Test]
@@ -115,9 +135,94 @@ public class OutputCoordinatorTests
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-            await coordinator.EnqueueAndFlushAsync(buffer, cancellationTokenSource.Token));
+            await coordinator.EnqueueAndFlushAsync(
+                buffer,
+                OutputFlushKind.Complete,
+                cancellationTokenSource.Token));
 
         await Assert.That(buffer.FlushCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task IncrementalFlush_UsesInProgressRendering()
+    {
+        var buffer = new Mock<IModuleOutputBuffer>();
+        buffer.SetupGet(x => x.ModuleType).Returns(typeof(OutputCoordinatorTests));
+        buffer.SetupGet(x => x.HasOutput).Returns(true);
+        buffer
+            .Setup(x => x.FlushToAsync(
+                It.IsAny<TextWriter>(),
+                It.IsAny<IBuildSystemFormatter>(),
+                It.IsAny<ILogger>(),
+                It.IsAny<ISpectreConsoleLoggerControl>(),
+                OutputFlushKind.Incremental,
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        await coordinator.EnqueueAndFlushAsync(buffer.Object, OutputFlushKind.Incremental);
+
+        buffer.Verify(x => x.FlushToAsync(
+            It.IsAny<TextWriter>(),
+            It.IsAny<IBuildSystemFormatter>(),
+            It.IsAny<ILogger>(),
+            It.IsAny<ISpectreConsoleLoggerControl>(),
+            OutputFlushKind.Incremental,
+            It.IsAny<CancellationToken>()), Times.Once);
+        buffer.Verify(x => x.FlushToAsync(
+            It.IsAny<TextWriter>(),
+            It.IsAny<IBuildSystemFormatter>(),
+            It.IsAny<ILogger>(),
+            It.IsAny<ISpectreConsoleLoggerControl>(),
+            OutputFlushKind.Complete,
+            It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Test]
+    public async Task IncrementalFlush_UsesNonGenericLoggerForUnattributedOutput()
+    {
+        var buffer = new Mock<IModuleOutputBuffer>();
+        buffer.SetupGet(x => x.ModuleType).Returns(typeof(void));
+        buffer.SetupGet(x => x.HasOutput).Returns(true);
+        buffer
+            .Setup(x => x.FlushToAsync(
+                It.IsAny<TextWriter>(),
+                It.IsAny<IBuildSystemFormatter>(),
+                It.IsAny<ILogger>(),
+                It.IsAny<ISpectreConsoleLoggerControl>(),
+                OutputFlushKind.Incremental,
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        await coordinator.EnqueueAndFlushAsync(buffer.Object, OutputFlushKind.Incremental);
+
+        buffer.Verify(x => x.FlushToAsync(
+            It.IsAny<TextWriter>(),
+            It.IsAny<IBuildSystemFormatter>(),
+            It.IsAny<ILogger>(),
+            It.IsAny<ISpectreConsoleLoggerControl>(),
+            OutputFlushKind.Incremental,
+            It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Test]
+    public async Task Completion_IsQueuedWhileIncrementalFlushOwnsOutput()
+    {
+        var buffer = new BlockingIncrementalOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        var incrementalFlush = coordinator.EnqueueAndFlushAsync(buffer, OutputFlushKind.Incremental);
+        await buffer.IncrementalFlushStarted.Task.WaitAsync(TimeSpan.FromSeconds(1));
+
+        buffer.MarkComplete();
+        var completionFlush = coordinator.OnModuleCompletedAsync(buffer, buffer.ModuleType);
+
+        buffer.ReleaseIncrementalFlush.TrySetResult();
+        await incrementalFlush;
+        await completionFlush;
+
+        await Assert.That(buffer.CompleteFlushCount).IsEqualTo(1);
     }
 
     [Test]
@@ -128,9 +233,12 @@ public class OutputCoordinatorTests
         var secondBuffer = new CancellingOutputBuffer();
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
 
-        var ownerFlush = coordinator.EnqueueAndFlushAsync(firstBuffer, ownerCancellation.Token);
+        var ownerFlush = coordinator.EnqueueAndFlushAsync(
+            firstBuffer,
+            OutputFlushKind.Complete,
+            ownerCancellation.Token);
         await firstBuffer.FlushStarted.Task;
-        var secondFlush = coordinator.EnqueueAndFlushAsync(secondBuffer);
+        var secondFlush = coordinator.EnqueueAndFlushAsync(secondBuffer, OutputFlushKind.Complete);
 
         await ownerCancellation.CancelAsync();
         firstBuffer.ReleaseFlush.TrySetResult();
@@ -148,9 +256,12 @@ public class OutputCoordinatorTests
         var queuedBuffer = new CancellingOutputBuffer();
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
 
-        var firstFlush = coordinator.EnqueueAndFlushAsync(firstBuffer);
+        var firstFlush = coordinator.EnqueueAndFlushAsync(firstBuffer, OutputFlushKind.Complete);
         await firstBuffer.FlushStarted.Task;
-        var queuedFlush = coordinator.EnqueueAndFlushAsync(queuedBuffer, queuedCancellation.Token);
+        var queuedFlush = coordinator.EnqueueAndFlushAsync(
+            queuedBuffer,
+            OutputFlushKind.Complete,
+            queuedCancellation.Token);
 
         await queuedCancellation.CancelAsync();
         var completedTask = await Task.WhenAny(queuedFlush, Task.Delay(TimeSpan.FromSeconds(1)));
@@ -164,15 +275,42 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    public async Task WaitForPendingFlushes_WaitsForCanceledActiveFlushToReleaseBuffer()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var buffer = new BlockingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        var flush = coordinator.EnqueueAndFlushAsync(
+            buffer,
+            OutputFlushKind.Incremental,
+            cancellationTokenSource.Token);
+        await buffer.FlushStarted.Task;
+
+        await cancellationTokenSource.CancelAsync();
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await flush);
+
+        var waitForPendingFlushes = coordinator.WaitForPendingFlushesAsync();
+        var completedBeforeRelease = ReferenceEquals(
+            await Task.WhenAny(waitForPendingFlushes, Task.Delay(TimeSpan.FromMilliseconds(50))),
+            waitForPendingFlushes);
+
+        buffer.ReleaseFlush.TrySetResult();
+        await waitForPendingFlushes;
+
+        await Assert.That(completedBeforeRelease).IsFalse();
+    }
+
+    [Test]
     public async Task ImmediateFlush_OwnerReturnsBeforeLaterBufferCompletes()
     {
         var firstBuffer = new BlockingOutputBuffer();
         var secondBuffer = new BlockingOutputBuffer();
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
 
-        var ownerFlush = coordinator.EnqueueAndFlushAsync(firstBuffer);
+        var ownerFlush = coordinator.EnqueueAndFlushAsync(firstBuffer, OutputFlushKind.Complete);
         await firstBuffer.FlushStarted.Task;
-        var secondFlush = coordinator.EnqueueAndFlushAsync(secondBuffer);
+        var secondFlush = coordinator.EnqueueAndFlushAsync(secondBuffer, OutputFlushKind.Complete);
 
         firstBuffer.ReleaseFlush.TrySetResult();
         await secondBuffer.FlushStarted.Task;
@@ -190,7 +328,7 @@ public class OutputCoordinatorTests
         var buffer = new SynchronouslyBlockingOutputBuffer();
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
         var invocation = Task.Factory.StartNew(
-            () => coordinator.EnqueueAndFlushAsync(buffer),
+            () => coordinator.EnqueueAndFlushAsync(buffer, OutputFlushKind.Complete),
             CancellationToken.None,
             TaskCreationOptions.DenyChildAttach,
             TaskScheduler.Default);
@@ -225,8 +363,12 @@ public class OutputCoordinatorTests
         var abandonedBuffer = new CancellingOutputBuffer();
 
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
-            await coordinator.EnqueueAndFlushAsync(abandonedBuffer).WaitAsync(TimeSpan.FromSeconds(1)));
-        await coordinator.EnqueueAndFlushAsync(abandonedBuffer).WaitAsync(TimeSpan.FromSeconds(1));
+            await coordinator
+                .EnqueueAndFlushAsync(abandonedBuffer, OutputFlushKind.Complete)
+                .WaitAsync(TimeSpan.FromSeconds(1)));
+        await coordinator
+            .EnqueueAndFlushAsync(abandonedBuffer, OutputFlushKind.Complete)
+            .WaitAsync(TimeSpan.FromSeconds(1));
 
         await Assert.That(abandonedBuffer.FlushCount).IsEqualTo(1);
     }
@@ -238,7 +380,7 @@ public class OutputCoordinatorTests
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
 
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
-            await coordinator.EnqueueAndFlushAsync(buffer));
+            await coordinator.EnqueueAndFlushAsync(buffer, OutputFlushKind.Complete));
 
         await Assert.That(buffer.DeliveryCount).IsEqualTo(1);
     }
@@ -308,6 +450,12 @@ public class OutputCoordinatorTests
 
         public bool HasOutput => true;
 
+        public bool IsComplete { get; private set; }
+
+        public bool NeedsCompletionFlush => true;
+
+        public void MarkComplete() => IsComplete = true;
+
         public void WriteLine(string message)
         {
         }
@@ -330,6 +478,7 @@ public class OutputCoordinatorTests
             IBuildSystemFormatter formatter,
             ILogger logger,
             ISpectreConsoleLoggerControl loggerControl,
+            OutputFlushKind flushKind,
             CancellationToken cancellationToken = default)
         {
             FlushCount++;
@@ -351,6 +500,12 @@ public class OutputCoordinatorTests
 
         public bool HasOutput => true;
 
+        public bool IsComplete { get; private set; }
+
+        public bool NeedsCompletionFlush => true;
+
+        public void MarkComplete() => IsComplete = true;
+
         public void WriteLine(string message)
         {
         }
@@ -373,6 +528,7 @@ public class OutputCoordinatorTests
             IBuildSystemFormatter formatter,
             ILogger logger,
             ISpectreConsoleLoggerControl loggerControl,
+            OutputFlushKind flushKind,
             CancellationToken cancellationToken = default)
         {
             FlushCount++;
@@ -390,6 +546,12 @@ public class OutputCoordinatorTests
         public Type ModuleType => typeof(BlockingOutputBuffer);
 
         public bool HasOutput => true;
+
+        public bool IsComplete { get; private set; }
+
+        public bool NeedsCompletionFlush => true;
+
+        public void MarkComplete() => IsComplete = true;
 
         public TaskCompletionSource FlushStarted { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -417,10 +579,76 @@ public class OutputCoordinatorTests
             IBuildSystemFormatter formatter,
             ILogger logger,
             ISpectreConsoleLoggerControl loggerControl,
+            OutputFlushKind flushKind,
             CancellationToken cancellationToken = default)
         {
             FlushStarted.TrySetResult();
             await ReleaseFlush.Task;
+            cancellationToken.ThrowIfCancellationRequested();
+        }
+    }
+
+    private sealed class BlockingIncrementalOutputBuffer : IModuleOutputBuffer
+    {
+        private volatile bool _hasOutput = true;
+
+        public Type ModuleType => typeof(BlockingIncrementalOutputBuffer);
+
+        public bool HasOutput => _hasOutput;
+
+        public bool IsComplete { get; private set; }
+
+        public bool NeedsCompletionFlush => true;
+
+        public int CompleteFlushCount { get; private set; }
+
+        public TaskCompletionSource IncrementalFlushStarted { get; } =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TaskCompletionSource ReleaseIncrementalFlush { get; } =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public void MarkComplete() => IsComplete = true;
+
+        public void WriteLine(string message)
+        {
+        }
+
+        public void AddLogEvent(
+            LogLevel level,
+            EventId eventId,
+            object state,
+            Exception? exception,
+            Func<object, Exception?, string> formatter)
+        {
+        }
+
+        public void SetException(Exception exception)
+        {
+        }
+
+        public Task FlushToAsync(
+            TextWriter console,
+            IBuildSystemFormatter formatter,
+            ILogger logger,
+            ISpectreConsoleLoggerControl loggerControl,
+            OutputFlushKind flushKind,
+            CancellationToken cancellationToken = default)
+        {
+            if (flushKind is OutputFlushKind.Complete)
+            {
+                CompleteFlushCount++;
+                return Task.CompletedTask;
+            }
+
+            return FlushIncrementallyAsync(cancellationToken);
+        }
+
+        private async Task FlushIncrementallyAsync(CancellationToken cancellationToken)
+        {
+            _hasOutput = false;
+            IncrementalFlushStarted.TrySetResult();
+            await ReleaseIncrementalFlush.Task;
             cancellationToken.ThrowIfCancellationRequested();
         }
     }
@@ -430,6 +658,12 @@ public class OutputCoordinatorTests
         public Type ModuleType => typeof(SynchronouslyBlockingOutputBuffer);
 
         public bool HasOutput => true;
+
+        public bool IsComplete { get; private set; }
+
+        public bool NeedsCompletionFlush => true;
+
+        public void MarkComplete() => IsComplete = true;
 
         public TaskCompletionSource FlushStarted { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -457,6 +691,7 @@ public class OutputCoordinatorTests
             IBuildSystemFormatter formatter,
             ILogger logger,
             ISpectreConsoleLoggerControl loggerControl,
+            OutputFlushKind flushKind,
             CancellationToken cancellationToken = default)
         {
             FlushStarted.TrySetResult();
@@ -470,6 +705,12 @@ public class OutputCoordinatorTests
         public Type ModuleType => typeof(PartiallyDeliveringOutputBuffer);
 
         public bool HasOutput => true;
+
+        public bool IsComplete { get; private set; }
+
+        public bool NeedsCompletionFlush => true;
+
+        public void MarkComplete() => IsComplete = true;
 
         public int DeliveryCount { get; private set; }
 
@@ -495,6 +736,7 @@ public class OutputCoordinatorTests
             IBuildSystemFormatter formatter,
             ILogger logger,
             ISpectreConsoleLoggerControl loggerControl,
+            OutputFlushKind flushKind,
             CancellationToken cancellationToken = default)
         {
             DeliveryCount++;

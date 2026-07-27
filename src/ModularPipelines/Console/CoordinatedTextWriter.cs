@@ -169,7 +169,10 @@ internal class CoordinatedTextWriter : TextWriter
             .OrderByDescending(pattern => pattern.Length)
             .ToArray();
 
-    private void ObfuscateCompletePatterns(LineBufferState state, IReadOnlyList<string> patterns)
+    private void ObfuscateCompletePatterns(
+        LineBufferState state,
+        IReadOnlyList<string> patterns,
+        bool preservePotentialLongerMatch = true)
     {
         if (state.Buffer.Length == 0 || patterns.Count == 0)
         {
@@ -192,7 +195,8 @@ internal class CoordinatedTextWriter : TextWriter
                 break;
             }
 
-            if (retainedPrefixLength > 0
+            if (preservePotentialLongerMatch
+                && retainedPrefixLength > 0
                 && match.Index + match.Length > retainedPrefixStart)
             {
                 output.Append(pending, searchIndex, pending.Length - searchIndex);
@@ -316,13 +320,18 @@ internal class CoordinatedTextWriter : TextWriter
 
     private void FlushPartialLine(LineBufferState state, bool shouldBuffer)
     {
-        if (state.Buffer.Length == 0)
+        FlushPartialPrefix(state, state.Buffer.Length, shouldBuffer);
+    }
+
+    private void FlushPartialPrefix(LineBufferState state, int length, bool shouldBuffer)
+    {
+        if (length <= 0)
         {
             return;
         }
 
-        var pending = state.Buffer.ToString();
-        state.Buffer.Clear();
+        var pending = state.Buffer.ToString(0, length);
+        state.Buffer.Remove(0, length);
         var obfuscated = _secretObfuscator.Obfuscate(pending, null);
 
         if (shouldBuffer)
@@ -353,6 +362,39 @@ internal class CoordinatedTextWriter : TextWriter
 
         // Always flush real console (needed for Spectre.Console internals)
         _realConsole.Flush();
+    }
+
+    /// <summary>
+    /// Flushes output that cannot be a prefix of a registered secret while retaining
+    /// incomplete secret prefixes for subsequent writes.
+    /// </summary>
+    internal Task FlushAvailableAsync()
+    {
+        lock (_lineBufferLock)
+        {
+            var patterns = GetSecretPatterns();
+            foreach (var state in _lineBuffers.Values.Where(state => state.Buffer.Length > 0))
+            {
+                var shouldBuffer = state.ShouldBuffer ?? ShouldBuffer();
+                ObfuscateCompletePatterns(state, patterns, preservePotentialLongerMatch: false);
+                FlushSafeOutput(state, patterns, shouldBuffer);
+
+                if (shouldBuffer)
+                {
+                    var retainedLength = patterns.Length == 0
+                        ? 0
+                        : GetPotentialPatternPrefixLength(state.Buffer.ToString(), patterns);
+                    FlushPartialPrefix(state, state.Buffer.Length - retainedLength, shouldBuffer);
+                }
+
+                if (state.Buffer.Length == 0)
+                {
+                    state.ShouldBuffer = null;
+                }
+            }
+        }
+
+        return _realConsole.FlushAsync();
     }
 
     /// <inheritdoc />

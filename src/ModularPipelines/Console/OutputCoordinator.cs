@@ -25,11 +25,12 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     // Separate lock for deferred output operations to reduce contention
     // with immediate flush operations that use _queueLock
     private readonly object _deferredLock = new();
+    private readonly List<DeferredModuleOutput> _deferredOutputs = new();
 
     private IProgressController _progressController = NoOpProgressController.Instance;
     private bool _isProcessingQueue;
+    private TaskCompletionSource _queueIdle = CreateCompletedQueueIdleSource();
     private volatile bool _isProgressActive;
-    private readonly List<DeferredModuleOutput> _deferredOutputs = new();
 
     private readonly record struct DeferredModuleOutput(
         IModuleOutputBuffer Buffer,
@@ -88,7 +89,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     /// <inheritdoc />
     public async Task OnModuleCompletedAsync(IModuleOutputBuffer buffer, Type moduleType, CancellationToken cancellationToken = default)
     {
-        if (!buffer.HasOutput)
+        if (!buffer.NeedsCompletionFlush)
         {
             return;
         }
@@ -109,7 +110,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         else
         {
             // No progress - flush immediately (existing behavior)
-            await EnqueueAndFlushAsync(buffer, cancellationToken).ConfigureAwait(false);
+            await EnqueueAndFlushAsync(buffer, OutputFlushKind.Complete, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -147,6 +148,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                 await FlushBufferAsync(
                         toFlush[nextOutputIndex].Buffer,
                         formatter,
+                        OutputFlushKind.Complete,
                         cancellationToken)
                     .ConfigureAwait(false);
             }
@@ -159,10 +161,9 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         }
         catch
         {
-            // A sink may have accepted part of the current buffer before throwing.
-            // Retrying that buffer could duplicate delivered output, so only retain
-            // buffers that have not started rendering.
-            RequeueDeferredOutputs(toFlush.Skip(nextOutputIndex + 1));
+            // Preserve the current buffer too. Its own render cursor retains the
+            // failed item, preferring a possible duplicate over lost diagnostics.
+            RequeueDeferredOutputs(toFlush.Skip(nextOutputIndex));
 
             throw;
         }
@@ -176,14 +177,22 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     }
 
     /// <inheritdoc />
-    public async Task EnqueueAndFlushAsync(IModuleOutputBuffer buffer, CancellationToken cancellationToken = default)
+    public async Task EnqueueAndFlushAsync(
+        IModuleOutputBuffer buffer,
+        OutputFlushKind flushKind,
+        CancellationToken cancellationToken = default)
     {
-        if (!buffer.HasOutput)
+        if (flushKind is OutputFlushKind.Incremental && buffer.IsComplete)
         {
             return;
         }
 
-        var pending = new PendingFlush(buffer, cancellationToken);
+        if (flushKind is OutputFlushKind.Incremental && !buffer.HasOutput)
+        {
+            return;
+        }
+
+        var pending = new PendingFlush(buffer, flushKind, cancellationToken);
         bool shouldProcess;
 
         lock (_queueLock)
@@ -193,6 +202,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             if (shouldProcess)
             {
                 _isProcessingQueue = true;
+                _queueIdle = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
             }
         }
 
@@ -206,6 +216,15 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         using var cancellationRegistration = cancellationToken.Register(
             () => pending.CompletionSource.TrySetCanceled(cancellationToken));
         await pending.CompletionSource.Task.ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public Task WaitForPendingFlushesAsync(CancellationToken cancellationToken = default)
+    {
+        lock (_queueLock)
+        {
+            return _queueIdle.Task.WaitAsync(cancellationToken);
+        }
     }
 
     private async Task ProcessQueueAsync()
@@ -255,10 +274,15 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     {
         try
         {
-            // Output sinks are not transactional. A provider can deliver an event and
-            // then throw, so retrying here could duplicate output already accepted by
-            // that provider. Preserve the buffer's unrendered tail and surface failure
-            // to the caller instead.
+            if (pending.FlushKind is OutputFlushKind.Incremental && pending.Buffer.IsComplete)
+            {
+                pending.CompletionSource.TrySetResult();
+                return;
+            }
+
+            // Output sinks are not transactional. The buffer retains a failed item,
+            // preferring a possible duplicate on a later retry over guaranteed data loss.
+            // Surface this attempt's failure so the caller controls when to retry.
             await FlushPendingOnceAsync(pending, formatter).ConfigureAwait(false);
             pending.CompletionSource.TrySetResult();
         }
@@ -284,7 +308,12 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             await _progressController.PauseAsync().ConfigureAwait(false);
             try
             {
-                await FlushBufferAsync(pending.Buffer, formatter, cancellationToken).ConfigureAwait(false);
+                await FlushBufferAsync(
+                        pending.Buffer,
+                        formatter,
+                        pending.FlushKind,
+                        cancellationToken)
+                    .ConfigureAwait(false);
             }
             finally
             {
@@ -322,6 +351,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             _isProcessingQueue = false;
             if (_pendingQueue.Count == 0)
             {
+                _queueIdle.TrySetResult();
                 return false;
             }
 
@@ -330,19 +360,37 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         }
     }
 
+    private static TaskCompletionSource CreateCompletedQueueIdleSource()
+    {
+        var completionSource = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        completionSource.SetResult();
+        return completionSource;
+    }
+
     private async Task FlushBufferAsync(
         IModuleOutputBuffer buffer,
         IBuildSystemFormatter formatter,
+        OutputFlushKind flushKind,
         CancellationToken cancellationToken)
     {
-        var loggerType = typeof(ILogger<>).MakeGenericType(buffer.ModuleType);
-        var moduleLogger = _serviceProvider.GetService(loggerType) as ILogger
-                           ?? _loggerFactory.CreateLogger(buffer.ModuleType);
+        var moduleLogger = GetModuleLogger(buffer.ModuleType);
 
         using var directWrite = CoordinatedTextWriter.BeginDirectWrite();
         await buffer
-            .FlushToAsync(_console, formatter, moduleLogger, _loggerControl, cancellationToken)
+            .FlushToAsync(_console, formatter, moduleLogger, _loggerControl, flushKind, cancellationToken)
             .ConfigureAwait(false);
+    }
+
+    private ILogger GetModuleLogger(Type moduleType)
+    {
+        if (moduleType == typeof(void))
+        {
+            return _loggerFactory.CreateLogger(moduleType);
+        }
+
+        var loggerType = typeof(ILogger<>).MakeGenericType(moduleType);
+        return _serviceProvider.GetService(loggerType) as ILogger
+               ?? _loggerFactory.CreateLogger(moduleType);
     }
 
     private sealed class PendingFlush
@@ -351,11 +399,17 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
         public CancellationToken CancellationToken { get; }
 
+        public OutputFlushKind FlushKind { get; }
+
         public TaskCompletionSource CompletionSource { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        public PendingFlush(IModuleOutputBuffer buffer, CancellationToken cancellationToken)
+        public PendingFlush(
+            IModuleOutputBuffer buffer,
+            OutputFlushKind flushKind,
+            CancellationToken cancellationToken)
         {
             Buffer = buffer;
+            FlushKind = flushKind;
             CancellationToken = cancellationToken;
         }
     }

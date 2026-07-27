@@ -297,6 +297,7 @@ public sealed class PipelineBuilder
                 opts.ConsoleWidth = _options.ConsoleWidth;
                 opts.DefaultExecutionOptions = _options.DefaultExecutionOptions;
                 opts.ThrowOnPipelineFailure = _options.ThrowOnPipelineFailure;
+                opts.ModuleOutputFlushInterval = _options.ModuleOutputFlushInterval;
             });
 
             // Auto-register any missing required dependencies

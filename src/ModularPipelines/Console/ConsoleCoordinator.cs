@@ -300,7 +300,12 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     public IModuleOutputBuffer GetUnattributedBuffer() => _unattributedBuffer;
 
     /// <inheritdoc />
-    public async Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync()
+    public Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync()
+    {
+        return FlushPendingWritesAsync(OutputFlushKind.Complete);
+    }
+
+    private async Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync(OutputFlushKind flushKind)
     {
         var populatedBeforeFlush = _moduleBuffers.Values
             .Where(buffer => buffer.HasOutput)
@@ -316,18 +321,108 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
         if (output is not null)
         {
-            await output.FlushAsync().ConfigureAwait(false);
+            await FlushWriterAsync(output, flushKind).ConfigureAwait(false);
         }
 
         if (error is not null && !ReferenceEquals(error, output))
         {
-            await error.FlushAsync().ConfigureAwait(false);
+            await FlushWriterAsync(error, flushKind).ConfigureAwait(false);
         }
 
         return _moduleBuffers.Values
             .Where(buffer => buffer.HasOutput && !populatedBeforeFlush.Contains(buffer))
             .Cast<IModuleOutputBuffer>()
             .ToArray();
+    }
+
+    /// <inheritdoc />
+    public async Task FlushInProgressModuleOutputAsync(CancellationToken cancellationToken = default)
+    {
+        var newlyPopulatedBuffers = await FlushPendingWritesAsync(OutputFlushKind.Incremental).ConfigureAwait(false);
+
+        foreach (var buffer in newlyPopulatedBuffers.Where(buffer => buffer.IsComplete))
+        {
+            await FlushBufferSafelyAsync(buffer, OutputFlushKind.Complete, cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        var buffers = _moduleBuffers.Values
+            .Where(buffer => !buffer.IsComplete && buffer.HasOutput)
+            .Cast<IModuleOutputBuffer>()
+            .ToArray();
+
+        foreach (var buffer in buffers)
+        {
+            await FlushBufferSafelyAsync(buffer, OutputFlushKind.Incremental, cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        if (_unattributedBuffer.HasOutput)
+        {
+            await FlushBufferSafelyAsync(
+                    _unattributedBuffer,
+                    OutputFlushKind.Incremental,
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
+    private async Task FlushBufferSafelyAsync(
+        IModuleOutputBuffer buffer,
+        OutputFlushKind flushKind,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        try
+        {
+            if (flushKind is OutputFlushKind.Complete)
+            {
+                await _outputCoordinator
+                    .OnModuleCompletedAsync(buffer, buffer.ModuleType, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                await _outputCoordinator
+                    .EnqueueAndFlushAsync(buffer, flushKind, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            ReportFlushFailure(buffer, exception);
+        }
+    }
+
+    private void ReportFlushFailure(IModuleOutputBuffer buffer, Exception exception)
+    {
+        try
+        {
+            var logger = _outputLogger ?? _loggerFactory.CreateLogger<ConsoleCoordinator>();
+            logger.LogWarning(
+                exception,
+                "Failed to flush output for {ModuleType}",
+                buffer.ModuleType);
+        }
+        catch
+        {
+            // The output provider itself may be the failing sink. Preserve a fallback
+            // diagnostic without preventing unrelated buffers from being flushed.
+            _deferredExceptions.Enqueue(
+                $"Failed to flush output for {buffer.ModuleType}: {exception}");
+        }
+    }
+
+    private static Task FlushWriterAsync(CoordinatedTextWriter writer, OutputFlushKind flushKind)
+    {
+        return flushKind is OutputFlushKind.Complete
+            ? writer.FlushAsync()
+            : writer.FlushAvailableAsync();
     }
 
     /// <inheritdoc />
@@ -348,7 +443,12 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         {
             var unattributedLogger = _outputLogger ?? _loggerFactory.CreateLogger("ModularPipelines.Output");
             await _unattributedBuffer
-                .FlushToAsync(_originalConsoleOut, formatter, unattributedLogger, _loggerControl)
+                .FlushToAsync(
+                    _originalConsoleOut,
+                    formatter,
+                    unattributedLogger,
+                    _loggerControl,
+                    OutputFlushKind.Complete)
                 .ConfigureAwait(false);
         }
     }

@@ -140,6 +140,8 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             {
                 _buffer.SetException(_exception);
             }
+
+            _buffer.MarkComplete();
         }
 
         GC.SuppressFinalize(this);
@@ -163,6 +165,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
                 _buffer.SetException(_exception);
             }
 
+            _buffer.MarkComplete();
             shouldFlush = true;
         }
 
