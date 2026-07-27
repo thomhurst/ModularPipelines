@@ -253,10 +253,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static void GenerateCompatibilityProperty(StringBuilder sb, CliCompatibilityProperty property)
     {
-        var obsoleteMessage = property.ObsoleteMessage
-            .Replace("\\", "\\\\")
-            .Replace("\"", "\\\"");
-        sb.AppendLine($"    [Obsolete(\"{obsoleteMessage}\")]");
+        sb.AppendLine($"    [Obsolete({GeneratorUtils.FormatStringLiteral(property.ObsoleteMessage)})]");
 
         if (property.ForwardToPropertyName is null)
         {

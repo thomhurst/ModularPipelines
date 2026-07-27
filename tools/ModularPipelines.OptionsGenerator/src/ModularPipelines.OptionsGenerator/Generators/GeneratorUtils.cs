@@ -578,11 +578,8 @@ public static partial class GeneratorUtils
         CliCommandDefinition command,
         string indent)
     {
-        var obsoleteMessage = compatibilityMethod.ObsoleteMessage
-            .Replace("\\", "\\\\")
-            .Replace("\"", "\\\"");
-
-        sb.AppendLine($"{indent}[Obsolete(\"{obsoleteMessage}\")]");
+        sb.AppendLine(
+            $"{indent}[Obsolete({FormatStringLiteral(compatibilityMethod.ObsoleteMessage)})]");
         sb.AppendLine($"{indent}public virtual async Task<CommandResult> {compatibilityMethod.MethodName}(");
         sb.AppendLine($"{indent}    {BuildOptionsParameter(command)},");
         sb.AppendLine($"{indent}    {ExecutionOptionsParameter},");

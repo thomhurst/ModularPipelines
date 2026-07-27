@@ -183,7 +183,9 @@ internal static partial class CommandCoverageGuard
         await File.WriteAllTextAsync(evaluation.ManifestPath, json, cancellationToken);
     }
 
-    internal static bool IsGeneratedManifest(string path)
+    internal static bool IsGeneratedManifest(
+        string path,
+        string? containmentRoot = null)
     {
         if (!path.EndsWith(
                 ".CommandCoverage.json",
@@ -194,6 +196,7 @@ internal static partial class CommandCoverageGuard
 
         try
         {
+            ValidateManifestContainment(path, containmentRoot);
             return ReadManifest(path) is not null;
         }
         catch (JsonException)

@@ -365,6 +365,7 @@ public class GeneratorHardeningTests
     [Test]
     public async Task OptionsClassGenerator_Emits_NonCli_Compatibility_Properties()
     {
+        const string obsoleteMessage = "Use \"NewName\".\r\nPath:\tC:\\tool";
         var command = Command("ToolBuildOptions", "ToolOptions") with
         {
             CompatibilityProperties =
@@ -374,7 +375,7 @@ public class GeneratorHardeningTests
                     PropertyName = "OldName",
                     CSharpType = "bool?",
                     ForwardToPropertyName = "NewName",
-                    ObsoleteMessage = "Use NewName instead.",
+                    ObsoleteMessage = obsoleteMessage,
                 },
                 new CliCompatibilityProperty
                 {
@@ -388,7 +389,8 @@ public class GeneratorHardeningTests
         var files = await new OptionsClassGenerator().GenerateAsync(Tool(command));
         var generated = files.Single().Content;
 
-        await Assert.That(generated).Contains("[Obsolete(\"Use NewName instead.\")]");
+        await Assert.That(generated)
+            .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(obsoleteMessage)})]");
         await Assert.That(generated).Contains("get => NewName;");
         await Assert.That(generated).Contains("set => NewName = value;");
         await Assert.That(generated).Contains("public bool? RemovedFlag { get; set; }");
@@ -534,6 +536,7 @@ public class GeneratorHardeningTests
     [Test]
     public async Task GenerateServiceMethod_Emits_Obsolete_Forwarding_Alias()
     {
+        const string obsoleteMessage = "Use \"CreateOrUpdate\".\r\nPath:\tC:\\tool";
         var sb = new StringBuilder();
         var command = Command(
             "ToolCreateOrUpdateOptions",
@@ -543,7 +546,7 @@ public class GeneratorHardeningTests
                 new CliCompatibilityMethod
                 {
                     MethodName = "Create_or_update",
-                    ObsoleteMessage = "Use CreateOrUpdate instead.",
+                    ObsoleteMessage = obsoleteMessage,
                 },
             ]);
 
@@ -551,7 +554,8 @@ public class GeneratorHardeningTests
 
         var generated = sb.ToString();
 
-        await Assert.That(generated).Contains("[Obsolete(\"Use CreateOrUpdate instead.\")]");
+        await Assert.That(generated)
+            .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(obsoleteMessage)})]");
         await Assert.That(generated).Contains("Task<CommandResult> Create_or_update(");
         await Assert.That(generated).Contains(
             "return await CreateOrUpdate(options, executionOptions, cancellationToken);");
@@ -560,6 +564,7 @@ public class GeneratorHardeningTests
     [Test]
     public async Task ServiceInterfaceGenerator_Emits_Obsolete_Compatibility_Signature()
     {
+        const string obsoleteMessage = "Use \"CreateOrUpdate\".\r\nPath:\tC:\\tool";
         var tool = Tool(Command(
             "ToolCreateOrUpdateOptions",
             "ToolOptions",
@@ -569,13 +574,14 @@ public class GeneratorHardeningTests
                 new CliCompatibilityMethod
                 {
                     MethodName = "Create_or_update",
-                    ObsoleteMessage = "Use CreateOrUpdate instead.",
+                    ObsoleteMessage = obsoleteMessage,
                 },
             ]));
 
         var generated = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
 
-        await Assert.That(generated).Contains("[Obsolete(\"Use CreateOrUpdate instead.\")]");
+        await Assert.That(generated)
+            .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(obsoleteMessage)})]");
         await Assert.That(generated).Contains("Task<CommandResult> Create_or_update(");
     }
 
