@@ -216,7 +216,7 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task Flush_RenderingFailure_Retains_Unrendered_Output()
+    public async Task Flush_RenderingFailure_Retains_Only_Unattempted_Output()
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer)
@@ -234,7 +234,37 @@ public class ModuleOutputBufferTests
         loggerControl.LogException = null;
         await buffer.FlushToAsync(writer, new GitHubActionsFormatter(), loggerControl, loggerControl);
 
-        await Assert.That(writer.ToString()).Contains("structured log");
+        await Assert.That(writer.ToString()).DoesNotContain("structured log");
+        await Assert.That(writer.ToString()).Contains("remaining output");
+        await Assert.That(buffer.HasOutput).IsFalse();
+    }
+
+    [Test]
+    public async Task IncrementalFlush_DoesNotRetry_LogAcceptedBeforeProviderFailure()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer)
+        {
+            LogExceptionAfterWrite = new InvalidOperationException("provider failed after delivery"),
+        };
+        var buffer = CreateBufferWithStructuredLog();
+        buffer.WriteLine("remaining output");
+
+        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await buffer.FlushIncrementallyToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl));
+
+        loggerControl.LogExceptionAfterWrite = null;
+        await buffer.FlushIncrementallyToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl);
+
+        await Assert.That(CountOccurrences(writer.ToString(), "structured log")).IsEqualTo(1);
         await Assert.That(writer.ToString()).Contains("remaining output");
         await Assert.That(buffer.HasOutput).IsFalse();
     }
@@ -289,6 +319,11 @@ public class ModuleOutputBufferTests
         return buffer;
     }
 
+    private static int CountOccurrences(string value, string search)
+    {
+        return value.Split(search, StringSplitOptions.None).Length - 1;
+    }
+
     private sealed class SynchronousLoggerControl(TextWriter writer) : ILogger, ISpectreConsoleLoggerControl
     {
         public object SynchronizationLock { get; } = new();
@@ -296,6 +331,8 @@ public class ModuleOutputBufferTests
         public Action? AfterLog { get; set; }
 
         public Exception? LogException { get; set; }
+
+        public Exception? LogExceptionAfterWrite { get; set; }
 
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull
@@ -317,6 +354,11 @@ public class ModuleOutputBufferTests
 
             Write(formatter(state, exception));
             AfterLog?.Invoke();
+
+            if (LogExceptionAfterWrite is not null)
+            {
+                throw LogExceptionAfterWrite;
+            }
         }
 
         public void Write(string message)
