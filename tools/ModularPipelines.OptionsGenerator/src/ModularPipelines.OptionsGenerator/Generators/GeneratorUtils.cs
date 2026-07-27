@@ -139,7 +139,7 @@ public static partial class GeneratorUtils
         }
 
         var normalizedValue = InvalidIdentifierCharacterPattern().Replace(cliValue, " ");
-        var pascalCase = ToPascalCase(normalizedValue);
+        var pascalCase = ToPascalCasePreservingWordBoundaries(normalizedValue);
         if (string.IsNullOrEmpty(pascalCase))
         {
             return "Unknown";
@@ -197,8 +197,30 @@ public static partial class GeneratorUtils
         return result;
     }
 
+    private static string ToPascalCasePreservingWordBoundaries(string input)
+    {
+        var words = SeparatorPattern()
+            .Split(input)
+            .SelectMany(word => IdentifierWordPattern().Matches(word).Select(match => match.Value));
+        var sb = new StringBuilder();
+
+        foreach (var word in words)
+        {
+            sb.Append(char.ToUpperInvariant(word[0]));
+            if (word.Length > 1)
+            {
+                sb.Append(word[1..].ToLowerInvariant());
+            }
+        }
+
+        return sb.ToString();
+    }
+
     [GeneratedRegex(@"[-_\s]+")]
     private static partial Regex SeparatorPattern();
+
+    [GeneratedRegex(@"\p{Lu}+(?=\p{Lu}\p{Ll}|\p{Nd}|$)|\p{Lu}?\p{Ll}+|\p{Nd}+|\p{Lu}+")]
+    private static partial Regex IdentifierWordPattern();
 
     [GeneratedRegex(@"[^\p{L}\p{Nd}_]")]
     private static partial Regex InvalidIdentifierCharacterPattern();

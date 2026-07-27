@@ -51,6 +51,20 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("ChartRevision", "ChartRevision")]
+    [Arguments("IfNotPresent", "IfNotPresent")]
+    [Arguments("ConfigMap", "ConfigMap")]
+    [Arguments("OCIRepository", "OciRepository")]
+    public async Task ToEnumMemberName_Preserves_Existing_Word_Boundaries(
+        string input,
+        string expected)
+    {
+        var result = GeneratorUtils.ToEnumMemberName(input);
+
+        await Assert.That(result).IsEqualTo(expected);
+    }
+
+    [Test]
     public async Task ToPascalCase_Returns_Empty_For_Empty_Input()
     {
         var result = GeneratorUtils.ToPascalCase("");

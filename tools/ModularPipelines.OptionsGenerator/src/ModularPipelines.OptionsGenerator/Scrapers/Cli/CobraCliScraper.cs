@@ -563,20 +563,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
                    minimumValues: 2,
                    maximumValues: 20,
                    validateValues: true)
-               ?? TryCreateEnumDefinition(
-                   propertyName,
-                   className,
-                   OneOfPattern().Match(description),
-                   minimumValues: 1,
-                   maximumValues: int.MaxValue,
-                   validateValues: false)
-               ?? TryCreateEnumDefinition(
-                   propertyName,
-                   className,
-                   ParenthesizedValuesPattern().Match(description),
-                   minimumValues: 2,
-                   maximumValues: 10,
-                   validateValues: true)
                ?? TryCreateEnumDefinitionFromTypeHint(propertyName, className, typeHint);
     }
 
@@ -734,26 +720,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             return "Unknown";
         }
 
-        var cleaned = sanitized.Replace("-", "_").Replace(".", "_");
-        var parts = cleaned.Split('_', StringSplitOptions.RemoveEmptyEntries);
-        var result = string.Join("", parts.Select(ToPascalCase));
-
-        // Remove any remaining non-identifier characters
-        result = new string(result.Where(c => char.IsLetterOrDigit(c) || c == '_').ToArray());
-
-        if (string.IsNullOrEmpty(result))
-        {
-            return "Unknown";
-        }
-
-        // Ensure the enum member name starts with a letter or underscore (C# identifier requirement)
-        // Handles cases like "82540EM" (VirtualBox NIC type) or "9p" (filesystem protocol)
-        if (!char.IsLetter(result[0]))
-        {
-            result = "_" + result;
-        }
-
-        return result;
+        return GeneratorUtils.ToEnumMemberName(sanitized);
     }
 
     /// <summary>
@@ -1013,14 +980,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
     [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>[^:\s]*))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
     private static partial Regex KubectlOptionPattern();
 
-    [GeneratedRegex(@"[Oo]ne of[:\s]+(?<values>[\w\-|,\s""'`]+?)(?:\s*\(|$|\.|;)", RegexOptions.IgnoreCase)]
-    private static partial Regex OneOfPattern();
-
     [GeneratedRegex(@"allowed values:\s*(?<values>[\w-]+(?:\s*,\s*[\w-]+)+|(?:-\s*[\w-]+\s*){2,})", RegexOptions.IgnoreCase)]
     private static partial Regex AllowedValuesPattern();
-
-    [GeneratedRegex(@"\((?<values>[\w\-]+(?:\s*[|,]\s*[\w\-]+)+)\)")]
-    private static partial Regex ParenthesizedValuesPattern();
 
     /// <summary>
     /// Matches values in Cobra's multi-line "Allowed values" bullet list.

@@ -55,7 +55,7 @@ public class DescriptionEnumValueParserTests
 
     [Test]
     [Arguments("One of: json or yaml", "json,yaml")]
-    [Arguments("Valid values are low and high", "low,high")]
+    [Arguments("Optionally specify one of 'url', 'file', 'release' or 'source'", "url,file,release,source")]
     public async Task TryParse_Accepts_Prose_Separated_Explicit_Values(
         string description,
         string expectedValues)
@@ -65,6 +65,16 @@ public class DescriptionEnumValueParserTests
         await Assert.That(result).IsNotNull();
         await Assert.That(result!.Values).IsEquivalentTo(expectedValues.Split(','));
         await Assert.That(result.MatchKind).IsEqualTo(DescriptionEnumMatchKind.Explicit);
+    }
+
+    [Test]
+    [Arguments("Valid values are low and high")]
+    [Arguments("list of directories; the configured path must be one of them, accepts comma-separated values")]
+    public async Task TryParse_Rejects_Ordinary_Prose(string description)
+    {
+        var result = DescriptionEnumValueParser.TryParse(description);
+
+        await Assert.That(result).IsNull();
     }
 
     [Test]
