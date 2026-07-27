@@ -1,6 +1,7 @@
 {
   "schemaVersion": 1,
   "tool": {
+    "ownershipId": "private-widget-integration",
     "toolName": "private-widget",
     "namespacePrefix": "PrivateWidget",
     "targetNamespace": "Example.Build.PrivateWidget",

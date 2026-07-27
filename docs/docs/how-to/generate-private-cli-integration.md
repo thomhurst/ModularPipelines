@@ -33,6 +33,7 @@ Create `tools/private-widget.json`:
 {
   "schemaVersion": 1,
   "tool": {
+    "ownershipId": "private-widget-integration",
     "toolName": "private-widget",
     "namespacePrefix": "PrivateWidget",
     "targetNamespace": "Example.Build.PrivateWidget",
@@ -67,6 +68,11 @@ Create `tools/private-widget.json`:
   }
 }
 ```
+
+`ownershipId` is an immutable identifier for the integration. Keep it unchanged when
+renaming the tool, namespace prefix, target namespace, or output directories so the
+generator can reconcile files it previously owned. Use a different value for every
+independent definition.
 
 `outputDirectory` and `documentationOutputDirectory` are relative to `--output-dir`.
 Absolute paths, paths that escape that root, and paths traversing symbolic links or

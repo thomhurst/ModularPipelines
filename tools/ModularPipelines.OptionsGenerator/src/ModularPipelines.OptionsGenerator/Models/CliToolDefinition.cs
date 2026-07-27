@@ -6,6 +6,12 @@ namespace ModularPipelines.OptionsGenerator.Models;
 public record CliToolDefinition
 {
     /// <summary>
+    /// Stable identity used to reconcile externally generated files across mutable
+    /// tool names, namespace prefixes, and output directories.
+    /// </summary>
+    public string? OwnershipId { get; init; }
+
+    /// <summary>
     /// The tool name (e.g., "kubectl", "docker", "az").
     /// </summary>
     public required string ToolName { get; init; }

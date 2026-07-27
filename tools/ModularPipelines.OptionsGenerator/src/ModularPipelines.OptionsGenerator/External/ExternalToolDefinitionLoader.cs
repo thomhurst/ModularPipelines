@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.CodeAnalysis.CSharp;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.External;
@@ -76,6 +77,7 @@ public static class ExternalToolDefinitionLoader
         ArgumentNullException.ThrowIfNull(tool);
         ArgumentException.ThrowIfNullOrWhiteSpace(outputDirectory);
 
+        RequireValue(tool.OwnershipId ?? string.Empty, "tool.ownershipId");
         RequireValue(tool.ToolName, "tool.toolName");
         RequireIdentifier(tool.NamespacePrefix, "tool.namespacePrefix");
         RequireNamespace(tool.TargetNamespace, "tool.targetNamespace");
@@ -180,6 +182,16 @@ public static class ExternalToolDefinitionLoader
             throw new InvalidDataException(
                 "tool.commands[].fullCommand must match tool.toolName plus "
                 + "tool.commands[].commandParts.");
+        }
+
+        RequireIdentifier(
+            GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts),
+            "tool.commands[].commandParts derived method name");
+        if (!string.IsNullOrWhiteSpace(command.SubDomainGroup))
+        {
+            RequireIdentifier(
+                GeneratorUtils.GenerateMethodNameFromLastCommandPart(command),
+                "tool.commands[].commandParts derived sub-domain method name");
         }
     }
 
