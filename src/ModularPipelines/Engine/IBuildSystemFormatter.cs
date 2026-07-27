@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 namespace ModularPipelines.Engine;
 
 /// <summary>
@@ -46,4 +48,12 @@ internal interface IBuildSystemFormatter
     /// <param name="secret">The secret value to mask.</param>
     /// <returns>The formatted masking command, or null if not supported by this build system.</returns>
     string? GetMaskSecretCommand(string secret);
+
+    /// <summary>
+    /// Gets the command that surfaces a warning or error in the build system UI.
+    /// </summary>
+    /// <param name="logLevel">The severity of the log event.</param>
+    /// <param name="message">The rendered log message.</param>
+    /// <returns>The formatted issue command, or null if the event should not be surfaced separately.</returns>
+    string? GetLogIssueCommand(LogLevel logLevel, string message) => null;
 }

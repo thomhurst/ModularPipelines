@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 namespace ModularPipelines.Engine.BuildSystemFormatters;
 
 /// <summary>
@@ -25,4 +27,28 @@ internal class AzurePipelinesFormatter : IBuildSystemFormatter
     public string GetEndBlockCommand(string name) => "##[endgroup]";
 
     public string GetMaskSecretCommand(string secret) => $"##vso[task.setvariable variable=secret_{Guid.NewGuid():N};issecret=true]{secret}";
+
+    public string? GetLogIssueCommand(LogLevel logLevel, string message)
+    {
+        var issueType = logLevel switch
+        {
+            LogLevel.Critical or LogLevel.Error => "error",
+            LogLevel.Warning => "warning",
+            _ => null,
+        };
+
+        return issueType is null
+            ? null
+            : $"##vso[task.logissue type={issueType};]{EscapeLoggingCommandValue(message)}";
+    }
+
+    private static string EscapeLoggingCommandValue(string value)
+    {
+        return value
+            .Replace("%", "%AZP25", StringComparison.Ordinal)
+            .Replace(";", "%3B", StringComparison.Ordinal)
+            .Replace("\r", "%0D", StringComparison.Ordinal)
+            .Replace("\n", "%0A", StringComparison.Ordinal)
+            .Replace("]", "%5D", StringComparison.Ordinal);
+    }
 }
