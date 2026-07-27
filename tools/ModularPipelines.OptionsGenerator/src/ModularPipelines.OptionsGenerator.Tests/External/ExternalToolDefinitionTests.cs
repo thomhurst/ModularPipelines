@@ -535,6 +535,40 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Generation_Rejects_Unowned_Existing_Output()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var existingFile = Path.Combine(
+            outputDirectory,
+            "generated",
+            "Options",
+            "PrivateWidgetDeployOptions.Generated.cs");
+        const string existingContent = "// Hand-written file.";
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            Directory.CreateDirectory(Path.GetDirectoryName(existingFile)!);
+            await File.WriteAllTextAsync(existingFile, existingContent);
+            var tool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+            await Assert.That(await File.ReadAllTextAsync(existingFile))
+                .IsEqualTo(existingContent);
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Generation_Rejects_Ownership_Manifest_For_Another_Tool()
     {
         var workspace = CreateTemporaryDirectory();
@@ -959,6 +993,74 @@ public class ExternalToolDefinitionTests
             {
                 IsKeyValue = true,
                 SecretValueKeys = ["token"],
+            };
+            tool = tool with
+            {
+                Commands = [deploy with { Options = [option] }],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Secret_Keys_On_Scalar_Option()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var tool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var deploy = tool.Commands.Single();
+            var option = deploy.Options.Single() with
+            {
+                IsSecret = true,
+                SecretValueKeys = ["token"],
+            };
+            tool = tool with
+            {
+                Commands = [deploy with { Options = [option] }],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Whitespace_Short_Form()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var tool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var deploy = tool.Commands.Single();
+            var option = deploy.Options.Single() with
+            {
+                ShortForm = " ",
+                PreferShortForm = true,
             };
             tool = tool with
             {

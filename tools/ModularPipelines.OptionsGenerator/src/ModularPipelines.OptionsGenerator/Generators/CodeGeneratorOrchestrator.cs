@@ -136,6 +136,13 @@ public class CodeGeneratorOrchestrator
         var externallyClaimedPaths = GetExternallyClaimedPaths(
             outputDirectory,
             tool.OwnershipId!);
+        var replaceableExistingPaths = previousOwnership.OwnedPaths
+            .Select(path => ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
+                path,
+                outputDirectory,
+                "external ownership manifest path"))
+            .Select(Path.GetFullPath)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
         var result = new GenerationResult
         {
@@ -151,7 +158,8 @@ public class CodeGeneratorOrchestrator
             enforceOutputContainment: true,
             cleanupGeneratedFilesByNamespacePrefix: false,
             writeAssemblyInfo: false,
-            commandCoverageBaselinePath: previousCoverageManifestPath);
+            commandCoverageBaselinePath: previousCoverageManifestPath,
+            replaceableExistingPaths: replaceableExistingPaths);
 
         var currentlyOwnedPaths = result.FilesGenerated
             .Select(path => path.Replace('\\', '/'))
@@ -711,7 +719,8 @@ public class CodeGeneratorOrchestrator
         bool enforceOutputContainment = false,
         bool cleanupGeneratedFilesByNamespacePrefix = true,
         bool writeAssemblyInfo = true,
-        string? commandCoverageBaselinePath = null)
+        string? commandCoverageBaselinePath = null,
+        IReadOnlySet<string>? replaceableExistingPaths = null)
     {
         var globalOptions = tool.GetGlobalOptions();
         var normalizedCommands = GeneratorUtils.NormalizeCommandClassNames(tool.Commands);
@@ -742,20 +751,6 @@ public class CodeGeneratorOrchestrator
         }
 
         toolDefinition = EnumDefinitionStabilizer.Stabilize(toolDefinition, outputDirectory);
-        var coverage = CommandCoverageGuard.Evaluate(
-            toolDefinition,
-            outputDirectory,
-            approveCommandCoverageShrinkage,
-            commandCoverageBaselinePath);
-        result.CommandCoverage.Add(coverage);
-
-        if (coverage.Violations.Count > 0)
-        {
-            throw new InvalidOperationException(
-                $"Command coverage validation failed for {tool.ToolName}:{Environment.NewLine}"
-                + string.Join(Environment.NewLine, coverage.Violations.Select(violation => $"- {violation}")));
-        }
-
         var generatedFiles = new List<GeneratedFile>();
 
         foreach (var generator in _generators)
@@ -769,11 +764,33 @@ public class CodeGeneratorOrchestrator
         {
             foreach (var file in generatedFiles)
             {
-                ValidateContainedPath(
+                var fullPath = ValidateContainedPath(
                     outputDirectory,
                     file.RelativePath,
                     "generated file path");
+                RejectUnownedExistingPath(fullPath, replaceableExistingPaths);
             }
+
+            RejectUnownedExistingPath(
+                ValidateContainedPath(
+                    outputDirectory,
+                    CommandCoverageGuard.GetManifestPath(toolDefinition, outputDirectory),
+                    "command coverage manifest"),
+                replaceableExistingPaths);
+        }
+
+        var coverage = CommandCoverageGuard.Evaluate(
+            toolDefinition,
+            outputDirectory,
+            approveCommandCoverageShrinkage,
+            commandCoverageBaselinePath);
+        result.CommandCoverage.Add(coverage);
+
+        if (coverage.Violations.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"Command coverage validation failed for {tool.ToolName}:{Environment.NewLine}"
+                + string.Join(Environment.NewLine, coverage.Violations.Select(violation => $"- {violation}")));
         }
 
         var writtenFullPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -882,6 +899,19 @@ public class CodeGeneratorOrchestrator
             relativePath,
             outputDirectory,
             propertyName);
+    }
+
+    private static void RejectUnownedExistingPath(
+        string fullPath,
+        IReadOnlySet<string>? replaceableExistingPaths)
+    {
+        if (File.Exists(fullPath)
+            && (replaceableExistingPaths is null
+                || !replaceableExistingPaths.Contains(Path.GetFullPath(fullPath))))
+        {
+            throw new InvalidDataException(
+                $"Refusing to overwrite existing path '{fullPath}' because it is not owned by this external definition.");
+        }
     }
 
     private void CleanupReconciledGeneratedFiles(

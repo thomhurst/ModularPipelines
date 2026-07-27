@@ -210,12 +210,24 @@ public static class ExternalToolDefinitionLoader
         foreach (var option in options)
         {
             RequireValue(option.SwitchName, $"{propertyName}[].switchName");
+            if (option.ShortForm is not null)
+            {
+                RequireValue(option.ShortForm, $"{propertyName}[].shortForm");
+            }
+
             RequireIdentifier(option.PropertyName, $"{propertyName}[].propertyName");
             RequireTypeName(option.CSharpType, $"{propertyName}[].cSharpType");
             if (option.SecretValueKeys.Count > 0 && !option.IsSecret)
             {
                 throw new InvalidDataException(
                     $"{propertyName}[].isSecret must be true when secretValueKeys are declared.");
+            }
+
+            if (option.SecretValueKeys.Count > 0
+                && (!option.IsKeyValue || !IsEnumerableKeyValueType(option.CSharpType)))
+            {
+                throw new InvalidDataException(
+                    $"{propertyName}[].secretValueKeys require isKeyValue=true and cSharpType IEnumerable<KeyValue>.");
             }
 
             if (option.EnumDefinition is not null)
@@ -265,6 +277,15 @@ public static class ExternalToolDefinitionLoader
             throw new InvalidDataException(
                 $"{propertyName} contains duplicate member name '{duplicateMember.Key}'.");
         }
+    }
+
+    private static bool IsEnumerableKeyValueType(string cSharpType)
+    {
+        var type = cSharpType.Replace(" ", string.Empty, StringComparison.Ordinal);
+        return type is "IEnumerable<KeyValue>"
+            or "IEnumerable<KeyValue>?"
+            or "System.Collections.Generic.IEnumerable<ModularPipelines.Models.KeyValue>"
+            or "System.Collections.Generic.IEnumerable<ModularPipelines.Models.KeyValue>?";
     }
 
     private static void ValidateEquivalentEnumDefinitions(CliToolDefinition tool)

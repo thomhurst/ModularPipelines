@@ -405,7 +405,7 @@ internal static partial class CommandCoverageGuard
         Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(string.Join('\n', commands))))
             .ToLowerInvariant();
 
-    private static string GetManifestPath(CliToolDefinition tool, string outputDirectory) =>
+    internal static string GetManifestPath(CliToolDefinition tool, string outputDirectory) =>
         Path.Combine(
             outputDirectory,
             tool.OutputDirectory,
