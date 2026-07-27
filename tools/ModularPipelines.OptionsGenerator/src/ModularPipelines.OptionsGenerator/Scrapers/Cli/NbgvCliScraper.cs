@@ -111,7 +111,10 @@ public partial class NbgvCliScraper(
         IReadOnlyList<CliPositionalArgument> arguments) =>
         [
             .. arguments.Select(argument =>
-                string.Equals(argument.PlaceholderName, "versionOrRef", StringComparison.OrdinalIgnoreCase)
+                string.Equals(
+                    argument.PlaceholderName?.Trim('<', '>'),
+                    "versionOrRef",
+                    StringComparison.OrdinalIgnoreCase)
                     ? argument with { PropertyName = "VersionOrRef" }
                     : argument),
         ];

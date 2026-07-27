@@ -127,6 +127,30 @@ public class NbgvCliScraperTests
             .And.Contains("--versionIncrement");
     }
 
+    [Test]
+    public async Task Tag_Preserves_CamelCase_Operand()
+    {
+        const string helpText = """
+            Description:
+              Creates a version tag.
+
+            Usage:
+              nbgv tag [<versionOrRef>] [options]
+
+            Arguments:
+              <versionOrRef>  The version or Git reference.
+
+            Options:
+              --what-if       Simulate changes.
+              -?, -h, --help  Show help.
+            """;
+
+        var command = await new TestNbgvCliScraper().Parse(["nbgv", "tag"], helpText);
+
+        await Assert.That(command!.PositionalArguments.Single().PropertyName)
+            .IsEqualTo("VersionOrRef");
+    }
+
     private sealed class TestNbgvCliScraper : NbgvCliScraper
     {
         public TestNbgvCliScraper()

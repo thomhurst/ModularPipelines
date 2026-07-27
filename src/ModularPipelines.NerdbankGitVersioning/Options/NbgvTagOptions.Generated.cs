@@ -37,6 +37,6 @@ public record NbgvTagOptions : NbgvOptions
     /// The &lt;versionOrRef&gt; operand.
     /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Versionorref { get; set; }
+    public string? VersionOrRef { get; set; }
 
 }
