@@ -79,6 +79,10 @@ internal class DistributedModuleExecutor(
         {
             scheduler = _schedulerFactory.Create();
             scheduler.InitializeModules(modules);
+            UsedHistoryModuleSchedulerInitializer.Precomplete(
+                modules,
+                scheduler,
+                _resultRegistry);
 
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
             cts.Token.Register(() => scheduler.CancelPendingModules());
@@ -305,6 +309,11 @@ internal class DistributedModuleExecutor(
         }
 
         var moduleState = new ModuleState(module, module.GetType());
+        ModuleStateDependencyInitializer.Populate(
+            moduleState,
+            _typeRegistry.GetRegisteredModuleTypes(),
+            _dependencyRegistry,
+            _metadataRegistry);
         await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
 
         var result = await module.ResultTask;

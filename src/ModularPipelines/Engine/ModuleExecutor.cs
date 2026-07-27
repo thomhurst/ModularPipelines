@@ -123,27 +123,10 @@ internal class ModuleExecutor : IModuleExecutor
 
         var scheduler = _schedulerFactory.Create();
         scheduler.InitializeModules(modules);
-
-        foreach (var module in modules)
-        {
-            var moduleType = module.GetType();
-            var existingResult = _resultRegistry.GetResult(moduleType);
-            if (existingResult?.ModuleStatus != Enums.Status.UsedHistory)
-            {
-                continue;
-            }
-
-            var moduleState = scheduler.GetModuleState(moduleType);
-            if (moduleState != null)
-            {
-                moduleState.Result = existingResult;
-            }
-
-            scheduler.MarkModuleCompleted(
-                moduleType,
-                success: true,
-                statusOverride: Enums.Status.UsedHistory);
-        }
+        UsedHistoryModuleSchedulerInitializer.Precomplete(
+            modules,
+            scheduler,
+            _resultRegistry);
 
         return scheduler;
     }

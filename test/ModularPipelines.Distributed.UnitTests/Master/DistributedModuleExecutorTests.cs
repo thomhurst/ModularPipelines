@@ -58,6 +58,14 @@ public class DistributedModuleExecutorTests
             => Task.FromResult(42);
     }
 
+    [ModularPipelines.Attributes.DependsOn<DistributedModule>]
+    private class DependsOnDistributedModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            Context.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("dependent done");
+    }
+
     /// <summary>
     /// Wraps an <see cref="IDistributedCoordinator"/> so that <see cref="DequeueModuleAsync"/>
     /// returns null immediately. This prevents the master worker loop from competing with
@@ -89,7 +97,11 @@ public class DistributedModuleExecutorTests
 
     // --- Helpers ---
 
-    private static ModuleResult<T> CreateSuccessResult<T>(T value, string moduleName) where T : notnull
+    private static ModuleResult<T> CreateSuccessResult<T>(
+        T value,
+        string moduleName,
+        Status status = Status.Successful)
+        where T : notnull
     {
         var now = DateTimeOffset.UtcNow;
         return new ModuleResult<T>.Success(value)
@@ -99,7 +111,7 @@ public class DistributedModuleExecutorTests
             ModuleDuration = TimeSpan.FromMilliseconds(100),
             ModuleStart = now,
             ModuleEnd = now.AddMilliseconds(100),
-            ModuleStatus = Status.Successful,
+            ModuleStatus = status,
         };
     }
 
@@ -271,6 +283,33 @@ public class DistributedModuleExecutorTests
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
         await Assert.That(registeredResult!.IsFailure).IsTrue();
+    }
+
+    [Test]
+    public async Task History_Restored_Module_Is_Precompleted_Before_Distribution()
+    {
+        var module = new DistributedModule();
+        var moduleState = new ModuleState(module, typeof(DistributedModule));
+        var scheduler = CreateMockScheduler();
+        scheduler.Setup(instance => instance.GetModuleState(typeof(DistributedModule)))
+            .Returns(moduleState);
+        var resultRegistry = new ModuleResultRegistry();
+        var historyResult = CreateSuccessResult(
+            new SimpleResult { Message = "history" },
+            "DistributedModule",
+            Status.UsedHistory);
+        resultRegistry.RegisterResult(typeof(DistributedModule), historyResult);
+
+        var executor = CreateExecutor(scheduler, resultRegistry: resultRegistry);
+
+        await executor.ExecuteAsync([module]);
+
+        await Assert.That(moduleState.Result).IsSameReferenceAs(historyResult);
+        scheduler.Verify(instance => instance.MarkModuleCompleted(
+            typeof(DistributedModule),
+            true,
+            null,
+            Status.UsedHistory), Times.Once());
     }
 
     [Test]
@@ -449,6 +488,48 @@ public class DistributedModuleExecutorTests
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
         await Assert.That(registeredResult!.IsSuccess).IsTrue();
+    }
+
+    [Test]
+    public async Task Master_Worker_Populates_Required_Dependency_Metadata()
+    {
+        var dependency = new DistributedModule();
+        var dependent = new DependsOnDistributedModule();
+        var scheduler = CreateMockScheduler(
+            new ModuleState(dependent, typeof(DependsOnDistributedModule)));
+        var resultRegistry = new ModuleResultRegistry();
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        typeRegistry.Register(typeof(DependsOnDistributedModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultCollector = new DistributedResultCollector(coordinator, serializer);
+        var moduleRunner = new Mock<IModuleRunner>();
+        ModuleState? capturedState = null;
+
+        moduleRunner.Setup(runner => runner.ExecuteWithoutDependencyWaitAsync(
+                It.IsAny<ModuleState>(),
+                It.IsAny<IModuleScheduler>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<ModuleState, IModuleScheduler, CancellationToken>((state, _, _) =>
+            {
+                capturedState = state;
+                var result = CreateSuccessResult("dependent done", "DependsOnDistributedModule");
+                ModuleCompletionSourceApplicator.TryApply(dependent, result);
+            })
+            .Returns(Task.CompletedTask);
+
+        var executor = CreateExecutor(
+            scheduler,
+            moduleRunner,
+            resultRegistry,
+            coordinator,
+            resultCollector);
+
+        await executor.ExecuteAsync([dependency, dependent]);
+
+        await Assert.That(capturedState).IsNotNull();
+        await Assert.That(capturedState!.Dependencies[typeof(DistributedModule)]).IsFalse();
     }
 
     [Test]

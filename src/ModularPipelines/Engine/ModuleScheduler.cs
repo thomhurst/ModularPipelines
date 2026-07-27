@@ -194,13 +194,13 @@ internal class ModuleScheduler : IModuleScheduler
 
                 foreach (var (dependencyType, optional) in newlyResolvedDependencies)
                 {
-                    RecordDependency(existingState, dependencyType, optional);
+                    ModuleStateDependencyInitializer.Record(existingState, dependencyType, optional);
                 }
             }
 
             foreach (var (dependencyType, optional) in newModuleDependencies)
             {
-                RecordDependency(state, dependencyType, optional);
+                ModuleStateDependencyInitializer.Record(state, dependencyType, optional);
             }
 
             _moduleStates[moduleType] = state;
@@ -322,18 +322,17 @@ internal class ModuleScheduler : IModuleScheduler
         ModuleState state,
         IReadOnlyList<Type> availableModuleTypes)
     {
-        var dependencies = ModuleDependencyResolver.GetAllDependencies(
-            state.Module,
+        var dependencies = ModuleStateDependencyInitializer.Populate(
+            state,
             availableModuleTypes,
             _dependencyRegistry,
-            _metadataRegistry).ToArray();
+            _metadataRegistry);
         _dependencyGraph[state.ModuleType] = dependencies
             .Select(dependency => dependency.DependencyType)
             .ToHashSet();
 
         foreach (var (dependencyType, optional) in dependencies)
         {
-            RecordDependency(state, dependencyType, optional);
             LinkDependencyState(state, dependencyType, optional);
         }
     }
@@ -391,13 +390,6 @@ internal class ModuleScheduler : IModuleScheduler
                 dependencyState.DependentModules.Add(dependentState);
             }
         }
-    }
-
-    private static void RecordDependency(ModuleState state, Type dependencyType, bool optional)
-    {
-        state.Dependencies[dependencyType] = state.Dependencies.TryGetValue(dependencyType, out var existingOptional)
-            ? existingOptional && optional
-            : optional;
     }
 
     /// <summary>

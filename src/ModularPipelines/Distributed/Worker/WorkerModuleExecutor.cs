@@ -5,6 +5,7 @@ using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Capabilities;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -18,6 +19,8 @@ internal class WorkerModuleExecutor(
     ModuleTypeRegistry typeRegistry,
     ModuleResultSerializer serializer,
     IModuleRunner moduleRunner,
+    IModuleDependencyRegistry dependencyRegistry,
+    IModuleMetadataRegistry metadataRegistry,
     IOptions<DistributedOptions> options,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<WorkerModuleExecutor> logger) : IModuleExecutor
@@ -27,6 +30,8 @@ internal class WorkerModuleExecutor(
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleRunner _moduleRunner = moduleRunner;
+    private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
+    private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<WorkerModuleExecutor> _logger = logger;
@@ -159,6 +164,11 @@ internal class WorkerModuleExecutor(
         }
 
         var moduleState = new ModuleState(module, module.GetType());
+        ModuleStateDependencyInitializer.Populate(
+            moduleState,
+            _typeRegistry.GetRegisteredModuleTypes(),
+            _dependencyRegistry,
+            _metadataRegistry);
         await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
 
         var result = await module.ResultTask;
