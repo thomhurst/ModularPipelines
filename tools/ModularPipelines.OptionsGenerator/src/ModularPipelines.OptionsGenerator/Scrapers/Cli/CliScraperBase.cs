@@ -814,7 +814,7 @@ public abstract partial class CliScraperBase : ICliScraper
         RegexOptions.IgnoreCase)]
     private static partial Regex RepeatableValuePattern();
 
-    [GeneratedRegex(@"\x1B(?:\][^\x07]*(?:\x07|\x1B\\)|\[[0-?]*[ -/]*[@-~])")]
+    [GeneratedRegex(@"\x1B(?:\][^\x07\x1B]*(?:\x07|\x1B\\)|\[[0-?]*[ -/]*[@-~])")]
     private static partial Regex AnsiEscapeSequencePattern();
 
     #endregion
