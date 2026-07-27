@@ -19,6 +19,42 @@ function ConvertTo-PowerShellLiteral([string]$Value) {
     return "'" + $Value.Replace("'", "''") + "'"
 }
 
+function Get-SavedProcessIdentity([string]$Path) {
+    return Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+}
+
+function Test-SavedProcessIsRunning($Identity) {
+    try {
+        $candidate = [System.Diagnostics.Process]::GetProcessById($Identity.ProcessId)
+        try {
+            return $candidate.StartTime.ToUniversalTime().Ticks -eq $Identity.StartTimeUtcTicks
+        }
+        finally {
+            $candidate.Dispose()
+        }
+    }
+    catch [System.ArgumentException] {
+        return $false
+    }
+}
+
+function Stop-SavedProcess($Identity) {
+    try {
+        $candidate = [System.Diagnostics.Process]::GetProcessById($Identity.ProcessId)
+        try {
+            if ($candidate.StartTime.ToUniversalTime().Ticks -eq $Identity.StartTimeUtcTicks) {
+                $candidate.Kill($true)
+            }
+        }
+        finally {
+            $candidate.Dispose()
+        }
+    }
+    catch [System.ArgumentException] {
+        Write-Verbose "Saved process $($Identity.ProcessId) already exited."
+    }
+}
+
 function Invoke-Guard(
     [int]$TimeoutSeconds,
     [int]$MemoryLimitMb,
@@ -93,7 +129,10 @@ if ($IsWindows) {
 }
 
 $child = Start-Process @startProcessParameters
-Set-Content -LiteralPath $ChildPidPath -Value $child.Id
+[pscustomobject]@{
+    ProcessId = $child.Id
+    StartTimeUtcTicks = $child.StartTime.ToUniversalTime().Ticks
+} | ConvertTo-Json | Set-Content -LiteralPath $ChildPidPath
 Start-Sleep -Milliseconds $ParentDelayMilliseconds
 '@ | Set-Content -LiteralPath $timeoutScript
 
@@ -101,15 +140,15 @@ Start-Sleep -Milliseconds $ParentDelayMilliseconds
         -TimeoutSeconds 30 `
         -MemoryLimitMb 512 `
         -PollIntervalMilliseconds 100 `
-        -Arguments @('-NoProfile', '-File', $timeoutScript, $normalExitChildPidPath, '500')
+        -Arguments @('-NoProfile', '-File', $timeoutScript, $normalExitChildPidPath, '0')
 
     if ($guardExitCode -ne 0) {
         throw "Normal-exit cleanup command failed with exit code $guardExitCode."
     }
 
-    $normalExitChildPid = [int](Get-Content -LiteralPath $normalExitChildPidPath -Raw)
-    if (Get-Process -Id $normalExitChildPid -ErrorAction SilentlyContinue) {
-        throw "Normal-exit descendant process $normalExitChildPid is still running."
+    $normalExitChild = Get-SavedProcessIdentity $normalExitChildPidPath
+    if (Test-SavedProcessIsRunning $normalExitChild) {
+        throw "Normal-exit descendant process $($normalExitChild.ProcessId) is still running."
     }
 
     $guardExitCode = Invoke-Guard `
@@ -122,9 +161,9 @@ Start-Sleep -Milliseconds $ParentDelayMilliseconds
         throw "Timeout returned $guardExitCode instead of 124."
     }
 
-    $childPid = [int](Get-Content -LiteralPath $childPidPath -Raw)
-    if (Get-Process -Id $childPid -ErrorAction SilentlyContinue) {
-        throw "Timed-out descendant process $childPid is still running."
+    $timedOutChild = Get-SavedProcessIdentity $childPidPath
+    if (Test-SavedProcessIsRunning $timedOutChild) {
+        throw "Timed-out descendant process $($timedOutChild.ProcessId) is still running."
     }
 
     $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
@@ -158,8 +197,7 @@ Start-Sleep -Milliseconds $ParentDelayMilliseconds
 finally {
     foreach ($pidPath in @($childPidPath, $normalExitChildPidPath)) {
         if (Test-Path -LiteralPath $pidPath) {
-            $childPid = [int](Get-Content -LiteralPath $pidPath -Raw)
-            Stop-Process -Id $childPid -Force -ErrorAction SilentlyContinue
+            Stop-SavedProcess (Get-SavedProcessIdentity $pidPath)
         }
     }
 

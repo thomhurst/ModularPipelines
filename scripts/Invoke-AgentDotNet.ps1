@@ -201,7 +201,6 @@ function Add-SingleNodeArgument([string[]]$Arguments) {
 
 $effectiveArguments = Add-SingleNodeArgument $DotNetArguments
 $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
-$startInfo.FileName = $DotNetPath
 $startInfo.UseShellExecute = $false
 $startInfo.Environment['BuildInParallel'] = 'false'
 $startInfo.Environment['DOTNET_CLI_TELEMETRY_OPTOUT'] = '1'
@@ -209,8 +208,38 @@ $startInfo.Environment['DOTNET_CLI_USE_MSBUILD_SERVER'] = '0'
 $startInfo.Environment['MSBUILDDISABLENODEREUSE'] = '1'
 $startInfo.Environment['UseSharedCompilation'] = 'false'
 
-foreach ($argument in $effectiveArguments) {
-    $startInfo.ArgumentList.Add($argument)
+if ($IsWindows) {
+    $startInfo.FileName = $DotNetPath
+    foreach ($argument in $effectiveArguments) {
+        $startInfo.ArgumentList.Add($argument)
+    }
+}
+else {
+    # A separate process group lets the wrapper kill descendants even if the command
+    # exits before the guard's first snapshot and Unix reparents its children.
+    $unixWrapper = @'
+if command -v setsid >/dev/null 2>&1; then
+    setsid "$@" &
+elif command -v python3 >/dev/null 2>&1; then
+    python3 -c 'import os, sys; os.setsid(); os.execvp(sys.argv[1], sys.argv[1:])' "$@" &
+else
+    echo "Agent dotnet guard requires setsid or python3 for Unix process containment." >&2
+    exit 126
+fi
+child=$!
+wait "$child"
+status=$?
+kill -KILL -- "-$child" 2>/dev/null || :
+exit "$status"
+'@
+    $startInfo.FileName = '/bin/sh'
+    $startInfo.ArgumentList.Add('-c')
+    $startInfo.ArgumentList.Add($unixWrapper)
+    $startInfo.ArgumentList.Add('agent-dotnet-guard')
+    $startInfo.ArgumentList.Add($DotNetPath)
+    foreach ($argument in $effectiveArguments) {
+        $startInfo.ArgumentList.Add($argument)
+    }
 }
 
 $process = [System.Diagnostics.Process]::new()
