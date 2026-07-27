@@ -5,6 +5,7 @@ using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Capabilities;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -15,18 +16,29 @@ namespace ModularPipelines.Distributed.Worker;
 internal class WorkerModuleExecutor(
     IHostApplicationLifetime lifetime,
     IDistributedCoordinator coordinator,
+    IEnumerable<IModule> registeredModules,
     ModuleTypeRegistry typeRegistry,
     ModuleResultSerializer serializer,
     IModuleRunner moduleRunner,
+    IModuleResultRegistry resultRegistry,
+    IModuleDependencyRegistry dependencyRegistry,
+    IModuleMetadataRegistry metadataRegistry,
     IOptions<DistributedOptions> options,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<WorkerModuleExecutor> logger) : IModuleExecutor
 {
     private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IDistributedCoordinator _coordinator = coordinator;
+    private readonly IReadOnlyList<IModule> _registeredModules = registeredModules
+        .Distinct<IModule>(ReferenceEqualityComparer.Instance)
+        .ToArray();
+
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleRunner _moduleRunner = moduleRunner;
+    private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
+    private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
+    private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<WorkerModuleExecutor> _logger = logger;
@@ -35,13 +47,17 @@ internal class WorkerModuleExecutor(
     {
         var options = _options.Value;
         var cancellationToken = _lifetime.ApplicationStopping;
+        var availableModules = _registeredModules
+            .Concat(modules)
+            .Distinct<IModule>(ReferenceEqualityComparer.Instance)
+            .ToArray();
 
-        foreach (var module in modules)
+        foreach (var module in availableModules)
         {
             _typeRegistry.Register(module.GetType());
         }
 
-        var moduleLookup = DependencyResultApplicator.BuildModuleLookup(modules);
+        var moduleLookup = DependencyResultApplicator.BuildModuleLookup(availableModules);
         var capabilities = BuildCapabilities(options);
         await RegisterWorkerAsync(options.InstanceIndex, capabilities, cancellationToken);
 
@@ -130,7 +146,12 @@ internal class WorkerModuleExecutor(
 
         if (assignment.DependencyResults is { Count: > 0 })
         {
-            DependencyResultApplicator.Apply(assignment.DependencyResults, moduleLookup, _serializer, _logger);
+            DependencyResultApplicator.Apply(
+                assignment.DependencyResults,
+                moduleLookup,
+                _serializer,
+                _resultRegistry,
+                _logger);
         }
 
         try
@@ -159,6 +180,11 @@ internal class WorkerModuleExecutor(
         }
 
         var moduleState = new ModuleState(module, module.GetType());
+        ModuleStateDependencyInitializer.Populate(
+            moduleState,
+            _typeRegistry.GetRegisteredModuleTypes(),
+            _dependencyRegistry,
+            _metadataRegistry);
         await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
 
         var result = await module.ResultTask;

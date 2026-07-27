@@ -11,12 +11,15 @@ namespace ModularPipelines.Engine.Attributes;
 /// </summary>
 internal class RegistrationEventExecutor : IRegistrationEventExecutor
 {
+    private readonly object _lock = new();
     private readonly IModuleAttributeEventService _attributeEventService;
     private readonly IAttributeEventInvoker _attributeEventInvoker;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IConfiguration _configuration;
     private readonly IHostEnvironment _environment;
+    private Task? _invocationTask;
+    private HashSet<Type>? _registeredModuleTypes;
 
     public RegistrationEventExecutor(
         IModuleAttributeEventService attributeEventService,
@@ -34,12 +37,43 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
         _environment = environment;
     }
 
-    public async Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules)
+    public Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules)
     {
         var moduleArray = modules.ToArray();
-        var registeredModuleTypes = moduleArray.Select(m => m.GetType()).ToArray();
 
-        foreach (var module in moduleArray)
+        lock (_lock)
+        {
+            if (_invocationTask is not null)
+            {
+                var missingModuleTypes = moduleArray
+                    .Select(module => module.GetType())
+                    .Where(moduleType => !_registeredModuleTypes!.Contains(moduleType))
+                    .Distinct()
+                    .ToArray();
+                if (missingModuleTypes.Length > 0)
+                {
+                    throw new InvalidOperationException(
+                        "Registration events were initialized without these module types: "
+                        + string.Join(", ", missingModuleTypes.Select(moduleType => moduleType.Name)));
+                }
+
+                return _invocationTask;
+            }
+
+            // Discovery invokes registration events early so dynamic dependencies can affect filtering.
+            // Executors invoke this service again, so share the first invocation rather than running receivers twice.
+            _registeredModuleTypes = moduleArray
+                .Select(module => module.GetType())
+                .ToHashSet();
+            return _invocationTask = InvokeRegistrationEventsInternalAsync(moduleArray);
+        }
+    }
+
+    private async Task InvokeRegistrationEventsInternalAsync(IReadOnlyList<IModule> modules)
+    {
+        var registeredModuleTypes = modules.Select(module => module.GetType()).ToArray();
+
+        foreach (var module in modules)
         {
             var moduleType = module.GetType();
             var receivers = _attributeEventService.GetRegistrationReceivers(moduleType);

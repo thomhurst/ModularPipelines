@@ -69,7 +69,11 @@ internal class DistributedModuleExecutor(
         // Revalidate the runnable set now that registration-event dependencies are populated, so
         // missing/self/cyclic dependencies (including ones added via AddDependency) fail fast here
         // rather than the master hanging or failing late. Mirrors the standalone ModuleExecutor.
-        ModuleDependencyValidator.Validate(modules, _dependencyRegistry, _metadataRegistry);
+        ModuleDependencyValidator.Validate(
+            modules,
+            _dependencyRegistry,
+            _metadataRegistry,
+            UsedHistoryModuleSchedulerInitializer.GetPrecompletedModuleTypes(modules, _resultRegistry));
 
         // Wait for workers to register before distributing work
         await WaitForWorkersAsync(_lifetime.ApplicationStopping);
@@ -79,6 +83,10 @@ internal class DistributedModuleExecutor(
         {
             scheduler = _schedulerFactory.Create();
             scheduler.InitializeModules(modules);
+            UsedHistoryModuleSchedulerInitializer.Precomplete(
+                modules,
+                scheduler,
+                _resultRegistry);
 
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
             cts.Token.Register(() => scheduler.CancelPendingModules());
@@ -279,7 +287,12 @@ internal class DistributedModuleExecutor(
         // Apply dependency results so that GetModule<T>() works
         if (assignment.DependencyResults is { Count: > 0 })
         {
-            DependencyResultApplicator.Apply(assignment.DependencyResults, moduleLookup, _serializer, _logger);
+            DependencyResultApplicator.Apply(
+                assignment.DependencyResults,
+                moduleLookup,
+                _serializer,
+                _resultRegistry,
+                _logger);
         }
 
         try
@@ -305,6 +318,11 @@ internal class DistributedModuleExecutor(
         }
 
         var moduleState = new ModuleState(module, module.GetType());
+        ModuleStateDependencyInitializer.Populate(
+            moduleState,
+            _typeRegistry.GetRegisteredModuleTypes(),
+            _dependencyRegistry,
+            _metadataRegistry);
         await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
 
         var result = await module.ResultTask;

@@ -1,6 +1,8 @@
 using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 using EnumerableAsyncProcessor.Extensions;
+using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
@@ -11,19 +13,33 @@ namespace ModularPipelines.Engine;
 internal class ModuleRetriever
 {
     private readonly IModuleConditionHandler _moduleConditionHandler;
+    private readonly IRegistrationEventExecutor _registrationEventExecutor;
     private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
+    private readonly IModuleDependencyRegistry _dependencyRegistry;
+    private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly List<IModule> _modules;
     private Task<OrganizedModules>? _cached;
 
     public ModuleRetriever(
         IModuleConditionHandler moduleConditionHandler,
+        IRegistrationEventExecutor registrationEventExecutor,
         IEnumerable<IModule> modules,
-        ISafeModuleEstimatedTimeProvider estimatedTimeProvider
+        ISafeModuleEstimatedTimeProvider estimatedTimeProvider,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry
     )
     {
         _moduleConditionHandler = moduleConditionHandler;
+        _registrationEventExecutor = registrationEventExecutor;
         _estimatedTimeProvider = estimatedTimeProvider;
-        _modules = modules.ToList();
+        _dependencyRegistry = dependencyRegistry;
+        _metadataRegistry = metadataRegistry;
+
+        // Defend against direct service registrations that repeat one module instance.
+        // The module object still represents one execution.
+        _modules = modules
+            .Distinct<IModule>(ReferenceEqualityComparer.Instance)
+            .ToList();
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
@@ -35,15 +51,20 @@ internal class ModuleRetriever
     internal async Task<IReadOnlyList<IModule>> GetRunnableModulesForValidation(
         CancellationToken cancellationToken = default)
     {
-        return (await DiscoverModules(cancellationToken).ConfigureAwait(false)).RunnableModules;
+        return (await DiscoverModules(cancellationToken, cascadeSkippedDependencies: true).ConfigureAwait(false)).RunnableModules;
     }
 
-    private async Task<DiscoveredModules> DiscoverModules(CancellationToken cancellationToken)
+    private async Task<DiscoveredModules> DiscoverModules(
+        CancellationToken cancellationToken,
+        bool cascadeSkippedDependencies)
     {
         if (_modules.Count == 0)
         {
             throw new PipelineException("No modules have been registered");
         }
+
+        // Dynamic dependencies and metadata must be registered before conditions and cascade skipping are evaluated.
+        await _registrationEventExecutor.InvokeRegistrationEventsAsync(_modules).ConfigureAwait(false);
 
         var modulesToIgnore = new List<IgnoredModule>();
         var modulesToProcess = new List<IModule>();
@@ -62,12 +83,29 @@ internal class ModuleRetriever
             }
         }
 
+        if (cascadeSkippedDependencies)
+        {
+            var cascadeResult = await DependencySkipCascade.ApplyAsync(
+                _modules,
+                modulesToProcess,
+                modulesToIgnore,
+                _dependencyRegistry,
+                _metadataRegistry,
+                _ => Task.CompletedTask,
+                _ => true,
+                cancellationToken).ConfigureAwait(false);
+            modulesToProcess = cascadeResult.RunnableModules.ToList();
+            modulesToIgnore = cascadeResult.IgnoredModules.ToList();
+        }
+
         return new DiscoveredModules(modulesToProcess, modulesToIgnore);
     }
 
     private async Task<OrganizedModules> GetInternal(CancellationToken cancellationToken)
     {
-        var discoveredModules = await DiscoverModules(cancellationToken).ConfigureAwait(false);
+        var discoveredModules = await DiscoverModules(
+            cancellationToken,
+            cascadeSkippedDependencies: false).ConfigureAwait(false);
         var runnableModulesWithEstimatatedDuration = await discoveredModules.RunnableModules.ToAsyncProcessorBuilder()
             .SelectAsync(async module =>
             {

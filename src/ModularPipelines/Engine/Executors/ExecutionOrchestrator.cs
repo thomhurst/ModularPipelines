@@ -33,6 +33,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IPipelineExecutor _pipelineExecutor;
     private readonly IPipelineOutputCoordinator _outputCoordinator;
     private readonly IIgnoredModuleResultRegistrar _ignoredModuleResultRegistrar;
+    private readonly IModuleResultRegistry _resultRegistry;
     private readonly IPipelineSummaryFactory _pipelineSummaryFactory;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IThreadPoolConfigurator _threadPoolConfigurator;
@@ -50,6 +51,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         IPipelineExecutor pipelineExecutor,
         IPipelineOutputCoordinator outputCoordinator,
         IIgnoredModuleResultRegistrar ignoredModuleResultRegistrar,
+        IModuleResultRegistry resultRegistry,
         IPipelineSummaryFactory pipelineSummaryFactory,
         EngineCancellationToken engineCancellationToken,
         IThreadPoolConfigurator threadPoolConfigurator,
@@ -62,6 +64,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _pipelineExecutor = pipelineExecutor;
         _outputCoordinator = outputCoordinator;
         _ignoredModuleResultRegistrar = ignoredModuleResultRegistrar;
+        _resultRegistry = resultRegistry;
         _pipelineSummaryFactory = pipelineSummaryFactory;
         _engineCancellationToken = engineCancellationToken;
         _threadPoolConfigurator = threadPoolConfigurator;
@@ -108,10 +111,17 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         var organizedModules = await _pipelineInitializer.Initialize(cancellationToken).ConfigureAwait(false);
 
-        // Register skipped results for ignored modules (via Category/RunCondition)
-        await _ignoredModuleResultRegistrar.RegisterIgnoredModuleResultsAsync(organizedModules.IgnoredModules).ConfigureAwait(false);
+        // Resolve ignored modules against history before cascading required dependencies.
+        organizedModules = await _ignoredModuleResultRegistrar
+            .RegisterIgnoredModuleResultsAsync(organizedModules)
+            .ConfigureAwait(false);
 
-        var runnableModules = organizedModules.RunnableModules.Select(x => (IModule) x.Module).ToList();
+        var runnableModules = organizedModules.RunnableModules
+            .Select(x => (IModule) x.Module)
+            .Concat(organizedModules.IgnoredModules
+                .Select(ignoredModule => ignoredModule.Module)
+                .Where(module => _resultRegistry.GetResult(module.GetType())?.ModuleStatus == Status.UsedHistory))
+            .ToList();
 
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();

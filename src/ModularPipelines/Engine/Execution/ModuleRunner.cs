@@ -143,8 +143,9 @@ internal class ModuleRunner : IModuleRunner
 
         // Create module-specific context
         var executionContext = CreateExecutionContext(module, moduleType);
+        ApplyDependencySkip(moduleState, executionContext);
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
-        var logger = (IModuleLogger)scopedServiceProvider.GetRequiredService(loggerType);
+        var logger = (IModuleLogger) scopedServiceProvider.GetRequiredService(loggerType);
         var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
 
         // Start Activity for distributed tracing (Phase 1: alongside AsyncLocal for compatibility)
@@ -284,6 +285,30 @@ internal class ModuleRunner : IModuleRunner
     {
         // Use compiled delegate factory instead of Activator.CreateInstance
         return ExecutionContextFactory.Create(module, moduleType);
+    }
+
+    private void ApplyDependencySkip(ModuleState moduleState, ModuleExecutionContext executionContext)
+    {
+        var skippedDependencies = moduleState.Dependencies
+            .Where(dependency => !dependency.Value)
+            .Select(dependency => (
+                Type: dependency.Key,
+                Result: _resultRegistry.GetResult(dependency.Key)))
+            .Where(dependency => dependency.Result?.ModuleStatus == Enums.Status.Skipped)
+            .OrderBy(dependency => dependency.Type.FullName, StringComparer.Ordinal)
+            .ToArray();
+
+        if (skippedDependencies.Length == 0)
+        {
+            return;
+        }
+
+        executionContext.SkipResult = DependencySkipDecisionFactory.Create(
+            skippedDependencies
+                .Select(dependency => (
+                    ModuleType: dependency.Type,
+                    SkipDecision: dependency.Result!.SkipDecisionOrDefault))
+                .ToArray());
     }
 
     private async Task<IModuleResult> ExecuteTypedModule(

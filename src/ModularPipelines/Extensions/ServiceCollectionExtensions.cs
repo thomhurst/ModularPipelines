@@ -98,10 +98,18 @@ public static class ServiceCollectionExtensions
     public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services, TModule tModule)
         where TModule : class, IModule
     {
+        ArgumentNullException.ThrowIfNull(tModule);
+
         // Track module type for auto-registration and unused module detection
         GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
 
-        services.AddSingleton<IModule>(tModule);
+        if (!services.Any(descriptor =>
+                descriptor.ServiceType == typeof(IModule)
+                && ReferenceEquals(descriptor.ImplementationInstance, tModule)))
+        {
+            services.AddSingleton<IModule>(tModule);
+        }
+
         return new ModuleRegistrationBuilder(services, typeof(TModule));
     }
 

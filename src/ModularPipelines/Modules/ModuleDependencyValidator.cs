@@ -22,7 +22,8 @@ public static class ModuleDependencyValidator
     internal static void Validate(
         IEnumerable<IModule> registeredModules,
         IModuleDependencyRegistry? dynamicRegistry,
-        IModuleMetadataRegistry? metadataRegistry)
+        IModuleMetadataRegistry? metadataRegistry,
+        IReadOnlySet<Type>? precompletedModuleTypes = null)
     {
         var modulesByType = registeredModules
             .GroupBy(module => module.GetType())
@@ -40,7 +41,9 @@ public static class ModuleDependencyValidator
 
         var dependenciesByModule = modulesByType.ToDictionary(
             pair => pair.Key,
-            pair => GetAllDependencies(pair.Value, moduleTypes, dynamicRegistry, metadataRegistry));
+            pair => precompletedModuleTypes?.Contains(pair.Key) == true
+                ? []
+                : GetAllDependencies(pair.Value, moduleTypes, dynamicRegistry, metadataRegistry));
 
         foreach (var (moduleType, dependencies) in dependenciesByModule)
         {
