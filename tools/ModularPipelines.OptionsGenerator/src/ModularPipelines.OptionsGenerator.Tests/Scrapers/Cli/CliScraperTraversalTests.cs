@@ -56,16 +56,16 @@ public class CliScraperTraversalTests
     }
 
     [Test]
-    public async Task SharedTraversal_Fails_When_Declared_Group_Has_No_Children()
+    public async Task SharedTraversal_Skips_Invalid_Group_And_Continues_With_Sibling()
     {
-        const string emptyGroupHelp = """
+        var emptyGroupHelp = """
             Manage parent resources.
 
             Usage:
               fake parent <command>
 
             Available Commands:
-            """;
+            """.ReplaceLineEndings("\r\n");
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
             ["--help"] = """
@@ -76,19 +76,30 @@ public class CliScraperTraversalTests
 
                 Available Commands:
                   parent:  Manage parent resources
+                  sibling: Execute a sibling command
                 """,
             ["parent --help"] = emptyGroupHelp,
+            ["sibling --help"] = """
+                Execute a sibling command.
+
+                Usage:
+                  fake sibling [flags]
+
+                Flags:
+                  --value string   Supply a value
+                """,
         });
         var scraper = new TestCobraScraper(executor);
 
         await Assert.That(scraper.DeclaresCommandGroup(emptyGroupHelp)).IsTrue();
         await Assert.That(scraper.GetSubcommands(emptyGroupHelp)).IsEmpty();
-        await Assert.That(async () =>
-            {
-                await ScrapeAsync(scraper);
-            })
-            .Throws<InvalidOperationException>()
-            .And.HasMessageContaining("no child commands were extracted");
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .IsEquivalentTo(["fake sibling"]);
+        await Assert.That(executor.Arguments)
+            .IsEquivalentTo(["--help", "parent --help", "sibling --help"]);
     }
 
     [Test]

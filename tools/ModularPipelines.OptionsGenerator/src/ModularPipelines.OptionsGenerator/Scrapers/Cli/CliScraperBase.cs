@@ -231,7 +231,7 @@ public abstract partial class CliScraperBase : ICliScraper
             .ToList();
 
         // Always complete the result channel, including when a worker faults. Without this,
-        // the consumer can wait forever after a malformed command group fails validation.
+        // the consumer can wait forever after an unexpected traversal failure.
         _ = CompleteCommandChannelAsync(workerTasks, commandChannel);
 
         // Yield commands as they're discovered
@@ -311,7 +311,16 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var subcommands = ExtractSubcommands(helpText).ToList();
-        ValidateSubcommandDiscovery(path, helpText, subcommands);
+        try
+        {
+            ValidateSubcommandDiscovery(path, helpText, subcommands);
+        }
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        {
+            Logger.LogWarning(ex, "Failed to validate subcommand discovery: {Command}", string.Join(" ", path));
+            return;
+        }
+
         await ParseAndWriteCommandAsync(path, helpText, subcommands, commandChannel, cancellationToken);
         await EnqueueSubcommandsAsync(
             path,
@@ -753,11 +762,11 @@ public abstract partial class CliScraperBase : ICliScraper
     protected static partial Regex OptionLinePattern();
 
     [GeneratedRegex(
-        @"^[ \t]*(?:Usage:?[ \t]*(?:\r?\n[ \t]*)?)?[^\r\n]*(?:<command>|\[command\])[^\r\n]*$",
+        @"^[ \t]*(?:Usage:?[ \t]*(?:\r?\n[ \t]*)?)?[^\r\n]*(?:<command>|\[command\])[^\r\n]*\r?$",
         RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex CommandGroupUsagePattern();
 
-    [GeneratedRegex(@"^[ \t]*[A-Z][A-Z0-9 _/-]*COMMANDS?:?[ \t]*$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]*[A-Z][A-Z0-9 _/-]*COMMANDS?:?[ \t]*\r?$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex CommandSectionHeadingPattern();
 
     [GeneratedRegex(
