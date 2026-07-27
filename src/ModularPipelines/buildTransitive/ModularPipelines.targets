@@ -6,6 +6,8 @@
     <ModularPipelinesBuildBranch Condition="'$(ModularPipelinesBuildBranch.Length)' == '0'">main</ModularPipelinesBuildBranch>
     <ModularPipelinesDotNetVersion Condition="'$(ModularPipelinesDotNetVersion.Length)' == '0'">10.0.x</ModularPipelinesDotNetVersion>
     <ModularPipelinesDotNetSdkImage Condition="'$(ModularPipelinesDotNetSdkImage.Length)' == '0'">mcr.microsoft.com/dotnet/sdk:10.0</ModularPipelinesDotNetSdkImage>
+    <ModularPipelinesTargetFramework Condition="'$(ModularPipelinesTargetFramework.Length)' == '0' and '$(TargetFramework.Length)' != '0'">$(TargetFramework)</ModularPipelinesTargetFramework>
+    <ModularPipelinesTargetFramework Condition="'$(ModularPipelinesTargetFramework.Length)' == '0' and '$(TargetFrameworks.Length)' != '0'">$(TargetFrameworks.Split(';')[0])</ModularPipelinesTargetFramework>
     <ModularPipelinesOverwriteBuildServerFiles Condition="'$(ModularPipelinesOverwriteBuildServerFiles.Length)' == '0'">false</ModularPipelinesOverwriteBuildServerFiles>
   </PropertyGroup>
 
@@ -50,6 +52,7 @@
       <_ModularPipelinesPipelineProject Condition="'$(_ModularPipelinesPipelineProjectSpecified)' == 'true'">$(ModularPipelinesPipelineProject)</_ModularPipelinesPipelineProject>
       <_ModularPipelinesPipelineProject>$(_ModularPipelinesPipelineProject.Replace('\', '/'))</_ModularPipelinesPipelineProject>
       <_ModularPipelinesPipelineProjectEncoded>$([System.Uri]::EscapeDataString($(_ModularPipelinesPipelineProject)))</_ModularPipelinesPipelineProjectEncoded>
+      <_ModularPipelinesTargetFrameworkEncoded>$([System.Uri]::EscapeDataString($(ModularPipelinesTargetFramework)))</_ModularPipelinesTargetFrameworkEncoded>
 
       <_ModularPipelinesGitHubDirectory>$(_ModularPipelinesRepositoryRoot)/.github/workflows</_ModularPipelinesGitHubDirectory>
       <_ModularPipelinesGitHubFile>$(_ModularPipelinesGitHubDirectory)/modular-pipelines.yml</_ModularPipelinesGitHubFile>
@@ -81,9 +84,12 @@ jobs:
       - run: |
           PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\\\x/g'`
           PIPELINE_PROJECT=`printf '%b' "$PIPELINE_PROJECT"`
-          dotnet run --project "$PIPELINE_PROJECT" --configuration Release
+          PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_ENCODED" | sed 's/%/\\\\x/g'`
+          PIPELINE_FRAMEWORK=`printf '%b' "$PIPELINE_FRAMEWORK"`
+          dotnet run --project "$PIPELINE_PROJECT" --configuration Release --framework "$PIPELINE_FRAMEWORK"
         env:
           PIPELINE_PROJECT_ENCODED: "$(_ModularPipelinesPipelineProjectEncoded)"
+          PIPELINE_FRAMEWORK_ENCODED: "$(_ModularPipelinesTargetFrameworkEncoded)"
 ]]></_ModularPipelinesGitHubWorkflow>
 
       <_ModularPipelinesGitLabPipeline><![CDATA[variables:
@@ -104,10 +110,15 @@ modular-pipelines:
     PIPELINE_PROJECT_ENCODED:
       value: "$(_ModularPipelinesPipelineProjectEncoded)"
       expand: false
+    PIPELINE_FRAMEWORK_ENCODED:
+      value: "$(_ModularPipelinesTargetFrameworkEncoded)"
+      expand: false
   script:
     - PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\\\x/g'`
     - PIPELINE_PROJECT=`printf '%b' "$PIPELINE_PROJECT"`
-    - dotnet run --project "$PIPELINE_PROJECT" --configuration Release
+    - PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_ENCODED" | sed 's/%/\\\\x/g'`
+    - PIPELINE_FRAMEWORK=`printf '%b' "$PIPELINE_FRAMEWORK"`
+    - dotnet run --project "$PIPELINE_PROJECT" --configuration Release --framework "$PIPELINE_FRAMEWORK"
 ]]></_ModularPipelinesGitLabPipeline>
 
       <_ModularPipelinesAzurePipeline><![CDATA[trigger:
@@ -127,10 +138,13 @@ steps:
   - script: |
       PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_ENCODED" | sed 's/%/\\\\x/g'`
       PIPELINE_PROJECT=`printf '%b' "$PIPELINE_PROJECT"`
-      dotnet run --project "$PIPELINE_PROJECT" --configuration Release
+      PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_ENCODED" | sed 's/%/\\\\x/g'`
+      PIPELINE_FRAMEWORK=`printf '%b' "$PIPELINE_FRAMEWORK"`
+      dotnet run --project "$PIPELINE_PROJECT" --configuration Release --framework "$PIPELINE_FRAMEWORK"
     displayName: Run ModularPipelines
     env:
       PIPELINE_PROJECT_ENCODED: "$(_ModularPipelinesPipelineProjectEncoded)"
+      PIPELINE_FRAMEWORK_ENCODED: "$(_ModularPipelinesTargetFrameworkEncoded)"
 ]]></_ModularPipelinesAzurePipeline>
 
       <_ModularPipelinesOutputFile Condition="'$(ModularPipelinesBuildSystem)' == 'GitHubActions'">$(_ModularPipelinesGitHubFile)</_ModularPipelinesOutputFile>
@@ -166,6 +180,9 @@ steps:
     <Error
       Condition="'$(_ModularPipelinesProjectOutsideRootCount)' != '0'"
       Text="The pipeline project must be inside ModularPipelinesRepositoryRoot, or ModularPipelinesPipelineProject must be set explicitly." />
+    <Error
+      Condition="'$(ModularPipelinesTargetFramework.Length)' == '0'"
+      Text="A target framework is required. Set TargetFramework, TargetFrameworks, or ModularPipelinesTargetFramework." />
 
     <MakeDir
       Directories="$(_ModularPipelinesOutputDirectory)"

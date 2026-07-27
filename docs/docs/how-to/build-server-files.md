@@ -55,6 +55,10 @@ The following optional properties customize the generated file:
 | `ModularPipelinesBuildBranch` | `main` |
 | `ModularPipelinesDotNetVersion` | `10.0.x` |
 | `ModularPipelinesDotNetSdkImage` | `mcr.microsoft.com/dotnet/sdk:10.0` |
+| `ModularPipelinesTargetFramework` | `TargetFramework`, or the first `TargetFrameworks` entry |
+
+For a multi-target pipeline project, set `ModularPipelinesTargetFramework` to
+choose which target framework the generated job runs.
 
 Existing YAML is preserved. To intentionally regenerate and replace it, build
 once with:
