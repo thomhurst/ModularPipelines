@@ -60,6 +60,10 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     var approveCommandCoverageShrinkage = parseResult.GetValue(approveCommandCoverageShrinkageOption);
     var changeManifest = parseResult.GetValue(changeManifestOption);
 
+    ExecutableOverrideValidator.Validate(
+        tools,
+        Environment.GetEnvironmentVariable(ProcessCliCommandExecutor.ExecutableOverrideVariableName));
+
     var builder = Host.CreateApplicationBuilder();
 
     // Configure logging
