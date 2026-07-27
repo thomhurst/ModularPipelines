@@ -57,10 +57,22 @@ public record CliToolDefinition
     public IReadOnlyList<CliOptionDefinition> GetGlobalOptions() =>
         CliGlobalOptionMerger.Merge(GlobalOptions, SupplementalGlobalOptions);
 
+    /// <summary>
     /// Full command name selected for the runnable documentation example.
     /// A missing value deliberately omits the runnable example.
     /// </summary>
     public string? PreferredDocumentationExampleCommand { get; init; }
+
+    /// <summary>
+    /// Installation metadata for the external executable used by this integration.
+    /// </summary>
+    public CliExecutablePrerequisite? ExecutablePrerequisite { get; init; }
+
+    /// <summary>
+    /// Explicit reason this tool uses generic prerequisite guidance instead of
+    /// tool-specific installation metadata.
+    /// </summary>
+    public string? ExecutablePrerequisiteMetadataExemption { get; init; }
 
     /// <summary>
     /// Sub-domain groups for organizing commands (e.g., "Container", "Image" for Docker).
@@ -129,6 +141,32 @@ public record CliCommandCoverageExclusion
     /// Human-readable reason, such as edition, licensing, or unsupported syntax.
     /// </summary>
     public required string Reason { get; init; }
+}
+
+/// <summary>
+/// Describes the external executable required by a generated CLI integration.
+/// </summary>
+public record CliExecutablePrerequisite
+{
+    /// <summary>
+    /// Executable command that must resolve through PATH.
+    /// </summary>
+    public required string CommandName { get; init; }
+
+    /// <summary>
+    /// Supported or workflow-pinned executable version, when generation uses one.
+    /// </summary>
+    public string? SupportedVersion { get; init; }
+
+    /// <summary>
+    /// Official installation documentation URL.
+    /// </summary>
+    public string? InstallationUrl { get; init; }
+
+    /// <summary>
+    /// Optional installation or compatibility notes.
+    /// </summary>
+    public string? InstallationNotes { get; init; }
 }
 
 /// <summary>

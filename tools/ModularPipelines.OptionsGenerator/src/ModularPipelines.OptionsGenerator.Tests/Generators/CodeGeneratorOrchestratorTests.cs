@@ -16,7 +16,7 @@ public class CodeGeneratorOrchestratorTests
 
     private sealed class FakeCliScraper : ICliScraper
     {
-        public string ToolName => "fake";
+        public string ToolName { get; init; } = "fake";
 
         public string NamespacePrefix => "Fake";
 
@@ -33,6 +33,13 @@ public class CodeGeneratorOrchestratorTests
         public CliCommandCoveragePolicy CommandCoverage { get; init; } = new();
 
         public string? Version { get; init; } = "fake 1.0";
+
+        public CliExecutablePrerequisite? ExecutablePrerequisite { get; init; } = new()
+        {
+            CommandName = "fake",
+        };
+
+        public string? ExecutablePrerequisiteMetadataExemption { get; init; }
 
         public Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default) => Task.FromResult(Available);
 
@@ -59,6 +66,8 @@ public class CodeGeneratorOrchestratorTests
             Commands = [],
             CommandCoverage = CommandCoverage,
             GlobalOptions = GlobalOptions,
+            ExecutablePrerequisite = ExecutablePrerequisite,
+            ExecutablePrerequisiteMetadataExemption = ExecutablePrerequisiteMetadataExemption,
         };
     }
 
@@ -86,6 +95,158 @@ public class CodeGeneratorOrchestratorTests
             htmlScrapers: [],
             generators,
             NullLogger<CodeGeneratorOrchestrator>.Instance);
+
+    [Test]
+    public async Task Cli_Metadata_Is_Preserved_For_Generators()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        var prerequisite = new CliExecutablePrerequisite
+        {
+            CommandName = "fake-cli",
+            SupportedVersion = "1.2.3",
+        };
+        CliToolDefinition? generatedTool = null;
+        var scraper = new FakeCliScraper
+        {
+            Commands = [FakeCommand()],
+            ExecutablePrerequisite = prerequisite,
+        };
+        var generator = new FakeGenerator
+        {
+            OnGenerate = tool =>
+            {
+                generatedTool = tool;
+                return [];
+            },
+        };
+
+        try
+        {
+            var result = await Orchestrator(scraper, generator).GenerateAsync("fake", outputRoot);
+
+            await Assert.That(result.HasErrors).IsFalse();
+            await Assert.That(generatedTool).IsNotNull();
+            await Assert.That(generatedTool!.ExecutablePrerequisite).IsSameReferenceAs(prerequisite);
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Catalog_Metadata_Is_Applied_Before_Every_Generator()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        var generatedTools = new List<CliToolDefinition>();
+        var scraper = new FakeCliScraper
+        {
+            ToolName = "terraform",
+            Commands = [FakeCommand()],
+            ExecutablePrerequisite = null,
+        };
+        var firstGenerator = new FakeGenerator
+        {
+            OnGenerate = tool =>
+            {
+                generatedTools.Add(tool);
+                return [];
+            },
+        };
+        var secondGenerator = new FakeGenerator
+        {
+            OnGenerate = tool =>
+            {
+                generatedTools.Add(tool);
+                return [];
+            },
+        };
+
+        try
+        {
+            var result = await Orchestrator(scraper, firstGenerator, secondGenerator)
+                .GenerateAsync("terraform", outputRoot);
+
+            await Assert.That(result.HasErrors).IsFalse();
+            await Assert.That(generatedTools).Count().IsEqualTo(2);
+            await Assert.That(generatedTools.All(
+                    tool => tool.ExecutablePrerequisite?.CommandName == "terraform"))
+                .IsTrue();
+            await Assert.That(generatedTools.All(
+                    tool => tool.ExecutablePrerequisite?.InstallationUrl ==
+                            "https://developer.hashicorp.com/terraform/install"))
+                .IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Missing_Metadata_Is_Rejected_Before_Generators_Run()
+    {
+        await AssertMetadataFailureBeforeGeneratorsRun(
+            "unregistered-cli",
+            prerequisite: null,
+            expectedMessage: "no executable prerequisite metadata or explicit exemption");
+    }
+
+    [Test]
+    public async Task Invalid_Metadata_Is_Rejected_Before_Generators_Run()
+    {
+        await AssertMetadataFailureBeforeGeneratorsRun(
+            "fake",
+            new CliExecutablePrerequisite
+            {
+                CommandName = "fake",
+                InstallationUrl = "http://insecure.example.test/install",
+            },
+            "invalid HTTPS installation URL");
+    }
+
+    private static async Task AssertMetadataFailureBeforeGeneratorsRun(
+        string toolName,
+        CliExecutablePrerequisite? prerequisite,
+        string expectedMessage)
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        var generatorCalled = false;
+        var scraper = new FakeCliScraper
+        {
+            ToolName = toolName,
+            Commands = [FakeCommand()],
+            ExecutablePrerequisite = prerequisite,
+        };
+        var generator = new FakeGenerator
+        {
+            OnGenerate = _ =>
+            {
+                generatorCalled = true;
+                return [];
+            },
+        };
+
+        try
+        {
+            var result = await Orchestrator(scraper, generator).GenerateAsync(toolName, outputRoot);
+
+            await Assert.That(result.HasErrors).IsTrue();
+            await Assert.That(result.Errors.Any(
+                    error => error.Message.Contains(
+                        expectedMessage,
+                        StringComparison.Ordinal)))
+                .IsTrue();
+            await Assert.That(generatorCalled).IsFalse();
+        }
+        finally
+        {
+            if (Directory.Exists(outputRoot))
+            {
+                Directory.Delete(outputRoot, recursive: true);
+            }
+        }
+    }
 
     /// <summary>
     /// Creates a temp output root containing one pre-existing generated file for the tool,

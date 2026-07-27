@@ -17,6 +17,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         CancellationToken cancellationToken = default)
     {
         tool = DocumentationExampleCatalog.Apply(tool);
+        tool = ExecutablePrerequisiteCatalog.Apply(tool);
         var file = new GeneratedFile
         {
             RelativePath = Path.Combine(DocumentationDirectory, GetFileName(tool.ToolName)),
@@ -51,7 +52,8 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine();
         sb.AppendLine($"`{tool.TargetNamespace}` provides strongly typed access to the `{tool.ToolName}` CLI.");
         sb.AppendLine();
-        sb.AppendLine("## Installation");
+        AppendExecutablePrerequisite(sb, tool);
+        sb.AppendLine("## Package installation");
         sb.AppendLine();
         sb.AppendLine("```shell");
         sb.AppendLine($"dotnet add package {tool.TargetNamespace}");
@@ -122,6 +124,51 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         }
 
         sb.AppendLine();
+    }
+
+    private static void AppendExecutablePrerequisite(StringBuilder sb, CliToolDefinition tool)
+    {
+        var prerequisite = tool.ExecutablePrerequisite;
+        var commandName = prerequisite?.CommandName ?? tool.ToolName;
+
+        sb.AppendLine("## Executable prerequisite");
+        sb.AppendLine();
+        sb.AppendLine(
+            $"This package does not install the `{commandName}` executable. "
+            + $"Install it separately and ensure `{commandName}` is available on `PATH`.");
+        sb.AppendLine();
+
+        if (!string.IsNullOrWhiteSpace(prerequisite?.SupportedVersion))
+        {
+            sb.AppendLine(
+                $"The generation workflow is pinned to `{commandName}` version "
+                + $"`{prerequisite.SupportedVersion}`.");
+            sb.AppendLine();
+        }
+
+        if (!string.IsNullOrWhiteSpace(prerequisite?.InstallationUrl))
+        {
+            sb.AppendLine($"See the [{commandName} installation guide]({prerequisite.InstallationUrl}).");
+            sb.AppendLine();
+        }
+
+        if (!string.IsNullOrWhiteSpace(prerequisite?.InstallationNotes))
+        {
+            sb.AppendLine(prerequisite.InstallationNotes);
+            sb.AppendLine();
+        }
+        else if (prerequisite is null
+                 && string.IsNullOrWhiteSpace(tool.ExecutablePrerequisiteMetadataExemption))
+        {
+            sb.AppendLine(ExecutablePrerequisiteCatalog.GenericInstallationNotes);
+            sb.AppendLine();
+        }
+
+        if (!string.IsNullOrWhiteSpace(tool.ExecutablePrerequisiteMetadataExemption))
+        {
+            sb.AppendLine(tool.ExecutablePrerequisiteMetadataExemption);
+            sb.AppendLine();
+        }
     }
 
     private static void AppendExample(StringBuilder sb, CliToolDefinition tool)
