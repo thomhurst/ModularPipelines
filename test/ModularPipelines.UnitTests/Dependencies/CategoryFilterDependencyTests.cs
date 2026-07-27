@@ -155,6 +155,23 @@ public class CategoryFilterDependencyTests : TestBase
     }
 
     [Test]
+    public async Task Repeated_Runnable_Module_Instance_Is_Discovered_Once()
+    {
+        var compileModule = new CompileModule();
+
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .AddModule(compileModule)
+            .AddModule(compileModule)
+            .ConfigurePipelineOptions(opt => opt.RunOnlyCategories = ["compile"])
+            .ExecutePipelineAsync();
+
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Modules.Count(module => ReferenceEquals(module, compileModule)))
+            .IsEqualTo(1);
+        await Assert.That((await compileModule).ValueOrDefault).IsEqualTo("compiled");
+    }
+
+    [Test]
     public async Task Both_Categories_Run_Successfully()
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()

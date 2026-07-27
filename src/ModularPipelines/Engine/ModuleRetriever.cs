@@ -34,7 +34,12 @@ internal class ModuleRetriever
         _estimatedTimeProvider = estimatedTimeProvider;
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
-        _modules = modules.ToList();
+
+        // Re-registering one pre-created module adds another service descriptor,
+        // but the module object still represents one execution.
+        _modules = modules
+            .Distinct<IModule>(ReferenceEqualityComparer.Instance)
+            .ToList();
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
