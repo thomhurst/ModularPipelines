@@ -76,6 +76,7 @@ internal class SignalRMasterState
 
     public bool TryRestoreReconnect(
         WorkerState worker,
+        string? resumingModuleTypeName,
         out ModuleAssignment? assignment,
         out bool resumed)
     {
@@ -89,7 +90,8 @@ internal class SignalRMasterState
         {
             pending = _pendingReconnects.Values
                 .FirstOrDefault(candidate =>
-                    candidate.WorkerIndex == worker.Registration.WorkerIndex);
+                    candidate.WorkerIndex == worker.Registration.WorkerIndex
+                    && candidate.Assignment.ModuleTypeName == resumingModuleTypeName);
 
             if (pending is not null)
             {

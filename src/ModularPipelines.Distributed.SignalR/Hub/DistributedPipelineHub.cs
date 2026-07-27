@@ -18,7 +18,9 @@ internal class DistributedPipelineHub(
     /// <summary>
     /// Called by workers to register their capabilities.
     /// </summary>
-    public async Task RegisterWorker(WorkerRegistration registration)
+    public async Task RegisterWorker(
+        WorkerRegistration registration,
+        string? resumingModuleTypeName)
     {
         var state = _masterState;
         var connectionId = Context.ConnectionId;
@@ -29,13 +31,12 @@ internal class DistributedPipelineHub(
             Registration = registration,
         };
 
-        // If this worker (identified by its stable index, not the connection id) had an
-        // in-flight module pending re-enqueue after a disconnect, it has reconnected
-        // within the grace window. Cancel the pending re-enqueue and restore its busy
-        // state so the master keeps awaiting the original result instead of running the
-        // module a second time.
+        // A reconnect may restore work only when the worker claims the same in-flight
+        // module. The stable index alone is insufficient because a replacement process
+        // can reuse it without owning the original execution.
         if (state.TryRestoreReconnect(
                 workerState,
+                resumingModuleTypeName,
                 out var recoveredAssignment,
                 out var resumed))
         {
@@ -111,8 +112,9 @@ internal class DistributedPipelineHub(
             // Don't re-enqueue in-flight work immediately: the worker may just be blipping
             // and auto-reconnecting, and re-running a module (with side effects) is unsafe.
             // Instead schedule a re-enqueue after a grace period; if the worker reconnects
-            // within that window, RegisterWorker cancels it. If the result already came back
-            // the assignment is null (cleared in PublishResult) or its waiter is complete.
+            // within that window and claims the assignment, RegisterWorker cancels it.
+            // If the result already came back, the assignment is null (cleared in
+            // PublishResult) or its waiter is complete.
             var inflight = workerState.ClearAssignment();
             if (inflight is not null
                 && _masterState.ResultWaiters.TryGetValue(inflight.ModuleTypeName, out var waiter)
@@ -128,9 +130,9 @@ internal class DistributedPipelineHub(
 
     /// <summary>
     /// After the reconnect grace period, re-enqueues a disconnected worker's in-flight
-    /// module unless it reconnected (RegisterWorker removed the pending entry) or its
-    /// result already arrived. Uses only shared state + logger so it is safe to run
-    /// detached from the (transient) hub instance that scheduled it.
+    /// module unless it reconnected and reclaimed the assignment or its result already
+    /// arrived. Uses only shared state + logger so it is safe to run detached from the
+    /// (transient) hub instance that scheduled it.
     /// </summary>
     private static async Task ReEnqueueAfterGraceAsync(
         SignalRMasterState state,

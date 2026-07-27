@@ -135,6 +135,29 @@ public class SignalRMasterStateTests
     }
 
     [Test]
+    public async Task ReplacementWorker_Cannot_Reclaim_Queued_Retry_By_Index()
+    {
+        var state = new SignalRMasterState();
+        var assignment = CreateAssignment();
+        var pending = state.TrackPendingReconnect(1, assignment);
+        var replacement = new WorkerState
+        {
+            ConnectionId = "replacement",
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+        };
+
+        await Assert.That(pending.TryMakeAvailableForRedispatch()).IsTrue();
+
+        var restored = state.TryRestoreReconnect(replacement, null, out _, out _);
+
+        await Assert.That(restored).IsFalse();
+        await Assert.That(replacement.IsIdle).IsTrue();
+        await Assert.That(state.TryClaimRedispatch(assignment)).IsTrue();
+
+        state.CompletePendingReconnect(assignment.ModuleTypeName);
+    }
+
+    [Test]
     public async Task ResultCompletion_And_ReconnectRegistration_Cannot_Leave_Worker_Busy()
     {
         for (var i = 0; i < 100; i++)
@@ -159,7 +182,11 @@ public class SignalRMasterStateTests
             var reconnect = Task.Run(async () =>
             {
                 await start.Task;
-                return state.TryRestoreReconnect(worker, out _, out _);
+                return state.TryRestoreReconnect(
+                    worker,
+                    assignment.ModuleTypeName,
+                    out _,
+                    out _);
             });
             var completion = Task.Run(async () =>
             {

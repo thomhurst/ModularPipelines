@@ -51,7 +51,7 @@ public class SignalRIntegrationTests
                 Capabilities: new HashSet<string> { "linux", "x64" },
                 RegisteredAt: DateTimeOffset.UtcNow);
 
-            await connection.InvokeAsync(HubMethodNames.RegisterWorker, registration);
+            await connection.InvokeAsync(HubMethodNames.RegisterWorker, registration, null);
 
             // Assert — master state should have the worker
             await Assert.That(masterState.Registrations.Count).IsEqualTo(1);
@@ -86,7 +86,8 @@ public class SignalRIntegrationTests
 
             // Register first (required by hub)
             await connection.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow));
+                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+                null);
 
             // Pre-create a result waiter
             var tcs = new TaskCompletionSource<SerializedModuleResult>(
@@ -146,7 +147,8 @@ public class SignalRIntegrationTests
 
             // Register as idle worker
             await connection.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<string> { "linux" }, DateTimeOffset.UtcNow));
+                new WorkerRegistration(1, new HashSet<string> { "linux" }, DateTimeOffset.UtcNow),
+                null);
 
             // Enqueue work via master state (simulating master coordinator)
             var moduleAssignment = new ModuleAssignment(
@@ -230,11 +232,14 @@ public class SignalRIntegrationTests
             await Task.WhenAll(worker1.StartAsync(), worker2.StartAsync(), worker3.StartAsync());
 
             await worker1.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<string> { "linux" }, DateTimeOffset.UtcNow));
+                new WorkerRegistration(1, new HashSet<string> { "linux" }, DateTimeOffset.UtcNow),
+                null);
             await worker2.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(2, new HashSet<string> { "windows" }, DateTimeOffset.UtcNow));
+                new WorkerRegistration(2, new HashSet<string> { "windows" }, DateTimeOffset.UtcNow),
+                null);
             await worker3.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(3, new HashSet<string> { "linux", "docker" }, DateTimeOffset.UtcNow));
+                new WorkerRegistration(3, new HashSet<string> { "linux", "docker" }, DateTimeOffset.UtcNow),
+                null);
 
             // Enqueue 3 modules with different capability requirements
             var windowsModule = new ModuleAssignment(
@@ -317,9 +322,11 @@ public class SignalRIntegrationTests
             await Task.WhenAll(worker1.StartAsync(), worker2.StartAsync());
 
             await worker1.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow));
+                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+                null);
             await worker2.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(2, new HashSet<string>(), DateTimeOffset.UtcNow));
+                new WorkerRegistration(2, new HashSet<string>(), DateTimeOffset.UtcNow),
+                null);
 
             // Pre-create result waiter for the master side
             masterState.ResultWaiters["BuildModule"] = new TaskCompletionSource<SerializedModuleResult>(
@@ -386,7 +393,8 @@ public class SignalRIntegrationTests
 
             await worker.StartAsync();
             await worker.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow));
+                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+                null);
 
             // Set up result waiters and enqueue 3 modules
             var modules = new[] { "ModuleA", "ModuleB", "ModuleC" };

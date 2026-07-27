@@ -90,7 +90,11 @@ public class SignalRMasterCoordinatorTests
             Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
         };
 
-        var restored = state.TryRestoreReconnect(worker, out _, out _);
+        var restored = state.TryRestoreReconnect(
+            worker,
+            assignment.ModuleTypeName,
+            out _,
+            out _);
         await coordinator.PublishResultAsync(CreateResult("TestModule"), CancellationToken.None);
 
         await Assert.That(restored).IsTrue();
