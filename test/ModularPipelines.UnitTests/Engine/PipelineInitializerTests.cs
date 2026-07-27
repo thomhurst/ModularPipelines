@@ -6,7 +6,7 @@ namespace ModularPipelines.UnitTests.Engine;
 public class PipelineInitializerTests
 {
     [Test]
-    public async Task FormatEnvironmentVariables_Does_Not_Add_Blank_Lines()
+    public async Task EnvironmentVariablesTable_Does_Not_Add_Blank_Rows()
     {
         var variables = new Hashtable
         {
@@ -14,9 +14,10 @@ public class PipelineInitializerTests
             ["SECOND"] = "two",
         };
 
-        var output = PipelineInitializer.FormatEnvironmentVariables(variables);
+        var table = PipelineInitializer.CreateEnvironmentVariablesTable(
+            variables,
+            value => value);
 
-        await Assert.That(output).DoesNotContain($"{Environment.NewLine}{Environment.NewLine}");
-        await Assert.That(output.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)).Count().IsEqualTo(2);
+        await Assert.That(table.Rows).Count().IsEqualTo(2);
     }
 }

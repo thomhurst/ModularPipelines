@@ -141,8 +141,8 @@ internal sealed class Command : ICommand, ICommandContext
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync(forcefulCancellationToken.Token, linkedCancellationToken.Token).ConfigureAwait(false);
 
-                standardOutput = execOpts.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : execOpts.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
-                standardError = execOpts.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : execOpts.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
+                standardOutput = standardOutputStringBuilder.ToString();
+                standardError = standardErrorStringBuilder.ToString();
 
                 _commandLogger.Log(
                     options: options,
@@ -165,8 +165,8 @@ internal sealed class Command : ICommand, ICommandContext
             }
             catch (CommandExecutionException e)
             {
-                standardOutput = execOpts.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : execOpts.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
-                standardError = execOpts.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : execOpts.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
+                standardOutput = standardOutputStringBuilder.ToString();
+                standardError = standardErrorStringBuilder.ToString();
 
                 _commandLogger.Log(
                     options: options,
@@ -183,8 +183,8 @@ internal sealed class Command : ICommand, ICommandContext
             }
             catch (Exception e) when (e is not CommandExecutionException and not CommandException)
             {
-                standardOutput = execOpts.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : execOpts.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
-                standardError = execOpts.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : execOpts.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
+                standardOutput = standardOutputStringBuilder.ToString();
+                standardError = standardErrorStringBuilder.ToString();
 
                 _commandLogger.Log(
                     options: options,

@@ -17,6 +17,36 @@ namespace ModularPipelines.UnitTests.Models;
 
 public class TrxParsingTests : TestBase
 {
+    [Test]
+    public async Task ParsesSkippedTestReason()
+    {
+        const string trx = """
+                           <TestRun>
+                             <Results>
+                               <UnitTestResult executionId="execution" testId="test" testName="Skipped_Test"
+                                 computerName="agent" duration="00:00:00" startTime="2026-07-27T12:00:00Z"
+                                 endTime="2026-07-27T12:00:00Z" testType="type" outcome="NotExecuted"
+                                 testListId="list" relativeResultsDirectory="results">
+                                 <Output>
+                                   <DebugTrace>Skipped: Linux only test</DebugTrace>
+                                 </Output>
+                               </UnitTestResult>
+                             </Results>
+                             <ResultSummary outcome="Completed">
+                               <Counters total="1" executed="0" passed="0" failed="0" error="0"
+                                 timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0"
+                                 notRunnable="0" notExecuted="1" disconnected="0" warning="0"
+                                 completed="0" inProgress="0" pending="0" />
+                             </ResultSummary>
+                           </TestRun>
+                           """;
+
+        var result = new TrxParser().ParseTrxContents(trx);
+
+        await Assert.That(result.UnitTestResults.Single().Output?.DebugTrace)
+            .IsEqualTo("Skipped: Linux only test");
+    }
+
     public class NUnitModule : Module<DotNetTestResult>
     {
         public DotNetTestResult? LastResult { get; private set; }
