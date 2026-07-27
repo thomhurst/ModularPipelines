@@ -1,4 +1,5 @@
 using System.Text;
+using ModularPipelines.Options;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
@@ -8,6 +9,12 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 /// </summary>
 public class OptionsClassGenerator : ICodeGenerator
 {
+    private static readonly HashSet<string> InheritedPropertyNames =
+        typeof(CommandLineToolOptions)
+            .GetProperties()
+            .Select(property => property.Name)
+            .ToHashSet(StringComparer.Ordinal);
+
     public Task<IReadOnlyList<GeneratedFile>> GenerateAsync(CliToolDefinition tool, CancellationToken cancellationToken = default)
     {
         var files = new List<GeneratedFile>();
@@ -264,9 +271,7 @@ public class OptionsClassGenerator : ICodeGenerator
     }
 
     private static string GetNewModifier(string propertyName) =>
-        propertyName is "Tool" or "CommandParts" or "Arguments" or "RunSettings"
-            ? "new "
-            : "";
+        InheritedPropertyNames.Contains(propertyName) ? "new " : "";
 
     private static string GetPositionalAttributeString(CliPositionalArgument positional)
     {

@@ -24,7 +24,7 @@ public record AzManagedCassandraClusterInvokeCommandOptions : AzOptions
     /// The key="value" of arguments for the command.
     /// </summary>
     [CliFlag("--arguments")]
-    public bool? Arguments { get; set; }
+    public new bool? Arguments { get; set; }
 
     /// <summary>
     /// If true, stops cassandra before executing the command and then start it again.  Allowed values: false, true.
