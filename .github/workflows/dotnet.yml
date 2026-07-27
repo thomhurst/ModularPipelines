@@ -58,8 +58,6 @@ jobs:
           echo "::add-mask::${{ secrets.NuGet__ApiKey }}"
           echo "::add-mask::${{ secrets.ADMIN_TOKEN }}"
           echo "::add-mask::${{ secrets.CODACY_APIKEY }}"
-          echo "::add-mask::${{ secrets.R2_ACCESS_KEY }}"
-          echo "::add-mask::${{ secrets.R2_SECRET_KEY }}"
       - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
@@ -119,6 +117,8 @@ jobs:
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           # Standalone (non-distributed): TOTAL_INSTANCES=1 makes the pipeline skip the
           # Redis/SignalR discovery path entirely and run everything on this single runner.
+          # Re-enabling distribution also requires restoring Redis/R2 credentials and the
+          # cloudflared install because Program.cs configures EnableTunnel=true.
           INSTANCE_INDEX: 0
           TOTAL_INSTANCES: 1
 
