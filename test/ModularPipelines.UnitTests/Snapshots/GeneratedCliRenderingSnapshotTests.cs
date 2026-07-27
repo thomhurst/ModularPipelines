@@ -90,11 +90,12 @@ public class GeneratedCliRenderingSnapshotTests
     [Test]
     public async Task GeneratedPackageDiscovery_OnlyIncludesAvailableAssemblies()
     {
-        var packageNames = GetGeneratedPackageNames(FindRepositoryRoot());
+        var repositoryRoot = FindRepositoryRoot();
+        var configuration = GetBuildConfiguration();
 
-        foreach (var packageName in packageNames)
+        foreach (var packageName in GetGeneratedPackageNames(repositoryRoot))
         {
-            await Assert.That(File.Exists(Path.Combine(AppContext.BaseDirectory, $"{packageName}.dll"))).IsTrue();
+            await Assert.That(GetPackageAssemblyPath(repositoryRoot, configuration, packageName)).IsNotNull();
         }
     }
 
@@ -166,16 +167,37 @@ public class GeneratedCliRenderingSnapshotTests
         string repositoryRoot,
         string packageName)
     {
-        var configuration = new DirectoryInfo(AppContext.BaseDirectory).Parent?.Name
-                            ?? throw new DirectoryNotFoundException("Could not determine the build configuration.");
-        var assemblyPath = Path.Combine(AppContext.BaseDirectory, $"{packageName}.dll");
-        if (!File.Exists(assemblyPath))
-        {
-            throw new FileNotFoundException($"Could not load built package {packageName}.", assemblyPath);
-        }
+        var configuration = GetBuildConfiguration();
+
+        // Load the package assembly from its own build output rather than from this test
+        // project's output directory. Sourcing these DLLs from the test's output required the
+        // test project to reference every generated-options package (50+, including the large
+        // AWS/Azure/Google SDKs) purely to copy them here - which is what made the core unit test
+        // project one oversized compilation unit that stalled the CI runner (#3179). The packages
+        // are built by the solution, so read them from src/<package>/bin/<configuration>; the load
+        // context already resolves their dependencies from the same location.
+        var assemblyPath = GetPackageAssemblyPath(repositoryRoot, configuration, packageName)
+                           ?? throw new FileNotFoundException(
+                               $"Could not load built package {packageName}.",
+                               Path.Combine(repositoryRoot, "src", packageName, "bin", configuration));
 
         var loadContext = new PackageAssemblyLoadContext(repositoryRoot, configuration, assemblyPath);
         return new LoadedPackage(loadContext.LoadFromAssemblyPath(Path.GetFullPath(assemblyPath)), loadContext);
+    }
+
+    private static string GetBuildConfiguration()
+    {
+        return new DirectoryInfo(AppContext.BaseDirectory).Parent?.Name
+               ?? throw new DirectoryNotFoundException("Could not determine the build configuration.");
+    }
+
+    private static string? GetPackageAssemblyPath(string repositoryRoot, string configuration, string packageName)
+    {
+        var outputDirectory = Path.Combine(repositoryRoot, "src", packageName, "bin", configuration);
+        return Directory.Exists(outputDirectory)
+            ? Directory.EnumerateFiles(outputDirectory, $"{packageName}.dll", SearchOption.AllDirectories)
+                .FirstOrDefault()
+            : null;
     }
 
     private static PackageSnapshot CreatePackageSnapshot(System.Reflection.Assembly assembly)
