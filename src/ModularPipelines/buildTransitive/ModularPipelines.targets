@@ -7,13 +7,25 @@
     <ModularPipelinesDotNetVersion Condition="'$(ModularPipelinesDotNetVersion.Length)' == '0'">10.0.x</ModularPipelinesDotNetVersion>
     <ModularPipelinesDotNetSdkImage Condition="'$(ModularPipelinesDotNetSdkImage.Length)' == '0'">mcr.microsoft.com/dotnet/sdk:10.0</ModularPipelinesDotNetSdkImage>
     <ModularPipelinesOverwriteBuildServerFiles Condition="'$(ModularPipelinesOverwriteBuildServerFiles.Length)' == '0'">false</ModularPipelinesOverwriteBuildServerFiles>
-    <_ModularPipelinesFirstTargetFramework Condition="'$(TargetFrameworks.Length)' != '0'">$([System.Text.RegularExpressions.Regex]::Match('$(TargetFrameworks)', '^[^;]+').Value)</_ModularPipelinesFirstTargetFramework>
   </PropertyGroup>
+
+  <Target
+    Name="_GenerateModularPipelinesBuildServerFilesForCrossTargetingBuild"
+    BeforeTargets="DispatchToInnerBuilds"
+    DependsOnTargets="_ComputeTargetFrameworkItems"
+    Condition="'$(ModularPipelinesBuildSystem.Length)' != '0' and '$(DesignTimeBuild)' != 'true' and '$(IsCrossTargetingBuild)' == 'true'">
+    <CallTarget Targets="GenerateModularPipelinesBuildServerFiles" />
+    <ItemGroup>
+      <_InnerBuildProjects Update="@(_InnerBuildProjects)">
+        <AdditionalProperties>%(AdditionalProperties);_ModularPipelinesSkipBuildServerFileGeneration=true</AdditionalProperties>
+      </_InnerBuildProjects>
+    </ItemGroup>
+  </Target>
 
   <Target
     Name="GenerateModularPipelinesBuildServerFiles"
     BeforeTargets="BeforeBuild"
-    Condition="'$(ModularPipelinesBuildSystem.Length)' != '0' and '$(DesignTimeBuild)' != 'true' and '$(IsCrossTargetingBuild)' != 'true' and ('$(TargetFrameworks.Length)' == '0' or '$(TargetFramework)' == '$(_ModularPipelinesFirstTargetFramework)')">
+    Condition="'$(ModularPipelinesBuildSystem.Length)' != '0' and '$(DesignTimeBuild)' != 'true' and '$(_ModularPipelinesSkipBuildServerFileGeneration)' != 'true'">
     <ConvertToAbsolutePath Paths="$(ModularPipelinesRepositoryRoot)">
       <Output TaskParameter="AbsolutePaths" PropertyName="_ModularPipelinesRepositoryRoot" />
     </ConvertToAbsolutePath>
@@ -66,12 +78,17 @@ jobs:
           PIPELINE_PROJECT: "$(_ModularPipelinesYamlPipelineProject)"
 ]]></_ModularPipelinesGitHubWorkflow>
 
-      <_ModularPipelinesGitLabPipeline><![CDATA[stages:
+      <_ModularPipelinesGitLabPipeline><![CDATA[variables:
+  MODULAR_PIPELINES_BUILD_BRANCH: "$(_ModularPipelinesYamlBranch)"
+
+stages:
   - pipeline
 
 modular-pipelines:
   image: "$(_ModularPipelinesYamlDotNetSdkImage)"
   stage: pipeline
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $MODULAR_PIPELINES_BUILD_BRANCH'
   variables:
     PIPELINE_PROJECT: "$(_ModularPipelinesYamlPipelineProject)"
   script:
@@ -107,6 +124,7 @@ steps:
       <_ModularPipelinesOutputContent Condition="'$(ModularPipelinesBuildSystem)' == 'GitHubActions'">$(_ModularPipelinesGitHubWorkflow)</_ModularPipelinesOutputContent>
       <_ModularPipelinesOutputContent Condition="'$(ModularPipelinesBuildSystem)' == 'GitLab'">$(_ModularPipelinesGitLabPipeline)</_ModularPipelinesOutputContent>
       <_ModularPipelinesOutputContent Condition="'$(ModularPipelinesBuildSystem)' == 'AzurePipelines'">$(_ModularPipelinesAzurePipeline)</_ModularPipelinesOutputContent>
+      <_ModularPipelinesEscapedOutputContent>$([MSBuild]::Escape($(_ModularPipelinesOutputContent)))</_ModularPipelinesEscapedOutputContent>
     </PropertyGroup>
 
     <ItemGroup>
@@ -137,7 +155,7 @@ steps:
 
     <WriteLinesToFile
       File="$(_ModularPipelinesOutputFile)"
-      Lines="$(_ModularPipelinesOutputContent)"
+      Lines="$(_ModularPipelinesEscapedOutputContent)"
       Overwrite="true"
       WriteOnlyWhenDifferent="true"
       Encoding="UTF-8"
