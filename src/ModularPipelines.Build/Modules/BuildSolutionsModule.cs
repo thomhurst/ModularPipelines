@@ -13,26 +13,20 @@ namespace ModularPipelines.Build.Modules;
 [ProducesArtifact("build-output", "../../_build-staging")]
 public class BuildSolutionsModule : Module<CommandResult[]>
 {
-    private static readonly string[] Solutions =
-    [
-        "ModularPipelines.Analyzers.sln",
-        "ModularPipelines.All.sln",
-        "ModularPipelines.Examples.sln",
-        "src/ModularPipelines.Azure/ModularPipelines.Azure.sln",
-        "src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln",
-        "src/ModularPipelines.Google/ModularPipelines.Google.sln",
-    ];
-
     protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitRoot = context.Git().RootDirectory.Path;
+        var solutions = File.ReadLines(Path.Combine(gitRoot, "BuildSolutions.txt"))
+            .Select(line => line.Trim())
+            .Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith('#'))
+            .ToArray();
 
         // Build all solutions with --no-restore (the workflow already restored and, in CI,
         // natively built them, so this is a fast MSBuild-incremental pass). Default
         // parallelism: the runner reclaim in #3179 came from a single test project that
         // referenced every integration at once, pulling the huge AWS/Azure/Google SDK metadata
         // into one compilation unit; that test was removed, not MSBuild parallelism changed.
-        var results = await Solutions
+        var results = await solutions
             .ToAsyncProcessorBuilder()
             .SelectAsync(async solution => await context.DotNet().Build(new DotNetBuildOptions
             {
