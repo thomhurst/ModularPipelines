@@ -11,15 +11,15 @@ internal static class TimeSpanFormatter
 
         if (timeSpan.TotalMinutes < 1)
         {
-            return $"{Seconds(timeSpan)} & {Milliseconds(timeSpan)}";
+            return $"{Seconds(timeSpan)} {Milliseconds(timeSpan)}";
         }
 
         if (timeSpan.TotalHours < 1)
         {
-            return $"{Minutes(timeSpan)} & {Seconds(timeSpan)}";
+            return $"{Minutes(timeSpan)} {Seconds(timeSpan)}";
         }
 
-        return $"{Hours(timeSpan)} & {Minutes(timeSpan)}";
+        return $"{Hours(timeSpan)} {Minutes(timeSpan)}";
     }
 
     private static string Milliseconds(TimeSpan timeSpan)

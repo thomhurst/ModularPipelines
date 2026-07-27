@@ -6,9 +6,9 @@ public class TimeSpanFormatterTests
 {
     [Test]
     [Arguments(0, 0, 0, 849, "849ms")]
-    [Arguments(0, 0, 23, 737, "23s & 737ms")]
-    [Arguments(0, 9, 42, 0, "9m & 42s")]
-    [Arguments(2, 3, 0, 0, "2h & 3m")]
+    [Arguments(0, 0, 23, 737, "23s 737ms")]
+    [Arguments(0, 9, 42, 0, "9m 42s")]
+    [Arguments(2, 3, 0, 0, "2h 3m")]
     public async Task ToDisplayString_UsesOneReadableFormat(
         int hours,
         int minutes,
@@ -26,6 +26,6 @@ public class TimeSpanFormatterTests
     {
         var duration = TimeSpan.FromHours(25.5);
 
-        await Assert.That(duration.ToDisplayString()).IsEqualTo("25h & 30m");
+        await Assert.That(duration.ToDisplayString()).IsEqualTo("25h 30m");
     }
 }
