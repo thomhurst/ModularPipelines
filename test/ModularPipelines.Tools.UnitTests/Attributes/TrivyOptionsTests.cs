@@ -3,7 +3,7 @@ using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Trivy.Enums;
 using ModularPipelines.Trivy.Options;
 
-namespace ModularPipelines.UnitTests.Attributes;
+namespace ModularPipelines.Tools.UnitTests.Attributes;
 
 public class TrivyOptionsTests
 {

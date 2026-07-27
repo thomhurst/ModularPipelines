@@ -37,6 +37,7 @@ builder.Services
     .AddModule<BuildSolutionOnWindowsModule>()
     .AddModule<BuildSolutionOnMacOSModule>()
     .AddModule<RunCoreUnitTestsModule>()
+    .AddModule<RunToolsUnitTestsModule>()
     .AddModule<RunAzureUnitTestsModule>()
     .AddModule<RunAnalyzersUnitTestsModule>()
     .AddModule<RunDistributedUnitTestsModule>()
@@ -154,6 +155,7 @@ file static class BuildPipelineConfiguration
         builder.AddSignalRDistributedCoordinator(o =>
         {
             o.MaximumReceiveMessageSize = 64 * 1024 * 1024;
+            // Distributed CI must install cloudflared before enabling TOTAL_INSTANCES > 1.
             o.EnableTunnel = true;
         });
         builder.AddRedisSignalRDiscovery(o =>

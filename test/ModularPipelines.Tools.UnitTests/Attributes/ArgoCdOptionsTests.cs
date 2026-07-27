@@ -3,7 +3,7 @@ using ModularPipelines.ArgoCd.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helpers.Internal;
 
-namespace ModularPipelines.UnitTests.Attributes;
+namespace ModularPipelines.Tools.UnitTests.Attributes;
 
 public class ArgoCdOptionsTests
 {

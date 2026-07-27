@@ -4,7 +4,7 @@ using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
-namespace ModularPipelines.UnitTests.Helpers;
+namespace ModularPipelines.Tools.UnitTests.Helpers;
 
 public class GitHubRepositoryInfoTests : TestBase
 {

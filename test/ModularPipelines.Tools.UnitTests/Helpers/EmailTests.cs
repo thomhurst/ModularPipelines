@@ -6,7 +6,7 @@ using ModularPipelines.Email.Options;
 using ModularPipelines.TestHelpers;
 using TUnit.Core.Exceptions;
 
-namespace ModularPipelines.UnitTests.Helpers;
+namespace ModularPipelines.Tools.UnitTests.Helpers;
 
 public class EmailTests : TestBase
 {

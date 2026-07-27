@@ -3,7 +3,7 @@ using ModularPipelines.Cosign.Enums;
 using ModularPipelines.Cosign.Options;
 using ModularPipelines.Helpers.Internal;
 
-namespace ModularPipelines.UnitTests.Attributes;
+namespace ModularPipelines.Tools.UnitTests.Attributes;
 
 public class CosignOptionsTests
 {

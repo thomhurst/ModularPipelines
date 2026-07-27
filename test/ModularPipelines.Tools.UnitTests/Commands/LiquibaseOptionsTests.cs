@@ -6,7 +6,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
-namespace ModularPipelines.UnitTests.Commands;
+namespace ModularPipelines.Tools.UnitTests.Commands;
 
 public class LiquibaseOptionsTests : TestBase
 {

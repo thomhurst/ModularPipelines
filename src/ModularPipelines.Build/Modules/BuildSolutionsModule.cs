@@ -27,7 +27,11 @@ public class BuildSolutionsModule : Module<CommandResult[]>
     {
         var gitRoot = context.Git().RootDirectory.Path;
 
-        // Build all solutions with --no-restore (workflow already restored)
+        // Build all solutions with --no-restore (the workflow already restored and, in CI,
+        // natively built them, so this is a fast MSBuild-incremental pass). Default
+        // parallelism: the runner reclaim in #3179 came from a single test project that
+        // referenced every integration at once, pulling the huge AWS/Azure/Google SDK metadata
+        // into one compilation unit; that test was removed, not MSBuild parallelism changed.
         var results = await Solutions
             .ToAsyncProcessorBuilder()
             .SelectAsync(async solution => await context.DotNet().Build(new DotNetBuildOptions

@@ -6,7 +6,7 @@ using ModularPipelines.TestHelpers;
 using Disposer = ModularPipelines.Helpers.Disposer;
 using File = ModularPipelines.FileSystem.File;
 
-namespace ModularPipelines.UnitTests.Helpers;
+namespace ModularPipelines.Tools.UnitTests.Helpers;
 
 [Skip("FTP tests flaky due to server load")]
 public class FtpTests : TestBase

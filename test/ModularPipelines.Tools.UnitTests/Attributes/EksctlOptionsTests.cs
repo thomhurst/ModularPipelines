@@ -3,7 +3,7 @@ using ModularPipelines.Eksctl.Enums;
 using ModularPipelines.Eksctl.Options;
 using ModularPipelines.Helpers.Internal;
 
-namespace ModularPipelines.UnitTests.Attributes;
+namespace ModularPipelines.Tools.UnitTests.Attributes;
 
 public class EksctlOptionsTests
 {
