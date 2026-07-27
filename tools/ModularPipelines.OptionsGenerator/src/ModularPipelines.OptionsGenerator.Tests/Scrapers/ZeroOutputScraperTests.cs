@@ -26,6 +26,18 @@ public class ZeroOutputScraperTests
     }
 
     [Test]
+    public async Task Aws_Extracts_Service_List_With_Ansi_Formatting()
+    {
+        const string helpText = "\u001b[4mAVAILABLE SERVICES\u001b[24m\n\n"
+            + "       \u001b[1mo accessanalyzer\u001b[22m\n"
+            + "       \u001b[1mo cloudformation\u001b[22m\n"
+            + "       \u001b[1mo ec2\u001b[22m\n";
+
+        await Assert.That(new TestAwsCliScraper().ExtractNormalized(helpText))
+            .IsEquivalentTo(["accessanalyzer", "cloudformation", "ec2"]);
+    }
+
+    [Test]
     public async Task Gh_Parses_Uppercase_Usage_And_Flags_Sections()
     {
         const string helpText = """
@@ -192,6 +204,21 @@ public class ZeroOutputScraperTests
             .IsEquivalentTo(["add", "install", "workspace"]);
     }
 
+    [Test]
+    public async Task Yarn_Extracts_Berry_Commands_With_Ansi_Formatting()
+    {
+        const string helpText = "\u001b[1m━━━ General commands ━━━━━━━━━━━\u001b[0m\n\n"
+            + "  \u001b[1myarn add [--json]\u001b[22m\n"
+            + "    add dependencies to the project\n\n"
+            + "  \u001b[1myarn cache clean [--mirror]\u001b[22m\n"
+            + "    remove the shared cache files\n\n"
+            + "\u001b[1m━━━ Npm-related commands ━━━━━━━\u001b[0m\n\n"
+            + "  \u001b[1myarn npm info [--json]\u001b[22m\n";
+
+        await Assert.That(new TestYarnCliScraper().ExtractNormalized(helpText))
+            .IsEquivalentTo(["add", "cache", "cache clean", "npm", "npm info"]);
+    }
+
     private sealed class TestAwsCliScraper : AwsCliScraper
     {
         public TestAwsCliScraper()
@@ -203,6 +230,9 @@ public class ZeroOutputScraperTests
         }
 
         public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+
+        public IReadOnlyList<string> ExtractNormalized(string helpText) =>
+            ExtractSubcommands(NormalizeHelpText(helpText)).ToList();
     }
 
     private sealed class TestGhCliScraper : GhCliScraper
@@ -232,5 +262,8 @@ public class ZeroOutputScraperTests
         }
 
         public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+
+        public IReadOnlyList<string> ExtractNormalized(string helpText) =>
+            ExtractSubcommands(NormalizeHelpText(helpText)).ToList();
     }
 }
