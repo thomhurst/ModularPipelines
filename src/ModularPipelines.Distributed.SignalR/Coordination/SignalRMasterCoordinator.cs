@@ -209,7 +209,7 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
                 _logger.LogDebug("Pushing {Module} to worker {Index}",
                     assignment.ModuleTypeName, worker.Registration.WorkerIndex);
 
-                if (!_state.TryClaimRedispatch(assignment))
+                if (!_state.TryClaimRedispatch(assignment, worker))
                 {
                     worker.TryCompleteAssignment(assignment.ModuleTypeName);
                     continue;

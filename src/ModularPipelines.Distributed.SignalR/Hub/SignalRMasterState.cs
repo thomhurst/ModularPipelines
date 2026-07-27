@@ -152,7 +152,9 @@ internal class SignalRMasterState
         return restored;
     }
 
-    public bool TryClaimRedispatch(ModuleAssignment assignment)
+    public bool TryClaimRedispatch(
+        ModuleAssignment assignment,
+        WorkerState? worker = null)
     {
         lock (_pendingReconnectLock)
         {
@@ -162,10 +164,22 @@ internal class SignalRMasterState
                 return false;
             }
 
-            return !_pendingReconnects.TryGetValue(
-                       assignment.ModuleTypeName,
-                       out var pending)
-                   || pending.TryClaimRedispatch();
+            if (!_pendingReconnects.TryGetValue(assignment.ModuleTypeName, out var pending))
+            {
+                return true;
+            }
+
+            if (!pending.TryClaimRedispatch())
+            {
+                return false;
+            }
+
+            if (worker is not null)
+            {
+                pending.TrackWorker(worker);
+            }
+
+            return true;
         }
     }
 

@@ -310,6 +310,31 @@ public class SignalRMasterStateTests
         await Assert.That(state.TryReturnRedispatchToQueue(assignment)).IsFalse();
     }
 
+    [Test]
+    public async Task First_Result_Releases_Remote_Redispatch_Worker()
+    {
+        var state = new SignalRMasterState();
+        var assignment = CreateAssignment();
+        var retryWorker = CreateWorker(2, "retry");
+        state.ResultWaiters[assignment.ModuleTypeName] =
+            new TaskCompletionSource<SerializedModuleResult>(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+        var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
+        pending.TryMakeAvailableForRedispatch();
+        await Assert.That(retryWorker.TryAssign(assignment)).IsTrue();
+
+        await Assert.That(state.TryClaimRedispatch(assignment, retryWorker)).IsTrue();
+
+        var workersToRelease = state.CompleteResult(CreateResult());
+        foreach (var worker in workersToRelease)
+        {
+            worker.TryCompleteAssignment(assignment.ModuleTypeName);
+        }
+
+        await Assert.That(workersToRelease).Contains(retryWorker);
+        await Assert.That(retryWorker.IsIdle).IsTrue();
+    }
+
     private static WorkerState CreateWorker(
         int workerIndex = 1,
         string connectionId = "connection")

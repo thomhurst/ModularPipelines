@@ -206,7 +206,7 @@ internal class DistributedPipelineHub(
                 _logger.LogDebug("Assigning {Module} to worker {Index}",
                     assignment.ModuleTypeName, workerState.Registration.WorkerIndex);
 
-                if (!state.TryClaimRedispatch(assignment))
+                if (!state.TryClaimRedispatch(assignment, workerState))
                 {
                     workerState.TryCompleteAssignment(assignment.ModuleTypeName);
                     continue;
