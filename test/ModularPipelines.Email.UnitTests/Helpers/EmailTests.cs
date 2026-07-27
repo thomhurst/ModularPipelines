@@ -8,6 +8,7 @@ using TUnit.Core.Exceptions;
 
 namespace ModularPipelines.Email.UnitTests.Helpers;
 
+[Skip("Requires live SMTP credentials")]
 public class EmailTests : TestBase
 {
     private const string EmailAddress = "modularpipelinestest@gmail.com";
