@@ -145,3 +145,60 @@ jobs:
             **/*.dmp
           if-no-files-found: ignore
           retention-days: 7
+
+  cross-platform-build:
+    name: build (${{ matrix.os }})
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        os:
+          - windows-latest
+          - macos-latest
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    env:
+      MSBUILDDISABLENODEREUSE: "1"
+      DOTNET_gcServer: "0"
+
+    # Compile only: running ModularPipelines.Build while it builds the listed solutions
+    # would lock its own executable on Windows (MSB3027).
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: 10.0.x
+      - name: Cache NuGet
+        uses: actions/cache@v6
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - name: Restore and build solutions
+        shell: pwsh
+        run: |
+          $solutions = Get-Content BuildSolutions.txt |
+            ForEach-Object { $_.Trim() } |
+            Where-Object { $_ -and -not $_.StartsWith('#') }
+
+          foreach ($solution in $solutions) {
+            Write-Output "::group::Restore $solution"
+            dotnet restore $solution
+            if ($LASTEXITCODE -ne 0) {
+              exit $LASTEXITCODE
+            }
+            Write-Output "::endgroup::"
+
+            Write-Output "::group::Build $solution"
+            dotnet build $solution -c Release --no-restore
+            if ($LASTEXITCODE -ne 0) {
+              exit $LASTEXITCODE
+            }
+            Write-Output "::endgroup::"
+          }
