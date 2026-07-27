@@ -93,7 +93,7 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
             foreach (var sub in subs)
             {
                 var subParts = sub.Split(' ');
-                var urlSuffix = string.Join("-", [parent, ..subParts]);
+                var urlSuffix = string.Join("-", [parent, .. subParts]);
                 var url = $"{BaseUrl}dotnet-{urlSuffix}";
 
                 try
@@ -440,7 +440,8 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
                 if (!validPositionalArgs.Contains(argName))
                     continue;
 
-                var propertyName = NormalizePropertyName(argName);
+                if (NormalizePropertyName(argName) is not { } propertyName)
+                    continue;
 
                 if (!args.Any(a => a.PropertyName == propertyName))
                 {

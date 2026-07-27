@@ -169,10 +169,10 @@ public class CategoryFilterDependencyTests : TestBase
             .Single();
 
         await Assert.That(requiredResult.IsSkipped).IsTrue();
-        await Assert.That(requiredResult.SkipDecisionOrDefault.Reason)
+        await Assert.That(requiredResult.SkipDecisionOrDefault!.Reason)
             .Contains(nameof(CompileModule));
         await Assert.That(transitiveResult.IsSkipped).IsTrue();
-        await Assert.That(transitiveResult.SkipDecisionOrDefault.Reason)
+        await Assert.That(transitiveResult.SkipDecisionOrDefault!.Reason)
             .Contains(nameof(TestModuleWithRequiredDep));
     }
 
@@ -197,7 +197,7 @@ public class CategoryFilterDependencyTests : TestBase
             .OfType<TestModuleWithRequiredDep>()
             .Single();
         await Assert.That(requiredResult.IsSkipped).IsTrue();
-        await Assert.That(requiredResult.SkipDecisionOrDefault.Reason)
+        await Assert.That(requiredResult.SkipDecisionOrDefault!.Reason)
             .Contains(nameof(CompileModule));
     }
 
@@ -259,7 +259,7 @@ public class CategoryFilterDependencyTests : TestBase
             .Single();
 
         await Assert.That(dependentResult.IsSkipped).IsTrue();
-        await Assert.That(dependentResult.SkipDecisionOrDefault.Reason)
+        await Assert.That(dependentResult.SkipDecisionOrDefault!.Reason)
             .Contains(nameof(FluentlySkippedModule));
     }
 

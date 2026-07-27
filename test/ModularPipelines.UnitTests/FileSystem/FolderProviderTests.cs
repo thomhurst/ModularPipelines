@@ -72,7 +72,7 @@ public class FolderProviderTests
     }
 
     [Test]
-    public async Task DefaultConstructor_UsesSystemProvider()
+    public void DefaultConstructor_UsesSystemProvider()
     {
         var tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         var folder = new Folder(tempPath);
@@ -80,8 +80,6 @@ public class FolderProviderTests
         // Should work without throwing
         folder.Create();
         folder.Delete();
-
-        await Assert.That(true).IsTrue(); // If we got here, it worked
     }
 
     [Test]

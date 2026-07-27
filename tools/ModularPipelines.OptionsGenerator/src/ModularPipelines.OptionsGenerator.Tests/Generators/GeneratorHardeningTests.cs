@@ -286,6 +286,49 @@ public class GeneratorHardeningTests
     #region Positional argument deduplication
 
     [Test]
+    public async Task OptionsClassGenerator_Marks_Inherited_Name_Collisions_As_New()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions") with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--tool",
+                    PropertyName = "Tool",
+                    CSharpType = "string?",
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--command-parts",
+                    PropertyName = "CommandParts",
+                    CSharpType = "IEnumerable<string>?",
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--arguments",
+                    PropertyName = "Arguments",
+                    CSharpType = "bool?",
+                    IsFlag = true,
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--run-settings",
+                    PropertyName = "RunSettings",
+                    CSharpType = "IEnumerable<string>?",
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(generated).Contains("public new string? Tool { get; set; }");
+        await Assert.That(generated).Contains("public new IEnumerable<string>? CommandParts { get; set; }");
+        await Assert.That(generated).Contains("public new bool? Arguments { get; set; }");
+        await Assert.That(generated).Contains("public new IEnumerable<string>? RunSettings { get; set; }");
+    }
+
+    [Test]
     public async Task OptionsClassGenerator_Deduplicates_Required_And_Optional_Positionals()
     {
         var command = Command("ToolLoadOptions", "ToolOptions") with

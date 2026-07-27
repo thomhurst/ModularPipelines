@@ -1,4 +1,5 @@
 using System.Text;
+using ModularPipelines.Options;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
@@ -8,6 +9,12 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 /// </summary>
 public class OptionsClassGenerator : ICodeGenerator
 {
+    private static readonly HashSet<string> InheritedPropertyNames =
+        typeof(CommandLineToolOptions)
+            .GetProperties()
+            .Select(property => property.Name)
+            .ToHashSet(StringComparer.Ordinal);
+
     public Task<IReadOnlyList<GeneratedFile>> GenerateAsync(CliToolDefinition tool, CancellationToken cancellationToken = default)
     {
         var files = new List<GeneratedFile>();
@@ -214,7 +221,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        sb.AppendLine($"    public {option.CSharpType} {option.PropertyName} {{ get; set; }}");
+        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.CSharpType} {option.PropertyName} {{ get; set; }}");
     }
 
     private static string GenerateSecretAttribute(CliOptionDefinition option)
@@ -240,7 +247,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
-        sb.AppendLine($"    public {positional.CSharpType} {positional.PropertyName} {{ get; set; }}");
+        sb.AppendLine($"    public {GetNewModifier(positional.PropertyName)}{positional.CSharpType} {positional.PropertyName} {{ get; set; }}");
     }
 
     private static void GenerateCompatibilityProperty(StringBuilder sb, CliCompatibilityProperty property)
@@ -252,16 +259,19 @@ public class OptionsClassGenerator : ICodeGenerator
 
         if (property.ForwardToPropertyName is null)
         {
-            sb.AppendLine($"    public {property.CSharpType} {property.PropertyName} {{ get; set; }}");
+            sb.AppendLine($"    public {GetNewModifier(property.PropertyName)}{property.CSharpType} {property.PropertyName} {{ get; set; }}");
             return;
         }
 
-        sb.AppendLine($"    public {property.CSharpType} {property.PropertyName}");
+        sb.AppendLine($"    public {GetNewModifier(property.PropertyName)}{property.CSharpType} {property.PropertyName}");
         sb.AppendLine("    {");
         sb.AppendLine($"        get => {property.ForwardToPropertyName};");
         sb.AppendLine($"        set => {property.ForwardToPropertyName} = value;");
         sb.AppendLine("    }");
     }
+
+    private static string GetNewModifier(string propertyName) =>
+        InheritedPropertyNames.Contains(propertyName) ? "new " : "";
 
     private static string GetPositionalAttributeString(CliPositionalArgument positional)
     {

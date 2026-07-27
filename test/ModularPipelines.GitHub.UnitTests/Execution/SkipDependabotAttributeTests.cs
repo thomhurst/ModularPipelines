@@ -13,6 +13,7 @@ namespace ModularPipelines.GitHub.UnitTests.Execution;
 
 public class SkipDependabotAttributeTests : TestBase
 {
+#pragma warning disable CS0618 // Test-only attributes exercise the legacy run-condition compatibility path.
     private class CanRunAttribute : RunConditionAttribute
     {
         public override Task<bool> Condition(IPipelineHookContext pipelineContext)
@@ -28,6 +29,7 @@ public class SkipDependabotAttributeTests : TestBase
             return Task.FromResult(false);
         }
     }
+#pragma warning restore CS0618
 
     [SkipIfDependabot]
     private class Module1 : SimpleTestModule<bool>

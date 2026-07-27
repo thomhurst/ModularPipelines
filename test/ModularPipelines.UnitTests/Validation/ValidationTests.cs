@@ -369,8 +369,8 @@ public class ValidationTests
         var result = ValidationResult.WithError(error);
 
         // Act & Assert
-        await Assert.That(result.HasErrors).IsEqualTo(true);
-        await Assert.That(result.IsValid).IsEqualTo(false);
+        await Assert.That(result.HasErrors).IsTrue();
+        await Assert.That(result.IsValid).IsFalse();
         await Assert.That(result.Errors.Count).IsEqualTo(1);
     }
 
@@ -381,8 +381,8 @@ public class ValidationTests
         var result = ValidationResult.Success();
 
         // Act & Assert
-        await Assert.That(result.HasErrors).IsEqualTo(false);
-        await Assert.That(result.IsValid).IsEqualTo(true);
+        await Assert.That(result.HasErrors).IsFalse();
+        await Assert.That(result.IsValid).IsTrue();
     }
 
     [Test]
@@ -411,8 +411,8 @@ public class ValidationTests
         var str = error.ToString();
 
         // Assert
-        await Assert.That(str.Contains("Dependency")).IsEqualTo(true);
-        await Assert.That(str.Contains("Test message")).IsEqualTo(true);
+        await Assert.That(str.Contains("Dependency")).IsTrue();
+        await Assert.That(str.Contains("Test message")).IsTrue();
     }
 
     [Test]
@@ -428,7 +428,7 @@ public class ValidationTests
         var str = error.ToString();
 
         // Assert
-        await Assert.That(str.Contains("SimpleModule")).IsEqualTo(true);
+        await Assert.That(str.Contains("SimpleModule")).IsTrue();
     }
 
     [Test]
