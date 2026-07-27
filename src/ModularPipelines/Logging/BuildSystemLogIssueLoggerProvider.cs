@@ -48,6 +48,11 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             }
 
             var message = messageFormatter(state, exception);
+            if (exception is not null)
+            {
+                message = $"{message}{Environment.NewLine}{exception}";
+            }
+
             var command = formatter.GetLogIssueCommand(logLevel, message);
             if (command is not null)
             {

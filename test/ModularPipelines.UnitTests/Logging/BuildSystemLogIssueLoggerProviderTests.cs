@@ -36,6 +36,24 @@ public class BuildSystemLogIssueLoggerProviderTests
     }
 
     [Test]
+    public async Task Logger_IncludesExceptionDetailsInIssueCommand()
+    {
+        using var writer = new StringWriter();
+        using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
+        var logger = provider.CreateLogger("test");
+        var exception = new InvalidOperationException("failure");
+
+        logger.LogError(exception, "message");
+
+        var escapedNewLine = Environment.NewLine
+            .Replace("\r", "%0D", StringComparison.Ordinal)
+            .Replace("\n", "%0A", StringComparison.Ordinal);
+        await Assert.That(writer.ToString())
+            .IsEqualTo(
+                $"##vso[task.logissue type=error;]message{escapedNewLine}{exception}{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task Logger_WritesNothingWhenBuildSystemHasNoIssueCommand()
     {
         using var writer = new StringWriter();
