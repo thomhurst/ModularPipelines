@@ -220,37 +220,57 @@ public static class ExternalToolDefinitionLoader
     {
         foreach (var option in options)
         {
-            RequireValue(option.SwitchName, $"{propertyName}[].switchName");
-            if (option.ShortForm is not null)
-            {
-                RequireValue(option.ShortForm, $"{propertyName}[].shortForm");
-            }
+            ValidateOption(option, propertyName);
+        }
+    }
 
-            RequireIdentifier(option.PropertyName, $"{propertyName}[].propertyName");
-            RequireTypeName(option.CSharpType, $"{propertyName}[].cSharpType");
-            if (option.IsFlag && !IsSupportedFlagType(option.CSharpType))
-            {
-                throw new InvalidDataException(
-                    $"{propertyName}[].cSharpType must be bool, bool?, int, or int? when isFlag is true.");
-            }
+    private static void ValidateOption(CliOptionDefinition option, string propertyName)
+    {
+        RequireValue(option.SwitchName, $"{propertyName}[].switchName");
+        if (option.ShortForm is not null)
+        {
+            RequireValue(option.ShortForm, $"{propertyName}[].shortForm");
+        }
 
-            if (option.SecretValueKeys.Count > 0 && !option.IsSecret)
-            {
-                throw new InvalidDataException(
-                    $"{propertyName}[].isSecret must be true when secretValueKeys are declared.");
-            }
+        RequireIdentifier(option.PropertyName, $"{propertyName}[].propertyName");
+        RequireTypeName(option.CSharpType, $"{propertyName}[].cSharpType");
+        ValidateFlagType(option, propertyName);
+        ValidateSecretValueKeys(option, propertyName);
 
-            if (option.SecretValueKeys.Count > 0
-                && (!option.IsKeyValue || !IsEnumerableKeyValueType(option.CSharpType)))
-            {
-                throw new InvalidDataException(
-                    $"{propertyName}[].secretValueKeys require isKeyValue=true and cSharpType IEnumerable<KeyValue>.");
-            }
+        if (option.EnumDefinition is not null)
+        {
+            ValidateEnum(option.EnumDefinition, $"{propertyName}[].enumDefinition");
+        }
+    }
 
-            if (option.EnumDefinition is not null)
-            {
-                ValidateEnum(option.EnumDefinition, $"{propertyName}[].enumDefinition");
-            }
+    private static void ValidateFlagType(CliOptionDefinition option, string propertyName)
+    {
+        if (option.IsFlag && !IsSupportedFlagType(option.CSharpType))
+        {
+            throw new InvalidDataException(
+                $"{propertyName}[].cSharpType must be bool, bool?, int, or int? when isFlag is true.");
+        }
+    }
+
+    private static void ValidateSecretValueKeys(
+        CliOptionDefinition option,
+        string propertyName)
+    {
+        if (option.SecretValueKeys.Count == 0)
+        {
+            return;
+        }
+
+        if (!option.IsSecret)
+        {
+            throw new InvalidDataException(
+                $"{propertyName}[].isSecret must be true when secretValueKeys are declared.");
+        }
+
+        if (!option.IsKeyValue || !IsEnumerableKeyValueType(option.CSharpType))
+        {
+            throw new InvalidDataException(
+                $"{propertyName}[].secretValueKeys require isKeyValue=true and cSharpType IEnumerable<KeyValue>.");
         }
     }
 
@@ -392,7 +412,33 @@ public static class ExternalToolDefinitionLoader
         CliCommandDefinition command,
         IReadOnlyList<CliOptionDefinition> globalOptions)
     {
-        var writableForwardingTargets = command.Options
+        var (forwardingTargets, writableForwardingTargets) =
+            GetCompatibilityForwardingTargets(command, globalOptions);
+
+        foreach (var property in command.CompatibilityProperties)
+        {
+            ValidateCompatibilityProperty(
+                property,
+                command,
+                forwardingTargets,
+                writableForwardingTargets);
+        }
+
+        foreach (var method in command.CompatibilityMethods)
+        {
+            RequireIdentifier(
+                method.MethodName,
+                "tool.commands[].compatibilityMethods[].methodName");
+        }
+    }
+
+    private static (
+        IReadOnlySet<string> All,
+        IReadOnlySet<string> Writable) GetCompatibilityForwardingTargets(
+            CliCommandDefinition command,
+            IReadOnlyList<CliOptionDefinition> globalOptions)
+    {
+        var writable = command.Options
             .Where(option => !option.IsRequired)
             .Select(option => option.PropertyName)
             .Concat(command.PositionalArguments
@@ -407,7 +453,7 @@ public static class ExternalToolDefinitionLoader
                         .Contains(typeof(System.Runtime.CompilerServices.IsExternalInit)))
                 .Select(property => property.Name))
             .ToHashSet(StringComparer.Ordinal);
-        var forwardingTargets = writableForwardingTargets
+        var all = writable
             .Concat(command.Options.Select(option => option.PropertyName))
             .Concat(command.PositionalArguments.Select(argument => argument.PropertyName))
             .Concat(typeof(CommandLineToolOptions)
@@ -415,41 +461,43 @@ public static class ExternalToolDefinitionLoader
                 .Select(property => property.Name))
             .ToHashSet(StringComparer.Ordinal);
 
-        foreach (var property in command.CompatibilityProperties)
-        {
-            RequireIdentifier(
-                property.PropertyName,
-                "tool.commands[].compatibilityProperties[].propertyName");
-            RequireTypeName(
-                property.CSharpType,
-                "tool.commands[].compatibilityProperties[].cSharpType");
-            ValidateOptionalIdentifier(
-                property.ForwardToPropertyName,
-                "tool.commands[].compatibilityProperties[].forwardToPropertyName");
-            if (property.ForwardToPropertyName is not null
-                && !forwardingTargets.Contains(property.ForwardToPropertyName))
-            {
-                throw new InvalidDataException(
-                    $"Compatibility property '{property.PropertyName}' on command "
-                    + $"'{command.FullCommand}' forwards to missing property "
-                    + $"'{property.ForwardToPropertyName}'.");
-            }
+        return (all, writable);
+    }
 
-            if (property.ForwardToPropertyName is not null
-                && !writableForwardingTargets.Contains(property.ForwardToPropertyName))
-            {
-                throw new InvalidDataException(
-                    $"Compatibility property '{property.PropertyName}' on command "
-                    + $"'{command.FullCommand}' forwards to init-only property "
-                    + $"'{property.ForwardToPropertyName}'.");
-            }
+    private static void ValidateCompatibilityProperty(
+        CliCompatibilityProperty property,
+        CliCommandDefinition command,
+        IReadOnlySet<string> forwardingTargets,
+        IReadOnlySet<string> writableForwardingTargets)
+    {
+        RequireIdentifier(
+            property.PropertyName,
+            "tool.commands[].compatibilityProperties[].propertyName");
+        RequireTypeName(
+            property.CSharpType,
+            "tool.commands[].compatibilityProperties[].cSharpType");
+        ValidateOptionalIdentifier(
+            property.ForwardToPropertyName,
+            "tool.commands[].compatibilityProperties[].forwardToPropertyName");
+        if (property.ForwardToPropertyName is null)
+        {
+            return;
         }
 
-        foreach (var method in command.CompatibilityMethods)
+        if (!forwardingTargets.Contains(property.ForwardToPropertyName))
         {
-            RequireIdentifier(
-                method.MethodName,
-                "tool.commands[].compatibilityMethods[].methodName");
+            throw new InvalidDataException(
+                $"Compatibility property '{property.PropertyName}' on command "
+                + $"'{command.FullCommand}' forwards to missing property "
+                + $"'{property.ForwardToPropertyName}'.");
+        }
+
+        if (!writableForwardingTargets.Contains(property.ForwardToPropertyName))
+        {
+            throw new InvalidDataException(
+                $"Compatibility property '{property.PropertyName}' on command "
+                + $"'{command.FullCommand}' forwards to init-only property "
+                + $"'{property.ForwardToPropertyName}'.");
         }
     }
 
