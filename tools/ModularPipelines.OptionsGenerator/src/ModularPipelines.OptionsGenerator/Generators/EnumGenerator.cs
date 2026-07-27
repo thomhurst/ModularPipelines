@@ -71,7 +71,8 @@ public class EnumGenerator : ICodeGenerator
             // Escape special characters in the CLI value for use in string literal
             var escapedCliValue = EscapeStringLiteral(value.CliValue);
             sb.AppendLine($"    [EnumValue(\"{escapedCliValue}\")]");
-            sb.AppendLine($"    {value.MemberName}{(isLast ? "" : ",")}");
+            var numericValue = value.NumericValue is { } number ? $" = {number}" : string.Empty;
+            sb.AppendLine($"    {value.MemberName}{numericValue}{(isLast ? "" : ",")}");
 
             if (!isLast)
             {

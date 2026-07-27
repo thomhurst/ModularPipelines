@@ -423,6 +423,7 @@ public class CodeGeneratorOrchestrator
             GlobalOptions = globalOptions,
             SupplementalGlobalOptions = [],
         };
+        toolDefinition = EnumDefinitionStabilizer.Stabilize(toolDefinition, outputDirectory);
         var coverage = CommandCoverageGuard.Evaluate(
             toolDefinition,
             outputDirectory,

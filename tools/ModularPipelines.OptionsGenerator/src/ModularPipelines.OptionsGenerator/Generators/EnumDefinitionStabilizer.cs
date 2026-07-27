@@ -1,0 +1,166 @@
+using System.Text.RegularExpressions;
+using ModularPipelines.OptionsGenerator.Models;
+
+namespace ModularPipelines.OptionsGenerator.Generators;
+
+/// <summary>
+/// Preserves the public numeric contract of generated enums across regeneration.
+/// </summary>
+internal static partial class EnumDefinitionStabilizer
+{
+    private static readonly HashSet<string> SuspiciousProseValues = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "accepts",
+        "them",
+    };
+
+    public static CliToolDefinition Stabilize(CliToolDefinition tool, string outputDirectory)
+    {
+        var stabilizedEnums = tool.AllEnums.ToDictionary(
+            definition => definition.EnumName,
+            definition => Stabilize(
+                definition,
+                Path.Combine(
+                    outputDirectory,
+                    tool.OutputDirectory,
+                    "Enums",
+                    $"{definition.EnumName}.Generated.cs")),
+            StringComparer.Ordinal);
+
+        var commands = tool.Commands
+            .Select(command => command with
+            {
+                Enums = command.Enums.Select(definition => stabilizedEnums[definition.EnumName]).ToList(),
+                Options = StabilizeOptions(command.Options, stabilizedEnums),
+            })
+            .ToList();
+
+        return tool with
+        {
+            Commands = commands,
+            GlobalOptions = StabilizeOptions(tool.GlobalOptions, stabilizedEnums),
+        };
+    }
+
+    private static IReadOnlyList<CliOptionDefinition> StabilizeOptions(
+        IReadOnlyList<CliOptionDefinition> options,
+        IReadOnlyDictionary<string, CliEnumDefinition> stabilizedEnums) =>
+        options.Select(option => option.EnumDefinition is null
+                ? option
+                : option with { EnumDefinition = stabilizedEnums[option.EnumDefinition.EnumName] })
+            .ToList();
+
+    private static CliEnumDefinition Stabilize(CliEnumDefinition definition, string existingFile)
+    {
+        ValidateValues(definition);
+
+        var existingValues = File.Exists(existingFile)
+            ? ParseExistingValues(File.ReadAllText(existingFile))
+            : [];
+
+        var existingByCliValue = existingValues.ToDictionary(value => value.CliValue, StringComparer.Ordinal);
+        var incomingByCliValue = definition.Values.ToDictionary(value => value.CliValue, StringComparer.Ordinal);
+        var stabilizedValues = new List<CliEnumValue>(definition.Values.Count);
+
+        foreach (var existingValue in existingValues)
+        {
+            if (incomingByCliValue.TryGetValue(existingValue.CliValue, out var incomingValue))
+            {
+                stabilizedValues.Add(incomingValue with { NumericValue = existingValue.NumericValue });
+            }
+        }
+
+        var usedNumericValues = existingValues
+            .Select(value => value.NumericValue)
+            .ToHashSet();
+        var newValues = definition.Values
+            .Where(value => !existingByCliValue.ContainsKey(value.CliValue))
+            .ToList();
+        var nextNumericValue = newValues.Count > 0 && usedNumericValues.Count > 0
+            ? checked(usedNumericValues.Max() + 1)
+            : 0;
+
+        for (var index = 0; index < newValues.Count; index++)
+        {
+            var incomingValue = newValues[index];
+            while (usedNumericValues.Contains(nextNumericValue))
+            {
+                nextNumericValue = checked(nextNumericValue + 1);
+            }
+
+            stabilizedValues.Add(incomingValue with { NumericValue = nextNumericValue });
+            usedNumericValues.Add(nextNumericValue);
+            if (index < newValues.Count - 1)
+            {
+                nextNumericValue = checked(nextNumericValue + 1);
+            }
+        }
+
+        return definition with { Values = stabilizedValues };
+    }
+
+    private static void ValidateValues(CliEnumDefinition definition)
+    {
+        var duplicateCliValue = definition.Values
+            .GroupBy(value => value.CliValue, StringComparer.Ordinal)
+            .FirstOrDefault(group => group.Count() > 1);
+        if (duplicateCliValue is not null)
+        {
+            throw new InvalidOperationException(
+                $"Enum '{definition.EnumName}' contains duplicate CLI value '{duplicateCliValue.Key}'.");
+        }
+
+        var suspiciousValue = definition.Values
+            .FirstOrDefault(value => SuspiciousProseValues.Contains(value.CliValue));
+        if (suspiciousValue is not null)
+        {
+            throw new InvalidOperationException(
+                $"Enum '{definition.EnumName}' contains suspicious prose value '{suspiciousValue.CliValue}'.");
+        }
+    }
+
+    private static IReadOnlyList<ExistingEnumValue> ParseExistingValues(string content)
+    {
+        var values = new List<ExistingEnumValue>();
+        var nextNumericValue = 0;
+
+        foreach (Match match in ExistingEnumValuePattern().Matches(content))
+        {
+            var numericValue = match.Groups["number"].Success
+                ? int.Parse(match.Groups["number"].Value, System.Globalization.CultureInfo.InvariantCulture)
+                : nextNumericValue;
+            var cliValue = Regex.Unescape(match.Groups["cliValue"].Value);
+
+            values.Add(new ExistingEnumValue(cliValue, numericValue));
+            nextNumericValue = checked(numericValue + 1);
+        }
+
+        var duplicateCliValue = values
+            .GroupBy(value => value.CliValue, StringComparer.Ordinal)
+            .FirstOrDefault(group => group.Count() > 1);
+        if (duplicateCliValue is not null)
+        {
+            throw new InvalidOperationException(
+                $"Existing generated enum contains duplicate CLI value '{duplicateCliValue.Key}'.");
+        }
+
+        var duplicateNumericValue = values
+            .GroupBy(value => value.NumericValue)
+            .FirstOrDefault(group => group.Count() > 1);
+        if (duplicateNumericValue is not null)
+        {
+            throw new InvalidOperationException(
+                $"Existing generated enum contains duplicate numeric value '{duplicateNumericValue.Key}'.");
+        }
+
+        return values;
+    }
+
+    // Description was emitted by generators before EnumValue existed. Retaining this migration
+    // shape preserves established ordinals on the first regeneration of older enum files.
+    [GeneratedRegex(
+        """\[(?:EnumValue|Description)\("(?<cliValue>(?:\\.|[^"\\])*)"\)\]\s*(?<member>[\p{L}_][\p{L}\p{Nd}_]*)(?:\s*=\s*(?<number>-?\d+))?\s*(?:,|})""")]
+    private static partial Regex ExistingEnumValuePattern();
+
+    private sealed record ExistingEnumValue(string CliValue, int NumericValue);
+}

@@ -63,6 +63,58 @@ public class KindCliScraperTests
             .IsEquivalentTo(["url", "file", "release", "ci", "source"]);
     }
 
+    [Test]
+    public async Task Ordinary_One_Of_Prose_Does_Not_Create_An_Enum()
+    {
+        var command = await Parse(
+            ["kind", "create", "cluster"],
+            """
+            Create a cluster
+
+            Usage:
+              kind create cluster [flags]
+
+            Flags:
+                  --sparse-checkout strings   list of directories; the configured path must be one of them, accepts comma-separated values
+            """);
+
+        var option = command.Options.Single(option => option.SwitchName == "--sparse-checkout");
+        await Assert.That(option.EnumDefinition).IsNull();
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
+    [Arguments(
+        "docker",
+        """Set the logging level ("debug", "info", "warn", "error", "fatal")""",
+        "debug,info,warn,error,fatal")]
+    [Arguments(
+        "kubectl",
+        """Must be "background", "orphan", or "foreground". Selects the deletion cascading strategy.""",
+        "background,orphan,foreground")]
+    public async Task Shared_Cobra_Parser_Preserves_Production_Enum_Phrases(
+        string toolName,
+        string description,
+        string expectedValues)
+    {
+        var command = await Parse(
+            [toolName, "run"],
+            $"""
+             {toolName} production enum fixture
+
+             Usage:
+               {toolName} run [flags]
+
+             Flags:
+                   --value string   {description}
+             """);
+
+        var option = command.Options.Single(option => option.SwitchName == "--value");
+        await Assert.That(option.EnumDefinition).IsNotNull();
+        await Assert.That(option.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(expectedValues.Split(','));
+    }
+
     private static async Task<CliCommandDefinition> Parse(string[] commandPath, string helpText) =>
         (await new TestKindCliScraper().Parse(commandPath, helpText))!;
 
