@@ -126,16 +126,14 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
         return null;
     }
 
-    public Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
+    public async Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
     {
         // Master receives results through the hub's PublishResult method.
         // This is called when the master itself produces a result (e.g., modules executed locally by the master's worker loop).
-        foreach (var worker in _state.CompleteResult(result))
+        foreach (var worker in await _state.CompleteResultAsync(result))
         {
             worker.TryCompleteAssignment(result.ModuleTypeName);
         }
-
-        return Task.CompletedTask;
     }
 
     public async Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
@@ -209,6 +207,8 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
                 _logger.LogDebug("Pushing {Module} to worker {Index}",
                     assignment.ModuleTypeName, worker.Registration.WorkerIndex);
 
+                using var deliveryFence =
+                    await _state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleTypeName);
                 if (!_state.TryClaimRedispatch(assignment, worker))
                 {
                     worker.TryCompleteAssignment(assignment.ModuleTypeName);

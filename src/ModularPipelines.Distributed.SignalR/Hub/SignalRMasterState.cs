@@ -10,6 +10,7 @@ internal class SignalRMasterState
 {
     private readonly object _pendingReconnectLock = new();
     private readonly Dictionary<string, PendingReconnect> _pendingReconnects = new();
+    private readonly ConcurrentDictionary<string, SemaphoreSlim> _assignmentDeliveryFences = new();
 
     /// <summary>
     /// Connected workers indexed by SignalR connection ID.
@@ -203,6 +204,15 @@ internal class SignalRMasterState
         }
     }
 
+    public async Task<IDisposable> EnterAssignmentDeliveryFenceAsync(string moduleTypeName)
+    {
+        var deliveryFence = _assignmentDeliveryFences.GetOrAdd(
+            moduleTypeName,
+            _ => new SemaphoreSlim(1, 1));
+        await deliveryFence.WaitAsync();
+        return new SemaphoreReleaser(deliveryFence);
+    }
+
     public void CompletePendingReconnect(string moduleTypeName)
     {
         PendingReconnect? pending;
@@ -220,7 +230,13 @@ internal class SignalRMasterState
         pending.Dispose();
     }
 
-    public IReadOnlyList<WorkerState> CompleteResult(SerializedModuleResult result)
+    public async Task<IReadOnlyList<WorkerState>> CompleteResultAsync(SerializedModuleResult result)
+    {
+        using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName);
+        return CompleteResult(result);
+    }
+
+    private IReadOnlyList<WorkerState> CompleteResult(SerializedModuleResult result)
     {
         PendingReconnect? pending = null;
         IReadOnlyList<WorkerState> trackedWorkers = [];
@@ -241,5 +257,13 @@ internal class SignalRMasterState
         pending?.CancelDelay();
         pending?.Dispose();
         return trackedWorkers;
+    }
+
+    private sealed class SemaphoreReleaser(SemaphoreSlim semaphore) : IDisposable
+    {
+        public void Dispose()
+        {
+            semaphore.Release();
+        }
     }
 }

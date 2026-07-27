@@ -199,7 +199,7 @@ public class SignalRMasterStateTests
             var completion = Task.Run(async () =>
             {
                 await start.Task;
-                return state.CompleteResult(CreateResult());
+                return await state.CompleteResultAsync(CreateResult());
             });
 
             start.SetResult();
@@ -251,7 +251,7 @@ public class SignalRMasterStateTests
         var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
         pending.TryMakeAvailableForRedispatch();
 
-        state.CompleteResult(CreateResult());
+        await state.CompleteResultAsync(CreateResult());
 
         await Assert.That(state.TryClaimRedispatch(assignment)).IsFalse();
     }
@@ -268,7 +268,7 @@ public class SignalRMasterStateTests
         first.TrackWorker(trackedWorker);
 
         var replacement = state.TrackPendingReconnect(replacementOwner, assignment);
-        var workersToRelease = state.CompleteResult(CreateResult());
+        var workersToRelease = await state.CompleteResultAsync(CreateResult());
 
         await Assert.That(replacement).IsNotNull();
         await Assert.That(workersToRelease).Contains(trackedWorker);
@@ -305,7 +305,7 @@ public class SignalRMasterStateTests
         pending.TryMakeAvailableForRedispatch();
         state.TryClaimRedispatch(assignment);
 
-        state.CompleteResult(CreateResult());
+        await state.CompleteResultAsync(CreateResult());
 
         await Assert.That(state.TryReturnRedispatchToQueue(assignment)).IsFalse();
     }
@@ -325,7 +325,7 @@ public class SignalRMasterStateTests
 
         await Assert.That(state.TryClaimRedispatch(assignment, retryWorker)).IsTrue();
 
-        var workersToRelease = state.CompleteResult(CreateResult());
+        var workersToRelease = await state.CompleteResultAsync(CreateResult());
         foreach (var worker in workersToRelease)
         {
             worker.TryCompleteAssignment(assignment.ModuleTypeName);

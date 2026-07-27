@@ -64,7 +64,7 @@ internal class DistributedPipelineHub(
 
         // 1. Complete the result and atomically capture workers involved in reconnect
         // recovery before a concurrent registration can start tracking the assignment.
-        var workersToRelease = state.CompleteResult(result).ToHashSet();
+        var workersToRelease = (await state.CompleteResultAsync(result)).ToHashSet();
         if (state.Workers.TryGetValue(Context.ConnectionId, out var sendingWorker))
         {
             workersToRelease.Add(sendingWorker);
@@ -206,6 +206,8 @@ internal class DistributedPipelineHub(
                 _logger.LogDebug("Assigning {Module} to worker {Index}",
                     assignment.ModuleTypeName, workerState.Registration.WorkerIndex);
 
+                using var deliveryFence =
+                    await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleTypeName);
                 if (!state.TryClaimRedispatch(assignment, workerState))
                 {
                     workerState.TryCompleteAssignment(assignment.ModuleTypeName);

@@ -230,6 +230,77 @@ public class SignalRMasterCoordinatorTests
     }
 
     [Test]
+    public async Task Result_Cannot_Release_Redispatch_Worker_Until_Delivery_Completes()
+    {
+        var state = new SignalRMasterState();
+        var assignment = CreateAssignment("TestModule");
+        state.ResultWaiters[assignment.ModuleTypeName] =
+            new TaskCompletionSource<SerializedModuleResult>(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var disconnectedWorker = new WorkerState
+        {
+            ConnectionId = "disconnected-worker",
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+        };
+        var pending = state.TrackPendingReconnect(disconnectedWorker, assignment)!;
+        pending.TryMakeAvailableForRedispatch();
+
+        var retryWorker = new WorkerState
+        {
+            ConnectionId = "retry-worker",
+            Registration = new WorkerRegistration(2, [], DateTimeOffset.UtcNow),
+        };
+        state.Workers[retryWorker.ConnectionId] = retryWorker;
+
+        var deliveryStarted = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var allowDelivery = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var clientProxy = new Mock<ISingleClientProxy>();
+        clientProxy
+            .Setup(client => client.SendCoreAsync(
+                HubMethodNames.ReceiveAssignment,
+                It.IsAny<object?[]>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(async () =>
+            {
+                deliveryStarted.SetResult();
+                await allowDelivery.Task;
+            });
+
+        var clients = new Mock<IHubClients>();
+        clients.Setup(client => client.Client(retryWorker.ConnectionId))
+            .Returns(clientProxy.Object);
+        var hubContext = new Mock<IHubContext<DistributedPipelineHub>>();
+        hubContext.Setup(context => context.Clients).Returns(clients.Object);
+        var coordinator = new SignalRMasterCoordinator(
+            hubContext.Object,
+            state,
+            NullLogger<SignalRMasterCoordinator>.Instance);
+
+        var enqueueTask = coordinator.EnqueueModuleAsync(
+            assignment,
+            CancellationToken.None);
+        await deliveryStarted.Task;
+
+        var publishTask = coordinator.PublishResultAsync(
+            CreateResult(assignment.ModuleTypeName),
+            CancellationToken.None);
+        await Task.Yield();
+
+        await Assert.That(publishTask.IsCompleted).IsFalse();
+        await Assert.That(retryWorker.IsIdle).IsFalse();
+        await Assert.That(retryWorker.TryAssign(CreateAssignment("NextModule"))).IsFalse();
+
+        allowDelivery.SetResult();
+        await enqueueTask;
+        await publishTask;
+
+        await Assert.That(retryWorker.IsIdle).IsTrue();
+    }
+
+    [Test]
     public async Task EnqueueModule_Queues_When_No_Capability_Match()
     {
         var state = new SignalRMasterState();
