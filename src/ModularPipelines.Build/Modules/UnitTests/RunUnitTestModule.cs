@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines;
 using ModularPipelines.Attributes;
@@ -61,6 +62,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
                     "--coverage-output-format", "cobertura",
                     "--hangdump",
                     "--hangdump-timeout", "20m",
+                    "--results-directory", trxFile.Folder!.Path,
                     "--report-trx",
                     "--report-trx-filename", TrxFileName,
                 ],
@@ -107,6 +109,21 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
 
     private static async Task PrintSkippedTests(IModuleContext context, File trxFile)
     {
+        try
+        {
+            await PrintSkippedTestsCore(context, trxFile);
+        }
+        catch (Exception exception)
+        {
+            context.Logger.LogWarning(
+                exception,
+                "Unable to render skipped test results from {TrxFile}",
+                trxFile.Path);
+        }
+    }
+
+    private static async Task PrintSkippedTestsCore(IModuleContext context, File trxFile)
+    {
         if (!trxFile.Exists)
         {
             return;
@@ -137,7 +154,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
                 Markup.Escape(GetSkipReason(skippedTest)));
         }
 
-        var consoleWriter = (IConsoleWriter) context.Logger;
+        var consoleWriter = context.GetService<IConsoleWriter>();
         consoleWriter.LogToConsole($"[dim]⏭ {skippedTests.Count} skipped[/]");
         consoleWriter.Write(table);
     }

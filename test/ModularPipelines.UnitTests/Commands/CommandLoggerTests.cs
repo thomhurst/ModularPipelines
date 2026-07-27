@@ -34,6 +34,38 @@ public class CommandLoggerTests : TestBase
     }
 
     [Test]
+    public async Task OutputLoggingManipulator_Does_Not_Change_Command_Result()
+    {
+        const string rawOutput = "raw-output";
+        const string displayedOutput = "displayed-output";
+        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var result = await GetService<ICommand>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddFile(file));
+        });
+
+        var commandResult = await result.T.ExecuteCommandLineTool(
+            new PowershellScriptOptions($"Write-Output '{rawOutput}'"),
+            new CommandExecutionOptions
+            {
+                LogSettings = new CommandLoggingOptions
+                {
+                    ShowCommandArguments = false,
+                },
+                OutputLoggingManipulator = _ => displayedOutput,
+            });
+        await result.Host.DisposeAsync();
+
+        await Assert.That(commandResult.StandardOutput).Contains(rawOutput);
+        await Assert.That(commandResult.StandardOutput).DoesNotContain(displayedOutput);
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).Contains(displayedOutput);
+        await Assert.That(logFile).DoesNotContain(rawOutput);
+    }
+
+    [Test]
     [MatrixDataSource]
     public async Task Logs_As_Expected_With_Options(
         [Matrix(true, false)] bool logInput,

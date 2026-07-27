@@ -97,8 +97,15 @@ internal class CommandLogger : ICommandLogger
         commandMessage.Append("> ");
         commandMessage.Append(obfuscatedInput);
 
+        var standardOutputToLog = execOpts?.OutputLoggingManipulator is not null
+            ? execOpts.OutputLoggingManipulator(standardOutput)
+            : standardOutput;
+        var standardErrorToLog = execOpts?.OutputLoggingManipulator is not null
+            ? execOpts.OutputLoggingManipulator(standardError)
+            : standardError;
+
         // Add inline output for short, single-line output on successful commands
-        var trimmedOutput = standardOutput.Trim();
+        var trimmedOutput = standardOutputToLog.Trim();
         var hasShortOutput = !string.IsNullOrEmpty(trimmedOutput)
             && !trimmedOutput.Contains('\n')
             && trimmedOutput.Length <= 100
@@ -157,22 +164,16 @@ internal class CommandLogger : ICommandLogger
             && options.Verbosity >= CommandLogVerbosity.Normal
             && options.ShowStandardOutput)
         {
-            var outputToLog = execOpts?.OutputLoggingManipulator is not null
-                ? execOpts.OutputLoggingManipulator(trimmedOutput)
-                : trimmedOutput;
-            Logger.LogInformation("  ↳ {CommandOutput}", _secretObfuscator.Obfuscate(outputToLog, execOpts));
+            Logger.LogInformation("  ↳ {CommandOutput}", _secretObfuscator.Obfuscate(trimmedOutput, execOpts));
         }
 
         // Log errors on separate line
-        if (!string.IsNullOrWhiteSpace(standardError)
+        if (!string.IsNullOrWhiteSpace(standardErrorToLog)
             && options.Verbosity >= CommandLogVerbosity.Normal
             && options.ShowStandardError
             && exitCode != 0)
         {
-            var errorToLog = execOpts?.OutputLoggingManipulator is not null
-                ? execOpts.OutputLoggingManipulator(standardError)
-                : standardError;
-            Logger.LogWarning("  ✗ {CommandError}", _secretObfuscator.Obfuscate(errorToLog, execOpts));
+            Logger.LogWarning("  ✗ {CommandError}", _secretObfuscator.Obfuscate(standardErrorToLog, execOpts));
         }
 
         // Log working directory only at Diagnostic level (separate line, indented)
