@@ -66,6 +66,26 @@ jobs:
         uses: samypr100/setup-dev-drive@v4
         with:
           drive-size: 5GB
+      # The distributed master (and other Linux instances) builds the full
+      # ModularPipelines.All.sln, whose peak memory can exceed the 7 GB RAM of a
+      # standard ubuntu-latest runner. When it does, the host OOM-kills the runner
+      # agent, which surfaces as "The runner has received a shutdown signal" mid-build
+      # (see #3179). Add a large swapfile so the build has headroom to complete instead
+      # of being reclaimed.
+      - name: Increase swap space
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          # Replace the default 4 GB swapfile with a larger one on /mnt (the ephemeral
+          # disk), leaving the root filesystem free for the NuGet restore and build output.
+          sudo swapoff -a || true
+          sudo rm -f /mnt/swapfile || true
+          sudo fallocate -l 10G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+          echo "Memory and swap after reconfiguration:"
+          free -h
       - name: Setup .NET
         uses: actions/setup-dotnet@v6.0.0
         with:
@@ -108,6 +128,11 @@ jobs:
         run: dotnet run -c Release --framework net10.0
         working-directory: "src/ModularPipelines.Build"
         env:
+          # Use workstation GC for the pipeline and the dotnet build/test child processes
+          # it spawns. Server GC allocates a heap per core, inflating peak memory on the
+          # multi-core runners during the full-solution build; workstation GC keeps the
+          # footprint far lower, complementing the swap headroom above (see #3179).
+          DOTNET_gcServer: 0
           GITHUB_TOKEN: ${{ github.token }}
           DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
           NuGet__ApiKey: ${{ github.ref == 'refs/heads/main' && secrets.NuGet__ApiKey || null }}
