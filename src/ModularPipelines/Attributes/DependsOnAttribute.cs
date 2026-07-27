@@ -47,8 +47,11 @@ public class DependsOnAttribute : Attribute
     /// Initializes a new instance of the <see cref="DependsOnAttribute"/> class.
     /// </summary>
     /// <param name="type">The type of module this module depends on.</param>
+    /// <remarks>
+    /// Use this overload from .NET languages that cannot apply generic attributes, such as F#.
+    /// C# callers should prefer <see cref="DependsOnAttribute{TModule}"/>.
+    /// </remarks>
     /// <exception cref="InvalidModuleTypeException">Thrown when the type does not implement <see cref="IModule"/>.</exception>
-    [Obsolete("Use the generic DependsOnAttribute<TModule> instead for compile-time type safety. This constructor will be removed in a future version.")]
     public DependsOnAttribute(Type type)
     {
         if (!type.IsAssignableTo(typeof(IModule)))

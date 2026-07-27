@@ -37,6 +37,7 @@
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
     <PackageVersion Include="EnumerableAsyncProcessor" Version="4.0.0" />
     <PackageVersion Include="FluentFTP" Version="54.2.0" />
+    <PackageVersion Include="FSharp.Core" Version="10.1.302" />
     <PackageVersion Include="Initialization.Microsoft.Extensions.DependencyInjection" Version="1.1.44" />
     <PackageVersion Include="MailKit" Version="4.17.0" />
     <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />
