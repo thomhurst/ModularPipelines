@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 using EnumerableAsyncProcessor.Extensions;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -12,6 +13,7 @@ namespace ModularPipelines.Engine;
 internal class ModuleRetriever
 {
     private readonly IModuleConditionHandler _moduleConditionHandler;
+    private readonly IRegistrationEventExecutor _registrationEventExecutor;
     private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
@@ -20,6 +22,7 @@ internal class ModuleRetriever
 
     public ModuleRetriever(
         IModuleConditionHandler moduleConditionHandler,
+        IRegistrationEventExecutor registrationEventExecutor,
         IEnumerable<IModule> modules,
         ISafeModuleEstimatedTimeProvider estimatedTimeProvider,
         IModuleDependencyRegistry dependencyRegistry,
@@ -27,6 +30,7 @@ internal class ModuleRetriever
     )
     {
         _moduleConditionHandler = moduleConditionHandler;
+        _registrationEventExecutor = registrationEventExecutor;
         _estimatedTimeProvider = estimatedTimeProvider;
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
@@ -51,6 +55,9 @@ internal class ModuleRetriever
         {
             throw new PipelineException("No modules have been registered");
         }
+
+        // Dynamic dependencies and metadata must be registered before conditions and cascade skipping are evaluated.
+        await _registrationEventExecutor.InvokeRegistrationEventsAsync(_modules).ConfigureAwait(false);
 
         var modulesToIgnore = new List<IgnoredModule>();
         var modulesToProcess = new List<IModule>();
@@ -83,8 +90,13 @@ internal class ModuleRetriever
             .Select(module => module.GetType())
             .Distinct()
             .ToArray();
-        var ignoredModulesByType = ignoredModules.ToDictionary(
-            ignoredModule => ignoredModule.Module.GetType());
+        var runnableModuleTypes = runnableModules
+            .Select(module => module.GetType())
+            .ToHashSet();
+        var ignoredModulesByType = ignoredModules
+            .Where(ignoredModule => !runnableModuleTypes.Contains(ignoredModule.Module.GetType()))
+            .GroupBy(ignoredModule => ignoredModule.Module.GetType())
+            .ToDictionary(group => group.Key, group => group.First());
         var requiredDependenciesByModule = runnableModules.ToDictionary(
             module => module,
             module => ModuleDependencyResolver
@@ -126,7 +138,16 @@ internal class ModuleRetriever
             {
                 runnableModules.Remove(ignoredModule.Module);
                 ignoredModules.Add(ignoredModule);
-                ignoredModulesByType.Add(ignoredModule.Module.GetType(), ignoredModule);
+            }
+
+            foreach (var ignoredModuleGroup in newlyIgnoredModules.GroupBy(
+                         ignoredModule => ignoredModule.Module.GetType()))
+            {
+                var moduleType = ignoredModuleGroup.Key;
+                if (runnableModules.All(module => module.GetType() != moduleType))
+                {
+                    ignoredModulesByType[moduleType] = ignoredModuleGroup.First();
+                }
             }
         }
     }

@@ -70,6 +70,25 @@ public class DynamicDependencyIntegrationTests : TestBase
         }
     }
 
+    [ModularPipelines.Attributes.ModuleCategory("compile")]
+    public class DynamicallySkippedDependency : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("A filtered dependency must not execute");
+    }
+
+    [ModularPipelines.Attributes.ModuleCategory("test")]
+    [AddDependency(typeof(DynamicallySkippedDependency))]
+    public class DynamicallySkippedDependent : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("A cascade-skipped dependent must not execute");
+    }
+
     [Before(Test)]
     public void ClearExecutionOrder()
     {
@@ -99,5 +118,24 @@ public class DynamicDependencyIntegrationTests : TestBase
             TestPipelineHostBuilder.Create()
                 .AddModule<ModuleWithMissingDynamicDependency>()
                 .ExecutePipelineAsync());
+    }
+
+    [Test]
+    public async Task DynamicDependency_OnFilteredModule_CascadeSkipsDependent()
+    {
+        var result = await TestPipelineHostBuilder.Create()
+            .AddModule<DynamicallySkippedDependency>()
+            .AddModule<DynamicallySkippedDependent>()
+            .ConfigurePipelineOptions(options => options.RunOnlyCategories = ["test"])
+            .ExecutePipelineAsync();
+
+        await Assert.That(result.Status).IsEqualTo(Enums.Status.Successful);
+
+        var dependentResult = await result.Modules
+            .OfType<DynamicallySkippedDependent>()
+            .Single();
+        await Assert.That(dependentResult.IsSkipped).IsTrue();
+        await Assert.That(dependentResult.SkipDecisionOrDefault.Reason)
+            .Contains(nameof(DynamicallySkippedDependency));
     }
 }

@@ -11,12 +11,14 @@ namespace ModularPipelines.Engine.Attributes;
 /// </summary>
 internal class RegistrationEventExecutor : IRegistrationEventExecutor
 {
+    private readonly object _lock = new();
     private readonly IModuleAttributeEventService _attributeEventService;
     private readonly IAttributeEventInvoker _attributeEventInvoker;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IConfiguration _configuration;
     private readonly IHostEnvironment _environment;
+    private Task? _invocationTask;
 
     public RegistrationEventExecutor(
         IModuleAttributeEventService attributeEventService,
@@ -34,12 +36,21 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
         _environment = environment;
     }
 
-    public async Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules)
+    public Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules)
     {
-        var moduleArray = modules.ToArray();
-        var registeredModuleTypes = moduleArray.Select(m => m.GetType()).ToArray();
+        lock (_lock)
+        {
+            // Discovery invokes registration events early so dynamic dependencies can affect filtering.
+            // Executors invoke this service again, so share the first invocation rather than running receivers twice.
+            return _invocationTask ??= InvokeRegistrationEventsInternalAsync(modules.ToArray());
+        }
+    }
 
-        foreach (var module in moduleArray)
+    private async Task InvokeRegistrationEventsInternalAsync(IReadOnlyList<IModule> modules)
+    {
+        var registeredModuleTypes = modules.Select(module => module.GetType()).ToArray();
+
+        foreach (var module in modules)
         {
             var moduleType = module.GetType();
             var receivers = _attributeEventService.GetRegistrationReceivers(moduleType);

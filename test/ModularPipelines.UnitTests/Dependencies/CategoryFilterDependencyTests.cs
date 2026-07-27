@@ -52,14 +52,14 @@ public class CategoryFilterDependencyTests : TestBase
     }
 
     [ModuleCategory("test")]
-    [DependsOn<CompileModule>]
+    [ModularPipelines.Attributes.DependsOn<CompileModule>]
     private class TestModuleWithRequiredDep : SimpleTestModule<string>
     {
         protected override string Result => throw new InvalidOperationException("A cascade-skipped module must not execute");
     }
 
     [ModuleCategory("test")]
-    [DependsOn<TestModuleWithRequiredDep>]
+    [ModularPipelines.Attributes.DependsOn<TestModuleWithRequiredDep>]
     private class TransitiveRequiredDepModule : SimpleTestModule<string>
     {
         protected override string Result => throw new InvalidOperationException("A transitively cascade-skipped module must not execute");
@@ -127,6 +127,31 @@ public class CategoryFilterDependencyTests : TestBase
         await Assert.That(transitiveResult.IsSkipped).IsTrue();
         await Assert.That(transitiveResult.SkipDecisionOrDefault.Reason)
             .Contains(nameof(TestModuleWithRequiredDep));
+    }
+
+    [Test]
+    public async Task Duplicate_Filtered_Module_Types_Cascade_Skip_Without_Crashing()
+    {
+        var firstCompileModule = new CompileModule();
+        var secondCompileModule = new CompileModule();
+
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .AddModule(firstCompileModule)
+            .AddModule(secondCompileModule)
+            .AddModule<TestModuleWithRequiredDep>()
+            .ConfigurePipelineOptions(opt => opt.RunOnlyCategories = ["test"])
+            .ExecutePipelineAsync();
+
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That((await firstCompileModule).IsSkipped).IsTrue();
+        await Assert.That((await secondCompileModule).IsSkipped).IsTrue();
+
+        var requiredResult = await pipelineSummary.Modules
+            .OfType<TestModuleWithRequiredDep>()
+            .Single();
+        await Assert.That(requiredResult.IsSkipped).IsTrue();
+        await Assert.That(requiredResult.SkipDecisionOrDefault.Reason)
+            .Contains(nameof(CompileModule));
     }
 
     [Test]
