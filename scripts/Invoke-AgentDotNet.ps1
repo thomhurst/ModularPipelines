@@ -187,42 +187,54 @@ public static class AgentDotNetLinuxProcessSnapshot
                 continue;
             }
 
-            try
+            AgentDotNetUnixProcessInfo process = CaptureProcess(processId);
+            if (process != null)
             {
-                string stat = File.ReadAllText(Path.Combine(directory, "stat"));
-                int commandEnd = stat.LastIndexOf(") ", StringComparison.Ordinal);
-                if (commandEnd < 0)
-                {
-                    continue;
-                }
-
-                string[] fields = stat.Substring(commandEnd + 2)
-                    .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (fields.Length < 22)
-                {
-                    continue;
-                }
-
-                processes.Add(new AgentDotNetUnixProcessInfo
-                {
-                    ProcessId = processId,
-                    ParentProcessId = int.Parse(fields[1], CultureInfo.InvariantCulture),
-                    StartIdentity = fields[19],
-                    WorkingSetBytes =
-                        long.Parse(fields[21], CultureInfo.InvariantCulture) * Environment.SystemPageSize,
-                });
-            }
-            catch (IOException)
-            {
-                // The process exited while its snapshot was being read.
-            }
-            catch (UnauthorizedAccessException)
-            {
-                // The process cannot be inspected by this user.
+                processes.Add(process);
             }
         }
 
         return processes.ToArray();
+    }
+
+    public static AgentDotNetUnixProcessInfo CaptureProcess(int processId)
+    {
+        try
+        {
+            string stat = File.ReadAllText(
+                Path.Combine("/proc", processId.ToString(CultureInfo.InvariantCulture), "stat"));
+            int commandEnd = stat.LastIndexOf(") ", StringComparison.Ordinal);
+            if (commandEnd < 0)
+            {
+                return null;
+            }
+
+            string[] fields = stat.Substring(commandEnd + 2)
+                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (fields.Length < 22)
+            {
+                return null;
+            }
+
+            return new AgentDotNetUnixProcessInfo
+            {
+                ProcessId = processId,
+                ParentProcessId = int.Parse(fields[1], CultureInfo.InvariantCulture),
+                StartIdentity = fields[19],
+                WorkingSetBytes =
+                    long.Parse(fields[21], CultureInfo.InvariantCulture) * Environment.SystemPageSize,
+            };
+        }
+        catch (IOException)
+        {
+            // The process exited while its snapshot was being read.
+            return null;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            // The process cannot be inspected by this user.
+            return null;
+        }
     }
 }
 
@@ -302,36 +314,44 @@ public static class AgentDotNetMacProcessSnapshot
 
         for (int index = 0; index < processCount && index < processIds.Length; index++)
         {
-            int processId = processIds[index];
-            if (processId <= 0 ||
-                !TryRead(processId, ProcPidTBsdInfo, out ProcBsdInfo before))
+            AgentDotNetUnixProcessInfo process = CaptureProcess(processIds[index]);
+            if (process != null)
             {
-                continue;
+                processes.Add(process);
             }
-
-            TryRead(processId, ProcPidTaskInfo, out ProcTaskInfo task);
-            if (!TryRead(processId, ProcPidTBsdInfo, out ProcBsdInfo after) ||
-                before.ProcessId != after.ProcessId ||
-                before.ParentProcessId != after.ParentProcessId ||
-                before.StartTimeSeconds != after.StartTimeSeconds ||
-                before.StartTimeMicroseconds != after.StartTimeMicroseconds)
-            {
-                continue;
-            }
-
-            processes.Add(new AgentDotNetUnixProcessInfo
-            {
-                ProcessId = processId,
-                ParentProcessId = (int)after.ParentProcessId,
-                WorkingSetBytes = checked((long)task.ResidentSize),
-                StartIdentity = string.Concat(
-                    after.StartTimeSeconds.ToString(CultureInfo.InvariantCulture),
-                    ":",
-                    after.StartTimeMicroseconds.ToString(CultureInfo.InvariantCulture)),
-            });
         }
 
         return processes.ToArray();
+    }
+
+    public static AgentDotNetUnixProcessInfo CaptureProcess(int processId)
+    {
+        if (processId <= 0 ||
+            !TryRead(processId, ProcPidTBsdInfo, out ProcBsdInfo before))
+        {
+            return null;
+        }
+
+        TryRead(processId, ProcPidTaskInfo, out ProcTaskInfo task);
+        if (!TryRead(processId, ProcPidTBsdInfo, out ProcBsdInfo after) ||
+            before.ProcessId != after.ProcessId ||
+            before.ParentProcessId != after.ParentProcessId ||
+            before.StartTimeSeconds != after.StartTimeSeconds ||
+            before.StartTimeMicroseconds != after.StartTimeMicroseconds)
+        {
+            return null;
+        }
+
+        return new AgentDotNetUnixProcessInfo
+        {
+            ProcessId = processId,
+            ParentProcessId = (int)after.ParentProcessId,
+            WorkingSetBytes = checked((long)task.ResidentSize),
+            StartIdentity = string.Concat(
+                after.StartTimeSeconds.ToString(CultureInfo.InvariantCulture),
+                ":",
+                after.StartTimeMicroseconds.ToString(CultureInfo.InvariantCulture)),
+        };
     }
 
     private static bool TryRead<T>(int processId, int flavor, out T value)
@@ -379,6 +399,35 @@ function Get-ProcessSnapshot {
     }
 
     return [AgentDotNetLinuxProcessSnapshot]::Capture()
+}
+
+function Get-LiveProcessIdentity([int]$ProcessId) {
+    try {
+        if ($IsWindows) {
+            $process = Get-CimInstance Win32_Process `
+                -Filter "ProcessId = $ProcessId" `
+                -Property CreationDate
+            if ($null -eq $process) {
+                return $null
+            }
+
+            return $process.CreationDate.ToUniversalTime().Ticks.ToString(
+                [Globalization.CultureInfo]::InvariantCulture)
+        }
+
+        $process = if ($IsMacOS) {
+            [AgentDotNetMacProcessSnapshot]::CaptureProcess($ProcessId)
+        }
+        else {
+            [AgentDotNetLinuxProcessSnapshot]::CaptureProcess($ProcessId)
+        }
+
+        return $process?.StartIdentity
+    }
+    catch {
+        Write-Verbose "Live identity for process $ProcessId was unavailable: $_"
+        return $null
+    }
 }
 
 function Get-ProcessTreeState([int]$RootProcessId) {
@@ -472,19 +521,6 @@ function Stop-ProcessTree(
         Write-Verbose "Root process-tree cleanup was unavailable: $_"
     }
 
-    try {
-        $currentSnapshot = @(Get-ProcessSnapshot)
-    }
-    catch {
-        Write-Verbose "Final process snapshot was unavailable: $_"
-        return
-    }
-
-    $currentProcesses = @{}
-    foreach ($process in $currentSnapshot) {
-        $currentProcesses[$process.ProcessId] = $process
-    }
-
     # The Job Object/process group is the containment boundary. Identity-checked
     # tracked cleanup is defense in depth for processes seen before reparenting.
     foreach ($trackedProcess in $TrackedProcesses.GetEnumerator()) {
@@ -493,16 +529,24 @@ function Stop-ProcessTree(
             continue
         }
 
-        $currentProcess = $currentProcesses[$processId]
-        if (($null -eq $currentProcess) -or
-            ($currentProcess.StartIdentity -ne $trackedProcess.Value)) {
-            continue
-        }
-
         try {
             $candidate = [System.Diagnostics.Process]::GetProcessById($processId)
             try {
-                $candidate.Kill($true)
+                # Pin the native process handle before checking identity so Windows
+                # cleanup cannot reopen a recycled PID between verification and kill.
+                $null = $candidate.SafeHandle
+
+                # Re-read this PID immediately before acting. A bulk snapshot taken
+                # before the loop can become stale and target a recycled PID.
+                $liveIdentity = Get-LiveProcessIdentity -ProcessId $processId
+                if (($null -eq $liveIdentity) -or
+                    ($liveIdentity -ne $trackedProcess.Value)) {
+                    continue
+                }
+
+                # Primary containment already handled descendants. Kill only this
+                # identity-verified fallback process through the pinned handle.
+                $candidate.Kill()
             }
             finally {
                 $candidate.Dispose()
