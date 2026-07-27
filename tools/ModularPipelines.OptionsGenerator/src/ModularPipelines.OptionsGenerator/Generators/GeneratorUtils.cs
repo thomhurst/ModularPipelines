@@ -265,30 +265,35 @@ public static partial class GeneratorUtils
     /// <returns>The attribute string (e.g., "CliFlag(\"--verbose\")" or "CliOption(\"--output\")").</returns>
     public static string GenerateCliAttributeString(CliOptionDefinition option)
     {
-        if (option.IsFlag)
+        return option.IsFlag
+            ? GenerateCliFlagAttributeString(option)
+            : GenerateCliOptionAttributeString(option);
+    }
+
+    private static string GenerateCliFlagAttributeString(CliOptionDefinition option)
+    {
+        var parts = new List<string> { $"\"{option.SwitchName}\"" };
+
+        if (!string.IsNullOrEmpty(option.ShortForm))
         {
-            // Use CliFlag for boolean flags
-            var parts = new List<string> { $"\"{option.SwitchName}\"" };
-
-            if (!string.IsNullOrEmpty(option.ShortForm))
-            {
-                parts.Add($"ShortForm = \"{option.ShortForm}\"");
-            }
-
-            if (option.PreferShortForm)
-            {
-                parts.Add("PreferShortForm = true");
-            }
-
-            if (option.Phase != CommandLinePhase.Normal)
-            {
-                parts.Add($"Phase = CommandLinePhase.{option.Phase}");
-            }
-
-            return $"CliFlag({string.Join(", ", parts)})";
+            parts.Add($"ShortForm = \"{option.ShortForm}\"");
         }
 
-        // Use CliOption for value options
+        if (option.PreferShortForm)
+        {
+            parts.Add("PreferShortForm = true");
+        }
+
+        if (option.Phase != CommandLinePhase.Normal)
+        {
+            parts.Add($"Phase = CommandLinePhase.{option.Phase}");
+        }
+
+        return $"CliFlag({string.Join(", ", parts)})";
+    }
+
+    private static string GenerateCliOptionAttributeString(CliOptionDefinition option)
+    {
         var optionParts = new List<string> { $"\"{option.SwitchName}\"" };
 
         if (!string.IsNullOrEmpty(option.ShortForm))

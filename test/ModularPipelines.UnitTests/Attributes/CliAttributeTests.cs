@@ -192,14 +192,13 @@ public class CliAttributeTests
         {
             Normal = true,
             Terminal = string.Empty,
-            EndOfOptions = true,
             Passthrough = "input.txt",
         };
 
         var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(
-            ["--normal", "--terminal", "--", "input.txt"],
+            ["--normal", "input.txt", "--terminal"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
@@ -210,15 +209,39 @@ public class CliAttributeTests
         {
             Normal = true,
             Terminal = "tests.txt",
-            EndOfOptions = true,
             Passthrough = "input.txt",
         };
 
         var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(
-            ["--normal", "--terminal", "tests.txt", "--", "input.txt"],
+            ["--normal", "input.txt", "--terminal", "tests.txt"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Renders_EndOfOptions_Before_Passthrough()
+    {
+        var list = BuildArguments(new TestCliOptionsWithSemanticPhases
+        {
+            Normal = true,
+            EndOfOptions = true,
+            Passthrough = "-input.txt",
+        });
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--normal", "--", "-input.txt"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Terminal_Option_After_EndOfOptions()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithSemanticPhases
+        {
+            Terminal = "tests.txt",
+            EndOfOptions = true,
+        })).Throws<InvalidOperationException>();
     }
 
     [Test]

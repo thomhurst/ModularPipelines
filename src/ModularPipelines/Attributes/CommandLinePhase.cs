@@ -11,17 +11,17 @@ public enum CommandLinePhase
     Normal,
 
     /// <summary>
-    /// An option that terminates normal option parsing and must follow regular options.
+    /// A final option that must follow regular options and positional operands.
     /// </summary>
     Terminal,
 
     /// <summary>
-    /// An explicit end-of-options marker such as <c>--</c>.
+    /// An explicit end-of-options marker such as <c>--</c>, rendered before pass-through operands.
     /// </summary>
     EndOfOptions,
 
     /// <summary>
-    /// Positional or pass-through values that must follow option parsing.
+    /// Positional or pass-through values rendered after option parsing and before terminal options.
     /// </summary>
     Passthrough,
 }

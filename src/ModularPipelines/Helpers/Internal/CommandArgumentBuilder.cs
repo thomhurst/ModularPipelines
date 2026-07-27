@@ -30,20 +30,65 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         var argumentsAfterOptions =
             argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.AfterOptions) ?? [];
 
-        // Render semantic phases explicitly rather than relying on declaration order.
-        foreach (var phase in Enum.GetValues<CommandLinePhase>())
+        var normal = RenderPhase(
+            CommandLinePhase.Normal,
+            flagsAndOptions,
+            argumentsAfterOptions,
+            optionsObject);
+        var endOfOptions = RenderPhase(
+            CommandLinePhase.EndOfOptions,
+            flagsAndOptions,
+            argumentsAfterOptions,
+            optionsObject);
+        var passthrough = RenderPhase(
+            CommandLinePhase.Passthrough,
+            flagsAndOptions,
+            argumentsAfterOptions,
+            optionsObject);
+        var terminal = RenderPhase(
+            CommandLinePhase.Terminal,
+            flagsAndOptions,
+            argumentsAfterOptions,
+            optionsObject,
+            argumentsFirst: true);
+
+        if (endOfOptions.Count > 0 && terminal.Count > 0)
         {
-            AddFlagsAndOptions(
-                args,
-                flagsAndOptions.Where(part => part.Phase == phase),
-                optionsObject);
-            AddArguments(
-                args,
-                argumentsAfterOptions.Where(part => part.Phase == phase),
-                optionsObject);
+            throw new InvalidOperationException(
+                "Terminal options cannot be combined with an end-of-options marker.");
         }
 
+        args.AddRange(normal);
+        args.AddRange(endOfOptions);
+        args.AddRange(passthrough);
+        args.AddRange(terminal);
+
         return args;
+    }
+
+    private static List<string> RenderPhase(
+        CommandLinePhase phase,
+        IEnumerable<PropertyCommandLinePart> flagsAndOptions,
+        IEnumerable<ArgumentPart> arguments,
+        object optionsObject,
+        bool argumentsFirst = false)
+    {
+        var rendered = new List<string>();
+        var phaseOptions = flagsAndOptions.Where(part => part.Phase == phase);
+        var phaseArguments = arguments.Where(part => part.Phase == phase);
+
+        if (argumentsFirst)
+        {
+            AddArguments(rendered, phaseArguments, optionsObject);
+            AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
+        }
+        else
+        {
+            AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
+            AddArguments(rendered, phaseArguments, optionsObject);
+        }
+
+        return rendered;
     }
 
     private static void AddArguments(
