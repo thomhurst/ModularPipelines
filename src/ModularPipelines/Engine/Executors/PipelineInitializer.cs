@@ -1,8 +1,8 @@
 using System.Collections;
-using System.Text;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
+using Spectre.Console;
 
 namespace ModularPipelines.Engine.Executors;
 
@@ -17,6 +17,8 @@ internal class PipelineInitializer : IPipelineInitializer
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly IPipelineFileWriter _pipelineFileWriter;
     private readonly ILogger<PipelineInitializer> _logger;
+    private readonly IConsoleWriter _consoleWriter;
+    private readonly ISecretObfuscator _secretObfuscator;
     private OrganizedModules? _organizedModules;
 
     public PipelineInitializer(IConsolePrinter consolePrinter,
@@ -27,7 +29,9 @@ internal class PipelineInitializer : IPipelineInitializer
         IPipelineSetupExecutor pipelineSetupExecutor,
         IBuildSystemDetector buildSystemDetector,
         IPipelineFileWriter pipelineFileWriter,
-        ILogger<PipelineInitializer> logger)
+        ILogger<PipelineInitializer> logger,
+        IConsoleWriter consoleWriter,
+        ISecretObfuscator secretObfuscator)
     {
         _consolePrinter = consolePrinter;
         _moduleRetriever = moduleRetriever;
@@ -38,6 +42,8 @@ internal class PipelineInitializer : IPipelineInitializer
         _buildSystemDetector = buildSystemDetector;
         _pipelineFileWriter = pipelineFileWriter;
         _logger = logger;
+        _consoleWriter = consoleWriter;
+        _secretObfuscator = secretObfuscator;
     }
 
     public async Task<OrganizedModules> Initialize(CancellationToken cancellationToken = default)
@@ -69,20 +75,39 @@ internal class PipelineInitializer : IPipelineInitializer
 
     private void PrintEnvironmentVariables()
     {
-        _logger.LogTrace(
-            "Environment variables:\r\n{EnvironmentVariables}",
-            FormatEnvironmentVariables(Environment.GetEnvironmentVariables()));
-    }
-
-    internal static string FormatEnvironmentVariables(IDictionary variables)
-    {
-        var environmentVariables = new StringBuilder();
-
-        foreach (DictionaryEntry environmentVariable in variables)
+        if (!_logger.IsEnabled(LogLevel.Trace))
         {
-            environmentVariables.AppendLine($"{environmentVariable.Key}: {environmentVariable.Value}");
+            return;
         }
 
-        return environmentVariables.ToString();
+        _consoleWriter.Write(CreateEnvironmentVariablesTable(
+            Environment.GetEnvironmentVariables(),
+            value => _secretObfuscator.Obfuscate(value, null)));
+    }
+
+    internal static Table CreateEnvironmentVariablesTable(
+        IDictionary variables,
+        Func<string, string> obfuscate)
+    {
+        var table = new Table
+        {
+            Border = TableBorder.Rounded,
+            Expand = true,
+            Title = new TableTitle("[bold]Environment variables[/]"),
+        };
+
+        table.AddColumn(new TableColumn("[bold]Name[/]").LeftAligned());
+        table.AddColumn(new TableColumn("[bold]Value[/]").LeftAligned());
+
+        foreach (var environmentVariable in variables
+                     .Cast<DictionaryEntry>()
+                     .OrderBy(entry => entry.Key?.ToString(), StringComparer.OrdinalIgnoreCase))
+        {
+            table.AddRow(
+                Markup.Escape(environmentVariable.Key?.ToString() ?? string.Empty),
+                Markup.Escape(obfuscate(environmentVariable.Value?.ToString() ?? string.Empty)));
+        }
+
+        return table;
     }
 }
