@@ -19,7 +19,7 @@ internal sealed class PendingReconnect(
 {
     private readonly CancellationTokenSource _delayCancellation = new();
     private readonly HashSet<WorkerState> _trackedWorkers = [];
-    private int _state = (int)PendingReconnectState.WaitingForReconnect;
+    private int _state = (int) PendingReconnectState.WaitingForReconnect;
     private int _disposed;
 
     public int WorkerIndex { get; } = workerIndex;
@@ -29,7 +29,7 @@ internal sealed class PendingReconnect(
     public CancellationToken DelayToken => _delayCancellation.Token;
 
     private PendingReconnectState State =>
-        (PendingReconnectState)Volatile.Read(ref _state);
+        (PendingReconnectState) Volatile.Read(ref _state);
 
     public bool TryMakeAvailableForRedispatch()
     {
@@ -77,7 +77,7 @@ internal sealed class PendingReconnect(
 
     public IReadOnlyList<WorkerState> Complete()
     {
-        Interlocked.Exchange(ref _state, (int)PendingReconnectState.Completed);
+        Interlocked.Exchange(ref _state, (int) PendingReconnectState.Completed);
         return _trackedWorkers.ToArray();
     }
 
@@ -113,6 +113,6 @@ internal sealed class PendingReconnect(
 
     private bool TryTransition(PendingReconnectState from, PendingReconnectState to)
     {
-        return Interlocked.CompareExchange(ref _state, (int)to, (int)from) == (int)from;
+        return Interlocked.CompareExchange(ref _state, (int) to, (int) from) == (int) from;
     }
 }
