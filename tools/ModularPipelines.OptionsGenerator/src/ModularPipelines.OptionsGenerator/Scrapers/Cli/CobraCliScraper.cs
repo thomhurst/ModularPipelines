@@ -111,11 +111,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
         string[] commandPath,
         string helpText,
         CancellationToken cancellationToken) =>
-        ParseCommandAsync(
-            commandPath,
-            helpText,
-            ParseUsageSynopsis(commandPath, helpText),
-            cancellationToken);
+        throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
 
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,

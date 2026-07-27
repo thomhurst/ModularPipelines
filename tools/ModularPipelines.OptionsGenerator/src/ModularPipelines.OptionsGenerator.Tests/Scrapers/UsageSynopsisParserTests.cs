@@ -167,6 +167,16 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Migrated_Scraper_Rejects_Missing_Shared_Usage_Result()
+    {
+        var scraper = new TestKustomizeCliScraper();
+
+        await Assert.That(() => scraper.ParseWithoutUsage(["kustomize", "build"], "Usage: kustomize build"))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Shared traversal must pass its parsed synopsis");
+    }
+
+    [Test]
     public async Task Newman_Does_Not_Promote_Wrapped_Alternate_To_Subcommand()
     {
         const string helpText = """
@@ -268,7 +278,13 @@ public class UsageSynopsisParserTests
         {
         }
 
-        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        {
+            var usage = ParseUsageSynopsis(commandPath, helpText);
+            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+        }
+
+        public Task<CliCommandDefinition?> ParseWithoutUsage(string[] commandPath, string helpText) =>
             ParseCommandAsync(commandPath, helpText, CancellationToken.None);
     }
 
