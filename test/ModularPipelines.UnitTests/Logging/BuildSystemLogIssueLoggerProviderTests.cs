@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
 using ModularPipelines.Logging;
+using Spectre.Console;
 
 namespace ModularPipelines.UnitTests.Logging;
 
@@ -15,7 +16,7 @@ public class BuildSystemLogIssueLoggerProviderTests
     {
         using var writer = new StringWriter();
         using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
-        var logger = provider.CreateLogger("test");
+        var logger = provider.CreateLogger("Example.Pipeline");
 
         logger.Log(logLevel, "message");
 
@@ -28,7 +29,7 @@ public class BuildSystemLogIssueLoggerProviderTests
     {
         using var writer = new StringWriter();
         using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
-        var logger = provider.CreateLogger("test");
+        var logger = provider.CreateLogger("Example.Pipeline");
 
         logger.LogInformation("message");
 
@@ -40,7 +41,7 @@ public class BuildSystemLogIssueLoggerProviderTests
     {
         using var writer = new StringWriter();
         using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
-        var logger = provider.CreateLogger("test");
+        var logger = provider.CreateLogger("Example.Pipeline");
         var exception = new InvalidOperationException("failure");
 
         logger.LogError(exception, "message");
@@ -58,7 +59,23 @@ public class BuildSystemLogIssueLoggerProviderTests
     {
         using var writer = new StringWriter();
         using var provider = CreateProvider(new DefaultFormatter(), writer);
-        var logger = provider.CreateLogger("test");
+        var logger = provider.CreateLogger("Example.Pipeline");
+
+        logger.LogWarning("message");
+
+        await Assert.That(writer.ToString()).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("Microsoft")]
+    [Arguments("Microsoft.Extensions.Http")]
+    [Arguments("System")]
+    [Arguments("System.Net.Http")]
+    public async Task Logger_IgnoresInfrastructureCategories(string category)
+    {
+        using var writer = new StringWriter();
+        using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
+        var logger = provider.CreateLogger(category);
 
         logger.LogWarning("message");
 
@@ -69,6 +86,11 @@ public class BuildSystemLogIssueLoggerProviderTests
         IBuildSystemFormatter formatter,
         TextWriter writer)
     {
-        return new BuildSystemLogIssueLoggerProvider(formatter, () => writer);
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(writer),
+        });
+
+        return new BuildSystemLogIssueLoggerProvider(formatter, console);
     }
 }

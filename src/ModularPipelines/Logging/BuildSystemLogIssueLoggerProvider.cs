@@ -1,39 +1,59 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
+using Spectre.Console;
 
 namespace ModularPipelines.Logging;
 
 internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
 {
-    private readonly ILogger _logger;
+    private static readonly string[] ExcludedCategoryPrefixes =
+    [
+        "Microsoft",
+        "System",
+    ];
+
+    private readonly IBuildSystemFormatter _formatter;
+    private readonly IAnsiConsole _console;
 
     public BuildSystemLogIssueLoggerProvider(IBuildSystemFormatterProvider formatterProvider)
-        : this(formatterProvider.GetFormatter(), () => System.Console.Out)
+        : this(formatterProvider.GetFormatter(), ModularPipelines.Console.DelegatingAnsiConsole.Instance)
     {
     }
 
     internal BuildSystemLogIssueLoggerProvider(
         IBuildSystemFormatter formatter,
-        Func<TextWriter> writerProvider)
+        IAnsiConsole console)
     {
-        _logger = new BuildSystemLogIssueLogger(formatter, writerProvider);
+        _formatter = formatter;
+        _console = console;
     }
 
-    public ILogger CreateLogger(string categoryName) => _logger;
+    public ILogger CreateLogger(string categoryName) =>
+        new BuildSystemLogIssueLogger(
+            _formatter,
+            _console,
+            IsIssueCategory(categoryName));
 
     public void Dispose()
     {
     }
 
+    private static bool IsIssueCategory(string categoryName) =>
+        !ExcludedCategoryPrefixes.Any(prefix =>
+            categoryName.Equals(prefix, StringComparison.Ordinal)
+            || categoryName.StartsWith($"{prefix}.", StringComparison.Ordinal));
+
     private sealed class BuildSystemLogIssueLogger(
         IBuildSystemFormatter formatter,
-        Func<TextWriter> writerProvider) : ILogger
+        IAnsiConsole console,
+        bool isIssueCategory) : ILogger
     {
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull => null;
 
         public bool IsEnabled(LogLevel logLevel) =>
-            logLevel is LogLevel.Warning or LogLevel.Error or LogLevel.Critical;
+            isIssueCategory
+            && logLevel is LogLevel.Warning or LogLevel.Error or LogLevel.Critical;
 
         public void Log<TState>(
             LogLevel logLevel,
@@ -56,7 +76,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             var command = formatter.GetLogIssueCommand(logLevel, message);
             if (command is not null)
             {
-                writerProvider().WriteLine(command);
+                console.Profile.Out.Writer.WriteLine(command);
             }
         }
     }
