@@ -1328,6 +1328,7 @@ public class ExternalToolDefinitionTests
                 Commands = firstTool.Commands
                     .Select(command => command with
                     {
+                        ParentClassName = "RenamedWidgetOptions",
                         ToolNamespacePrefix = "RenamedWidget",
                     })
                     .ToList(),
@@ -1529,6 +1530,239 @@ public class ExternalToolDefinitionTests
         }
     }
 
+    [Test]
+    public async Task External_Metadata_Rejects_Flag_With_Unrenderable_Type()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            var option = command.Options.Single() with
+            {
+                IsFlag = true,
+                CSharpType = "string?",
+            };
+            tool = tool with
+            {
+                Commands = [command with { Options = [option] }],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Command_Member_Colliding_With_Global_Property()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            tool = tool with
+            {
+                GlobalOptions =
+                [
+                    new CliOptionDefinition
+                    {
+                        SwitchName = "--global-environment",
+                        PropertyName = "Environment",
+                        CSharpType = "string?",
+                    },
+                ],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Compatibility_Forwarding_To_Init_Only_Property()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            tool = tool with
+            {
+                Commands =
+                [
+                    command with
+                    {
+                        CompatibilityProperties =
+                        [
+                            new CliCompatibilityProperty
+                            {
+                                PropertyName = "LegacyTool",
+                                CSharpType = "string?",
+                                ForwardToPropertyName = "Tool",
+                                ObsoleteMessage = "Use Tool.",
+                            },
+                        ],
+                    },
+                ],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Undeclared_Parent_Options_Class()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            tool = tool with
+            {
+                Commands = [command with { ParentClassName = "MissingOptions" }],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Generation_Recovers_After_Output_Write_Failure()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var orchestrator = CreateOrchestrator();
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var coveragePath = CommandCoverageGuard.GetManifestPath(tool, outputDirectory);
+            Directory.CreateDirectory(coveragePath);
+
+            try
+            {
+                await orchestrator.GenerateFromDefinitionAsync(tool, outputDirectory);
+                throw new InvalidOperationException("Generation unexpectedly succeeded.");
+            }
+            catch (Exception exception)
+                when (exception is IOException or UnauthorizedAccessException)
+            {
+                // Expected: the coverage manifest path is deliberately a directory.
+            }
+
+            var optionsRelativePath = Path.Combine(
+                    "generated",
+                    "Options",
+                    "PrivateWidgetDeployOptions.Generated.cs")
+                .Replace('\\', '/');
+            var ownershipPath = Path.Combine(
+                outputDirectory,
+                ".modular-pipelines-options",
+                "PrivateWidget.files");
+            await Assert.That(File.Exists(Path.Combine(
+                    outputDirectory,
+                    optionsRelativePath)))
+                .IsTrue();
+            await Assert.That(await File.ReadAllTextAsync(ownershipPath))
+                .Contains(optionsRelativePath);
+
+            Directory.Delete(coveragePath);
+            var result = await orchestrator.GenerateFromDefinitionAsync(tool, outputDirectory);
+
+            await Assert.That(result.HasErrors).IsFalse();
+            await Assert.That(File.Exists(coveragePath)).IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Generation_Retains_Ownership_When_Stale_Delete_Fails()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var orchestrator = CreateOrchestrator();
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var documentedTool = tool with { DocumentationOutputDirectory = "docs" };
+            await orchestrator.GenerateFromDefinitionAsync(documentedTool, outputDirectory);
+
+            var documentationRelativePath = Path.Combine(
+                    "docs",
+                    "private-widget.md")
+                .Replace('\\', '/');
+            var documentationPath = Path.Combine(
+                outputDirectory,
+                documentationRelativePath);
+            var ownershipPath = Path.Combine(
+                outputDirectory,
+                ".modular-pipelines-options",
+                "PrivateWidget.files");
+
+            await using (new FileStream(
+                             documentationPath,
+                             FileMode.Open,
+                             FileAccess.Read,
+                             FileShare.Read))
+            {
+                await orchestrator.GenerateFromDefinitionAsync(tool, outputDirectory);
+                await Assert.That(File.Exists(documentationPath)).IsTrue();
+                await Assert.That(await File.ReadAllTextAsync(ownershipPath))
+                    .Contains(documentationRelativePath);
+            }
+
+            await orchestrator.GenerateFromDefinitionAsync(tool, outputDirectory);
+
+            await Assert.That(File.Exists(documentationPath)).IsFalse();
+            await Assert.That(await File.ReadAllTextAsync(ownershipPath))
+                .DoesNotContain(documentationRelativePath);
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
     private static CodeGeneratorOrchestrator CreateOrchestrator() =>
         new(
             cliScrapers: [],
@@ -1545,6 +1779,15 @@ public class ExternalToolDefinitionTests
                 new MarkdownDocumentationGenerator(),
             ],
             NullLogger<CodeGeneratorOrchestrator>.Instance);
+
+    private static async Task<CliToolDefinition> LoadValidToolAsync(
+        string workspace,
+        string outputDirectory)
+    {
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+        return await ExternalToolDefinitionLoader.LoadAsync(metadataPath, outputDirectory);
+    }
 
     private static Dictionary<string, string> ReadGeneratedFiles(string outputDirectory) =>
         Directory.GetFiles(outputDirectory, "*", SearchOption.AllDirectories)

@@ -164,24 +164,44 @@ public class CodeGeneratorOrchestrator
             writeAssemblyInfo: false,
             commandCoverageBaselinePath: previousCoverageManifestPath,
             replaceableExistingPaths: replaceableExistingPaths,
-            enumBaselinePaths: enumBaselinePaths);
+            enumBaselinePaths: enumBaselinePaths,
+            beforeWrite: async (candidateOwnedPaths, token) =>
+            {
+                var journalOwnedPaths = previousOwnership.OwnedPaths
+                    .Concat(candidateOwnedPaths)
+                    .Select(path => path.Replace('\\', '/'))
+                    .Distinct(fileSystemPathComparer)
+                    .Order(fileSystemPathComparer)
+                    .ToArray();
+                await WriteExternalOwnershipManifestAsync(
+                    outputDirectory,
+                    ownershipRelativePath,
+                    tool.OwnershipId!,
+                    journalOwnedPaths,
+                    token);
+            });
 
         var currentlyOwnedPaths = result.FilesGenerated
             .Select(path => path.Replace('\\', '/'))
             .Distinct(fileSystemPathComparer)
             .Order(fileSystemPathComparer)
             .ToArray();
-        ReconcileExternalOwnedFiles(
+        var retainedOwnedPaths = ReconcileExternalOwnedFiles(
             outputDirectory,
             previousOwnership.OwnedPaths,
             currentlyOwnedPaths,
             fileSystemPathComparer,
             result.FilesDeleted);
+        var manifestOwnedPaths = currentlyOwnedPaths
+            .Concat(retainedOwnedPaths)
+            .Distinct(fileSystemPathComparer)
+            .Order(fileSystemPathComparer)
+            .ToArray();
         await WriteExternalOwnershipManifestAsync(
             outputDirectory,
             ownershipRelativePath,
             tool.OwnershipId!,
-            currentlyOwnedPaths,
+            manifestOwnedPaths,
             cancellationToken);
         result.FilesGenerated.Add(ownershipRelativePath);
         if (!fileSystemPathComparer.Equals(
@@ -337,7 +357,7 @@ public class CodeGeneratorOrchestrator
         }
     }
 
-    private void ReconcileExternalOwnedFiles(
+    private IReadOnlyList<string> ReconcileExternalOwnedFiles(
         string outputDirectory,
         IReadOnlyCollection<string> previouslyOwnedPaths,
         IReadOnlyCollection<string> currentlyOwnedPaths,
@@ -345,22 +365,30 @@ public class CodeGeneratorOrchestrator
         ICollection<string> deletedPaths)
     {
         var current = currentlyOwnedPaths.ToHashSet(fileSystemPathComparer);
+        var retainedPaths = new List<string>();
         foreach (var relativePath in previouslyOwnedPaths.Where(path => !current.Contains(path)))
         {
             var fullPath = ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
                 relativePath,
                 outputDirectory,
                 "external ownership manifest path");
-            if (File.Exists(fullPath)
-                && IsExternallyOwnedGeneratedFile(outputDirectory, fullPath))
+            if (!File.Exists(fullPath))
             {
-                DeleteFileAndRecord(
+                continue;
+            }
+
+            if (!IsExternallyOwnedGeneratedFile(outputDirectory, fullPath)
+                || !DeleteFileAndRecord(
                     outputDirectory,
                     fullPath,
                     deletedPaths,
-                    validateContainment: true);
+                    validateContainment: true))
+            {
+                retainedPaths.Add(relativePath);
             }
         }
+
+        return retainedPaths;
     }
 
     private static IReadOnlyDictionary<string, string> GetOwnedEnumPaths(
@@ -441,12 +469,32 @@ public class CodeGeneratorOrchestrator
                 }
                 .Concat(ownedPaths)
                 .Append(string.Empty));
-        await WriteFileAsync(
-            manifestPath,
-            content,
-            cancellationToken,
-            outputDirectory,
-            "external ownership manifest");
+        var temporaryPath = $"{manifestPath}.{Guid.NewGuid():N}.tmp";
+        try
+        {
+            await WriteFileAsync(
+                temporaryPath,
+                content,
+                cancellationToken,
+                outputDirectory,
+                "temporary external ownership manifest");
+            ValidateContainedPath(
+                outputDirectory,
+                manifestPath,
+                "external ownership manifest");
+            File.Move(temporaryPath, manifestPath, overwrite: true);
+        }
+        finally
+        {
+            try
+            {
+                File.Delete(temporaryPath);
+            }
+            catch (Exception)
+            {
+                // The ownership update already failed; do not mask its exception.
+            }
+        }
     }
 
     private async Task ProcessHtmlScrapersAsync(
@@ -774,7 +822,8 @@ public class CodeGeneratorOrchestrator
         bool writeAssemblyInfo = true,
         string? commandCoverageBaselinePath = null,
         IReadOnlySet<string>? replaceableExistingPaths = null,
-        IReadOnlyDictionary<string, string>? enumBaselinePaths = null)
+        IReadOnlyDictionary<string, string>? enumBaselinePaths = null,
+        Func<IReadOnlyCollection<string>, CancellationToken, Task>? beforeWrite = null)
     {
         var globalOptions = tool.GetGlobalOptions();
         var normalizedCommands = GeneratorUtils.NormalizeCommandClassNames(tool.Commands);
@@ -847,7 +896,16 @@ public class CodeGeneratorOrchestrator
         {
             throw new InvalidOperationException(
                 $"Command coverage validation failed for {tool.ToolName}:{Environment.NewLine}"
-                + string.Join(Environment.NewLine, coverage.Violations.Select(violation => $"- {violation}")));
+                    + string.Join(Environment.NewLine, coverage.Violations.Select(violation => $"- {violation}")));
+        }
+
+        if (beforeWrite is not null)
+        {
+            var candidateOwnedPaths = generatedFiles
+                .Select(file => file.RelativePath)
+                .Append(Path.GetRelativePath(outputDirectory, coverage.ManifestPath))
+                .ToArray();
+            await beforeWrite(candidateOwnedPaths, cancellationToken);
         }
 
         var writtenFullPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -1176,7 +1234,7 @@ public class CodeGeneratorOrchestrator
         }
     }
 
-    private void DeleteFileAndRecord(
+    private bool DeleteFileAndRecord(
         string outputDirectory,
         string file,
         ICollection<string> deletedPaths,
@@ -1192,10 +1250,12 @@ public class CodeGeneratorOrchestrator
             File.Delete(file);
             deletedPaths.Add(Path.GetRelativePath(outputDirectory, file));
             _logger.LogDebug("Deleted old generated file: {File}", file);
+            return true;
         }
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Failed to delete file: {File}", file);
+            return false;
         }
     }
 

@@ -110,6 +110,7 @@ public static class ExternalToolDefinitionLoader
         var globalOptions = tool.GetGlobalOptions();
         foreach (var command in tool.Commands)
         {
+            ValidateUniqueGeneratedMemberNames(command, globalOptions);
             ValidateCompatibilityMetadata(command, globalOptions);
             ValidateUniqueEffectiveSwitches(command, globalOptions);
         }
@@ -149,6 +150,16 @@ public static class ExternalToolDefinitionLoader
         ValidateCommandPath(command, toolName);
         RequireIdentifier(command.ClassName, "tool.commands[].className");
         RequireIdentifier(command.ParentClassName, "tool.commands[].parentClassName");
+        var expectedParentClassName = $"{namespacePrefix}Options";
+        if (!string.Equals(
+                command.ParentClassName,
+                expectedParentClassName,
+                StringComparison.Ordinal))
+        {
+            throw new InvalidDataException(
+                $"tool.commands[].parentClassName must be '{expectedParentClassName}'.");
+        }
+
         RequireIdentifier(command.ToolNamespacePrefix, "tool.commands[].toolNamespacePrefix");
         if (!string.Equals(command.ToolNamespacePrefix, namespacePrefix, StringComparison.Ordinal))
         {
@@ -162,7 +173,6 @@ public static class ExternalToolDefinitionLoader
             "tool.commands[].commandGroupIdentifierOverride");
         ValidateOptions(command.Options, "tool.commands[].options");
         ValidatePositionalArguments(command.PositionalArguments);
-        ValidateUniqueGeneratedMemberNames(command);
         ValidateEnums(command.Enums, "tool.commands[].enums");
         command.ValidateOperandCoverage();
     }
@@ -218,6 +228,12 @@ public static class ExternalToolDefinitionLoader
 
             RequireIdentifier(option.PropertyName, $"{propertyName}[].propertyName");
             RequireTypeName(option.CSharpType, $"{propertyName}[].cSharpType");
+            if (option.IsFlag && !IsSupportedFlagType(option.CSharpType))
+            {
+                throw new InvalidDataException(
+                    $"{propertyName}[].cSharpType must be bool, bool?, int, or int? when isFlag is true.");
+            }
+
             if (option.SecretValueKeys.Count > 0 && !option.IsSecret)
             {
                 throw new InvalidDataException(
@@ -287,6 +303,21 @@ public static class ExternalToolDefinitionLoader
             or "IEnumerable<KeyValue>?"
             or "System.Collections.Generic.IEnumerable<ModularPipelines.Models.KeyValue>"
             or "System.Collections.Generic.IEnumerable<ModularPipelines.Models.KeyValue>?";
+    }
+
+    private static bool IsSupportedFlagType(string cSharpType)
+    {
+        var type = cSharpType
+            .Replace(" ", string.Empty, StringComparison.Ordinal)
+            .Replace("global::", string.Empty, StringComparison.Ordinal);
+        return type is "bool"
+            or "bool?"
+            or "int"
+            or "int?"
+            or "System.Boolean"
+            or "System.Boolean?"
+            or "System.Int32"
+            or "System.Int32?";
     }
 
     private static void ValidateEquivalentEnumDefinitions(CliToolDefinition tool)
@@ -361,10 +392,24 @@ public static class ExternalToolDefinitionLoader
         CliCommandDefinition command,
         IReadOnlyList<CliOptionDefinition> globalOptions)
     {
-        var forwardingTargets = command.Options
+        var writableForwardingTargets = command.Options
+            .Where(option => !option.IsRequired)
             .Select(option => option.PropertyName)
-            .Concat(command.PositionalArguments.Select(argument => argument.PropertyName))
+            .Concat(command.PositionalArguments
+                .Where(argument => !argument.IsRequired)
+                .Select(argument => argument.PropertyName))
             .Concat(globalOptions.Select(option => option.PropertyName))
+            .Concat(typeof(CommandLineToolOptions)
+                .GetProperties()
+                .Where(property => property.SetMethod is not null
+                    && !property.SetMethod.ReturnParameter
+                        .GetRequiredCustomModifiers()
+                        .Contains(typeof(System.Runtime.CompilerServices.IsExternalInit)))
+                .Select(property => property.Name))
+            .ToHashSet(StringComparer.Ordinal);
+        var forwardingTargets = writableForwardingTargets
+            .Concat(command.Options.Select(option => option.PropertyName))
+            .Concat(command.PositionalArguments.Select(argument => argument.PropertyName))
             .Concat(typeof(CommandLineToolOptions)
                 .GetProperties()
                 .Select(property => property.Name))
@@ -387,6 +432,15 @@ public static class ExternalToolDefinitionLoader
                 throw new InvalidDataException(
                     $"Compatibility property '{property.PropertyName}' on command "
                     + $"'{command.FullCommand}' forwards to missing property "
+                    + $"'{property.ForwardToPropertyName}'.");
+            }
+
+            if (property.ForwardToPropertyName is not null
+                && !writableForwardingTargets.Contains(property.ForwardToPropertyName))
+            {
+                throw new InvalidDataException(
+                    $"Compatibility property '{property.PropertyName}' on command "
+                    + $"'{command.FullCommand}' forwards to init-only property "
                     + $"'{property.ForwardToPropertyName}'.");
             }
         }
@@ -462,10 +516,13 @@ public static class ExternalToolDefinitionLoader
         }
     }
 
-    private static void ValidateUniqueGeneratedMemberNames(CliCommandDefinition command)
+    private static void ValidateUniqueGeneratedMemberNames(
+        CliCommandDefinition command,
+        IReadOnlyList<CliOptionDefinition> globalOptions)
     {
-        var duplicate = command.Options
+        var duplicate = globalOptions
             .Select(option => option.PropertyName)
+            .Concat(command.Options.Select(option => option.PropertyName))
             .Concat(command.PositionalArguments.Select(argument => argument.PropertyName))
             .GroupBy(name => name, StringComparer.OrdinalIgnoreCase)
             .FirstOrDefault(group => group.Skip(1).Any());
