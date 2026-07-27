@@ -120,12 +120,11 @@ internal class SpectreResultsPrinter : IResultsPrinter
         System.Console.WriteLine();
     }
 
-    private static Table CreateModulesTable(PipelineSummary pipelineSummary)
+    internal static Table CreateModulesTable(PipelineSummary pipelineSummary)
     {
         var table = new Table
         {
             Border = TableBorder.Rounded,
-            Expand = true,
         };
 
         // Add columns with alignment
@@ -174,8 +173,6 @@ internal class SpectreResultsPrinter : IResultsPrinter
             AddModuleRow(table, module, timelineLookup);
         }
 
-        // Add separator and total row
-        table.AddEmptyRow();
         AddTotalRow(table, pipelineSummary);
 
         return table;
@@ -248,7 +245,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
             ModuleStatus.TimedOut => "[red]Timeout[/]",
             ModuleStatus.PipelineTerminated => "[red]Terminated[/]",
             ModuleStatus.IgnoredFailure => "[yellow]Ignored[/]",
-            ModuleStatus.Skipped => "[yellow]Skipped[/]",
+            ModuleStatus.Skipped => "[dim]⏭ skipped[/]",
             ModuleStatus.UsedHistory => "[green3]Cached[/]",
             ModuleStatus.Retried => "[yellow]Retried[/]",
             ModuleStatus.Processing => "[blue]Running[/]",
@@ -286,18 +283,20 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
         System.Console.WriteLine();
 
-        // Create a compact metrics display
-        var metricsPanel = new Panel(
+        AnsiConsole.Write(CreateMetricsPanel(metrics));
+    }
+
+    internal static Panel CreateMetricsPanel(PipelineMetrics metrics)
+    {
+        return new Panel(
             new Markup(
-                $"[dim]Parallelism:[/] [bold]{metrics.ParallelismFactor:F1}x[/]  " +
+                $"[dim]Speedup:[/] [bold]{metrics.ParallelismFactor:F1}x[/]  " +
                 $"[dim]Peak:[/] [bold]{metrics.PeakConcurrency}[/]  " +
                 $"[dim]Saved:[/] [bold]{(metrics.TotalModuleExecutionTime - metrics.WallClockDuration).ToDisplayString()}[/]"))
         {
             Border = BoxBorder.None,
             Padding = new Padding(0, 0, 0, 0),
         };
-
-        AnsiConsole.Write(metricsPanel);
     }
 
     private static string FormatTime(DateTimeOffset dateTimeOffset, bool isSameDay)
