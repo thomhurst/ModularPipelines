@@ -33,6 +33,7 @@ public class ModuleHistoryTests
         }
     }
 
+#pragma warning disable CS0618 // This test exercises history behavior through the legacy run-condition path.
     private class SkipRunConditionAttribute : RunConditionAttribute
     {
         public override Task<bool> Condition(IPipelineHookContext pipelineContext)
@@ -40,6 +41,7 @@ public class ModuleHistoryTests
             return false.AsTask();
         }
     }
+#pragma warning restore CS0618
 
     [SkipRunCondition]
     private class SkipFromRunCondition : Module<bool>

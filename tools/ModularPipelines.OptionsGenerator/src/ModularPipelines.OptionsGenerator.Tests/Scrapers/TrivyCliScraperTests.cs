@@ -153,7 +153,7 @@ public class TrivyCliScraperTests
         var command = await new TestTrivyCliScraper().Parse(["trivy", "plugin", "run"], helpText);
         var positionals = command!.PositionalArguments;
 
-        await Assert.That(positionals).HasCount().EqualTo(2);
+        await Assert.That(positionals).Count().IsEqualTo(2);
         await Assert.That(positionals[0].PropertyName).IsEqualTo("Source");
         await Assert.That(positionals[0].IsRequired).IsTrue();
         await Assert.That(positionals[1].PropertyName).IsEqualTo("PluginArguments");

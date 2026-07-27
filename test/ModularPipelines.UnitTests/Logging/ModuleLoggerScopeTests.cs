@@ -42,11 +42,12 @@ public class ModuleLoggerScopeTests
     }
 
     [Before(Test)]
-    public void Setup()
+    public void Setup(TestContext context)
     {
         // Ensure clean state before each test
         ModuleLogger.Values.Value = null;
         ModuleLogger.CurrentModuleType.Value = null;
+        context.AddAsyncLocalValues();
     }
 
     [After(Test)]

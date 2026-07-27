@@ -5,6 +5,7 @@ using ModularPipelines.Context;
 namespace ModularPipelines.Git.Attributes;
 
 [ExcludeFromCodeCoverage]
+#pragma warning disable CS0618 // This public compatibility attribute intentionally uses the legacy run-condition contract.
 public class RunOnlyIfBranchStartsWithAttribute : MandatoryRunConditionAttribute
 {
     public string BranchNamePrefix { get; }
@@ -22,3 +23,4 @@ public class RunOnlyIfBranchStartsWithAttribute : MandatoryRunConditionAttribute
             "Current Branch: {CurrentBranch} | Can run if starts with: {ExpectedPrefix}"));
     }
 }
+#pragma warning restore CS0618

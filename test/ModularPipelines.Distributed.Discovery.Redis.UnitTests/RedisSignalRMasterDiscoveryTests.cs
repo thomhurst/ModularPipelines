@@ -35,10 +35,6 @@ public class RedisSignalRMasterDiscoveryTests
 
         // Act — should not throw
         await discovery.AdvertiseMasterUrlAsync("http://master:5099", CancellationToken.None);
-
-        // Assert — verify AdvertiseMasterUrlAsync completed without error
-        // The actual Redis write is verified by the mock not throwing
-        await Assert.That(true).IsTrue();
     }
 
     [Test]

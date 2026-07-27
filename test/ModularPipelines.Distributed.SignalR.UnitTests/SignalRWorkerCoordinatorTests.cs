@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.SignalR.Coordination;
 using ModularPipelines.Distributed.SignalR.Hub;
 
@@ -8,12 +9,24 @@ namespace ModularPipelines.Distributed.SignalR.UnitTests;
 public class SignalRWorkerCoordinatorTests
 {
     [Test]
-    public async Task DequeueModule_Throws_Not_Supported_For_Enqueue()
+    public async Task EnqueueModule_Throws_NotSupportedException()
     {
-        // Workers don't enqueue — only master does
-        // We can't easily mock HubConnection (sealed), so test the contract
-        // by verifying the expected exceptions from the interface methods
-        await Assert.That(true).IsTrue(); // Placeholder for contract verification
+        await using var connection = new HubConnectionBuilder()
+            .WithUrl("http://localhost")
+            .Build();
+        var coordinator = new SignalRWorkerCoordinator(
+            connection,
+            NullLogger<SignalRWorkerCoordinator>.Instance);
+        var assignment = new ModuleAssignment(
+            "TestModule",
+            "System.String",
+            [],
+            null,
+            DateTimeOffset.UtcNow,
+            new ModuleAssignmentConfig(null, 0, false));
+
+        await Assert.That(() => coordinator.EnqueueModuleAsync(assignment, CancellationToken.None))
+            .Throws<NotSupportedException>();
     }
 
     [Test]

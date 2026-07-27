@@ -5,6 +5,7 @@ using ModularPipelines.Context;
 namespace ModularPipelines.Git.Attributes;
 
 [ExcludeFromCodeCoverage]
+#pragma warning disable CS0618 // This public compatibility attribute intentionally uses the legacy run-condition contract.
 public class SkipIfBranchAttribute : MandatoryRunConditionAttribute
 {
     public string BranchName { get; }
@@ -22,3 +23,4 @@ public class SkipIfBranchAttribute : MandatoryRunConditionAttribute
             "Current Branch: {CurrentBranch} | Will skip on: {SkipBranch}"));
     }
 }
+#pragma warning restore CS0618

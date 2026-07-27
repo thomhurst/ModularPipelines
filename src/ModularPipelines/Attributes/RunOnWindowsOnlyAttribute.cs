@@ -39,6 +39,7 @@ namespace ModularPipelines.Attributes;
 /// <seealso cref="RunOnMacOSOnlyAttribute"/>
 /// <seealso cref="MandatoryRunConditionAttribute"/>
 [ExcludeFromCodeCoverage]
+#pragma warning disable CS0618 // MandatoryRunConditionAttribute remains the compatibility base for this legacy attribute.
 public class RunOnWindowsOnlyAttribute : MandatoryRunConditionAttribute
 {
     /// <inheritdoc/>
@@ -47,3 +48,4 @@ public class RunOnWindowsOnlyAttribute : MandatoryRunConditionAttribute
         return Task.FromResult(OperatingSystem.IsWindows());
     }
 }
+#pragma warning restore CS0618
