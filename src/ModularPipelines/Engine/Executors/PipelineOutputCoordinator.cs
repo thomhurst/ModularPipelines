@@ -56,6 +56,9 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
     /// <inheritdoc />
     public async Task<IPipelineOutputScope> InitializeAsync()
     {
+        var liveFlushInterval = _options.Value.ModuleOutputFlushInterval;
+        ValidateLiveFlushInterval(liveFlushInterval);
+
         // Install console coordination before starting progress
         _consoleCoordinator.Install();
 
@@ -71,7 +74,7 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
             printProgressExecutor,
             _consoleCoordinator,
             _outputCoordinator,
-            _options.Value.ModuleOutputFlushInterval,
+            liveFlushInterval,
             _logger);
     }
 
@@ -97,6 +100,19 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         _summaryLogger.WriteLogs();
     }
 
+    private static void ValidateLiveFlushInterval(TimeSpan liveFlushInterval)
+    {
+        if (liveFlushInterval < TimeSpan.Zero
+            || liveFlushInterval > PipelineOptions.MaximumModuleOutputFlushInterval)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(liveFlushInterval),
+                liveFlushInterval,
+                $"The interval must be between {TimeSpan.Zero} and " +
+                $"{PipelineOptions.MaximumModuleOutputFlushInterval}.");
+        }
+    }
+
     private sealed class PipelineOutputScope : IPipelineOutputScope
     {
         private readonly IPrintProgressExecutor _printProgressExecutor;
@@ -117,16 +133,6 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
             _consoleCoordinator = consoleCoordinator;
             _outputCoordinator = outputCoordinator;
             _logger = logger;
-
-            if (liveFlushInterval < TimeSpan.Zero
-                || liveFlushInterval > PipelineOptions.MaximumModuleOutputFlushInterval)
-            {
-                throw new ArgumentOutOfRangeException(
-                    nameof(liveFlushInterval),
-                    liveFlushInterval,
-                    $"The interval must be between {TimeSpan.Zero} and " +
-                    $"{PipelineOptions.MaximumModuleOutputFlushInterval}.");
-            }
 
             _liveFlushTask = liveFlushInterval > TimeSpan.Zero
                 ? FlushPeriodicallyAsync(liveFlushInterval)

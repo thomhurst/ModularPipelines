@@ -136,12 +136,25 @@ public class PipelineOutputCoordinatorTests
     [Arguments((long) uint.MaxValue)]
     public async Task Initialize_InvalidLiveFlushIntervalThrowsImmediately(long milliseconds)
     {
+        var events = new List<string>();
+        var progressExecutor = new Mock<IPrintProgressExecutor>();
+        progressExecutor
+            .Setup(x => x.InitializeAsync())
+            .Callback(() => events.Add("progress"))
+            .ReturnsAsync(progressExecutor.Object);
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.Install())
+            .Callback(() => events.Add("install"));
+        consoleCoordinator
+            .Setup(x => x.EnableOutputBuffering())
+            .Callback(() => events.Add("buffer"));
         var coordinator = new PipelineOutputCoordinator(
-            new RecordingProgressExecutor([]),
+            progressExecutor.Object,
             Mock.Of<IConsolePrinter>(),
             Mock.Of<IInternalSummaryLogger>(),
             Mock.Of<IExceptionBuffer>(),
-            Mock.Of<IConsoleCoordinator>(),
+            consoleCoordinator.Object,
             Mock.Of<IOutputCoordinator>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
@@ -151,6 +164,7 @@ public class PipelineOutputCoordinatorTests
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () =>
             await coordinator.InitializeAsync());
+        await Assert.That(events).IsEmpty();
     }
 
     private sealed class RecordingProgressExecutor(List<string> events) : IPrintProgressExecutor
