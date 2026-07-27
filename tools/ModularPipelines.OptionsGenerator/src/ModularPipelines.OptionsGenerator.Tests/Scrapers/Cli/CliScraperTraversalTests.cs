@@ -296,7 +296,6 @@ public class CliScraperTraversalTests
                 ClassName = "FakeOptions",
                 ParentClassName = "FakeOptions",
                 ToolNamespacePrefix = "Fake",
-                HasOperandTakingUsage = true,
                 Options = [],
             });
     }

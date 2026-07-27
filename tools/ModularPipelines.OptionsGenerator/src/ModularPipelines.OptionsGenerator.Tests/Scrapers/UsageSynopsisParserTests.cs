@@ -56,6 +56,13 @@ public class UsageSynopsisParserTests
                 "Usage: newman run [options] <collection|URL>",
                 ["newman", "run"],
                 Required("Collection", placement: PositionalArgumentPosition.AfterOptions)),
+            Fixture(
+                "docker",
+                "Usage: docker exec [OPTIONS] CONTAINER COMMAND [ARG...]",
+                ["docker", "exec"],
+                Required("Container", placement: PositionalArgumentPosition.AfterOptions),
+                Required("Command", placement: PositionalArgumentPosition.AfterOptions),
+                Optional("Arg", isVariadic: true, placement: PositionalArgumentPosition.AfterOptions)),
         };
 
         foreach (var fixture in fixtures)
@@ -133,6 +140,25 @@ public class UsageSynopsisParserTests
         await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(argument.IsVariadic).IsTrue();
         await Assert.That(argument.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(argument.PrependOptionTerminator).IsTrue();
+    }
+
+    [Test]
+    public async Task Relaxes_Operands_Absent_From_Alternate_Invocation_Forms()
+    {
+        const string helpText = """
+            Usage:
+              cargo add <DEP>[@<VERSION>]
+              cargo add --path <PATH>
+              cargo add --git <URL>
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["cargo", "add"]);
+        var dependency = result.PositionalArguments.Single();
+
+        await Assert.That(result.MatchedSynopsisCount).IsEqualTo(3);
+        await Assert.That(dependency.IsRequired).IsFalse();
+        await Assert.That(dependency.CSharpType).IsEqualTo("string?");
     }
 
     [Test]
@@ -265,6 +291,39 @@ public class UsageSynopsisParserTests
             "[CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]");
         await Assert.That(generated).Contains(
             "public IEnumerable<string>? Destination { get; set; }");
+    }
+
+    [Test]
+    public async Task Generator_Emits_Option_Terminator_Metadata()
+    {
+        var usage = UsageSynopsisParser.Parse(
+            "Usage: cargo test [OPTIONS] [-- [ARGS]...]",
+            ["cargo", "test"]);
+        var command = new CliCommandDefinition
+        {
+            FullCommand = "cargo test",
+            CommandParts = ["test"],
+            ClassName = "CargoTestOptions",
+            ParentClassName = "CargoOptions",
+            ToolNamespacePrefix = "Cargo",
+            Options = [],
+            PositionalArguments = usage.PositionalArguments,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
+        };
+        var tool = new CliToolDefinition
+        {
+            ToolName = "cargo",
+            NamespacePrefix = "Cargo",
+            TargetNamespace = "ModularPipelines.Cargo",
+            OutputDirectory = "src/ModularPipelines.Cargo",
+            Commands = [command],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(generated).Contains(
+            "PrependOptionTerminator = true");
     }
 
     [Test]

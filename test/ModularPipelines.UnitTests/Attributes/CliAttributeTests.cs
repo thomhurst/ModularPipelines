@@ -123,6 +123,19 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Prepends_Option_Terminator_To_Passthrough_Arguments()
+    {
+        var options = new TestCliOptionsWithPassthroughArguments
+        {
+            Args = ["first", "second"],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(string.Join(' ', list)).IsEqualTo("-- first second");
+    }
+
+    [Test]
     public async Task Parser_Handles_CliFlag()
     {
         var options = new TestCliOptionsWithFlag { Debug = true };
@@ -427,6 +440,12 @@ public class CliAttributeTests
 
         [CliArgument(1)]
         public string? ChartReference { get; set; }
+    }
+
+    private record TestCliOptionsWithPassthroughArguments
+    {
+        [CliArgument(0, PrependOptionTerminator = true)]
+        public IEnumerable<string>? Args { get; set; }
     }
 
     private record TestCliOptionsComplete

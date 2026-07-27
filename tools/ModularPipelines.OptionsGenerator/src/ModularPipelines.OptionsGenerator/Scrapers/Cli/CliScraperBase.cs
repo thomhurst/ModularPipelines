@@ -417,7 +417,9 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
-        command.ValidateOperandCoverage();
+        command.ValidateOperandCoverage(
+            usage.HasOperandTokens,
+            usage.Synopsis);
         await commandChannel.Writer.WriteAsync(command, cancellationToken);
     }
 

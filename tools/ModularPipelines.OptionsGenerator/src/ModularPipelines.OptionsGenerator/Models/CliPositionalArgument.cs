@@ -24,6 +24,8 @@ public record CliPositionalArgument
                     IsRequired = required,
                     IsVariadic = group.Any(argument => argument.IsVariadic)
                                  || collection is not null,
+                    PrependOptionTerminator = group.Any(argument =>
+                        argument.PrependOptionTerminator),
                 };
             })
             .OrderBy(argument => argument.PositionIndex)
@@ -80,6 +82,11 @@ public record CliPositionalArgument
     /// Whether this positional argument accepts repeated values.
     /// </summary>
     public bool IsVariadic { get; init; }
+
+    /// <summary>
+    /// Whether the generated CLI argument must be preceded by the <c>--</c> option terminator.
+    /// </summary>
+    public bool PrependOptionTerminator { get; init; }
 
     /// <summary>
     /// Whether this positional argument contains a secret value that should be obfuscated in logs.

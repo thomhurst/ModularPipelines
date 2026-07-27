@@ -186,7 +186,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 PropertyKind.Argument,
                 GetNamedString(attribute, "Name"),
                 null,
-                false,
+                GetNamedBool(attribute, "PrependOptionTerminator"),
                 GetConstructorInt(attribute),
                 GetNamedInt(attribute, "Placement"),
                 GetNamedInt(attribute, "Phase", defaultValue: PassthroughCommandLinePhase),
@@ -300,6 +300,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        Placement = (global::ModularPipelines.Attributes.ArgumentPlacement){property.SecondInt},");
                     sb.AppendLine($"                        Phase = (global::ModularPipelines.Attributes.CommandLinePhase){property.Phase},");
                     sb.AppendLine($"                        Name = {NullableLiteral(property.PrimaryValue)},");
+                    sb.AppendLine($"                        PrependOptionTerminator = {BooleanLiteral(property.BooleanValue)},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;
                 case PropertyKind.Flag:

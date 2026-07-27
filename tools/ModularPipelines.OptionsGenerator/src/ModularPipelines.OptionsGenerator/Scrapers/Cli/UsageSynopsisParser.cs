@@ -69,6 +69,10 @@ public static class UsageSynopsisParser
             .ThenBy(result => result.UnparsedOperandTokens.Count)
             .ToList();
         var selected = rankedCandidates[0];
+        var sameCommandCandidates = candidates
+            .Where(candidate =>
+                candidate.MatchedCommandPartCount == selected.MatchedCommandPartCount)
+            .ToList();
 
         return selected with
         {
@@ -76,6 +80,9 @@ public static class UsageSynopsisParser
             HasAmbiguousMatch = rankedCandidates
                 .Skip(1)
                 .Any(candidate => HasSameScore(selected, candidate)),
+            PositionalArguments = RelaxArgumentsMissingFromAlternatives(
+                selected.PositionalArguments,
+                sameCommandCandidates),
         };
     }
 
@@ -122,10 +129,11 @@ public static class UsageSynopsisParser
                 placement = PositionalArgumentPosition.AfterOptions;
             }
 
-            var operandToken = TryUnwrapOptionTerminatedOperand(token, out var unwrappedOperand)
-                ? unwrappedOperand
-                : token;
-            if (TryApplyStandaloneRepeat(operandToken, arguments) || IsControlToken(operandToken))
+            var prependOptionTerminator =
+                TryUnwrapOptionTerminatedOperand(token, out var unwrappedOperand);
+            var operandToken = prependOptionTerminator ? unwrappedOperand : token;
+            if (TryApplyStandaloneRepeat(operandToken, arguments)
+                || IsNonOperandSyntax(operandToken))
             {
                 continue;
             }
@@ -135,6 +143,11 @@ public static class UsageSynopsisParser
             {
                 unparsedTokens.Add(operandToken);
                 continue;
+            }
+
+            if (prependOptionTerminator)
+            {
+                argument = argument with { PrependOptionTerminator = true };
             }
 
             arguments.Add(argument);
@@ -157,6 +170,34 @@ public static class UsageSynopsisParser
         left.MatchedCommandPartCount == right.MatchedCommandPartCount
         && left.PositionalArguments.Count == right.PositionalArguments.Count
         && left.UnparsedOperandTokens.Count == right.UnparsedOperandTokens.Count;
+
+    private static IReadOnlyList<CliPositionalArgument> RelaxArgumentsMissingFromAlternatives(
+        IReadOnlyList<CliPositionalArgument> selectedArguments,
+        IReadOnlyList<UsageSynopsisParseResult> alternatives)
+    {
+        var operandAlternatives = alternatives
+            .Where(alternative => alternative.PositionalArguments.Count > 0)
+            .ToList();
+        if (operandAlternatives.Count <= 1)
+        {
+            return selectedArguments;
+        }
+
+        return selectedArguments
+            .Select(argument => operandAlternatives.All(alternative =>
+                alternative.PositionalArguments.Any(candidate =>
+                    candidate.IsRequired
+                    && candidate.PropertyName.Equals(
+                        argument.PropertyName,
+                        StringComparison.OrdinalIgnoreCase)))
+                    ? argument
+                    : argument with
+                    {
+                        CSharpType = $"{argument.CSharpType.TrimEnd('?')}?",
+                        IsRequired = false,
+                    })
+            .ToList();
+    }
 
     private static IReadOnlyList<string> ExtractSynopses(string helpText)
     {
@@ -330,7 +371,7 @@ public static class UsageSynopsisParser
                          || canonicalName.EndsWith(" ...", StringComparison.Ordinal);
         canonicalName = canonicalName.TrimEnd('.', '…').Trim();
 
-        if (canonicalName.StartsWith('-') || ControlTokens.Contains(canonicalName))
+        if (canonicalName.StartsWith('-'))
         {
             return null;
         }
@@ -437,6 +478,15 @@ public static class UsageSynopsisParser
         return string.IsNullOrWhiteSpace(content)
                || content.StartsWith('-')
                || ControlTokens.Contains(content)
+               || content.All(character => !char.IsLetterOrDigit(character));
+    }
+
+    private static bool IsNonOperandSyntax(string token)
+    {
+        var content = TrimWrapper(token).Trim();
+        return string.IsNullOrWhiteSpace(content)
+               || content.StartsWith('-')
+               || OptionControlTokens.Contains(content)
                || content.All(character => !char.IsLetterOrDigit(character));
     }
 

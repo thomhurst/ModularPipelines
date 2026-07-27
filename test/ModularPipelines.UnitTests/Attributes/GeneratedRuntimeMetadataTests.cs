@@ -9,7 +9,11 @@ namespace ModularPipelines.UnitTests.Attributes;
 [CliTool("metadata-test")]
 internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
 {
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions, Name = "<FILE>")]
+    [CliArgument(
+        0,
+        Placement = ArgumentPlacement.BeforeOptions,
+        Name = "<FILE>",
+        PrependOptionTerminator = true)]
     public string? File { get; init; }
 
     [CliFlag("--verbose", ShortForm = "-v", PreferShortForm = true)]
@@ -129,6 +133,7 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(argument.Attribute.Placement).IsEqualTo(ArgumentPlacement.BeforeOptions);
         await Assert.That(argument.Attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
         await Assert.That(argument.Attribute.Name).IsEqualTo("<FILE>");
+        await Assert.That(argument.Attribute.PrependOptionTerminator).IsTrue();
 
         var flag = model.OfType<FlagPart>().Single();
         await Assert.That((bool) flag.Getter(options)!).IsTrue();
