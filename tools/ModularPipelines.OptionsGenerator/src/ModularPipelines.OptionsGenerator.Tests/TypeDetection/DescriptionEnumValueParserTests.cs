@@ -15,6 +15,7 @@ public class DescriptionEnumValueParserTests
     [Test]
     [Arguments("Output format (table, json, yaml)", "table,json,yaml")]
     [Arguments("Log types to enable (all, none, api, audit)", "all,none,api,audit")]
+    [Arguments("""Set the logging level ("debug", "info", "warn", "error", "fatal")""", "debug,info,warn,error,fatal")]
     public async Task TryParse_Accepts_Contextual_Parenthesized_Values(string description, string expectedValues)
     {
         var result = DescriptionEnumValueParser.TryParse(description);
@@ -56,6 +57,7 @@ public class DescriptionEnumValueParserTests
     [Test]
     [Arguments("One of: json or yaml", "json,yaml")]
     [Arguments("Optionally specify one of 'url', 'file', 'release' or 'source'", "url,file,release,source")]
+    [Arguments("""Must be "background", "orphan", or "foreground".""", "background,orphan,foreground")]
     public async Task TryParse_Accepts_Prose_Separated_Explicit_Values(
         string description,
         string expectedValues)

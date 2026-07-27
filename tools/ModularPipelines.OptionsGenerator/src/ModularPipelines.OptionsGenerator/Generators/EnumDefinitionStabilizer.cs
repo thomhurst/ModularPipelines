@@ -156,6 +156,8 @@ internal static partial class EnumDefinitionStabilizer
         return values;
     }
 
+    // Description was emitted by generators before EnumValue existed. Retaining this migration
+    // shape preserves established ordinals on the first regeneration of older enum files.
     [GeneratedRegex(
         """\[(?:EnumValue|Description)\("(?<cliValue>(?:\\.|[^"\\])*)"\)\]\s*(?<member>[\p{L}_][\p{L}\p{Nd}_]*)(?:\s*=\s*(?<number>-?\d+))?\s*(?:,|})""")]
     private static partial Regex ExistingEnumValuePattern();

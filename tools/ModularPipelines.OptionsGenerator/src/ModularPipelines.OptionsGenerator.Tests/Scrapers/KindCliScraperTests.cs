@@ -83,6 +83,36 @@ public class KindCliScraperTests
         await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
     }
 
+    [Test]
+    [Arguments(
+        "docker",
+        """Set the logging level ("debug", "info", "warn", "error", "fatal")""",
+        "debug,info,warn,error,fatal")]
+    [Arguments(
+        "kubectl",
+        """Must be "background", "orphan", or "foreground". Selects the deletion cascading strategy.""",
+        "background,orphan,foreground")]
+    public async Task Shared_Cobra_Parser_Preserves_Production_Enum_Phrases(
+        string toolName,
+        string description,
+        string expectedValues)
+    {
+        var command = await Parse(
+            [toolName],
+            $"""
+             Usage:
+               {toolName} [flags]
+
+             Flags:
+                   --value string   {description}
+             """);
+
+        var option = command.Options.Single(option => option.SwitchName == "--value");
+        await Assert.That(option.EnumDefinition).IsNotNull();
+        await Assert.That(option.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(expectedValues.Split(','));
+    }
+
     private static async Task<CliCommandDefinition> Parse(string[] commandPath, string helpText) =>
         (await new TestKindCliScraper().Parse(commandPath, helpText))!;
 

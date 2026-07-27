@@ -78,10 +78,10 @@ internal static partial class DescriptionEnumValueParser
     [GeneratedRegex("""\b(?:must be one of|one of|valid values|allowed values|possible values|accepted values)\b\s*:\s*[\[(]?(?<values>[^\s,|)\]]+(?:(?:\s*(?:\||,)\s*(?:(?:or|and)\s+)?|\s+(?:or|and)\s+)[^\s,|)\]]+)+)""", RegexOptions.IgnoreCase)]
     private static partial Regex ExplicitValuesPattern();
 
-    [GeneratedRegex("""\b(?:must be one of|one of)\b\s+(?<values>["'`][A-Za-z0-9][A-Za-z0-9_-]{0,28}["'`](?:(?:\s*(?:,|\bor\b|\band\b)\s*)["'`][A-Za-z0-9][A-Za-z0-9_-]{0,28}["'`])+)""", RegexOptions.IgnoreCase)]
+    [GeneratedRegex("""\b(?:must be(?:\s+one of)?|one of)\b\s+(?<values>["'`][A-Za-z0-9][A-Za-z0-9_-]{0,28}["'`](?:(?:\s*(?:,|\bor\b|\band\b)\s*)["'`][A-Za-z0-9][A-Za-z0-9_-]{0,28}["'`])+)""", RegexOptions.IgnoreCase)]
     private static partial Regex QuotedOneOfValuesPattern();
 
-    [GeneratedRegex("""\b(?:format|types?|mode)\b[^()\r\n]{0,40}\((?<values>[^\s,|)]+(?:\s*(?:\||,)\s*(?:or\s+|and\s+)?[^\s,|)]+)+)\)""", RegexOptions.IgnoreCase)]
+    [GeneratedRegex("""\b(?:formats?|types?|modes?|levels?)\b[^()\r\n]{0,40}\((?<values>[^\s,|)]+(?:\s*(?:\||,)\s*(?:or\s+|and\s+)?[^\s,|)]+)+)\)""", RegexOptions.IgnoreCase)]
     private static partial Regex ContextualParenthesizedValuesPattern();
 
     [GeneratedRegex(@"\s*(?:\||,|\b(?:or|and)\b)\s*", RegexOptions.IgnoreCase)]
