@@ -45,4 +45,11 @@ public class ProgressDisplayStyleTests
         await Assert.That(ProgressDisplayStyle.Spinner.Frames)
             .All(frame => frame.All(character => character <= sbyte.MaxValue));
     }
+
+    [Test]
+    public async Task Completed_Spinner_Is_Status_Neutral()
+    {
+        await Assert.That(ProgressDisplayStyle.CompletedSpinnerText)
+            .IsEqualTo(" ");
+    }
 }

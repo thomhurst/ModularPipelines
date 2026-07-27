@@ -9,6 +9,7 @@ internal static class ProgressDisplayStyle
     internal const string SucceededMarker = "+";
     internal const string FailedMarker = "!";
     internal const string SkippedMarker = "-";
+    internal const string CompletedSpinnerText = " ";
 
     internal static Spinner Spinner { get; } = Spinner.Known.Ascii;
 

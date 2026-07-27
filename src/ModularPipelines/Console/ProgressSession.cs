@@ -93,7 +93,7 @@ internal class ProgressSession : IProgressSession, IProgressController
                     new ElapsedTimeColumn(),
                     new SpinnerColumn(ProgressDisplayStyle.Spinner)
                     {
-                        CompletedText = ProgressDisplayStyle.SucceededMarker,
+                        CompletedText = ProgressDisplayStyle.CompletedSpinnerText,
                         PendingText = ProgressDisplayStyle.PendingMarker,
                     })
                 .StartAsync(async ctx =>
