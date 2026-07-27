@@ -582,7 +582,7 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
-    public async Task External_Generation_Does_Not_Delete_Files_Owned_By_Prefix_Related_Tool()
+    public async Task External_Generation_Isolates_Prefix_Related_Tool_Ownership()
     {
         var workspace = CreateTemporaryDirectory();
         var metadataPath = Path.Combine(workspace, "private-widget.json");
@@ -637,11 +637,24 @@ public class ExternalToolDefinitionTests
                 "generated",
                 "Options",
                 "FooBarDeployOptions.Generated.cs");
+            var sharedAssemblyInfo = Path.Combine(
+                outputDirectory,
+                "generated",
+                "AssemblyInfo.Generated.cs");
             await Assert.That(File.Exists(fooBarOptions)).IsTrue();
+            await Assert.That(File.Exists(sharedAssemblyInfo)).IsFalse();
 
             await orchestrator.GenerateFromDefinitionAsync(foo, outputDirectory);
 
             await Assert.That(File.Exists(fooBarOptions)).IsTrue();
+            await Assert.That(File.Exists(sharedAssemblyInfo)).IsFalse();
+            foreach (var manifest in Directory.GetFiles(
+                         Path.Combine(outputDirectory, ".modular-pipelines-options"),
+                         "*.files"))
+            {
+                await Assert.That(await File.ReadAllTextAsync(manifest))
+                    .DoesNotContain("AssemblyInfo.Generated.cs");
+            }
         }
         finally
         {

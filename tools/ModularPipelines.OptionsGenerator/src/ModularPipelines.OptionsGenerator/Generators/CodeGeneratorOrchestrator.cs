@@ -147,6 +147,7 @@ public class CodeGeneratorOrchestrator
             cancellationToken,
             enforceOutputContainment: true,
             cleanupGeneratedFilesByNamespacePrefix: false,
+            writeAssemblyInfo: false,
             commandCoverageBaselinePath: previousCoverageManifestPath);
 
         var currentlyOwnedPaths = result.FilesGenerated
@@ -651,6 +652,7 @@ public class CodeGeneratorOrchestrator
         CancellationToken cancellationToken,
         bool enforceOutputContainment = false,
         bool cleanupGeneratedFilesByNamespacePrefix = true,
+        bool writeAssemblyInfo = true,
         string? commandCoverageBaselinePath = null)
     {
         var globalOptions = tool.GetGlobalOptions();
@@ -750,14 +752,16 @@ public class CodeGeneratorOrchestrator
             enforceOutputContainment ? outputDirectory : null);
         result.FilesGenerated.Add(Path.GetRelativePath(outputDirectory, coverage.ManifestPath));
 
-        // AssemblyInfo is deliberately outside collision tracking. Its metadata is
-        // package-level, so tools sharing an output directory generate identical content.
-        await WriteAssemblyInfoAsync(
-            outputDirectory,
-            toolDefinition,
-            cancellationToken,
-            enforceOutputContainment);
-        result.FilesGenerated.Add(Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
+        if (writeAssemblyInfo)
+        {
+            // First-party tools sharing an output directory generate identical package metadata.
+            await WriteAssemblyInfoAsync(
+                outputDirectory,
+                toolDefinition,
+                cancellationToken,
+                enforceOutputContainment);
+            result.FilesGenerated.Add(Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
+        }
     }
 
     private static List<string> ParseToolList(string tools)
