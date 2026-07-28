@@ -91,7 +91,11 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _serviceProvider = serviceProvider;
         _outputCoordinator = outputCoordinator;
         _loggerControl = loggerControl;
-        _unattributedBuffer = new ModuleOutputBuffer("Pipeline", typeof(void));
+        _unattributedBuffer = new ModuleOutputBuffer(
+            "Pipeline",
+            typeof(void),
+            _options.Value.ModuleOutputFlushThreshold,
+            RequestThresholdFlush);
     }
 
     /// <inheritdoc />
@@ -293,7 +297,12 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     /// <inheritdoc />
     public IModuleOutputBuffer GetModuleBuffer(Type moduleType)
     {
-        return _moduleBuffers.GetOrAdd(moduleType, t => new ModuleOutputBuffer(t));
+        return _moduleBuffers.GetOrAdd(
+            moduleType,
+            t => new ModuleOutputBuffer(
+                t,
+                _options.Value.ModuleOutputFlushThreshold,
+                RequestThresholdFlush));
     }
 
     /// <inheritdoc />
@@ -392,6 +401,25 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
             throw;
+        }
+        catch (Exception exception)
+        {
+            ReportFlushFailure(buffer, exception);
+        }
+    }
+
+    private void RequestThresholdFlush(IModuleOutputBuffer buffer)
+    {
+        _ = FlushThresholdAsync(buffer);
+    }
+
+    private async Task FlushThresholdAsync(IModuleOutputBuffer buffer)
+    {
+        try
+        {
+            await _outputCoordinator
+                .EnqueueAndFlushAsync(buffer, OutputFlushKind.Incremental)
+                .ConfigureAwait(false);
         }
         catch (Exception exception)
         {

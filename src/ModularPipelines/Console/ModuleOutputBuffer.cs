@@ -28,10 +28,13 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly object _lock = new();
     private readonly string _moduleName;
     private readonly DateTime _startTimeUtc;
+    private readonly int _outputFlushThreshold;
+    private readonly Action<IModuleOutputBuffer>? _requestIncrementalFlush;
     private Exception? _exception;
     private bool _isComplete;
     private bool _isIncrementalFlushInProgress;
     private bool _hasRenderedIncrementalOutput;
+    private bool _thresholdFlushRequested;
 
     /// <inheritdoc />
     public Type ModuleType { get; }
@@ -40,11 +43,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// Initializes a new buffer for the specified module type.
     /// </summary>
     /// <param name="moduleType">The module type.</param>
-    public ModuleOutputBuffer(Type moduleType)
+    public ModuleOutputBuffer(
+        Type moduleType,
+        int outputFlushThreshold = 0,
+        Action<IModuleOutputBuffer>? requestIncrementalFlush = null)
+        : this(moduleType.Name, moduleType, outputFlushThreshold, requestIncrementalFlush)
     {
-        ModuleType = moduleType;
-        _moduleName = moduleType.Name;
-        _startTimeUtc = DateTime.UtcNow;
     }
 
     /// <summary>
@@ -52,20 +56,23 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// </summary>
     /// <param name="name">Display name for the buffer.</param>
     /// <param name="moduleType">Placeholder type.</param>
-    internal ModuleOutputBuffer(string name, Type moduleType)
+    internal ModuleOutputBuffer(
+        string name,
+        Type moduleType,
+        int outputFlushThreshold = 0,
+        Action<IModuleOutputBuffer>? requestIncrementalFlush = null)
     {
         ModuleType = moduleType;
         _moduleName = name;
         _startTimeUtc = DateTime.UtcNow;
+        _outputFlushThreshold = outputFlushThreshold;
+        _requestIncrementalFlush = requestIncrementalFlush;
     }
 
     /// <inheritdoc />
     public void WriteLine(string message)
     {
-        lock (_lock)
-        {
-            _outputs.Add(BufferedOutput.FromString(message));
-        }
+        AddOutput(BufferedOutput.FromString(message));
     }
 
     /// <inheritdoc />
@@ -76,10 +83,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         Exception? exception,
         Func<object, Exception?, string> formatter)
     {
-        lock (_lock)
-        {
-            _outputs.Add(BufferedOutput.FromLogEvent(level, eventId, state, exception, formatter));
-        }
+        AddOutput(BufferedOutput.FromLogEvent(level, eventId, state, exception, formatter));
     }
 
     /// <inheritdoc />
@@ -184,6 +188,26 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         return Task.CompletedTask;
     }
 
+    private void AddOutput(BufferedOutput output)
+    {
+        Action<IModuleOutputBuffer>? requestIncrementalFlush = null;
+
+        lock (_lock)
+        {
+            _outputs.Add(output);
+            if (_requestIncrementalFlush is not null
+                && _outputFlushThreshold > 0
+                && _outputs.Count >= _outputFlushThreshold
+                && !_thresholdFlushRequested)
+            {
+                _thresholdFlushRequested = true;
+                requestIncrementalFlush = _requestIncrementalFlush;
+            }
+        }
+
+        requestIncrementalFlush?.Invoke(this);
+    }
+
     private bool TryTakeOutputs(
         OutputFlushKind flushKind,
         out List<BufferedOutput> outputs,
@@ -208,6 +232,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
             outputs = new List<BufferedOutput>(_outputs);
             _outputs.Clear();
+            _thresholdFlushRequested = false;
             _isIncrementalFlushInProgress = flushKind is OutputFlushKind.Incremental;
             exception = _exception;
             return true;

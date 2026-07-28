@@ -141,36 +141,57 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
 
         public async ValueTask DisposeAsync()
         {
-            await _liveFlushCancellation.CancelAsync().ConfigureAwait(false);
-            await _liveFlushTask.ConfigureAwait(false);
-
-            // A canceled caller can finish before its queue processor releases the buffer.
-            // Final drains must not start until that processor has quiesced.
-            await _outputCoordinator.WaitForPendingFlushesAsync().ConfigureAwait(false);
-            _liveFlushCancellation.Dispose();
-
-            // CRITICAL: Order matters!
-            // 1. Flush retained console fragments while progress deferral is still active.
-            var newlyPopulatedBuffers = await _consoleCoordinator
-                .FlushPendingWritesAsync()
-                .ConfigureAwait(false);
-
-            // 2. Schedule buffers populated after their modules completed.
-            foreach (var buffer in newlyPopulatedBuffers)
+            try
             {
-                await _outputCoordinator
-                    .OnModuleCompletedAsync(buffer, buffer.ModuleType)
+                await _liveFlushCancellation.CancelAsync().ConfigureAwait(false);
+                await _liveFlushTask.ConfigureAwait(false);
+
+                // A canceled caller can finish before its queue processor releases the buffer.
+                // Final drains must not start until that processor has quiesced.
+                await _outputCoordinator.WaitForPendingFlushesAsync().ConfigureAwait(false);
+
+                // CRITICAL: Order matters!
+                // 1. Flush retained console fragments while progress deferral is still active.
+                var newlyPopulatedBuffers = await _consoleCoordinator
+                    .FlushPendingWritesAsync()
                     .ConfigureAwait(false);
+
+                // 2. Schedule buffers populated after their modules completed.
+                foreach (var buffer in newlyPopulatedBuffers)
+                {
+                    await _outputCoordinator
+                        .OnModuleCompletedAsync(buffer, buffer.ModuleType)
+                        .ConfigureAwait(false);
+                }
             }
-
-            // 3. Stop progress display (ends buffering phase).
-            await _printProgressExecutor.DisposeAsync().ConfigureAwait(false);
-
-            // 4. Flush deferred module output (in completion order).
-            await _outputCoordinator.FlushDeferredAsync().ConfigureAwait(false);
-
-            // 5. Flush any unattributed output from coordinator.
-            await _consoleCoordinator.FlushModuleOutputAsync().ConfigureAwait(false);
+            finally
+            {
+                try
+                {
+                    // 3. Stop progress display (ends buffering phase).
+                    await _printProgressExecutor.DisposeAsync().ConfigureAwait(false);
+                }
+                finally
+                {
+                    try
+                    {
+                        // 4. Flush deferred module output (in completion order).
+                        await _outputCoordinator.FlushDeferredAsync().ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        try
+                        {
+                            // 5. Flush any unattributed output from coordinator.
+                            await _consoleCoordinator.FlushModuleOutputAsync().ConfigureAwait(false);
+                        }
+                        finally
+                        {
+                            _liveFlushCancellation.Dispose();
+                        }
+                    }
+                }
+            }
         }
 
         private async Task FlushPeriodicallyAsync(TimeSpan interval)
