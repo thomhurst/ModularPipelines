@@ -79,6 +79,17 @@ public class ContextHierarchyTests
     }
 
     [Test]
+    public async Task IEnvironmentDomainContext_WorkingDirectory_ShouldBeReadOnly()
+    {
+        var workingDirectoryProperty = typeof(IEnvironmentDomainContext).GetProperty("WorkingDirectory");
+
+        await Assert.That(workingDirectoryProperty).IsNotNull();
+        await Assert.That(workingDirectoryProperty!.CanRead).IsTrue();
+        await Assert.That(workingDirectoryProperty.CanWrite).IsFalse()
+            .Because("parallel modules must not mutate shared working-directory state");
+    }
+
+    [Test]
     public async Task IModuleContext_ShouldHaveGetModuleMethods()
     {
         var moduleContextType = typeof(IModuleContext);
