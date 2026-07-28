@@ -17,9 +17,9 @@
       "longName": "framework-version",
       "shortName": "f"
     },
-    "noRestore": {
+    "skipRestore": {
       "longName": "no-restore",
-      "shortName": "nr"
+      "shortName": ""
     }
   }
 }

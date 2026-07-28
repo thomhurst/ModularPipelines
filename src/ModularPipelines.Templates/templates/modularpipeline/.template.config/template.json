@@ -57,7 +57,7 @@
       "defaultValue": "__MODULAR_PIPELINES_VERSION__",
       "replaces": "__MODULAR_PIPELINES_VERSION__"
     },
-    "noRestore": {
+    "skipRestore": {
       "type": "parameter",
       "datatype": "bool",
       "displayName": "Skip restore",
@@ -72,7 +72,7 @@
   ],
   "postActions": [
     {
-      "condition": "(!noRestore)",
+      "condition": "(!skipRestore)",
       "description": "Restore NuGet packages required by this project.",
       "manualInstructions": [
         {
