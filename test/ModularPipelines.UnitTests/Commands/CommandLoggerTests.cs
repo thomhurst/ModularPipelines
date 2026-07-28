@@ -72,7 +72,7 @@ public class CommandLoggerTests : TestBase
         const string firstLine = "first-output-line";
         const string secondLine = "second-output-line";
         var receivedOutputs = new List<string>();
-        var command = await GetService<ICommand>();
+        var command = await GetService<ICommandContext>();
 
         var result = await command.ExecuteCommandLineTool(
             new PowershellScriptOptions($"Write-Output '{firstLine}'; Write-Output '{secondLine}'"),
@@ -314,7 +314,7 @@ public class CommandLoggerTests : TestBase
         var readyFile = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".ready");
         var releaseFile = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".release");
         using var logObserver = new StreamingLogObserver(marker, errorMarker);
-        var result = await GetService<ICommand>((_, collection) =>
+        var result = await GetService<ICommandContext>((_, collection) =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => builder.AddProvider(logObserver));
