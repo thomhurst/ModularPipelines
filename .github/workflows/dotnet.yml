@@ -19,8 +19,57 @@ on:
         default: true
 
 jobs:
+  fast-fail:
+    name: Fast fail
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: src/ModularPipelines.Build/package-lock.json
+      - name: Check Markdown formatting
+        working-directory: src/ModularPipelines.Build
+        run: |
+          npm ci
+          npx --no-install remark ../../README.md ../../README_Template.md \
+            --use remark-lint \
+            --use remark-preset-lint-consistent \
+            --use remark-preset-lint-recommended \
+            --output
+          git diff --exit-code -- ../../README.md ../../README_Template.md
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: 10.0.x
+      - name: Cache NuGet
+        uses: actions/cache@v6
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - name: Run OptionsGenerator unit tests
+        run: |
+          dotnet restore tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.sln
+          dotnet run \
+            --project tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/ModularPipelines.OptionsGenerator.Tests.csproj \
+            --configuration Release \
+            --framework net10.0 \
+            --no-restore \
+            -- \
+            --hangdump \
+            --hangdump-timeout 20m
+
   pipeline:
     name: ${{ matrix.check_name }}
+    needs: fast-fail
+    if: always()
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
     strategy:
       # Single standalone (non-distributed) Linux job. Distributed mode relied on Redis
@@ -52,6 +101,13 @@ jobs:
       DOTNET_gcServer: "0"
 
     steps:
+      # Keep the existing required check red when the prerequisite fails. A job skipped
+      # through `needs` is considered successful by GitHub branch protection.
+      - name: Require fast-fail success
+        if: needs.fast-fail.result != 'success'
+        run: |
+          echo "::error::The fast-fail lane did not pass."
+          exit 1
       - name: Add mask
         run: |
           echo "::add-mask::${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}"
@@ -83,7 +139,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Restore
@@ -147,7 +203,7 @@ jobs:
           TOTAL_INSTANCES: 1
 
       - name: Upload Hang Dumps
-        if: always()
+        if: always() && needs.fast-fail.result == 'success'
         uses: actions/upload-artifact@v7
         with:
           name: hang-dumps-${{ matrix.os }}
@@ -158,6 +214,7 @@ jobs:
 
   cross-platform-build:
     name: build (${{ matrix.os }})
+    needs: fast-fail
     permissions:
       contents: read
     strategy:
@@ -187,7 +244,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Restore and build solutions
