@@ -44,7 +44,7 @@ public static class AzExtensions
         services.TryAddScoped<AzAks>();
         services.TryAddScoped<AzAms>();
         services.TryAddScoped<AzApim>();
-        services.TryAddScoped<AzAppconfig>();
+        services.TryAddScoped<AzAppConfig>();
         services.TryAddScoped<AzAppservice>();
         services.TryAddScoped<AzAro>();
         services.TryAddScoped<AzBackup>();
@@ -65,7 +65,7 @@ public static class AzExtensions
         services.TryAddScoped<AzDeploymentscripts>();
         services.TryAddScoped<AzDisk>();
         services.TryAddScoped<AzDiskaccess>();
-        services.TryAddScoped<AzDiskencryptionset>();
+        services.TryAddScoped<AzDiskEncryptionSet>();
         services.TryAddScoped<AzDms>();
         services.TryAddScoped<AzEventgrid>();
         services.TryAddScoped<AzEventhubs>();
@@ -97,8 +97,8 @@ public static class AzExtensions
         services.TryAddScoped<AzRedis>();
         services.TryAddScoped<AzRelay>();
         services.TryAddScoped<AzResource>();
-        services.TryAddScoped<AzResourcemanagement>();
-        services.TryAddScoped<AzRestorepoint>();
+        services.TryAddScoped<AzResourceManagement>();
+        services.TryAddScoped<AzRestorePoint>();
         services.TryAddScoped<AzRole>();
         services.TryAddScoped<AzSearch>();
         services.TryAddScoped<AzSecurity>();

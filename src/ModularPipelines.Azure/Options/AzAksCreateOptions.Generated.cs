@@ -750,7 +750,7 @@ public record AzAksCreateOptions : AzOptions
     /// ResourceId of the disk encryption set to use for enabling encryption at rest on agent node os disk.
     /// </summary>
     [CliFlag("--node-osdisk-diskencryptionset-id", ShortForm = "-d")]
-    public bool? NodeOsdiskDiskencryptionsetId { get; set; }
+    public bool? NodeOsdiskDiskEncryptionSetId { get; set; }
 
     /// <summary>
     /// Size in GiB of the OS disk for each node in the node pool. Minimum 30 GiB.

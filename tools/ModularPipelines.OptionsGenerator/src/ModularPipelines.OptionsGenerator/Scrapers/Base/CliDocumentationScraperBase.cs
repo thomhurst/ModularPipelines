@@ -3,6 +3,7 @@ using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -83,13 +84,7 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
     /// <summary>
     /// Converts a string to PascalCase.
     /// </summary>
-    protected static string ToPascalCase(string input)
-    {
-        if (string.IsNullOrEmpty(input))
-            return input;
-
-        return char.ToUpperInvariant(input[0]) + input[1..].ToLowerInvariant();
-    }
+    protected static string ToPascalCase(string input) => GeneratorUtils.ToPascalCase(input);
 
     /// <summary>
     /// Generates a class name from command parts.

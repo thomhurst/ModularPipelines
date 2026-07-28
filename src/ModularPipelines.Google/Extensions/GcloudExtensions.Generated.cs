@@ -140,7 +140,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudRecaptcha>();
         services.TryAddScoped<GcloudRecommender>();
         services.TryAddScoped<GcloudRedis>();
-        services.TryAddScoped<GcloudResourcemanager>();
+        services.TryAddScoped<GcloudResourceManager>();
         services.TryAddScoped<GcloudRun>();
         services.TryAddScoped<GcloudScc>();
         services.TryAddScoped<GcloudScheduler>();

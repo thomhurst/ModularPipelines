@@ -1,5 +1,6 @@
-namespace ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Generators;
 
+namespace ModularPipelines.OptionsGenerator.Models;
 /// <summary>
 /// Represents a node in the command hierarchy tree.
 /// Used to generate nested classes matching CLI command structure.
@@ -107,15 +108,5 @@ public class CommandTreeNode
         InsertCommand(child, command, toolPrefix, partIndex + 1);
     }
 
-    private static string ToPascalCase(string input)
-    {
-        if (string.IsNullOrEmpty(input))
-        {
-            return input;
-        }
-
-        var parts = input.Split(['-', '_'], StringSplitOptions.RemoveEmptyEntries);
-        return string.Join("", parts.Select(p =>
-            char.ToUpperInvariant(p[0]) + (p.Length > 1 ? p[1..].ToLowerInvariant() : "")));
-    }
+    private static string ToPascalCase(string input) => GeneratorUtils.ToPascalCase(input);
 }
