@@ -112,24 +112,26 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         var version = _secretProvider.Version;
         var currentCache = Volatile.Read(ref _secretCache);
         if (currentCache is not null &&
+            (version & 1) == 0 &&
             currentCache.Version == version &&
-            currentCache.CaseInsensitive == caseInsensitive)
+            currentCache.CaseInsensitive == caseInsensitive &&
+            _secretProvider.Version == version)
         {
             return currentCache;
         }
 
         lock (_secretCacheLock)
         {
-            version = _secretProvider.Version;
+            var snapshot = _secretProvider.GetSnapshot();
             currentCache = _secretCache;
             if (currentCache is not null &&
-                currentCache.Version == version &&
+                currentCache.Version == snapshot.Version &&
                 currentCache.CaseInsensitive == caseInsensitive)
             {
                 return currentCache;
             }
 
-            var newCache = CreateSecretCache(_secretProvider.Secrets, version, caseInsensitive);
+            var newCache = CreateSecretCache(snapshot.Secrets, snapshot.Version, caseInsensitive);
             Volatile.Write(ref _secretCache, newCache);
             return newCache;
         }

@@ -11,20 +11,22 @@ public class SecretObfuscatorCachingTests
     public async Task ReusesSecretSnapshotUntilProviderChanges()
     {
         var secretProvider = new Mock<ISecretProvider>();
-        secretProvider.SetupGet(x => x.Secrets).Returns(["long-secret", "secret"]);
+        secretProvider.Setup(x => x.GetSnapshot())
+            .Returns(new SecretSnapshot(0, ["long-secret", "secret"]));
         var obfuscator = CreateObfuscator(secretProvider.Object);
 
         await Assert.That(obfuscator.Obfuscate("long-secret", null)).IsEqualTo("**********");
         await Assert.That(obfuscator.Obfuscate("secret", null)).IsEqualTo("**********");
 
-        secretProvider.VerifyGet(x => x.Secrets, Times.Once);
+        secretProvider.Verify(x => x.GetSnapshot(), Times.Once);
     }
 
     [Test]
     public async Task ReturnsOriginalStringWhenNoSecretMatches()
     {
         var secretProvider = new Mock<ISecretProvider>();
-        secretProvider.SetupGet(x => x.Secrets).Returns(["secret"]);
+        secretProvider.Setup(x => x.GetSnapshot())
+            .Returns(new SecretSnapshot(0, ["secret"]));
         var obfuscator = CreateObfuscator(secretProvider.Object);
         const string input = "safe output";
 
@@ -40,16 +42,17 @@ public class SecretObfuscatorCachingTests
         string[] secrets = ["first-secret"];
         var secretProvider = new Mock<ISecretProvider>();
         secretProvider.SetupGet(x => x.Version).Returns(() => version);
-        secretProvider.SetupGet(x => x.Secrets).Returns(() => secrets);
+        secretProvider.Setup(x => x.GetSnapshot())
+            .Returns(() => new SecretSnapshot(version, secrets));
         var obfuscator = CreateObfuscator(secretProvider.Object);
 
         await Assert.That(obfuscator.Obfuscate("first-secret", null)).IsEqualTo("**********");
 
         secrets = ["second-secret"];
-        version++;
+        version += 2;
 
         await Assert.That(obfuscator.Obfuscate("second-secret", null)).IsEqualTo("**********");
-        secretProvider.VerifyGet(x => x.Secrets, Times.Exactly(2));
+        secretProvider.Verify(x => x.GetSnapshot(), Times.Exactly(2));
     }
 
     [Test]
@@ -69,6 +72,25 @@ public class SecretObfuscatorCachingTests
         secretProvider.AddSecret("dynamic-secret");
 
         await Assert.That(obfuscator.Obfuscate("dynamic-secret", null)).IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task RevalidatesCacheWhenPublicationStartsDuringFastPath()
+    {
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupSequence(x => x.Version)
+            .Returns(0)
+            .Returns(0)
+            .Returns(1);
+        secretProvider.SetupSequence(x => x.GetSnapshot())
+            .Returns(new SecretSnapshot(0, ["initial-secret"]))
+            .Returns(new SecretSnapshot(2, ["initial-secret", "dynamic-secret"]));
+        var obfuscator = CreateObfuscator(secretProvider.Object);
+
+        await Assert.That(obfuscator.Obfuscate("initial-secret", null)).IsEqualTo("**********");
+        await Assert.That(obfuscator.Obfuscate("dynamic-secret", null)).IsEqualTo("**********");
+
+        secretProvider.Verify(x => x.GetSnapshot(), Times.Exactly(2));
     }
 
     private static SecretObfuscator CreateObfuscator(ISecretProvider secretProvider)
