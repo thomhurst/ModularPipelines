@@ -4,9 +4,9 @@ namespace ModularPipelines.Models;
 
 internal record ModuleDependencyModel(IModule Module)
 {
-    public List<ModuleDependencyModel> IsDependencyFor { get; } = new();
+    public List<ModuleDependencyModel> IsDependencyFor { get; } = [];
 
-    public List<ModuleDependencyModel> IsDependentOn { get; } = new();
+    public List<ModuleDependencyModel> IsDependentOn { get; } = [];
 
     public IEnumerable<ModuleDependencyModel> AllDescendantDependenciesAndSelf()
     {
@@ -20,30 +20,28 @@ internal record ModuleDependencyModel(IModule Module)
 
     public IEnumerable<ModuleDependencyModel> AllDescendantDependencies()
     {
-        foreach (var moduleDependencyModel in IsDependentOn)
-        {
-            yield return moduleDependencyModel;
+        var remainingDependencies = new Queue<ModuleDependencyModel>(IsDependentOn);
+        var visitedDependencies = new HashSet<ModuleDependencyModel>();
 
-            if (moduleDependencyModel.Module.GetType() == Module.GetType())
+        while (remainingDependencies.TryDequeue(out var dependency))
+        {
+            if (!visitedDependencies.Add(dependency))
             {
-                yield break;
+                continue;
             }
-        }
 
-        foreach (var moduleDependencyModel in IsDependentOn.SelectMany(d => d.AllDescendantDependencies()))
-        {
-            yield return moduleDependencyModel;
+            yield return dependency;
 
-            if (moduleDependencyModel.Module.GetType() == Module.GetType())
+            foreach (var descendantDependency in dependency.IsDependentOn)
             {
-                yield break;
+                remainingDependencies.Enqueue(descendantDependency);
             }
         }
     }
 
     public virtual bool Equals(ModuleDependencyModel? other)
     {
-        if (ReferenceEquals(null, other))
+        if (other is null)
         {
             return false;
         }
