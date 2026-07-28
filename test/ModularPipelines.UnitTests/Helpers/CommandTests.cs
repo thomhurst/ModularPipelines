@@ -476,13 +476,26 @@ public class CommandTests : TestBase
 
     private static async Task<int> WaitForProcessIdAsync(string pidFile, CancellationToken cancellationToken)
     {
-        while (!File.Exists(pidFile))
+        while (true)
         {
+            if (File.Exists(pidFile))
+            {
+                try
+                {
+                    var processId = await File.ReadAllTextAsync(pidFile, cancellationToken);
+                    if (int.TryParse(processId.Trim(), out var parsedProcessId))
+                    {
+                        return parsedProcessId;
+                    }
+                }
+                catch (IOException)
+                {
+                    // The shell may still be creating or writing the PID file.
+                }
+            }
+
             await Task.Delay(20, cancellationToken);
         }
-
-        var processId = await File.ReadAllTextAsync(pidFile, cancellationToken);
-        return int.Parse(processId.Trim());
     }
 
     private static async Task<bool> WaitForExitAsync(Process process, TimeSpan timeout)
