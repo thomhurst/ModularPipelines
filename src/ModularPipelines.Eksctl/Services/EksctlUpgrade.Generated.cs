@@ -17,7 +17,7 @@ namespace ModularPipelines.Eksctl.Services;
 /// eksctl upgrade commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class EksctlUpgrade
+public class EksctlUpgrade : IEksctlUpgrade
 {
     private readonly ICommandContext _command;
 

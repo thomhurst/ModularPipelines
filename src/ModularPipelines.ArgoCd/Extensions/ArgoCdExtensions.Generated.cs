@@ -29,16 +29,16 @@ public static class ArgoCdExtensions
     public static IServiceCollection RegisterArgoCdContext(this IServiceCollection services)
     {
         services.TryAddScoped<IArgoCd, Services.ArgoCd>();
-        services.TryAddScoped<ArgoCdAccount>();
-        services.TryAddScoped<ArgoCdAdmin>();
-        services.TryAddScoped<ArgoCdApp>();
-        services.TryAddScoped<ArgoCdApplicationSet>();
-        services.TryAddScoped<ArgoCdCert>();
-        services.TryAddScoped<ArgoCdCluster>();
-        services.TryAddScoped<ArgoCdGpg>();
-        services.TryAddScoped<ArgoCdProj>();
-        services.TryAddScoped<ArgoCdRepo>();
-        services.TryAddScoped<ArgoCdRepocreds>();
+        services.TryAddScoped<IArgoCdAccount, ArgoCdAccount>();
+        services.TryAddScoped<IArgoCdAdmin, ArgoCdAdmin>();
+        services.TryAddScoped<IArgoCdApp, ArgoCdApp>();
+        services.TryAddScoped<IArgoCdApplicationSet, ArgoCdApplicationSet>();
+        services.TryAddScoped<IArgoCdCert, ArgoCdCert>();
+        services.TryAddScoped<IArgoCdCluster, ArgoCdCluster>();
+        services.TryAddScoped<IArgoCdGpg, ArgoCdGpg>();
+        services.TryAddScoped<IArgoCdProj, ArgoCdProj>();
+        services.TryAddScoped<IArgoCdRepo, ArgoCdRepo>();
+        services.TryAddScoped<IArgoCdRepocreds, ArgoCdRepocreds>();
         return services;
     }
 

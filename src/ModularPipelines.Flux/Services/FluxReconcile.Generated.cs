@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux reconcile commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxReconcile
+public class FluxReconcile : IFluxReconcile
 {
     private readonly ICommandContext _command;
     private FluxReconcileImage? _image;

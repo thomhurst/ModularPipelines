@@ -17,7 +17,7 @@ namespace ModularPipelines.Trivy.Services;
 /// trivy vex commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class TrivyVex
+public class TrivyVex : ITrivyVex
 {
     private readonly ICommandContext _command;
     private TrivyVexRepo? _repo;

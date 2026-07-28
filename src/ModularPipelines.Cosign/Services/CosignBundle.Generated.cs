@@ -17,7 +17,7 @@ namespace ModularPipelines.Cosign.Services;
 /// cosign bundle commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class CosignBundle
+public class CosignBundle : ICosignBundle
 {
     private readonly ICommandContext _command;
 

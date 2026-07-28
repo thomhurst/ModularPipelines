@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud tasks commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudTasks
+public class GcloudTasks : IGcloudTasks
 {
     private readonly ICommandContext _command;
     private GcloudTasksCmekConfig? _cmekConfig;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud certificatemanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCertificatemanager
+public class GcloudCertificatemanager : IGcloudCertificatemanager
 {
     private readonly ICommandContext _command;
     private GcloudCertificatemanagerCertificates? _certificates;

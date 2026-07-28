@@ -25,8 +25,8 @@ internal partial class Syft : ISyft
     /// Initializes a new instance of the <see cref="Syft"/> class.
     /// </summary>
     public Syft(
-        SyftCataloger cataloger,
-        SyftConfig config,
+        ISyftCataloger cataloger,
+        ISyftConfig config,
         ICommandContext command
     )
     {
@@ -38,10 +38,10 @@ internal partial class Syft : ISyft
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public SyftCataloger Cataloger { get; }
+    public ISyftCataloger Cataloger { get; }
 
     /// <inheritdoc />
-    public SyftConfig Config { get; }
+    public ISyftConfig Config { get; }
 
     #endregion
 

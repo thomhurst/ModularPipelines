@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud workbench commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudWorkbench
+public class GcloudWorkbench : IGcloudWorkbench
 {
     private readonly ICommandContext _command;
     private GcloudWorkbenchExecutions? _executions;

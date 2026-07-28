@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud domains commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDomains
+public class GcloudDomains : IGcloudDomains
 {
     private readonly ICommandContext _command;
     private GcloudDomainsRegistrations? _registrations;

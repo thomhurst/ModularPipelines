@@ -23,67 +23,67 @@ public partial interface IPodman
     /// <summary>
     /// Gets the compose sub-domain service.
     /// </summary>
-    PodmanCompose Compose { get; }
+    IPodmanCompose Compose { get; }
 
     /// <summary>
     /// Gets the container sub-domain service.
     /// </summary>
-    PodmanContainer Container { get; }
+    IPodmanContainer Container { get; }
 
     /// <summary>
     /// Gets the farm sub-domain service.
     /// </summary>
-    PodmanFarm Farm { get; }
+    IPodmanFarm Farm { get; }
 
     /// <summary>
     /// Gets the generate sub-domain service.
     /// </summary>
-    PodmanGenerate Generate { get; }
+    IPodmanGenerate Generate { get; }
 
     /// <summary>
     /// Gets the image sub-domain service.
     /// </summary>
-    PodmanImage Image { get; }
+    IPodmanImage Image { get; }
 
     /// <summary>
     /// Gets the kube sub-domain service.
     /// </summary>
-    PodmanKube Kube { get; }
+    IPodmanKube Kube { get; }
 
     /// <summary>
     /// Gets the machine sub-domain service.
     /// </summary>
-    PodmanMachine Machine { get; }
+    IPodmanMachine Machine { get; }
 
     /// <summary>
     /// Gets the manifest sub-domain service.
     /// </summary>
-    PodmanManifest Manifest { get; }
+    IPodmanManifest Manifest { get; }
 
     /// <summary>
     /// Gets the network sub-domain service.
     /// </summary>
-    PodmanNetwork Network { get; }
+    IPodmanNetwork Network { get; }
 
     /// <summary>
     /// Gets the pod sub-domain service.
     /// </summary>
-    PodmanPod Pod { get; }
+    IPodmanPod Pod { get; }
 
     /// <summary>
     /// Gets the secret sub-domain service.
     /// </summary>
-    PodmanSecret Secret { get; }
+    IPodmanSecret Secret { get; }
 
     /// <summary>
     /// Gets the system sub-domain service.
     /// </summary>
-    PodmanSystem System { get; }
+    IPodmanSystem System { get; }
 
     /// <summary>
     /// Gets the volume sub-domain service.
     /// </summary>
-    PodmanVolume Volume { get; }
+    IPodmanVolume Volume { get; }
 
     #endregion
 

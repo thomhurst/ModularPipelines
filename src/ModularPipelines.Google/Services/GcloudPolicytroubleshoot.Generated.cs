@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud policytroubleshoot commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudPolicytroubleshoot
+public class GcloudPolicytroubleshoot : IGcloudPolicytroubleshoot
 {
     private readonly ICommandContext _command;
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux tree commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxTree
+public class FluxTree : IFluxTree
 {
     private readonly ICommandContext _command;
     private FluxTreeArtifact? _artifact;

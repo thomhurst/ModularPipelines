@@ -25,19 +25,19 @@ internal partial class Docker : IDocker
     /// Initializes a new instance of the <see cref="Docker"/> class.
     /// </summary>
     public Docker(
-        DockerBuilder builder,
-        DockerBuildx buildx,
-        DockerCompose compose,
-        DockerContainer container,
-        DockerContext context,
-        DockerImage image,
-        DockerManifest manifest,
-        DockerNetwork network,
-        DockerPlugin plugin,
-        DockerSwarm swarm,
-        DockerSystem system,
-        DockerTrust trust,
-        DockerVolume volume,
+        IDockerBuilder builder,
+        IDockerBuildx buildx,
+        IDockerCompose compose,
+        IDockerContainer container,
+        IDockerContext context,
+        IDockerImage image,
+        IDockerManifest manifest,
+        IDockerNetwork network,
+        IDockerPlugin plugin,
+        IDockerSwarm swarm,
+        IDockerSystem system,
+        IDockerTrust trust,
+        IDockerVolume volume,
         ICommandContext command
     )
     {
@@ -60,43 +60,43 @@ internal partial class Docker : IDocker
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public DockerBuilder Builder { get; }
+    public IDockerBuilder Builder { get; }
 
     /// <inheritdoc />
-    public DockerBuildx Buildx { get; }
+    public IDockerBuildx Buildx { get; }
 
     /// <inheritdoc />
-    public DockerCompose Compose { get; }
+    public IDockerCompose Compose { get; }
 
     /// <inheritdoc />
-    public DockerContainer Container { get; }
+    public IDockerContainer Container { get; }
 
     /// <inheritdoc />
-    public DockerContext Context { get; }
+    public IDockerContext Context { get; }
 
     /// <inheritdoc />
-    public DockerImage Image { get; }
+    public IDockerImage Image { get; }
 
     /// <inheritdoc />
-    public DockerManifest Manifest { get; }
+    public IDockerManifest Manifest { get; }
 
     /// <inheritdoc />
-    public DockerNetwork Network { get; }
+    public IDockerNetwork Network { get; }
 
     /// <inheritdoc />
-    public DockerPlugin Plugin { get; }
+    public IDockerPlugin Plugin { get; }
 
     /// <inheritdoc />
-    public DockerSwarm Swarm { get; }
+    public IDockerSwarm Swarm { get; }
 
     /// <inheritdoc />
-    public DockerSystem System { get; }
+    public IDockerSystem System { get; }
 
     /// <inheritdoc />
-    public DockerTrust Trust { get; }
+    public IDockerTrust Trust { get; }
 
     /// <inheritdoc />
-    public DockerVolume Volume { get; }
+    public IDockerVolume Volume { get; }
 
     #endregion
 

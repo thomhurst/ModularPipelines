@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh gist commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhGist
+public class GhGist : IGhGist
 {
     private readonly ICommandContext _command;
 

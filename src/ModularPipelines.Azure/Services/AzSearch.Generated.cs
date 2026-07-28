@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az search commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzSearch
+public class AzSearch : IAzSearch
 {
     private readonly ICommandContext _command;
     private AzSearchPrivateEndpointConnection? _privateEndpointConnection;

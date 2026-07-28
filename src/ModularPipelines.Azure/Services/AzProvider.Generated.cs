@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az provider commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzProvider
+public class AzProvider : IAzProvider
 {
     private readonly ICommandContext _command;
 

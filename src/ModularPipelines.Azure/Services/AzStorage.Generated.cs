@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az storage commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzStorage
+public class AzStorage : IAzStorage
 {
     private readonly ICommandContext _command;
     private AzStorageAccount? _account;

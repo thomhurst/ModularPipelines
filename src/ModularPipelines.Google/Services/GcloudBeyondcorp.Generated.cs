@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud beyondcorp commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBeyondcorp
+public class GcloudBeyondcorp : IGcloudBeyondcorp
 {
     private readonly ICommandContext _command;
     private GcloudBeyondcorpOperations? _operations;

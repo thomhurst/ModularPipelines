@@ -17,7 +17,7 @@ namespace ModularPipelines.DotNet.Services;
 /// dotnet tool commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class DotNetTool
+public class DotNetTool : IDotNetTool
 {
     private readonly ICommandContext _command;
 

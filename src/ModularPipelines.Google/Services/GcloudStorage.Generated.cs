@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud storage commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudStorage
+public class GcloudStorage : IGcloudStorage
 {
     private readonly ICommandContext _command;
     private GcloudStorageBatchOperations? _batchOperations;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az staticwebapp commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzStaticwebapp
+public class AzStaticwebapp : IAzStaticwebapp
 {
     private readonly ICommandContext _command;
     private AzStaticwebappAppsettings? _appsettings;

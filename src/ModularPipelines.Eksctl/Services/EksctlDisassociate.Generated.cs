@@ -17,7 +17,7 @@ namespace ModularPipelines.Eksctl.Services;
 /// eksctl disassociate commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class EksctlDisassociate
+public class EksctlDisassociate : IEksctlDisassociate
 {
     private readonly ICommandContext _command;
 

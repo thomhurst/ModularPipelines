@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux list commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxList
+public class FluxList : IFluxList
 {
     private readonly ICommandContext _command;
 

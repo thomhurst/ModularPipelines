@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az cosmosdb commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzCosmosdb
+public class AzCosmosdb : IAzCosmosdb
 {
     private readonly ICommandContext _command;
     private AzCosmosdbCassandra? _cassandra;

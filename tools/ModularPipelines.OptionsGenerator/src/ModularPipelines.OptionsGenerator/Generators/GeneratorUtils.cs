@@ -570,6 +570,38 @@ public static partial class GeneratorUtils
     }
 
     /// <summary>
+    /// Generates a command method signature for a service interface.
+    /// </summary>
+    public static void GenerateServiceMethodSignature(
+        StringBuilder sb,
+        string methodName,
+        CliCommandDefinition command,
+        string indent = "    ")
+    {
+        ArgumentNullException.ThrowIfNull(sb);
+        ArgumentNullException.ThrowIfNull(command);
+
+        if (!string.IsNullOrEmpty(command.Description))
+        {
+            GenerateXmlDocumentation(sb, command.Description, indent);
+            sb.AppendLine($"{indent}/// <param name=\"options\">The command options.</param>");
+            sb.AppendLine($"{indent}/// <param name=\"executionOptions\">The execution configuration options.</param>");
+            sb.AppendLine($"{indent}/// <param name=\"cancellationToken\">Cancellation token.</param>");
+            sb.AppendLine($"{indent}/// <returns>The command result.</returns>");
+        }
+
+        sb.AppendLine($"{indent}Task<CommandResult> {methodName}({BuildOptionsParameter(command)}, {ExecutionOptionsParameter}, CancellationToken cancellationToken = default);");
+
+        foreach (var compatibilityMethod in GetCompatibilityMethods(command, methodName))
+        {
+            sb.AppendLine();
+            sb.AppendLine(
+                $"{indent}[Obsolete({FormatStringLiteral(compatibilityMethod.ObsoleteMessage)})]");
+            sb.AppendLine($"{indent}Task<CommandResult> {compatibilityMethod.MethodName}({BuildOptionsParameter(command)}, {ExecutionOptionsParameter}, CancellationToken cancellationToken = default);");
+        }
+    }
+
+    /// <summary>
     /// Generates a service method that executes a CLI command.
     /// Used by ServiceImplementationGenerator and SubDomainClassGenerator to avoid duplication.
     /// </summary>

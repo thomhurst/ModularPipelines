@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az eventgrid commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzEventgrid
+public class AzEventgrid : IAzEventgrid
 {
     private readonly ICommandContext _command;
     private AzEventgridDomain? _domain;

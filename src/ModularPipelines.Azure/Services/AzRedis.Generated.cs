@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az redis commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzRedis
+public class AzRedis : IAzRedis
 {
     private readonly ICommandContext _command;
     private AzRedisIdentity? _identity;

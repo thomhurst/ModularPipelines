@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud asset commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAsset
+public class GcloudAsset : IGcloudAsset
 {
     private readonly ICommandContext _command;
     private GcloudAssetFeeds? _feeds;

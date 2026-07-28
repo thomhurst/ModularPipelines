@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud memcache commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudMemcache
+public class GcloudMemcache : IGcloudMemcache
 {
     private readonly ICommandContext _command;
     private GcloudMemcacheInstances? _instances;

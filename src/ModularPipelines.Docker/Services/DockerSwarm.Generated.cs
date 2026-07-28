@@ -17,7 +17,7 @@ namespace ModularPipelines.Docker.Services;
 /// docker swarm commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class DockerSwarm
+public class DockerSwarm : IDockerSwarm
 {
     private readonly ICommandContext _command;
 

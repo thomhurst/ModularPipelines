@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud orgpolicies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOrgpolicies
+public class GcloudOrgpolicies : IGcloudOrgpolicies
 {
     private readonly ICommandContext _command;
 

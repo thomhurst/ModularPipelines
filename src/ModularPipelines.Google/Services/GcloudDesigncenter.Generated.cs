@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud designcenter commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDesigncenter
+public class GcloudDesigncenter : IGcloudDesigncenter
 {
     private readonly ICommandContext _command;
     private GcloudDesigncenterLocations? _locations;

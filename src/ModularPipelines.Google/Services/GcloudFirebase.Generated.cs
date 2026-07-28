@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud firebase commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudFirebase
+public class GcloudFirebase : IGcloudFirebase
 {
     private readonly ICommandContext _command;
     private GcloudFirebaseTest? _test;

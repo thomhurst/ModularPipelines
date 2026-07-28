@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud resourcemanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudResourceManager
+public class GcloudResourceManager : IGcloudResourceManager
 {
     private readonly ICommandContext _command;
     private GcloudResourceManagerCapabilities? _capabilities;

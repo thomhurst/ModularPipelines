@@ -25,19 +25,19 @@ internal partial class Podman : IPodman
     /// Initializes a new instance of the <see cref="Podman"/> class.
     /// </summary>
     public Podman(
-        PodmanCompose compose,
-        PodmanContainer container,
-        PodmanFarm farm,
-        PodmanGenerate generate,
-        PodmanImage image,
-        PodmanKube kube,
-        PodmanMachine machine,
-        PodmanManifest manifest,
-        PodmanNetwork network,
-        PodmanPod pod,
-        PodmanSecret secret,
-        PodmanSystem system,
-        PodmanVolume volume,
+        IPodmanCompose compose,
+        IPodmanContainer container,
+        IPodmanFarm farm,
+        IPodmanGenerate generate,
+        IPodmanImage image,
+        IPodmanKube kube,
+        IPodmanMachine machine,
+        IPodmanManifest manifest,
+        IPodmanNetwork network,
+        IPodmanPod pod,
+        IPodmanSecret secret,
+        IPodmanSystem system,
+        IPodmanVolume volume,
         ICommandContext command
     )
     {
@@ -60,43 +60,43 @@ internal partial class Podman : IPodman
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public PodmanCompose Compose { get; }
+    public IPodmanCompose Compose { get; }
 
     /// <inheritdoc />
-    public PodmanContainer Container { get; }
+    public IPodmanContainer Container { get; }
 
     /// <inheritdoc />
-    public PodmanFarm Farm { get; }
+    public IPodmanFarm Farm { get; }
 
     /// <inheritdoc />
-    public PodmanGenerate Generate { get; }
+    public IPodmanGenerate Generate { get; }
 
     /// <inheritdoc />
-    public PodmanImage Image { get; }
+    public IPodmanImage Image { get; }
 
     /// <inheritdoc />
-    public PodmanKube Kube { get; }
+    public IPodmanKube Kube { get; }
 
     /// <inheritdoc />
-    public PodmanMachine Machine { get; }
+    public IPodmanMachine Machine { get; }
 
     /// <inheritdoc />
-    public PodmanManifest Manifest { get; }
+    public IPodmanManifest Manifest { get; }
 
     /// <inheritdoc />
-    public PodmanNetwork Network { get; }
+    public IPodmanNetwork Network { get; }
 
     /// <inheritdoc />
-    public PodmanPod Pod { get; }
+    public IPodmanPod Pod { get; }
 
     /// <inheritdoc />
-    public PodmanSecret Secret { get; }
+    public IPodmanSecret Secret { get; }
 
     /// <inheritdoc />
-    public PodmanSystem System { get; }
+    public IPodmanSystem System { get; }
 
     /// <inheritdoc />
-    public PodmanVolume Volume { get; }
+    public IPodmanVolume Volume { get; }
 
     #endregion
 

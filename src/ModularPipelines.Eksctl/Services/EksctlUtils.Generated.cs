@@ -17,7 +17,7 @@ namespace ModularPipelines.Eksctl.Services;
 /// eksctl utils commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class EksctlUtils
+public class EksctlUtils : IEksctlUtils
 {
     private readonly ICommandContext _command;
 

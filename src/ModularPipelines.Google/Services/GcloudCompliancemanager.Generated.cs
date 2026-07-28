@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud compliancemanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCompliancemanager
+public class GcloudCompliancemanager : IGcloudCompliancemanager
 {
     private readonly ICommandContext _command;
     private GcloudCompliancemanagerCloudControlDeployments? _cloudControlDeployments;

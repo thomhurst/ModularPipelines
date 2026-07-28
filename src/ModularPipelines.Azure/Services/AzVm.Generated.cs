@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az vm commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzVm
+public class AzVm : IAzVm
 {
     private readonly ICommandContext _command;
     private AzVmApplication? _application;

@@ -25,20 +25,20 @@ internal partial class Pulumi : IPulumi
     /// Initializes a new instance of the <see cref="Pulumi"/> class.
     /// </summary>
     public Pulumi(
-        PulumiApi api,
-        PulumiConfig config,
-        PulumiDeployment deployment,
-        PulumiEnv env,
-        PulumiInsights insights,
-        PulumiLogs logs,
-        PulumiOrg org,
-        PulumiPackage package,
-        PulumiPlugin plugin,
-        PulumiPolicy policy,
-        PulumiProject project,
-        PulumiStack stack,
-        PulumiState state,
-        PulumiTemplate template,
+        IPulumiApi api,
+        IPulumiConfig config,
+        IPulumiDeployment deployment,
+        IPulumiEnv env,
+        IPulumiInsights insights,
+        IPulumiLogs logs,
+        IPulumiOrg org,
+        IPulumiPackage package,
+        IPulumiPlugin plugin,
+        IPulumiPolicy policy,
+        IPulumiProject project,
+        IPulumiStack stack,
+        IPulumiState state,
+        IPulumiTemplate template,
         ICommandContext command
     )
     {
@@ -62,46 +62,46 @@ internal partial class Pulumi : IPulumi
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public PulumiApi Api { get; }
+    public IPulumiApi Api { get; }
 
     /// <inheritdoc />
-    public PulumiConfig Config { get; }
+    public IPulumiConfig Config { get; }
 
     /// <inheritdoc />
-    public PulumiDeployment Deployment { get; }
+    public IPulumiDeployment Deployment { get; }
 
     /// <inheritdoc />
-    public PulumiEnv Env { get; }
+    public IPulumiEnv Env { get; }
 
     /// <inheritdoc />
-    public PulumiInsights Insights { get; }
+    public IPulumiInsights Insights { get; }
 
     /// <inheritdoc />
-    public PulumiLogs Logs { get; }
+    public IPulumiLogs Logs { get; }
 
     /// <inheritdoc />
-    public PulumiOrg Org { get; }
+    public IPulumiOrg Org { get; }
 
     /// <inheritdoc />
-    public PulumiPackage Package { get; }
+    public IPulumiPackage Package { get; }
 
     /// <inheritdoc />
-    public PulumiPlugin Plugin { get; }
+    public IPulumiPlugin Plugin { get; }
 
     /// <inheritdoc />
-    public PulumiPolicy Policy { get; }
+    public IPulumiPolicy Policy { get; }
 
     /// <inheritdoc />
-    public PulumiProject Project { get; }
+    public IPulumiProject Project { get; }
 
     /// <inheritdoc />
-    public PulumiStack Stack { get; }
+    public IPulumiStack Stack { get; }
 
     /// <inheritdoc />
-    public PulumiState State { get; }
+    public IPulumiState State { get; }
 
     /// <inheritdoc />
-    public PulumiTemplate Template { get; }
+    public IPulumiTemplate Template { get; }
 
     #endregion
 

@@ -25,87 +25,87 @@ internal partial class Az : IAz
     /// Initializes a new instance of the <see cref="Az"/> class.
     /// </summary>
     public Az(
-        AzAccount account,
-        AzAcr acr,
-        AzAd ad,
-        AzAdvisor advisor,
-        AzAks aks,
-        AzAms ams,
-        AzApim apim,
-        AzAppConfig appconfig,
-        AzAppservice appservice,
-        AzAro aro,
-        AzBackup backup,
-        AzBatch batch,
-        AzBicep bicep,
-        AzBilling billing,
-        AzBot bot,
-        AzCapacity capacity,
-        AzCloud cloud,
-        AzCognitiveservices cognitiveservices,
-        AzComputefleet computefleet,
-        AzConnection connection,
-        AzContainer container,
-        AzContainerapp containerapp,
-        AzCosmosdb cosmosdb,
-        AzDataboxedge databoxedge,
-        AzDeployment deployment,
-        AzDeploymentscripts deploymentscripts,
-        AzDisk disk,
-        AzDiskaccess diskaccess,
-        AzDiskEncryptionSet diskencryptionset,
-        AzDms dms,
-        AzEventgrid eventgrid,
-        AzEventhubs eventhubs,
-        AzExtension extension,
-        AzFeature feature,
-        AzFunctionapp functionapp,
-        AzGroup group,
-        AzHdinsight hdinsight,
-        AzIdentity identity,
-        AzImage image,
-        AzIot iot,
-        AzKeyvault keyvault,
-        AzLock @lock,
-        AzLogicapp logicapp,
-        AzManagedapp managedapp,
-        AzManagedcassandra managedcassandra,
-        AzManagedservices managedservices,
-        AzMaps maps,
-        AzMariadb mariadb,
-        AzMonitor monitor,
-        AzMysql mysql,
-        AzNetappfiles netappfiles,
-        AzNetwork network,
-        AzPolicy policy,
-        AzPostgres postgres,
-        AzPpg ppg,
-        AzPrivatelink privatelink,
-        AzProvider provider,
-        AzRedis redis,
-        AzRelay relay,
-        AzResource resource,
-        AzResourceManagement resourcemanagement,
-        AzRestorePoint restorepoint,
-        AzRole role,
-        AzSearch search,
-        AzSecurity security,
-        AzServicebus servicebus,
-        AzSf sf,
-        AzSig sig,
-        AzSignalr signalr,
-        AzSnapshot snapshot,
-        AzSql sql,
-        AzSshkey sshkey,
-        AzStack stack,
-        AzStaticwebapp staticwebapp,
-        AzStorage storage,
-        AzSynapse synapse,
-        AzTag tag,
-        AzTs ts,
-        AzVm vm,
-        AzVmss vmss,
-        AzWebapp webapp,
+        IAzAccount account,
+        IAzAcr acr,
+        IAzAd ad,
+        IAzAdvisor advisor,
+        IAzAks aks,
+        IAzAms ams,
+        IAzApim apim,
+        IAzAppConfig appconfig,
+        IAzAppservice appservice,
+        IAzAro aro,
+        IAzBackup backup,
+        IAzBatch batch,
+        IAzBicep bicep,
+        IAzBilling billing,
+        IAzBot bot,
+        IAzCapacity capacity,
+        IAzCloud cloud,
+        IAzCognitiveservices cognitiveservices,
+        IAzComputefleet computefleet,
+        IAzConnection connection,
+        IAzContainer container,
+        IAzContainerapp containerapp,
+        IAzCosmosdb cosmosdb,
+        IAzDataboxedge databoxedge,
+        IAzDeployment deployment,
+        IAzDeploymentscripts deploymentscripts,
+        IAzDisk disk,
+        IAzDiskaccess diskaccess,
+        IAzDiskEncryptionSet diskencryptionset,
+        IAzDms dms,
+        IAzEventgrid eventgrid,
+        IAzEventhubs eventhubs,
+        IAzExtension extension,
+        IAzFeature feature,
+        IAzFunctionapp functionapp,
+        IAzGroup group,
+        IAzHdinsight hdinsight,
+        IAzIdentity identity,
+        IAzImage image,
+        IAzIot iot,
+        IAzKeyvault keyvault,
+        IAzLock @lock,
+        IAzLogicapp logicapp,
+        IAzManagedapp managedapp,
+        IAzManagedcassandra managedcassandra,
+        IAzManagedservices managedservices,
+        IAzMaps maps,
+        IAzMariadb mariadb,
+        IAzMonitor monitor,
+        IAzMysql mysql,
+        IAzNetappfiles netappfiles,
+        IAzNetwork network,
+        IAzPolicy policy,
+        IAzPostgres postgres,
+        IAzPpg ppg,
+        IAzPrivatelink privatelink,
+        IAzProvider provider,
+        IAzRedis redis,
+        IAzRelay relay,
+        IAzResource resource,
+        IAzResourceManagement resourcemanagement,
+        IAzRestorePoint restorepoint,
+        IAzRole role,
+        IAzSearch search,
+        IAzSecurity security,
+        IAzServicebus servicebus,
+        IAzSf sf,
+        IAzSig sig,
+        IAzSignalr signalr,
+        IAzSnapshot snapshot,
+        IAzSql sql,
+        IAzSshkey sshkey,
+        IAzStack stack,
+        IAzStaticwebapp staticwebapp,
+        IAzStorage storage,
+        IAzSynapse synapse,
+        IAzTag tag,
+        IAzTs ts,
+        IAzVm vm,
+        IAzVmss vmss,
+        IAzWebapp webapp,
         ICommandContext command
     )
     {
@@ -196,247 +196,247 @@ internal partial class Az : IAz
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public AzAccount Account { get; }
+    public IAzAccount Account { get; }
 
     /// <inheritdoc />
-    public AzAcr Acr { get; }
+    public IAzAcr Acr { get; }
 
     /// <inheritdoc />
-    public AzAd Ad { get; }
+    public IAzAd Ad { get; }
 
     /// <inheritdoc />
-    public AzAdvisor Advisor { get; }
+    public IAzAdvisor Advisor { get; }
 
     /// <inheritdoc />
-    public AzAks Aks { get; }
+    public IAzAks Aks { get; }
 
     /// <inheritdoc />
-    public AzAms Ams { get; }
+    public IAzAms Ams { get; }
 
     /// <inheritdoc />
-    public AzApim Apim { get; }
+    public IAzApim Apim { get; }
 
     /// <inheritdoc />
-    public AzAppConfig AppConfig { get; }
+    public IAzAppConfig AppConfig { get; }
 
     /// <inheritdoc />
-    public AzAppservice Appservice { get; }
+    public IAzAppservice Appservice { get; }
 
     /// <inheritdoc />
-    public AzAro Aro { get; }
+    public IAzAro Aro { get; }
 
     /// <inheritdoc />
-    public AzBackup Backup { get; }
+    public IAzBackup Backup { get; }
 
     /// <inheritdoc />
-    public AzBatch Batch { get; }
+    public IAzBatch Batch { get; }
 
     /// <inheritdoc />
-    public AzBicep Bicep { get; }
+    public IAzBicep Bicep { get; }
 
     /// <inheritdoc />
-    public AzBilling Billing { get; }
+    public IAzBilling Billing { get; }
 
     /// <inheritdoc />
-    public AzBot Bot { get; }
+    public IAzBot Bot { get; }
 
     /// <inheritdoc />
-    public AzCapacity Capacity { get; }
+    public IAzCapacity Capacity { get; }
 
     /// <inheritdoc />
-    public AzCloud Cloud { get; }
+    public IAzCloud Cloud { get; }
 
     /// <inheritdoc />
-    public AzCognitiveservices Cognitiveservices { get; }
+    public IAzCognitiveservices Cognitiveservices { get; }
 
     /// <inheritdoc />
-    public AzComputefleet Computefleet { get; }
+    public IAzComputefleet Computefleet { get; }
 
     /// <inheritdoc />
-    public AzConnection Connection { get; }
+    public IAzConnection Connection { get; }
 
     /// <inheritdoc />
-    public AzContainer Container { get; }
+    public IAzContainer Container { get; }
 
     /// <inheritdoc />
-    public AzContainerapp Containerapp { get; }
+    public IAzContainerapp Containerapp { get; }
 
     /// <inheritdoc />
-    public AzCosmosdb Cosmosdb { get; }
+    public IAzCosmosdb Cosmosdb { get; }
 
     /// <inheritdoc />
-    public AzDataboxedge Databoxedge { get; }
+    public IAzDataboxedge Databoxedge { get; }
 
     /// <inheritdoc />
-    public AzDeployment Deployment { get; }
+    public IAzDeployment Deployment { get; }
 
     /// <inheritdoc />
-    public AzDeploymentscripts Deploymentscripts { get; }
+    public IAzDeploymentscripts Deploymentscripts { get; }
 
     /// <inheritdoc />
-    public AzDisk Disk { get; }
+    public IAzDisk Disk { get; }
 
     /// <inheritdoc />
-    public AzDiskaccess Diskaccess { get; }
+    public IAzDiskaccess Diskaccess { get; }
 
     /// <inheritdoc />
-    public AzDiskEncryptionSet DiskEncryptionSet { get; }
+    public IAzDiskEncryptionSet DiskEncryptionSet { get; }
 
     /// <inheritdoc />
-    public AzDms Dms { get; }
+    public IAzDms Dms { get; }
 
     /// <inheritdoc />
-    public AzEventgrid Eventgrid { get; }
+    public IAzEventgrid Eventgrid { get; }
 
     /// <inheritdoc />
-    public AzEventhubs Eventhubs { get; }
+    public IAzEventhubs Eventhubs { get; }
 
     /// <inheritdoc />
-    public AzExtension Extension { get; }
+    public IAzExtension Extension { get; }
 
     /// <inheritdoc />
-    public AzFeature Feature { get; }
+    public IAzFeature Feature { get; }
 
     /// <inheritdoc />
-    public AzFunctionapp Functionapp { get; }
+    public IAzFunctionapp Functionapp { get; }
 
     /// <inheritdoc />
-    public AzGroup Group { get; }
+    public IAzGroup Group { get; }
 
     /// <inheritdoc />
-    public AzHdinsight Hdinsight { get; }
+    public IAzHdinsight Hdinsight { get; }
 
     /// <inheritdoc />
-    public AzIdentity Identity { get; }
+    public IAzIdentity Identity { get; }
 
     /// <inheritdoc />
-    public AzImage Image { get; }
+    public IAzImage Image { get; }
 
     /// <inheritdoc />
-    public AzIot Iot { get; }
+    public IAzIot Iot { get; }
 
     /// <inheritdoc />
-    public AzKeyvault Keyvault { get; }
+    public IAzKeyvault Keyvault { get; }
 
     /// <inheritdoc />
-    public AzLock Lock { get; }
+    public IAzLock Lock { get; }
 
     /// <inheritdoc />
-    public AzLogicapp Logicapp { get; }
+    public IAzLogicapp Logicapp { get; }
 
     /// <inheritdoc />
-    public AzManagedapp Managedapp { get; }
+    public IAzManagedapp Managedapp { get; }
 
     /// <inheritdoc />
-    public AzManagedcassandra Managedcassandra { get; }
+    public IAzManagedcassandra Managedcassandra { get; }
 
     /// <inheritdoc />
-    public AzManagedservices Managedservices { get; }
+    public IAzManagedservices Managedservices { get; }
 
     /// <inheritdoc />
-    public AzMaps Maps { get; }
+    public IAzMaps Maps { get; }
 
     /// <inheritdoc />
-    public AzMariadb Mariadb { get; }
+    public IAzMariadb Mariadb { get; }
 
     /// <inheritdoc />
-    public AzMonitor Monitor { get; }
+    public IAzMonitor Monitor { get; }
 
     /// <inheritdoc />
-    public AzMysql Mysql { get; }
+    public IAzMysql Mysql { get; }
 
     /// <inheritdoc />
-    public AzNetappfiles Netappfiles { get; }
+    public IAzNetappfiles Netappfiles { get; }
 
     /// <inheritdoc />
-    public AzNetwork Network { get; }
+    public IAzNetwork Network { get; }
 
     /// <inheritdoc />
-    public AzPolicy Policy { get; }
+    public IAzPolicy Policy { get; }
 
     /// <inheritdoc />
-    public AzPostgres Postgres { get; }
+    public IAzPostgres Postgres { get; }
 
     /// <inheritdoc />
-    public AzPpg Ppg { get; }
+    public IAzPpg Ppg { get; }
 
     /// <inheritdoc />
-    public AzPrivatelink Privatelink { get; }
+    public IAzPrivatelink Privatelink { get; }
 
     /// <inheritdoc />
-    public AzProvider Provider { get; }
+    public IAzProvider Provider { get; }
 
     /// <inheritdoc />
-    public AzRedis Redis { get; }
+    public IAzRedis Redis { get; }
 
     /// <inheritdoc />
-    public AzRelay Relay { get; }
+    public IAzRelay Relay { get; }
 
     /// <inheritdoc />
-    public AzResource Resource { get; }
+    public IAzResource Resource { get; }
 
     /// <inheritdoc />
-    public AzResourceManagement ResourceManagement { get; }
+    public IAzResourceManagement ResourceManagement { get; }
 
     /// <inheritdoc />
-    public AzRestorePoint RestorePoint { get; }
+    public IAzRestorePoint RestorePoint { get; }
 
     /// <inheritdoc />
-    public AzRole Role { get; }
+    public IAzRole Role { get; }
 
     /// <inheritdoc />
-    public AzSearch Search { get; }
+    public IAzSearch Search { get; }
 
     /// <inheritdoc />
-    public AzSecurity Security { get; }
+    public IAzSecurity Security { get; }
 
     /// <inheritdoc />
-    public AzServicebus Servicebus { get; }
+    public IAzServicebus Servicebus { get; }
 
     /// <inheritdoc />
-    public AzSf Sf { get; }
+    public IAzSf Sf { get; }
 
     /// <inheritdoc />
-    public AzSig Sig { get; }
+    public IAzSig Sig { get; }
 
     /// <inheritdoc />
-    public AzSignalr Signalr { get; }
+    public IAzSignalr Signalr { get; }
 
     /// <inheritdoc />
-    public AzSnapshot Snapshot { get; }
+    public IAzSnapshot Snapshot { get; }
 
     /// <inheritdoc />
-    public AzSql Sql { get; }
+    public IAzSql Sql { get; }
 
     /// <inheritdoc />
-    public AzSshkey Sshkey { get; }
+    public IAzSshkey Sshkey { get; }
 
     /// <inheritdoc />
-    public AzStack Stack { get; }
+    public IAzStack Stack { get; }
 
     /// <inheritdoc />
-    public AzStaticwebapp Staticwebapp { get; }
+    public IAzStaticwebapp Staticwebapp { get; }
 
     /// <inheritdoc />
-    public AzStorage Storage { get; }
+    public IAzStorage Storage { get; }
 
     /// <inheritdoc />
-    public AzSynapse Synapse { get; }
+    public IAzSynapse Synapse { get; }
 
     /// <inheritdoc />
-    public AzTag Tag { get; }
+    public IAzTag Tag { get; }
 
     /// <inheritdoc />
-    public AzTs Ts { get; }
+    public IAzTs Ts { get; }
 
     /// <inheritdoc />
-    public AzVm Vm { get; }
+    public IAzVm Vm { get; }
 
     /// <inheritdoc />
-    public AzVmss Vmss { get; }
+    public IAzVmss Vmss { get; }
 
     /// <inheritdoc />
-    public AzWebapp Webapp { get; }
+    public IAzWebapp Webapp { get; }
 
     #endregion
 

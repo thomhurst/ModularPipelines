@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az mariadb commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzMariadb
+public class AzMariadb : IAzMariadb
 {
     private readonly ICommandContext _command;
     private AzMariadbDb? _db;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud netapp commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetapp
+public class GcloudNetapp : IGcloudNetapp
 {
     private readonly ICommandContext _command;
     private GcloudNetappActiveDirectories? _activeDirectories;

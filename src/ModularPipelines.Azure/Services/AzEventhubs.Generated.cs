@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az eventhubs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzEventhubs
+public class AzEventhubs : IAzEventhubs
 {
     private readonly ICommandContext _command;
     private AzEventhubsCluster? _cluster;

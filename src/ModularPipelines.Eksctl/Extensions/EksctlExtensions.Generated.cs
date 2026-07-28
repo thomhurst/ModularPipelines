@@ -27,21 +27,21 @@ public static class EksctlExtensions
     public static IServiceCollection RegisterEksctlContext(this IServiceCollection services)
     {
         services.TryAddScoped<IEksctl, Services.Eksctl>();
-        services.TryAddScoped<EksctlAssociate>();
-        services.TryAddScoped<EksctlCreate>();
-        services.TryAddScoped<EksctlDelete>();
-        services.TryAddScoped<EksctlDeregister>();
-        services.TryAddScoped<EksctlDisassociate>();
-        services.TryAddScoped<EksctlDrain>();
-        services.TryAddScoped<EksctlEnable>();
-        services.TryAddScoped<EksctlGet>();
-        services.TryAddScoped<EksctlRegister>();
-        services.TryAddScoped<EksctlScale>();
-        services.TryAddScoped<EksctlSet>();
-        services.TryAddScoped<EksctlUnset>();
-        services.TryAddScoped<EksctlUpdate>();
-        services.TryAddScoped<EksctlUpgrade>();
-        services.TryAddScoped<EksctlUtils>();
+        services.TryAddScoped<IEksctlAssociate, EksctlAssociate>();
+        services.TryAddScoped<IEksctlCreate, EksctlCreate>();
+        services.TryAddScoped<IEksctlDelete, EksctlDelete>();
+        services.TryAddScoped<IEksctlDeregister, EksctlDeregister>();
+        services.TryAddScoped<IEksctlDisassociate, EksctlDisassociate>();
+        services.TryAddScoped<IEksctlDrain, EksctlDrain>();
+        services.TryAddScoped<IEksctlEnable, EksctlEnable>();
+        services.TryAddScoped<IEksctlGet, EksctlGet>();
+        services.TryAddScoped<IEksctlRegister, EksctlRegister>();
+        services.TryAddScoped<IEksctlScale, EksctlScale>();
+        services.TryAddScoped<IEksctlSet, EksctlSet>();
+        services.TryAddScoped<IEksctlUnset, EksctlUnset>();
+        services.TryAddScoped<IEksctlUpdate, EksctlUpdate>();
+        services.TryAddScoped<IEksctlUpgrade, EksctlUpgrade>();
+        services.TryAddScoped<IEksctlUtils, EksctlUtils>();
         return services;
     }
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux delete commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxDelete
+public class FluxDelete : IFluxDelete
 {
     private readonly ICommandContext _command;
     private FluxDeleteImage? _image;

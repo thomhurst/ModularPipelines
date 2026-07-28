@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud healthcare commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudHealthcare
+public class GcloudHealthcare : IGcloudHealthcare
 {
     private readonly ICommandContext _command;
     private GcloudHealthcareConsentStores? _consentStores;

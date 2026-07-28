@@ -17,7 +17,7 @@ namespace ModularPipelines.ArgoCd.Services;
 /// argocd applicationset commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class ArgoCdApplicationSet
+public class ArgoCdApplicationSet : IArgoCdApplicationSet
 {
     private readonly ICommandContext _command;
 

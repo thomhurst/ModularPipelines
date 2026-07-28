@@ -17,7 +17,7 @@ namespace ModularPipelines.Terraform.Services;
 /// terraform stacks commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class TerraformStacks
+public class TerraformStacks : ITerraformStacks
 {
     private readonly ICommandContext _command;
     private TerraformStacksConfiguration? _configuration;

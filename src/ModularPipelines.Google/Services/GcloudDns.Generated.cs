@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud dns commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDns
+public class GcloudDns : IGcloudDns
 {
     private readonly ICommandContext _command;
     private GcloudDnsDnsKeys? _dnsKeys;

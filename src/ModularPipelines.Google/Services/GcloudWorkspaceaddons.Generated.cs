@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud workspaceaddons commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudWorkspaceaddons
+public class GcloudWorkspaceaddons : IGcloudWorkspaceaddons
 {
     private readonly ICommandContext _command;
     private GcloudWorkspaceaddonsDeployments? _deployments;

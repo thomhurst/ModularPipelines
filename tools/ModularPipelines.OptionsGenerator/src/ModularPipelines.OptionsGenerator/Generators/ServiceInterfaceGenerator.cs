@@ -64,7 +64,7 @@ public class ServiceInterfaceGenerator : ICodeGenerator
                 sb.AppendLine($"    /// <summary>");
                 sb.AppendLine($"    /// Gets the {subDomain.ToLowerInvariant()} sub-domain service.");
                 sb.AppendLine($"    /// </summary>");
-                sb.AppendLine($"    {subDomainClassName} {subDomainIdentifier} {{ get; }}");
+                sb.AppendLine($"    I{subDomainClassName} {subDomainIdentifier} {{ get; }}");
                 sb.AppendLine();
             }
 
@@ -84,7 +84,8 @@ public class ServiceInterfaceGenerator : ICodeGenerator
 
             foreach (var command in nonCollidingRootCommands.OrderBy(c => c.ClassName))
             {
-                GenerateMethodSignature(sb, command);
+                var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
+                GeneratorUtils.GenerateServiceMethodSignature(sb, methodName, command);
                 sb.AppendLine();
             }
 
@@ -94,32 +95,5 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         sb.AppendLine("}");
 
         return sb.ToString();
-    }
-
-    private static void GenerateMethodSignature(StringBuilder sb, CliCommandDefinition command)
-    {
-        // Generate method name from command parts
-        var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
-
-        // Single method - users set LogSettings on options if they need custom logging
-        if (!string.IsNullOrEmpty(command.Description))
-        {
-            GeneratorUtils.GenerateXmlDocumentation(sb, command.Description);
-            sb.AppendLine("    /// <param name=\"options\">The command options.</param>");
-            sb.AppendLine("    /// <param name=\"executionOptions\">The execution configuration options.</param>");
-            sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
-            sb.AppendLine("    /// <returns>The command result.</returns>");
-        }
-
-        // Interface signature must match implementation
-        sb.AppendLine($"    Task<CommandResult> {methodName}({GeneratorUtils.BuildOptionsParameter(command)}, {GeneratorUtils.ExecutionOptionsParameter}, CancellationToken cancellationToken = default);");
-
-        foreach (var compatibilityMethod in GeneratorUtils.GetCompatibilityMethods(command, methodName))
-        {
-            sb.AppendLine();
-            sb.AppendLine(
-                $"    [Obsolete({GeneratorUtils.FormatStringLiteral(compatibilityMethod.ObsoleteMessage)})]");
-            sb.AppendLine($"    Task<CommandResult> {compatibilityMethod.MethodName}({GeneratorUtils.BuildOptionsParameter(command)}, {GeneratorUtils.ExecutionOptionsParameter}, CancellationToken cancellationToken = default);");
-        }
     }
 }

@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh search commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhSearch
+public class GhSearch : IGhSearch
 {
     private readonly ICommandContext _command;
 

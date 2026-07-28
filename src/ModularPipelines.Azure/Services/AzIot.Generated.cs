@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az iot commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzIot
+public class AzIot : IAzIot
 {
     private readonly ICommandContext _command;
     private AzIotCentral? _central;

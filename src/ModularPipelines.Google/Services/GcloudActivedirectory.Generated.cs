@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud activedirectory commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudActivedirectory
+public class GcloudActivedirectory : IGcloudActivedirectory
 {
     private readonly ICommandContext _command;
     private GcloudActivedirectoryDomains? _domains;

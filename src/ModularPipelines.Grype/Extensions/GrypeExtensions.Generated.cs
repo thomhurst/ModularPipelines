@@ -29,7 +29,7 @@ public static class GrypeExtensions
     public static IServiceCollection RegisterGrypeContext(this IServiceCollection services)
     {
         services.TryAddScoped<IGrype, Services.Grype>();
-        services.TryAddScoped<GrypeDb>();
+        services.TryAddScoped<IGrypeDb, GrypeDb>();
         return services;
     }
 

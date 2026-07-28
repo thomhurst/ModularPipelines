@@ -25,15 +25,15 @@ internal partial class DotNet : IDotNet
     /// Initializes a new instance of the <see cref="DotNet"/> class.
     /// </summary>
     public DotNet(
-        DotNetBuildServer buildserver,
-        DotNetNew @new,
-        DotNetNuGet nuget,
-        DotNetPackage package,
-        DotNetReference reference,
-        DotNetSdk sdk,
-        DotNetSolution solution,
-        DotNetTool tool,
-        DotNetWorkload workload,
+        IDotNetBuildServer buildserver,
+        IDotNetNew @new,
+        IDotNetNuGet nuget,
+        IDotNetPackage package,
+        IDotNetReference reference,
+        IDotNetSdk sdk,
+        IDotNetSolution solution,
+        IDotNetTool tool,
+        IDotNetWorkload workload,
         ICommandContext command
     )
     {
@@ -52,31 +52,31 @@ internal partial class DotNet : IDotNet
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public DotNetBuildServer BuildServer { get; }
+    public IDotNetBuildServer BuildServer { get; }
 
     /// <inheritdoc />
-    public DotNetNew New { get; }
+    public IDotNetNew New { get; }
 
     /// <inheritdoc />
-    public DotNetNuGet NuGet { get; }
+    public IDotNetNuGet NuGet { get; }
 
     /// <inheritdoc />
-    public DotNetPackage Package { get; }
+    public IDotNetPackage Package { get; }
 
     /// <inheritdoc />
-    public DotNetReference Reference { get; }
+    public IDotNetReference Reference { get; }
 
     /// <inheritdoc />
-    public DotNetSdk Sdk { get; }
+    public IDotNetSdk Sdk { get; }
 
     /// <inheritdoc />
-    public DotNetSolution Solution { get; }
+    public IDotNetSolution Solution { get; }
 
     /// <inheritdoc />
-    public DotNetTool Tool { get; }
+    public IDotNetTool Tool { get; }
 
     /// <inheritdoc />
-    public DotNetWorkload Workload { get; }
+    public IDotNetWorkload Workload { get; }
 
     #endregion
 

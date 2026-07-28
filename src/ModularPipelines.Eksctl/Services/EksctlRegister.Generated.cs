@@ -17,7 +17,7 @@ namespace ModularPipelines.Eksctl.Services;
 /// eksctl register commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class EksctlRegister
+public class EksctlRegister : IEksctlRegister
 {
     private readonly ICommandContext _command;
 

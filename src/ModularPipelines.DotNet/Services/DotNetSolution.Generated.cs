@@ -17,7 +17,7 @@ namespace ModularPipelines.DotNet.Services;
 /// dotnet solution commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class DotNetSolution
+public class DotNetSolution : IDotNetSolution
 {
     private readonly ICommandContext _command;
 

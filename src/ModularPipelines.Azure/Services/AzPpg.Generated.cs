@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az ppg commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzPpg
+public class AzPpg : IAzPpg
 {
     private readonly ICommandContext _command;
 

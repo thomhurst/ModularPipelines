@@ -23,67 +23,67 @@ public partial interface IDocker
     /// <summary>
     /// Gets the builder sub-domain service.
     /// </summary>
-    DockerBuilder Builder { get; }
+    IDockerBuilder Builder { get; }
 
     /// <summary>
     /// Gets the buildx sub-domain service.
     /// </summary>
-    DockerBuildx Buildx { get; }
+    IDockerBuildx Buildx { get; }
 
     /// <summary>
     /// Gets the compose sub-domain service.
     /// </summary>
-    DockerCompose Compose { get; }
+    IDockerCompose Compose { get; }
 
     /// <summary>
     /// Gets the container sub-domain service.
     /// </summary>
-    DockerContainer Container { get; }
+    IDockerContainer Container { get; }
 
     /// <summary>
     /// Gets the context sub-domain service.
     /// </summary>
-    DockerContext Context { get; }
+    IDockerContext Context { get; }
 
     /// <summary>
     /// Gets the image sub-domain service.
     /// </summary>
-    DockerImage Image { get; }
+    IDockerImage Image { get; }
 
     /// <summary>
     /// Gets the manifest sub-domain service.
     /// </summary>
-    DockerManifest Manifest { get; }
+    IDockerManifest Manifest { get; }
 
     /// <summary>
     /// Gets the network sub-domain service.
     /// </summary>
-    DockerNetwork Network { get; }
+    IDockerNetwork Network { get; }
 
     /// <summary>
     /// Gets the plugin sub-domain service.
     /// </summary>
-    DockerPlugin Plugin { get; }
+    IDockerPlugin Plugin { get; }
 
     /// <summary>
     /// Gets the swarm sub-domain service.
     /// </summary>
-    DockerSwarm Swarm { get; }
+    IDockerSwarm Swarm { get; }
 
     /// <summary>
     /// Gets the system sub-domain service.
     /// </summary>
-    DockerSystem System { get; }
+    IDockerSystem System { get; }
 
     /// <summary>
     /// Gets the trust sub-domain service.
     /// </summary>
-    DockerTrust Trust { get; }
+    IDockerTrust Trust { get; }
 
     /// <summary>
     /// Gets the volume sub-domain service.
     /// </summary>
-    DockerVolume Volume { get; }
+    IDockerVolume Volume { get; }
 
     #endregion
 

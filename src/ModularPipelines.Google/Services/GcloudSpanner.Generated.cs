@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud spanner commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudSpanner
+public class GcloudSpanner : IGcloudSpanner
 {
     private readonly ICommandContext _command;
     private GcloudSpannerBackups? _backups;

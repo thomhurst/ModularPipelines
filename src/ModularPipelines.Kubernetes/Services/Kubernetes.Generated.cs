@@ -25,14 +25,14 @@ internal partial class Kubernetes : IKubernetes
     /// Initializes a new instance of the <see cref="Kubernetes"/> class.
     /// </summary>
     public Kubernetes(
-        KubernetesApply apply,
-        KubernetesAuth auth,
-        KubernetesCertificate certificate,
-        KubernetesClusterinfo clusterinfo,
-        KubernetesConfig config,
-        KubernetesKuberc kuberc,
-        KubernetesRollout rollout,
-        KubernetesTop top,
+        IKubernetesApply apply,
+        IKubernetesAuth auth,
+        IKubernetesCertificate certificate,
+        IKubernetesClusterinfo clusterinfo,
+        IKubernetesConfig config,
+        IKubernetesKuberc kuberc,
+        IKubernetesRollout rollout,
+        IKubernetesTop top,
         ICommandContext command
     )
     {
@@ -50,28 +50,28 @@ internal partial class Kubernetes : IKubernetes
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public KubernetesApply Apply { get; }
+    public IKubernetesApply Apply { get; }
 
     /// <inheritdoc />
-    public KubernetesAuth Auth { get; }
+    public IKubernetesAuth Auth { get; }
 
     /// <inheritdoc />
-    public KubernetesCertificate Certificate { get; }
+    public IKubernetesCertificate Certificate { get; }
 
     /// <inheritdoc />
-    public KubernetesClusterinfo Clusterinfo { get; }
+    public IKubernetesClusterinfo Clusterinfo { get; }
 
     /// <inheritdoc />
-    public KubernetesConfig Config { get; }
+    public IKubernetesConfig Config { get; }
 
     /// <inheritdoc />
-    public KubernetesKuberc Kuberc { get; }
+    public IKubernetesKuberc Kuberc { get; }
 
     /// <inheritdoc />
-    public KubernetesRollout Rollout { get; }
+    public IKubernetesRollout Rollout { get; }
 
     /// <inheritdoc />
-    public KubernetesTop Top { get; }
+    public IKubernetesTop Top { get; }
 
     #endregion
 

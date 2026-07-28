@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az postgres commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzPostgres
+public class AzPostgres : IAzPostgres
 {
     private readonly ICommandContext _command;
     private AzPostgresFlexibleServer? _flexibleServer;

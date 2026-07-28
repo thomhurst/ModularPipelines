@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud memorystore commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudMemorystore
+public class GcloudMemorystore : IGcloudMemorystore
 {
     private readonly ICommandContext _command;
     private GcloudMemorystoreAclPolicies? _aclPolicies;

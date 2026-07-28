@@ -23,32 +23,32 @@ public partial interface ICosign
     /// <summary>
     /// Gets the bundle sub-domain service.
     /// </summary>
-    CosignBundle Bundle { get; }
+    ICosignBundle Bundle { get; }
 
     /// <summary>
     /// Gets the download sub-domain service.
     /// </summary>
-    CosignDownload Download { get; }
+    ICosignDownload Download { get; }
 
     /// <summary>
     /// Gets the pivtool sub-domain service.
     /// </summary>
-    CosignPivTool PivTool { get; }
+    ICosignPivTool PivTool { get; }
 
     /// <summary>
     /// Gets the pkcs11tool sub-domain service.
     /// </summary>
-    CosignPkcs11Tool Pkcs11Tool { get; }
+    ICosignPkcs11Tool Pkcs11Tool { get; }
 
     /// <summary>
     /// Gets the signingconfig sub-domain service.
     /// </summary>
-    CosignSigningConfig SigningConfig { get; }
+    ICosignSigningConfig SigningConfig { get; }
 
     /// <summary>
     /// Gets the trustedroot sub-domain service.
     /// </summary>
-    CosignTrustedRoot TrustedRoot { get; }
+    ICosignTrustedRoot TrustedRoot { get; }
 
     #endregion
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud logging commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudLogging
+public class GcloudLogging : IGcloudLogging
 {
     private readonly ICommandContext _command;
     private GcloudLoggingBuckets? _buckets;

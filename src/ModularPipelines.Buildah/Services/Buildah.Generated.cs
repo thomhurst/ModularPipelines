@@ -25,8 +25,8 @@ internal partial class Buildah : IBuildah
     /// Initializes a new instance of the <see cref="Buildah"/> class.
     /// </summary>
     public Buildah(
-        BuildahManifest manifest,
-        BuildahSource source,
+        IBuildahManifest manifest,
+        IBuildahSource source,
         ICommandContext command
     )
     {
@@ -38,10 +38,10 @@ internal partial class Buildah : IBuildah
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public BuildahManifest Manifest { get; }
+    public IBuildahManifest Manifest { get; }
 
     /// <inheritdoc />
-    public BuildahSource Source { get; }
+    public IBuildahSource Source { get; }
 
     #endregion
 

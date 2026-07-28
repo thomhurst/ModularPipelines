@@ -17,7 +17,7 @@ namespace ModularPipelines.ArgoCd.Services;
 /// argocd repocreds commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class ArgoCdRepocreds
+public class ArgoCdRepocreds : IArgoCdRepocreds
 {
     private readonly ICommandContext _command;
 

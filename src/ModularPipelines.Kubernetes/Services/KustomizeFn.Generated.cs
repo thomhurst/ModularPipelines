@@ -17,7 +17,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// kustomize fn commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KustomizeFn
+public class KustomizeFn : IKustomizeFn
 {
     private readonly ICommandContext _command;
 

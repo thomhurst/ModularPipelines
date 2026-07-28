@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az identity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzIdentity
+public class AzIdentity : IAzIdentity
 {
     private readonly ICommandContext _command;
     private AzIdentityFederatedCredential? _federatedCredential;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud edgecache commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecache
+public class GcloudEdgecache : IGcloudEdgecache
 {
     private readonly ICommandContext _command;
     private GcloudEdgecacheKeysets? _keysets;

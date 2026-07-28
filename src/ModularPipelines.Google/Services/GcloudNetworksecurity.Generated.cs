@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud networksecurity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurity
+public class GcloudNetworksecurity : IGcloudNetworksecurity
 {
     private readonly ICommandContext _command;
     private GcloudNetworksecurityAddressGroups? _addressGroups;

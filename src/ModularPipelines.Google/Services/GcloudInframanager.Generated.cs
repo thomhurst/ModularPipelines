@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud inframanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudInframanager
+public class GcloudInframanager : IGcloudInframanager
 {
     private readonly ICommandContext _command;
     private GcloudInframanagerAutomigrationconfig? _automigrationconfig;

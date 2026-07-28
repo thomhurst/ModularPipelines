@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux tag commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxTag
+public class FluxTag : IFluxTag
 {
     private readonly ICommandContext _command;
 

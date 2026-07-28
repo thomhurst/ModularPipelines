@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az billing commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzBilling
+public class AzBilling : IAzBilling
 {
     private readonly ICommandContext _command;
     private AzBillingInvoice? _invoice;

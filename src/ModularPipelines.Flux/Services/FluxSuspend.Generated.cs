@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux suspend commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxSuspend
+public class FluxSuspend : IFluxSuspend
 {
     private readonly ICommandContext _command;
     private FluxSuspendImage? _image;

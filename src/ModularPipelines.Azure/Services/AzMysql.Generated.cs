@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az mysql commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzMysql
+public class AzMysql : IAzMysql
 {
     private readonly ICommandContext _command;
     private AzMysqlDb? _db;

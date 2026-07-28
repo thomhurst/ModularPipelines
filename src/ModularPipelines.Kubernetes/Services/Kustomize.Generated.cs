@@ -25,9 +25,9 @@ internal partial class Kustomize : IKustomize
     /// Initializes a new instance of the <see cref="Kustomize"/> class.
     /// </summary>
     public Kustomize(
-        KustomizeCfg cfg,
-        KustomizeEdit edit,
-        KustomizeFn fn,
+        IKustomizeCfg cfg,
+        IKustomizeEdit edit,
+        IKustomizeFn fn,
         ICommandContext command
     )
     {
@@ -40,13 +40,13 @@ internal partial class Kustomize : IKustomize
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public KustomizeCfg Cfg { get; }
+    public IKustomizeCfg Cfg { get; }
 
     /// <inheritdoc />
-    public KustomizeEdit Edit { get; }
+    public IKustomizeEdit Edit { get; }
 
     /// <inheritdoc />
-    public KustomizeFn Fn { get; }
+    public IKustomizeFn Fn { get; }
 
     #endregion
 

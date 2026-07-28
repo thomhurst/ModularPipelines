@@ -79,7 +79,7 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         {
             var subDomainIdentifier = GeneratorUtils.GetSubDomainIdentifier(tool, subDomain);
             var subDomainClassName = $"{tool.NamespacePrefix}{subDomainIdentifier}";
-            sb.AppendLine($"        services.TryAddScoped<{subDomainClassName}>();");
+            sb.AppendLine($"        services.TryAddScoped<I{subDomainClassName}, {subDomainClassName}>();");
         }
 
         sb.AppendLine("        return services;");

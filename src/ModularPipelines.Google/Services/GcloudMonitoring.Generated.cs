@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud monitoring commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudMonitoring
+public class GcloudMonitoring : IGcloudMonitoring
 {
     private readonly ICommandContext _command;
     private GcloudMonitoringDashboards? _dashboards;

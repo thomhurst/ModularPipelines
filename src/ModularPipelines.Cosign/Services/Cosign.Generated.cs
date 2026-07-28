@@ -25,12 +25,12 @@ internal partial class Cosign : ICosign
     /// Initializes a new instance of the <see cref="Cosign"/> class.
     /// </summary>
     public Cosign(
-        CosignBundle bundle,
-        CosignDownload download,
-        CosignPivTool pivTool,
-        CosignPkcs11Tool pkcs11Tool,
-        CosignSigningConfig signingConfig,
-        CosignTrustedRoot trustedRoot,
+        ICosignBundle bundle,
+        ICosignDownload download,
+        ICosignPivTool pivTool,
+        ICosignPkcs11Tool pkcs11Tool,
+        ICosignSigningConfig signingConfig,
+        ICosignTrustedRoot trustedRoot,
         ICommandContext command
     )
     {
@@ -46,22 +46,22 @@ internal partial class Cosign : ICosign
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public CosignBundle Bundle { get; }
+    public ICosignBundle Bundle { get; }
 
     /// <inheritdoc />
-    public CosignDownload Download { get; }
+    public ICosignDownload Download { get; }
 
     /// <inheritdoc />
-    public CosignPivTool PivTool { get; }
+    public ICosignPivTool PivTool { get; }
 
     /// <inheritdoc />
-    public CosignPkcs11Tool Pkcs11Tool { get; }
+    public ICosignPkcs11Tool Pkcs11Tool { get; }
 
     /// <inheritdoc />
-    public CosignSigningConfig SigningConfig { get; }
+    public ICosignSigningConfig SigningConfig { get; }
 
     /// <inheritdoc />
-    public CosignTrustedRoot TrustedRoot { get; }
+    public ICosignTrustedRoot TrustedRoot { get; }
 
     #endregion
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud managedkafka commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudManagedkafka
+public class GcloudManagedkafka : IGcloudManagedkafka
 {
     private readonly ICommandContext _command;
     private GcloudManagedkafkaAcls? _acls;

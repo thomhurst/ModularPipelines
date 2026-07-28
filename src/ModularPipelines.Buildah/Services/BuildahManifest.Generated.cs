@@ -17,7 +17,7 @@ namespace ModularPipelines.Buildah.Services;
 /// buildah manifest commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class BuildahManifest
+public class BuildahManifest : IBuildahManifest
 {
     private readonly ICommandContext _command;
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud metastore commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudMetastore
+public class GcloudMetastore : IGcloudMetastore
 {
     private readonly ICommandContext _command;
     private GcloudMetastoreFederations? _federations;

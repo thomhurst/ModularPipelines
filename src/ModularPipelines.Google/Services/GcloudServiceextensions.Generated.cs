@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud serviceextensions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServiceextensions
+public class GcloudServiceextensions : IGcloudServiceextensions
 {
     private readonly ICommandContext _command;
     private GcloudServiceextensionsAuthzExtensions? _authzExtensions;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux build commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxBuild
+public class FluxBuild : IFluxBuild
 {
     private readonly ICommandContext _command;
 

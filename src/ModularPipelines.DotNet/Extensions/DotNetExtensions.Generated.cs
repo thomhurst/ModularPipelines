@@ -29,15 +29,15 @@ public static class DotNetExtensions
     public static IServiceCollection RegisterDotNetContext(this IServiceCollection services)
     {
         services.TryAddScoped<IDotNet, Services.DotNet>();
-        services.TryAddScoped<DotNetBuildServer>();
-        services.TryAddScoped<DotNetNew>();
-        services.TryAddScoped<DotNetNuGet>();
-        services.TryAddScoped<DotNetPackage>();
-        services.TryAddScoped<DotNetReference>();
-        services.TryAddScoped<DotNetSdk>();
-        services.TryAddScoped<DotNetSolution>();
-        services.TryAddScoped<DotNetTool>();
-        services.TryAddScoped<DotNetWorkload>();
+        services.TryAddScoped<IDotNetBuildServer, DotNetBuildServer>();
+        services.TryAddScoped<IDotNetNew, DotNetNew>();
+        services.TryAddScoped<IDotNetNuGet, DotNetNuGet>();
+        services.TryAddScoped<IDotNetPackage, DotNetPackage>();
+        services.TryAddScoped<IDotNetReference, DotNetReference>();
+        services.TryAddScoped<IDotNetSdk, DotNetSdk>();
+        services.TryAddScoped<IDotNetSolution, DotNetSolution>();
+        services.TryAddScoped<IDotNetTool, DotNetTool>();
+        services.TryAddScoped<IDotNetWorkload, DotNetWorkload>();
         return services;
     }
 

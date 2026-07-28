@@ -25,21 +25,21 @@ internal partial class Eksctl : IEksctl
     /// Initializes a new instance of the <see cref="Eksctl"/> class.
     /// </summary>
     public Eksctl(
-        EksctlAssociate associate,
-        EksctlCreate create,
-        EksctlDelete delete,
-        EksctlDeregister deregister,
-        EksctlDisassociate disassociate,
-        EksctlDrain drain,
-        EksctlEnable enable,
-        EksctlGet get,
-        EksctlRegister register,
-        EksctlScale scale,
-        EksctlSet set,
-        EksctlUnset unset,
-        EksctlUpdate update,
-        EksctlUpgrade upgrade,
-        EksctlUtils utils,
+        IEksctlAssociate associate,
+        IEksctlCreate create,
+        IEksctlDelete delete,
+        IEksctlDeregister deregister,
+        IEksctlDisassociate disassociate,
+        IEksctlDrain drain,
+        IEksctlEnable enable,
+        IEksctlGet get,
+        IEksctlRegister register,
+        IEksctlScale scale,
+        IEksctlSet set,
+        IEksctlUnset unset,
+        IEksctlUpdate update,
+        IEksctlUpgrade upgrade,
+        IEksctlUtils utils,
         ICommandContext command
     )
     {
@@ -64,49 +64,49 @@ internal partial class Eksctl : IEksctl
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public EksctlAssociate Associate { get; }
+    public IEksctlAssociate Associate { get; }
 
     /// <inheritdoc />
-    public EksctlCreate Create { get; }
+    public IEksctlCreate Create { get; }
 
     /// <inheritdoc />
-    public EksctlDelete Delete { get; }
+    public IEksctlDelete Delete { get; }
 
     /// <inheritdoc />
-    public EksctlDeregister Deregister { get; }
+    public IEksctlDeregister Deregister { get; }
 
     /// <inheritdoc />
-    public EksctlDisassociate Disassociate { get; }
+    public IEksctlDisassociate Disassociate { get; }
 
     /// <inheritdoc />
-    public EksctlDrain Drain { get; }
+    public IEksctlDrain Drain { get; }
 
     /// <inheritdoc />
-    public EksctlEnable Enable { get; }
+    public IEksctlEnable Enable { get; }
 
     /// <inheritdoc />
-    public EksctlGet Get { get; }
+    public IEksctlGet Get { get; }
 
     /// <inheritdoc />
-    public EksctlRegister Register { get; }
+    public IEksctlRegister Register { get; }
 
     /// <inheritdoc />
-    public EksctlScale Scale { get; }
+    public IEksctlScale Scale { get; }
 
     /// <inheritdoc />
-    public EksctlSet Set { get; }
+    public IEksctlSet Set { get; }
 
     /// <inheritdoc />
-    public EksctlUnset Unset { get; }
+    public IEksctlUnset Unset { get; }
 
     /// <inheritdoc />
-    public EksctlUpdate Update { get; }
+    public IEksctlUpdate Update { get; }
 
     /// <inheritdoc />
-    public EksctlUpgrade Upgrade { get; }
+    public IEksctlUpgrade Upgrade { get; }
 
     /// <inheritdoc />
-    public EksctlUtils Utils { get; }
+    public IEksctlUtils Utils { get; }
 
     #endregion
 

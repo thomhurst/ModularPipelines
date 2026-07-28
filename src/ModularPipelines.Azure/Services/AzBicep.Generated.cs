@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az bicep commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzBicep
+public class AzBicep : IAzBicep
 {
     private readonly ICommandContext _command;
 

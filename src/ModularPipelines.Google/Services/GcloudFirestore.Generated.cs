@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud firestore commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudFirestore
+public class GcloudFirestore : IGcloudFirestore
 {
     private readonly ICommandContext _command;
     private GcloudFirestoreBackups? _backups;

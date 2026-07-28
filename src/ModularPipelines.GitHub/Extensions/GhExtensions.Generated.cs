@@ -29,26 +29,26 @@ public static class GhExtensions
     public static IServiceCollection RegisterGhContext(this IServiceCollection services)
     {
         services.TryAddScoped<IGh, Services.Gh>();
-        services.TryAddScoped<GhAgenttask>();
-        services.TryAddScoped<GhAttestation>();
-        services.TryAddScoped<GhAuth>();
-        services.TryAddScoped<GhCache>();
-        services.TryAddScoped<GhCodespace>();
-        services.TryAddScoped<GhConfig>();
-        services.TryAddScoped<GhExtension>();
-        services.TryAddScoped<GhGist>();
-        services.TryAddScoped<GhGpgkey>();
-        services.TryAddScoped<GhLabel>();
-        services.TryAddScoped<GhPreview>();
-        services.TryAddScoped<GhProject>();
-        services.TryAddScoped<GhRuleset>();
-        services.TryAddScoped<GhRun>();
-        services.TryAddScoped<GhSearch>();
-        services.TryAddScoped<GhSecret>();
-        services.TryAddScoped<GhSkill>();
-        services.TryAddScoped<GhSshkey>();
-        services.TryAddScoped<GhVariable>();
-        services.TryAddScoped<GhWorkflow>();
+        services.TryAddScoped<IGhAgenttask, GhAgenttask>();
+        services.TryAddScoped<IGhAttestation, GhAttestation>();
+        services.TryAddScoped<IGhAuth, GhAuth>();
+        services.TryAddScoped<IGhCache, GhCache>();
+        services.TryAddScoped<IGhCodespace, GhCodespace>();
+        services.TryAddScoped<IGhConfig, GhConfig>();
+        services.TryAddScoped<IGhExtension, GhExtension>();
+        services.TryAddScoped<IGhGist, GhGist>();
+        services.TryAddScoped<IGhGpgkey, GhGpgkey>();
+        services.TryAddScoped<IGhLabel, GhLabel>();
+        services.TryAddScoped<IGhPreview, GhPreview>();
+        services.TryAddScoped<IGhProject, GhProject>();
+        services.TryAddScoped<IGhRuleset, GhRuleset>();
+        services.TryAddScoped<IGhRun, GhRun>();
+        services.TryAddScoped<IGhSearch, GhSearch>();
+        services.TryAddScoped<IGhSecret, GhSecret>();
+        services.TryAddScoped<IGhSkill, GhSkill>();
+        services.TryAddScoped<IGhSshkey, GhSshkey>();
+        services.TryAddScoped<IGhVariable, GhVariable>();
+        services.TryAddScoped<IGhWorkflow, GhWorkflow>();
         return services;
     }
 

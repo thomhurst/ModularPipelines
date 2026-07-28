@@ -29,19 +29,19 @@ public static class PodmanExtensions
     public static IServiceCollection RegisterPodmanContext(this IServiceCollection services)
     {
         services.TryAddScoped<IPodman, Services.Podman>();
-        services.TryAddScoped<PodmanCompose>();
-        services.TryAddScoped<PodmanContainer>();
-        services.TryAddScoped<PodmanFarm>();
-        services.TryAddScoped<PodmanGenerate>();
-        services.TryAddScoped<PodmanImage>();
-        services.TryAddScoped<PodmanKube>();
-        services.TryAddScoped<PodmanMachine>();
-        services.TryAddScoped<PodmanManifest>();
-        services.TryAddScoped<PodmanNetwork>();
-        services.TryAddScoped<PodmanPod>();
-        services.TryAddScoped<PodmanSecret>();
-        services.TryAddScoped<PodmanSystem>();
-        services.TryAddScoped<PodmanVolume>();
+        services.TryAddScoped<IPodmanCompose, PodmanCompose>();
+        services.TryAddScoped<IPodmanContainer, PodmanContainer>();
+        services.TryAddScoped<IPodmanFarm, PodmanFarm>();
+        services.TryAddScoped<IPodmanGenerate, PodmanGenerate>();
+        services.TryAddScoped<IPodmanImage, PodmanImage>();
+        services.TryAddScoped<IPodmanKube, PodmanKube>();
+        services.TryAddScoped<IPodmanMachine, PodmanMachine>();
+        services.TryAddScoped<IPodmanManifest, PodmanManifest>();
+        services.TryAddScoped<IPodmanNetwork, PodmanNetwork>();
+        services.TryAddScoped<IPodmanPod, PodmanPod>();
+        services.TryAddScoped<IPodmanSecret, PodmanSecret>();
+        services.TryAddScoped<IPodmanSystem, PodmanSystem>();
+        services.TryAddScoped<IPodmanVolume, PodmanVolume>();
         return services;
     }
 

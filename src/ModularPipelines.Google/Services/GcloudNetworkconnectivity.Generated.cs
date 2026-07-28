@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud networkconnectivity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivity
+public class GcloudNetworkconnectivity : IGcloudNetworkconnectivity
 {
     private readonly ICommandContext _command;
     private GcloudNetworkconnectivityHubs? _hubs;

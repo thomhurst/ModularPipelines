@@ -17,7 +17,7 @@ namespace ModularPipelines.Helm.Services;
 /// helm repo commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class HelmRepo
+public class HelmRepo : IHelmRepo
 {
     private readonly ICommandContext _command;
 

@@ -29,12 +29,12 @@ public static class CosignExtensions
     public static IServiceCollection RegisterCosignContext(this IServiceCollection services)
     {
         services.TryAddScoped<ICosign, Services.Cosign>();
-        services.TryAddScoped<CosignBundle>();
-        services.TryAddScoped<CosignDownload>();
-        services.TryAddScoped<CosignPivTool>();
-        services.TryAddScoped<CosignPkcs11Tool>();
-        services.TryAddScoped<CosignSigningConfig>();
-        services.TryAddScoped<CosignTrustedRoot>();
+        services.TryAddScoped<ICosignBundle, CosignBundle>();
+        services.TryAddScoped<ICosignDownload, CosignDownload>();
+        services.TryAddScoped<ICosignPivTool, CosignPivTool>();
+        services.TryAddScoped<ICosignPkcs11Tool, CosignPkcs11Tool>();
+        services.TryAddScoped<ICosignSigningConfig, CosignSigningConfig>();
+        services.TryAddScoped<ICosignTrustedRoot, CosignTrustedRoot>();
         return services;
     }
 

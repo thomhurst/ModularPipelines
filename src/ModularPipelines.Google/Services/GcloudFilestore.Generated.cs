@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud filestore commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudFilestore
+public class GcloudFilestore : IGcloudFilestore
 {
     private readonly ICommandContext _command;
     private GcloudFilestoreBackups? _backups;

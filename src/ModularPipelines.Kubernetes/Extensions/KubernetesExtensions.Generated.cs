@@ -29,14 +29,14 @@ public static class KubernetesExtensions
     public static IServiceCollection RegisterKubernetesContext(this IServiceCollection services)
     {
         services.TryAddScoped<IKubernetes, Services.Kubernetes>();
-        services.TryAddScoped<KubernetesApply>();
-        services.TryAddScoped<KubernetesAuth>();
-        services.TryAddScoped<KubernetesCertificate>();
-        services.TryAddScoped<KubernetesClusterinfo>();
-        services.TryAddScoped<KubernetesConfig>();
-        services.TryAddScoped<KubernetesKuberc>();
-        services.TryAddScoped<KubernetesRollout>();
-        services.TryAddScoped<KubernetesTop>();
+        services.TryAddScoped<IKubernetesApply, KubernetesApply>();
+        services.TryAddScoped<IKubernetesAuth, KubernetesAuth>();
+        services.TryAddScoped<IKubernetesCertificate, KubernetesCertificate>();
+        services.TryAddScoped<IKubernetesClusterinfo, KubernetesClusterinfo>();
+        services.TryAddScoped<IKubernetesConfig, KubernetesConfig>();
+        services.TryAddScoped<IKubernetesKuberc, KubernetesKuberc>();
+        services.TryAddScoped<IKubernetesRollout, KubernetesRollout>();
+        services.TryAddScoped<IKubernetesTop, KubernetesTop>();
         return services;
     }
 

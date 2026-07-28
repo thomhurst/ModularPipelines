@@ -17,7 +17,7 @@ namespace ModularPipelines.Helm.Services;
 /// helm registry commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class HelmRegistry
+public class HelmRegistry : IHelmRegistry
 {
     private readonly ICommandContext _command;
 

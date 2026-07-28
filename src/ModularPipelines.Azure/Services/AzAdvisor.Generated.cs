@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az advisor commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzAdvisor
+public class AzAdvisor : IAzAdvisor
 {
     private readonly ICommandContext _command;
     private AzAdvisorConfiguration? _configuration;

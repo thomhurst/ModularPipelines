@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud migration commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudMigration
+public class GcloudMigration : IGcloudMigration
 {
     private readonly ICommandContext _command;
     private GcloudMigrationVms? _vms;

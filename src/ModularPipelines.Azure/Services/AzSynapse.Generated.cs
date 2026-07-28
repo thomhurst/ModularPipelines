@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az synapse commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzSynapse
+public class AzSynapse : IAzSynapse
 {
     private readonly ICommandContext _command;
     private AzSynapseActivityRun? _activityRun;

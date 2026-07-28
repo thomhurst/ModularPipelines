@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh ruleset commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhRuleset
+public class GhRuleset : IGhRuleset
 {
     private readonly ICommandContext _command;
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud auditmanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAuditmanager
+public class GcloudAuditmanager : IGcloudAuditmanager
 {
     private readonly ICommandContext _command;
     private GcloudAuditmanagerAuditReports? _auditReports;

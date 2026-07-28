@@ -29,24 +29,24 @@ public static class FluxExtensions
     public static IServiceCollection RegisterFluxContext(this IServiceCollection services)
     {
         services.TryAddScoped<IFlux, Services.Flux>();
-        services.TryAddScoped<FluxBootstrap>();
-        services.TryAddScoped<FluxBuild>();
-        services.TryAddScoped<FluxCreate>();
-        services.TryAddScoped<FluxDebug>();
-        services.TryAddScoped<FluxDelete>();
-        services.TryAddScoped<FluxDiff>();
-        services.TryAddScoped<FluxExport>();
-        services.TryAddScoped<FluxGet>();
-        services.TryAddScoped<FluxList>();
-        services.TryAddScoped<FluxPlugin>();
-        services.TryAddScoped<FluxPull>();
-        services.TryAddScoped<FluxPush>();
-        services.TryAddScoped<FluxReconcile>();
-        services.TryAddScoped<FluxResume>();
-        services.TryAddScoped<FluxSuspend>();
-        services.TryAddScoped<FluxTag>();
-        services.TryAddScoped<FluxTree>();
-        services.TryAddScoped<FluxTrigger>();
+        services.TryAddScoped<IFluxBootstrap, FluxBootstrap>();
+        services.TryAddScoped<IFluxBuild, FluxBuild>();
+        services.TryAddScoped<IFluxCreate, FluxCreate>();
+        services.TryAddScoped<IFluxDebug, FluxDebug>();
+        services.TryAddScoped<IFluxDelete, FluxDelete>();
+        services.TryAddScoped<IFluxDiff, FluxDiff>();
+        services.TryAddScoped<IFluxExport, FluxExport>();
+        services.TryAddScoped<IFluxGet, FluxGet>();
+        services.TryAddScoped<IFluxList, FluxList>();
+        services.TryAddScoped<IFluxPlugin, FluxPlugin>();
+        services.TryAddScoped<IFluxPull, FluxPull>();
+        services.TryAddScoped<IFluxPush, FluxPush>();
+        services.TryAddScoped<IFluxReconcile, FluxReconcile>();
+        services.TryAddScoped<IFluxResume, FluxResume>();
+        services.TryAddScoped<IFluxSuspend, FluxSuspend>();
+        services.TryAddScoped<IFluxTag, FluxTag>();
+        services.TryAddScoped<IFluxTree, FluxTree>();
+        services.TryAddScoped<IFluxTrigger, FluxTrigger>();
         return services;
     }
 

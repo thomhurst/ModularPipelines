@@ -25,10 +25,10 @@ internal partial class Terraform : ITerraform
     /// Initializes a new instance of the <see cref="Terraform"/> class.
     /// </summary>
     public Terraform(
-        TerraformProviders providers,
-        TerraformStacks stacks,
-        TerraformState state,
-        TerraformWorkspace workspace,
+        ITerraformProviders providers,
+        ITerraformStacks stacks,
+        ITerraformState state,
+        ITerraformWorkspace workspace,
         ICommandContext command
     )
     {
@@ -42,16 +42,16 @@ internal partial class Terraform : ITerraform
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public TerraformProviders Providers { get; }
+    public ITerraformProviders Providers { get; }
 
     /// <inheritdoc />
-    public TerraformStacks Stacks { get; }
+    public ITerraformStacks Stacks { get; }
 
     /// <inheritdoc />
-    public TerraformState State { get; }
+    public ITerraformState State { get; }
 
     /// <inheritdoc />
-    public TerraformWorkspace Workspace { get; }
+    public ITerraformWorkspace Workspace { get; }
 
     #endregion
 

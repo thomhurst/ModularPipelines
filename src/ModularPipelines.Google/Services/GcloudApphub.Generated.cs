@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud apphub commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudApphub
+public class GcloudApphub : IGcloudApphub
 {
     private readonly ICommandContext _command;
     private GcloudApphubApplications? _applications;

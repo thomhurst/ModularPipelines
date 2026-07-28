@@ -17,7 +17,7 @@ namespace ModularPipelines.ArgoCd.Services;
 /// argocd admin commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class ArgoCdAdmin
+public class ArgoCdAdmin : IArgoCdAdmin
 {
     private readonly ICommandContext _command;
     private ArgoCdAdminApp? _app;

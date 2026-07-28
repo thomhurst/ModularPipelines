@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az ams commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzAms
+public class AzAms : IAzAms
 {
     private readonly ICommandContext _command;
     private AzAmsAccount? _account;

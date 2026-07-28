@@ -17,7 +17,7 @@ namespace ModularPipelines.Pulumi.Services;
 /// pulumi stack commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class PulumiStack
+public class PulumiStack : IPulumiStack
 {
     private readonly ICommandContext _command;
     private PulumiStackDrift? _drift;

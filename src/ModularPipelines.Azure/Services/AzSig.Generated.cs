@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az sig commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzSig
+public class AzSig : IAzSig
 {
     private readonly ICommandContext _command;
     private AzSigGalleryApplication? _galleryApplication;

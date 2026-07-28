@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux bootstrap commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxBootstrap
+public class FluxBootstrap : IFluxBootstrap
 {
     private readonly ICommandContext _command;
 

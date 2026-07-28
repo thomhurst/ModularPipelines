@@ -29,13 +29,13 @@ public static class MinikubeExtensions
     public static IServiceCollection RegisterMinikubeContext(this IServiceCollection services)
     {
         services.TryAddScoped<IMinikube, Services.Minikube>();
-        services.TryAddScoped<MinikubeAddons>();
-        services.TryAddScoped<MinikubeCache>();
-        services.TryAddScoped<MinikubeConfig>();
-        services.TryAddScoped<MinikubeImage>();
-        services.TryAddScoped<MinikubeNode>();
-        services.TryAddScoped<MinikubeProfile>();
-        services.TryAddScoped<MinikubeService>();
+        services.TryAddScoped<IMinikubeAddons, MinikubeAddons>();
+        services.TryAddScoped<IMinikubeCache, MinikubeCache>();
+        services.TryAddScoped<IMinikubeConfig, MinikubeConfig>();
+        services.TryAddScoped<IMinikubeImage, MinikubeImage>();
+        services.TryAddScoped<IMinikubeNode, MinikubeNode>();
+        services.TryAddScoped<IMinikubeProfile, MinikubeProfile>();
+        services.TryAddScoped<IMinikubeService, MinikubeService>();
         return services;
     }
 

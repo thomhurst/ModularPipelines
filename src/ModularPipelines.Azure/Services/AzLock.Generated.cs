@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az lock commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzLock
+public class AzLock : IAzLock
 {
     private readonly ICommandContext _command;
 

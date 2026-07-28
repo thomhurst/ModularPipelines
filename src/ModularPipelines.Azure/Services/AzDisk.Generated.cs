@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az disk commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzDisk
+public class AzDisk : IAzDisk
 {
     private readonly ICommandContext _command;
     private AzDiskConfig? _config;

@@ -29,9 +29,9 @@ public static class KustomizeExtensions
     public static IServiceCollection RegisterKustomizeContext(this IServiceCollection services)
     {
         services.TryAddScoped<IKustomize, Services.Kustomize>();
-        services.TryAddScoped<KustomizeCfg>();
-        services.TryAddScoped<KustomizeEdit>();
-        services.TryAddScoped<KustomizeFn>();
+        services.TryAddScoped<IKustomizeCfg, KustomizeCfg>();
+        services.TryAddScoped<IKustomizeEdit, KustomizeEdit>();
+        services.TryAddScoped<IKustomizeFn, KustomizeFn>();
         return services;
     }
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az restorepoint commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzRestorePoint
+public class AzRestorePoint : IAzRestorePoint
 {
     private readonly ICommandContext _command;
     private AzRestorePointCollection? _collection;

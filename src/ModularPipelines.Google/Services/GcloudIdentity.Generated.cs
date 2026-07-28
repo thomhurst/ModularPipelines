@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud identity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudIdentity
+public class GcloudIdentity : IGcloudIdentity
 {
     private readonly ICommandContext _command;
     private GcloudIdentityGroups? _groups;

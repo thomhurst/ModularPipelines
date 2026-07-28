@@ -23,17 +23,17 @@ public partial interface IKustomize
     /// <summary>
     /// Gets the cfg sub-domain service.
     /// </summary>
-    KustomizeCfg Cfg { get; }
+    IKustomizeCfg Cfg { get; }
 
     /// <summary>
     /// Gets the edit sub-domain service.
     /// </summary>
-    KustomizeEdit Edit { get; }
+    IKustomizeEdit Edit { get; }
 
     /// <summary>
     /// Gets the fn sub-domain service.
     /// </summary>
-    KustomizeFn Fn { get; }
+    IKustomizeFn Fn { get; }
 
     #endregion
 

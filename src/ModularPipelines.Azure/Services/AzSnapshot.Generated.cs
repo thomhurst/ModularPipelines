@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az snapshot commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzSnapshot
+public class AzSnapshot : IAzSnapshot
 {
     private readonly ICommandContext _command;
 

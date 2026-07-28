@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az sshkey commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzSshkey
+public class AzSshkey : IAzSshkey
 {
     private readonly ICommandContext _command;
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// kubectl rollout commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KubernetesRollout
+public class KubernetesRollout : IKubernetesRollout
 {
     private readonly ICommandContext _command;
 

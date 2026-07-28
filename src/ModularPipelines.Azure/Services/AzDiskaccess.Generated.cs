@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az diskaccess commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzDiskaccess
+public class AzDiskaccess : IAzDiskaccess
 {
     private readonly ICommandContext _command;
 

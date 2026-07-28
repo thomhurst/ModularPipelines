@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az role commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzRole
+public class AzRole : IAzRole
 {
     private readonly ICommandContext _command;
     private AzRoleAssignment? _assignment;

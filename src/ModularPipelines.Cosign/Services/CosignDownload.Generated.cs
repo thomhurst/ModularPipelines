@@ -17,7 +17,7 @@ namespace ModularPipelines.Cosign.Services;
 /// cosign download commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class CosignDownload
+public class CosignDownload : ICosignDownload
 {
     private readonly ICommandContext _command;
 

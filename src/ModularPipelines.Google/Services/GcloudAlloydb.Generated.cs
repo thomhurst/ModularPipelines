@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud alloydb commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAlloydb
+public class GcloudAlloydb : IGcloudAlloydb
 {
     private readonly ICommandContext _command;
     private GcloudAlloydbBackups? _backups;

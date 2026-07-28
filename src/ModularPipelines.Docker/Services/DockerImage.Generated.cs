@@ -17,7 +17,7 @@ namespace ModularPipelines.Docker.Services;
 /// docker image commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class DockerImage
+public class DockerImage : IDockerImage
 {
     private readonly ICommandContext _command;
 

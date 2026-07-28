@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud auth commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAuth
+public class GcloudAuth : IGcloudAuth
 {
     private readonly ICommandContext _command;
     private GcloudAuthApplicationDefault? _applicationDefault;

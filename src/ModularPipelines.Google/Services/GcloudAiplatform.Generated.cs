@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud aiplatform commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAiplatform
+public class GcloudAiplatform : IGcloudAiplatform
 {
     private readonly ICommandContext _command;
     private GcloudAiplatformJobs? _jobs;

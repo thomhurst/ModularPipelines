@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud transfer commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudTransfer
+public class GcloudTransfer : IGcloudTransfer
 {
     private readonly ICommandContext _command;
     private GcloudTransferAgentPools? _agentPools;

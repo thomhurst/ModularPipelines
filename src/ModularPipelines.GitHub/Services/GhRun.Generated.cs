@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh run commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhRun
+public class GhRun : IGhRun
 {
     private readonly ICommandContext _command;
 

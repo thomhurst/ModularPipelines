@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud source commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudSource
+public class GcloudSource : IGcloudSource
 {
     private readonly ICommandContext _command;
     private GcloudSourceProjectConfigs? _projectConfigs;

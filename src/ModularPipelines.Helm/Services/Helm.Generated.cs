@@ -25,13 +25,13 @@ internal partial class Helm : IHelm
     /// Initializes a new instance of the <see cref="Helm"/> class.
     /// </summary>
     public Helm(
-        HelmDependency dependency,
-        HelmGet get,
-        HelmPlugin plugin,
-        HelmRegistry registry,
-        HelmRepo repo,
-        HelmSearch search,
-        HelmShow show,
+        IHelmDependency dependency,
+        IHelmGet get,
+        IHelmPlugin plugin,
+        IHelmRegistry registry,
+        IHelmRepo repo,
+        IHelmSearch search,
+        IHelmShow show,
         ICommandContext command
     )
     {
@@ -48,25 +48,25 @@ internal partial class Helm : IHelm
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public HelmDependency Dependency { get; }
+    public IHelmDependency Dependency { get; }
 
     /// <inheritdoc />
-    public HelmGet Get { get; }
+    public IHelmGet Get { get; }
 
     /// <inheritdoc />
-    public HelmPlugin Plugin { get; }
+    public IHelmPlugin Plugin { get; }
 
     /// <inheritdoc />
-    public HelmRegistry Registry { get; }
+    public IHelmRegistry Registry { get; }
 
     /// <inheritdoc />
-    public HelmRepo Repo { get; }
+    public IHelmRepo Repo { get; }
 
     /// <inheritdoc />
-    public HelmSearch Search { get; }
+    public IHelmSearch Search { get; }
 
     /// <inheritdoc />
-    public HelmShow Show { get; }
+    public IHelmShow Show { get; }
 
     #endregion
 

@@ -23,77 +23,77 @@ public partial interface IEksctl
     /// <summary>
     /// Gets the associate sub-domain service.
     /// </summary>
-    EksctlAssociate Associate { get; }
+    IEksctlAssociate Associate { get; }
 
     /// <summary>
     /// Gets the create sub-domain service.
     /// </summary>
-    EksctlCreate Create { get; }
+    IEksctlCreate Create { get; }
 
     /// <summary>
     /// Gets the delete sub-domain service.
     /// </summary>
-    EksctlDelete Delete { get; }
+    IEksctlDelete Delete { get; }
 
     /// <summary>
     /// Gets the deregister sub-domain service.
     /// </summary>
-    EksctlDeregister Deregister { get; }
+    IEksctlDeregister Deregister { get; }
 
     /// <summary>
     /// Gets the disassociate sub-domain service.
     /// </summary>
-    EksctlDisassociate Disassociate { get; }
+    IEksctlDisassociate Disassociate { get; }
 
     /// <summary>
     /// Gets the drain sub-domain service.
     /// </summary>
-    EksctlDrain Drain { get; }
+    IEksctlDrain Drain { get; }
 
     /// <summary>
     /// Gets the enable sub-domain service.
     /// </summary>
-    EksctlEnable Enable { get; }
+    IEksctlEnable Enable { get; }
 
     /// <summary>
     /// Gets the get sub-domain service.
     /// </summary>
-    EksctlGet Get { get; }
+    IEksctlGet Get { get; }
 
     /// <summary>
     /// Gets the register sub-domain service.
     /// </summary>
-    EksctlRegister Register { get; }
+    IEksctlRegister Register { get; }
 
     /// <summary>
     /// Gets the scale sub-domain service.
     /// </summary>
-    EksctlScale Scale { get; }
+    IEksctlScale Scale { get; }
 
     /// <summary>
     /// Gets the set sub-domain service.
     /// </summary>
-    EksctlSet Set { get; }
+    IEksctlSet Set { get; }
 
     /// <summary>
     /// Gets the unset sub-domain service.
     /// </summary>
-    EksctlUnset Unset { get; }
+    IEksctlUnset Unset { get; }
 
     /// <summary>
     /// Gets the update sub-domain service.
     /// </summary>
-    EksctlUpdate Update { get; }
+    IEksctlUpdate Update { get; }
 
     /// <summary>
     /// Gets the upgrade sub-domain service.
     /// </summary>
-    EksctlUpgrade Upgrade { get; }
+    IEksctlUpgrade Upgrade { get; }
 
     /// <summary>
     /// Gets the utils sub-domain service.
     /// </summary>
-    EksctlUtils Utils { get; }
+    IEksctlUtils Utils { get; }
 
     #endregion
 

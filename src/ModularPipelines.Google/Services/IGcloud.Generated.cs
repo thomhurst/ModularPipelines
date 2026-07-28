@@ -23,642 +23,642 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the accessapproval sub-domain service.
     /// </summary>
-    GcloudAccessapproval Accessapproval { get; }
+    IGcloudAccessapproval Accessapproval { get; }
 
     /// <summary>
     /// Gets the accesscontextmanager sub-domain service.
     /// </summary>
-    GcloudAccesscontextmanager Accesscontextmanager { get; }
+    IGcloudAccesscontextmanager Accesscontextmanager { get; }
 
     /// <summary>
     /// Gets the activedirectory sub-domain service.
     /// </summary>
-    GcloudActivedirectory Activedirectory { get; }
+    IGcloudActivedirectory Activedirectory { get; }
 
     /// <summary>
     /// Gets the agentidentity sub-domain service.
     /// </summary>
-    GcloudAgentidentity Agentidentity { get; }
+    IGcloudAgentidentity Agentidentity { get; }
 
     /// <summary>
     /// Gets the agentregistry sub-domain service.
     /// </summary>
-    GcloudAgentregistry Agentregistry { get; }
+    IGcloudAgentregistry Agentregistry { get; }
 
     /// <summary>
     /// Gets the ai sub-domain service.
     /// </summary>
-    GcloudAi Ai { get; }
+    IGcloudAi Ai { get; }
 
     /// <summary>
     /// Gets the aiplatform sub-domain service.
     /// </summary>
-    GcloudAiplatform Aiplatform { get; }
+    IGcloudAiplatform Aiplatform { get; }
 
     /// <summary>
     /// Gets the alloydb sub-domain service.
     /// </summary>
-    GcloudAlloydb Alloydb { get; }
+    IGcloudAlloydb Alloydb { get; }
 
     /// <summary>
     /// Gets the anthos sub-domain service.
     /// </summary>
-    GcloudAnthos Anthos { get; }
+    IGcloudAnthos Anthos { get; }
 
     /// <summary>
     /// Gets the apigateway sub-domain service.
     /// </summary>
-    GcloudApigateway Apigateway { get; }
+    IGcloudApigateway Apigateway { get; }
 
     /// <summary>
     /// Gets the apigee sub-domain service.
     /// </summary>
-    GcloudApigee Apigee { get; }
+    IGcloudApigee Apigee { get; }
 
     /// <summary>
     /// Gets the apihub sub-domain service.
     /// </summary>
-    GcloudApihub Apihub { get; }
+    IGcloudApihub Apihub { get; }
 
     /// <summary>
     /// Gets the app sub-domain service.
     /// </summary>
-    GcloudApp App { get; }
+    IGcloudApp App { get; }
 
     /// <summary>
     /// Gets the apphub sub-domain service.
     /// </summary>
-    GcloudApphub Apphub { get; }
+    IGcloudApphub Apphub { get; }
 
     /// <summary>
     /// Gets the artifacts sub-domain service.
     /// </summary>
-    GcloudArtifacts Artifacts { get; }
+    IGcloudArtifacts Artifacts { get; }
 
     /// <summary>
     /// Gets the asset sub-domain service.
     /// </summary>
-    GcloudAsset Asset { get; }
+    IGcloudAsset Asset { get; }
 
     /// <summary>
     /// Gets the assured sub-domain service.
     /// </summary>
-    GcloudAssured Assured { get; }
+    IGcloudAssured Assured { get; }
 
     /// <summary>
     /// Gets the auditmanager sub-domain service.
     /// </summary>
-    GcloudAuditmanager Auditmanager { get; }
+    IGcloudAuditmanager Auditmanager { get; }
 
     /// <summary>
     /// Gets the auth sub-domain service.
     /// </summary>
-    GcloudAuth Auth { get; }
+    IGcloudAuth Auth { get; }
 
     /// <summary>
     /// Gets the backupdr sub-domain service.
     /// </summary>
-    GcloudBackupdr Backupdr { get; }
+    IGcloudBackupdr Backupdr { get; }
 
     /// <summary>
     /// Gets the batch sub-domain service.
     /// </summary>
-    GcloudBatch Batch { get; }
+    IGcloudBatch Batch { get; }
 
     /// <summary>
     /// Gets the beyondcorp sub-domain service.
     /// </summary>
-    GcloudBeyondcorp Beyondcorp { get; }
+    IGcloudBeyondcorp Beyondcorp { get; }
 
     /// <summary>
     /// Gets the biglake sub-domain service.
     /// </summary>
-    GcloudBiglake Biglake { get; }
+    IGcloudBiglake Biglake { get; }
 
     /// <summary>
     /// Gets the bigtable sub-domain service.
     /// </summary>
-    GcloudBigtable Bigtable { get; }
+    IGcloudBigtable Bigtable { get; }
 
     /// <summary>
     /// Gets the billing sub-domain service.
     /// </summary>
-    GcloudBilling Billing { get; }
+    IGcloudBilling Billing { get; }
 
     /// <summary>
     /// Gets the bms sub-domain service.
     /// </summary>
-    GcloudBms Bms { get; }
+    IGcloudBms Bms { get; }
 
     /// <summary>
     /// Gets the bq sub-domain service.
     /// </summary>
-    GcloudBq Bq { get; }
+    IGcloudBq Bq { get; }
 
     /// <summary>
     /// Gets the builds sub-domain service.
     /// </summary>
-    GcloudBuilds Builds { get; }
+    IGcloudBuilds Builds { get; }
 
     /// <summary>
     /// Gets the certificatemanager sub-domain service.
     /// </summary>
-    GcloudCertificatemanager Certificatemanager { get; }
+    IGcloudCertificatemanager Certificatemanager { get; }
 
     /// <summary>
     /// Gets the cloudlocationfinder sub-domain service.
     /// </summary>
-    GcloudCloudlocationfinder Cloudlocationfinder { get; }
+    IGcloudCloudlocationfinder Cloudlocationfinder { get; }
 
     /// <summary>
     /// Gets the cloudshell sub-domain service.
     /// </summary>
-    GcloudCloudshell Cloudshell { get; }
+    IGcloudCloudshell Cloudshell { get; }
 
     /// <summary>
     /// Gets the colab sub-domain service.
     /// </summary>
-    GcloudColab Colab { get; }
+    IGcloudColab Colab { get; }
 
     /// <summary>
     /// Gets the compliancemanager sub-domain service.
     /// </summary>
-    GcloudCompliancemanager Compliancemanager { get; }
+    IGcloudCompliancemanager Compliancemanager { get; }
 
     /// <summary>
     /// Gets the components sub-domain service.
     /// </summary>
-    GcloudComponents Components { get; }
+    IGcloudComponents Components { get; }
 
     /// <summary>
     /// Gets the composer sub-domain service.
     /// </summary>
-    GcloudComposer Composer { get; }
+    IGcloudComposer Composer { get; }
 
     /// <summary>
     /// Gets the compute sub-domain service.
     /// </summary>
-    GcloudCompute Compute { get; }
+    IGcloudCompute Compute { get; }
 
     /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
-    GcloudConfig Config { get; }
+    IGcloudConfig Config { get; }
 
     /// <summary>
     /// Gets the container sub-domain service.
     /// </summary>
-    GcloudContainer Container { get; }
+    IGcloudContainer Container { get; }
 
     /// <summary>
     /// Gets the databasemigration sub-domain service.
     /// </summary>
-    GcloudDatabasemigration Databasemigration { get; }
+    IGcloudDatabasemigration Databasemigration { get; }
 
     /// <summary>
     /// Gets the datacatalog sub-domain service.
     /// </summary>
-    GcloudDatacatalog Datacatalog { get; }
+    IGcloudDatacatalog Datacatalog { get; }
 
     /// <summary>
     /// Gets the dataflow sub-domain service.
     /// </summary>
-    GcloudDataflow Dataflow { get; }
+    IGcloudDataflow Dataflow { get; }
 
     /// <summary>
     /// Gets the datalineage sub-domain service.
     /// </summary>
-    GcloudDatalineage Datalineage { get; }
+    IGcloudDatalineage Datalineage { get; }
 
     /// <summary>
     /// Gets the dataplex sub-domain service.
     /// </summary>
-    GcloudDataplex Dataplex { get; }
+    IGcloudDataplex Dataplex { get; }
 
     /// <summary>
     /// Gets the dataproc sub-domain service.
     /// </summary>
-    GcloudDataproc Dataproc { get; }
+    IGcloudDataproc Dataproc { get; }
 
     /// <summary>
     /// Gets the datastore sub-domain service.
     /// </summary>
-    GcloudDatastore Datastore { get; }
+    IGcloudDatastore Datastore { get; }
 
     /// <summary>
     /// Gets the datastream sub-domain service.
     /// </summary>
-    GcloudDatastream Datastream { get; }
+    IGcloudDatastream Datastream { get; }
 
     /// <summary>
     /// Gets the deploy sub-domain service.
     /// </summary>
-    GcloudDeploy Deploy { get; }
+    IGcloudDeploy Deploy { get; }
 
     /// <summary>
     /// Gets the deploymentmanager sub-domain service.
     /// </summary>
-    GcloudDeploymentmanager Deploymentmanager { get; }
+    IGcloudDeploymentmanager Deploymentmanager { get; }
 
     /// <summary>
     /// Gets the designcenter sub-domain service.
     /// </summary>
-    GcloudDesigncenter Designcenter { get; }
+    IGcloudDesigncenter Designcenter { get; }
 
     /// <summary>
     /// Gets the developerconnect sub-domain service.
     /// </summary>
-    GcloudDeveloperconnect Developerconnect { get; }
+    IGcloudDeveloperconnect Developerconnect { get; }
 
     /// <summary>
     /// Gets the dns sub-domain service.
     /// </summary>
-    GcloudDns Dns { get; }
+    IGcloudDns Dns { get; }
 
     /// <summary>
     /// Gets the domains sub-domain service.
     /// </summary>
-    GcloudDomains Domains { get; }
+    IGcloudDomains Domains { get; }
 
     /// <summary>
     /// Gets the edgecache sub-domain service.
     /// </summary>
-    GcloudEdgecache Edgecache { get; }
+    IGcloudEdgecache Edgecache { get; }
 
     /// <summary>
     /// Gets the edgecloud sub-domain service.
     /// </summary>
-    GcloudEdgecloud Edgecloud { get; }
+    IGcloudEdgecloud Edgecloud { get; }
 
     /// <summary>
     /// Gets the emulators sub-domain service.
     /// </summary>
-    GcloudEmulators Emulators { get; }
+    IGcloudEmulators Emulators { get; }
 
     /// <summary>
     /// Gets the endpoints sub-domain service.
     /// </summary>
-    GcloudEndpoints Endpoints { get; }
+    IGcloudEndpoints Endpoints { get; }
 
     /// <summary>
     /// Gets the essentialcontacts sub-domain service.
     /// </summary>
-    GcloudEssentialcontacts Essentialcontacts { get; }
+    IGcloudEssentialcontacts Essentialcontacts { get; }
 
     /// <summary>
     /// Gets the eventarc sub-domain service.
     /// </summary>
-    GcloudEventarc Eventarc { get; }
+    IGcloudEventarc Eventarc { get; }
 
     /// <summary>
     /// Gets the filestore sub-domain service.
     /// </summary>
-    GcloudFilestore Filestore { get; }
+    IGcloudFilestore Filestore { get; }
 
     /// <summary>
     /// Gets the firebase sub-domain service.
     /// </summary>
-    GcloudFirebase Firebase { get; }
+    IGcloudFirebase Firebase { get; }
 
     /// <summary>
     /// Gets the firestore sub-domain service.
     /// </summary>
-    GcloudFirestore Firestore { get; }
+    IGcloudFirestore Firestore { get; }
 
     /// <summary>
     /// Gets the functions sub-domain service.
     /// </summary>
-    GcloudFunctions Functions { get; }
+    IGcloudFunctions Functions { get; }
 
     /// <summary>
     /// Gets the gemini sub-domain service.
     /// </summary>
-    GcloudGemini Gemini { get; }
+    IGcloudGemini Gemini { get; }
 
     /// <summary>
     /// Gets the healthcare sub-domain service.
     /// </summary>
-    GcloudHealthcare Healthcare { get; }
+    IGcloudHealthcare Healthcare { get; }
 
     /// <summary>
     /// Gets the iam sub-domain service.
     /// </summary>
-    GcloudIam Iam { get; }
+    IGcloudIam Iam { get; }
 
     /// <summary>
     /// Gets the iap sub-domain service.
     /// </summary>
-    GcloudIap Iap { get; }
+    IGcloudIap Iap { get; }
 
     /// <summary>
     /// Gets the identity sub-domain service.
     /// </summary>
-    GcloudIdentity Identity { get; }
+    IGcloudIdentity Identity { get; }
 
     /// <summary>
     /// Gets the ids sub-domain service.
     /// </summary>
-    GcloudIds Ids { get; }
+    IGcloudIds Ids { get; }
 
     /// <summary>
     /// Gets the inframanager sub-domain service.
     /// </summary>
-    GcloudInframanager Inframanager { get; }
+    IGcloudInframanager Inframanager { get; }
 
     /// <summary>
     /// Gets the kms sub-domain service.
     /// </summary>
-    GcloudKms Kms { get; }
+    IGcloudKms Kms { get; }
 
     /// <summary>
     /// Gets the logging sub-domain service.
     /// </summary>
-    GcloudLogging Logging { get; }
+    IGcloudLogging Logging { get; }
 
     /// <summary>
     /// Gets the looker sub-domain service.
     /// </summary>
-    GcloudLooker Looker { get; }
+    IGcloudLooker Looker { get; }
 
     /// <summary>
     /// Gets the lustre sub-domain service.
     /// </summary>
-    GcloudLustre Lustre { get; }
+    IGcloudLustre Lustre { get; }
 
     /// <summary>
     /// Gets the managedkafka sub-domain service.
     /// </summary>
-    GcloudManagedkafka Managedkafka { get; }
+    IGcloudManagedkafka Managedkafka { get; }
 
     /// <summary>
     /// Gets the memcache sub-domain service.
     /// </summary>
-    GcloudMemcache Memcache { get; }
+    IGcloudMemcache Memcache { get; }
 
     /// <summary>
     /// Gets the memorystore sub-domain service.
     /// </summary>
-    GcloudMemorystore Memorystore { get; }
+    IGcloudMemorystore Memorystore { get; }
 
     /// <summary>
     /// Gets the metastore sub-domain service.
     /// </summary>
-    GcloudMetastore Metastore { get; }
+    IGcloudMetastore Metastore { get; }
 
     /// <summary>
     /// Gets the migration sub-domain service.
     /// </summary>
-    GcloudMigration Migration { get; }
+    IGcloudMigration Migration { get; }
 
     /// <summary>
     /// Gets the ml sub-domain service.
     /// </summary>
-    GcloudMl Ml { get; }
+    IGcloudMl Ml { get; }
 
     /// <summary>
     /// Gets the modelarmor sub-domain service.
     /// </summary>
-    GcloudModelarmor Modelarmor { get; }
+    IGcloudModelarmor Modelarmor { get; }
 
     /// <summary>
     /// Gets the monitoring sub-domain service.
     /// </summary>
-    GcloudMonitoring Monitoring { get; }
+    IGcloudMonitoring Monitoring { get; }
 
     /// <summary>
     /// Gets the netapp sub-domain service.
     /// </summary>
-    GcloudNetapp Netapp { get; }
+    IGcloudNetapp Netapp { get; }
 
     /// <summary>
     /// Gets the networkconnectivity sub-domain service.
     /// </summary>
-    GcloudNetworkconnectivity Networkconnectivity { get; }
+    IGcloudNetworkconnectivity Networkconnectivity { get; }
 
     /// <summary>
     /// Gets the networkmanagement sub-domain service.
     /// </summary>
-    GcloudNetworkmanagement Networkmanagement { get; }
+    IGcloudNetworkmanagement Networkmanagement { get; }
 
     /// <summary>
     /// Gets the networksecurity sub-domain service.
     /// </summary>
-    GcloudNetworksecurity Networksecurity { get; }
+    IGcloudNetworksecurity Networksecurity { get; }
 
     /// <summary>
     /// Gets the networkservices sub-domain service.
     /// </summary>
-    GcloudNetworkservices Networkservices { get; }
+    IGcloudNetworkservices Networkservices { get; }
 
     /// <summary>
     /// Gets the notebooks sub-domain service.
     /// </summary>
-    GcloudNotebooks Notebooks { get; }
+    IGcloudNotebooks Notebooks { get; }
 
     /// <summary>
     /// Gets the observability sub-domain service.
     /// </summary>
-    GcloudObservability Observability { get; }
+    IGcloudObservability Observability { get; }
 
     /// <summary>
     /// Gets the oracledatabase sub-domain service.
     /// </summary>
-    GcloudOracledatabase Oracledatabase { get; }
+    IGcloudOracledatabase Oracledatabase { get; }
 
     /// <summary>
     /// Gets the organizations sub-domain service.
     /// </summary>
-    GcloudOrganizations Organizations { get; }
+    IGcloudOrganizations Organizations { get; }
 
     /// <summary>
     /// Gets the orgpolicies sub-domain service.
     /// </summary>
-    GcloudOrgpolicies Orgpolicies { get; }
+    IGcloudOrgpolicies Orgpolicies { get; }
 
     /// <summary>
     /// Gets the pam sub-domain service.
     /// </summary>
-    GcloudPam Pam { get; }
+    IGcloudPam Pam { get; }
 
     /// <summary>
     /// Gets the parametermanager sub-domain service.
     /// </summary>
-    GcloudParametermanager Parametermanager { get; }
+    IGcloudParametermanager Parametermanager { get; }
 
     /// <summary>
     /// Gets the policyintelligence sub-domain service.
     /// </summary>
-    GcloudPolicyintelligence Policyintelligence { get; }
+    IGcloudPolicyintelligence Policyintelligence { get; }
 
     /// <summary>
     /// Gets the policytroubleshoot sub-domain service.
     /// </summary>
-    GcloudPolicytroubleshoot Policytroubleshoot { get; }
+    IGcloudPolicytroubleshoot Policytroubleshoot { get; }
 
     /// <summary>
     /// Gets the preview sub-domain service.
     /// </summary>
-    GcloudPreview Preview { get; }
+    IGcloudPreview Preview { get; }
 
     /// <summary>
     /// Gets the privateca sub-domain service.
     /// </summary>
-    GcloudPrivateca Privateca { get; }
+    IGcloudPrivateca Privateca { get; }
 
     /// <summary>
     /// Gets the projects sub-domain service.
     /// </summary>
-    GcloudProjects Projects { get; }
+    IGcloudProjects Projects { get; }
 
     /// <summary>
     /// Gets the publicca sub-domain service.
     /// </summary>
-    GcloudPublicca Publicca { get; }
+    IGcloudPublicca Publicca { get; }
 
     /// <summary>
     /// Gets the pubsub sub-domain service.
     /// </summary>
-    GcloudPubsub Pubsub { get; }
+    IGcloudPubsub Pubsub { get; }
 
     /// <summary>
     /// Gets the recaptcha sub-domain service.
     /// </summary>
-    GcloudRecaptcha Recaptcha { get; }
+    IGcloudRecaptcha Recaptcha { get; }
 
     /// <summary>
     /// Gets the recommender sub-domain service.
     /// </summary>
-    GcloudRecommender Recommender { get; }
+    IGcloudRecommender Recommender { get; }
 
     /// <summary>
     /// Gets the redis sub-domain service.
     /// </summary>
-    GcloudRedis Redis { get; }
+    IGcloudRedis Redis { get; }
 
     /// <summary>
     /// Gets the resourcemanager sub-domain service.
     /// </summary>
-    GcloudResourceManager ResourceManager { get; }
+    IGcloudResourceManager ResourceManager { get; }
 
     /// <summary>
     /// Gets the run sub-domain service.
     /// </summary>
-    GcloudRun Run { get; }
+    IGcloudRun Run { get; }
 
     /// <summary>
     /// Gets the scc sub-domain service.
     /// </summary>
-    GcloudScc Scc { get; }
+    IGcloudScc Scc { get; }
 
     /// <summary>
     /// Gets the scheduler sub-domain service.
     /// </summary>
-    GcloudScheduler Scheduler { get; }
+    IGcloudScheduler Scheduler { get; }
 
     /// <summary>
     /// Gets the secrets sub-domain service.
     /// </summary>
-    GcloudSecrets Secrets { get; }
+    IGcloudSecrets Secrets { get; }
 
     /// <summary>
     /// Gets the servicedirectory sub-domain service.
     /// </summary>
-    GcloudServicedirectory Servicedirectory { get; }
+    IGcloudServicedirectory Servicedirectory { get; }
 
     /// <summary>
     /// Gets the serviceextensions sub-domain service.
     /// </summary>
-    GcloudServiceextensions Serviceextensions { get; }
+    IGcloudServiceextensions Serviceextensions { get; }
 
     /// <summary>
     /// Gets the servicehealth sub-domain service.
     /// </summary>
-    GcloudServicehealth Servicehealth { get; }
+    IGcloudServicehealth Servicehealth { get; }
 
     /// <summary>
     /// Gets the services sub-domain service.
     /// </summary>
-    GcloudServices Services { get; }
+    IGcloudServices Services { get; }
 
     /// <summary>
     /// Gets the source sub-domain service.
     /// </summary>
-    GcloudSource Source { get; }
+    IGcloudSource Source { get; }
 
     /// <summary>
     /// Gets the sourcemanager sub-domain service.
     /// </summary>
-    GcloudSourcemanager Sourcemanager { get; }
+    IGcloudSourcemanager Sourcemanager { get; }
 
     /// <summary>
     /// Gets the spanner sub-domain service.
     /// </summary>
-    GcloudSpanner Spanner { get; }
+    IGcloudSpanner Spanner { get; }
 
     /// <summary>
     /// Gets the sql sub-domain service.
     /// </summary>
-    GcloudSql Sql { get; }
+    IGcloudSql Sql { get; }
 
     /// <summary>
     /// Gets the storage sub-domain service.
     /// </summary>
-    GcloudStorage Storage { get; }
+    IGcloudStorage Storage { get; }
 
     /// <summary>
     /// Gets the tasks sub-domain service.
     /// </summary>
-    GcloudTasks Tasks { get; }
+    IGcloudTasks Tasks { get; }
 
     /// <summary>
     /// Gets the telcoautomation sub-domain service.
     /// </summary>
-    GcloudTelcoautomation Telcoautomation { get; }
+    IGcloudTelcoautomation Telcoautomation { get; }
 
     /// <summary>
     /// Gets the transcoder sub-domain service.
     /// </summary>
-    GcloudTranscoder Transcoder { get; }
+    IGcloudTranscoder Transcoder { get; }
 
     /// <summary>
     /// Gets the transfer sub-domain service.
     /// </summary>
-    GcloudTransfer Transfer { get; }
+    IGcloudTransfer Transfer { get; }
 
     /// <summary>
     /// Gets the vectorsearch sub-domain service.
     /// </summary>
-    GcloudVectorsearch Vectorsearch { get; }
+    IGcloudVectorsearch Vectorsearch { get; }
 
     /// <summary>
     /// Gets the vmware sub-domain service.
     /// </summary>
-    GcloudVmware Vmware { get; }
+    IGcloudVmware Vmware { get; }
 
     /// <summary>
     /// Gets the workbench sub-domain service.
     /// </summary>
-    GcloudWorkbench Workbench { get; }
+    IGcloudWorkbench Workbench { get; }
 
     /// <summary>
     /// Gets the workflows sub-domain service.
     /// </summary>
-    GcloudWorkflows Workflows { get; }
+    IGcloudWorkflows Workflows { get; }
 
     /// <summary>
     /// Gets the workloadidentity sub-domain service.
     /// </summary>
-    GcloudWorkloadidentity Workloadidentity { get; }
+    IGcloudWorkloadidentity Workloadidentity { get; }
 
     /// <summary>
     /// Gets the workspaceaddons sub-domain service.
     /// </summary>
-    GcloudWorkspaceaddons Workspaceaddons { get; }
+    IGcloudWorkspaceaddons Workspaceaddons { get; }
 
     /// <summary>
     /// Gets the workstations sub-domain service.
     /// </summary>
-    GcloudWorkstations Workstations { get; }
+    IGcloudWorkstations Workstations { get; }
 
     #endregion
 

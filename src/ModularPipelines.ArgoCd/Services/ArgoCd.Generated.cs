@@ -25,16 +25,16 @@ internal partial class ArgoCd : IArgoCd
     /// Initializes a new instance of the <see cref="ArgoCd"/> class.
     /// </summary>
     public ArgoCd(
-        ArgoCdAccount account,
-        ArgoCdAdmin admin,
-        ArgoCdApp app,
-        ArgoCdApplicationSet applicationSet,
-        ArgoCdCert cert,
-        ArgoCdCluster cluster,
-        ArgoCdGpg gpg,
-        ArgoCdProj proj,
-        ArgoCdRepo repo,
-        ArgoCdRepocreds repocreds,
+        IArgoCdAccount account,
+        IArgoCdAdmin admin,
+        IArgoCdApp app,
+        IArgoCdApplicationSet applicationSet,
+        IArgoCdCert cert,
+        IArgoCdCluster cluster,
+        IArgoCdGpg gpg,
+        IArgoCdProj proj,
+        IArgoCdRepo repo,
+        IArgoCdRepocreds repocreds,
         ICommandContext command
     )
     {
@@ -54,34 +54,34 @@ internal partial class ArgoCd : IArgoCd
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public ArgoCdAccount Account { get; }
+    public IArgoCdAccount Account { get; }
 
     /// <inheritdoc />
-    public ArgoCdAdmin Admin { get; }
+    public IArgoCdAdmin Admin { get; }
 
     /// <inheritdoc />
-    public ArgoCdApp App { get; }
+    public IArgoCdApp App { get; }
 
     /// <inheritdoc />
-    public ArgoCdApplicationSet ApplicationSet { get; }
+    public IArgoCdApplicationSet ApplicationSet { get; }
 
     /// <inheritdoc />
-    public ArgoCdCert Cert { get; }
+    public IArgoCdCert Cert { get; }
 
     /// <inheritdoc />
-    public ArgoCdCluster Cluster { get; }
+    public IArgoCdCluster Cluster { get; }
 
     /// <inheritdoc />
-    public ArgoCdGpg Gpg { get; }
+    public IArgoCdGpg Gpg { get; }
 
     /// <inheritdoc />
-    public ArgoCdProj Proj { get; }
+    public IArgoCdProj Proj { get; }
 
     /// <inheritdoc />
-    public ArgoCdRepo Repo { get; }
+    public IArgoCdRepo Repo { get; }
 
     /// <inheritdoc />
-    public ArgoCdRepocreds Repocreds { get; }
+    public IArgoCdRepocreds Repocreds { get; }
 
     #endregion
 

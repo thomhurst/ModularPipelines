@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud dataplex commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDataplex
+public class GcloudDataplex : IGcloudDataplex
 {
     private readonly ICommandContext _command;
     private GcloudDataplexAspectTypes? _aspectTypes;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud modelarmor commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudModelarmor
+public class GcloudModelarmor : IGcloudModelarmor
 {
     private readonly ICommandContext _command;
     private GcloudModelarmorFloorsettings? _floorsettings;

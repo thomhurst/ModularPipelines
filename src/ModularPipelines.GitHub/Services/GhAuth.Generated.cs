@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh auth commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhAuth
+public class GhAuth : IGhAuth
 {
     private readonly ICommandContext _command;
 

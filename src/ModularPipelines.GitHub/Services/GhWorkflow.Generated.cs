@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh workflow commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhWorkflow
+public class GhWorkflow : IGhWorkflow
 {
     private readonly ICommandContext _command;
 

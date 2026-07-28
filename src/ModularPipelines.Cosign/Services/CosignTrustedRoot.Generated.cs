@@ -17,7 +17,7 @@ namespace ModularPipelines.Cosign.Services;
 /// cosign trustedroot commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class CosignTrustedRoot
+public class CosignTrustedRoot : ICosignTrustedRoot
 {
     private readonly ICommandContext _command;
 

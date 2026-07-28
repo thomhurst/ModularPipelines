@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud pubsub commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudPubsub
+public class GcloudPubsub : IGcloudPubsub
 {
     private readonly ICommandContext _command;
     private GcloudPubsubLiteOperations? _liteOperations;

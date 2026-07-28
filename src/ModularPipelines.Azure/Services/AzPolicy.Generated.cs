@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az policy commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzPolicy
+public class AzPolicy : IAzPolicy
 {
     private readonly ICommandContext _command;
     private AzPolicyAssignment? _assignment;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud networkservices commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservices
+public class GcloudNetworkservices : IGcloudNetworkservices
 {
     private readonly ICommandContext _command;
     private GcloudNetworkservicesAgentGateways? _agentGateways;

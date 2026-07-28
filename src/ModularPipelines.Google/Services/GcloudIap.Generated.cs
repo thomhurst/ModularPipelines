@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud iap commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudIap
+public class GcloudIap : IGcloudIap
 {
     private readonly ICommandContext _command;
     private GcloudIapOauthBrands? _oauthBrands;

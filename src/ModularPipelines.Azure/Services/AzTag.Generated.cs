@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az tag commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzTag
+public class AzTag : IAzTag
 {
     private readonly ICommandContext _command;
 

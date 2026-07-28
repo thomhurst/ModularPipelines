@@ -23,22 +23,22 @@ public partial interface ITerraform
     /// <summary>
     /// Gets the providers sub-domain service.
     /// </summary>
-    TerraformProviders Providers { get; }
+    ITerraformProviders Providers { get; }
 
     /// <summary>
     /// Gets the stacks sub-domain service.
     /// </summary>
-    TerraformStacks Stacks { get; }
+    ITerraformStacks Stacks { get; }
 
     /// <summary>
     /// Gets the state sub-domain service.
     /// </summary>
-    TerraformState State { get; }
+    ITerraformState State { get; }
 
     /// <summary>
     /// Gets the workspace sub-domain service.
     /// </summary>
-    TerraformWorkspace Workspace { get; }
+    ITerraformWorkspace Workspace { get; }
 
     #endregion
 

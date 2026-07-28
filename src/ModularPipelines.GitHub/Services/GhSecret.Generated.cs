@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh secret commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhSecret
+public class GhSecret : IGhSecret
 {
     private readonly ICommandContext _command;
 

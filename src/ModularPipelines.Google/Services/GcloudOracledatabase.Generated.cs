@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud oracledatabase commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabase
+public class GcloudOracledatabase : IGcloudOracledatabase
 {
     private readonly ICommandContext _command;
     private GcloudOracledatabaseAutonomousDatabaseBackups? _autonomousDatabaseBackups;

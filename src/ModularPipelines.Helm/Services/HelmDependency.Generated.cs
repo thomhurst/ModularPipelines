@@ -17,7 +17,7 @@ namespace ModularPipelines.Helm.Services;
 /// helm dependency commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class HelmDependency
+public class HelmDependency : IHelmDependency
 {
     private readonly ICommandContext _command;
 

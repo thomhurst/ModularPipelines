@@ -17,7 +17,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// kubectl certificate commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KubernetesCertificate
+public class KubernetesCertificate : IKubernetesCertificate
 {
     private readonly ICommandContext _command;
 

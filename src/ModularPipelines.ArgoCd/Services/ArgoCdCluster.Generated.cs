@@ -17,7 +17,7 @@ namespace ModularPipelines.ArgoCd.Services;
 /// argocd cluster commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class ArgoCdCluster
+public class ArgoCdCluster : IArgoCdCluster
 {
     private readonly ICommandContext _command;
 

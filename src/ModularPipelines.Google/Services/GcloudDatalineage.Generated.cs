@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud datalineage commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatalineage
+public class GcloudDatalineage : IGcloudDatalineage
 {
     private readonly ICommandContext _command;
     private GcloudDatalineageConfig? _config;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az sf commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzSf
+public class AzSf : IAzSf
 {
     private readonly ICommandContext _command;
     private AzSfApplication? _application;

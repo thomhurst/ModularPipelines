@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud workloadidentity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudWorkloadidentity
+public class GcloudWorkloadidentity : IGcloudWorkloadidentity
 {
     private readonly ICommandContext _command;
     private GcloudWorkloadidentityServiceAgents? _serviceAgents;

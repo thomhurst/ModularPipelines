@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud cloudlocationfinder commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCloudlocationfinder
+public class GcloudCloudlocationfinder : IGcloudCloudlocationfinder
 {
     private readonly ICommandContext _command;
     private GcloudCloudlocationfinderCloudLocations? _cloudLocations;

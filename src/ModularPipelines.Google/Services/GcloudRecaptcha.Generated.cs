@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud recaptcha commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudRecaptcha
+public class GcloudRecaptcha : IGcloudRecaptcha
 {
     private readonly ICommandContext _command;
     private GcloudRecaptchaFirewallPolicies? _firewallPolicies;

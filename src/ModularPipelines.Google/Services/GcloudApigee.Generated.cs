@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud apigee commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudApigee
+public class GcloudApigee : IGcloudApigee
 {
     private readonly ICommandContext _command;
     private GcloudApigeeApis? _apis;

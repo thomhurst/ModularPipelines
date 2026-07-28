@@ -17,7 +17,7 @@ namespace ModularPipelines.Podman.Services;
 /// podman farm commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class PodmanFarm
+public class PodmanFarm : IPodmanFarm
 {
     private readonly ICommandContext _command;
 

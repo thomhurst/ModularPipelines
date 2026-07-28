@@ -17,7 +17,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// kustomize edit commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KustomizeEdit
+public class KustomizeEdit : IKustomizeEdit
 {
     private readonly ICommandContext _command;
     private KustomizeEditAdd? _add;
