@@ -20,11 +20,6 @@ internal static class AnalyzerConstants
         internal const string Module = "Module";
 
         /// <summary>
-        /// The ModuleBase type name.
-        /// </summary>
-        internal const string ModuleBase = "ModuleBase";
-
-        /// <summary>
         /// The DependsOn attribute type name.
         /// </summary>
         internal const string DependsOn = "DependsOn";

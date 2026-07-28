@@ -250,7 +250,7 @@ public class DistributedModuleExecutorTests
         // Assert
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
-        await Assert.That(registeredResult!.IsSuccess).IsTrue();
+        await Assert.That(registeredResult!.ModuleStatus).IsEqualTo(Status.Successful);
         await Assert.That(registeredResult.ModuleName).IsEqualTo("DistributedModule");
     }
 
@@ -293,7 +293,7 @@ public class DistributedModuleExecutorTests
         // Assert
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
-        await Assert.That(registeredResult!.IsFailure).IsTrue();
+        await Assert.That(registeredResult!.ExceptionOrDefault).IsNotNull();
     }
 
     [Test]
@@ -356,7 +356,7 @@ public class DistributedModuleExecutorTests
         // Assert — cancellation should register a failure result
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
-        await Assert.That(registeredResult!.IsFailure).IsTrue();
+        await Assert.That(registeredResult!.ExceptionOrDefault).IsNotNull();
     }
 
     [Test]
@@ -392,7 +392,7 @@ public class DistributedModuleExecutorTests
         // Assert
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
-        await Assert.That(registeredResult!.IsFailure).IsTrue();
+        await Assert.That(registeredResult!.ExceptionOrDefault).IsNotNull();
     }
 
     // =================================================================
@@ -443,11 +443,11 @@ public class DistributedModuleExecutorTests
         // Assert — module A has failure, module B also gets a failure (cancelled)
         var resultA = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(resultA).IsNotNull();
-        await Assert.That(resultA!.IsFailure).IsTrue();
+        await Assert.That(resultA!.ExceptionOrDefault).IsNotNull();
 
         var resultB = resultRegistry.GetResult(typeof(AnotherDistributedModule));
         await Assert.That(resultB).IsNotNull();
-        await Assert.That(resultB!.IsFailure).IsTrue();
+        await Assert.That(resultB!.ExceptionOrDefault).IsNotNull();
     }
 
     // =================================================================
@@ -498,7 +498,7 @@ public class DistributedModuleExecutorTests
         // The result was published through the coordinator and collected by the result collector
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
-        await Assert.That(registeredResult!.IsSuccess).IsTrue();
+        await Assert.That(registeredResult!.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
     [Test]
@@ -857,7 +857,7 @@ public class DistributedModuleExecutorTests
         // Assert — work was distributed and result collected (if barrier didn't work, result would be lost)
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
-        await Assert.That(registeredResult!.IsSuccess).IsTrue();
+        await Assert.That(registeredResult!.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
     [Test]

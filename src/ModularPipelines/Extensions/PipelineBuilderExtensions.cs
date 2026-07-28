@@ -84,6 +84,7 @@ public static class PipelineBuilderExtensions
     /// <typeparam name="T">Any type from the assembly to scan.</typeparam>
     /// <param name="builder">The pipeline builder.</param>
     /// <returns>The same builder instance for chaining.</returns>
+    [RequiresUnreferencedCode("Module discovery scans all types in an assembly.")]
     public static PipelineBuilder AddModulesFromAssemblyContainingType<T>(this PipelineBuilder builder)
     {
         return builder.AddModulesFromAssembly(typeof(T).Assembly);
@@ -95,6 +96,7 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="assembly">The assembly to scan.</param>
     /// <returns>The same builder instance for chaining.</returns>
+    [RequiresUnreferencedCode("Module discovery scans all types in an assembly.")]
     public static PipelineBuilder AddModulesFromAssembly(this PipelineBuilder builder, Assembly assembly)
     {
         ArgumentNullException.ThrowIfNull(assembly);
@@ -135,7 +137,9 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TRequirement">The type of requirement to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddRequirement<TRequirement>(this PipelineBuilder builder)
+    public static PipelineBuilder AddRequirement<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TRequirement>(
+        this PipelineBuilder builder)
         where TRequirement : class, IPipelineRequirement
     {
         builder.Services.AddRequirement<TRequirement>();
@@ -164,7 +168,9 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TGlobalSetup">The type of hook class.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddPipelineGlobalHooks<TGlobalSetup>(this PipelineBuilder builder)
+    public static PipelineBuilder AddPipelineGlobalHooks<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TGlobalSetup>(
+        this PipelineBuilder builder)
         where TGlobalSetup : class, IPipelineGlobalHooks
     {
         builder.Services.AddPipelineGlobalHooks<TGlobalSetup>();
@@ -172,15 +178,17 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Adds module hooks to run before or after each module has executed.
+    /// Adds a global receiver for module lifecycle events.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
-    /// <typeparam name="TModuleHooks">The type of hook class.</typeparam>
+    /// <typeparam name="TReceiver">The receiver type.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddPipelineModuleHooks<TModuleHooks>(this PipelineBuilder builder)
-        where TModuleHooks : class, IPipelineModuleHooks
+    public static PipelineBuilder AddModuleEventReceiver<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TReceiver>(
+        this PipelineBuilder builder)
+        where TReceiver : class, IModuleEventReceiver
     {
-        builder.Services.AddPipelineModuleHooks<TModuleHooks>();
+        builder.Services.AddModuleEventReceiver<TReceiver>();
         return builder;
     }
 
@@ -227,9 +235,7 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TRepository">The type of result repository to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddResultsRepository<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TRepository>(
-        this PipelineBuilder builder)
+    public static PipelineBuilder AddResultsRepository<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TRepository>(this PipelineBuilder builder)
         where TRepository : class, IModuleResultRepository
     {
         builder.Services.AddSingleton<IModuleResultRepository, TRepository>();
@@ -266,9 +272,7 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TProvider">The type of estimated time provider to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddModuleEstimatedTimeProvider<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TProvider>(
-        this PipelineBuilder builder)
+    public static PipelineBuilder AddModuleEstimatedTimeProvider<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TProvider>(this PipelineBuilder builder)
         where TProvider : class, IModuleEstimatedTimeProvider
     {
         builder.Services.AddSingleton<IModuleEstimatedTimeProvider, TProvider>();
@@ -309,7 +313,8 @@ public static class PipelineBuilderExtensions
     /// <typeparam name="TImplementation">The implementation type.</typeparam>
     /// <param name="builder">The pipeline builder.</param>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddSingleton<TService,
+    public static PipelineBuilder AddSingleton<
+        TService,
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(
         this PipelineBuilder builder)
         where TService : class

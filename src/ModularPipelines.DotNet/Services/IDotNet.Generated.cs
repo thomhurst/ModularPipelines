@@ -23,7 +23,7 @@ public partial interface IDotNet
     /// <summary>
     /// Gets the buildserver sub-domain service.
     /// </summary>
-    DotNetBuildserver Buildserver { get; }
+    DotNetBuildServer BuildServer { get; }
 
     /// <summary>
     /// Gets the new sub-domain service.
@@ -33,7 +33,7 @@ public partial interface IDotNet
     /// <summary>
     /// Gets the nuget sub-domain service.
     /// </summary>
-    DotNetNuget Nuget { get; }
+    DotNetNuGet NuGet { get; }
 
     /// <summary>
     /// Gets the package sub-domain service.

@@ -4,15 +4,31 @@ namespace ModularPipelines.OptionsGenerator.Scrapers;
 
 internal static class DotNetCliCompatibility
 {
+    private static readonly HashSet<string> NoLogoCommands =
+        new(StringComparer.OrdinalIgnoreCase)
+        {
+            "build",
+            "clean",
+            "pack",
+            "publish",
+        };
+
+    private static readonly CliCompatibilityProperty NoLogoProperty = new()
+    {
+        PropertyName = "Nologo",
+        CSharpType = "bool?",
+        ForwardToPropertyName = "NoLogo",
+        ObsoleteMessage = "Use NoLogo instead.",
+    };
+
+    private static readonly IReadOnlyList<CliCompatibilityProperty> NoLogoProperties =
+    [
+        NoLogoProperty,
+    ];
+
     private static readonly IReadOnlyList<CliCompatibilityProperty> BuildProperties =
     [
-        new CliCompatibilityProperty
-        {
-            PropertyName = "Nologo",
-            CSharpType = "bool?",
-            ForwardToPropertyName = "NoLogo",
-            ObsoleteMessage = "Use NoLogo instead.",
-        },
+        NoLogoProperty,
         new CliCompatibilityProperty
         {
             PropertyName = "Debug",
@@ -23,12 +39,15 @@ internal static class DotNetCliCompatibility
 
     public static void NormalizeOptions(IReadOnlyList<string> commandParts, List<CliOptionDefinition> options)
     {
-        if (!IsBuildCommand(commandParts))
+        if (!SupportsNoLogoCompatibility(commandParts))
         {
             return;
         }
 
-        options.RemoveAll(option => option.SwitchName.Equals("--debug", StringComparison.OrdinalIgnoreCase));
+        if (IsBuildCommand(commandParts))
+        {
+            options.RemoveAll(option => option.SwitchName.Equals("--debug", StringComparison.OrdinalIgnoreCase));
+        }
 
         var noLogoIndex = options.FindIndex(option =>
             option.SwitchName.Equals("--nologo", StringComparison.OrdinalIgnoreCase) ||
@@ -45,8 +64,15 @@ internal static class DotNetCliCompatibility
     }
 
     public static IReadOnlyList<CliCompatibilityProperty> GetProperties(IReadOnlyList<string> commandParts) =>
-        IsBuildCommand(commandParts) ? BuildProperties : [];
+        IsBuildCommand(commandParts)
+            ? BuildProperties
+            : SupportsNoLogoCompatibility(commandParts)
+                ? NoLogoProperties
+                : [];
 
     private static bool IsBuildCommand(IReadOnlyList<string> commandParts) =>
         commandParts.Count == 1 && commandParts[0].Equals("build", StringComparison.OrdinalIgnoreCase);
+
+    private static bool SupportsNoLogoCompatibility(IReadOnlyList<string> commandParts) =>
+        commandParts.Count == 1 && NoLogoCommands.Contains(commandParts[0]);
 }

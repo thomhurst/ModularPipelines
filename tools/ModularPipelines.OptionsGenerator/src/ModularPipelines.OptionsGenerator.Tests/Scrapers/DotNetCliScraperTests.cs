@@ -10,7 +10,7 @@ public class DotNetCliScraperTests
     [Test]
     [Arguments("--nologo", "Nologo")]
     [Arguments("--no-logo", "NoLogo")]
-    public async Task Build_Options_Are_Stable_Across_Sdk_Help_Formats(
+    public async Task NoLogo_Options_Are_Stable_Across_Sdk_Help_Formats(
         string scrapedSwitch,
         string scrapedPropertyName)
     {
@@ -26,6 +26,19 @@ public class DotNetCliScraperTests
         await Assert.That(options[0].SwitchName).IsEqualTo("--nologo");
         await Assert.That(options[0].ShortForm).IsNull();
         await Assert.That(options[0].PropertyName).IsEqualTo("NoLogo");
+    }
+
+    [Test]
+    [Arguments("clean")]
+    [Arguments("pack")]
+    [Arguments("publish")]
+    public async Task NoLogo_Compatibility_Preserves_Renamed_Public_Properties(string command)
+    {
+        var properties = DotNetCliCompatibility.GetProperties([command]);
+
+        await Assert.That(properties).Count().IsEqualTo(1);
+        await Assert.That(properties[0].PropertyName).IsEqualTo("Nologo");
+        await Assert.That(properties[0].ForwardToPropertyName).IsEqualTo("NoLogo");
     }
 
     [Test]

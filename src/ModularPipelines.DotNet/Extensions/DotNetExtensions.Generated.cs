@@ -37,9 +37,9 @@ public static class DotNetExtensions
     public static IServiceCollection RegisterDotNetContext(this IServiceCollection services)
     {
         services.TryAddScoped<IDotNet, Services.DotNet>();
-        services.TryAddScoped<DotNetBuildserver>();
+        services.TryAddScoped<DotNetBuildServer>();
         services.TryAddScoped<DotNetNew>();
-        services.TryAddScoped<DotNetNuget>();
+        services.TryAddScoped<DotNetNuGet>();
         services.TryAddScoped<DotNetPackage>();
         services.TryAddScoped<DotNetReference>();
         services.TryAddScoped<DotNetSdk>();

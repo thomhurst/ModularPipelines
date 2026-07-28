@@ -20,7 +20,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module
+public class Module1 : Module<IDictionary<string, object>>
 {
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -29,11 +29,11 @@ public class Module1 : Module
     }
 }
 
-public class Module2 : Module
+public class Module2 : Module<IDictionary<string, object>>
 {
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var module1 = await {|#0:GetModule<Module1>()|};
+        var module1 = await {|#0:context.GetModule<Module1>()|};
         return null;
     }
 }";
@@ -49,7 +49,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Examples.Modules;
-public class Module1 : Module
+public class Module1 : Module<IDictionary<string, object>>
 {
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -59,11 +59,11 @@ public class Module1 : Module
 }
 
 [DependsOn<Module1>]
-public class Module2 : Module
+public class Module2 : Module<IDictionary<string, object>>
 {
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var module1 = await GetModule<Module1>();
+        var module1 = await context.GetModule<Module1>();
         return null;
     }
 }";
@@ -105,6 +105,9 @@ public class Module2 : Module
 
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
 
-        await VerifyCS.VerifyCodeFixAsync(BadModuleSource, expected, FixedModuleSource);
+        await VerifyCS.VerifyCodeFixAsync(
+            BadModuleSource.ReplaceLineEndings(),
+            expected,
+            FixedModuleSource.ReplaceLineEndings());
     }
 }

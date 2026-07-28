@@ -38,8 +38,6 @@ internal static class ModuleConfigurationAttributeAdapter
             RetryPolicyFactory = configured.RetryPolicyFactory,
             IgnoreFailuresCondition = configured.IgnoreFailuresCondition,
             AlwaysRun = configured.AlwaysRun,
-            OnBeforeExecute = configured.OnBeforeExecute,
-            OnAfterExecute = configured.OnAfterExecute,
             ParallelConstraintKeys = configured.ParallelConstraintKeys
                 ?? notInParallel?.ConstraintKeys,
             Priority = configured.Priority ?? priority?.Priority,

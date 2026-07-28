@@ -31,7 +31,7 @@ public class SyncModuleTests : TestBase
         var result = await module;
 
         await Assert.That(result.ValueOrDefault).IsEqualTo("Hello from sync module");
-        await Assert.That(result.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
     public class SyncModuleReturningNull : SyncModule<string?>
@@ -50,7 +50,7 @@ public class SyncModuleTests : TestBase
         var result = await module;
 
         await Assert.That(result.ValueOrDefault).IsNull();
-        await Assert.That(result.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
     public class SyncModuleWithComplexType : SyncModule<Dictionary<string, int>>

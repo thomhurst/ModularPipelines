@@ -1,6 +1,4 @@
 using System.Text.Json.Serialization;
-using EnumerableAsyncProcessor.Extensions;
-using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
@@ -9,10 +7,6 @@ namespace ModularPipelines.Models;
 
 public record PipelineSummary
 {
-    private readonly IModuleResultRegistry? _resultRegistry;
-    private readonly Lazy<PipelineMetrics?>? _lazyMetrics;
-    private readonly Lazy<IReadOnlyList<ModuleTimeline>?>? _lazyTimelines;
-
     /// <summary>
     /// Gets the modules that are part of the pipeline.
     /// </summary>
@@ -20,90 +14,88 @@ public record PipelineSummary
     /// This property is excluded from JSON serialization as interface types cannot be deserialized.
     /// </remarks>
     [JsonIgnore]
-    public IReadOnlyList<IModule> Modules { get; private set; }
+    public IReadOnlyList<IModule> Modules { get; private init; }
+
+    /// <summary>
+    /// Gets the completed module results.
+    /// </summary>
+    /// <remarks>
+    /// Results are excluded from JSON serialization because their generic success values
+    /// cannot be reconstructed through the type-erased <see cref="IModuleResult"/> interface.
+    /// </remarks>
+    [JsonIgnore]
+    public IReadOnlyList<IModuleResult> Results { get; private init; }
 
     /// <summary>
     /// Gets how long the pipeline took to run.
     /// </summary>
     [JsonInclude]
-    public TimeSpan TotalDuration { get; private set; }
+    public TimeSpan TotalDuration { get; private init; }
 
     /// <summary>
     /// Gets when the pipeline started.
     /// </summary>
     [JsonInclude]
-    public DateTimeOffset Start { get; private set; }
+    public DateTimeOffset Start { get; private init; }
 
     /// <summary>
     /// Gets when the pipeline finished.
     /// </summary>
     [JsonInclude]
-    public DateTimeOffset End { get; private set; }
+    public DateTimeOffset End { get; private init; }
 
     /// <summary>
     /// Gets the execution metrics for the pipeline.
     /// Contains parallelism factor, peak concurrency, and efficiency metrics.
     /// </summary>
     [JsonInclude]
-    public PipelineMetrics? Metrics => _lazyMetrics?.Value;
+    public PipelineMetrics? Metrics { get; private init; }
 
     /// <summary>
     /// Gets the timeline information for each module.
     /// Contains detailed timing data for when each module was ready, queued, started, and completed.
     /// </summary>
     [JsonInclude]
-    public IReadOnlyList<ModuleTimeline>? ModuleTimelines => _lazyTimelines?.Value;
+    public IReadOnlyList<ModuleTimeline>? ModuleTimelines { get; private init; }
 
     [JsonConstructor]
     internal PipelineSummary(
-        TimeSpan totalDuration,
-        DateTimeOffset start,
-        DateTimeOffset end)
-    {
-        Modules = Array.Empty<IModule>();
-        TotalDuration = totalDuration;
-        Start = start;
-        End = end;
-    }
-
-    internal PipelineSummary(IReadOnlyList<IModule> modules,
-        TimeSpan totalDuration,
-        DateTimeOffset start,
-        DateTimeOffset end)
-    {
-        Modules = modules;
-        TotalDuration = totalDuration;
-        Start = start;
-        End = end;
-    }
-
-    internal PipelineSummary(IReadOnlyList<IModule> modules,
+        IReadOnlyList<IModule> modules,
+        IReadOnlyList<IModuleResult> results,
         TimeSpan totalDuration,
         DateTimeOffset start,
         DateTimeOffset end,
-        IModuleResultRegistry resultRegistry)
-        : this(modules, totalDuration, start, end)
+        PipelineMetrics? metrics = null,
+        IReadOnlyList<ModuleTimeline>? moduleTimelines = null)
     {
-        _resultRegistry = resultRegistry;
-    }
-
-    internal PipelineSummary(IReadOnlyList<IModule> modules,
-        TimeSpan totalDuration,
-        DateTimeOffset start,
-        DateTimeOffset end,
-        IModuleResultRegistry resultRegistry,
-        IMetricsCollector metricsCollector,
-        int maxParallelism)
-        : this(modules, totalDuration, start, end, resultRegistry)
-    {
-        _lazyMetrics = new Lazy<PipelineMetrics?>(() => metricsCollector.ComputeMetrics(start, end, maxParallelism));
-        _lazyTimelines = new Lazy<IReadOnlyList<ModuleTimeline>?>(() => metricsCollector.GetTimelines());
+        Modules = modules ?? [];
+        Results = results ?? [];
+        TotalDuration = totalDuration;
+        Start = start;
+        End = end;
+        Metrics = metrics;
+        ModuleTimelines = moduleTimelines;
     }
 
     /// <summary>
     /// Gets the status of the pipeline.
     /// </summary>
-    public Status Status => GetStatus();
+    public Status Status
+    {
+        get
+        {
+            if (Results.Any(result =>
+                    result.ExceptionOrDefault is not null
+                    && result.ModuleStatus != Status.IgnoredFailure))
+            {
+                return Status.Failed;
+            }
+
+            return Results.Count == Modules.Count
+                ? Status.Successful
+                : Status.Unknown;
+        }
+    }
 
     /// <summary>
     /// Get the Module of type {T}.
@@ -113,74 +105,4 @@ public record PipelineSummary
     public T GetModule<T>()
         where T : IModule
         => Modules.GetModule<T>();
-
-    public async Task<IReadOnlyList<IModuleResult>> GetModuleResultsAsync()
-    {
-        return await Modules.SelectAsync(async x =>
-        {
-            // Get the result from the registry if available
-            if (_resultRegistry != null)
-            {
-                var result = _resultRegistry.GetResult(x.GetType());
-                if (result != null)
-                {
-                    return result;
-                }
-            }
-
-            // Fallback: create a cancellation result for modules that haven't completed
-            return ModuleResult.CreateFailure(new TaskCanceledException(), new ModuleExecutionContext(x, x.GetType()));
-        }).ProcessInParallel();
-    }
-
-    /// <summary>
-    /// Gets the results of all failed modules.
-    /// Returns an empty list if no modules failed or if the result registry is not available.
-    /// </summary>
-    /// <returns>A list of failed module results with their exceptions.</returns>
-    public IReadOnlyList<IModuleResult> GetFailedModuleResults()
-    {
-        if (_resultRegistry == null)
-        {
-            return Array.Empty<IModuleResult>();
-        }
-
-        var failedResults = new List<IModuleResult>();
-
-        foreach (var module in Modules)
-        {
-            var result = _resultRegistry.GetResult(module.GetType());
-            if (result is { IsFailure: true })
-            {
-                failedResults.Add(result);
-            }
-        }
-
-        return failedResults;
-    }
-
-    private Status GetStatus()
-    {
-        // Check if we have a result registry to get module statuses
-        if (_resultRegistry != null)
-        {
-            foreach (var module in Modules)
-            {
-                var result = _resultRegistry.GetResult(module.GetType());
-                if (result != null)
-                {
-                    if (result.ModuleResultType == ModuleResultType.Failure
-                        && result.ModuleStatus != Status.IgnoredFailure)
-                    {
-                        return Status.Failed;
-                    }
-                }
-            }
-
-            return Status.Successful;
-        }
-
-        // Fallback to checking modules directly
-        return Status.Unknown;
-    }
 }

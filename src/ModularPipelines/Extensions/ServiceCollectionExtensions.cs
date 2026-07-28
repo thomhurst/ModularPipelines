@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.DependencyInjection;
@@ -161,7 +162,7 @@ internal static class ServiceCollectionExtensions
     /// <param name="services">The pipeline's service collection.</param>
     /// <typeparam name="TRequirement">The type of requirement to add.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
-    internal static IServiceCollection AddRequirement<TRequirement>(this IServiceCollection services)
+    internal static IServiceCollection AddRequirement<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TRequirement>(this IServiceCollection services)
         where TRequirement : class, IPipelineRequirement
     {
         return services.AddSingleton<IPipelineRequirement, TRequirement>();
@@ -235,6 +236,7 @@ internal static class ServiceCollectionExtensions
     /// </code>
     /// </example>
     /// <exception cref="Exceptions.CircularDependencyException">Thrown when a circular dependency is detected among the modules.</exception>
+    [RequiresUnreferencedCode("Module discovery scans all types in an assembly.")]
     internal static IServiceCollection AddModulesFromAssemblyContainingType<T>(this IServiceCollection services)
     {
         return AddModulesFromAssembly(services, typeof(T).Assembly);
@@ -264,6 +266,7 @@ internal static class ServiceCollectionExtensions
     /// </code>
     /// </example>
     /// <exception cref="Exceptions.CircularDependencyException">Thrown when a circular dependency is detected among the modules.</exception>
+    [RequiresUnreferencedCode("Module discovery scans all types in an assembly.")]
     internal static IServiceCollection AddModulesFromAssembly(this IServiceCollection services, Assembly assembly)
     {
         var modules = assembly.GetTypes()
@@ -306,6 +309,37 @@ internal static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    /// Adds global hooks to run before or after all the modules have executed.
+    /// </summary>
+    /// <param name="services">The pipeline's service collection.</param>
+    /// <typeparam name="TGlobalSetup">The type of hook class.</typeparam>
+    /// <returns>The pipeline's same service collection.</returns>
+    internal static IServiceCollection AddPipelineGlobalHooks<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TGlobalSetup>(this IServiceCollection services)
+        where TGlobalSetup : class, IPipelineGlobalHooks
+    {
+        return services.AddSingleton<IPipelineGlobalHooks, TGlobalSetup>();
+    }
+
+    /// <summary>
+    /// Adds a global receiver for module lifecycle events.
+    /// </summary>
+    /// <param name="services">The pipeline's service collection.</param>
+    /// <typeparam name="TReceiver">The receiver type.</typeparam>
+    /// <returns>The pipeline's same service collection.</returns>
+    internal static IServiceCollection AddModuleEventReceiver<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TReceiver>(
+        this IServiceCollection services)
+        where TReceiver : class, IModuleEventReceiver
+    {
+        return services.AddSingleton<IModuleEventReceiver, TReceiver>();
+    }
+
+    internal static IServiceCollection AddServiceCollection(this IServiceCollection serviceCollection)
+    {
+        return serviceCollection.AddSingleton<IPipelineServiceContainerWrapper>(new PipelineServiceContainerWrapper(serviceCollection));
+    }
+
+    /// <summary>
     /// Gets or creates the RegisteredModuleTypesHolder singleton in the service collection.
     /// </summary>
     private static RegisteredModuleTypesHolder GetOrCreateModuleTypesHolder(IServiceCollection services)
@@ -324,34 +358,5 @@ internal static class ServiceCollectionExtensions
         var holder = new RegisteredModuleTypesHolder();
         services.AddSingleton(holder);
         return holder;
-    }
-
-    /// <summary>
-    /// Adds global hooks to run before or after all the modules have executed.
-    /// </summary>
-    /// <param name="services">The pipeline's service collection.</param>
-    /// <typeparam name="TGlobalSetup">The type of hook class.</typeparam>
-    /// <returns>The pipeline's same service collection.</returns>
-    internal static IServiceCollection AddPipelineGlobalHooks<TGlobalSetup>(this IServiceCollection services)
-        where TGlobalSetup : class, IPipelineGlobalHooks
-    {
-        return services.AddSingleton<IPipelineGlobalHooks, TGlobalSetup>();
-    }
-
-    /// <summary>
-    /// Adds module hooks to run before or after each module has executed.
-    /// </summary>
-    /// <param name="services">The pipeline's service collection.</param>
-    /// <typeparam name="TModuleHooks">The type of hook class.</typeparam>
-    /// <returns>The pipeline's same service collection.</returns>
-    internal static IServiceCollection AddPipelineModuleHooks<TModuleHooks>(this IServiceCollection services)
-        where TModuleHooks : class, IPipelineModuleHooks
-    {
-        return services.AddSingleton<IPipelineModuleHooks, TModuleHooks>();
-    }
-
-    internal static IServiceCollection AddServiceCollection(this IServiceCollection serviceCollection)
-    {
-        return serviceCollection.AddSingleton<IPipelineServiceContainerWrapper>(new PipelineServiceContainerWrapper(serviceCollection));
     }
 }

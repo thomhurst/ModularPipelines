@@ -128,7 +128,7 @@ internal partial class Gcloud : IGcloud
         GcloudRecaptcha recaptcha,
         GcloudRecommender recommender,
         GcloudRedis redis,
-        GcloudResourcemanager resourcemanager,
+        GcloudResourceManager resourcemanager,
         GcloudRun run,
         GcloudScc scc,
         GcloudScheduler scheduler,
@@ -259,7 +259,7 @@ internal partial class Gcloud : IGcloud
         Recaptcha = recaptcha;
         Recommender = recommender;
         Redis = redis;
-        Resourcemanager = resourcemanager;
+        ResourceManager = resourcemanager;
         Run = run;
         Scc = scc;
         Scheduler = scheduler;
@@ -599,7 +599,7 @@ internal partial class Gcloud : IGcloud
     public GcloudRedis Redis { get; }
 
     /// <inheritdoc />
-    public GcloudResourcemanager Resourcemanager { get; }
+    public GcloudResourceManager ResourceManager { get; }
 
     /// <inheritdoc />
     public GcloudRun Run { get; }

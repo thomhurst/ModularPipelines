@@ -19,7 +19,7 @@ public class Module1 : Module<CommandResult>
 
     private async Task<CommandResult?> ExecuteCommand(IModuleContext context)
     {{
-        return await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions(""git""));
+        return await context.Shell.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions(""git""));
     }}
 }}
 ";
@@ -59,7 +59,7 @@ public class Module1 : Module<CommandResult>
 
     private async Task<CommandResult?> ExecuteCommand(IModuleContext context)
     {{
-        return await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions(""git""));
+        return await context.Shell.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions(""git""));
     }}
 }}
 ";
@@ -124,19 +124,19 @@ public class Module1 : Module<string>
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource);
     }
-    
+
     [TestMethod]
     public async Task AnalyzerIsNotTriggered_When_TaskFromResult()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource2);
     }
-    
+
     [TestMethod]
     public async Task AnalyzerIsNotTriggered_When_AsTaskExtension()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource3);
     }
-    
+
     [TestMethod]
     public async Task CodeFixWorks()
     {
@@ -144,7 +144,7 @@ public class Module1 : Module<string>
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSource, expected, GoodModuleSource);
     }
-    
+
     [TestMethod]
     public async Task CodeFixWorks_With_Mixed_TaskFromResult_And_Actual_Async()
     {

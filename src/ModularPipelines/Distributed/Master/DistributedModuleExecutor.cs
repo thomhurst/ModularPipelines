@@ -447,7 +447,7 @@ internal class DistributedModuleExecutor(
         CancellationToken cancellationToken)
     {
         var result = await _resultCollector.WaitForResultAsync(moduleType.FullName!, cancellationToken);
-        var success = result is not null && !result.IsFailure;
+        var success = result is not null && result.ExceptionOrDefault is null;
 
         if (result is not null)
         {

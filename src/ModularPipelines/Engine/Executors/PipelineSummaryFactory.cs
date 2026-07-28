@@ -30,13 +30,18 @@ internal class PipelineSummaryFactory : IPipelineSummaryFactory
         DateTimeOffset start,
         DateTimeOffset end)
     {
+        var results = allModules
+            .Select(module => _resultRegistry.GetResult(module.GetType()))
+            .OfType<IModuleResult>()
+            .ToArray();
+
         return new PipelineSummary(
             allModules,
+            results,
             totalDuration,
             start,
             end,
-            _resultRegistry,
-            _metricsCollector,
-            _parallelLimitProvider.GetMaxDegreeOfParallelism());
+            _metricsCollector.ComputeMetrics(start, end, _parallelLimitProvider.GetMaxDegreeOfParallelism()),
+            _metricsCollector.GetTimelines());
     }
 }

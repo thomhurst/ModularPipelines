@@ -33,9 +33,38 @@ public class DotNetBuildOptionsCompatibilityTests
         await Assert.That(arguments).Count().IsEqualTo(0);
     }
 
-    private List<string> BuildArguments(DotNetBuildOptions options)
+    [Test]
+    [Arguments("clean")]
+    [Arguments("pack")]
+    [Arguments("publish")]
+    public async Task Sibling_Nologo_Properties_Forward_To_NoLogo(string command)
     {
-        var model = _modelProvider.GetCommandModel(typeof(DotNetBuildOptions));
+#pragma warning disable CS0618
+        object options = command switch
+        {
+            "clean" => new DotNetCleanOptions { Nologo = true },
+            "pack" => new DotNetPackOptions { Nologo = true },
+            "publish" => new DotNetPublishOptions { Nologo = true },
+            _ => throw new ArgumentOutOfRangeException(nameof(command)),
+        };
+#pragma warning restore CS0618
+
+        var arguments = BuildArguments(options);
+        var noLogo = options switch
+        {
+            DotNetCleanOptions cleanOptions => cleanOptions.NoLogo,
+            DotNetPackOptions packOptions => packOptions.NoLogo,
+            DotNetPublishOptions publishOptions => publishOptions.NoLogo,
+            _ => null,
+        };
+
+        await Assert.That(noLogo).IsTrue();
+        await Assert.That(arguments).Contains("--nologo");
+    }
+
+    private List<string> BuildArguments(object options)
+    {
+        var model = _modelProvider.GetCommandModel(options.GetType());
         return _argumentBuilder.BuildArguments(model, options);
     }
 }

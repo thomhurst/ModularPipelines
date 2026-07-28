@@ -61,7 +61,7 @@ public record DotNetPackOptions : DotNetOptions
     /// Do not display the startup banner or the copyright message. [default: False]
     /// </summary>
     [CliFlag("--nologo")]
-    public bool? Nologo { get; set; }
+    public bool? NoLogo { get; set; }
 
     /// <summary>
     /// Allows the command to stop and wait for user input or action (for example to
@@ -110,5 +110,12 @@ public record DotNetPackOptions : DotNetOptions
     /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? ProjectSolution { get; set; }
+
+    [Obsolete("Use NoLogo instead.")]
+    public bool? Nologo
+    {
+        get => NoLogo;
+        set => NoLogo = value;
+    }
 
 }

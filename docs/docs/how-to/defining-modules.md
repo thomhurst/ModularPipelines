@@ -94,8 +94,6 @@ public class MyModule : Module<FileInfo>
 | `.WithIgnoreFailures()` | Don't fail the pipeline if this module fails |
 | `.WithIgnoreFailuresWhen(...)` | Conditionally ignore failures |
 | `.WithAlwaysRun()` | Run even if the pipeline has failed |
-| `.WithBeforeExecute(...)` | Hook to run before execution |
-| `.WithAfterExecute(...)` | Hook to run after execution |
 | `.WithNotInParallel(...)` | Prevent parallel execution globally or for matching constraint keys |
 | `.WithPriority(ModulePriority)` | Set scheduler priority |
 | `.WithExecutionHint(ExecutionType)` | Select CPU, I/O, or default concurrency limits |

@@ -51,14 +51,14 @@ public class PipelineSetupExecutorTests
     public async Task OnModuleReadyAsync_WithHook_UsesCachedAttributeInstances()
     {
         var attributeEventService = new ModuleAttributeEventService();
-        IReadOnlyList<Attribute>? hookAttributes = null;
-        var hook = new Mock<IPipelineModuleHooks>();
-        hook.Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()))
-            .Callback<IModuleHookContext>(context => hookAttributes = context.ModuleAttributes)
+        IReadOnlyList<Attribute>? receiverAttributes = null;
+        var receiver = new Mock<IModuleEventReceiver>();
+        receiver.Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()))
+            .Callback<IModuleHookContext>(context => receiverAttributes = context.ModuleAttributes)
             .Returns(Task.CompletedTask);
         var executor = new PipelineSetupExecutor(
             [],
-            [hook.Object],
+            [receiver.Object],
             Mock.Of<IPipelineContextProvider>(),
             Mock.Of<IModuleMetadataRegistry>(),
             attributeEventService);
@@ -67,7 +67,7 @@ public class PipelineSetupExecutorTests
         await executor.OnModuleReadyAsync(new ModuleState(module, module.GetType()));
 
         await Assert.That(ReferenceEquals(
-                hookAttributes,
+                receiverAttributes,
                 attributeEventService.GetAttributes(module.GetType())))
             .IsTrue();
     }

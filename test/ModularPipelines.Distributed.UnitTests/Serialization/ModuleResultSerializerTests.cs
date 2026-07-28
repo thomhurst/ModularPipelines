@@ -48,7 +48,7 @@ public class ModuleResultSerializerTests
 
         var deserialized = serializer.Deserialize(serialized);
         await Assert.That(deserialized).IsNotNull();
-        await Assert.That(deserialized!.IsSuccess).IsTrue();
+        await Assert.That(deserialized!.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
     [Test]

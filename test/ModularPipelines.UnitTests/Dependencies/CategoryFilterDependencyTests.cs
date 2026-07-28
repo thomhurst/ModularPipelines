@@ -46,7 +46,9 @@ public class CategoryFilterDependencyTests : TestBase
             }
 
             var result = await compile;
-            return result.IsSkipped ? "test-compile-skipped" : $"test-with-{result.ValueOrDefault}";
+            return result.SkipDecisionOrDefault is not null
+                ? "test-compile-skipped"
+                : $"test-with-{result.ValueOrDefault}";
         }
     }
 
@@ -63,7 +65,9 @@ public class CategoryFilterDependencyTests : TestBase
             }
 
             var result = await compile;
-            return result.IsSkipped ? "test-compile-skipped" : $"test-with-{result.ValueOrDefault}";
+            return result.SkipDecisionOrDefault is not null
+                ? "test-compile-skipped"
+                : $"test-with-{result.ValueOrDefault}";
         }
     }
 
@@ -169,10 +173,10 @@ public class CategoryFilterDependencyTests : TestBase
             .OfType<TransitiveRequiredDepModule>()
             .Single();
 
-        await Assert.That(requiredResult.IsSkipped).IsTrue();
+        await Assert.That(requiredResult.SkipDecisionOrDefault).IsNotNull();
         await Assert.That(requiredResult.SkipDecisionOrDefault!.Reason)
             .Contains(nameof(CompileModule));
-        await Assert.That(transitiveResult.IsSkipped).IsTrue();
+        await Assert.That(transitiveResult.SkipDecisionOrDefault).IsNotNull();
         await Assert.That(transitiveResult.SkipDecisionOrDefault!.Reason)
             .Contains(nameof(TestModuleWithRequiredDep));
     }
@@ -245,7 +249,7 @@ public class CategoryFilterDependencyTests : TestBase
             .OfType<FluentSkipDependentModule>()
             .Single();
 
-        await Assert.That(dependentResult.IsSkipped).IsTrue();
+        await Assert.That(dependentResult.SkipDecisionOrDefault).IsNotNull();
         await Assert.That(dependentResult.SkipDecisionOrDefault!.Reason)
             .Contains(nameof(FluentlySkippedModule));
     }
