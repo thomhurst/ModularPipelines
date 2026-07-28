@@ -13,7 +13,7 @@ namespace ModularPipelines.Configuration;
 /// <remarks>
 /// <para>
 /// This builder provides a fluent API for configuring module behavior including
-/// skip conditions, timeouts, retry policies, failure handling, and execution hooks.
+/// skip conditions, timeouts, retry policies, failure handling, and scheduling metadata.
 /// </para>
 /// <para>
 /// All methods return the builder instance to support method chaining.
@@ -28,8 +28,6 @@ namespace ModularPipelines.Configuration;
 ///     .WithRetryCount(3)
 ///     .WithIgnoreFailures()
 ///     .WithAlwaysRun()
-///     .WithBeforeExecute(ctx => LogStartAsync(ctx))
-///     .WithAfterExecute(ctx => LogEndAsync(ctx))
 ///     .Build();
 /// </code>
 /// </example>
@@ -42,8 +40,6 @@ public sealed class ModuleConfigurationBuilder
     private Func<IModuleContext, IAsyncPolicy>? _retryPolicyFactory;
     private Func<IModuleContext, Exception, Task<bool>>? _ignoreFailuresCondition;
     private bool _alwaysRun;
-    private Func<IModuleContext, Task>? _onBeforeExecute;
-    private Func<IModuleContext, Task>? _onAfterExecute;
     private string[]? _parallelConstraintKeys;
     private ModulePriority? _priority;
     private ExecutionType? _executionType;
@@ -448,32 +444,6 @@ public sealed class ModuleConfigurationBuilder
 
     #endregion
 
-    #region Hooks
-
-    /// <summary>
-    /// Sets a hook to execute before the module's main execution.
-    /// </summary>
-    /// <param name="hook">An async function that receives the module context.</param>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithBeforeExecute(Func<IModuleContext, Task> hook)
-    {
-        _onBeforeExecute = hook;
-        return this;
-    }
-
-    /// <summary>
-    /// Sets a hook to execute after the module's main execution.
-    /// </summary>
-    /// <param name="hook">An async function that receives the module context.</param>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithAfterExecute(Func<IModuleContext, Task> hook)
-    {
-        _onAfterExecute = hook;
-        return this;
-    }
-
-    #endregion
-
     /// <summary>
     /// Builds the <see cref="ModuleConfiguration"/> instance with the configured settings.
     /// </summary>
@@ -487,8 +457,6 @@ public sealed class ModuleConfigurationBuilder
             RetryPolicyFactory = _retryPolicyFactory,
             IgnoreFailuresCondition = _ignoreFailuresCondition,
             AlwaysRun = _alwaysRun,
-            OnBeforeExecute = _onBeforeExecute,
-            OnAfterExecute = _onAfterExecute,
             ParallelConstraintKeys = _parallelConstraintKeys,
             Priority = _priority,
             ExecutionType = _executionType,

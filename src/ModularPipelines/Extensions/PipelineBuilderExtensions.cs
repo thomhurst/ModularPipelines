@@ -147,15 +147,15 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Adds module hooks to run before or after each module has executed.
+    /// Adds a global receiver for module lifecycle events.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
-    /// <typeparam name="TModuleHooks">The type of hook class.</typeparam>
+    /// <typeparam name="TReceiver">The receiver type.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddPipelineModuleHooks<TModuleHooks>(this PipelineBuilder builder)
-        where TModuleHooks : class, IPipelineModuleHooks
+    public static PipelineBuilder AddModuleEventReceiver<TReceiver>(this PipelineBuilder builder)
+        where TReceiver : class, IModuleEventReceiver
     {
-        builder.Services.AddPipelineModuleHooks<TModuleHooks>();
+        builder.Services.AddModuleEventReceiver<TReceiver>();
         return builder;
     }
 

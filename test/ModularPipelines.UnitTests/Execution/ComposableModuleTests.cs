@@ -78,21 +78,28 @@ public class ComposableModuleTests
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromMinutes(1))
             .WithSkipWhen(() => SkipDecision.DoNotSkip)
-            .WithBeforeExecute(_ =>
-            {
-                BeforeHookCalled = true;
-                return Task.CompletedTask;
-            })
-            .WithAfterExecute(_ =>
-            {
-                AfterHookCalled = true;
-                return Task.CompletedTask;
-            })
             .Build();
 
         protected internal override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult(42);
+        }
+
+        protected override Task OnBeforeExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            BeforeHookCalled = true;
+            return Task.CompletedTask;
+        }
+
+        protected override Task<ModuleResult<int>?> OnAfterExecuteAsync(
+            IModuleContext context,
+            ModuleResult<int> result,
+            CancellationToken cancellationToken)
+        {
+            AfterHookCalled = true;
+            return Task.FromResult<ModuleResult<int>?>(null);
         }
 
         public static void Reset()

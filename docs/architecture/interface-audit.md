@@ -38,7 +38,7 @@ marker were removed. Each capability now has one public name.
 ## Extension points
 
 - `IPipelineGlobalHooks`: pipeline start and end callbacks
-- `IPipelineModuleHooks`: module lifecycle callbacks
+- `IModuleEventReceiver`: module lifecycle callbacks
 - `IPipelineRequirement`: startup requirement checks
 - `IRunCondition`: reusable execution conditions
 - `IPipelineValidator`: custom pipeline validation

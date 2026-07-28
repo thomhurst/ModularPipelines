@@ -74,7 +74,7 @@ builder.Services
     .AddModule<FormatMarkdownModule>()
     .AddModule<PrintGitInformationModule>()
     .AddModule<PushVersionTagModule>()
-    .AddPipelineModuleHooks<MyModuleHooks>();
+    .AddModuleEventReceiver<MyModuleEventReceiver>();
 
 if (!await BuildPipelineConfiguration.ConfigureDistributedModeAsync(builder))
 {

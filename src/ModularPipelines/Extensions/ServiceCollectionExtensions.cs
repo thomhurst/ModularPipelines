@@ -364,15 +364,15 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds module hooks to run before or after each module has executed.
+    /// Adds a global receiver for module lifecycle events.
     /// </summary>
     /// <param name="services">The pipeline's service collection.</param>
-    /// <typeparam name="TModuleHooks">The type of hook class.</typeparam>
+    /// <typeparam name="TReceiver">The receiver type.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
-    public static IServiceCollection AddPipelineModuleHooks<TModuleHooks>(this IServiceCollection services)
-        where TModuleHooks : class, IPipelineModuleHooks
+    public static IServiceCollection AddModuleEventReceiver<TReceiver>(this IServiceCollection services)
+        where TReceiver : class, IModuleEventReceiver
     {
-        return services.AddSingleton<IPipelineModuleHooks, TModuleHooks>();
+        return services.AddSingleton<IModuleEventReceiver, TReceiver>();
     }
 
     internal static IServiceCollection AddServiceCollection(this IServiceCollection serviceCollection)

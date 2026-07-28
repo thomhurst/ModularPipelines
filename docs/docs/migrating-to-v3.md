@@ -221,8 +221,6 @@ public class MyModule : Module<string>
             : SkipDecision.DoNotSkip)
         .WithIgnoreFailures()
         .WithAlwaysRun()
-        .WithBeforeExecute(ctx => LogStartAsync(ctx))
-        .WithAfterExecute(ctx => LogEndAsync(ctx))
         .Build();
 
     protected override async Task<string?> ExecuteAsync(
@@ -243,8 +241,8 @@ public class MyModule : Module<string>
 | `Task<SkipDecision> ShouldSkip()` method | `.WithSkipWhen(...)` |
 | `Task<bool> ShouldIgnoreFailures()` method | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)` |
 | `ModuleRunType.AlwaysRun` | `.WithAlwaysRun()` |
-| `Task OnBeforeExecute()` method | `.WithBeforeExecute(...)` |
-| `Task OnAfterExecute()` method | `.WithAfterExecute(...)` |
+| `Task OnBeforeExecute()` method | `OnBeforeExecuteAsync(...)` |
+| `Task OnAfterExecute()` method | `OnAfterExecuteAsync(...)` |
 
 ### Alternative: Lifecycle Hook Overrides
 
@@ -1194,8 +1192,8 @@ public class DeployModule : Module<bool>
 | `Timeout` property override | `Configure().WithTimeout()` | Fluent builder |
 | `RetryPolicy` property override | `Configure().WithRetryCount()` | Fluent builder |
 | `ModuleRunType` override | `Configure().WithAlwaysRun()` | Fluent builder |
-| `OnBeforeExecute()` override | `Configure().WithBeforeExecute()` or `OnBeforeExecuteAsync()` | Either approach |
-| `OnAfterExecute()` override | `Configure().WithAfterExecute()` or `OnAfterExecuteAsync()` | Either approach |
+| `OnBeforeExecute()` override | `OnBeforeExecuteAsync()` | Override the module virtual |
+| `OnAfterExecute()` override | `OnAfterExecuteAsync()` | Override the module virtual |
 | `options.WorkingDirectory` | `CommandExecutionOptions.WorkingDirectory` | Separate parameter |
 | `options.EnvironmentVariables` | `CommandExecutionOptions.EnvironmentVariables` | Separate parameter |
 | `options.ThrowOnNonZeroExitCode` | `CommandExecutionOptions.ThrowOnNonZeroExitCode` | Separate parameter |
@@ -1285,10 +1283,10 @@ This section provides structured data optimized for AI assistants helping with c
   new: "Configure().WithAlwaysRun()"
 
 - old: "protected internal override Task OnBeforeExecute(IPipelineContext context)"
-  new: "Configure().WithBeforeExecute(...) or OnBeforeExecuteAsync(...)"
+  new: "OnBeforeExecuteAsync(...)"
 
 - old: "protected internal override Task OnAfterExecute(IPipelineContext context)"
-  new: "Configure().WithAfterExecute(...) or OnAfterExecuteAsync(...)"
+  new: "OnAfterExecuteAsync(...)"
 
 # Command Execution Options (moved from tool options to separate parameter)
 - old: "new DotNetBuildOptions { WorkingDirectory = path }"

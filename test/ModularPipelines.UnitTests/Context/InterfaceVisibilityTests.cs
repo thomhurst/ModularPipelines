@@ -122,7 +122,7 @@ public class InterfaceVisibilityTests
         {
             ("ModularPipelines", "IPipeline"),
             ("ModularPipelines.Interfaces", "IPipelineGlobalHooks"),
-            ("ModularPipelines.Interfaces", "IPipelineModuleHooks"),
+            ("ModularPipelines.Interfaces", "IModuleEventReceiver"),
             ("ModularPipelines.Requirements", "IPipelineRequirement")
         };
 

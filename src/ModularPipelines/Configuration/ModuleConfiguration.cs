@@ -13,7 +13,7 @@ namespace ModularPipelines.Configuration;
 /// <para>
 /// This class provides a unified, immutable configuration object that controls various aspects
 /// of module execution including skip conditions, timeouts, retry policies, failure handling,
-/// and execution hooks.
+/// and scheduling metadata.
 /// </para>
 /// <para>
 /// Use <see cref="Create"/> to obtain a <see cref="ModuleConfigurationBuilder"/> for fluent configuration,
@@ -90,24 +90,6 @@ public sealed class ModuleConfiguration
     /// true if the module should always run; otherwise, false.
     /// </value>
     public bool AlwaysRun { get; init; }
-
-    /// <summary>
-    /// Gets the hook to execute before the module's main execution.
-    /// </summary>
-    /// <value>
-    /// A function that takes an <see cref="IModuleContext"/> and returns a <see cref="Task"/>,
-    /// or null if no before-execution hook is configured.
-    /// </value>
-    public Func<IModuleContext, Task>? OnBeforeExecute { get; init; }
-
-    /// <summary>
-    /// Gets the hook to execute after the module's main execution.
-    /// </summary>
-    /// <value>
-    /// A function that takes an <see cref="IModuleContext"/> and returns a <see cref="Task"/>,
-    /// or null if no after-execution hook is configured.
-    /// </value>
-    public Func<IModuleContext, Task>? OnAfterExecute { get; init; }
 
     /// <summary>
     /// Gets the keys that prevent this module from running in parallel with modules using the same keys.

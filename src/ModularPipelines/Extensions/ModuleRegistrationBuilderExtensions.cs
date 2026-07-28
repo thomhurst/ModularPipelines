@@ -62,15 +62,15 @@ public static class ModuleRegistrationBuilderExtensions
     }
 
     /// <summary>
-    /// Adds module hooks to run before or after each module has executed.
+    /// Adds a global receiver for module lifecycle events.
     /// </summary>
     /// <param name="builder">The registration builder.</param>
-    /// <typeparam name="TModuleHooks">The type of hook class.</typeparam>
+    /// <typeparam name="TReceiver">The receiver type.</typeparam>
     /// <returns>The pipeline's service collection.</returns>
-    public static IServiceCollection AddPipelineModuleHooks<TModuleHooks>(this IModuleRegistrationBuilder builder)
-        where TModuleHooks : class, IPipelineModuleHooks
+    public static IServiceCollection AddModuleEventReceiver<TReceiver>(this IModuleRegistrationBuilder builder)
+        where TReceiver : class, IModuleEventReceiver
     {
-        return builder.Services.AddPipelineModuleHooks<TModuleHooks>();
+        return builder.Services.AddModuleEventReceiver<TReceiver>();
     }
 
     /// <summary>

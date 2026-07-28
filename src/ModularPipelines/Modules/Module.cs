@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
@@ -194,10 +195,9 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// </para>
     /// <para>
     /// <strong>Edge case:</strong> If <see cref="OnBeforeExecuteAsync"/> throws an exception,
-    /// <see cref="OnFailedAsync"/> will NOT be called because the module execution never started.
-    /// Similarly, <see cref="OnAfterExecuteAsync"/> will NOT be called because the before hooks
-    /// did not complete successfully. Only registered <see cref="IPipelineModuleHooks"/>
-    /// will still run in the finally block.
+    /// <see cref="OnFailedAsync"/> is called, but <see cref="OnAfterExecuteAsync"/> is not called
+    /// because the before hook did not complete. Attribute failure handlers and registered
+    /// <see cref="IModuleEventReceiver"/> implementations are still notified.
     /// </para>
     /// </remarks>
     protected virtual Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -256,10 +256,7 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// This hook is called when <see cref="ExecuteAsync"/> throws an exception.
     /// </para>
     /// <para>
-    /// <strong>Edge case:</strong> If <see cref="OnBeforeExecuteAsync"/> throws an exception,
-    /// <see cref="OnFailedAsync"/> will NOT be called because the module execution never started.
-    /// The exception from <see cref="OnBeforeExecuteAsync"/> is treated as a setup failure,
-    /// not a module execution failure.
+    /// This hook is also called when <see cref="OnBeforeExecuteAsync"/> throws.
     /// </para>
     /// <para>
     /// Exceptions thrown from this hook are logged but do not prevent <see cref="OnAfterExecuteAsync"/>

@@ -103,13 +103,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             // Execute direct before hook first (virtual override)
             await _directHookInvoker.InvokeBeforeExecuteAsync(module, moduleContext, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
 
-            // Execute configuration before hook second
-            if (config.OnBeforeExecute != null)
-            {
-                await config.OnBeforeExecute(moduleContext).ConfigureAwait(false);
-            }
-
-            // Track that before hooks have executed (for OnAfterExecuteAsync in finally)
+            // Track that the before hook executed (for OnAfterExecuteAsync in finally)
             beforeHooksExecuted = true;
 
             // Mark as processing
@@ -172,19 +166,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 catch (Exception afterHookException)
                 {
                     logger.LogError(afterHookException, "Error in OnAfterExecuteAsync hook");
-                }
-            }
-
-            // Execute configuration after hook
-            if (config.OnAfterExecute != null)
-            {
-                try
-                {
-                    await config.OnAfterExecute(moduleContext).ConfigureAwait(false);
-                }
-                catch (Exception hookException)
-                {
-                    logger.LogError(hookException, "Error in OnAfterExecute hook");
                 }
             }
 

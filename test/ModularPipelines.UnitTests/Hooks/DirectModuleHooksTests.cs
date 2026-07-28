@@ -164,49 +164,6 @@ public class DirectModuleHooksTests : TestBase
     }
 
     /// <summary>
-    /// Module that uses ModuleConfiguration hooks to verify ordering with direct hooks.
-    /// </summary>
-    private class HookableAndDirectHookModule : Module<string>
-    {
-        public List<string> HooksCalled { get; } = [];
-
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithBeforeExecute(_ =>
-            {
-                HooksCalled.Add("Config:OnBeforeExecute");
-                return Task.CompletedTask;
-            })
-            .WithAfterExecute(_ =>
-            {
-                HooksCalled.Add("Config:OnAfterExecute");
-                return Task.CompletedTask;
-            })
-            .Build();
-
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            HooksCalled.Add("ExecuteAsync");
-            return "Success";
-        }
-
-        protected override Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            HooksCalled.Add("Direct:OnBeforeExecuteAsync");
-            return Task.CompletedTask;
-        }
-
-        protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
-            IModuleContext context,
-            ModuleResult<string> result,
-            CancellationToken cancellationToken)
-        {
-            HooksCalled.Add("Direct:OnAfterExecuteAsync");
-            return Task.FromResult<ModuleResult<string>?>(null);
-        }
-    }
-
-    /// <summary>
     /// Module that throws in OnAfterExecuteAsync to verify result is preserved.
     /// </summary>
     private class AfterHookFailingModule : Module<string>
@@ -299,20 +256,6 @@ public class DirectModuleHooksTests : TestBase
         await Assert.That(module.ReceivedAfterResult).IsNotNull();
         await Assert.That(module.ReceivedAfterResult!.ExceptionOrDefault).IsNotNull();
         await Assert.That(module.ReceivedAfterResult.ExceptionOrDefault).IsTypeOf<InvalidOperationException>();
-    }
-
-    [Test]
-    public async Task DirectHooks_CalledBeforeConfigHooks()
-    {
-        var module = await RunModule<HookableAndDirectHookModule>();
-
-        // Direct hooks should be called first
-        await Assert.That(module.HooksCalled).Contains("Direct:OnBeforeExecuteAsync");
-        await Assert.That(module.HooksCalled).Contains("Config:OnBeforeExecute");
-
-        var directBeforeIndex = module.HooksCalled.IndexOf("Direct:OnBeforeExecuteAsync");
-        var configBeforeIndex = module.HooksCalled.IndexOf("Config:OnBeforeExecute");
-        await Assert.That(directBeforeIndex).IsLessThan(configBeforeIndex);
     }
 
     [Test]
