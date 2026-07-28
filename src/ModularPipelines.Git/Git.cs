@@ -1,5 +1,3 @@
-using ModularPipelines.FileSystem;
-
 namespace ModularPipelines.Git;
 
 internal class Git : IGit
@@ -18,7 +16,4 @@ internal class Git : IGit
     public IGitInformation Information { get; }
 
     public IGitVersioning Versioning { get; }
-
-    public Folder RootDirectory => Information.Root ?? throw new InvalidOperationException(
-        "Git repository root directory not detected. Ensure this code is running from within a Git repository.");
 }
