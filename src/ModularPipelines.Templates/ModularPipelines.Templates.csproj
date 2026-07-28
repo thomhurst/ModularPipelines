@@ -8,9 +8,32 @@
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
     <Title>ModularPipelines project templates</Title>
     <PackageTags>dotnet-new;templates;build;test;publish;pipelines</PackageTags>
+    <VersionedTemplateRoot>$(MSBuildProjectDirectory)\obj\versioned-templates\$(PackageVersion)\</VersionedTemplateRoot>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
+    <Content Include="templates\**\*"
+             Exclude="templates\**\bin\**;templates\**\obj\**;templates\modularpipeline\.template.config\template.json;templates\modularpipeline\Directory.Packages.props" />
+    <Content Include="$(VersionedTemplateRoot).template.config\template.json"
+             Pack="true"
+             PackagePath="content\templates\modularpipeline\.template.config\" />
+    <Content Include="$(VersionedTemplateRoot)Directory.Packages.props"
+             Pack="true"
+             PackagePath="content\templates\modularpipeline\" />
     <Compile Remove="**\*" />
   </ItemGroup>
+  <Target Name="GenerateVersionedTemplateContent" BeforeTargets="GenerateNuspec">
+    <MakeDir Directories="$(VersionedTemplateRoot).template.config" />
+    <PropertyGroup>
+      <_TemplateConfiguration>$([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)\templates\modularpipeline\.template.config\template.json').Replace('__MODULAR_PIPELINES_VERSION__', '$(PackageVersion)'))</_TemplateConfiguration>
+      <_TemplatePackages>$([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)\templates\modularpipeline\Directory.Packages.props').Replace('__MODULAR_PIPELINES_VERSION__', '$(PackageVersion)'))</_TemplatePackages>
+    </PropertyGroup>
+    <WriteLinesToFile
+      File="$(VersionedTemplateRoot).template.config\template.json"
+      Lines="$(_TemplateConfiguration)"
+      Overwrite="true" />
+    <WriteLinesToFile
+      File="$(VersionedTemplateRoot)Directory.Packages.props"
+      Lines="$(_TemplatePackages)"
+      Overwrite="true" />
+  </Target>
 </Project>

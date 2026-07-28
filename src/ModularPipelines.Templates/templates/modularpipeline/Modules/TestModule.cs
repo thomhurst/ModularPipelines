@@ -19,7 +19,7 @@ public sealed class TestModule(IOptions<BuildSettings> settings) : Module<Comman
         return await context.DotNet().Test(
             new DotNetTestOptions
             {
-                Solution = settings.Value.Solution,
+                Arguments = [settings.Value.Solution],
                 Configuration = settings.Value.Configuration,
                 NoBuild = true,
                 NoRestore = true,

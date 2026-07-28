@@ -54,8 +54,8 @@
       "datatype": "text",
       "displayName": "ModularPipelines version",
       "description": "Version of the ModularPipelines packages referenced by the generated project.",
-      "defaultValue": "3.2.8",
-      "replaces": "3.2.8"
+      "defaultValue": "__MODULAR_PIPELINES_VERSION__",
+      "replaces": "__MODULAR_PIPELINES_VERSION__"
     },
     "noRestore": {
       "type": "parameter",

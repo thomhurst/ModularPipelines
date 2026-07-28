@@ -8,7 +8,7 @@ using TemplatePipeline.Settings;
 var builder = Pipeline.CreateBuilder(args);
 
 builder.Configuration
-    .AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile(Path.Combine(AppContext.BaseDirectory, "appsettings.json"), optional: false)
     .AddEnvironmentVariables();
 
 builder.Services.Configure<BuildSettings>(builder.Configuration.GetSection("Build"));
