@@ -100,20 +100,47 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return false;
         }
 
-        if (invokedName is GenericNameSyntax &&
-            methodSymbol.Name == AnalyzerConstants.MethodNames.GetModule &&
-            methodSymbol.TypeArguments.Length == 1 &&
-            SymbolEqualityComparer.Default.Equals(methodSymbol.OriginalDefinition.ContainingType, moduleContextType))
+        if (TryGetDirectModuleType(
+                methodSymbol,
+                invokedName,
+                moduleContextType,
+                out moduleType))
         {
-            if (methodSymbol.TypeArguments[0] is not INamedTypeSymbol directModuleType)
-            {
-                return false;
-            }
-
-            moduleType = directModuleType;
             return true;
         }
 
+        return TryGetGeneratedModuleType(methodSymbol, moduleContextType, out moduleType);
+    }
+
+    private static bool TryGetDirectModuleType(
+        IMethodSymbol methodSymbol,
+        SimpleNameSyntax invokedName,
+        INamedTypeSymbol moduleContextType,
+        out INamedTypeSymbol moduleType)
+    {
+        moduleType = null!;
+
+        if (invokedName is not GenericNameSyntax
+            || methodSymbol.Name != AnalyzerConstants.MethodNames.GetModule
+            || methodSymbol.TypeArguments.Length != 1
+            || !SymbolEqualityComparer.Default.Equals(
+                methodSymbol.OriginalDefinition.ContainingType,
+                moduleContextType)
+            || methodSymbol.TypeArguments[0] is not INamedTypeSymbol directModuleType)
+        {
+            return false;
+        }
+
+        moduleType = directModuleType;
+        return true;
+    }
+
+    private static bool TryGetGeneratedModuleType(
+        IMethodSymbol methodSymbol,
+        INamedTypeSymbol moduleContextType,
+        out INamedTypeSymbol moduleType)
+    {
+        moduleType = null!;
         var extensionMethod = methodSymbol.ReducedFrom ?? methodSymbol;
 
         if (!extensionMethod.IsExtensionMethod ||
@@ -128,12 +155,12 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return false;
         }
 
-        if (methodSymbol.ReturnType is not INamedTypeSymbol generatedModuleType)
+        if (methodSymbol.ReturnType is not INamedTypeSymbol returnType)
         {
             return false;
         }
 
-        moduleType = (INamedTypeSymbol)generatedModuleType
+        moduleType = (INamedTypeSymbol)returnType
             .WithNullableAnnotation(NullableAnnotation.NotAnnotated);
         return true;
     }
