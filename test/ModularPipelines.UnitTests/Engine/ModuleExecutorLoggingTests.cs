@@ -475,7 +475,9 @@ public class ModuleExecutorLoggingTests
             registrationEvents.Object,
             Mock.Of<IMetricsCollector>(),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
+            new ModuleMetadataRegistry(
+                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+                new ModuleAttributeEventService()),
             new SecondaryExceptionContainer(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
