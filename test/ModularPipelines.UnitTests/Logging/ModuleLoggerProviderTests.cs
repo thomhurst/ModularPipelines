@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
@@ -23,38 +24,39 @@ public class ModuleLoggerProviderTests
                 typeof(TestModule),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        var logger = new ModuleLogger<TestModule>(
-            NullLogger<TestModule>.Instance,
-            Mock.Of<ISecretObfuscator>(),
-            Mock.Of<IFormattedLogValuesObfuscator>(),
-            consoleCoordinator.Object,
-            outputCoordinator.Object);
-        var provider = new ModuleLoggerProvider(
-            Mock.Of<IServiceProvider>(),
-            Mock.Of<IStackTraceModuleDetector>(),
-            NullLoggerFactory.Instance);
+        var services = new ServiceCollection()
+            .AddSingleton<Microsoft.Extensions.Logging.ILoggerFactory>(NullLoggerFactory.Instance)
+            .AddSingleton(typeof(Microsoft.Extensions.Logging.ILogger<>), typeof(NullLogger<>))
+            .AddSingleton(Mock.Of<ISecretObfuscator>())
+            .AddSingleton(Mock.Of<IFormattedLogValuesObfuscator>())
+            .AddSingleton(consoleCoordinator.Object)
+            .AddSingleton(outputCoordinator.Object)
+            .AddSingleton(Mock.Of<IStackTraceModuleDetector>())
+            .AddScoped<ModuleLoggerProvider>()
+            .AddScoped(typeof(ModuleLogger<>));
+        await using var serviceProvider = services.BuildServiceProvider();
+        var scope = serviceProvider.CreateAsyncScope();
         var previousLogger = ModuleLogger.Values.Value;
 
         try
         {
+            var logger = scope.ServiceProvider.GetRequiredService<ModuleLogger<TestModule>>();
+            var provider = scope.ServiceProvider.GetRequiredService<ModuleLoggerProvider>();
             ModuleLogger.Values.Value = logger;
             _ = provider.GetLogger();
-
-            (provider as IDisposable)?.Dispose();
-            await logger.DisposeAsync();
-
-            outputCoordinator.Verify(
-                x => x.OnModuleCompletedAsync(
-                    buffer.Object,
-                    typeof(TestModule),
-                    It.IsAny<CancellationToken>()),
-                Times.Once);
         }
         finally
         {
             ModuleLogger.Values.Value = previousLogger;
-            await logger.DisposeAsync();
+            await scope.DisposeAsync();
         }
+
+        outputCoordinator.Verify(
+            x => x.OnModuleCompletedAsync(
+                buffer.Object,
+                typeof(TestModule),
+                It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 
     private sealed class TestModule;
