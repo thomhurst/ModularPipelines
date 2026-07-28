@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
@@ -14,6 +15,8 @@ namespace ModularPipelines.UnitTests.Engine;
 [TUnit.Core.NotInParallel(nameof(ModuleConditionHandlerTests))]
 public class ModuleConditionHandlerTests
 {
+    private static int _conditionEvaluationCount;
+
     [Test]
     public async Task Distributed_Master_Does_Not_Filter_Foreign_Os_Module()
     {
@@ -88,6 +91,20 @@ public class ModuleConditionHandlerTests
         await Assert.That(result.ShouldIgnore).IsTrue();
     }
 
+    [Test]
+    public async Task ShouldIgnore_EvaluatesConditionsOncePerModuleInstance()
+    {
+        _conditionEvaluationCount = 0;
+        var handler = CreateHandler(new DistributedOptions());
+        var firstModule = new CountingConditionModule();
+
+        await handler.ShouldIgnore(firstModule);
+        await handler.ShouldIgnore(firstModule);
+        await handler.ShouldIgnore(new CountingConditionModule());
+
+        await Assert.That(_conditionEvaluationCount).IsEqualTo(2);
+    }
+
     private static ModuleConditionHandler CreateHandler(DistributedOptions distributedOptions)
     {
         var contextProvider = new Mock<IPipelineContextProvider>();
@@ -137,6 +154,26 @@ public class ModuleConditionHandlerTests
     [RunOnWindowsOnly]
     [RunOnLinuxOnly]
     private sealed class ContradictoryOsModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult<string?>(null);
+        }
+    }
+
+    private sealed class CountingCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineHookContext context)
+        {
+            Interlocked.Increment(ref _conditionEvaluationCount);
+            return Task.FromResult(true);
+        }
+    }
+
+    [RunIfAll<CountingCondition>]
+    private sealed class CountingConditionModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,

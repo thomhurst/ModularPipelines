@@ -516,7 +516,7 @@ public class NewRunConditionAttributeTests : TestBase
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<CancellationAwareConditionModule>()
             .BuildHostAsync();
-        var module = host.RootServices.GetServices<IModule>().OfType<CancellationAwareConditionModule>().Single();
+        var module = new CancellationAwareConditionModule();
         var conditionHandler = host.RootServices.GetRequiredService<IModuleConditionHandler>();
         using var cancellationTokenSource = new CancellationTokenSource();
         ConditionCancellationTokenSource = cancellationTokenSource;
@@ -525,6 +525,14 @@ public class NewRunConditionAttributeTests : TestBase
         await Assert.ThrowsAsync<OperationCanceledException>(() =>
             conditionHandler.ShouldIgnore(module, cancellationTokenSource.Token));
         await Assert.That(SubsequentConditionWasEvaluated).IsFalse();
+
+        using var retryTokenSource = new CancellationTokenSource();
+        ConditionCancellationTokenSource = retryTokenSource;
+
+        var retryResult = await conditionHandler.ShouldIgnore(module);
+
+        await Assert.That(retryResult.ShouldIgnore).IsFalse();
+        await Assert.That(SubsequentConditionWasEvaluated).IsTrue();
     }
 
     [Test]
@@ -540,14 +548,14 @@ public class NewRunConditionAttributeTests : TestBase
     }
 
     private static async Task AssertGroupedCancellation<TModule>()
-        where TModule : class, IModule
+        where TModule : class, IModule, new()
     {
         using var setupTokenSource = new CancellationTokenSource();
         ConditionCancellationTokenSource = setupTokenSource;
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<TModule>()
             .BuildHostAsync();
-        var module = host.RootServices.GetServices<IModule>().OfType<TModule>().Single();
+        var module = new TModule();
         var conditionHandler = host.RootServices.GetRequiredService<IModuleConditionHandler>();
         using var cancellationTokenSource = new CancellationTokenSource();
         ConditionCancellationTokenSource = cancellationTokenSource;

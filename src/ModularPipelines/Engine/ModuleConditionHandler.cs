@@ -1,4 +1,6 @@
+using System.Collections.Concurrent;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
@@ -19,6 +21,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private readonly RoleDetector _roleDetector;
     private readonly IPipelineContextProvider _pipelineContextProvider;
     private readonly IModuleMetadataRegistry _metadataRegistry;
+    private readonly ConditionalWeakTable<IModule, ConditionEvaluation> _conditionEvaluations = new();
+    private readonly ConcurrentDictionary<Type, Lazy<ConditionAttributes>> _conditionAttributes = new();
 
     public ModuleConditionHandler(
         IOptions<PipelineOptions> pipelineOptions,
@@ -37,6 +41,31 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     public async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        var evaluation = _conditionEvaluations.GetValue(module, static _ => new ConditionEvaluation());
+        await evaluation.Gate.WaitAsync(cancellationToken).ConfigureAwait(false);
+
+        try
+        {
+            if (evaluation.HasResult)
+            {
+                return evaluation.Result;
+            }
+
+            var result = await EvaluateShouldIgnore(module, cancellationToken).ConfigureAwait(false);
+            evaluation.Result = result;
+            evaluation.HasResult = true;
+            return result;
+        }
+        finally
+        {
+            evaluation.Gate.Release();
+        }
+    }
+
+    private async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> EvaluateShouldIgnore(
+        IModule module,
+        CancellationToken cancellationToken)
+    {
         var moduleType = module.GetType();
         _metadataRegistry.FinalizeMetadata(moduleType, module);
         var category = _metadataRegistry.GetCategory(moduleType);
@@ -86,7 +115,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         CancellationToken cancellationToken)
     {
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
-        var newStyleResult = await EvaluateNewStyleConditions(moduleType, pipelineContext, cancellationToken).ConfigureAwait(false);
+        var attributes = GetConditionAttributes(moduleType);
+        var newStyleResult = await EvaluateNewStyleConditions(attributes, pipelineContext, cancellationToken).ConfigureAwait(false);
 
         if (!newStyleResult.IsRunnable)
         {
@@ -94,7 +124,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         }
 
         return await EvaluateLegacyConditions(
-            moduleType,
+            attributes,
             pipelineContext,
             IsDistributedMaster(),
             cancellationToken).ConfigureAwait(false);
@@ -108,17 +138,36 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                && _roleDetector.DetectRole() == DistributedRole.Master;
     }
 
+#pragma warning disable CS0618 // Legacy condition attributes are cached and evaluated here to preserve compatibility.
+    private ConditionAttributes GetConditionAttributes(Type moduleType)
+    {
+        return _conditionAttributes.GetOrAdd(
+            moduleType,
+            static type => new Lazy<ConditionAttributes>(
+                () => CreateConditionAttributes(type),
+                LazyThreadSafetyMode.ExecutionAndPublication)).Value;
+    }
+
+    private static ConditionAttributes CreateConditionAttributes(Type moduleType)
+    {
+        var attributes = moduleType.GetCustomAttributes(inherit: true);
+        var newStyleAttributes = attributes.OfType<IConditionAttribute>().ToArray();
+        var legacyAttributes = attributes.OfType<RunConditionAttribute>().ToArray();
+
+        return new ConditionAttributes(
+            newStyleAttributes.Where(attribute => attribute.Logic == ConditionLogic.Skip).ToArray(),
+            newStyleAttributes.Where(attribute => attribute.Logic == ConditionLogic.All).ToArray(),
+            newStyleAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any).ToArray(),
+            legacyAttributes.OfType<MandatoryRunConditionAttribute>().ToArray(),
+            legacyAttributes.Where(attribute => attribute is not MandatoryRunConditionAttribute).ToArray());
+    }
+
     private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateNewStyleConditions(
-        Type moduleType,
+        ConditionAttributes attributes,
         IPipelineHookContext pipelineContext,
         CancellationToken cancellationToken)
     {
-        var conditionAttributes = moduleType
-            .GetCustomAttributes(inherit: true)
-            .OfType<IConditionAttribute>()
-            .ToArray();
-
-        foreach (var attribute in conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.Skip))
+        foreach (var attribute in attributes.Skip)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -128,7 +177,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             }
         }
 
-        foreach (var attribute in conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.All))
+        foreach (var attribute in attributes.All)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -138,7 +187,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             }
         }
 
-        foreach (var attribute in conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any))
+        foreach (var attribute in attributes.Any)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -151,16 +200,13 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         return (true, null);
     }
 
-#pragma warning disable CS0618 // Legacy conditions are evaluated here to preserve compatibility.
     private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateLegacyConditions(
-        Type moduleType,
+        ConditionAttributes attributes,
         IPipelineHookContext pipelineContext,
         bool isDistributedMaster,
         CancellationToken cancellationToken)
     {
-        var allMandatoryConditions = moduleType
-            .GetCustomAttributes<MandatoryRunConditionAttribute>(inherit: true)
-            .ToArray();
+        var allMandatoryConditions = attributes.Mandatory;
 
         // On a distributed master, OS-only conditions are normally deferred to the matching
         // worker (skipped here) so the master publishes the assignment with an OS capability
@@ -181,10 +227,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         var mandatoryConditions = allMandatoryConditions
             .Where(attribute => !deferOperatingSystemConditionsToWorker || OperatingSystemConditions.GetTarget(attribute) is null)
             .ToArray();
-        var optionalConditions = moduleType
-            .GetCustomAttributes<RunConditionAttribute>(inherit: true)
-            .Except(allMandatoryConditions)
-            .ToArray();
+        var optionalConditions = attributes.Optional;
 
         foreach (var attribute in mandatoryConditions)
         {
@@ -215,5 +258,22 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             attribute.GetType().Name.Replace("Attribute", string.Empty, StringComparison.OrdinalIgnoreCase));
         return (false, SkipDecision.Skip($"No run conditions were met: {string.Join(", ", names)}"));
     }
+
+    private sealed class ConditionEvaluation
+    {
+        public SemaphoreSlim Gate { get; } = new(1, 1);
+
+        public bool HasResult { get; set; }
+
+        public (bool ShouldIgnore, SkipDecision? SkipDecision) Result { get; set; }
+    }
+
+    private sealed record ConditionAttributes(
+        IConditionAttribute[] Skip,
+        IConditionAttribute[] All,
+        IConditionAttribute[] Any,
+        MandatoryRunConditionAttribute[] Mandatory,
+        RunConditionAttribute[] Optional);
+
 #pragma warning restore CS0618
 }
