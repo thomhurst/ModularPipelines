@@ -183,8 +183,8 @@ public class Module2 : Module<string>
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
 
         await VerifyCS.VerifyCodeFixAsync(
-            BadModuleSource.ReplaceLineEndings(),
+            BadModuleSource.ReplaceLineEndings("\n"),
             expected,
-            FixedModuleSource.ReplaceLineEndings());
+            FixedModuleSource.ReplaceLineEndings("\n"));
     }
 }

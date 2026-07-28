@@ -64,17 +64,26 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
         var documentRoot = (await document.GetSyntaxRootAsync(cancellationToken))!;
 
         var name = context.Diagnostics.First().Properties["Name"]!;
+        var endOfLine = documentRoot
+            .DescendantTrivia()
+            .FirstOrDefault(trivia => trivia.IsKind(SyntaxKind.EndOfLineTrivia))
+            .ToFullString();
+
+        if (string.IsNullOrEmpty(endOfLine))
+        {
+            endOfLine = Environment.NewLine;
+        }
 
         var attributes = typeDecl.AttributeLists.Add(
             SyntaxFactory.AttributeList(SyntaxFactory.SingletonSeparatedList(CreateDependsOnAttribute(name, syntaxTree!)))
-                .WithTrailingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed)
-                .NormalizeWhitespace());
+                .WithTrailingTrivia(SyntaxFactory.EndOfLine(endOfLine))
+                .NormalizeWhitespace(eol: endOfLine));
 
         return document.WithSyntaxRoot(
             documentRoot
-                .ReplaceNode(typeDecl, typeDecl.WithAttributeLists(attributes).WithTrailingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed))
+                .ReplaceNode(typeDecl, typeDecl.WithAttributeLists(attributes).WithTrailingTrivia(SyntaxFactory.EndOfLine(endOfLine)))
                 .AddUsings()
-                .NormalizeWhitespace()
+                .NormalizeWhitespace(eol: endOfLine)
         );
     }
 
