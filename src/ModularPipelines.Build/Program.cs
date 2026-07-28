@@ -58,6 +58,7 @@ builder
     .AddModule<RunTrivyUnitTestsModule>()
     .AddModule<RunAzureUnitTestsModule>()
     .AddModule<RunAnalyzersUnitTestsModule>()
+    .AddModule<RunConsumerAnalyzersUnitTestsModule>()
     .AddModule<RunDistributedUnitTestsModule>()
     .AddModule<RunDistributedRedisUnitTestsModule>()
     .AddModule<RunDistributedArtifactsS3UnitTestsModule>()
@@ -74,7 +75,7 @@ builder
     .AddModule<FormatMarkdownModule>()
     .AddModule<PrintGitInformationModule>()
     .AddModule<PushVersionTagModule>()
-    .AddPipelineModuleHooks<MyModuleHooks>();
+    .AddModuleEventReceiver<MyModuleEventReceiver>();
 
 if (!await BuildPipelineConfiguration.ConfigureDistributedModeAsync(builder))
 {

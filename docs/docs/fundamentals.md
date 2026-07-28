@@ -130,17 +130,17 @@ return myModule switch
 };
 ```
 
-Or use the convenience properties for simpler checks:
+Or use the safe accessors for simpler checks:
 
 ```csharp
 var myModule = await context.GetModule<MyOptionalModule>();
 
-if (myModule.IsSkipped)
+if (myModule.SkipDecisionOrDefault is not null)
 {
     return null;
 }
 
-if (myModule.IsFailure)
+if (myModule.ExceptionOrDefault is not null)
 {
     // Check the exception
     if (myModule.ExceptionOrDefault is ItemAlreadyExistsException)

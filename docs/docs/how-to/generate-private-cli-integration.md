@@ -125,3 +125,36 @@ finds uncommitted output:
 Use `--change-manifest <path>` when automation needs the exact generated and deleted paths.
 The existing `--tools` mode remains reserved for first-party scrapers; it cannot be combined
 with `--input`.
+
+## Migrate custom integration registration for v4
+
+Version 4 replaces the process-wide `ModularPipelinesContextRegistry` and integration
+module initializers with generated assembly metadata. Output from the current options
+generator already uses the new mechanism.
+
+For a hand-written integration, mark its service-registration method:
+
+```csharp
+using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Attributes;
+
+public static class PrivateWidgetExtensions
+{
+    [ModularPipelinesIntegration]
+    public static IServiceCollection RegisterPrivateWidget(
+        this IServiceCollection services)
+    {
+        services.AddScoped<IPrivateWidget, PrivateWidget>();
+        return services;
+    }
+}
+```
+
+The method must be accessible from its assembly, static, non-generic, declared on a
+non-generic accessible type, and accept one `IServiceCollection` parameter. It can return
+either `void` or `IServiceCollection`.
+
+Referencing the `ModularPipelines` package includes the source generator as an analyzer.
+The generator emits immutable assembly registration metadata, which each pipeline consumes
+independently. Remove the old parameterless module initializer and any call to
+`ModularPipelinesContextRegistry.RegisterContext`.

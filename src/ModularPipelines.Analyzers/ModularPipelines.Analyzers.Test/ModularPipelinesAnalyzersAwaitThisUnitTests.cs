@@ -48,7 +48,7 @@ public class Module1 : Module<CommandResult>
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         // This is fine - awaiting something else
-        var otherModule = GetModule<Module2>();
+        var otherModule = context.GetModule<Module2>();
         await otherModule;
         return null;
     }}
@@ -86,7 +86,7 @@ public class NotAModule
 }
 ";
 
-    private const string GoodModuleSourceAwaitThisInOnAfterExecute = $@"
+    private const string GoodModuleSourceAwaitThisInOnAfterExecuteAsync = $@"
 {TestSourceConstants.StandardModuleHeaderWithOptions}
 
 public class Module1 : Module<CommandResult>
@@ -96,10 +96,13 @@ public class Module1 : Module<CommandResult>
         return Task.FromResult<CommandResult?>(null);
     }}
 
-    protected override async Task OnAfterExecute(IModuleContext context)
+    protected override async Task<ModuleResult<CommandResult>?> OnAfterExecuteAsync(
+        IModuleContext context,
+        ModuleResult<CommandResult> result,
+        CancellationToken cancellationToken)
     {{
-        // This should NOT trigger the analyzer - await this is allowed in OnAfterExecute
-        var result = await this;
+        // This should NOT trigger the analyzer - await this is allowed in OnAfterExecuteAsync
+        return await this;
     }}
 }}
 ";
@@ -133,8 +136,8 @@ public class Module1 : Module<CommandResult>
     }
 
     [TestMethod]
-    public async Task AnalyzerIsNotTriggered_When_AwaitThis_InOnAfterExecute()
+    public async Task AnalyzerIsNotTriggered_When_AwaitThis_InOnAfterExecuteAsync()
     {
-        await VerifyCS.VerifyAnalyzerAsync(GoodModuleSourceAwaitThisInOnAfterExecute);
+        await VerifyCS.VerifyAnalyzerAsync(GoodModuleSourceAwaitThisInOnAfterExecuteAsync);
     }
 }

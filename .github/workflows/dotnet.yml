@@ -231,10 +231,10 @@ jobs:
             check_name: pipeline (ubuntu-latest)
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    # Bound the job so a stuck pipeline fails fast instead of tying up a runner for the
-    # default 6 hours. The "Upload Hang Dumps" step runs on if:always() so dumps are
-    # still collected when this timeout trips.
-    timeout-minutes: 60
+    # Most healthy runs finish in 20-25 minutes, but a known successful run took 55 minutes.
+    # Keep margin above that variance while bounding starvation well below GitHub's six-hour
+    # default; hang diagnostics still upload from the always-run artifact step.
+    timeout-minutes: 75
     env:
       # Tear down MSBuild worker/compiler nodes after each build instead of keeping them
       # resident. BuildSolutionsModule builds several solutions in sequence; with node reuse

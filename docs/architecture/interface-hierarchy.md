@@ -88,10 +88,10 @@ public class PipelineHooks : IPipelineGlobalHooks
 }
 ```
 
-Module hooks receive `IModuleHookContext`:
+Global module event receivers receive `IModuleHookContext`:
 
 ```csharp
-public class ModuleHooks : IPipelineModuleHooks
+public class ModuleEvents : IModuleEventReceiver
 {
     public Task OnModuleStartAsync(IModuleHookContext context)
     {
@@ -129,6 +129,6 @@ public class LinuxRequirement : IPipelineRequirement
 
 1. Use `IModuleContext` in modules.
 2. Use `IPipelineContext` in global hooks, requirements, and run conditions.
-3. Use `IModuleHookContext` in module hooks.
+3. Use `IModuleHookContext` in module event receivers and attribute handlers.
 4. Use domain properties to discover capabilities.
 5. Do not depend on internal engine interfaces.

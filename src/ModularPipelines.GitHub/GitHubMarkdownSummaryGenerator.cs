@@ -25,9 +25,9 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
 
     public async Task OnEndAsync(IPipelineContext pipelineContext, PipelineSummary pipelineSummary)
     {
-        var mermaid = await GenerateMermaidSummary(pipelineSummary);
-        var table = await GenerateTableSummary(pipelineSummary);
-        var exception = await GetException(pipelineSummary);
+        var mermaid = GenerateMermaidSummary(pipelineSummary);
+        var table = GenerateTableSummary(pipelineSummary);
+        var exception = GetException(pipelineSummary);
 
         var stepSummaryVariable = pipelineContext.Environment.Variables.GetEnvironmentVariable("GITHUB_STEP_SUMMARY");
 
@@ -57,14 +57,12 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         await pipelineContext.Files.GetFile(stepSummaryVariable).AppendAsync(contents);
     }
 
-    private async Task<string> GetException(PipelineSummary pipelineSummary)
+    private static string GetException(PipelineSummary pipelineSummary)
     {
-        var results = await pipelineSummary.GetModuleResultsAsync();
-
-        var exception = results
+        var exception = pipelineSummary.Results
                             .FirstOrDefault(x => x.ModuleStatus == Status.Failed)
                             ?.ExceptionOrDefault
-                        ?? results.Select(x => x.ExceptionOrDefault).FirstOrDefault();
+                        ?? pipelineSummary.Results.Select(x => x.ExceptionOrDefault).FirstOrDefault();
 
         if (exception is null)
         {
@@ -74,11 +72,9 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         return $"\n\n```\n{exception}\n```";
     }
 
-    private async Task<string> GenerateMermaidSummary(PipelineSummary pipelineSummary)
+    private static string GenerateMermaidSummary(PipelineSummary pipelineSummary)
     {
-        var results = await pipelineSummary.GetModuleResultsAsync();
-
-        var stepStringList = results
+        var stepStringList = pipelineSummary.Results
             .Where(x => x.ModuleDuration != TimeSpan.Zero)
             .OrderBy(x => x.ModuleStart)
             .ThenBy(s => s.ModuleEnd)
@@ -115,11 +111,9 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         return text;
     }
 
-    private async Task<string> GenerateTableSummary(PipelineSummary pipelineSummary)
+    private static string GenerateTableSummary(PipelineSummary pipelineSummary)
     {
-        var results = await pipelineSummary.GetModuleResultsAsync();
-
-        var stepStringList = results.OrderBy(x => x.ModuleEnd)
+        var stepStringList = pipelineSummary.Results.OrderBy(x => x.ModuleEnd)
             .ThenBy(s => s.ModuleStart)
             .Select(module =>
                 {
@@ -148,7 +142,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
 
     private static string AddCritIfFailed(IModuleResult moduleResult)
     {
-        return moduleResult.ModuleResultType is ModuleResultType.Failure
+        return moduleResult.ExceptionOrDefault is not null
             ? "crit,"
             : string.Empty;
     }

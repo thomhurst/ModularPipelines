@@ -529,6 +529,21 @@ public class ValidationTests
     }
 
     [Test]
+    public async Task ValidateAsync_WithNegativeModuleOutputFlushThreshold_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<SimpleModule>();
+        builder.Options.ModuleOutputFlushThreshold = -1;
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.HasErrors).IsTrue();
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("ModuleOutputFlushThreshold"))).IsTrue();
+    }
+
+    [Test]
     public async Task ValidateAsync_WithConflictingCategories_ReturnsError()
     {
         // Arrange

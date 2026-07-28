@@ -22,7 +22,7 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
     public const string DiagnosticId = "StatefulModule";
 
     /// <summary>
-    /// Diagnostic rule for stateful modules.
+    /// Gets the diagnostic rule for stateful modules.
     /// </summary>
     public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
         DiagnosticId,
@@ -57,8 +57,8 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        // Check if this class inherits from Module<T> or ModuleBase
-        if (!IsModuleClass(classSymbol, context.Compilation))
+        // Check if this class inherits from Module<T>.
+        if (!classSymbol.IsModule(context.Compilation))
         {
             return;
         }
@@ -71,25 +71,6 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
                 AnalyzeField(context, fieldSymbol, classSymbol);
             }
         }
-    }
-
-    private static bool IsModuleClass(INamedTypeSymbol classSymbol, Compilation compilation)
-    {
-        // Check for Module<T> (generic)
-        var moduleGenericType = compilation.GetTypeByMetadataName("ModularPipelines.Modules.Module`1");
-        if (moduleGenericType is not null && classSymbol.InheritsFrom(moduleGenericType))
-        {
-            return true;
-        }
-
-        // Check for ModuleBase (non-generic base)
-        var moduleBaseType = compilation.GetTypeByMetadataName("ModularPipelines.Modules.ModuleBase");
-        if (moduleBaseType is not null && classSymbol.InheritsFrom(moduleBaseType))
-        {
-            return true;
-        }
-
-        return false;
     }
 
     private static void AnalyzeField(SyntaxNodeAnalysisContext context, IFieldSymbol fieldSymbol, INamedTypeSymbol classSymbol)

@@ -58,6 +58,13 @@ internal class OptionsValidator : IOptionsValidator
                 $"Current value: {options.ModuleOutputFlushInterval}"));
         }
 
+        if (options.ModuleOutputFlushThreshold < 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"ModuleOutputFlushThreshold cannot be negative. Current value: {options.ModuleOutputFlushThreshold}"));
+        }
+
         // Validate concurrency options
         if (options.Concurrency.MaxParallelism < 1)
         {

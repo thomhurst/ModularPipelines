@@ -15,12 +15,12 @@ public class SkipIfBranchAttribute : MandatoryRunConditionAttribute
         BranchName = branchName;
     }
 
-    public override Task<bool> Condition(IPipelineContext pipelineContext)
+    public override async Task<bool> Condition(IPipelineContext pipelineContext)
     {
-        return Task.FromResult(!BranchConditionHelper.CheckBranchMatches(
+        return !await BranchConditionHelper.CheckBranchMatches(
             pipelineContext,
             BranchName,
-            "Current Branch: {CurrentBranch} | Will skip on: {SkipBranch}"));
+            "Current Branch: {CurrentBranch} | Will skip on: {SkipBranch}").ConfigureAwait(false);
     }
 }
 #pragma warning restore CS0618

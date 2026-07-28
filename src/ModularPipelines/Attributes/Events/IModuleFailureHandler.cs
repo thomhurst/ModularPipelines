@@ -5,7 +5,8 @@ namespace ModularPipelines.Attributes.Events;
 /// <summary>
 /// Implement this interface on an attribute to handle module failure events.
 /// Invoked when a module fails with an exception.
-/// Called before OnModuleEndAsync.
+/// Called after <c>Module.OnFailedAsync</c> and before
+/// <c>IModuleEventReceiver.OnModuleFailureAsync</c>.
 /// </summary>
 public interface IModuleFailureHandler
 {

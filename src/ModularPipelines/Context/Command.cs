@@ -26,17 +26,20 @@ internal sealed class Command : ICommandContext
     private readonly ICommandLineBuilder _commandLineBuilder;
     private readonly ISecretProvider _secretProvider;
     private readonly ISecretRegistry _secretRegistry;
+    private readonly ISecretObfuscator _secretObfuscator;
 
     public Command(
         ICommandLogger commandLogger,
         ICommandLineBuilder commandLineBuilder,
         ISecretProvider secretProvider,
-        ISecretRegistry secretRegistry)
+        ISecretRegistry secretRegistry,
+        ISecretObfuscator secretObfuscator)
     {
         _commandLogger = commandLogger;
         _commandLineBuilder = commandLineBuilder;
         _secretProvider = secretProvider;
         _secretRegistry = secretRegistry;
+        _secretObfuscator = secretObfuscator;
     }
 
     public async Task<CommandResult> ExecuteCommandLineTool(
@@ -179,13 +182,19 @@ internal sealed class Command : ICommandContext
                     streamsOutput,
                     command.WorkingDirPath);
 
-                ThrowOnFailure(
-                    execOpts,
-                    inputToLog,
-                    result.ExitCode,
-                    result.RunTime,
-                    standardOutput,
-                    standardError);
+                if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
+                {
+                    throw new CommandException(CreateFailureResult(
+                        command,
+                        execOpts,
+                        inputToLog,
+                        result.ExitCode,
+                        result.RunTime,
+                        standardOutput,
+                        standardError,
+                        result.StartTime,
+                        result.ExitTime));
+                }
 
                 return new CommandResult(command, result, standardOutput, standardError);
             }
@@ -212,7 +221,16 @@ internal sealed class Command : ICommandContext
                     streamsOutput,
                     command.WorkingDirPath);
 
-                throw new CommandException(inputToLog, e.ExitCode, stopwatch.Elapsed, standardOutput, standardError, e);
+                throw new CommandException(
+                    CreateFailureResult(
+                        command,
+                        execOpts,
+                        inputToLog,
+                        e.ExitCode,
+                        stopwatch.Elapsed,
+                        standardOutput,
+                        standardError),
+                    e);
             }
             catch (Exception e) when (e is not CommandExecutionException and not CommandException)
             {
@@ -237,9 +255,50 @@ internal sealed class Command : ICommandContext
                     streamsOutput,
                     command.WorkingDirPath);
 
-                throw new CommandException(inputToLog, -1, stopwatch.Elapsed, standardOutput, standardError, e);
+                throw new CommandException(
+                    CreateFailureResult(
+                        command,
+                        execOpts,
+                        inputToLog,
+                        -1,
+                        stopwatch.Elapsed,
+                        standardOutput,
+                        standardError),
+                    e);
             }
         }
+    }
+
+    private CommandResult CreateFailureResult(
+        CliWrap.Command command,
+        CommandExecutionOptions execOpts,
+        string input,
+        int exitCode,
+        TimeSpan duration,
+        string standardOutput,
+        string standardError,
+        DateTimeOffset? startTime = null,
+        DateTimeOffset? endTime = null)
+    {
+        var completedAt = endTime ?? DateTimeOffset.UtcNow;
+        var startedAt = startTime ?? completedAt - duration;
+        var environmentVariables = command.EnvironmentVariables
+            .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
+            .ToDictionary(
+                pair => pair.Key,
+                pair => pair.Value is null ? null : _secretObfuscator.Obfuscate(pair.Value, execOpts),
+                StringComparer.OrdinalIgnoreCase);
+
+        return new CommandResult(
+            commandInput: _secretObfuscator.Obfuscate(input, execOpts),
+            workingDirectory: command.WorkingDirPath,
+            standardOutput: _secretObfuscator.Obfuscate(standardOutput, execOpts),
+            standardError: _secretObfuscator.Obfuscate(standardError, execOpts),
+            environmentVariables: environmentVariables,
+            startTime: startedAt,
+            endTime: completedAt,
+            duration: duration,
+            exitCode: exitCode);
     }
 
     private static BoundedCommandOutputBuffer? CreateCompleteOutputBuffer(CommandExecutionOptions options)
@@ -317,20 +376,6 @@ internal sealed class Command : ICommandContext
         if (OperatingSystem.IsWindows())
         {
             startInfo.CreateNewProcessGroup = true;
-        }
-    }
-
-    private static void ThrowOnFailure(
-        CommandExecutionOptions options,
-        string input,
-        int exitCode,
-        TimeSpan runTime,
-        string standardOutput,
-        string standardError)
-    {
-        if (exitCode != 0 && options.ThrowOnNonZeroExitCode)
-        {
-            throw new CommandException(input, exitCode, runTime, standardOutput, standardError);
         }
     }
 

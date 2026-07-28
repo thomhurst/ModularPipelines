@@ -22,7 +22,7 @@ public class DockerBuilder
     private readonly ICommandContext _command;
     private DockerBuilderDap? _dap;
     private DockerBuilderHistory? _history;
-    private DockerBuilderImagetools? _imagetools;
+    private DockerBuilderImageTools? _imagetools;
     private DockerBuilderPolicy? _policy;
 
     /// <summary>
@@ -48,7 +48,7 @@ public class DockerBuilder
     /// <summary>
     /// docker imagetools sub-commands.
     /// </summary>
-    public DockerBuilderImagetools Imagetools => _imagetools ??= new DockerBuilderImagetools(_command);
+    public DockerBuilderImageTools ImageTools => _imagetools ??= new DockerBuilderImageTools(_command);
 
     /// <summary>
     /// docker policy sub-commands.

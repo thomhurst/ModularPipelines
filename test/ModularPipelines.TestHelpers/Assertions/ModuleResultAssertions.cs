@@ -10,7 +10,7 @@ public static class ModuleResultAssertions
 {
     /// <summary>
     /// Asserts that a module result represents a successful execution with a non-null value.
-    /// Checks: ModuleResultType is Success, Exception is null, Value is not null.
+    /// Checks: status is Successful, exception is null, value is not null.
     /// </summary>
     /// <remarks>
     /// The signature matches the <c>ModuleResult&lt;T&gt;</c> returned by
@@ -21,7 +21,7 @@ public static class ModuleResultAssertions
     {
         using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
             await Assert.That(moduleResult.ExceptionOrDefault).IsNull();
             await Assert.That(moduleResult.ValueOrDefault).IsNotNull();
         }
@@ -29,7 +29,7 @@ public static class ModuleResultAssertions
 
     /// <summary>
     /// Asserts that a module result represents a successful execution.
-    /// Checks: ModuleResultType is Success, Exception is null.
+    /// Checks: status is Successful and exception is null.
     /// </summary>
     /// <remarks>
     /// The signature matches the <c>ModuleResult&lt;T&gt;</c> returned by
@@ -40,7 +40,7 @@ public static class ModuleResultAssertions
     {
         using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
             await Assert.That(moduleResult.ExceptionOrDefault).IsNull();
         }
     }

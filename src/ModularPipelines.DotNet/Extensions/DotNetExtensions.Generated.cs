@@ -6,11 +6,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.DotNet.Services;
 
 namespace ModularPipelines.DotNet.Extensions;
@@ -21,25 +20,18 @@ namespace ModularPipelines.DotNet.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public static class DotNetExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterDotNetContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterDotNetContext(collection));
-    }
-
     /// <summary>
     /// Registers dotnet services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterDotNetContext(this IServiceCollection services)
     {
         services.TryAddScoped<IDotNet, Services.DotNet>();
-        services.TryAddScoped<DotNetBuildserver>();
+        services.TryAddScoped<DotNetBuildServer>();
         services.TryAddScoped<DotNetNew>();
-        services.TryAddScoped<DotNetNuget>();
+        services.TryAddScoped<DotNetNuGet>();
         services.TryAddScoped<DotNetPackage>();
         services.TryAddScoped<DotNetReference>();
         services.TryAddScoped<DotNetSdk>();

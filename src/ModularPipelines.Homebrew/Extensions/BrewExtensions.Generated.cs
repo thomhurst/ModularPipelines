@@ -6,11 +6,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.Homebrew.Services;
 
 namespace ModularPipelines.Homebrew.Extensions;
@@ -21,19 +20,12 @@ namespace ModularPipelines.Homebrew.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 public static class BrewExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterBrewContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterBrewContext(collection));
-    }
-
     /// <summary>
     /// Registers brew services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterBrewContext(this IServiceCollection services)
     {
         services.TryAddScoped<IBrew, Services.Brew>();

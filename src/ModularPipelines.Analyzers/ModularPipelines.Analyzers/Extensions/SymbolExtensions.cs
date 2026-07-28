@@ -53,6 +53,16 @@ internal static class SymbolExtensions
     }
 
     /// <summary>
+    /// Checks if the type inherits from the generic module base type.
+    /// </summary>
+    internal static bool IsModule(this ITypeSymbol? typeSymbol, Compilation compilation)
+    {
+        return typeSymbol.InheritsFrom(
+            compilation,
+            AnalyzerConstants.FullyQualifiedTypeNames.Module);
+    }
+
+    /// <summary>
     /// Checks if the type symbol matches the specified type by metadata name.
     /// Handles both generic and non-generic types using OriginalDefinition for generic type comparison.
     /// </summary>
@@ -124,15 +134,6 @@ internal static class SymbolExtensions
             }
 
             classSymbol = baseType;
-        }
-    }
-
-    internal static IEnumerable<INamedTypeSymbol> GetSelfAndAllBaseTypes(this INamedTypeSymbol? classSymbol)
-    {
-        while (classSymbol != null)
-        {
-            yield return classSymbol;
-            classSymbol = classSymbol.BaseType;
         }
     }
 

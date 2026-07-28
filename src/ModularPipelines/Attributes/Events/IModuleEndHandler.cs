@@ -5,7 +5,7 @@ namespace ModularPipelines.Attributes.Events;
 
 /// <summary>
 /// Implement this interface on an attribute to handle module end events.
-/// Invoked after a module completes (success or failure).
+/// Invoked after a module completes successfully.
 /// </summary>
 public interface IModuleEndHandler
 {

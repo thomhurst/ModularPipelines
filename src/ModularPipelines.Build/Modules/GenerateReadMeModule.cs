@@ -19,7 +19,9 @@ public class GenerateReadMeModule : Module<IDictionary<string, object>>
 
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var gitRootDirectory = context.Git().RootDirectory;
+        var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var gitRootDirectory = repositoryInfo.Root;
 
         var readMeActualOriginalContents = await gitRootDirectory.GetFile("README.md").ReadAsync(cancellationToken);
         var readmeTemplateContents = await gitRootDirectory.GetFile("README_Template.md").ReadAsync(cancellationToken);

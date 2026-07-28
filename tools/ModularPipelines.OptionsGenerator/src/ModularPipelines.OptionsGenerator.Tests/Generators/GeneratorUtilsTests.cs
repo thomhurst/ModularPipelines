@@ -52,6 +52,28 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("BuildServer", "BuildServer")]
+    [Arguments("buildserver", "BuildServer")]
+    [Arguments("appconfig", "AppConfig")]
+    [Arguments("disk-encryption-set", "DiskEncryptionSet")]
+    [Arguments("resourcemanagement", "ResourceManagement")]
+    [Arguments("restorepoint", "RestorePoint")]
+    [Arguments("resourcemanager", "ResourceManager")]
+    [Arguments("imagetools", "ImageTools")]
+    [Arguments("binarylogger", "BinaryLogger")]
+    [Arguments("nologo", "NoLogo")]
+    [Arguments("nuget", "NuGet")]
+    [Arguments("9p", "_9p")]
+    public async Task ToPascalCase_Handles_Compound_Words(
+        string input,
+        string expected)
+    {
+        var result = GeneratorUtils.ToPascalCase(input);
+
+        await Assert.That(result).IsEqualTo(expected);
+    }
+
+    [Test]
     [Arguments("ChartRevision", "ChartRevision")]
     [Arguments("IfNotPresent", "IfNotPresent")]
     [Arguments("ConfigMap", "ConfigMap")]

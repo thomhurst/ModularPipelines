@@ -48,10 +48,12 @@ public class FormatMarkdownModule : Module<CommandResult>
             SaveDev = true,
         }, cancellationToken);
 
+        var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var filesToFormat = new List<string>
         {
-            context.Git().RootDirectory.FindFile(x => x.Name == "README.md")!.Path,
-            context.Git().RootDirectory.FindFile(x => x.Name == "README_Template.md")!.Path,
+            repositoryInfo.Root.FindFile(x => x.Name == "README.md")!.Path,
+            repositoryInfo.Root.FindFile(x => x.Name == "README_Template.md")!.Path,
         };
 
         foreach (var fileToFormat in filesToFormat)

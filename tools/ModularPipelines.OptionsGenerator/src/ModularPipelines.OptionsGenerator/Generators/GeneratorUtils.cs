@@ -37,6 +37,44 @@ public static partial class GeneratorUtils
     /// </summary>
     public static readonly string GeneratedCodeAttribute = $"[GeneratedCode(\"{GeneratorName}\", \"{GeneratorVersion}\")]";
 
+    private static readonly IReadOnlyDictionary<string, string> CompoundWordCasing =
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["accesscontextmanager"] = "AccessContextManager",
+            ["apiserver"] = "ApiServer",
+            ["appconfig"] = "AppConfig",
+            ["appsettings"] = "AppSettings",
+            ["auditmanager"] = "AuditManager",
+            ["binarylogger"] = "BinaryLogger",
+            ["bitbucketserver"] = "BitbucketServer",
+            ["buildserver"] = "BuildServer",
+            ["certificatemanager"] = "CertificateManager",
+            ["changeset"] = "ChangeSet",
+            ["compliancemanager"] = "ComplianceManager",
+            ["controllermanager"] = "ControllerManager",
+            ["cpuset"] = "CpuSet",
+            ["dataset"] = "DataSet",
+            ["deploymentmanager"] = "DeploymentManager",
+            ["diskencryptionset"] = "DiskEncryptionSet",
+            ["imagetools"] = "ImageTools",
+            ["inframanager"] = "InfraManager",
+            ["keyset"] = "KeySet",
+            ["kubeconfig"] = "KubeConfig",
+            ["networkmanagement"] = "NetworkManagement",
+            ["nologo"] = "NoLogo",
+            ["nuget"] = "NuGet",
+            ["parametermanager"] = "ParameterManager",
+            ["recoveryconfig"] = "RecoveryConfig",
+            ["recoverypoint"] = "RecoveryPoint",
+            ["resourcemanagement"] = "ResourceManagement",
+            ["resourcemanager"] = "ResourceManager",
+            ["restorepoint"] = "RestorePoint",
+            ["routeserver"] = "RouteServer",
+            ["sourcemanager"] = "SourceManager",
+            ["sqlserver"] = "SqlServer",
+            ["versionset"] = "VersionSet",
+        };
+
     internal static string GenerateSecretAttribute(CliOptionDefinition option)
     {
         if (option.SecretValueKeys.Count == 0)
@@ -192,11 +230,31 @@ public static partial class GeneratorUtils
                 continue;
             }
 
-            // Capitalize first letter, lowercase the rest
-            sb.Append(char.ToUpperInvariant(word[0]));
-            if (word.Length > 1)
+            if (CompoundWordCasing.TryGetValue(word, out var compoundWord))
             {
-                sb.Append(word[1..].ToLowerInvariant());
+                sb.Append(compoundWord);
+                continue;
+            }
+
+            if (!word.Any(char.IsUpper))
+            {
+                sb.Append(char.ToUpperInvariant(word[0]));
+                if (word.Length > 1)
+                {
+                    sb.Append(word[1..].ToLowerInvariant());
+                }
+
+                continue;
+            }
+
+            var identifierWords = IdentifierWordPattern().Matches(word);
+            foreach (Match identifierWord in identifierWords)
+            {
+                sb.Append(char.ToUpperInvariant(identifierWord.Value[0]));
+                if (identifierWord.Length > 1)
+                {
+                    sb.Append(identifierWord.Value[1..].ToLowerInvariant());
+                }
             }
         }
 

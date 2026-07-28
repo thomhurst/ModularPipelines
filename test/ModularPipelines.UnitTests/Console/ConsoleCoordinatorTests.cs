@@ -112,7 +112,45 @@ public class ConsoleCoordinatorTests
             Times.Once);
     }
 
-    private static ConsoleCoordinator CreateCoordinator(IOutputCoordinator outputCoordinator)
+    [Test]
+    public async Task BufferThreshold_RequestsImmediateIncrementalFlush()
+    {
+        var flushRequested = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        outputCoordinator
+            .Setup(output => output.EnqueueAndFlushAsync(
+                It.IsAny<IModuleOutputBuffer>(),
+                OutputFlushKind.Incremental,
+                It.IsAny<CancellationToken>()))
+            .Callback(() => flushRequested.TrySetResult())
+            .Returns(Task.CompletedTask);
+        var coordinator = CreateCoordinator(
+            outputCoordinator.Object,
+            new PipelineOptions { ModuleOutputFlushThreshold = 2 });
+        var buffer = coordinator.GetModuleBuffer(typeof(ConsoleCoordinatorTests));
+
+        buffer.WriteLine("first");
+        outputCoordinator.Verify(
+            output => output.EnqueueAndFlushAsync(
+                It.IsAny<IModuleOutputBuffer>(),
+                OutputFlushKind.Incremental,
+                It.IsAny<CancellationToken>()),
+            Times.Never);
+
+        buffer.WriteLine("second");
+        await flushRequested.Task.WaitAsync(TimeSpan.FromSeconds(1));
+
+        outputCoordinator.Verify(
+            output => output.EnqueueAndFlushAsync(
+                buffer,
+                OutputFlushKind.Incremental,
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    private static ConsoleCoordinator CreateCoordinator(
+        IOutputCoordinator outputCoordinator,
+        PipelineOptions? options = null)
     {
         var secretProvider = new Mock<ISecretProvider>();
         secretProvider.SetupGet(provider => provider.Secrets).Returns([]);
@@ -126,7 +164,7 @@ public class ConsoleCoordinatorTests
             Mock.Of<IResultsPrinter>(),
             secretObfuscator.Object,
             secretProvider.Object,
-            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            Microsoft.Extensions.Options.Options.Create(options ?? new PipelineOptions()),
             NullLoggerFactory.Instance,
             Mock.Of<IBuildSystemDetector>(),
             Mock.Of<IServiceProvider>(),

@@ -15,22 +15,6 @@ using Polly;
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Interface for the module execution pipeline.
-/// </summary>
-internal interface IModuleExecutionPipeline
-{
-    /// <summary>
-    /// Executes a module with all applicable behaviors.
-    /// </summary>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task<ModuleResult<T>> ExecuteAsync<T>(
-        Module<T> module,
-        ModuleExecutionContext<T> executionContext,
-        IModuleContext moduleContext,
-        CancellationToken engineCancellationToken);
-}
-
-/// <summary>
 /// Orchestrates module execution by applying behaviors based on module configuration.
 /// </summary>
 /// <remarks>
@@ -103,13 +87,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             // Execute direct before hook first (virtual override)
             await _directHookInvoker.InvokeBeforeExecuteAsync(module, moduleContext, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
 
-            // Execute configuration before hook second
-            if (config.OnBeforeExecute != null)
-            {
-                await config.OnBeforeExecute(moduleContext).ConfigureAwait(false);
-            }
-
-            // Track that before hooks have executed (for OnAfterExecuteAsync in finally)
+            // Track that the before hook executed (for OnAfterExecuteAsync in finally)
             beforeHooksExecuted = true;
 
             // Mark as processing
@@ -172,19 +150,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 catch (Exception afterHookException)
                 {
                     logger.LogError(afterHookException, "Error in OnAfterExecuteAsync hook");
-                }
-            }
-
-            // Execute configuration after hook
-            if (config.OnAfterExecute != null)
-            {
-                try
-                {
-                    await config.OnAfterExecute(moduleContext).ConfigureAwait(false);
-                }
-                catch (Exception hookException)
-                {
-                    logger.LogError(hookException, "Error in OnAfterExecute hook");
                 }
             }
 
@@ -276,10 +241,26 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         // Get retry policy if applicable
         var retryPolicy = GetRetryPolicy<T>(config, moduleContext);
+        var moduleAttemptRespondedToCancellation = 0;
+
+        async Task<T?> ExecuteModuleAttempt(CancellationToken ct)
+        {
+            try
+            {
+                return await module.ExecuteAsync(moduleContext, ct).ConfigureAwait(false);
+            }
+            finally
+            {
+                if (ct.IsCancellationRequested)
+                {
+                    Volatile.Write(ref moduleAttemptRespondedToCancellation, 1);
+                }
+            }
+        }
 
         // Create the execution function that optionally includes retry
         Func<CancellationToken, Task<T?>> executeFunc = retryPolicy != null
-            ? ct => retryPolicy.ExecuteAsync(() => module.ExecuteAsync(moduleContext, ct))
+            ? ct => retryPolicy.ExecuteAsync(ExecuteModuleAttempt, ct)
             : ct => module.ExecuteAsync(moduleContext, ct);
 
         // Use TimeoutHelper with detailed results to get information about token cooperation
@@ -291,12 +272,16 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         if (timeoutResult.TimedOut)
         {
+            var wasCancellationTokenRespected = timeoutResult.WasCancellationTokenRespected
+                                                && (retryPolicy is null
+                                                    || Volatile.Read(ref moduleAttemptRespondedToCancellation) == 1);
+
             // Create a detailed timeout exception with information about token cooperation
             throw new ModuleTimeoutException(
                 executionContext.ModuleType,
                 timeout,
                 timeoutResult.ElapsedTime,
-                timeoutResult.WasCancellationTokenRespected);
+                wasCancellationTokenRespected);
         }
 
         return timeoutResult.Value;
@@ -368,16 +353,16 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             if (!timeoutException.WasCancellationTokenRespected)
             {
                 logger.LogWarning(
-                    "Module {ModuleName} did not respond to cancellation token and was forcibly terminated after {ElapsedTime}",
+                    "Module {ModuleName} did not complete within the cancellation grace period; timeout enforcement stopped waiting after {ElapsedTime}",
                     executionContext.ModuleType.Name,
                     timeoutException.ElapsedTime.ToDisplayString());
             }
         }
-
         else if (IsTimeout(config, executionContext, exception))
         {
             executionContext.Status = Status.TimedOut;
         }
+
         // Check for pipeline cancellation
         else if (IsPipelineCancelled(exception))
         {
@@ -486,4 +471,20 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         logger.Log(logLevel, message);
     }
+}
+
+/// <summary>
+/// Interface for the module execution pipeline.
+/// </summary>
+internal interface IModuleExecutionPipeline
+{
+    /// <summary>
+    /// Executes a module with all applicable behaviors.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    Task<ModuleResult<T>> ExecuteAsync<T>(
+        Module<T> module,
+        ModuleExecutionContext<T> executionContext,
+        IModuleContext moduleContext,
+        CancellationToken engineCancellationToken);
 }

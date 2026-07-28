@@ -1,11 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Parsers.Trx;
 using ModularPipelines.DotNet.Services;
-using ModularPipelines.Engine;
 
 namespace ModularPipelines.DotNet.Extensions;
 
@@ -16,23 +15,12 @@ namespace ModularPipelines.DotNet.Extensions;
 public static class TrxExtensions
 {
     /// <summary>
-    /// Automatically registers the .NET context services with the ModularPipelines framework.
-    /// This method is called by the module initializer and should not be called directly.
-    /// </summary>
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterTrxContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterTrxContext(collection));
-    }
-
-    /// <summary>
     /// Registers .NET CLI services with the dependency injection container.
     /// This includes services for running dotnet commands such as build, test, pack, publish, and NuGet operations.
     /// </summary>
     /// <param name="services">The service collection to add the .NET services to.</param>
     /// <returns>The service collection for method chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterTrxContext(this IServiceCollection services)
     {
         services.TryAddScoped<ITrxParser, TrxParser>();

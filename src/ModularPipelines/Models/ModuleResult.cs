@@ -54,20 +54,6 @@ public abstract record ModuleResult : IModuleResult
     [JsonInclude]
     public string? ModuleTypeName { get; init; }
 
-    // === Quick checks ===
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public bool IsSuccess => this is ISuccessResult;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public bool IsFailure => this is Failure or IFailureResult;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public bool IsSkipped => this is Skipped or ISkippedResult;
-
     // === Safe accessors (no exceptions) ===
 
     /// <inheritdoc />
@@ -77,6 +63,7 @@ public abstract record ModuleResult : IModuleResult
     /// <summary>
     /// Gets the value if successful, or null otherwise. Override in derived classes.
     /// </summary>
+    /// <returns>The module value, or <c>null</c>.</returns>
     protected abstract object? GetValueOrDefault();
 
     /// <inheritdoc />
@@ -85,7 +72,7 @@ public abstract record ModuleResult : IModuleResult
     {
         Failure f => f.Exception,
         IFailureResult => GetExceptionFromWrapper(),
-        _ => null
+        _ => null,
     };
 
     /// <inheritdoc />
@@ -94,37 +81,25 @@ public abstract record ModuleResult : IModuleResult
     {
         Skipped sk => sk.Decision,
         ISkippedResult => GetSkipDecisionFromWrapper(),
-        _ => null
+        _ => null,
     };
 
     /// <summary>
     /// Gets the exception from a failure wrapper. Override in derived classes.
     /// </summary>
+    /// <returns>The wrapped exception, or <c>null</c>.</returns>
     protected virtual Exception? GetExceptionFromWrapper() => null;
 
     /// <summary>
     /// Gets the skip decision from a skipped wrapper. Override in derived classes.
     /// </summary>
+    /// <returns>The wrapped skip decision, or <c>null</c>.</returns>
     protected virtual SkipDecision? GetSkipDecisionFromWrapper() => null;
-
-    // === Computed for compatibility ===
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public ModuleResultType ModuleResultType => this switch
-    {
-        ISuccessResult => ModuleResultType.Success,
-        Failure => ModuleResultType.Failure,
-        Skipped => ModuleResultType.Skipped,
-        IFailureResult => ModuleResultType.Failure,
-        ISkippedResult => ModuleResultType.Skipped,
-        _ => throw new InvalidOperationException("Unknown result type")
-    };
 
     // === Internal: Module type tracking ===
 
     /// <summary>
-    /// Gets or sets the type of the module that produced this result.
+    /// Gets the type of the module that produced this result.
     /// </summary>
     [JsonIgnore]
     internal Type? ModuleType { get; init; }
@@ -160,7 +135,6 @@ public abstract record ModuleResult : IModuleResult
     }
 
     // === Internal factory methods for non-generic results ===
-
     internal static Failure CreateFailure(Exception exception, ModuleExecutionContext ctx)
     {
         var (start, end, duration) = GetTimingInfo(ctx);
@@ -172,7 +146,7 @@ public abstract record ModuleResult : IModuleResult
             ModuleStart = start,
             ModuleEnd = end,
             ModuleStatus = ctx.Status,
-            ModuleType = ctx.ModuleType
+            ModuleType = ctx.ModuleType,
         };
     }
 
@@ -187,7 +161,7 @@ public abstract record ModuleResult : IModuleResult
             ModuleStart = start,
             ModuleEnd = end,
             ModuleStatus = ctx.Status,
-            ModuleType = ctx.ModuleType
+            ModuleType = ctx.ModuleType,
         };
     }
 
@@ -214,13 +188,6 @@ public abstract record ModuleResult : IModuleResult
     private protected ModuleResult()
     {
     }
-}
-
-/// <summary>
-/// Marker interface for success results to enable pattern matching across generic types.
-/// </summary>
-internal interface ISuccessResult
-{
 }
 
 /// <summary>
@@ -298,9 +265,6 @@ public abstract record ModuleResult<T> : ModuleResult
         return false;
     }
 
-    /// <inheritdoc />
-    protected override object? GetValueOrDefault() => ValueOrDefault;
-
     // === Pattern matching helpers ===
 
     /// <summary>
@@ -321,7 +285,7 @@ public abstract record ModuleResult<T> : ModuleResult
             Skipped sk => onSkipped(sk.Decision),
             FailureWrapper fw => onFailure(fw.Exception),
             SkippedWrapper sw => onSkipped(sw.Decision),
-            _ => throw new InvalidOperationException("Unknown result type")
+            _ => throw new InvalidOperationException("Unknown result type"),
         };
 
     /// <summary>
@@ -361,7 +325,7 @@ public abstract record ModuleResult<T> : ModuleResult
     /// Represents a successful module execution with a value.
     /// </summary>
     /// <param name="Value">The value produced by the module, which may be <c>null</c>.</param>
-    public sealed record Success(T? Value) : ModuleResult<T>, ISuccessResult;
+    public sealed record Success(T? Value) : ModuleResult<T>;
 
     // === Implicit conversions from non-generic Failure/Skipped ===
 
@@ -434,7 +398,6 @@ public abstract record ModuleResult<T> : ModuleResult
     }
 
     // === Internal factory methods ===
-
     internal static Success CreateSuccess(T? value, ModuleExecutionContext ctx)
     {
         var (start, end, duration) = GetTimingInfo(ctx);
@@ -446,21 +409,24 @@ public abstract record ModuleResult<T> : ModuleResult
             ModuleStart = start,
             ModuleEnd = end,
             ModuleStatus = ctx.Status,
-            ModuleType = ctx.ModuleType
+            ModuleType = ctx.ModuleType,
         };
     }
 
-    internal new static FailureWrapper CreateFailure(Exception exception, ModuleExecutionContext ctx)
+    internal static new FailureWrapper CreateFailure(Exception exception, ModuleExecutionContext ctx)
     {
         var failure = ModuleResult.CreateFailure(exception, ctx);
         return new FailureWrapper(failure);
     }
 
-    internal new static SkippedWrapper CreateSkipped(SkipDecision decision, ModuleExecutionContext ctx)
+    internal static new SkippedWrapper CreateSkipped(SkipDecision decision, ModuleExecutionContext ctx)
     {
         var skipped = ModuleResult.CreateSkipped(decision, ctx);
         return new SkippedWrapper(skipped);
     }
+
+    /// <inheritdoc />
+    protected override object? GetValueOrDefault() => ValueOrDefault;
 
     // Prevent external inheritance - only Success, FailureWrapper, SkippedWrapper are valid
     private protected ModuleResult()
@@ -500,6 +466,7 @@ public abstract record ModuleResult<T> : ModuleResult
 /// </remarks>
 internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
 {
+    [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Exception types are validated against the System namespace before activation.")]
     public override Exception? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.Null)
@@ -572,6 +539,7 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
     public override void Write(Utf8JsonWriter writer, Exception value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
+
         // Security: Use FullName instead of AssemblyQualifiedName to avoid leaking
         // assembly version, culture, and public key token information
         writer.WriteString("Type", value.GetType().FullName);
@@ -652,6 +620,7 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
 {
     private static readonly ExceptionJsonConverter ExceptionConverter = new();
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
     public override ModuleResult? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.Null)
@@ -734,7 +703,7 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
-                    ModuleStatus = moduleStatus
+                    ModuleStatus = moduleStatus,
                 }
                 : throw new JsonException("Failure result requires an Exception property in the JSON."),
             "Skipped" => skipDecision is not null
@@ -745,13 +714,14 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
-                    ModuleStatus = moduleStatus
+                    ModuleStatus = moduleStatus,
                 }
                 : throw new JsonException("Skipped result requires a Decision property in the JSON."),
-            _ => throw new JsonException($"Unknown or unsupported discriminator for non-generic ModuleResult: {discriminator}")
+            _ => throw new JsonException($"Unknown or unsupported discriminator for non-generic ModuleResult: {discriminator}"),
         };
     }
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
     public override void Write(Utf8JsonWriter writer, ModuleResult value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
@@ -761,7 +731,7 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
         {
             ModuleResult.Failure => "Failure",
             ModuleResult.Skipped => "Skipped",
-            _ => throw new JsonException($"Cannot serialize non-generic ModuleResult of type {value.GetType()}")
+            _ => throw new JsonException($"Cannot serialize non-generic ModuleResult of type {value.GetType()}"),
         };
         writer.WriteString("$type", discriminator);
 
@@ -803,6 +773,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 {
     private static readonly ExceptionJsonConverter ExceptionConverter = new();
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
     public override ModuleResult<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.Null)
@@ -888,7 +859,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                 ModuleDuration = moduleDuration,
                 ModuleStart = moduleStart,
                 ModuleEnd = moduleEnd,
-                ModuleStatus = moduleStatus
+                ModuleStatus = moduleStatus,
             },
             "Failure" => exception is not null
                 ? new ModuleResult<T>.FailureWrapper(new ModuleResult.Failure(exception)
@@ -898,7 +869,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
-                    ModuleStatus = moduleStatus
+                    ModuleStatus = moduleStatus,
                 })
                 : throw new JsonException("Failure result requires an Exception property in the JSON."),
             "Skipped" => skipDecision is not null
@@ -909,13 +880,14 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
-                    ModuleStatus = moduleStatus
+                    ModuleStatus = moduleStatus,
                 })
                 : throw new JsonException("Skipped result requires a Decision property in the JSON."),
-            _ => throw new JsonException($"Unknown discriminator: {discriminator}")
+            _ => throw new JsonException($"Unknown discriminator: {discriminator}"),
         };
     }
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
     public override void Write(Utf8JsonWriter writer, ModuleResult<T> value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
@@ -928,7 +900,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
             ModuleResult<T>.SkippedWrapper => "Skipped",
             ModuleResult.Failure => "Failure",
             ModuleResult.Skipped => "Skipped",
-            _ => throw new JsonException("Unknown ModuleResult type")
+            _ => throw new JsonException("Unknown ModuleResult type"),
         };
         writer.WriteString("$type", discriminator);
 

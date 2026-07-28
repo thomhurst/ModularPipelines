@@ -17,10 +17,10 @@ public class RunOnlyIfBranchStartsWithAttribute : MandatoryRunConditionAttribute
 
     public override Task<bool> Condition(IPipelineContext pipelineContext)
     {
-        return Task.FromResult(BranchConditionHelper.CheckBranchStartsWith(
+        return BranchConditionHelper.CheckBranchStartsWith(
             pipelineContext,
             BranchNamePrefix,
-            "Current Branch: {CurrentBranch} | Can run if starts with: {ExpectedPrefix}"));
+            "Current Branch: {CurrentBranch} | Can run if starts with: {ExpectedPrefix}");
     }
 }
 #pragma warning restore CS0618

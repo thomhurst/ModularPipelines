@@ -6,11 +6,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.Pulumi.Services;
 
 namespace ModularPipelines.Pulumi.Extensions;
@@ -21,19 +20,12 @@ namespace ModularPipelines.Pulumi.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public static class PulumiExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterPulumiContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterPulumiContext(collection));
-    }
-
     /// <summary>
     /// Registers pulumi services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterPulumiContext(this IServiceCollection services)
     {
         services.TryAddScoped<IPulumi, Services.Pulumi>();

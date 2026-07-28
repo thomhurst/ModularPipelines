@@ -34,8 +34,7 @@ public class MockedFileSystemTests
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
 
         // Verify module result is correct
-        var moduleResults = await result.GetModuleResultsAsync();
-        await Assert.That(moduleResults.First().ModuleResultType).IsEqualTo(ModuleResultType.Success);
+        await Assert.That(result.Results.First().ModuleStatus).IsEqualTo(Status.Successful);
 
         // Verify the module read from the mocked file
         mockProvider.Verify(p => p.ReadAllTextAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
