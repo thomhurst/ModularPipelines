@@ -54,6 +54,28 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
+      - name: Validate pipeline template
+        shell: bash
+        run: |
+          dotnet pack src/ModularPipelines.Templates/ModularPipelines.Templates.csproj \
+            -c Release \
+            -p:PackageVersion=0.0.0-local \
+            --output "$RUNNER_TEMP/template-pack"
+          dotnet new install \
+            "$RUNNER_TEMP/template-pack/ModularPipelines.Templates.0.0.0-local.nupkg"
+          dotnet new modularpipeline \
+            --name TemplateSmoke \
+            --output "$RUNNER_TEMP/template-smoke" \
+            --solution ../Example.slnx \
+            --publish-project ../src/Example/Example.csproj \
+            --no-restore
+          grep -F '"Solution": "../Example.slnx"' \
+            "$RUNNER_TEMP/template-smoke/appsettings.json"
+          grep -F '"PublishProject": "../src/Example/Example.csproj"' \
+            "$RUNNER_TEMP/template-smoke/appsettings.json"
+          grep -F 'namespace TemplateSmoke.Modules;' \
+            "$RUNNER_TEMP/template-smoke/Modules/BuildModule.cs"
+          dotnet build "$RUNNER_TEMP/template-smoke/TemplateSmoke.csproj" -c Release
       - name: Run OptionsGenerator unit tests
         run: |
           dotnet restore tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.sln

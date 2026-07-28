@@ -111,78 +111,18 @@ Built-in Roslyn analyzers catch common mistakes before you even run:
 ## Quick Start
 
 ```bash
-dotnet new console -n MyPipeline
+dotnet new install ModularPipelines.Templates
+dotnet new modularpipeline -n MyPipeline \
+  --solution ../MySolution.slnx \
+  --publish-project ../src/MyApp/MyApp.csproj
 cd MyPipeline
-dotnet add package ModularPipelines
-dotnet add package ModularPipelines.DotNet
-```
-
-```csharp
-// Program.cs
-using ModularPipelines;
-using ModularPipelines.Extensions;
-
-var builder = Pipeline.CreateBuilder(args);
-
-builder
-    .AddModule<BuildModule>()
-    .AddModule<TestModule>()
-    .AddModule<PublishModule>();
-
-await builder.ExecutePipelineAsync();
-```
-
-```csharp
-// BuildModule.cs
-using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
-using ModularPipelines.DotNet.Options;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-
-public class BuildModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        return await context.DotNet().Build(new DotNetBuildOptions
-        {
-            ProjectSolution = "MySolution.sln",
-            Configuration = "Release"
-        }, cancellationToken: cancellationToken);
-    }
-}
-```
-
-```csharp
-// TestModule.cs
-using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
-using ModularPipelines.DotNet.Options;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-
-[DependsOn<BuildModule>]
-public class TestModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        return await context.DotNet().Test(new DotNetTestOptions
-        {
-            Project = "MySolution.sln",
-            Configuration = "Release"
-        }, cancellationToken: cancellationToken);
-    }
-}
-```
-
-Run it:
-
-```bash
 dotnet run
 ```
 
-That's it. No YAML. No waiting for CI. Just `dotnet run` and watch your pipeline execute.
+The generated project contains separate restore, build, test, and publish modules with
+explicit dependencies and configurable paths. See the
+[template source](src/ModularPipelines.Templates/templates/modularpipeline) for a
+complete copy-ready example.
 
 ## Console Progress
 
