@@ -210,6 +210,9 @@ public class RetryTests : TestBase
             })
             .AddModule<FailedModuleWithTimeout>()
             .ExecutePipelineAsync());
-        await Assert.That(moduleFailedException?.InnerException).IsTypeOf<ModuleTimeoutException>();
+
+        var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
+        await Assert.That(timeoutException).IsNotNull();
+        await Assert.That(timeoutException!.WasCancellationTokenRespected).IsTrue();
     }
 }

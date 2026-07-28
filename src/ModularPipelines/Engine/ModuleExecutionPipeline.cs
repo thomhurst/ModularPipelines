@@ -279,7 +279,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         // Create the execution function that optionally includes retry
         Func<CancellationToken, Task<T?>> executeFunc = retryPolicy != null
-            ? ct => retryPolicy.ExecuteAsync(() => module.ExecuteAsync(moduleContext, ct))
+            ? ct => retryPolicy.ExecuteAsync(c => module.ExecuteAsync(moduleContext, c), ct)
             : ct => module.ExecuteAsync(moduleContext, ct);
 
         // Use TimeoutHelper with detailed results to get information about token cooperation
