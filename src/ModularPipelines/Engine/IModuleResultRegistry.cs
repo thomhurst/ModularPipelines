@@ -165,7 +165,7 @@ internal class ModuleResultRegistry : IModuleResultRegistry
 
     /// <inheritdoc />
     /// <remarks>
-    /// This method is thread-safe. Uses <see cref="ConcurrentDictionary{TKey,TValue}.GetOrAdd"/>
+    /// This method is thread-safe. Uses <see cref="ConcurrentDictionary{TKey,TValue}.GetOrAdd(TKey,Func{TKey,TValue})"/>
     /// for atomic registration.
     /// </remarks>
     public void RegisterModule(Type moduleType)
