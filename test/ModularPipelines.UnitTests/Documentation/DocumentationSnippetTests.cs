@@ -9,6 +9,7 @@ public class DocumentationSnippetTests
         "RELEASE_NOTES_V3.md",
         "docs/docs/migrating-to-v3.md",
         "docs/docs/advanced/migrating-to-v2.md",
+        "docs/versioned_docs/version-3.x/migrating-to-v3.md",
     ];
 
     [Test]
