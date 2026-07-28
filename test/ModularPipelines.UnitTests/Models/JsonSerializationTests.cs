@@ -78,6 +78,8 @@ public class JsonSerializationTests : TestBase
             await Assert.That(deserializedSummary.TotalDuration).IsEqualTo(pipelineSummary.TotalDuration);
             // Modules are not serialized (interface types can't be deserialized)
             await Assert.That(deserializedSummary.Modules).Count().IsEqualTo(0);
+            await Assert.That(deserializedSummary.Results).Count().IsEqualTo(0);
+            await Assert.That(pipelineSummary.Results).Count().IsEqualTo(1);
         }
 
         // Verify the module result values

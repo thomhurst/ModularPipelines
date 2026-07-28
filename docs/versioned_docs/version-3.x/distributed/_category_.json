@@ -1,0 +1,8 @@
+{
+  "label": "Distributed Mode",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Run your pipeline across multiple processes or machines with distributed coordination."
+  }
+}

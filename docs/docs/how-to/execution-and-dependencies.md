@@ -106,7 +106,7 @@ public class TestModule : Module<string>
         }
 
         var result = await compile;
-        return result.IsSkipped
+        return result.SkipDecisionOrDefault is not null
             ? "Compile was skipped"
             : $"Compile result: {result.Value}";
     }

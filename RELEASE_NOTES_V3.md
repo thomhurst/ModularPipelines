@@ -60,11 +60,11 @@ return result switch
 };
 ```
 
-Or use the simpler helpers for quick migrations:
+Or inspect the status when you do not need the result value:
 ```csharp
-if (result.IsSuccess)
+if (result.ModuleStatus == Status.Successful)
 {
-    var value = result.ValueOrDefault;
+    // The module completed successfully.
 }
 ```
 
@@ -232,7 +232,7 @@ protected override Task OnFailedAsync(IModuleContext context, Exception ex, Canc
 |----|-----|
 | `result.Value` | `result.ValueOrDefault` or pattern match |
 | `result.Exception` | `result.ExceptionOrDefault` or pattern match |
-| `result.ModuleResultType == ModuleResultType.Success` | `result.IsSuccess` or pattern match |
+| `result.ModuleResultType == ModuleResultType.Success` | `result.ModuleStatus == Status.Successful` or pattern match |
 
 ### Command Execution
 

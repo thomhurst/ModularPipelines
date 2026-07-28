@@ -63,29 +63,26 @@ return result.Match(
 );
 ```
 
-## Convenience Properties
+## Safe Accessors
 
-For simpler checks, use the convenience properties:
+For simpler checks, inspect the union through its safe accessors:
 
 ```csharp
 var result = await context.GetModule<MyModule>();
 
-// Quick status checks
-if (result.IsSuccess)
+if (result is ModuleResult<MyResult>.Success)
 {
     var value = result.ValueOrDefault;
     // Process value
 }
 
-if (result.IsFailure)
+if (result.ExceptionOrDefault is { } exception)
 {
-    var exception = result.ExceptionOrDefault;
     // Handle error
 }
 
-if (result.IsSkipped)
+if (result.SkipDecisionOrDefault is { } skipDecision)
 {
-    var skipDecision = result.SkipDecisionOrDefault;
     // Handle skip
 }
 ```
