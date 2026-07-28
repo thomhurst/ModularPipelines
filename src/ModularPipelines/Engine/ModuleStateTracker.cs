@@ -26,6 +26,7 @@ internal class ModuleStateTracker : IModuleStateTracker
     private readonly HashSet<ModuleState> _queuedModules;
     private readonly HashSet<ModuleState> _executingModules;
     private readonly ModuleStateQueries _stateQueries;
+    private readonly ModuleStateCounters _stateCounters;
     private readonly ReaderWriterLockSlim _stateLock;
     private readonly SemaphoreSlim _schedulerNotification;
     private readonly Func<bool> _isSchedulerCompleted;
@@ -44,6 +45,7 @@ internal class ModuleStateTracker : IModuleStateTracker
     /// <param name="stateLock">Shared lock for state access synchronization.</param>
     /// <param name="schedulerNotification">Semaphore to notify scheduler of state changes.</param>
     /// <param name="isSchedulerCompleted">Function to check if scheduler has completed.</param>
+    /// <param name="stateCounters">Incrementally maintained module state counts.</param>
     public ModuleStateTracker(
         ILogger logger,
         TimeProvider timeProvider,
@@ -55,7 +57,8 @@ internal class ModuleStateTracker : IModuleStateTracker
         ModuleStateQueries stateQueries,
         ReaderWriterLockSlim stateLock,
         SemaphoreSlim schedulerNotification,
-        Func<bool> isSchedulerCompleted)
+        Func<bool> isSchedulerCompleted,
+        ModuleStateCounters? stateCounters = null)
     {
         _logger = logger;
         _timeProvider = timeProvider;
@@ -65,6 +68,7 @@ internal class ModuleStateTracker : IModuleStateTracker
         _queuedModules = queuedModules;
         _executingModules = executingModules;
         _stateQueries = stateQueries;
+        _stateCounters = stateCounters ?? CreateCounters(moduleStates);
         _stateLock = stateLock;
         _schedulerNotification = schedulerNotification;
         _isSchedulerCompleted = isSchedulerCompleted;
@@ -105,21 +109,24 @@ internal class ModuleStateTracker : IModuleStateTracker
             {
                 // Reset to Pending so scheduler will retry when constraints allow
                 _queuedModules.Remove(state);
+                _stateCounters.Transition(state.State, ModuleExecutionState.Pending);
                 state.State = ModuleExecutionState.Pending;
                 state.QueuedTime = null;
                 needsReschedule = true;
-                return false;
             }
+            else
+            {
+                _queuedModules.Remove(state);
+                _stateCounters.Transition(state.State, ModuleExecutionState.Executing);
+                state.State = ModuleExecutionState.Executing;
+                _executingModules.Add(state);
+                state.ExecutionStartTime = _timeProvider.GetUtcNow();
 
-            _queuedModules.Remove(state);
-            state.State = ModuleExecutionState.Executing;
-            _executingModules.Add(state);
-            state.ExecutionStartTime = _timeProvider.GetUtcNow();
-
-            // Capture data for metrics recording outside lock
-            executionStartTime = state.ExecutionStartTime;
-            executingCount = _executingModules.Count;
-            result = true;
+                // Capture data for metrics recording outside lock
+                executionStartTime = state.ExecutionStartTime;
+                executingCount = _executingModules.Count;
+                result = true;
+            }
         }
         finally
         {
@@ -171,6 +178,7 @@ internal class ModuleStateTracker : IModuleStateTracker
 
             _queuedModules.Remove(state);
             _executingModules.Remove(state);
+            _stateCounters.Transition(state.State, ModuleExecutionState.Completed);
             state.State = ModuleExecutionState.Completed;
             state.CompletionTime = _timeProvider.GetUtcNow();
 
@@ -261,6 +269,7 @@ internal class ModuleStateTracker : IModuleStateTracker
                     var originalState = moduleState.State;
                     _queuedModules.Remove(moduleState);
                     _executingModules.Remove(moduleState);
+                    _stateCounters.Transition(originalState, ModuleExecutionState.Completed);
                     moduleState.State = ModuleExecutionState.Completed;
                     cancelledModules.Add((moduleState, originalState));
                 }
@@ -289,6 +298,19 @@ internal class ModuleStateTracker : IModuleStateTracker
                 moduleState.ModuleType.Name,
                 originalState);
         }
+    }
+
+    private static ModuleStateCounters CreateCounters(
+        ConcurrentDictionary<Type, ModuleState> moduleStates)
+    {
+        var counters = new ModuleStateCounters();
+        foreach (var state in moduleStates.Values)
+        {
+            counters.AddPendingModule();
+            counters.Transition(ModuleExecutionState.Pending, state.State);
+        }
+
+        return counters;
     }
 
     /// <inheritdoc />
