@@ -98,7 +98,9 @@ public class ModuleMetadataRegistryTests
     }
 
     private static ModuleMetadataRegistry CreateRegistry()
-        => new(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()));
+        => new(
+            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+            new ModuleAttributeEventService());
 
     private static ModuleMetadataRegistry CreateRegistry(IModuleAttributeEventService attributeEventService)
         => new(

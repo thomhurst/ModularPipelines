@@ -22,11 +22,6 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     private readonly ConcurrentDictionary<(Type ModuleType, Type AttributeType), Attribute[]> _attributesByType = new();
     private readonly IModuleAttributeEventService _attributeEventService;
 
-    public ModuleMetadataRegistry(IOptions<ModuleRegistrationOptions> registrationOptions)
-        : this(registrationOptions, new ModuleAttributeEventService())
-    {
-    }
-
     public ModuleMetadataRegistry(
         IOptions<ModuleRegistrationOptions> registrationOptions,
         IModuleAttributeEventService attributeEventService)
