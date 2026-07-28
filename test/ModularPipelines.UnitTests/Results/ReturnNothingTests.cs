@@ -1,3 +1,4 @@
+using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.TestHelpers;
 
@@ -48,8 +49,7 @@ public class ReturnNothingTests : TestBase
     {
         using (TUnit.Assertions.Assert.Multiple())
         {
-            await TUnit.Assertions.Assert.That(result.IsSuccess).IsTrue();
-            await TUnit.Assertions.Assert.That(result.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await TUnit.Assertions.Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
             await TUnit.Assertions.Assert.That(result.ValueOrDefault).IsNull();
             await TUnit.Assertions.Assert.That(result.ExceptionOrDefault).IsNull();
         }
