@@ -1,10 +1,14 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Git;
+using ModularPipelines.Git.Attributes;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -127,6 +131,24 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Mandatory_Branch_Condition_Is_Not_Overridden_By_Optional_Alternative()
+    {
+        var gitInformation = Mock.Of<IGitInformation>(x => x.BranchName == "release/1.0");
+        var git = Mock.Of<IGit>(x => x.Information == gitInformation);
+        var services = new Mock<IServicesContext>();
+        services.Setup(x => x.Get<IGit>()).Returns(git);
+        var logger = Mock.Of<IModuleLogger>();
+        var context = Mock.Of<IPipelineContext>(x =>
+            x.Logger == logger &&
+            x.Services == services.Object);
+        var handler = CreateHandler(new DistributedOptions(), context);
+
+        var result = await handler.ShouldIgnore(new MandatoryMainOptionalReleaseModule());
+
+        await Assert.That(result.ShouldIgnore).IsTrue();
+    }
+
+    [Test]
     public async Task ShouldIgnore_EvaluatesConditionsOncePerModuleInstance()
     {
         _conditionEvaluationCount = 0;
@@ -140,10 +162,14 @@ public class ModuleConditionHandlerTests
         await Assert.That(_conditionEvaluationCount).IsEqualTo(2);
     }
 
-    private static ModuleConditionHandler CreateHandler(DistributedOptions distributedOptions)
+    private static ModuleConditionHandler CreateHandler(
+        DistributedOptions distributedOptions,
+        IPipelineContext? pipelineContext = null)
     {
         var contextProvider = new Mock<IPipelineContextProvider>();
-        contextProvider.Setup(x => x.GetModuleContext()).Returns(Mock.Of<IPipelineContext>());
+        contextProvider
+            .Setup(x => x.GetModuleContext())
+            .Returns(pipelineContext ?? Mock.Of<IPipelineContext>());
 
         // A bare mock reports no category (GetCategory returns null) and a no-op
         // FinalizeMetadata, so category filtering never interferes with these OS-condition tests.
@@ -224,6 +250,18 @@ public class ModuleConditionHandlerTests
     [AlternativeCondition(false)]
     [AlternativeCondition(false)]
     private sealed class NoMatchingAlternativeModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult<string?>(null);
+        }
+    }
+
+    [RunOnlyOnBranch("main")]
+    [RunIfBranchStartsWith("release/")]
+    private sealed class MandatoryMainOptionalReleaseModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
