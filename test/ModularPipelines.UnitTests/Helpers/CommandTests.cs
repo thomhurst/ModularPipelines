@@ -23,6 +23,8 @@ public class CommandTests : TestBase
             .IsEqualTo(TimeSpan.FromMinutes(30));
         await Assert.That(executionOptions.ExecutionTimeout)
             .IsEqualTo(CommandExecutionOptions.DefaultExecutionTimeout);
+        await Assert.That(executionOptions.MaxCapturedOutputLength)
+            .IsEqualTo(CommandExecutionOptions.DefaultMaxCapturedOutputLength);
     }
 
     [Test]
@@ -32,6 +34,24 @@ public class CommandTests : TestBase
         var executionOptions = new CommandExecutionOptions { ExecutionTimeout = timeout };
 
         await Assert.That(executionOptions.ExecutionTimeout).IsEqualTo(timeout);
+    }
+
+    [Test]
+    public async Task Command_Execution_Caps_Captured_Output_With_Head_And_Tail()
+    {
+        var command = await GetService<ICommandContext>();
+        var result = await command.ExecuteCommandLineTool(
+            new PowershellScriptOptions("Write-Output '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'"),
+            new CommandExecutionOptions { MaxCapturedOutputLength = 10 });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.StandardOutput).StartsWith("01234");
+            await Assert.That(result.StandardOutput).Contains("truncated");
+            await Assert.That(result.StandardOutput).Contains("XYZ");
+            await Assert.That(result.StandardOutput).EndsWith(Environment.NewLine);
+            await Assert.That(result.StandardOutput.Length).IsLessThan(100);
+        }
     }
 
     private class CommandEchoModule : Module<CommandResult>

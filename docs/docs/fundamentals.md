@@ -11,8 +11,8 @@ Your pipeline is created using `Pipeline.CreateBuilder()`. This follows the ASP.
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
-builder.Services.AddModule<MyModule>();
-await builder.Build().RunAsync();
+builder.AddModule<MyModule>();
+await builder.ExecutePipelineAsync();
 ```
 
 ## Modules

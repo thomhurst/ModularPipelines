@@ -15,5 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ModularPipelines.Development.Analyzers\ModularPipelines.Development.Analyzers.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.SourceGenerator\ModularPipelines.SourceGenerator.csproj" />
   </ItemGroup>
 </Project>

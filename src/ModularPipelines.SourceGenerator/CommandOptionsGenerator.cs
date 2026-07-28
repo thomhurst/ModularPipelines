@@ -192,7 +192,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedInt(attribute, "Phase", defaultValue: PassthroughCommandLinePhase),
                 0,
                 null,
-                [],
+                EquatableArray<string>.Empty,
                 isGlobalOption);
         }
 
@@ -209,7 +209,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedInt(attribute, "Phase"),
                 0,
                 null,
-                [],
+                EquatableArray<string>.Empty,
                 isGlobalOption);
         }
 
@@ -224,7 +224,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetNamedInt(attribute, "Phase"),
             GetNamedInt(attribute, "ValueArity"),
             GetNamedString(attribute, "CustomSeparator"),
-            [],
+            EquatableArray<string>.Empty,
             isGlobalOption);
     }
 
@@ -436,8 +436,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static string NullableLiteral(string? value) => value is null ? "null" : Literal(value);
 
-    private static string StringArrayLiteral(ImmutableArray<string> values) =>
-        values.Length == 0
+    private static string StringArrayLiteral(EquatableArray<string> values) =>
+        values.Count == 0
             ? "global::System.Array.Empty<string>()"
             : $"new string[] {{ {string.Join(", ", values.Select(Literal))} }}";
 
@@ -451,11 +451,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         PropertyCollection SecretMetadata);
 
     private sealed record PropertyCollection(
-        ImmutableArray<PropertyMetadata> Properties,
+        EquatableArray<PropertyMetadata> Properties,
         bool IsComplete,
         bool HasAttributes)
     {
-        public static PropertyCollection Empty { get; } = new([], true, false);
+        public static PropertyCollection Empty { get; } = new(EquatableArray<PropertyMetadata>.Empty, true, false);
     }
 
     private sealed record PropertyMetadata(
@@ -469,7 +469,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         int Phase,
         int ValueArity,
         string? CustomSeparator,
-        ImmutableArray<string> SecretValueKeys,
+        EquatableArray<string> SecretValueKeys,
         bool IsGlobalOption);
 
     private enum PropertyKind
