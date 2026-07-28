@@ -45,14 +45,14 @@ public class AwaitThisAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        // Check if we're inside a module class (inherits from ModuleBase)
+        // Check if we're inside a module class.
         var containingClass = context.GetClassThatNodeIsIn();
         if (containingClass == null)
         {
             return;
         }
 
-        if (containingClass.GetSelfAndAllBaseTypes().All(x => x.Name != AnalyzerConstants.TypeNames.ModuleBase))
+        if (!containingClass.IsModule(context.Compilation))
         {
             return;
         }

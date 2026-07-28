@@ -54,7 +54,7 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (context.GetClassThatNodeIsIn().GetSelfAndAllBaseTypes().All(x => x.Name != AnalyzerConstants.TypeNames.ModuleBase))
+        if (!context.GetClassThatNodeIsIn().IsModule(context.Compilation))
         {
             return;
         }
