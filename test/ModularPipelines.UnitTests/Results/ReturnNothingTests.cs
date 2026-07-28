@@ -44,7 +44,7 @@ public class ReturnNothingTests : TestBase
         await Assert(result);
     }
 
-    private static async Task Assert(ModuleResult<CommandResult?> result)
+    private static async Task Assert(ModuleResult<CommandResult> result)
     {
         using (TUnit.Assertions.Assert.Multiple())
         {

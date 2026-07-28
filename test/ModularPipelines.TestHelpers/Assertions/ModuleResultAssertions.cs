@@ -13,10 +13,10 @@ public static class ModuleResultAssertions
     /// Checks: ModuleResultType is Success, Exception is null, Value is not null.
     /// </summary>
     /// <remarks>
-    /// The signature uses <c>ModuleResult&lt;T?&gt;</c> because <see cref="Module{T}.GetAwaiter()"/>
-    /// returns <c>ModuleResult&lt;T?&gt;</c>, matching the nullable return type of ExecuteAsync.
+    /// The signature matches the <c>ModuleResult&lt;T&gt;</c> returned by
+    /// <see cref="Module{T}.GetAwaiter"/>.
     /// </remarks>
-    public static async Task AssertSuccessWithValue<T>(ModuleResult<T?> moduleResult)
+    public static async Task AssertSuccessWithValue<T>(ModuleResult<T> moduleResult)
         where T : class
     {
         using (Assert.Multiple())
@@ -32,10 +32,10 @@ public static class ModuleResultAssertions
     /// Checks: ModuleResultType is Success, Exception is null.
     /// </summary>
     /// <remarks>
-    /// The signature uses <c>ModuleResult&lt;T?&gt;</c> because <see cref="Module{T}.GetAwaiter()"/>
-    /// returns <c>ModuleResult&lt;T?&gt;</c>, matching the nullable return type of ExecuteAsync.
+    /// The signature matches the <c>ModuleResult&lt;T&gt;</c> returned by
+    /// <see cref="Module{T}.GetAwaiter"/>.
     /// </remarks>
-    public static async Task AssertSuccess<T>(ModuleResult<T?> moduleResult)
+    public static async Task AssertSuccess<T>(ModuleResult<T> moduleResult)
         where T : class
     {
         using (Assert.Multiple())
@@ -51,7 +51,7 @@ public static class ModuleResultAssertions
     /// </summary>
     /// <param name="moduleResult">The module result containing a CommandResult.</param>
     /// <param name="expectedOutput">The expected standard output value (will be compared after trimming).</param>
-    public static async Task AssertCommandOutput(ModuleResult<CommandResult?> moduleResult, string expectedOutput)
+    public static async Task AssertCommandOutput(ModuleResult<CommandResult> moduleResult, string expectedOutput)
     {
         using (Assert.Multiple())
         {

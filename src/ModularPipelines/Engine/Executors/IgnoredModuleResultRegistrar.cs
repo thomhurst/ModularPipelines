@@ -184,7 +184,7 @@ internal static class CompletionSourceSetterCache
 
     private static Action<IModule, IModuleResult> CreateSetter(Type resultType)
     {
-        // Create compiled delegate for: ((Module<T>)module).CompletionSource.TrySetResult((ModuleResult<T?>)result)
+        // Create compiled delegate for: ((Module<T>)module).CompletionSource.TrySetResult((ModuleResult<T>)result)
         var moduleType = typeof(Module<>).MakeGenericType(resultType);
 
         // Parameters
@@ -203,9 +203,9 @@ internal static class CompletionSourceSetterCache
         // Get the actual property type and its TrySetResult method
         // This ensures we use the correct generic type as declared on the property
         var completionSourceType = completionSourceProp.PropertyType;
-        var moduleResultType = completionSourceType.GetGenericArguments()[0]; // ModuleResult<T?>
+        var moduleResultType = completionSourceType.GetGenericArguments()[0]; // ModuleResult<T>
 
-        // Cast result to ModuleResult<T?>
+        // Cast result to ModuleResult<T>
         var castResult = Expression.Convert(resultParam, moduleResultType);
 
         // Call TrySetResult using the method from the actual property type

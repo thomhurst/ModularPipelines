@@ -81,11 +81,11 @@ public interface IModuleContext : IPipelineContext
     ///     {
     ///         // Single type parameter - result type inferred from BuildModule : Module&lt;BuildOutput&gt;
     ///         var buildResult = await context.GetModule&lt;BuildModule&gt;();
-    ///         // buildResult is ModuleResult&lt;BuildOutput?&gt;
+    ///         // buildResult is ModuleResult&lt;BuildOutput&gt;
     ///
-    ///         if (buildResult.IsSuccess)
+    ///         if (buildResult.TryGetValue(out var buildOutput) &amp;&amp; buildOutput is not null)
     ///         {
-    ///             var artifactPath = buildResult.ValueOrDefault!.ArtifactPath;
+    ///             var artifactPath = buildOutput.ArtifactPath;
     ///             return await Deploy(artifactPath);
     ///         }
     ///
@@ -96,7 +96,7 @@ public interface IModuleContext : IPipelineContext
     /// <para>
     /// <b>How it works:</b> The module class hierarchy encodes the result type.
     /// When <c>BuildModule : Module&lt;BuildOutput&gt;</c>, awaiting the module
-    /// returns <c>ModuleResult&lt;BuildOutput?&gt;</c> because <see cref="Module{T}"/>
+    /// returns <c>ModuleResult&lt;BuildOutput&gt;</c> because <see cref="Module{T}"/>
     /// implements <see cref="Module{T}.GetAwaiter"/>.
     /// </para>
     /// <para>

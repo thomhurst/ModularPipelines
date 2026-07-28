@@ -11,7 +11,7 @@ internal static class ModuleResultFactory
     /// <summary>
     /// Creates a successful ModuleResult for the specified value.
     /// </summary>
-    public static ModuleResult<T> CreateSuccess<T>(T value, ModuleExecutionContext ctx)
+    public static ModuleResult<T> CreateSuccess<T>(T? value, ModuleExecutionContext ctx)
     {
         return ModuleResult<T>.CreateSuccess(value, ctx);
     }
