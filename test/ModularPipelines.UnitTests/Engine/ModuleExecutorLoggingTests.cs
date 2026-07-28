@@ -90,7 +90,7 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
-    public async Task StopOnFirstException_RegistersAllConcurrentWorkerFaults()
+    public async Task StopOnFirstException_SurfacesAllConcurrentWorkerFaults()
     {
         var faultingModule = new FaultingModule();
         var laterModule = new LaterModule();
@@ -133,11 +133,7 @@ public class ModuleExecutorLoggingTests
                 throw new InvalidOperationException(moduleState.ModuleType.Name);
             });
 
-        var registeredExceptions = new ConcurrentBag<string>();
-        var secondaryExceptionContainer = new Mock<ISecondaryExceptionContainer>();
-        secondaryExceptionContainer
-            .Setup(x => x.RegisterException(It.IsAny<Exception>()))
-            .Callback<Exception>(exception => registeredExceptions.Add(exception.Message));
+        var secondaryExceptionContainer = new SecondaryExceptionContainer();
         var alwaysRunHandler = new Mock<IAlwaysRunHandler>();
         alwaysRunHandler
             .Setup(x => x.WaitForAlwaysRunModulesAsync(
@@ -155,16 +151,17 @@ public class ModuleExecutorLoggingTests
             Mock.Of<IMetricsCollector>(),
             new ModuleDependencyRegistry(),
             new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
-            secondaryExceptionContainer.Object,
+            secondaryExceptionContainer,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
                 ExecutionMode = ExecutionMode.StopOnFirstException,
             }),
             Mock.Of<Microsoft.Extensions.Logging.ILogger<ModuleExecutor>>());
 
-        await Assert.That(async () => { await executor.ExecuteAsync([faultingModule, laterModule]); })
-            .Throws<InvalidOperationException>();
-        await Assert.That(registeredExceptions)
+        var exception = await Assert.That(async () =>
+                await executor.ExecuteAsync([faultingModule, laterModule]))
+            .Throws<AggregateException>();
+        await Assert.That(exception!.InnerExceptions.Select(x => x.Message))
             .IsEquivalentTo([nameof(FaultingModule), nameof(LaterModule)]);
     }
 

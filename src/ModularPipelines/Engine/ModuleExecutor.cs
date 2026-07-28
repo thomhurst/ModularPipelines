@@ -179,7 +179,7 @@ internal class ModuleExecutor : IModuleExecutor
             _resultRegistrar.RegisterTerminatedResultsForCancelledModules(modules, firstException);
         }
 
-        RethrowFirstExceptionIfPresent(firstException);
+        ThrowWorkerExceptionsIfPresent(firstException);
 
         _logger.LogDebug("ExecuteAsync returning normally with {Count} modules", modules.Count);
         return modules;
@@ -301,11 +301,14 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private void RethrowFirstExceptionIfPresent(Exception? firstException)
+    private void ThrowWorkerExceptionsIfPresent(Exception? firstException)
     {
         if (firstException != null)
         {
-            _logger.LogDebug("Rethrowing first exception: {ExceptionType}", firstException.GetType().Name);
+            _logger.LogDebug("Throwing worker exceptions after first failure: {ExceptionType}", firstException.GetType().Name);
+            _secondaryExceptionContainer.ThrowExceptions();
+
+            // Defensive fallback for custom container implementations that do not throw.
             System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(firstException).Throw();
         }
     }
