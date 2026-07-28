@@ -13,7 +13,7 @@ namespace ModularPipelines.Logging;
 /// - Service provider: Creates new logger instances
 /// The provider maintains thread-safe singleton behavior per module type.
 /// </remarks>
-internal class ModuleLoggerProvider : IInternalModuleLoggerProvider, IDisposable
+internal class ModuleLoggerProvider : IInternalModuleLoggerProvider
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IStackTraceModuleDetector _stackTraceDetector;
@@ -40,7 +40,7 @@ internal class ModuleLoggerProvider : IInternalModuleLoggerProvider, IDisposable
     public IModuleLogger GetLogger(Type type)
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(type);
-        return (IModuleLogger)_serviceProvider.GetRequiredService(loggerType);
+        return (IModuleLogger) _serviceProvider.GetRequiredService(loggerType);
     }
 
     public IModuleLogger GetLogger()
@@ -77,11 +77,5 @@ internal class ModuleLoggerProvider : IInternalModuleLoggerProvider, IDisposable
 
             return _moduleLogger = GetLogger(detectedType);
         }
-    }
-
-    public void Dispose()
-    {
-        _moduleLogger?.Dispose();
-        _pipelineLevelLogger?.Dispose();
     }
 }
