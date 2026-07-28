@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetappVolumes
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudNetappVolumesQuotaRules? _quotaRules;
     private GcloudNetappVolumesReplications? _replications;
     private GcloudNetappVolumesSnapshots? _snapshots;
@@ -27,7 +27,7 @@ public class GcloudNetappVolumes
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetappVolumes"/> class.
     /// </summary>
-    public GcloudNetappVolumes(ICommand command)
+    public GcloudNetappVolumes(ICommandContext command)
     {
         _command = command;
     }

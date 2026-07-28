@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAccessapproval
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudAccessapprovalRequests? _requests;
     private GcloudAccessapprovalServiceAccount? _serviceAccount;
     private GcloudAccessapprovalSettings? _settings;
@@ -27,7 +27,7 @@ public class GcloudAccessapproval
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAccessapproval"/> class.
     /// </summary>
-    public GcloudAccessapproval(ICommand command)
+    public GcloudAccessapproval(ICommandContext command)
     {
         _command = command;
     }

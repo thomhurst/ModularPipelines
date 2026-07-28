@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzIotDps
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzIotDpsCertificate? _certificate;
     private AzIotDpsLinkedHub? _linkedHub;
     private AzIotDpsPolicy? _policy;
@@ -27,7 +27,7 @@ public class AzIotDps
     /// <summary>
     /// Initializes a new instance of the <see cref="AzIotDps"/> class.
     /// </summary>
-    public AzIotDps(ICommand command)
+    public AzIotDps(ICommandContext command)
     {
         _command = command;
     }

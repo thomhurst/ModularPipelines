@@ -1,12 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
-using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
-using ModularPipelines.Configuration;
 using ModularPipelines.Validation;
 
 
@@ -97,7 +97,7 @@ public class ValidationTests
 
     private class NeverRun : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineHookContext context) => Task.FromResult(false);
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
     }
 
     [RunIfAll<NeverRun>]

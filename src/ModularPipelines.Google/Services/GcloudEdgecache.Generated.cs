@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudEdgecache
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudEdgecacheKeysets? _keysets;
     private GcloudEdgecacheOperations? _operations;
     private GcloudEdgecacheOrigins? _origins;
@@ -28,7 +28,7 @@ public class GcloudEdgecache
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEdgecache"/> class.
     /// </summary>
-    public GcloudEdgecache(ICommand command)
+    public GcloudEdgecache(ICommandContext command)
     {
         _command = command;
     }

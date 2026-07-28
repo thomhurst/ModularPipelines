@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNotebooks
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudNotebooksEnvironments? _environments;
     private GcloudNotebooksInstances? _instances;
     private GcloudNotebooksLocations? _locations;
@@ -28,7 +28,7 @@ public class GcloudNotebooks
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNotebooks"/> class.
     /// </summary>
-    public GcloudNotebooks(ICommand command)
+    public GcloudNotebooks(ICommandContext command)
     {
         _command = command;
     }

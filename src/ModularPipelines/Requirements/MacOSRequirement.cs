@@ -27,7 +27,7 @@ namespace ModularPipelines.Requirements;
 public class MacOSRequirement : IPipelineRequirement
 {
     /// <inheritdoc/>
-    public Task<RequirementDecision> MustAsync(IPipelineHookContext context)
+    public Task<RequirementDecision> MustAsync(IPipelineContext context)
     {
         return RequirementDecision.Of(
             passed: context.Environment.OperatingSystem == System.Runtime.InteropServices.OSPlatform.OSX,

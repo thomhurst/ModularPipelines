@@ -1,4 +1,6 @@
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Files;
+using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
@@ -15,8 +17,8 @@ public class DownloaderTests : TestBase
     [Test, Retry(3)]
     public async Task Can_Download()
     {
-        var downloader = await GetService<IDownloader>();
-        var checksum = await GetService<IChecksum>();
+        var downloader = await GetService<IDownloaderContext>();
+        var checksum = await GetService<IChecksumContext>();
 
         var file = await downloader.DownloadFileAsync(new DownloadFileOptions(new Uri(
             "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.5.7/npp.8.5.7.portable.minimalist.7z")));

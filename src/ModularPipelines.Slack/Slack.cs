@@ -1,3 +1,4 @@
+using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Http;
 using ModularPipelines.Slack.Options;
 using Slack.Webhooks;
@@ -6,9 +7,9 @@ namespace ModularPipelines.Slack;
 
 internal class Slack : ISlack
 {
-    private readonly IHttp _http;
+    private readonly IHttpContext _http;
 
-    public Slack(IHttp http)
+    public Slack(IHttpContext http)
     {
         _http = http;
     }

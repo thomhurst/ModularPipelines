@@ -21,6 +21,20 @@ public class ModuleAttributeEventServiceTests
         public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception) => Task.CompletedTask;
     }
 
+    private sealed class CountingAttribute : Attribute
+    {
+        private static int _instanceCount;
+
+        public CountingAttribute()
+        {
+            Interlocked.Increment(ref _instanceCount);
+        }
+
+        public static int InstanceCount => Volatile.Read(ref _instanceCount);
+
+        public static void Reset() => Volatile.Write(ref _instanceCount, 0);
+    }
+
     /// <summary>
     /// A start handler with priority 100 (runs last).
     /// </summary>
@@ -66,6 +80,13 @@ public class ModuleAttributeEventServiceTests
     }
 
     private class ModuleWithoutAttributes : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("test");
+    }
+
+    [Counting]
+    private class ModuleWithCountingAttribute : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("test");
@@ -132,6 +153,37 @@ public class ModuleAttributeEventServiceTests
         var handlers2 = service.GetStartHandlers(typeof(ModuleWithAttributes));
 
         await Assert.That(ReferenceEquals(handlers1, handlers2)).IsTrue();
+    }
+
+    [Test]
+    public async Task GetAttributes_CachesResultsAndHandlerInstances()
+    {
+        var service = new ModuleAttributeEventService();
+
+        var attributes1 = service.GetAttributes(typeof(ModuleWithAttributes));
+        var attributes2 = service.GetAttributes(typeof(ModuleWithAttributes));
+        var startHandler = service.GetStartHandlers(typeof(ModuleWithAttributes)).Single();
+
+        await Assert.That(ReferenceEquals(attributes1, attributes2)).IsTrue();
+        await Assert.That(ReferenceEquals(
+                attributes1.OfType<TestStartAttribute>().Single(),
+                startHandler))
+            .IsTrue();
+    }
+
+    [Test]
+    public async Task GetAttributes_ConcurrentCalls_CreateAttributesOnce()
+    {
+        var service = new ModuleAttributeEventService();
+        CountingAttribute.Reset();
+
+        var calls = Enumerable.Range(0, 32)
+            .Select(_ => Task.Run(() => service.GetAttributes(typeof(ModuleWithCountingAttribute))))
+            .ToArray();
+        var results = await Task.WhenAll(calls);
+
+        await Assert.That(CountingAttribute.InstanceCount).IsEqualTo(1);
+        await Assert.That(results.All(attributes => ReferenceEquals(attributes, results[0]))).IsTrue();
     }
 
     [Test]

@@ -70,7 +70,7 @@ public class PipelineRequirementTests
 
     private class SuccessfulRequirement : IPipelineRequirement
     {
-        public async Task<RequirementDecision> MustAsync(IPipelineHookContext context)
+        public async Task<RequirementDecision> MustAsync(IPipelineContext context)
         {
             await Task.Yield();
             return true;
@@ -79,7 +79,7 @@ public class PipelineRequirementTests
 
     private class FailingRequirement : IPipelineRequirement
     {
-        public async Task<RequirementDecision> MustAsync(IPipelineHookContext context)
+        public async Task<RequirementDecision> MustAsync(IPipelineContext context)
         {
             await Task.Yield();
             return false;
@@ -88,7 +88,7 @@ public class PipelineRequirementTests
 
     private class FailingRequirementWithReason : IPipelineRequirement
     {
-        public async Task<RequirementDecision> MustAsync(IPipelineHookContext context)
+        public async Task<RequirementDecision> MustAsync(IPipelineContext context)
         {
             await Task.Yield();
             return RequirementDecision.Failed(TestConstants.RequirementErrorMessage);

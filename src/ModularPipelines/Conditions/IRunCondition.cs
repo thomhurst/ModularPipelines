@@ -14,7 +14,7 @@ namespace ModularPipelines.Conditions;
 /// <code>
 /// public sealed class HasGitHubToken : IRunCondition
 /// {
-///     public Task&lt;bool&gt; EvaluateAsync(IPipelineHookContext context)
+///     public Task&lt;bool&gt; EvaluateAsync(IPipelineContext context)
 ///         =&gt; Task.FromResult(!string.IsNullOrEmpty(
 ///             context.Environment.GetEnvironmentVariable("GITHUB_TOKEN")));
 /// }
@@ -29,7 +29,7 @@ public interface IRunCondition
     /// <returns>
     /// A task that returns <c>true</c> if the condition is satisfied; otherwise, <c>false</c>.
     /// </returns>
-    Task<bool> EvaluateAsync(IPipelineHookContext context);
+    Task<bool> EvaluateAsync(IPipelineContext context);
 
     /// <summary>
     /// Evaluates the condition asynchronously with cancellation between composed conditions.
@@ -37,7 +37,7 @@ public interface IRunCondition
     /// <param name="context">The pipeline context for accessing environment, HTTP, etc.</param>
     /// <param name="cancellationToken">A token used to cancel condition evaluation.</param>
     /// <returns>A task that returns whether the condition is satisfied.</returns>
-    Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken)
+    Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         return EvaluateAsync(context);
@@ -48,7 +48,7 @@ internal static class RunConditionEvaluator
 {
     public static async Task<bool> EvaluateAllAsync(
         IEnumerable<Func<IRunCondition>> conditionFactories,
-        IPipelineHookContext context,
+        IPipelineContext context,
         CancellationToken cancellationToken)
     {
         foreach (var conditionFactory in conditionFactories)
@@ -65,7 +65,7 @@ internal static class RunConditionEvaluator
 
     public static async Task<bool> EvaluateAllAsync(
         IEnumerable<IRunCondition> conditions,
-        IPipelineHookContext context,
+        IPipelineContext context,
         CancellationToken cancellationToken)
     {
         foreach (var condition in conditions)
@@ -82,7 +82,7 @@ internal static class RunConditionEvaluator
 
     public static async Task<bool> EvaluateAnyAsync(
         IEnumerable<Func<IRunCondition>> conditionFactories,
-        IPipelineHookContext context,
+        IPipelineContext context,
         CancellationToken cancellationToken)
     {
         foreach (var conditionFactory in conditionFactories)
@@ -99,7 +99,7 @@ internal static class RunConditionEvaluator
 
     public static async Task<bool> EvaluateAnyAsync(
         IEnumerable<IRunCondition> conditions,
-        IPipelineHookContext context,
+        IPipelineContext context,
         CancellationToken cancellationToken)
     {
         foreach (var condition in conditions)

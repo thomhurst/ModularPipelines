@@ -7,7 +7,7 @@ namespace ModularPipelines.Build.Attributes;
 #pragma warning disable CS0618 // This compatibility attribute intentionally uses the legacy run-condition contract.
 public class SkipIfDependencyPullRequest : MandatoryRunConditionAttribute
 {
-    public override async Task<bool> Condition(IPipelineHookContext pipelineContext)
+    public override async Task<bool> Condition(IPipelineContext pipelineContext)
     {
         var gitHubEnvironmentVariables = pipelineContext.GitHub().EnvironmentVariables;
 

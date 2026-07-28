@@ -37,7 +37,7 @@ public class IgnoredModuleResultRegistrarTests
             var contextProvider = new Mock<IPipelineContextProvider>();
             contextProvider
                 .Setup(provider => provider.GetModuleContext())
-                .Returns(Mock.Of<IPipelineHookContext>());
+                .Returns(Mock.Of<IPipelineContext>());
             var resultRegistry = new ModuleResultRegistry();
             var registrar = new IgnoredModuleResultRegistrar(
                 resultRegistry,

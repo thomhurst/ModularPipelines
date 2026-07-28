@@ -4,6 +4,7 @@ using System.Reflection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
@@ -17,10 +18,16 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     private readonly ConcurrentDictionary<(Type, string), object> _metadata = new();
     private readonly ConcurrentDictionary<Type, HashSet<string>> _registrationTags = new();
     private readonly ConcurrentDictionary<Type, string> _registrationCategories = new();
-    private readonly ConcurrentDictionary<Type, ModuleMetadata> _finalizedMetadata = new();
+    private readonly ConcurrentDictionary<Type, Lazy<ModuleMetadata>> _finalizedMetadata = new();
+    private readonly ConcurrentDictionary<(Type ModuleType, Type AttributeType), Attribute[]> _attributesByType = new();
+    private readonly IModuleAttributeEventService _attributeEventService;
 
-    public ModuleMetadataRegistry(IOptions<ModuleRegistrationOptions> registrationOptions)
+    public ModuleMetadataRegistry(
+        IOptions<ModuleRegistrationOptions> registrationOptions,
+        IModuleAttributeEventService attributeEventService)
     {
+        _attributeEventService = attributeEventService;
+
         // Import tags and categories from registration-time configuration
         var options = registrationOptions.Value;
 
@@ -60,22 +67,66 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
                 existing.UnionWith(tags);
                 return existing;
             });
+        _finalizedMetadata.TryRemove(moduleType, out _);
     }
 
     public void SetRegistrationCategory(Type moduleType, string category)
     {
         _registrationCategories[moduleType] = category;
+        _finalizedMetadata.TryRemove(moduleType, out _);
     }
 
     public void FinalizeMetadata(Type moduleType, IModule instance)
     {
+        var metadata = _finalizedMetadata.GetOrAdd(
+            moduleType,
+            _ => new Lazy<ModuleMetadata>(
+                () => CreateMetadata(moduleType, instance),
+                LazyThreadSafetyMode.ExecutionAndPublication));
+        _ = metadata.Value;
+    }
+
+    /// <inheritdoc />
+    public IReadOnlySet<string> GetTags(Type moduleType)
+        => _finalizedMetadata.TryGetValue(moduleType, out var meta) ? meta.Value.Tags : FrozenSet<string>.Empty;
+
+    /// <inheritdoc />
+    public string? GetCategory(Type moduleType)
+        => _finalizedMetadata.TryGetValue(moduleType, out var meta) ? meta.Value.Category : null;
+
+    /// <inheritdoc />
+    public bool HasAttribute<TAttribute>(Type moduleType)
+        where TAttribute : Attribute
+        => GetCachedAttributes(moduleType, typeof(TAttribute)).Length > 0;
+
+    /// <inheritdoc />
+    public TAttribute? GetAttribute<TAttribute>(Type moduleType)
+        where TAttribute : Attribute
+    {
+        var attributes = GetCachedAttributes(moduleType, typeof(TAttribute));
+        return attributes.Length switch
+        {
+            0 => null,
+            1 => (TAttribute) attributes[0],
+            _ => throw new AmbiguousMatchException(
+                $"Multiple custom attributes of the same type '{typeof(TAttribute)}' found."),
+        };
+    }
+
+    /// <inheritdoc />
+    public IEnumerable<TAttribute> GetAttributes<TAttribute>(Type moduleType)
+        where TAttribute : Attribute
+        => GetCachedAttributes(moduleType, typeof(TAttribute)).Cast<TAttribute>();
+
+    private ModuleMetadata CreateMetadata(Type moduleType, IModule instance)
+    {
+        var configuration = instance.Configuration;
         var tags = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         // Module<T> configuration combines attributes, overrides, and fluent metadata.
-        // Attribute reflection preserves metadata for direct IModule implementations.
-        tags.UnionWith(instance.Configuration.Tags);
-        tags.UnionWith(moduleType
-            .GetCustomAttributes<ModuleTagAttribute>(inherit: true)
+        // Cached attributes preserve metadata for direct IModule implementations.
+        tags.UnionWith(configuration.Tags);
+        tags.UnionWith(GetAttributes<ModuleTagAttribute>(moduleType)
             .Select(attribute => attribute.Tag));
         if (instance is ITaggedModule taggedModule)
         {
@@ -96,36 +147,22 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
         }
         else
         {
-            category = instance.Configuration.Category
+            category = configuration.Category
                        ?? (instance as ITaggedModule)?.Category
-                       ?? moduleType.GetCustomAttribute<ModuleCategoryAttribute>(inherit: true)?.Category;
+                       ?? GetAttribute<ModuleCategoryAttribute>(moduleType)?.Category;
         }
 
-        _finalizedMetadata[moduleType] = new ModuleMetadata(tags.ToFrozenSet(), category);
+        return new ModuleMetadata(tags.ToFrozenSet(), category);
     }
 
-    /// <inheritdoc />
-    public IReadOnlySet<string> GetTags(Type moduleType)
-        => _finalizedMetadata.TryGetValue(moduleType, out var meta) ? meta.Tags : FrozenSet<string>.Empty;
-
-    /// <inheritdoc />
-    public string? GetCategory(Type moduleType)
-        => _finalizedMetadata.TryGetValue(moduleType, out var meta) ? meta.Category : null;
-
-    /// <inheritdoc />
-    public bool HasAttribute<TAttribute>(Type moduleType)
-        where TAttribute : Attribute
-        => moduleType.GetCustomAttribute<TAttribute>(inherit: true) != null;
-
-    /// <inheritdoc />
-    public TAttribute? GetAttribute<TAttribute>(Type moduleType)
-        where TAttribute : Attribute
-        => moduleType.GetCustomAttribute<TAttribute>(inherit: true);
-
-    /// <inheritdoc />
-    public IEnumerable<TAttribute> GetAttributes<TAttribute>(Type moduleType)
-        where TAttribute : Attribute
-        => moduleType.GetCustomAttributes<TAttribute>(inherit: true);
+    private Attribute[] GetCachedAttributes(Type moduleType, Type attributeType)
+    {
+        return _attributesByType.GetOrAdd(
+            (moduleType, attributeType),
+            key => _attributeEventService.GetAttributes(key.ModuleType)
+                .Where(key.AttributeType.IsInstanceOfType)
+                .ToArray());
+    }
 
     internal sealed record ModuleMetadata(FrozenSet<string> Tags, string? Category);
 }

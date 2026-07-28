@@ -3,7 +3,7 @@ using ModularPipelines.Context.Domains.Data;
 
 namespace ModularPipelines.Context;
 
-internal class Hex : IHex, IHexContext
+internal class Hex : IHexContext
 {
     public string ToHex(string input, Encoding encoding)
     {

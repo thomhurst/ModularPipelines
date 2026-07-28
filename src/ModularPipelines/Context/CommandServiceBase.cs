@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
@@ -19,13 +20,13 @@ public abstract class CommandServiceBase
     /// <summary>
     /// The command execution service.
     /// </summary>
-    protected readonly ICommand Command;
+    protected readonly ICommandContext Command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CommandServiceBase"/> class.
     /// </summary>
     /// <param name="command">The command execution service.</param>
-    protected CommandServiceBase(ICommand command)
+    protected CommandServiceBase(ICommandContext command)
     {
         Command = command;
     }

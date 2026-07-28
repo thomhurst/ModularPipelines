@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudGemini
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudGeminiCodeRepositoryIndexes? _codeRepositoryIndexes;
     private GcloudGeminiCodeToolsSettings? _codeToolsSettings;
     private GcloudGeminiDataSharingWithGoogleSettings? _dataSharingWithGoogleSettings;
@@ -33,7 +33,7 @@ public class GcloudGemini
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudGemini"/> class.
     /// </summary>
-    public GcloudGemini(ICommand command)
+    public GcloudGemini(ICommandContext command)
     {
         _command = command;
     }

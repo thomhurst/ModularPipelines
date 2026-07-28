@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Flux.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Flux.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxResume
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private FluxResumeImage? _image;
     private FluxResumeSource? _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxResume"/> class.
     /// </summary>
-    public FluxResume(ICommand command)
+    public FluxResume(ICommandContext command)
     {
         _command = command;
     }

@@ -124,17 +124,17 @@ public class PipelineRequirementBaseClassTests
 
     private class PassingSyncRequirement : PipelineRequirement
     {
-        protected override RequirementDecision Must(IPipelineHookContext context) => Pass();
+        protected override RequirementDecision Must(IPipelineContext context) => Pass();
     }
 
     private class FailingSyncRequirement : PipelineRequirement
     {
-        protected override RequirementDecision Must(IPipelineHookContext context) => Fail("Sync requirement failed");
+        protected override RequirementDecision Must(IPipelineContext context) => Fail("Sync requirement failed");
     }
 
     private class PassingAsyncRequirement : PipelineRequirement
     {
-        public override async Task<RequirementDecision> MustAsync(IPipelineHookContext context)
+        public override async Task<RequirementDecision> MustAsync(IPipelineContext context)
         {
             await Task.Yield();
             return Pass();
@@ -143,7 +143,7 @@ public class PipelineRequirementBaseClassTests
 
     private class FailingAsyncRequirement : PipelineRequirement
     {
-        public override async Task<RequirementDecision> MustAsync(IPipelineHookContext context)
+        public override async Task<RequirementDecision> MustAsync(IPipelineContext context)
         {
             await Task.Yield();
             return Fail("Async requirement failed");
@@ -152,13 +152,13 @@ public class PipelineRequirementBaseClassTests
 
     private class WhenTrueRequirement : PipelineRequirement
     {
-        protected override RequirementDecision Must(IPipelineHookContext context)
+        protected override RequirementDecision Must(IPipelineContext context)
             => When(true, "Should not see this");
     }
 
     private class WhenFalseRequirement : PipelineRequirement
     {
-        protected override RequirementDecision Must(IPipelineHookContext context)
+        protected override RequirementDecision Must(IPipelineContext context)
             => When(false, "When condition failed");
     }
 

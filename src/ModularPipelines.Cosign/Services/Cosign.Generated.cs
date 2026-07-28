@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Cosign.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Cosign.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Cosign : ICosign
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Cosign"/> class.
@@ -31,7 +31,7 @@ internal partial class Cosign : ICosign
         CosignPkcs11Tool pkcs11Tool,
         CosignSigningConfig signingConfig,
         CosignTrustedRoot trustedRoot,
-        ICommand command
+        ICommandContext command
     )
     {
         Bundle = bundle;

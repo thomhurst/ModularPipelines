@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAmsTransform
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzAmsTransformOutput? _output;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAmsTransform"/> class.
     /// </summary>
-    public AzAmsTransform(ICommand command)
+    public AzAmsTransform(ICommandContext command)
     {
         _command = command;
     }

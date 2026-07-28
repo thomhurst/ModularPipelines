@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMysql
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzMysqlDb? _db;
     private AzMysqlFlexibleServer? _flexibleServer;
     private AzMysqlServer? _server;
@@ -28,7 +28,7 @@ public class AzMysql
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMysql"/> class.
     /// </summary>
-    public AzMysql(ICommand command)
+    public AzMysql(ICommandContext command)
     {
         _command = command;
     }

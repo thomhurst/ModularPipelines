@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDatalineage
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudDatalineageConfig? _config;
     private GcloudDatalineageLineageEvents? _lineageEvents;
     private GcloudDatalineageProcesses? _processes;
@@ -28,7 +28,7 @@ public class GcloudDatalineage
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatalineage"/> class.
     /// </summary>
-    public GcloudDatalineage(ICommand command)
+    public GcloudDatalineage(ICommandContext command)
     {
         _command = command;
     }

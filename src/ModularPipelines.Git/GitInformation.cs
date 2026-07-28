@@ -3,6 +3,7 @@ using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
@@ -42,7 +43,7 @@ internal class GitInformation : IGitInformation, IInitializer
     {
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<GitInformation>>();
-        var command = scope.ServiceProvider.GetRequiredService<ICommand>();
+        var command = scope.ServiceProvider.GetRequiredService<ICommandContext>();
         var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
 
         await VerifyGitAvailable(command).ConfigureAwait(false);
@@ -87,7 +88,7 @@ internal class GitInformation : IGitInformation, IInitializer
         void Async(Func<Task> task) => tasks.Add(task());
     }
 
-    private static async Task VerifyGitAvailable(ICommand command)
+    private static async Task VerifyGitAvailable(ICommandContext command)
     {
         try
         {
@@ -107,7 +108,7 @@ internal class GitInformation : IGitInformation, IInitializer
         }
     }
 
-    private static async Task<string?> GetDefaultBranchName(ICommand command, ILogger logger)
+    private static async Task<string?> GetDefaultBranchName(ICommandContext command, ILogger logger)
     {
         try
         {
@@ -140,7 +141,7 @@ internal class GitInformation : IGitInformation, IInitializer
         }
     }
 
-    private static async Task<string?> GetOutput(ICommand command, ILogger logger, GitOptions gitOptions, CommandExecutionOptions? executionOptions = null)
+    private static async Task<string?> GetOutput(ICommandContext command, ILogger logger, GitOptions gitOptions, CommandExecutionOptions? executionOptions = null)
     {
         try
         {

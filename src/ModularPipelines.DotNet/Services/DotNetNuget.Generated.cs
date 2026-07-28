@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.DotNet.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.DotNet.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DotNetNuget
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private DotNetNugetAdd? _add;
     private DotNetNugetConfig? _config;
     private DotNetNugetDisable? _disable;
@@ -32,7 +32,7 @@ public class DotNetNuget
     /// <summary>
     /// Initializes a new instance of the <see cref="DotNetNuget"/> class.
     /// </summary>
-    public DotNetNuget(ICommand command)
+    public DotNetNuget(ICommandContext command)
     {
         _command = command;
     }

@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudCompliancemanager
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudCompliancemanagerCloudControlDeployments? _cloudControlDeployments;
     private GcloudCompliancemanagerCloudControls? _cloudControls;
     private GcloudCompliancemanagerFrameworkDeployments? _frameworkDeployments;
@@ -29,7 +29,7 @@ public class GcloudCompliancemanager
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudCompliancemanager"/> class.
     /// </summary>
-    public GcloudCompliancemanager(ICommand command)
+    public GcloudCompliancemanager(ICommandContext command)
     {
         _command = command;
     }

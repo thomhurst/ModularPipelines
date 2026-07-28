@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudOracledatabaseGiVersions
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudOracledatabaseGiVersionsMinorVersions? _minorVersions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudOracledatabaseGiVersions"/> class.
     /// </summary>
-    public GcloudOracledatabaseGiVersions(ICommand command)
+    public GcloudOracledatabaseGiVersions(ICommandContext command)
     {
         _command = command;
     }

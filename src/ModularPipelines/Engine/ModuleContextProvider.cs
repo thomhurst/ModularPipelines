@@ -35,7 +35,7 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
         _serviceProvider = serviceProvider;
     }
 
-    public IPipelineHookContext GetModuleContext()
+    public IPipelineContext GetModuleContext()
     {
         AsyncServiceScope serviceScope;
 
@@ -50,7 +50,7 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
             _scopes.Add(serviceScope);
         }
 
-        return serviceScope.ServiceProvider.GetRequiredService<IPipelineHookContext>();
+        return serviceScope.ServiceProvider.GetRequiredService<IPipelineContext>();
     }
 
     public IEnumerable<IServiceScope> GetScopes()
@@ -86,7 +86,7 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
         foreach (var scope in scopesToDispose)
         {
             // AsyncServiceScope always implements IAsyncDisposable
-            await ((IAsyncDisposable)scope).DisposeAsync().ConfigureAwait(false);
+            await ((IAsyncDisposable) scope).DisposeAsync().ConfigureAwait(false);
         }
 
         GC.SuppressFinalize(this);

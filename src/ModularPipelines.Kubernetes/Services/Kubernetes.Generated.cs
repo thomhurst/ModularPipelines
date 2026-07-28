@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Kubernetes.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Kubernetes.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Kubernetes : IKubernetes
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Kubernetes"/> class.
@@ -33,7 +33,7 @@ internal partial class Kubernetes : IKubernetes
         KubernetesKuberc kuberc,
         KubernetesRollout rollout,
         KubernetesTop top,
-        ICommand command
+        ICommandContext command
     )
     {
         Apply = apply;

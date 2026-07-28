@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudFirestore
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudFirestoreBackups? _backups;
     private GcloudFirestoreDatabases? _databases;
     private GcloudFirestoreFields? _fields;
@@ -31,7 +31,7 @@ public class GcloudFirestore
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirestore"/> class.
     /// </summary>
-    public GcloudFirestore(ICommand command)
+    public GcloudFirestore(ICommandContext command)
     {
         _command = command;
     }

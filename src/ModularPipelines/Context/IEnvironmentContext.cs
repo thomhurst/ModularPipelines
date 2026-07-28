@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Context;
@@ -54,5 +55,5 @@ public interface IEnvironmentContext
     /// <summary>
     /// Gets the Environment Variables available to this Pipeline.
     /// </summary>
-    public IEnvironmentVariables EnvironmentVariables { get; }
+    public IEnvironmentVariablesContext EnvironmentVariables { get; }
 }

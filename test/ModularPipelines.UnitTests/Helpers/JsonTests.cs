@@ -1,5 +1,6 @@
 using System.Text.Json;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Data;
 using ModularPipelines.TestHelpers;
 using static ModularPipelines.UnitTests.Helpers.SerializationTestModels;
 
@@ -10,7 +11,7 @@ public class JsonTests : TestBase
     [Test]
     public async Task Can_Serialize()
     {
-        var json = await GetService<IJson>();
+        var json = await GetService<IJsonContext>();
 
         var result = json.ToJson(SerializationTestModel.CreateDefault());
         await Assert.That(result).IsEqualTo($@"{{""Foo"":""{TestValues.FooValue}"",""Hello"":""{TestValues.HelloValue}""}}");
@@ -19,7 +20,7 @@ public class JsonTests : TestBase
     [Test]
     public async Task Can_Serialize_With_Options()
     {
-        var json = await GetService<IJson>();
+        var json = await GetService<IJsonContext>();
 
         var result = json.ToJson(SerializationTestModel.CreateDefault(), new JsonSerializerOptions
         {
@@ -33,7 +34,7 @@ public class JsonTests : TestBase
     [Test]
     public async Task Can_Deserialize()
     {
-        var json = await GetService<IJson>();
+        var json = await GetService<IJsonContext>();
 
         var result = json.FromJson<SerializationTestModel>($@"{{""Foo"":""{TestValues.FooValue}"",""Hello"":""{TestValues.HelloValue}""}}");
         await Assert.That(result).IsEqualTo(SerializationTestModel.CreateDefault());
@@ -42,7 +43,7 @@ public class JsonTests : TestBase
     [Test]
     public async Task Can_Deserialize_With_Options()
     {
-        var json = await GetService<IJson>();
+        var json = await GetService<IJsonContext>();
 
         var result = json.FromJson<SerializationTestModel>($$"""
                                               {

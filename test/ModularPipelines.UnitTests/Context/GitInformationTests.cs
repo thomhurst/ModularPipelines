@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Context;
+using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.TestHelpers;
 
@@ -9,7 +9,7 @@ public class GitInformationTests : TestBase
     [Test]
     public async Task Can_Send_Request_With_String_To_Request_Implicit_Conversion()
     {
-        var context = await GetService<IPipelineHookContext>();
+        var context = await GetService<IPipelineContext>();
 
         var gitInformation = context.Git().Information;
 

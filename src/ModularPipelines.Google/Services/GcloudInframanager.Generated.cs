@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudInframanager
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudInframanagerAutomigrationconfig? _automigrationconfig;
     private GcloudInframanagerDeployments? _deployments;
     private GcloudInframanagerPreviews? _previews;
@@ -32,7 +32,7 @@ public class GcloudInframanager
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudInframanager"/> class.
     /// </summary>
-    public GcloudInframanager(ICommand command)
+    public GcloudInframanager(ICommandContext command)
     {
         _command = command;
     }

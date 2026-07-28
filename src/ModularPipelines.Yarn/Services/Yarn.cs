@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -17,12 +18,12 @@ namespace ModularPipelines.Yarn.Services;
 /// </summary>
 internal partial class Yarn : IYarn
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Yarn"/> class.
     /// </summary>
-    public Yarn(ICommand command)
+    public Yarn(ICommandContext command)
     {
         _command = command;
     }

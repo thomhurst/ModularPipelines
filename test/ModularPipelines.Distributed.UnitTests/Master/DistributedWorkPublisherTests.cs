@@ -4,6 +4,7 @@ using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
@@ -192,7 +193,8 @@ public class DistributedWorkPublisherTests
         resultRegistry.RegisterResult(typeof(TaggedDependencyModule), dependencyResult);
         var dependencyRegistry = new ModuleDependencyRegistry();
         var metadataRegistry = new ModuleMetadataRegistry(
-            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()));
+            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+            new ModuleAttributeEventService());
         var dependencyModule = new TaggedDependencyModule();
         var consumerModule = new TaggedConsumerModule();
         metadataRegistry.FinalizeMetadata(typeof(TaggedDependencyModule), dependencyModule);

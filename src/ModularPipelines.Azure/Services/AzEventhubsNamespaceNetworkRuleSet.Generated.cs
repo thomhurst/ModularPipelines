@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventhubsNamespaceNetworkRuleSet
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzEventhubsNamespaceNetworkRuleSetIpRule? _ipRule;
     private AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRule? _virtualNetworkRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventhubsNamespaceNetworkRuleSet"/> class.
     /// </summary>
-    public AzEventhubsNamespaceNetworkRuleSet(ICommand command)
+    public AzEventhubsNamespaceNetworkRuleSet(ICommandContext command)
     {
         _command = command;
     }

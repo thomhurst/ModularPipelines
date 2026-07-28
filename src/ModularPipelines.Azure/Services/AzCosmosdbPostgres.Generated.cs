@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbPostgres
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzCosmosdbPostgresCluster? _cluster;
     private AzCosmosdbPostgresConfiguration? _configuration;
     private AzCosmosdbPostgresFirewallRule? _firewallRule;
@@ -28,7 +28,7 @@ public class AzCosmosdbPostgres
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbPostgres"/> class.
     /// </summary>
-    public AzCosmosdbPostgres(ICommand command)
+    public AzCosmosdbPostgres(ICommandContext command)
     {
         _command = command;
     }

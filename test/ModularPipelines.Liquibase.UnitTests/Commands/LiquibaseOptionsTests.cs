@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Liquibase.Enums;
 using ModularPipelines.Liquibase.Options;
 using ModularPipelines.Models;
@@ -125,7 +126,7 @@ public class LiquibaseOptionsTests : TestBase
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
     {
-        var command = await GetService<ICommand>();
+        var command = await GetService<ICommandContext>();
         return await command.ExecuteCommandLineTool(options, new CommandExecutionOptions { InternalDryRun = true });
     }
 }

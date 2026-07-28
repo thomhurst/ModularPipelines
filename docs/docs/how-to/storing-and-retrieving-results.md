@@ -38,13 +38,13 @@ public class MyModuleRepository : IModuleResultRepository
         _blobContainerClient = blobContainerClient;
     }
     
-    public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+    public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
     {
         var commit = pipelineContext.Git().Information.LastCommitSha;
         await _blobContainerClient.UploadBlobAsync(module.GetType().FullName + commit, new BinaryData(JsonSerializer.Serialize(moduleResult)));
     }
 
-    public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineHookContext pipelineContext)
+    public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineContext pipelineContext)
     {
         var commit = pipelineContext.Git().Information.LastCommitSha;
         

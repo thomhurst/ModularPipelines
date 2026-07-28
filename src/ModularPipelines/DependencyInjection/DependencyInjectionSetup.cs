@@ -1,29 +1,35 @@
 using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
+using Mediator;
 using MEL.Spectre;
 using MEL.Spectre.Theme;
-using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Console;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
+using ModularPipelines.Context.Domains.Data;
+using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.Context.Domains.Implementations;
-using ModularPipelines.Context.Domains.Data;
-using ModularPipelines.Context.Domains.Shell;
-using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Context.Domains.Installers;
 using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Context.Domains.Security;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Context.Linux;
+using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Artifacts;
+using ModularPipelines.Distributed.Configuration;
+using ModularPipelines.Distributed.Coordination;
+using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
-using ModularPipelines.FileSystem;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Events;
 using ModularPipelines.Extensions;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Http;
@@ -32,12 +38,6 @@ using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Validators;
 using ModularPipelines.Validation;
-using ModularPipelines.Console;
-using ModularPipelines.Distributed;
-using ModularPipelines.Distributed.Artifacts;
-using ModularPipelines.Distributed.Configuration;
-using ModularPipelines.Distributed.Coordination;
-using ModularPipelines.Distributed.Serialization;
 using Spectre.Console;
 
 namespace ModularPipelines.DependencyInjection;
@@ -122,13 +122,12 @@ internal static class DependencyInjectionSetup
         services
             .AddScoped<PipelineContext>()
             .AddScoped<IPipelineContext>(sp => sp.GetRequiredService<PipelineContext>())
-            .AddScoped<IPipelineHookContext>(sp => sp.GetRequiredService<PipelineContext>())
             .AddScoped<ModuleLoggerProvider>()
             .AddScoped<IModuleLoggerProvider>(sp => sp.GetRequiredService<ModuleLoggerProvider>())
             .AddScoped<IInternalModuleLoggerProvider>(sp => sp.GetRequiredService<ModuleLoggerProvider>())
             .AddScoped(typeof(ModuleLogger<>))
-            .AddScoped<IHttp, Http.Http>()
-            .AddScoped<ModularPipelines.Context.ICommand, Command>()
+            .AddScoped<IHttpContext, Http.Http>()
+            .AddScoped<ICommandContext, Command>()
             .AddScoped<ICommandLineBuilder, CommandLineBuilder>()
             .AddScoped<CommandLineExecutor>()
             .AddScoped<ICommandLineExecutor>(sp =>
@@ -139,52 +138,26 @@ internal static class DependencyInjectionSetup
                     sp.GetRequiredService<ICommandLogger>());
             })
             .AddScoped<ICommandLogger, CommandLogger>()
-            .AddScoped<ICertificates, Certificates>()
-            .AddScoped<IDownloader, Downloader>()
+            .AddScoped<ICertificatesContext, Certificates>()
+            .AddScoped<IDownloaderContext, Downloader>()
             .AddScoped<IInstaller, Installer>()
             .AddScoped<IFileInstaller, FileInstaller>()
-            .AddScoped<IPredefinedInstallers, PredefinedInstallers>()
-            .AddScoped<IWindowsInstaller, WindowsInstaller>()
-            .AddScoped<IMacInstaller, MacInstaller>()
-            .AddScoped<ILinuxInstaller, LinuxInstaller>()
+            .AddScoped<IPredefinedInstallersContext, PredefinedInstallers>()
+            .AddScoped<IWindowsInstallerContext, WindowsInstaller>()
+            .AddScoped<IMacInstallerContext, MacInstaller>()
+            .AddScoped<ILinuxInstallerContext, LinuxInstaller>()
             .AddScoped<IAptGet, AptGet>()
-            .AddScoped<IZip, Zip>()
-            .AddScoped<IPowershell, Powershell>()
-            .AddScoped<IBash, Bash>()
-            // Register domain context interfaces (forwarding to existing implementations)
-            .AddScoped<ICommandContext>(sp => (ICommandContext) sp.GetRequiredService<ModularPipelines.Context.ICommand>())
-            .AddScoped<IBashContext>(sp => (IBashContext) sp.GetRequiredService<IBash>())
-            .AddScoped<IPowerShellContext>(sp => (IPowerShellContext) sp.GetRequiredService<IPowershell>())
+            .AddScoped<IZipContext, Zip>()
+            .AddScoped<IPowerShellContext, Powershell>()
+            .AddScoped<IBashContext, Bash>()
             .AddScoped<ModularPipelines.Context.Domains.IShellContext, ModularPipelines.Context.Domains.Implementations.ShellContext>()
-            // Register Files domain context interfaces
-            .AddScoped<IZipContext>(sp => (IZipContext) sp.GetRequiredService<IZip>())
-            .AddScoped<IChecksumContext>(sp => (IChecksumContext) sp.GetRequiredService<IChecksum>())
             .AddScoped<IFilesContext, FilesContext>()
-            // Register Data domain context interfaces
-            .AddSingleton<IJsonContext>(sp => (IJsonContext) sp.GetRequiredService<IJson>())
-            .AddSingleton<IXmlContext>(sp => (IXmlContext) sp.GetRequiredService<IXml>())
-            .AddSingleton<IYamlContext>(sp => (IYamlContext) sp.GetRequiredService<IYaml>())
-            .AddSingleton<IBase64Context>(sp => (IBase64Context) sp.GetRequiredService<IBase64>())
-            .AddSingleton<IHexContext>(sp => (IHexContext) sp.GetRequiredService<IHex>())
             .AddSingleton<IDataContext, DataContext>()
             .AddScoped<IEnvironmentContext, EnvironmentContext>()
-            // Register Environment domain context interfaces
-            .AddSingleton<IEnvironmentVariablesContext>(sp => (IEnvironmentVariablesContext) sp.GetRequiredService<IEnvironmentVariables>())
             .AddSingleton<IBuildSystemContext, BuildSystemContext>()
             .AddScoped<IEnvironmentDomainContext, EnvironmentDomainContext>()
-            // Register Installers domain context interfaces
-            .AddScoped<IWindowsInstallerContext>(sp => (IWindowsInstallerContext) sp.GetRequiredService<IWindowsInstaller>())
-            .AddScoped<ILinuxInstallerContext>(sp => (ILinuxInstallerContext) sp.GetRequiredService<ILinuxInstaller>())
-            .AddScoped<IMacInstallerContext>(sp => (IMacInstallerContext) sp.GetRequiredService<IMacInstaller>())
-            .AddScoped<IPredefinedInstallersContext>(sp => (IPredefinedInstallersContext) sp.GetRequiredService<IPredefinedInstallers>())
             .AddScoped<IInstallersContext, InstallersContext>()
-            // Register Network domain context interfaces
-            .AddScoped<IHttpContext>(sp => (IHttpContext) sp.GetRequiredService<IHttp>())
-            .AddScoped<IDownloaderContext>(sp => (IDownloaderContext) sp.GetRequiredService<IDownloader>())
             .AddScoped<INetworkContext, NetworkContext>()
-            // Register Security domain context interfaces
-            .AddScoped<ICertificatesContext>(sp => (ICertificatesContext) sp.GetRequiredService<ICertificates>())
-            .AddSingleton<IHasherContext>(sp => (IHasherContext) sp.GetRequiredService<IHasher>())
             .AddScoped<ISecurityContext, SecurityContext>()
             // Register Services domain context
             .AddScoped<IServicesContext, ServicesContext>()
@@ -282,7 +255,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IOptionsProvider, OptionsProvider>()
             .AddSingleton<IModuleConditionHandler, ModuleConditionHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
-            .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
+            .AddSingleton<IEnvironmentVariablesContext, EnvironmentVariables>()
             .AddSingleton<IThreadPoolConfigurator, ThreadPoolConfigurator>()
             .AddSingleton<IParallelLimitProvider, ParallelLimitProvider>()
             .AddSingleton<ICommandModelProvider, CommandModelProvider>()
@@ -348,13 +321,13 @@ internal static class DependencyInjectionSetup
     private static void RegisterUtilityServices(IServiceCollection services)
     {
         services
-            .AddSingleton<IBase64, Base64>()
-            .AddSingleton<IHex, Hex>()
-            .AddSingleton<IChecksum, Checksum>()
-            .AddSingleton<IJson, Json>()
-            .AddSingleton<IXml, Xml>()
-            .AddSingleton<IYaml, Yaml>()
-            .AddSingleton<IHasher, Hasher>()
+            .AddSingleton<IBase64Context, Base64>()
+            .AddSingleton<IHexContext, Hex>()
+            .AddSingleton<IChecksumContext, Checksum>()
+            .AddSingleton<IJsonContext, Json>()
+            .AddSingleton<IXmlContext, Xml>()
+            .AddSingleton<IYamlContext, Yaml>()
+            .AddSingleton<IHasherContext, Hasher>()
             .AddSingleton<IToolResolver, ToolResolver>();
     }
 

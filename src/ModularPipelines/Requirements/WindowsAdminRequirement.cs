@@ -31,7 +31,7 @@ namespace ModularPipelines.Requirements;
 public class WindowsAdminRequirement : IPipelineRequirement
 {
     /// <inheritdoc/>
-    public Task<RequirementDecision> MustAsync(IPipelineHookContext context)
+    public Task<RequirementDecision> MustAsync(IPipelineContext context)
     {
         if (context.Environment.OperatingSystem == System.Runtime.InteropServices.OSPlatform.Windows)
         {

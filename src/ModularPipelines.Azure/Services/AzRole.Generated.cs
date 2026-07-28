@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzRole
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzRoleAssignment? _assignment;
     private AzRoleDefinition? _definition;
     private AzRoleDenyAssignment? _denyAssignment;
@@ -27,7 +27,7 @@ public class AzRole
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRole"/> class.
     /// </summary>
-    public AzRole(ICommand command)
+    public AzRole(ICommandContext command)
     {
         _command = command;
     }

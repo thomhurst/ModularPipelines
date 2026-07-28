@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerHub
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudContainerHubCloudrun? _cloudrun;
     private GcloudContainerHubClusterupgrade? _clusterupgrade;
     private GcloudContainerHubConfigManagement? _configManagement;
@@ -43,7 +43,7 @@ public class GcloudContainerHub
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerHub"/> class.
     /// </summary>
-    public GcloudContainerHub(ICommand command)
+    public GcloudContainerHub(ICommandContext command)
     {
         _command = command;
     }

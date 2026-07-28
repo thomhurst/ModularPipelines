@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAmsAccount
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzAmsAccountEncryption? _encryption;
     private AzAmsAccountIdentity? _identity;
     private AzAmsAccountMru? _mru;
@@ -29,7 +29,7 @@ public class AzAmsAccount
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAmsAccount"/> class.
     /// </summary>
-    public AzAmsAccount(ICommand command)
+    public AzAmsAccount(ICommandContext command)
     {
         _command = command;
     }

@@ -1,4 +1,5 @@
 using ModularPipelines.Context.Domains.Installers;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Models;
 using ModularPipelines.Options.Linux;
@@ -6,12 +7,12 @@ using ModularPipelines.Options.Linux.AptGet;
 
 namespace ModularPipelines.Context;
 
-internal class LinuxInstaller : ILinuxInstaller, ILinuxInstallerContext
+internal class LinuxInstaller : ILinuxInstallerContext
 {
     private readonly IAptGet _aptGet;
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
-    public LinuxInstaller(ICommand command, IAptGet aptGet)
+    public LinuxInstaller(ICommandContext command, IAptGet aptGet)
     {
         _command = command;
         _aptGet = aptGet;

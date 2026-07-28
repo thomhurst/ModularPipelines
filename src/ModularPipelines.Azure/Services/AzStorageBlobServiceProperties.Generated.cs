@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageBlobServiceProperties
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzStorageBlobServicePropertiesDeletePolicy? _deletePolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageBlobServiceProperties"/> class.
     /// </summary>
-    public AzStorageBlobServiceProperties(ICommand command)
+    public AzStorageBlobServiceProperties(ICommandContext command)
     {
         _command = command;
     }

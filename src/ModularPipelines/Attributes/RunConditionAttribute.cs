@@ -14,5 +14,5 @@ public abstract class RunConditionAttribute : Attribute
     /// </summary>
     /// <param name="pipelineContext">The pipeline context for evaluation.</param>
     /// <returns>A task that represents the asynchronous condition evaluation. The value is true if the module should run; otherwise, false.</returns>
-    public abstract Task<bool> Condition(IPipelineHookContext pipelineContext);
+    public abstract Task<bool> Condition(IPipelineContext pipelineContext);
 }

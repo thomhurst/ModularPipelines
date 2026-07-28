@@ -17,6 +17,7 @@ internal interface IModuleMetadataRegistry : IDependencyContext
     /// </summary>
     /// <param name="moduleType">The module type.</param>
     /// <param name="tags">The tags to add.</param>
+    /// <remarks>Call <see cref="FinalizeMetadata"/> again before reading metadata after this mutation.</remarks>
     void AddRegistrationTags(Type moduleType, IEnumerable<string> tags);
 
     /// <summary>
@@ -24,6 +25,7 @@ internal interface IModuleMetadataRegistry : IDependencyContext
     /// </summary>
     /// <param name="moduleType">The module type.</param>
     /// <param name="category">The category to set.</param>
+    /// <remarks>Call <see cref="FinalizeMetadata"/> again before reading metadata after this mutation.</remarks>
     void SetRegistrationCategory(Type moduleType, string category);
 
     /// <summary>

@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAuditmanager
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudAuditmanagerAuditReports? _auditReports;
     private GcloudAuditmanagerAuditScopes? _auditScopes;
     private GcloudAuditmanagerEnrollments? _enrollments;
@@ -28,7 +28,7 @@ public class GcloudAuditmanager
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAuditmanager"/> class.
     /// </summary>
-    public GcloudAuditmanager(ICommand command)
+    public GcloudAuditmanager(ICommandContext command)
     {
         _command = command;
     }

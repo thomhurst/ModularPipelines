@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Minikube.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Minikube.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class MinikubeCache
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MinikubeCache"/> class.
     /// </summary>
-    public MinikubeCache(ICommand command)
+    public MinikubeCache(ICommandContext command)
     {
         _command = command;
     }

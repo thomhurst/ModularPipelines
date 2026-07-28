@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
@@ -94,7 +95,7 @@ public class CommandTests : TestBase
         try
         {
             await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %~1\r\n");
-            var command = await GetService<ICommand>();
+            var command = await GetService<ICommandContext>();
 
             var result = await command.ExecuteCommandLineTool(
                 new GenericCommandLineToolOptions("mp-runtime-test")
@@ -140,7 +141,7 @@ public class CommandTests : TestBase
             await File.WriteAllTextAsync(
                 scriptPath,
                 "@echo off\r\nsetlocal DisableDelayedExpansion\r\nset \"arg=%~1\"\r\nsetlocal EnableDelayedExpansion\r\necho(!arg!\r\n");
-            var command = await GetService<ICommand>();
+            var command = await GetService<ICommandContext>();
 
             var result = await command.ExecuteCommandLineTool(
                 new GenericCommandLineToolOptions(scriptPath)
@@ -175,7 +176,7 @@ public class CommandTests : TestBase
         try
         {
             await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %CD%\r\n");
-            var command = await GetService<ICommand>();
+            var command = await GetService<ICommandContext>();
             var relativeToolPath = Path.ChangeExtension(
                 Path.GetRelativePath(Environment.CurrentDirectory, scriptPath),
                 null);
@@ -227,7 +228,7 @@ public class CommandTests : TestBase
         try
         {
             await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %CD%\r\n");
-            var command = await GetService<ICommand>();
+            var command = await GetService<ICommandContext>();
 
             var result = await command.ExecuteCommandLineTool(
                 new GenericCommandLineToolOptions("mp-runtime-path-test"),
@@ -260,7 +261,7 @@ public class CommandTests : TestBase
 
         try
         {
-            var command = await GetService<ICommand>();
+            var command = await GetService<ICommandContext>();
             using var cancellationTokenSource = new CancellationTokenSource();
             var script = string.Join(
                 "; ",
@@ -312,7 +313,7 @@ public class CommandTests : TestBase
 
         try
         {
-            var command = await GetService<ICommand>();
+            var command = await GetService<ICommandContext>();
             using var cancellationTokenSource = new CancellationTokenSource();
             var script = string.Join(
                 "; ",
@@ -365,7 +366,7 @@ public class CommandTests : TestBase
 
         try
         {
-            var command = await GetService<ICommand>();
+            var command = await GetService<ICommandContext>();
             using var cancellationTokenSource = new CancellationTokenSource();
             var script =
                 $"while (-not (Test-Path -LiteralPath '{EscapePowerShellLiteral(parentExitFile)}')) " +
@@ -409,7 +410,7 @@ public class CommandTests : TestBase
 
         try
         {
-            var command = await GetService<ICommand>();
+            var command = await GetService<ICommandContext>();
             using var cancellationTokenSource = new CancellationTokenSource();
             var intermediateScript = string.Join(
                 "; ",

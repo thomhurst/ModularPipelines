@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerBinauthz
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudContainerBinauthzAttestations? _attestations;
     private GcloudContainerBinauthzAttestors? _attestors;
     private GcloudContainerBinauthzPolicy? _policy;
@@ -27,7 +27,7 @@ public class GcloudContainerBinauthz
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerBinauthz"/> class.
     /// </summary>
-    public GcloudContainerBinauthz(ICommand command)
+    public GcloudContainerBinauthz(ICommandContext command)
     {
         _command = command;
     }

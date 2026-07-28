@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Podman.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Podman.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PodmanSecret
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PodmanSecret"/> class.
     /// </summary>
-    public PodmanSecret(ICommand command)
+    public PodmanSecret(ICommandContext command)
     {
         _command = command;
     }

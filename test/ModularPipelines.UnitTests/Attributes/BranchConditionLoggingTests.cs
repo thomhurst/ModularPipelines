@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Logging;
-using Moq;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Attributes;
 using ModularPipelines.Logging;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
@@ -19,7 +19,7 @@ public class BranchConditionLoggingTests
         var git = Mock.Of<IGit>(x => x.Information == gitInformation);
         var services = new Mock<IServicesContext>();
         services.Setup(x => x.Get<IGit>()).Returns(git);
-        var context = Mock.Of<IPipelineHookContext>(x =>
+        var context = Mock.Of<IPipelineContext>(x =>
             x.Logger == logger.Object &&
             x.Services == services.Object);
 

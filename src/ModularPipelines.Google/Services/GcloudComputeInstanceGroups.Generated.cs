@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeInstanceGroups
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudComputeInstanceGroupsManaged? _managed;
     private GcloudComputeInstanceGroupsUnmanaged? _unmanaged;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeInstanceGroups"/> class.
     /// </summary>
-    public GcloudComputeInstanceGroups(ICommand command)
+    public GcloudComputeInstanceGroups(ICommandContext command)
     {
         _command = command;
     }

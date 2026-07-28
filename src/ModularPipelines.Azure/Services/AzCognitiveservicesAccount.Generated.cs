@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCognitiveservicesAccount
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzCognitiveservicesAccountDeployment? _deployment;
     private AzCognitiveservicesAccountNetworkRule? _networkRule;
     private AzCognitiveservicesAccountProject? _project;
@@ -27,7 +27,7 @@ public class AzCognitiveservicesAccount
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCognitiveservicesAccount"/> class.
     /// </summary>
-    public AzCognitiveservicesAccount(ICommand command)
+    public AzCognitiveservicesAccount(ICommandContext command)
     {
         _command = command;
     }

@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudResourcemanagerTags
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudResourcemanagerTagsBindings? _bindings;
     private GcloudResourcemanagerTagsHolds? _holds;
     private GcloudResourcemanagerTagsKeys? _keys;
@@ -28,7 +28,7 @@ public class GcloudResourcemanagerTags
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudResourcemanagerTags"/> class.
     /// </summary>
-    public GcloudResourcemanagerTags(ICommand command)
+    public GcloudResourcemanagerTags(ICommandContext command)
     {
         _command = command;
     }

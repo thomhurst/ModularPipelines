@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Interfaces;
@@ -18,12 +18,12 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         _summaryLogger = summaryLogger;
     }
 
-    public Task OnStartAsync(IPipelineHookContext pipelineContext)
+    public Task OnStartAsync(IPipelineContext pipelineContext)
     {
         return Task.CompletedTask;
     }
 
-    public async Task OnEndAsync(IPipelineHookContext pipelineContext, PipelineSummary pipelineSummary)
+    public async Task OnEndAsync(IPipelineContext pipelineContext, PipelineSummary pipelineSummary)
     {
         var mermaid = await GenerateMermaidSummary(pipelineSummary);
         var table = await GenerateTableSummary(pipelineSummary);
@@ -39,7 +39,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         await WriteFile(pipelineContext, stepSummaryVariable, mermaid, table, exception);
     }
 
-    private async Task WriteFile(IPipelineHookContext pipelineContext, string stepSummaryVariable, string mermaid,
+    private async Task WriteFile(IPipelineContext pipelineContext, string stepSummaryVariable, string mermaid,
         string table, string exception)
     {
         var fileInfo = pipelineContext.Files.GetFile(stepSummaryVariable);

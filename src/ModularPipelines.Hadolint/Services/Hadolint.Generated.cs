@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Hadolint.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Hadolint.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Hadolint : IHadolint
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Hadolint"/> class.
     /// </summary>
-    public Hadolint(ICommand command)
+    public Hadolint(ICommandContext command)
     {
         _command = command;
     }

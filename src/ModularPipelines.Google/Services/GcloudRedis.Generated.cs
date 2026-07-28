@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudRedis
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudRedisAclPolicies? _aclPolicies;
     private GcloudRedisClusters? _clusters;
     private GcloudRedisInstances? _instances;
@@ -30,7 +30,7 @@ public class GcloudRedis
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRedis"/> class.
     /// </summary>
-    public GcloudRedis(ICommand command)
+    public GcloudRedis(ICommandContext command)
     {
         _command = command;
     }

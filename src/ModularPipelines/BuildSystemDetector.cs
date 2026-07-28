@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Enums;
 
 namespace ModularPipelines;
@@ -32,7 +33,7 @@ namespace ModularPipelines;
 /// </example>
 internal class BuildSystemDetector : IBuildSystemDetector
 {
-    private readonly IEnvironmentVariables _environmentVariables;
+    private readonly IEnvironmentVariablesContext _environmentVariables;
 
     private readonly Dictionary<string, BuildSystem> _variablesToBuildSystem = new()
     {
@@ -46,7 +47,7 @@ internal class BuildSystemDetector : IBuildSystemDetector
         ["APPVEYOR"] = BuildSystem.AppVeyor,
     };
 
-    public BuildSystemDetector(IEnvironmentVariables environmentVariables)
+    public BuildSystemDetector(IEnvironmentVariablesContext environmentVariables)
     {
         _environmentVariables = environmentVariables;
     }

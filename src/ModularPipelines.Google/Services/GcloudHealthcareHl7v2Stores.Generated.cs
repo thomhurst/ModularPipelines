@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudHealthcareHl7v2Stores
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudHealthcareHl7v2StoresExport? _export;
     private GcloudHealthcareHl7v2StoresImport? _import;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudHealthcareHl7v2Stores"/> class.
     /// </summary>
-    public GcloudHealthcareHl7v2Stores(ICommand command)
+    public GcloudHealthcareHl7v2Stores(ICommandContext command)
     {
         _command = command;
     }

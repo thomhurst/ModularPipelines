@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Pulumi.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Pulumi.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PulumiOrgWebhook
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private PulumiOrgWebhookDelivery? _delivery;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiOrgWebhook"/> class.
     /// </summary>
-    public PulumiOrgWebhook(ICommand command)
+    public PulumiOrgWebhook(ICommandContext command)
     {
         _command = command;
     }

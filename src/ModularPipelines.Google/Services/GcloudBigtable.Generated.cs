@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudBigtable
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudBigtableAppProfiles? _appProfiles;
     private GcloudBigtableAuthorizedViews? _authorizedViews;
     private GcloudBigtableBackups? _backups;
@@ -35,7 +35,7 @@ public class GcloudBigtable
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBigtable"/> class.
     /// </summary>
-    public GcloudBigtable(ICommand command)
+    public GcloudBigtable(ICommandContext command)
     {
         _command = command;
     }

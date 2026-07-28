@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudIamServiceAccounts
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudIamServiceAccountsKeys? _keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIamServiceAccounts"/> class.
     /// </summary>
-    public GcloudIamServiceAccounts(ICommand command)
+    public GcloudIamServiceAccounts(ICommandContext command)
     {
         _command = command;
     }

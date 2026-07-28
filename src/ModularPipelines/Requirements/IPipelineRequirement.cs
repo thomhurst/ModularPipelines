@@ -13,7 +13,7 @@ public interface IPipelineRequirement
     /// </summary>
     /// <param name="context">The pipeline context for evaluation.</param>
     /// <returns>A task that represents the asynchronous requirement evaluation containing the decision.</returns>
-    Task<RequirementDecision> MustAsync(IPipelineHookContext context);
+    Task<RequirementDecision> MustAsync(IPipelineContext context);
 
     /// <summary>
     /// Gets the order in which this requirement should be evaluated relative to other requirements.

@@ -54,7 +54,7 @@ public static class Require
     /// </code>
     /// </example>
     public static IPipelineRequirement That(
-        Func<IPipelineHookContext, bool> condition,
+        Func<IPipelineContext, bool> condition,
         string failureReason,
         int order = 0)
         => new DelegateRequirement(condition, failureReason, order);
@@ -78,7 +78,7 @@ public static class Require
     /// </code>
     /// </example>
     public static IPipelineRequirement ThatAsync(
-        Func<IPipelineHookContext, Task<bool>> condition,
+        Func<IPipelineContext, Task<bool>> condition,
         string failureReason,
         int order = 0)
         => new DelegateRequirement(condition, failureReason, order);

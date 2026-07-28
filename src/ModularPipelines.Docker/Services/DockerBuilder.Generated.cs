@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Docker.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DockerBuilder
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private DockerBuilderDap? _dap;
     private DockerBuilderHistory? _history;
     private DockerBuilderImagetools? _imagetools;
@@ -28,7 +28,7 @@ public class DockerBuilder
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerBuilder"/> class.
     /// </summary>
-    public DockerBuilder(ICommand command)
+    public DockerBuilder(ICommandContext command)
     {
         _command = command;
     }

@@ -1,6 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
+using ModularPipelines.Context.Domains.Environment;
+using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.Context.Domains.Installers;
+using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -12,7 +16,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Context;
 
 [ExcludeFromCodeCoverage]
-public partial class PredefinedInstallers : IPredefinedInstallers, IPredefinedInstallersContext
+public partial class PredefinedInstallers : IPredefinedInstallersContext
 {
     /// <summary>
     /// Version constants for predefined installers.
@@ -47,26 +51,26 @@ public partial class PredefinedInstallers : IPredefinedInstallers, IPredefinedIn
         public const string NvmLinux = "0.39.4";
     }
 
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private readonly IEnvironmentContext _environmentContext;
-    private readonly IDownloader _downloader;
+    private readonly IDownloaderContext _downloader;
 
-    private readonly IMacInstaller _macInstaller;
-    private readonly IWindowsInstaller _windowsInstaller;
-    private readonly ILinuxInstaller _linuxInstaller;
-    private readonly IBash _bash;
-    private readonly IZip _zip;
-    private readonly IEnvironmentVariables _environmentVariables;
+    private readonly IMacInstallerContext _macInstaller;
+    private readonly IWindowsInstallerContext _windowsInstaller;
+    private readonly ILinuxInstallerContext _linuxInstaller;
+    private readonly IBashContext _bash;
+    private readonly IZipContext _zip;
+    private readonly IEnvironmentVariablesContext _environmentVariables;
 
-    public PredefinedInstallers(ICommand command,
+    public PredefinedInstallers(ICommandContext command,
         IEnvironmentContext environmentContext,
-        IDownloader downloader,
-        IMacInstaller macInstaller,
-        IWindowsInstaller windowsInstaller,
-        ILinuxInstaller linuxInstaller,
-        IBash bash,
-        IZip zip,
-        IEnvironmentVariables environmentVariables)
+        IDownloaderContext downloader,
+        IMacInstallerContext macInstaller,
+        IWindowsInstallerContext windowsInstaller,
+        ILinuxInstallerContext linuxInstaller,
+        IBashContext bash,
+        IZipContext zip,
+        IEnvironmentVariablesContext environmentVariables)
     {
         _command = command;
         _environmentContext = environmentContext;

@@ -4,11 +4,11 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-internal class Powershell : IPowershell, IPowerShellContext
+internal class Powershell : IPowerShellContext
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
-    public Powershell(ICommand command)
+    public Powershell(ICommandContext command)
     {
         _command = command;
     }

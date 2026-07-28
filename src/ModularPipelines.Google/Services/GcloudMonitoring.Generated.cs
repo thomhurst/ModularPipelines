@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudMonitoring
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudMonitoringDashboards? _dashboards;
     private GcloudMonitoringPolicies? _policies;
     private GcloudMonitoringSnoozes? _snoozes;
@@ -28,7 +28,7 @@ public class GcloudMonitoring
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMonitoring"/> class.
     /// </summary>
-    public GcloudMonitoring(ICommand command)
+    public GcloudMonitoring(ICommandContext command)
     {
         _command = command;
     }

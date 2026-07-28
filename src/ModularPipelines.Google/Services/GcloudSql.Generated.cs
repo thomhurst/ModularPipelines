@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudSql
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudSqlBackups? _backups;
     private GcloudSqlDatabases? _databases;
     private GcloudSqlExport? _export;
@@ -35,7 +35,7 @@ public class GcloudSql
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSql"/> class.
     /// </summary>
-    public GcloudSql(ICommand command)
+    public GcloudSql(ICommandContext command)
     {
         _command = command;
     }

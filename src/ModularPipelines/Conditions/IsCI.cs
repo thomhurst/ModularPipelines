@@ -23,7 +23,7 @@ namespace ModularPipelines.Conditions;
 public sealed class IsCI : IRunCondition
 {
     /// <inheritdoc />
-    public Task<bool> EvaluateAsync(IPipelineHookContext context)
+    public Task<bool> EvaluateAsync(IPipelineContext context)
     {
         var ciEnvVar = context.Environment.Variables.GetEnvironmentVariable("CI");
         var isCI = !string.IsNullOrEmpty(ciEnvVar) &&

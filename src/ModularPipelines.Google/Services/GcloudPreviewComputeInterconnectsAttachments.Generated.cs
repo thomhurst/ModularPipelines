@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeInterconnectsAttachments
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudPreviewComputeInterconnectsAttachmentsDedicated? _dedicated;
     private GcloudPreviewComputeInterconnectsAttachmentsGroups? _groups;
     private GcloudPreviewComputeInterconnectsAttachmentsL2Forwarding? _l2Forwarding;
@@ -28,7 +28,7 @@ public class GcloudPreviewComputeInterconnectsAttachments
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeInterconnectsAttachments"/> class.
     /// </summary>
-    public GcloudPreviewComputeInterconnectsAttachments(ICommand command)
+    public GcloudPreviewComputeInterconnectsAttachments(ICommandContext command)
     {
         _command = command;
     }

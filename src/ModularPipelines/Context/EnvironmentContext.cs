@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Context;
@@ -8,7 +9,7 @@ internal class EnvironmentContext : IEnvironmentContext
     private readonly IHostEnvironment _hostEnvironment;
 
     public EnvironmentContext(IHostEnvironment hostEnvironment,
-        IEnvironmentVariables environmentVariables)
+        IEnvironmentVariablesContext environmentVariables)
     {
         _hostEnvironment = hostEnvironment;
         EnvironmentVariables = environmentVariables;
@@ -31,7 +32,7 @@ internal class EnvironmentContext : IEnvironmentContext
 
     public Folder WorkingDirectory { get; } = Environment.CurrentDirectory!;
 
-    public IEnvironmentVariables EnvironmentVariables { get; }
+    public IEnvironmentVariablesContext EnvironmentVariables { get; }
 
     public Folder? GetFolder(Environment.SpecialFolder specialFolder)
     {

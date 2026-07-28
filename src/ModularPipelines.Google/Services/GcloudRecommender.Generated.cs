@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudRecommender
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudRecommenderInsights? _insights;
     private GcloudRecommenderInsightTypeConfig? _insightTypeConfig;
     private GcloudRecommenderRecommendations? _recommendations;
@@ -28,7 +28,7 @@ public class GcloudRecommender
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRecommender"/> class.
     /// </summary>
-    public GcloudRecommender(ICommand command)
+    public GcloudRecommender(ICommandContext command)
     {
         _command = command;
     }

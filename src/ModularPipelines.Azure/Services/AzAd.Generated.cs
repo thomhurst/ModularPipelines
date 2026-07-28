@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAd
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzAdApp? _app;
     private AzAdGroup? _group;
     private AzAdSignedInUser? _signedInUser;
@@ -29,7 +29,7 @@ public class AzAd
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAd"/> class.
     /// </summary>
-    public AzAd(ICommand command)
+    public AzAd(ICommandContext command)
     {
         _command = command;
     }

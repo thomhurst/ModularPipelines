@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Grype.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Grype.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GrypeDbSearch
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GrypeDbSearch"/> class.
     /// </summary>
-    public GrypeDbSearch(ICommand command)
+    public GrypeDbSearch(ICommandContext command)
     {
         _command = command;
     }

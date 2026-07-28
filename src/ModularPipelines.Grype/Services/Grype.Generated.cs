@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Grype.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Grype.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Grype : IGrype
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Grype"/> class.
     /// </summary>
     public Grype(
         GrypeDb db,
-        ICommand command
+        ICommandContext command
     )
     {
         Db = db;

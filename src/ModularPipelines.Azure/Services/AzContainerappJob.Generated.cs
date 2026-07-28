@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzContainerappJob
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzContainerappJobIdentity? _identity;
     private AzContainerappJobSecret? _secret;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainerappJob"/> class.
     /// </summary>
-    public AzContainerappJob(ICommand command)
+    public AzContainerappJob(ICommandContext command)
     {
         _command = command;
     }

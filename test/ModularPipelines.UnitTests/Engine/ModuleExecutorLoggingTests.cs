@@ -77,7 +77,9 @@ public class ModuleExecutorLoggingTests
             registrationEvents.Object,
             Mock.Of<IMetricsCollector>(),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
+            new ModuleMetadataRegistry(
+                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+                new ModuleAttributeEventService()),
             Mock.Of<ISecondaryExceptionContainer>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             new StringLogger<ModuleExecutor>(logs));
@@ -94,7 +96,8 @@ public class ModuleExecutorLoggingTests
     {
         var dependencyRegistry = new ModuleDependencyRegistry();
         var metadataRegistry = new ModuleMetadataRegistry(
-            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()));
+            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+            new ModuleAttributeEventService());
         var scheduler = new ModuleScheduler(
             NullLogger.Instance,
             TimeProvider.System,
@@ -234,7 +237,9 @@ public class ModuleExecutorLoggingTests
             registrationEvents.Object,
             Mock.Of<IMetricsCollector>(),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
+            new ModuleMetadataRegistry(
+                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+                new ModuleAttributeEventService()),
             secondaryExceptionContainer.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {

@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Liquibase.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Liquibase.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Liquibase : ILiquibase
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Liquibase"/> class.
     /// </summary>
-    public Liquibase(ICommand command)
+    public Liquibase(ICommandContext command)
     {
         _command = command;
     }

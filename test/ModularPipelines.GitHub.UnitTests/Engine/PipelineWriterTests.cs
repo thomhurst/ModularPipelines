@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Context;
+using ModularPipelines.Context;
 using ModularPipelines.GitHub.PipelineWriters;
 using ModularPipelines.TestHelpers;
 
@@ -16,7 +16,7 @@ public class PipelineWriterTests : TestBase
     public class GitHubYamlWriter : GitHubPipelineFileWriter
     {
         public override async Task<GitHubPipelineFileWriterOptions> GetGitHubPipelineFileWriterOptions(
-            IPipelineHookContext pipelineHookContext)
+            IPipelineContext pipelineHookContext)
         {
             await Task.Yield();
 

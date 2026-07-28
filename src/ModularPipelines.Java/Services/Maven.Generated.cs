@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Java.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Java.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Maven : IMaven
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Maven"/> class.
     /// </summary>
-    public Maven(ICommand command)
+    public Maven(ICommandContext command)
     {
         _command = command;
     }

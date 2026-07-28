@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzResourcemanagement
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzResourcemanagementPrivateLink? _privateLink;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzResourcemanagement"/> class.
     /// </summary>
-    public AzResourcemanagement(ICommand command)
+    public AzResourcemanagement(ICommandContext command)
     {
         _command = command;
     }

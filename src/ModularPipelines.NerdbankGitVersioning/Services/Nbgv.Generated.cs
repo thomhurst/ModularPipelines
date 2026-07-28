@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.NerdbankGitVersioning.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.NerdbankGitVersioning.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Nbgv : INbgv
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Nbgv"/> class.
     /// </summary>
-    public Nbgv(ICommand command)
+    public Nbgv(ICommandContext command)
     {
         _command = command;
     }
