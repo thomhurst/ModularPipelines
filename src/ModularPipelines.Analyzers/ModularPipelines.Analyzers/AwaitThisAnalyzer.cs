@@ -45,21 +45,21 @@ public class AwaitThisAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        // Check if we're inside a module class (inherits from ModuleBase)
+        // Check if we're inside a module class.
         var containingClass = context.GetClassThatNodeIsIn();
         if (containingClass == null)
         {
             return;
         }
 
-        if (containingClass.GetSelfAndAllBaseTypes().All(x => x.Name != AnalyzerConstants.TypeNames.ModuleBase))
+        if (!containingClass.IsModule(context.Compilation))
         {
             return;
         }
 
-        // Check if we're inside the OnAfterExecute method - if so, allow await this
+        // Check if we're inside the OnAfterExecuteAsync method - if so, allow await this
         var containingMethod = awaitExpression.FirstAncestorOrSelf<MethodDeclarationSyntax>();
-        if (containingMethod?.Identifier.Text == AnalyzerConstants.MethodNames.OnAfterExecute)
+        if (containingMethod?.Identifier.Text == AnalyzerConstants.MethodNames.OnAfterExecuteAsync)
         {
             return;
         }
