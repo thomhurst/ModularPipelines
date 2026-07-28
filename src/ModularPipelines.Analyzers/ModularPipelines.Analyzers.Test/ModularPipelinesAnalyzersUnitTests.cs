@@ -118,6 +118,7 @@ namespace ModularPipelines.Examples.Modules
         protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var module1 = await {|#0:context.GetModule1Module()|};
+            var optionalModule1 = await {|#1:context.GetModule1ModuleIfRegistered()|};
             return null;
         }
     }
@@ -130,11 +131,15 @@ namespace ModularPipelines.Generated
     {
         public static ModularPipelines.Examples.Modules.Module1 GetModule1Module(this IModuleContext context)
             => context.GetModule<ModularPipelines.Examples.Modules.Module1>();
+
+        public static ModularPipelines.Examples.Modules.Module1? GetModule1ModuleIfRegistered(this IModuleContext context)
+            => context.GetModuleIfRegistered<ModularPipelines.Examples.Modules.Module1>();
     }
 }";
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
+        var optionalExpected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(1);
 
-        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+        await VerifyCS.VerifyAnalyzerAsync(source, expected, optionalExpected);
     }
 
     [TestMethod]

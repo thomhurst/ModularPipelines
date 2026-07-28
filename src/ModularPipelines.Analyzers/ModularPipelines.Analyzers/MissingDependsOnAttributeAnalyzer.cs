@@ -118,7 +118,8 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
         if (!extensionMethod.IsExtensionMethod ||
             !extensionMethod.Name.StartsWith("Get", StringComparison.Ordinal) ||
-            !extensionMethod.Name.EndsWith("Module", StringComparison.Ordinal) ||
+            (!extensionMethod.Name.EndsWith("Module", StringComparison.Ordinal) &&
+             !extensionMethod.Name.EndsWith("ModuleIfRegistered", StringComparison.Ordinal)) ||
             extensionMethod.Parameters.Length == 0 ||
             !SymbolEqualityComparer.Default.Equals(extensionMethod.Parameters[0].Type, moduleContextType) ||
             extensionMethod.ContainingType.ToDisplayString() != "ModularPipelines.Generated.ModuleContextExtensions" ||
@@ -132,7 +133,8 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return false;
         }
 
-        moduleType = generatedModuleType;
+        moduleType = (INamedTypeSymbol)generatedModuleType
+            .WithNullableAnnotation(NullableAnnotation.NotAnnotated);
         return true;
     }
 
