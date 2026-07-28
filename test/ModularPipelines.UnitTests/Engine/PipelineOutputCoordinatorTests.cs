@@ -22,12 +22,14 @@ public class PipelineOutputCoordinatorTests
     }
 
     [Test]
-    public async Task PipelineBuilder_CopiesModuleOutputFlushInterval()
+    public async Task PipelineBuilder_CopiesModuleOutputFlushSettings()
     {
         var builder = TestPipelineHostBuilder.Create()
             .AddModule<OptionsTestModule>();
         var expectedInterval = TimeSpan.FromSeconds(17);
+        const int expectedThreshold = 23;
         builder.Options.ModuleOutputFlushInterval = expectedInterval;
+        builder.Options.ModuleOutputFlushThreshold = expectedThreshold;
 
         await using var pipeline = await builder.BuildAsync();
         var runtimeOptions = pipeline.Services
@@ -35,6 +37,7 @@ public class PipelineOutputCoordinatorTests
             .Value;
 
         await Assert.That(runtimeOptions.ModuleOutputFlushInterval).IsEqualTo(expectedInterval);
+        await Assert.That(runtimeOptions.ModuleOutputFlushThreshold).IsEqualTo(expectedThreshold);
     }
 
     [Test]
@@ -85,6 +88,97 @@ public class PipelineOutputCoordinatorTests
         await Assert.That(string.Join(",", events))
             .IsEqualTo("quiesced,retained,scheduled,progress,deferred,unattributed");
         outputCoordinator.VerifyAll();
+    }
+
+    [Test]
+    public async Task Dispose_FlushesDeferredOutputWhenEarlierTeardownFails()
+    {
+        var events = new List<string>();
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.FlushPendingWritesAsync())
+            .Callback(() => events.Add("retained"))
+            .ThrowsAsync(new InvalidOperationException("retained flush failed"));
+        consoleCoordinator
+            .Setup(x => x.FlushModuleOutputAsync())
+            .Callback(() => events.Add("unattributed"))
+            .Returns(Task.CompletedTask);
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        outputCoordinator
+            .Setup(x => x.WaitForPendingFlushesAsync(It.IsAny<CancellationToken>()))
+            .Callback(() => events.Add("quiesced"))
+            .Returns(Task.CompletedTask);
+        outputCoordinator
+            .Setup(x => x.FlushDeferredAsync(It.IsAny<CancellationToken>()))
+            .Callback(() => events.Add("deferred"))
+            .Returns(Task.CompletedTask);
+        var coordinator = new PipelineOutputCoordinator(
+            new RecordingProgressExecutor(events),
+            Mock.Of<IConsolePrinter>(),
+            Mock.Of<IInternalSummaryLogger>(),
+            Mock.Of<IExceptionBuffer>(),
+            consoleCoordinator.Object,
+            outputCoordinator.Object,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+            {
+                ModuleOutputFlushInterval = TimeSpan.Zero,
+            }),
+            Mock.Of<ILogger<PipelineOutputCoordinator>>());
+        var scope = await coordinator.InitializeAsync();
+
+        await Assert.ThrowsAsync<InvalidOperationException>(async () => await scope.DisposeAsync());
+
+        await Assert.That(string.Join(",", events))
+            .IsEqualTo("quiesced,retained,progress,deferred,unattributed");
+    }
+
+    [Test]
+    public async Task Dispose_AggregatesTeardownFailuresInExecutionOrder()
+    {
+        var events = new List<string>();
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.FlushPendingWritesAsync())
+            .Callback(() => events.Add("retained"))
+            .ThrowsAsync(new InvalidOperationException("retained flush failed"));
+        consoleCoordinator
+            .Setup(x => x.FlushModuleOutputAsync())
+            .Callback(() => events.Add("unattributed"))
+            .ThrowsAsync(new IOException("unattributed flush failed"));
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        outputCoordinator
+            .Setup(x => x.WaitForPendingFlushesAsync(It.IsAny<CancellationToken>()))
+            .Callback(() => events.Add("quiesced"))
+            .Returns(Task.CompletedTask);
+        outputCoordinator
+            .Setup(x => x.FlushDeferredAsync(It.IsAny<CancellationToken>()))
+            .Callback(() => events.Add("deferred"))
+            .ThrowsAsync(new ApplicationException("deferred flush failed"));
+        var coordinator = new PipelineOutputCoordinator(
+            new RecordingProgressExecutor(events),
+            Mock.Of<IConsolePrinter>(),
+            Mock.Of<IInternalSummaryLogger>(),
+            Mock.Of<IExceptionBuffer>(),
+            consoleCoordinator.Object,
+            outputCoordinator.Object,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+            {
+                ModuleOutputFlushInterval = TimeSpan.Zero,
+            }),
+            Mock.Of<ILogger<PipelineOutputCoordinator>>());
+        var scope = await coordinator.InitializeAsync();
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(async () =>
+            await scope.DisposeAsync());
+
+        await Assert.That(string.Join(",", events))
+            .IsEqualTo("quiesced,retained,progress,deferred,unattributed");
+        await Assert.That(exception!.InnerExceptions.Select(inner => inner.Message))
+            .IsEquivalentTo([
+                "retained flush failed",
+                "deferred flush failed",
+                "unattributed flush failed",
+            ]);
     }
 
     [Test]
