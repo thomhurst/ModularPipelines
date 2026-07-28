@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
@@ -18,6 +19,11 @@ public class FormatMarkdownModule : Module<CommandResult>
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithSkipWhen(ctx =>
         {
+            if (FastFailValidation.IsComplete)
+            {
+                return SkipDecision.Skip("Validated by the fast-fail CI job");
+            }
+
             if (ctx.GitHub().EnvironmentVariables.EventName != "pull_request")
             {
                 return SkipDecision.Skip("Not a pull request");

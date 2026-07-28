@@ -68,6 +68,8 @@ jobs:
 
   analyzers:
     name: analyzers
+    needs: fast-fail
+    if: needs.fast-fail.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -209,6 +211,8 @@ jobs:
       # Workstation GC keeps the build/test footprint lower than server GC (which allocates a
       # heap per core) on these multi-core runners.
       DOTNET_gcServer: "0"
+      # Markdown and OptionsGenerator tests passed in the prerequisite job.
+      FAST_FAIL_VALIDATED: "true"
 
     steps:
       # Keep the existing required check red when the prerequisite fails. A job skipped
