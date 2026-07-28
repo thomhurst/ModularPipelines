@@ -24,7 +24,7 @@ namespace ModularPipelines.Examples.Modules;";
 
     private const string BaseTypeWithAttribute = $@"{SimplerModuleHeader}
 
-public class Module1 : Module
+public class Module1 : Module<IDictionary<string, object>>
 {{
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
@@ -37,20 +37,20 @@ public class Module2 : DependsOnModule1
 {{
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        var module1 = await {{|#0:GetModule<Module1>()|}};
+        var module1 = await {{|#0:context.GetModule<Module1>()|}};
         return null;
     }}
 }}
 
 [DependsOn<Module1>]
-public abstract class DependsOnModule1 : Module
+public abstract class DependsOnModule1 : Module<IDictionary<string, object>>
 {{
 }}
 ";
 
     private const string InterfaceWithAttribute = $@"{SimplerModuleHeader}
 
-public class Module1 : Module
+public class Module1 : Module<IDictionary<string, object>>
 {{
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
@@ -59,11 +59,11 @@ public class Module1 : Module
     }}
 }}
 
-public class Module2 : Module, IDependsOnModule1
+public class Module2 : Module<IDictionary<string, object>>, IDependsOnModule1
 {{
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        var module1 = await {{|#0:GetModule<Module1>()|}};
+        var module1 = await {{|#0:context.GetModule<Module1>()|}};
         return null;
     }}
 }}
