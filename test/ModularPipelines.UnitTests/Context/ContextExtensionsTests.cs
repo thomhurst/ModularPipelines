@@ -1,6 +1,9 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
+using ModularPipelines.Context.Domains.Implementations;
+using ModularPipelines.Options;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Context;
@@ -32,11 +35,11 @@ public class ContextExtensionsTests
     public async Task GetService_WhenServiceNotRegistered_ShouldThrow()
     {
         // Arrange
-        var mockServices = new Mock<IServicesContext>();
-        mockServices.Setup(s => s.Get<TestService>()).Returns((TestService?)null!);
+        using var serviceProvider = new ServiceCollection().BuildServiceProvider();
+        var servicesContext = CreateServicesContext(serviceProvider);
 
         var mockContext = new Mock<IModuleContext>();
-        mockContext.Setup(c => c.Services).Returns(mockServices.Object);
+        mockContext.Setup(c => c.Services).Returns(servicesContext);
 
         // Act & Assert
         await Assert.That(() => mockContext.Object.GetService<TestService>())
@@ -44,14 +47,14 @@ public class ContextExtensionsTests
     }
 
     [Test]
-    public async Task TryGetService_ShouldReturnServiceOrNull()
+    public async Task TryGetService_WhenServiceNotRegistered_ShouldReturnNull()
     {
         // Arrange
-        var mockServices = new Mock<IServicesContext>();
-        mockServices.Setup(s => s.Get<TestService>()).Returns((TestService?)null!);
+        using var serviceProvider = new ServiceCollection().BuildServiceProvider();
+        var servicesContext = CreateServicesContext(serviceProvider);
 
         var mockContext = new Mock<IModuleContext>();
-        mockContext.Setup(c => c.Services).Returns(mockServices.Object);
+        mockContext.Setup(c => c.Services).Returns(servicesContext);
 
         // Act
         var result = mockContext.Object.TryGetService<TestService>();
@@ -64,12 +67,14 @@ public class ContextExtensionsTests
     public async Task TryGetService_WhenServiceExists_ShouldReturnService()
     {
         // Arrange
-        var mockServices = new Mock<IServicesContext>();
         var expectedService = new TestService();
-        mockServices.Setup(s => s.Get<TestService>()).Returns(expectedService);
+        using var serviceProvider = new ServiceCollection()
+            .AddSingleton(expectedService)
+            .BuildServiceProvider();
+        var servicesContext = CreateServicesContext(serviceProvider);
 
         var mockContext = new Mock<IModuleContext>();
-        mockContext.Setup(c => c.Services).Returns(mockServices.Object);
+        mockContext.Setup(c => c.Services).Returns(servicesContext);
 
         // Act
         var result = mockContext.Object.TryGetService<TestService>();
@@ -134,6 +139,14 @@ public class ContextExtensionsTests
         // Act & Assert
         await Assert.That(() => mockContext.Object.GetRequiredConfigValue("MissingKey"))
             .ThrowsExactly<InvalidOperationException>();
+    }
+
+    private static ServicesContext CreateServicesContext(IServiceProvider serviceProvider)
+    {
+        return new ServicesContext(
+            serviceProvider,
+            new ConfigurationBuilder().Build(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
     }
 
     private class TestService

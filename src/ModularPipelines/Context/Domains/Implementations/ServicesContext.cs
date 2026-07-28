@@ -33,6 +33,9 @@ internal class ServicesContext : IServicesContext
     public T Get<T>() where T : class => _serviceProvider.GetRequiredService<T>();
 
     /// <inheritdoc />
+    public T? TryGet<T>() where T : class => _serviceProvider.GetService<T>();
+
+    /// <inheritdoc />
     public IConfiguration Configuration { get; }
 
     /// <inheritdoc />
