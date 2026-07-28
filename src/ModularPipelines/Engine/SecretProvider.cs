@@ -36,12 +36,17 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
     private readonly IBuildSystemSecretMasker _buildSystemSecretMasker;
     private readonly IOptions<SecretMaskingOptions> _maskingOptions;
     private readonly ILogger<SecretProvider> _logger;
-    private readonly ConcurrentDictionary<string, byte> _secrets = new();
+    private readonly HashSet<string> _secrets = new(StringComparer.Ordinal);
     private readonly ConcurrentDictionary<string, byte> _nativeMaskPatterns = new();
     private readonly ConcurrentDictionary<string, byte> _shortSecretWarnings = new();
     private readonly object _initLock = new();
+    private readonly object _secretsLock = new();
 
+    private long _version;
     private volatile bool _initialized;
+
+    /// <inheritdoc />
+    public long Version => Volatile.Read(ref _version);
 
     /// <summary>
     /// Gets all registered secrets.
@@ -51,7 +56,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
     /// Secrets added during enumeration will not be included in the current iteration.
     /// Each enumeration creates a new snapshot.
     /// </remarks>
-    public IEnumerable<string> Secrets => _secrets.Keys;
+    public IEnumerable<string> Secrets => GetSnapshot().Secrets;
 
     public SecretProvider(
         IOptionsProvider optionsProvider,
@@ -91,9 +96,22 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             return;
         }
 
-        foreach (var pattern in patterns)
+        lock (_secretsLock)
         {
-            _secrets.TryAdd(pattern, 0);
+            if (patterns.All(_secrets.Contains))
+            {
+                return;
+            }
+
+            // Odd versions mark an in-progress publication so readers cannot reuse
+            // a cache while the matching secret collection is being updated.
+            Interlocked.Increment(ref _version);
+            foreach (var pattern in patterns)
+            {
+                _secrets.Add(pattern);
+            }
+
+            Interlocked.Increment(ref _version);
         }
     }
 
@@ -110,6 +128,15 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
     public void AddSecrets(params string?[] secrets)
     {
         AddSecrets((IEnumerable<string?>) secrets);
+    }
+
+    /// <inheritdoc />
+    public SecretSnapshot GetSnapshot()
+    {
+        lock (_secretsLock)
+        {
+            return new SecretSnapshot(Version, _secrets.ToArray());
+        }
     }
 
     [RequiresUnreferencedCode("Calls ModularPipelines.Engine.SecretProvider.GetSecretProperties(Type)")]

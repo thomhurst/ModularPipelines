@@ -89,7 +89,7 @@ internal class CommandLogger : ICommandLogger
     {
         var isSuccess = exitCode == 0;
         var obfuscatedInput = ShouldShowInput(options)
-            ? _secretObfuscator.Obfuscate(input, execOpts)
+            ? _secretObfuscator.Obfuscate(input, null)
             : LoggingConstants.CommandMask;
 
         var commandMessage = new StringBuilder();
@@ -113,7 +113,7 @@ internal class CommandLogger : ICommandLogger
             && options.ShowStandardOutput;
 
         var inlineOutput = hasShortOutput && isSuccess
-            ? $" → {_secretObfuscator.Obfuscate(trimmedOutput, execOpts)}"
+            ? $" → {_secretObfuscator.Obfuscate(trimmedOutput, null)}"
             : string.Empty;
 
         // Add status indicator and metadata
@@ -164,7 +164,7 @@ internal class CommandLogger : ICommandLogger
             && options.Verbosity >= CommandLogVerbosity.Normal
             && options.ShowStandardOutput)
         {
-            Logger.LogInformation("  ↳ {CommandOutput}", _secretObfuscator.Obfuscate(trimmedOutput, execOpts));
+            Logger.LogInformation("  ↳ {CommandOutput}", _secretObfuscator.Obfuscate(trimmedOutput, null));
         }
 
         // Log errors on separate line
@@ -173,7 +173,7 @@ internal class CommandLogger : ICommandLogger
             && options.ShowStandardError
             && exitCode != 0)
         {
-            Logger.LogWarning("  ✗ {CommandError}", _secretObfuscator.Obfuscate(standardErrorToLog, execOpts));
+            Logger.LogWarning("  ✗ {CommandError}", _secretObfuscator.Obfuscate(standardErrorToLog, null));
         }
 
         // Log working directory only at Diagnostic level (separate line, indented)
