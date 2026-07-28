@@ -210,7 +210,7 @@ internal class CoordinatedTextWriter : TextWriter
         }
 
         var snapshot = _secretProvider.GetSnapshot();
-        _secretPatterns = snapshot.Secrets
+        _secretPatterns = (snapshot.Secrets ?? [])
             .Where(pattern => !string.IsNullOrEmpty(pattern))
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .OrderByDescending(pattern => pattern.Length)
