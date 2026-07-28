@@ -201,13 +201,25 @@ public record PipelineOptions
 
     /// <summary>
     /// Gets or sets how often buffered output from still-running modules is written to the console.
-    /// Set to <see cref="TimeSpan.Zero"/> to retain all module output until the module completes.
+    /// Set to <see cref="TimeSpan.Zero"/> to disable time-based flushing.
     /// </summary>
     /// <remarks>
     /// Periodic flushing preserves diagnostic output when a process is killed before pipeline
-    /// teardown can run. The default is one minute.
+    /// teardown can run. Size-triggered flushing remains controlled separately by
+    /// <see cref="ModuleOutputFlushThreshold"/>. The default is one minute.
     /// </remarks>
     public TimeSpan ModuleOutputFlushInterval { get; set; } = TimeSpan.FromMinutes(1);
+
+    /// <summary>
+    /// Gets or sets the number of buffered output entries that triggers an immediate incremental flush.
+    /// Set to 0 to disable size-triggered flushing.
+    /// </summary>
+    /// <remarks>
+    /// The default is 1,000 entries per module. This limits retained output between periodic flushes
+    /// without changing the order or final completion status of module output. The threshold counts
+    /// entries and does not impose a byte-size cap.
+    /// </remarks>
+    public int ModuleOutputFlushThreshold { get; set; } = 1_000;
 
     /// <summary>
     /// Gets or sets the default execution options for all commands.

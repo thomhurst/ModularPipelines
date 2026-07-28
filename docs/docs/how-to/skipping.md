@@ -39,7 +39,8 @@ When you need access to the pipeline context for your skip condition:
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main")
+        .WithSkipWhen(async ctx =>
+            (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main")
         .Build();
 
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -57,9 +58,10 @@ For better reporting, you can return a `SkipDecision` with a reason:
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(ctx =>
+        .WithSkipWhen(async ctx =>
         {
-            if (ctx.Git().Information.BranchName == "main")
+            var repositoryInfo = await ctx.Git().Information.GetInfoAsync();
+            if (repositoryInfo?.BranchName == "main")
             {
                 return SkipDecision.DoNotSkip;
             }
@@ -99,7 +101,8 @@ You can combine skip conditions with other module behaviors:
 public class CleanupModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main")
+        .WithSkipWhen(async ctx =>
+            (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main")
         .WithAlwaysRun()  // Run even if dependencies fail (when not skipped)
         .WithTimeout(TimeSpan.FromMinutes(5))
         .Build();

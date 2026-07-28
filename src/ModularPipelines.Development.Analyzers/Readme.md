@@ -109,14 +109,13 @@ await builder.Build().RunAsync();
 ```csharp
 public class FindNugetPackagesModule : Module<List<File>>
 {
-    protected override Task<List<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        List<File>? files = context.Git()
-            .RootDirectory
+        var repositoryInfo = await context.Git().Information.GetInfoAsync()
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        return repositoryInfo.Root
             .GetFiles(path => path.Extension is ".nupkg")
             .ToList();
-
-        return Task.FromResult(files);
     }
 }
 ```
