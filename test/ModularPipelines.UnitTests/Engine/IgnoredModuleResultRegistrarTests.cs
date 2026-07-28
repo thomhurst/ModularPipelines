@@ -13,7 +13,7 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
 
-[TUnit.Core.NotInParallel(nameof(IgnoredModuleResultRegistrarTests))]
+[TUnit.Core.NotInParallel("MODULAR_PIPELINES_INSTANCE")]
 public class IgnoredModuleResultRegistrarTests
 {
     [Test]

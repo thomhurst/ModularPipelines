@@ -109,10 +109,8 @@ public class RunnableCategoryTests : TestBase
     public async Task Registration_Category_Override_Is_Used_For_Run_Filtering()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
-            {
-                services.AddModule<RegistrationCategoryModule>().WithCategory("Run1");
-            })
+            .AddModule<RegistrationCategoryModule>()
+            .WithCategory("Run1")
             .RunCategories("Run1")
             .BuildAsync();
 

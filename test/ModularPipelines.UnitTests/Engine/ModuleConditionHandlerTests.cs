@@ -12,7 +12,7 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
 
-[TUnit.Core.NotInParallel(nameof(ModuleConditionHandlerTests))]
+[TUnit.Core.NotInParallel("MODULAR_PIPELINES_INSTANCE")]
 public class ModuleConditionHandlerTests
 {
     private static int _conditionEvaluationCount;

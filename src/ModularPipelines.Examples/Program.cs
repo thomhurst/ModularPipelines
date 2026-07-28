@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines;
 using ModularPipelines.Examples.Modules.Approvals;
 using ModularPipelines.Examples.Modules.Launch;
@@ -18,8 +17,7 @@ builder.Configuration
 
 builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
 
-builder.Services
-
+builder
     // Layer 1: Pre-Flight Checks (No Dependencies - Run in Parallel)
     .AddModule<WeatherAnalysisModule>()
     .AddModule<CrewReadinessModule>()
@@ -48,4 +46,5 @@ builder.Services
     .AddModule<TelemetryStreamModule>()
     .AddModule<MissionStatusReportModule>();
 
-await builder.Build().RunAsync();
+await using var pipeline = await builder.BuildAsync();
+await pipeline.RunAsync();

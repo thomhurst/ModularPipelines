@@ -38,7 +38,7 @@ public abstract class TestBase
     {
         return ExecuteModulesAsync<T>(
             testHostSettings,
-            builder => builder.Services.AddModule<T>(),
+            builder => builder.AddModule<T>(),
             modules => modules.OfType<T>().Single());
     }
 
@@ -66,7 +66,7 @@ public abstract class TestBase
     {
         return ExecuteModulesAsync<(T, T2)>(
             testHostSettings,
-            builder => builder.Services.AddModule<T>().AddModule<T2>(),
+            builder => builder.AddModule<T>().AddModule<T2>(),
             modules => (
                 modules.OfType<T>().Single(),
                 modules.OfType<T2>().Single()));
@@ -100,7 +100,7 @@ public abstract class TestBase
     {
         return ExecuteModulesAsync<(T, T2, T3)>(
             testHostSettings,
-            builder => builder.Services.AddModule<T>().AddModule<T2>().AddModule<T3>(),
+            builder => builder.AddModule<T>().AddModule<T2>().AddModule<T3>(),
             modules => (
                 modules.OfType<T>().Single(),
                 modules.OfType<T2>().Single(),
@@ -139,7 +139,7 @@ public abstract class TestBase
     {
         return ExecuteModulesAsync<(T, T2, T3, T4)>(
             testHostSettings,
-            builder => builder.Services.AddModule<T>().AddModule<T2>().AddModule<T3>().AddModule<T4>(),
+            builder => builder.AddModule<T>().AddModule<T2>().AddModule<T3>().AddModule<T4>(),
             modules => (
                 modules.OfType<T>().Single(),
                 modules.OfType<T2>().Single(),
@@ -163,7 +163,7 @@ public abstract class TestBase
     {
         var builder = TestPipelineHostBuilder.Create(testHostSettings);
         configureModules(builder);
-        var pipeline = builder.Build();
+        var pipeline = await builder.BuildAsync();
 
         _pipelines.Add(pipeline);
 
@@ -176,7 +176,7 @@ public abstract class TestBase
     public async Task<T> GetService<T>()
         where T : notnull
     {
-        var valueTuple = await GetService<T>((Action<IServiceCollection>?)null);
+        var valueTuple = await GetService<T>((Action<IServiceCollection>?) null);
         return valueTuple.T;
     }
 
@@ -184,9 +184,9 @@ public abstract class TestBase
         where T : notnull
     {
         var builder = TestPipelineHostBuilder.Create();
-        builder.Services.AddModule<DummyModule>();
+        builder.AddModule<DummyModule>();
         configureServices?.Invoke(builder.Services);
-        var pipeline = builder.Build();
+        var pipeline = await builder.BuildAsync();
 
         _pipelines.Add(pipeline);
 
@@ -207,9 +207,9 @@ public abstract class TestBase
         where T : notnull
     {
         var builder = TestPipelineHostBuilder.Create();
-        builder.Services.AddModule<DummyModule>();
+        builder.AddModule<DummyModule>();
         configureServices(builder, builder.Services);
-        var pipeline = builder.Build();
+        var pipeline = await builder.BuildAsync();
 
         _pipelines.Add(pipeline);
 
