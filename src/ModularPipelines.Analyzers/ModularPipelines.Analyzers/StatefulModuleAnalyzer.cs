@@ -22,7 +22,7 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
     public const string DiagnosticId = "StatefulModule";
 
     /// <summary>
-    /// Diagnostic rule for stateful modules.
+    /// Gets the diagnostic rule for stateful modules.
     /// </summary>
     public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
         DiagnosticId,
