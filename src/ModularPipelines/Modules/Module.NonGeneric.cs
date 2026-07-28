@@ -3,6 +3,8 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
 
+#pragma warning disable SA1202 // Lifecycle members are grouped by behavior rather than accessibility.
+
 /// <summary>
 /// Base class for modules that don't return a meaningful result.
 /// </summary>
@@ -50,3 +52,5 @@ public abstract class Module : Module<None>
         return None.Value;
     }
 }
+
+#pragma warning restore SA1202

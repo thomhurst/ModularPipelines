@@ -36,7 +36,7 @@ namespace ModularPipelines.Options;
 public record SecretMaskingOptions
 {
     /// <summary>
-    /// Gets or sets whether secret matching should be case-insensitive.
+    /// Gets or sets a value indicating whether secret matching is case-insensitive.
     /// </summary>
     /// <remarks>
     /// When <c>true</c>, a secret value of "MyPassword" will also mask "MYPASSWORD", "mypassword", etc.

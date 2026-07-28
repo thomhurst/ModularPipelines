@@ -3,6 +3,8 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
 
+#pragma warning disable SA1202 // Lifecycle members are grouped by behavior rather than accessibility.
+
 /// <summary>
 /// A synchronous version of <see cref="Module{T}"/> that provides a simpler programming model
 /// when async operations are not needed.
@@ -202,3 +204,5 @@ public abstract class SyncModule<T> : Module<T>
         return Task.CompletedTask;
     }
 }
+
+#pragma warning restore SA1202

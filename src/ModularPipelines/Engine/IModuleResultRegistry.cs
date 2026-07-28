@@ -4,6 +4,8 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
 
+#pragma warning disable SA1649 // Registry support types intentionally share this file.
+
 /// <summary>
 /// Indicates the result of a module result lookup operation.
 /// </summary>
@@ -183,7 +185,7 @@ internal class ModuleResultRegistry : IModuleResultRegistry
     /// The sequence is:
     /// 1. Store result in dictionary
     /// 2. Memory barrier ensures the write is visible to other threads
-    /// 3. Signal completion via TCS
+    /// 3. Signal completion via TCS.
     /// </para>
     /// </remarks>
     public void RegisterResult<T>(Type moduleType, ModuleResult<T> result)
@@ -291,7 +293,7 @@ internal class ModuleResultRegistry : IModuleResultRegistry
     /// The sequence is:
     /// 1. Store result in dictionary
     /// 2. Memory barrier ensures the write is visible to other threads
-    /// 3. Signal completion via TCS
+    /// 3. Signal completion via TCS.
     /// </para>
     /// </remarks>
     public void RegisterResult(Type moduleType, IModuleResult result)
@@ -312,6 +314,8 @@ internal class ModuleResultRegistry : IModuleResultRegistry
         tcs.TrySetResult(result);
     }
 
-    private static TaskCompletionSource<object?> CreateCompletionSource(Type _) =>
+    private static TaskCompletionSource<object?> CreateCompletionSource(Type moduleType) =>
         new(TaskCreationOptions.RunContinuationsAsynchronously);
 }
+
+#pragma warning restore SA1649

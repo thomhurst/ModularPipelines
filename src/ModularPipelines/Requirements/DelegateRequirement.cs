@@ -36,7 +36,7 @@ public sealed class DelegateRequirement : IPipelineRequirement
     private readonly int _order;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DelegateRequirement"/> class with an async evaluator.
+    /// Initialises a new instance of the <see cref="DelegateRequirement"/> class with an async evaluator.
     /// </summary>
     /// <param name="evaluator">The async delegate that evaluates the requirement.</param>
     /// <param name="failureReason">The reason to display if the requirement fails.</param>
@@ -52,7 +52,7 @@ public sealed class DelegateRequirement : IPipelineRequirement
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DelegateRequirement"/> class with a sync evaluator.
+    /// Initialises a new instance of the <see cref="DelegateRequirement"/> class with a sync evaluator.
     /// </summary>
     /// <param name="evaluator">The delegate that evaluates the requirement.</param>
     /// <param name="failureReason">The reason to display if the requirement fails.</param>

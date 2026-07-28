@@ -18,57 +18,57 @@ namespace ModularPipelines.Options;
 public record CommandLoggingOptions
 {
     /// <summary>
-    /// Gets or sets the verbosity level. Default is Normal.
+    /// Gets the verbosity level. Default is Normal.
     /// </summary>
     public CommandLogVerbosity Verbosity { get; init; } = CommandLogVerbosity.Normal;
 
     /// <summary>
-    /// Gets or sets whether to include timestamps in output. Default is false.
+    /// Gets a value indicating whether timestamps are included in output. Default is false.
     /// </summary>
     public bool IncludeTimestamps { get; init; }
 
     /// <summary>
-    /// Gets or sets whether to show command arguments. Default is true.
+    /// Gets a value indicating whether command arguments are shown. Default is true.
     /// </summary>
     public bool ShowCommandArguments { get; init; } = true;
 
     /// <summary>
-    /// Gets or sets whether to show standard output. Default is true.
+    /// Gets a value indicating whether standard output is shown. Default is true.
     /// </summary>
     public bool ShowStandardOutput { get; init; } = true;
 
     /// <summary>
-    /// Gets or sets whether to show standard error. Default is true.
+    /// Gets a value indicating whether standard error is shown. Default is true.
     /// </summary>
     public bool ShowStandardError { get; init; } = true;
 
     /// <summary>
-    /// Gets or sets whether to show the exit code. Default is false.
+    /// Gets a value indicating whether the exit code is shown. Default is false.
     /// </summary>
     public bool ShowExitCode { get; init; }
 
     /// <summary>
-    /// Gets or sets whether to show the working directory. Default is false.
+    /// Gets a value indicating whether the working directory is shown. Default is false.
     /// </summary>
     public bool ShowWorkingDirectory { get; init; }
 
     /// <summary>
-    /// Gets or sets whether to show execution time. Default is false.
+    /// Gets a value indicating whether execution time is shown. Default is false.
     /// </summary>
     public bool ShowExecutionTime { get; init; }
 
     /// <summary>
-    /// Default logging options (Normal verbosity, all standard options enabled).
+    /// Gets the default logging options (Normal verbosity, all standard options enabled).
     /// </summary>
     public static CommandLoggingOptions Default { get; } = new();
 
     /// <summary>
-    /// Silent logging options (no output).
+    /// Gets silent logging options that produce no output.
     /// </summary>
     public static CommandLoggingOptions Silent { get; } = new() { Verbosity = CommandLogVerbosity.Silent };
 
     /// <summary>
-    /// Diagnostic logging options (maximum verbosity, all options enabled).
+    /// Gets diagnostic logging options with maximum verbosity and all options enabled.
     /// </summary>
     public static CommandLoggingOptions Diagnostic { get; } = new()
     {
@@ -79,6 +79,6 @@ public record CommandLoggingOptions
         ShowStandardError = true,
         ShowExitCode = true,
         ShowWorkingDirectory = true,
-        ShowExecutionTime = true
+        ShowExecutionTime = true,
     };
 }
