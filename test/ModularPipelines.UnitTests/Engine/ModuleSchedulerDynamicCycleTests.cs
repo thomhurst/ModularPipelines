@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Scheduling;
 using ModularPipelines.Exceptions;
@@ -332,7 +333,9 @@ public class ModuleSchedulerDynamicCycleTests
             TimeProvider.System,
             Microsoft.Extensions.Options.Options.Create(schedulerOptions ?? new SchedulerOptions()),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
+            new ModuleMetadataRegistry(
+                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+                new ModuleAttributeEventService()),
             Mock.Of<IMetricsCollector>(),
             constraintEvaluator ?? Mock.Of<IModuleConstraintEvaluator>(),
             statusReporter ?? Mock.Of<ISchedulerStatusReporter>());

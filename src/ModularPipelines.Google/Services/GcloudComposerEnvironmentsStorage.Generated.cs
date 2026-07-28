@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComposerEnvironmentsStorage
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudComposerEnvironmentsStorageDags? _dags;
     private GcloudComposerEnvironmentsStorageData? _data;
     private GcloudComposerEnvironmentsStoragePlugins? _plugins;
@@ -27,7 +27,7 @@ public class GcloudComposerEnvironmentsStorage
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComposerEnvironmentsStorage"/> class.
     /// </summary>
-    public GcloudComposerEnvironmentsStorage(ICommand command)
+    public GcloudComposerEnvironmentsStorage(ICommandContext command)
     {
         _command = command;
     }

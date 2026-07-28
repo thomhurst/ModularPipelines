@@ -4,11 +4,11 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-internal class Bash : IBash, IBashContext
+internal class Bash : IBashContext
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
-    public Bash(ICommand command)
+    public Bash(ICommandContext command)
     {
         _command = command;
     }

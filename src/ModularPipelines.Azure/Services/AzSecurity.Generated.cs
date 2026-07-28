@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSecurity
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzSecurityAdaptiveApplicationControls? _adaptiveApplicationControls;
     private AzSecurityAlert? _alert;
     private AzSecurityAlertsSuppressionRule? _alertsSuppressionRule;
@@ -38,7 +38,7 @@ public class AzSecurity
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSecurity"/> class.
     /// </summary>
-    public AzSecurity(ICommand command)
+    public AzSecurity(ICommandContext command)
     {
         _command = command;
     }

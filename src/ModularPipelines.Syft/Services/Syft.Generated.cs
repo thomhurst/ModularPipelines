@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Syft.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Syft.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Syft : ISyft
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Syft"/> class.
@@ -27,7 +27,7 @@ internal partial class Syft : ISyft
     public Syft(
         SyftCataloger cataloger,
         SyftConfig config,
-        ICommand command
+        ICommandContext command
     )
     {
         Cataloger = cataloger;

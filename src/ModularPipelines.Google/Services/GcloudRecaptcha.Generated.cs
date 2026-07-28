@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudRecaptcha
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudRecaptchaFirewallPolicies? _firewallPolicies;
     private GcloudRecaptchaKeys? _keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRecaptcha"/> class.
     /// </summary>
-    public GcloudRecaptcha(ICommand command)
+    public GcloudRecaptcha(ICommandContext command)
     {
         _command = command;
     }

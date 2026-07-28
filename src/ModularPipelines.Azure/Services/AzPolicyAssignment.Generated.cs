@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPolicyAssignment
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzPolicyAssignmentIdentity? _identity;
     private AzPolicyAssignmentNonComplianceMessage? _nonComplianceMessage;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPolicyAssignment"/> class.
     /// </summary>
-    public AzPolicyAssignment(ICommand command)
+    public AzPolicyAssignment(ICommandContext command)
     {
         _command = command;
     }

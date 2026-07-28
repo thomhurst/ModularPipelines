@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine.Attributes;
@@ -179,7 +180,7 @@ internal class ModuleExecutor : IModuleExecutor
             _resultRegistrar.RegisterTerminatedResultsForCancelledModules(modules, firstException);
         }
 
-        RethrowFirstExceptionIfPresent(firstException);
+        ThrowWorkerExceptionsIfPresent(firstException);
 
         _logger.LogDebug("ExecuteAsync returning normally with {Count} modules", modules.Count);
         return modules;
@@ -206,6 +207,8 @@ internal class ModuleExecutor : IModuleExecutor
         };
 
         Exception? firstException = null;
+        var recordedWorkerExceptions =
+            new ConcurrentDictionary<Exception, byte>(ReferenceEqualityComparer.Instance);
 
         try
         {
@@ -220,8 +223,14 @@ internal class ModuleExecutor : IModuleExecutor
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                     {
-                        Interlocked.CompareExchange(ref firstException, ex, null);
-                        cancellationTokenSource.Cancel();
+                        if (!IsExpectedWorkerCancellation(ex, ct)
+                            && recordedWorkerExceptions.TryAdd(ex, 0))
+                        {
+                            _secondaryExceptionContainer.RegisterException(ex);
+                            Interlocked.CompareExchange(ref firstException, ex, null);
+                        }
+
+                        EnsureCancellation(cancellationTokenSource);
                     }
                     catch (Exception ex)
                     {
@@ -235,6 +244,16 @@ internal class ModuleExecutor : IModuleExecutor
         }
 
         return firstException;
+    }
+
+    // Engine-linked module cancellation is converted to a PipelineTerminated result
+    // by ModuleExecutionPipeline. Only worker-token cancellation can reach this layer.
+    private static bool IsExpectedWorkerCancellation(
+        Exception exception,
+        CancellationToken workerCancellationToken)
+    {
+        return exception is OperationCanceledException operationCanceledException
+               && operationCanceledException.CancellationToken == workerCancellationToken;
     }
 
     private void HandleWaitForAllWorkerFailure(
@@ -300,11 +319,14 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private void RethrowFirstExceptionIfPresent(Exception? firstException)
+    private void ThrowWorkerExceptionsIfPresent(Exception? firstException)
     {
         if (firstException != null)
         {
-            _logger.LogDebug("Rethrowing first exception: {ExceptionType}", firstException.GetType().Name);
+            _logger.LogDebug("Throwing worker exceptions after first failure: {ExceptionType}", firstException.GetType().Name);
+            _secondaryExceptionContainer.ThrowExceptions();
+
+            // Defensive fallback for custom container implementations that do not throw.
             System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(firstException).Throw();
         }
     }

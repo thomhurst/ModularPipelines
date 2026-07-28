@@ -115,7 +115,7 @@ internal class ModuleRetriever
 
                 return new RunnableModule(module, estimatedTime, subModules.ToImmutableList());
             })
-            .ProcessInParallel(100, TimeSpan.FromSeconds(1));
+            .ProcessInParallel();
 
         return new OrganizedModules(
             RunnableModules: runnableModulesWithEstimatatedDuration,

@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzContainerappEnv
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzContainerappEnvCertificate? _certificate;
     private AzContainerappEnvHttpRouteConfig? _httpRouteConfig;
     private AzContainerappEnvLogs? _logs;
@@ -30,7 +30,7 @@ public class AzContainerappEnv
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainerappEnv"/> class.
     /// </summary>
-    public AzContainerappEnv(ICommand command)
+    public AzContainerappEnv(ICommandContext command)
     {
         _command = command;
     }

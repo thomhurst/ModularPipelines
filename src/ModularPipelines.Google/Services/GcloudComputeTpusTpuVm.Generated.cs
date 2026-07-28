@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeTpusTpuVm
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudComputeTpusTpuVmAcceleratorTypes? _acceleratorTypes;
     private GcloudComputeTpusTpuVmServiceIdentity? _serviceIdentity;
     private GcloudComputeTpusTpuVmVersions? _versions;
@@ -27,7 +27,7 @@ public class GcloudComputeTpusTpuVm
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeTpusTpuVm"/> class.
     /// </summary>
-    public GcloudComputeTpusTpuVm(ICommand command)
+    public GcloudComputeTpusTpuVm(ICommandContext command)
     {
         _command = command;
     }

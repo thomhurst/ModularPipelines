@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBot
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzBotAuthsetting? _authsetting;
     private AzBotWebchat? _webchat;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBot"/> class.
     /// </summary>
-    public AzBot(ICommand command)
+    public AzBot(ICommandContext command)
     {
         _command = command;
     }

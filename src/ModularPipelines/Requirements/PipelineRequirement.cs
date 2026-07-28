@@ -17,7 +17,7 @@ namespace ModularPipelines.Requirements;
 /// <code>
 /// public class HasDotNetSdkRequirement : PipelineRequirement
 /// {
-///     public override async Task&lt;RequirementDecision&gt; MustAsync(IPipelineHookContext context)
+///     public override async Task&lt;RequirementDecision&gt; MustAsync(IPipelineContext context)
 ///     {
 ///         var result = await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet", "--version"));
 ///         return result.ExitCode == 0 ? Pass() : Fail(".NET SDK is not installed");
@@ -28,7 +28,7 @@ namespace ModularPipelines.Requirements;
 /// <code>
 /// public class Is64BitProcessRequirement : PipelineRequirement
 /// {
-///     protected override RequirementDecision Must(IPipelineHookContext context)
+///     protected override RequirementDecision Must(IPipelineContext context)
 ///         =&gt; Environment.Is64BitProcess ? Pass() : Fail("64-bit process required");
 /// }
 /// </code>
@@ -47,7 +47,7 @@ public abstract class PipelineRequirement : IPipelineRequirement
     public virtual int Order => 0;
 
     /// <inheritdoc />
-    public virtual Task<RequirementDecision> MustAsync(IPipelineHookContext context)
+    public virtual Task<RequirementDecision> MustAsync(IPipelineContext context)
         => Task.FromResult(Must(context));
 
     /// <summary>
@@ -59,7 +59,7 @@ public abstract class PipelineRequirement : IPipelineRequirement
     /// Override this method for synchronous requirements instead of <see cref="MustAsync"/>.
     /// The default implementation returns <see cref="Pass"/>.
     /// </remarks>
-    protected virtual RequirementDecision Must(IPipelineHookContext context)
+    protected virtual RequirementDecision Must(IPipelineContext context)
         => Pass();
 
     /// <summary>

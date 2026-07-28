@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzConnection
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzConnectionCreate? _create;
     private AzConnectionPreviewConfiguration? _previewConfiguration;
     private AzConnectionUpdate? _update;
@@ -27,7 +27,7 @@ public class AzConnection
     /// <summary>
     /// Initializes a new instance of the <see cref="AzConnection"/> class.
     /// </summary>
-    public AzConnection(ICommand command)
+    public AzConnection(ICommandContext command)
     {
         _command = command;
     }

@@ -36,7 +36,7 @@ public class ModuleHistoryTests
 
     private class SkipRunCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineHookContext pipelineContext)
+        public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
         {
             return false.AsTask();
         }

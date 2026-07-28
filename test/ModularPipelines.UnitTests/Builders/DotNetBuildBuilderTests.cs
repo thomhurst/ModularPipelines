@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.DotNet.Builders;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
@@ -10,9 +11,9 @@ namespace ModularPipelines.UnitTests.Builders;
 
 public class DotNetBuildBuilderTests : TestBase
 {
-    private static Mock<ICommand> CreateMockCommand()
+    private static Mock<ICommandContext> CreateMockCommand()
     {
-        var mock = new Mock<ICommand>();
+        var mock = new Mock<ICommandContext>();
         mock
             .Setup(c => c.ExecuteCommandLineTool(
                 It.IsAny<CommandLineToolOptions>(),

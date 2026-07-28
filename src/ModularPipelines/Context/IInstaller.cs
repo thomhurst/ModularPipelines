@@ -1,3 +1,5 @@
+using ModularPipelines.Context.Domains.Installers;
+
 namespace ModularPipelines.Context;
 
 /// <summary>
@@ -8,7 +10,7 @@ public interface IInstaller
     /// <summary>
     /// Gets access to predefined installers for common tools and packages.
     /// </summary>
-    IPredefinedInstallers PredefinedInstallers { get; }
+    IPredefinedInstallersContext PredefinedInstallers { get; }
 
     /// <summary>
     /// Gets access to file-based installation functionality.
@@ -18,15 +20,15 @@ public interface IInstaller
     /// <summary>
     /// Gets access to Linux-specific installation functionality.
     /// </summary>
-    ILinuxInstaller LinuxInstaller { get; }
+    ILinuxInstallerContext LinuxInstaller { get; }
 
     /// <summary>
     /// Gets access to Windows-specific installation functionality.
     /// </summary>
-    IWindowsInstaller WindowsInstaller { get; }
+    IWindowsInstallerContext WindowsInstaller { get; }
 
     /// <summary>
     /// Gets access to macOS-specific installation functionality.
     /// </summary>
-    IMacInstaller MacInstaller { get; }
+    IMacInstallerContext MacInstaller { get; }
 }

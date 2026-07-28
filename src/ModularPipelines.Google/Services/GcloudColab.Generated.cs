@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudColab
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudColabExecutions? _executions;
     private GcloudColabRuntimes? _runtimes;
     private GcloudColabRuntimeTemplates? _runtimeTemplates;
@@ -28,7 +28,7 @@ public class GcloudColab
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudColab"/> class.
     /// </summary>
-    public GcloudColab(ICommand command)
+    public GcloudColab(ICommandContext command)
     {
         _command = command;
     }

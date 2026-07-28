@@ -1,6 +1,7 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Builders;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
@@ -28,9 +29,9 @@ public class CommandBuilderBaseTests : TestBase
 
     private class TestToolBuilder : CommandBuilderBase<TestToolBuilder, TestToolOptions>
     {
-        public TestToolBuilder(ICommand command) : base(command) { }
+        public TestToolBuilder(ICommandContext command) : base(command) { }
 
-        public TestToolBuilder(ICommand command, TestToolOptions initialOptions) : base(command, initialOptions) { }
+        public TestToolBuilder(ICommandContext command, TestToolOptions initialOptions) : base(command, initialOptions) { }
 
         public TestToolBuilder WithConfiguration(string configuration)
         {
@@ -58,7 +59,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task WithWorkingDirectory_SetsWorkingDirectory()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
         builder.WithWorkingDirectory("/test/directory");
@@ -70,7 +71,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task WithTimeout_SetsTimeout()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
         var timeout = TimeSpan.FromMinutes(5);
 
@@ -83,7 +84,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task WithEnvironmentVariable_AddsVariable()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
         builder.WithEnvironmentVariable("MY_VAR", "my_value");
@@ -96,7 +97,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task WithEnvironmentVariable_AddsMultipleVariables()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
         builder
@@ -112,7 +113,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task WithEnvironmentVariables_AddsDictionary()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
         var variables = new Dictionary<string, string?>
         {
@@ -131,7 +132,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task WithSudo_EnablesSudo()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
         builder.WithSudo();
@@ -143,7 +144,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task WithSudo_DisablesSudo_WhenFalse()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
         builder.WithSudo(false);
@@ -155,7 +156,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task WithThrowOnError_EnablesThrowOnError()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
         // Default is true, so we explicitly set it
@@ -168,7 +169,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task WithThrowOnError_DisablesThrowOnError_WhenFalse()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
         builder.WithThrowOnError(false);
@@ -180,7 +181,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task WithGracefulShutdownTimeout_SetsTimeout()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
         var timeout = TimeSpan.FromSeconds(60);
 
@@ -193,7 +194,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task WithLogging_SetsLoggingOptions()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
         var loggingOptions = new CommandLoggingOptions
         {
@@ -212,7 +213,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task WithLogging_ConfiguresUsingAction()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
         builder.WithLogging(options =>
@@ -235,7 +236,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task ToolSpecificOption_SetsToolOptions()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
         builder.WithConfiguration("Release");
@@ -247,7 +248,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task InitialOptions_UsesProvidedOptions()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var initialOptions = new TestToolOptions { Configuration = "Debug" };
         var builder = new TestToolBuilder(mockCommand.Object, initialOptions);
 
@@ -258,7 +259,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task InitialOptions_CanBeModified()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var initialOptions = new TestToolOptions { Configuration = "Debug" };
         var builder = new TestToolBuilder(mockCommand.Object, initialOptions);
 
@@ -276,7 +277,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task FluentChaining_SetsAllOptions()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
         builder
@@ -300,7 +301,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task FluentChaining_ReturnsSameBuilderInstance()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
         var result1 = builder.WithConfiguration("Release");
@@ -319,7 +320,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task ExecuteAsync_CallsCommandExecuteWithOptions()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var expectedResult = new CommandResult(
             "testtool command",
             "/working/dir",
@@ -353,7 +354,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task ExecuteAsync_PassesCancellationToken()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var expectedResult = new CommandResult(
             "testtool command",
             "/working/dir",
@@ -386,7 +387,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task ExecuteAsync_PassesExecutionOptions()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var expectedResult = new CommandResult(
             "testtool command",
             "/test/dir",
@@ -426,7 +427,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task ToOptions_ReturnsBothOptionsTuple()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
         builder
             .WithConfiguration("Release")
@@ -443,7 +444,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task ToOptions_CanBeCalledMultipleTimes()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
         builder.WithConfiguration("Release");
 
@@ -464,7 +465,7 @@ public class CommandBuilderBaseTests : TestBase
     [Test]
     public async Task NonGenericInterface_CanBeUsedForChaining()
     {
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
         // Use via non-generic interface

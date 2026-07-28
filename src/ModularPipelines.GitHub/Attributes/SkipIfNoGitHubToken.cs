@@ -11,7 +11,7 @@ public class SkipIfNoGitHubToken : Attribute, IConditionAttribute
 
     public string ConditionNames => nameof(SkipIfNoGitHubToken);
 
-    public Task<bool> EvaluateAsync(IPipelineHookContext pipelineContext)
+    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
         var token = pipelineContext.Environment.Variables.GetEnvironmentVariable("GITHUB_TOKEN");
 

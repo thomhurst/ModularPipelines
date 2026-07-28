@@ -153,7 +153,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
     private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateConditions(
         ConditionAttributes attributes,
-        IPipelineHookContext pipelineContext,
+        IPipelineContext pipelineContext,
         bool isDistributedMaster,
         CancellationToken cancellationToken)
     {

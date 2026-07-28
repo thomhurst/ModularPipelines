@@ -12,7 +12,7 @@ public class SkipOnMainBranch : Attribute, IConditionAttribute
 
     public string ConditionNames => nameof(SkipOnMainBranch);
 
-    public Task<bool> EvaluateAsync(IPipelineHookContext pipelineContext)
+    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
         return Task.FromResult(pipelineContext.Git().Information.BranchName == "main");
     }

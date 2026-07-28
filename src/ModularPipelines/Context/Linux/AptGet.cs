@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options.Linux.AptGet;
 
@@ -7,9 +8,9 @@ namespace ModularPipelines.Context.Linux;
 [ExcludeFromCodeCoverage]
 public class AptGet : IAptGet
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
-    public AptGet(ICommand command)
+    public AptGet(ICommandContext command)
     {
         _command = command;
     }

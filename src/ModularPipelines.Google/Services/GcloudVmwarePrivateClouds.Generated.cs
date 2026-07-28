@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudVmwarePrivateClouds
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudVmwarePrivateCloudsClusters? _clusters;
     private GcloudVmwarePrivateCloudsDnsForwarding? _dnsForwarding;
     private GcloudVmwarePrivateCloudsExternalAddresses? _externalAddresses;
@@ -34,7 +34,7 @@ public class GcloudVmwarePrivateClouds
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmwarePrivateClouds"/> class.
     /// </summary>
-    public GcloudVmwarePrivateClouds(ICommand command)
+    public GcloudVmwarePrivateClouds(ICommandContext command)
     {
         _command = command;
     }

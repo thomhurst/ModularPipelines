@@ -28,7 +28,9 @@ public class DistributedModuleExecutorTests
     private static ModuleDependencyRegistry NewDependencyRegistry() => new();
 
     private static ModuleMetadataRegistry NewMetadataRegistry() =>
-        new(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()));
+        new(
+            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+            new ModuleAttributeEventService());
 
     // --- Test module types ---
 

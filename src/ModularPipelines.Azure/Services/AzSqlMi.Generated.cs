@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSqlMi
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzSqlMiAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
     private AzSqlMiDtc? _dtc;
     private AzSqlMiKey? _key;
@@ -32,7 +32,7 @@ public class AzSqlMi
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlMi"/> class.
     /// </summary>
-    public AzSqlMi(ICommand command)
+    public AzSqlMi(ICommandContext command)
     {
         _command = command;
     }

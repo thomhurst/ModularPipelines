@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Linux;
 using ModularPipelines.Options.Windows;
@@ -18,7 +19,7 @@ public class InstallerTests : TestBase
             throw new SkipTestException("Avoid installing things on people's machines");
         }
 
-        var downloader = await GetService<IDownloader>();
+        var downloader = await GetService<IDownloaderContext>();
         var installer = await GetService<IInstaller>();
 
         if (OperatingSystem.IsWindows())

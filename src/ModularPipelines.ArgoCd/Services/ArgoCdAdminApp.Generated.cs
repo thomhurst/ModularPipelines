@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.ArgoCd.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.ArgoCd.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class ArgoCdAdminApp
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ArgoCdAdminApp"/> class.
     /// </summary>
-    public ArgoCdAdminApp(ICommand command)
+    public ArgoCdAdminApp(ICommandContext command)
     {
         _command = command;
     }

@@ -1,5 +1,5 @@
-using ModularPipelines.Context;
 using System.Reflection;
+using ModularPipelines.Context;
 
 namespace ModularPipelines.UnitTests.Context;
 
@@ -36,7 +36,6 @@ public class InterfaceVisibilityTests
         {
             // Core context interfaces
             ("ModularPipelines.Context", "IPipelineContext"),
-            ("ModularPipelines.Context", "IPipelineHookContext"),
             ("ModularPipelines.Context", "IModuleContext"),
             // Domain context interfaces
             ("ModularPipelines.Context.Domains", "IShellContext"),
@@ -47,6 +46,25 @@ public class InterfaceVisibilityTests
             ("ModularPipelines.Context.Domains", "INetworkContext"),
             ("ModularPipelines.Context.Domains", "ISecurityContext"),
             ("ModularPipelines.Context.Domains", "IServicesContext"),
+            ("ModularPipelines.Context.Domains.Shell", "ICommandContext"),
+            ("ModularPipelines.Context.Domains.Shell", "IBashContext"),
+            ("ModularPipelines.Context.Domains.Shell", "IPowerShellContext"),
+            ("ModularPipelines.Context.Domains.Files", "IZipContext"),
+            ("ModularPipelines.Context.Domains.Files", "IChecksumContext"),
+            ("ModularPipelines.Context.Domains.Data", "IJsonContext"),
+            ("ModularPipelines.Context.Domains.Data", "IXmlContext"),
+            ("ModularPipelines.Context.Domains.Data", "IYamlContext"),
+            ("ModularPipelines.Context.Domains.Data", "IBase64Context"),
+            ("ModularPipelines.Context.Domains.Data", "IHexContext"),
+            ("ModularPipelines.Context.Domains.Environment", "IEnvironmentVariablesContext"),
+            ("ModularPipelines.Context.Domains.Installers", "IWindowsInstallerContext"),
+            ("ModularPipelines.Context.Domains.Installers", "ILinuxInstallerContext"),
+            ("ModularPipelines.Context.Domains.Installers", "IMacInstallerContext"),
+            ("ModularPipelines.Context.Domains.Installers", "IPredefinedInstallersContext"),
+            ("ModularPipelines.Context.Domains.Network", "IHttpContext"),
+            ("ModularPipelines.Context.Domains.Network", "IDownloaderContext"),
+            ("ModularPipelines.Context.Domains.Security", "ICertificatesContext"),
+            ("ModularPipelines.Context.Domains.Security", "IHasherContext"),
         };
 
         foreach (var (ns, interfaceName) in expectedPublicInterfaces)
@@ -58,6 +76,41 @@ public class InterfaceVisibilityTests
             await Assert.That(iface!.IsPublic).IsTrue()
                 .Because($"{interfaceName} should be public");
         }
+    }
+
+    [Test]
+    public async Task LegacyContextInterfaces_ShouldNotExist()
+    {
+        var assembly = typeof(IModuleContext).Assembly;
+        var removedInterfaces = new[]
+        {
+            "ICommand",
+            "IBash",
+            "IPowershell",
+            "IZip",
+            "IChecksum",
+            "IJson",
+            "IXml",
+            "IYaml",
+            "IBase64",
+            "IHex",
+            "IEnvironmentVariables",
+            "IWindowsInstaller",
+            "ILinuxInstaller",
+            "IMacInstaller",
+            "IPredefinedInstallers",
+            "IDownloader",
+            "ICertificates",
+            "IHasher",
+            "IPipelineHookContext",
+        };
+
+        foreach (var interfaceName in removedInterfaces)
+        {
+            await Assert.That(assembly.GetType($"ModularPipelines.Context.{interfaceName}")).IsNull();
+        }
+
+        await Assert.That(assembly.GetType("ModularPipelines.Http.IHttp")).IsNull();
     }
 
     [Test]

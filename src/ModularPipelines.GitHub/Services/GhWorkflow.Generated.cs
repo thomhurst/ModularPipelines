@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.GitHub.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.GitHub.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GhWorkflow
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GhWorkflow"/> class.
     /// </summary>
-    public GhWorkflow(ICommand command)
+    public GhWorkflow(ICommandContext command)
     {
         _command = command;
     }

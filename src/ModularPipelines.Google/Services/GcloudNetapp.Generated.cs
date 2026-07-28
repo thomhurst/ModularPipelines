@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetapp
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudNetappActiveDirectories? _activeDirectories;
     private GcloudNetappBackupPolicies? _backupPolicies;
     private GcloudNetappBackupVaults? _backupVaults;
@@ -33,7 +33,7 @@ public class GcloudNetapp
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetapp"/> class.
     /// </summary>
-    public GcloudNetapp(ICommand command)
+    public GcloudNetapp(ICommandContext command)
     {
         _command = command;
     }

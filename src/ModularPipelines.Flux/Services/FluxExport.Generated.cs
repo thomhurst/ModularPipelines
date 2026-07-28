@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Flux.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Flux.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxExport
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private FluxExportArtifact? _artifact;
     private FluxExportImage? _image;
     private FluxExportSource? _source;
@@ -27,7 +27,7 @@ public class FluxExport
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxExport"/> class.
     /// </summary>
-    public FluxExport(ICommand command)
+    public FluxExport(ICommandContext command)
     {
         _command = command;
     }

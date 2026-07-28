@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
@@ -11,11 +12,11 @@ namespace ModularPipelines.Git;
 [ExcludeFromCodeCoverage]
 public class GitCommands : IGitCommands
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private readonly IGitCommandRunner _gitCommandRunner;
     private readonly IGitCommitMapper _gitCommitMapper;
 
-    public GitCommands(ICommand command, IGitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper)
+    public GitCommands(ICommandContext command, IGitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper)
     {
         _command = command;
         _gitCommandRunner = gitCommandRunner;

@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSynapse
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzSynapseActivityRun? _activityRun;
     private AzSynapseDataFlow? _dataFlow;
     private AzSynapseDataset? _dataset;
@@ -46,7 +46,7 @@ public class AzSynapse
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapse"/> class.
     /// </summary>
-    public AzSynapse(ICommand command)
+    public AzSynapse(ICommandContext command)
     {
         _command = command;
     }

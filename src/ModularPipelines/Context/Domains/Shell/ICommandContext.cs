@@ -1,8 +1,26 @@
+using ModularPipelines.Models;
+using ModularPipelines.Options;
+
 namespace ModularPipelines.Context.Domains.Shell;
 
 /// <summary>
-/// Execute general CLI commands.
+/// Provides functionality for executing command line tools and processes.
 /// </summary>
-public interface ICommandContext : ICommand
+/// <remarks>
+/// This interface is the core abstraction for running external processes.
+/// For shell-specific execution, see <see cref="IBashContext"/> and <see cref="IPowerShellContext"/>.
+/// </remarks>
+public interface ICommandContext
 {
+    /// <summary>
+    /// Execute a command line tool.
+    /// </summary>
+    /// <param name="options">The tool-specific options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    Task<CommandResult> ExecuteCommandLineTool(
+        CommandLineToolOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
 }

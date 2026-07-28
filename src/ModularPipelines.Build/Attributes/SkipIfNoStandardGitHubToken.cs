@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Conditions;
@@ -13,7 +13,7 @@ public class SkipIfNoStandardGitHubToken : Attribute, IConditionAttribute
 
     public string ConditionNames => nameof(SkipIfNoStandardGitHubToken);
 
-    public Task<bool> EvaluateAsync(IPipelineHookContext pipelineContext)
+    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
         var options = pipelineContext.Services.Get<IOptions<GitHubSettings>>();
 

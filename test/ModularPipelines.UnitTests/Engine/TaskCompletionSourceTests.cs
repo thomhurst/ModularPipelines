@@ -1,13 +1,10 @@
 using System.Collections.Concurrent;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging.Abstractions;
-using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Scheduling;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Options;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
@@ -30,21 +27,6 @@ public class TaskCompletionSourceTests
         registry.RegisterModule(typeof(IModule));
 
         await Assert.That(RunsContinuationsAsynchronously(registry.GetCompletionTask(typeof(IModule))!)).IsTrue();
-    }
-
-    [Test]
-    public async Task ProgressSession_CompletionSource_RunsContinuationsAsynchronously()
-    {
-        var session = new ProgressSession(
-            null!,
-            new OrganizedModules([], []),
-            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
-            NullLoggerFactory.Instance,
-            CancellationToken.None);
-        var field = typeof(ProgressSession).GetField("_progressCompleted", BindingFlags.Instance | BindingFlags.NonPublic);
-        var completionSource = (TaskCompletionSource) field!.GetValue(session)!;
-
-        await Assert.That(RunsContinuationsAsynchronously(completionSource.Task)).IsTrue();
     }
 
     [Test]

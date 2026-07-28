@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using NReco.Logging.File;
@@ -17,7 +18,7 @@ public class CommandLoggerTests : TestBase
     {
         const string secret = "command-option-secret";
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
-        var result = await GetService<ICommand>((_, collection) =>
+        var result = await GetService<ICommandContext>((_, collection) =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => builder.AddFile(file));
@@ -39,7 +40,7 @@ public class CommandLoggerTests : TestBase
         const string rawOutput = "raw-output";
         const string displayedOutput = "displayed-output";
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
-        var result = await GetService<ICommand>((_, collection) =>
+        var result = await GetService<ICommandContext>((_, collection) =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => builder.AddFile(file));
@@ -63,6 +64,33 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).Contains(displayedOutput);
         await Assert.That(logFile).DoesNotContain(rawOutput);
+    }
+
+    [Test]
+    public async Task OutputLoggingManipulator_Receives_Complete_Output_When_Result_Is_Truncated()
+    {
+        const string firstLine = "first-output-line";
+        const string secondLine = "second-output-line";
+        var receivedOutputs = new List<string>();
+        var command = await GetService<ICommandContext>();
+
+        var result = await command.ExecuteCommandLineTool(
+            new PowershellScriptOptions($"Write-Output '{firstLine}'; Write-Output '{secondLine}'"),
+            new CommandExecutionOptions
+            {
+                MaxCapturedOutputLength = 10,
+                OutputLoggingManipulator = output =>
+                {
+                    receivedOutputs.Add(output);
+                    return output;
+                },
+            });
+
+        await Assert.That(result.StandardOutput).Contains("truncated");
+        await Assert.That(receivedOutputs).Contains(output =>
+            output.Contains(firstLine, StringComparison.Ordinal)
+            && output.Contains(secondLine, StringComparison.Ordinal)
+            && !output.Contains("truncated", StringComparison.Ordinal));
     }
 
     [Test]
@@ -133,7 +161,7 @@ public class CommandLoggerTests : TestBase
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var result = await GetService<ICommand>((_, collection) =>
+        var result = await GetService<ICommandContext>((_, collection) =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => { builder.AddFile(file); });
@@ -211,8 +239,9 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: command line includes working directory and command
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Output is shown inline (→ for short output)
-        await Assert.That(logFile).Contains("→");
+        // Output is streamed on a separate line
+        await Assert.That(logFile).Contains("↳");
+        await Assert.That(Regex.Matches(logFile, "↳ Hello").Count).IsEqualTo(1);
         // Normal doesn't show exit code or duration
         await Assert.That(logFile).DoesNotContain("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsFalse();
@@ -228,8 +257,8 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: all info on one line
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Output shown inline
-        await Assert.That(logFile).Contains("→");
+        // Output is streamed on a separate line
+        await Assert.That(logFile).Contains("↳");
         // Exit code and duration shown inline
         await Assert.That(logFile).Contains("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsTrue();
@@ -245,8 +274,8 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: all info on one line
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Output shown inline
-        await Assert.That(logFile).Contains("→");
+        // Output is streamed on a separate line
+        await Assert.That(logFile).Contains("↳");
         // Exit code and duration shown inline
         await Assert.That(logFile).Contains("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsTrue();
@@ -258,7 +287,7 @@ public class CommandLoggerTests : TestBase
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var result = await GetService<ICommand>((_, collection) =>
+        var result = await GetService<ICommandContext>((_, collection) =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => { builder.AddFile(file); });
@@ -275,6 +304,114 @@ public class CommandLoggerTests : TestBase
         await result.Host.DisposeAsync();
 
         return file;
+    }
+
+    [Test]
+    public async Task Command_Output_Is_Logged_Before_Command_Completes()
+    {
+        var marker = $"live-output-{Guid.NewGuid():N}";
+        var errorMarker = $"live-error-{Guid.NewGuid():N}";
+        var readyFile = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".ready");
+        var releaseFile = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".release");
+        using var logObserver = new StreamingLogObserver(marker, errorMarker);
+        var result = await GetService<ICommandContext>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddProvider(logObserver));
+        });
+        var script = $$"""
+                      Write-Output '{{marker}}'
+                      [Console]::Error.WriteLine('{{errorMarker}}')
+                      [System.IO.File]::WriteAllText('{{readyFile}}', 'ready')
+                      while (-not (Test-Path '{{releaseFile}}')) { Start-Sleep -Milliseconds 10 }
+                      """;
+
+        var commandTask = result.T.ExecuteCommandLineTool(new PowershellScriptOptions(script));
+
+        try
+        {
+            await Assert.That(await WaitUntilAsync(() => File.Exists(readyFile), TimeSpan.FromSeconds(30))).IsTrue();
+            await logObserver.OutputObserved.WaitAsync(TimeSpan.FromSeconds(30));
+            await Assert.That(commandTask.IsCompleted).IsFalse();
+        }
+        finally
+        {
+            await File.WriteAllTextAsync(releaseFile, "release");
+            await commandTask;
+        }
+    }
+
+    private static async Task<bool> WaitUntilAsync(Func<bool> condition, TimeSpan timeout)
+    {
+        var timeoutTask = Task.Delay(timeout);
+        while (!condition())
+        {
+            if (timeoutTask.IsCompleted)
+            {
+                return false;
+            }
+
+            await Task.Delay(TimeSpan.FromMilliseconds(10));
+        }
+
+        return true;
+    }
+
+    private sealed class StreamingLogObserver(string outputMarker, string errorMarker) : ILoggerProvider
+    {
+        private readonly Lock _lock = new();
+        private readonly TaskCompletionSource _outputObserved =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private bool _sawOutput;
+        private bool _sawError;
+
+        public Task OutputObserved => _outputObserved.Task;
+
+        public ILogger CreateLogger(string categoryName)
+        {
+            return new ObserverLogger(Record);
+        }
+
+        public void Dispose()
+        {
+        }
+
+        private void Record(string message)
+        {
+            lock (_lock)
+            {
+                _sawOutput |= message.Contains(outputMarker, StringComparison.Ordinal);
+                _sawError |= message.Contains(errorMarker, StringComparison.Ordinal);
+                if (_sawOutput && _sawError)
+                {
+                    _outputObserved.TrySetResult();
+                }
+            }
+        }
+    }
+
+    private sealed class ObserverLogger(Action<string> record) : ILogger
+    {
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull
+        {
+            return null;
+        }
+
+        public bool IsEnabled(LogLevel logLevel)
+        {
+            return true;
+        }
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            record(formatter(state, exception));
+        }
     }
 
     [CliTool("pwsh")]

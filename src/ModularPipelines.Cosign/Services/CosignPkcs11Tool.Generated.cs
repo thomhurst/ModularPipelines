@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Cosign.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Cosign.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class CosignPkcs11Tool
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CosignPkcs11Tool"/> class.
     /// </summary>
-    public CosignPkcs11Tool(ICommand command)
+    public CosignPkcs11Tool(ICommandContext command)
     {
         _command = command;
     }

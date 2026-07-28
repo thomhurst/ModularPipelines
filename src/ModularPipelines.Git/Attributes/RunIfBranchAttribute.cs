@@ -20,7 +20,7 @@ public class RunIfBranchAttribute : Attribute, IConditionAttribute
         BranchName = branchName;
     }
 
-    public Task<bool> EvaluateAsync(IPipelineHookContext pipelineContext)
+    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
         return Task.FromResult(BranchConditionHelper.CheckBranchMatches(
             pipelineContext,

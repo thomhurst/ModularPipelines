@@ -15,7 +15,7 @@ public class SubDomainClassGenerator : ICodeGenerator
     /// </summary>
     private static readonly HashSet<string> ReservedFieldNames = new(StringComparer.OrdinalIgnoreCase)
     {
-        "_command" // Used for ICommand dependency injection
+        "_command" // Used for ICommandContext dependency injection
     };
 
     /// <summary>
@@ -128,7 +128,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeaderWithNullable(sb);
 
         sb.AppendLine("using System.CodeDom.Compiler;");
-        sb.AppendLine("using ModularPipelines.Context;");
+        sb.AppendLine("using ModularPipelines.Context.Domains.Shell;");
         sb.AppendLine("using ModularPipelines.Models;");
         sb.AppendLine("using ModularPipelines.Options;");
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
@@ -146,8 +146,8 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine($"public class {node.ClassName}");
         sb.AppendLine("{");
 
-        // Private field for ICommand
-        sb.AppendLine("    private readonly ICommand _command;");
+        // Private field for ICommandContext
+        sb.AppendLine("    private readonly ICommandContext _command;");
 
         // Private fields for child instances (lazy). Nullable: the fields are only
         // populated on first property access, and generated files declare #nullable enable.
@@ -163,7 +163,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine($"    /// <summary>");
         sb.AppendLine($"    /// Initializes a new instance of the <see cref=\"{node.ClassName}\"/> class.");
         sb.AppendLine($"    /// </summary>");
-        sb.AppendLine($"    public {node.ClassName}(ICommand command)");
+        sb.AppendLine($"    public {node.ClassName}(ICommandContext command)");
         sb.AppendLine("    {");
         sb.AppendLine("        _command = command;");
         sb.AppendLine("    }");

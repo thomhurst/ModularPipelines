@@ -3,7 +3,7 @@ using ModularPipelines.Context.Domains.Files;
 
 namespace ModularPipelines.Context;
 
-internal class Checksum : IChecksum, IChecksumContext
+internal class Checksum : IChecksumContext
 {
     public string Md5(string filePath)
     {

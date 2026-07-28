@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPubsub
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudPubsubLiteOperations? _liteOperations;
     private GcloudPubsubLiteReservations? _liteReservations;
     private GcloudPubsubLiteSubscriptions? _liteSubscriptions;
@@ -33,7 +33,7 @@ public class GcloudPubsub
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPubsub"/> class.
     /// </summary>
-    public GcloudPubsub(ICommand command)
+    public GcloudPubsub(ICommandContext command)
     {
         _command = command;
     }

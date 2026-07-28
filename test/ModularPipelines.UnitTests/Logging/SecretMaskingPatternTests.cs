@@ -103,6 +103,61 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectCharacterWrites_ReuseSecretPatterns()
+    {
+        var provider = new Mock<ISecretProvider>();
+        provider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, ["split-secret"]));
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) => input);
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider.Object);
+
+        foreach (var character in "ordinary output")
+        {
+            writer.Write(character);
+        }
+
+        writer.Write(['\r', '\n'], 0, 2);
+
+        await Assert.That(realConsole.ToString()).IsEqualTo($"ordinary output{Environment.NewLine}");
+        provider.Verify(x => x.GetSnapshot(), Times.Once);
+    }
+
+    [Test]
+    public void BufferedConsoleWrites_RefreshPatternsAfterSecretRegistration()
+    {
+        var provider = CreateProvider(out _);
+        var outputBuffer = new Mock<IModuleOutputBuffer>();
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetUnattributedBuffer()).Returns(outputBuffer.Object);
+
+        using var writer = new CoordinatedTextWriter(
+            coordinator.Object,
+            new StringWriter(),
+            () => true,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.WriteLine("ordinary output");
+
+        var secret = $"private-key-line-1{Environment.NewLine}private-key-line-2";
+        provider.AddSecret(secret);
+        writer.WriteLine(secret);
+
+        outputBuffer.Verify(x => x.WriteLine("ordinary output"), Times.Once);
+        outputBuffer.Verify(x => x.WriteLine("**********"), Times.Once);
+        outputBuffer.Verify(x => x.WriteLine(It.Is<string>(value => value.Contains("private-key"))), Times.Never);
+    }
+
+    [Test]
     public async Task AvailableFlush_RetainsPotentialSecretPrefix()
     {
         var provider = CreateProvider(out _);

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -67,7 +68,9 @@ public class ModuleRegistrationContextTests
     [Test]
     public async Task SetMetadata_GetMetadata_RoundTrips()
     {
-        var metadataRegistry = new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()));
+        var metadataRegistry = new ModuleMetadataRegistry(
+            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+            new ModuleAttributeEventService());
         var context = CreateContext(typeof(ModuleA), metadataRegistry: metadataRegistry);
 
         context.SetMetadata("key", "value");
@@ -93,6 +96,8 @@ public class ModuleRegistrationContextTests
             registeredModules ?? new List<Type> { moduleType },
             services,
             dependencyRegistry ?? new ModuleDependencyRegistry(),
-            metadataRegistry ?? new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())));
+            metadataRegistry ?? new ModuleMetadataRegistry(
+                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+                new ModuleAttributeEventService()));
     }
 }

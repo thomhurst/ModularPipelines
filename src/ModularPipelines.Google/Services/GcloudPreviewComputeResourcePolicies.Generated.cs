@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeResourcePolicies
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudPreviewComputeResourcePoliciesCreate? _create;
     private GcloudPreviewComputeResourcePoliciesUpdate? _update;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeResourcePolicies"/> class.
     /// </summary>
-    public GcloudPreviewComputeResourcePolicies(ICommand command)
+    public GcloudPreviewComputeResourcePolicies(ICommandContext command)
     {
         _command = command;
     }

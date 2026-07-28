@@ -8,8 +8,8 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
-using ModularPipelines.Options;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using File = ModularPipelines.FileSystem.File;
 
@@ -121,9 +121,9 @@ public class DotNetTestResultsTests : TestBase
         await host.RunAsync();
 
         // Get the Trx helper from a pipeline context
-        // IPipelineHookContext is a scoped service, so we need to create a scope
+        // IPipelineContext is a scoped service, so we need to create a scope
         await using var scope = host.Services.CreateAsyncScope();
-        var context = scope.ServiceProvider.GetRequiredService<IPipelineHookContext>();
+        var context = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
         var parsedResults = await context.Trx().ParseTrxFile(DotNetTestWithoutFailureModule.TrxFile!);
 
         await Assert.That(parsedResults.UnitTestResults).Count().IsEqualTo(4);

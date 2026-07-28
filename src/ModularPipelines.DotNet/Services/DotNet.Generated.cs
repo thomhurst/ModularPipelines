@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.DotNet.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.DotNet.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class DotNet : IDotNet
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DotNet"/> class.
@@ -34,7 +34,7 @@ internal partial class DotNet : IDotNet
         DotNetSolution solution,
         DotNetTool tool,
         DotNetWorkload workload,
-        ICommand command
+        ICommandContext command
     )
     {
         Buildserver = buildserver;

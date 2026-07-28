@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbGremlin
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzCosmosdbGremlinDatabase? _database;
     private AzCosmosdbGremlinGraph? _graph;
     private AzCosmosdbGremlinRestorableGraph? _restorableGraph;
@@ -27,7 +27,7 @@ public class AzCosmosdbGremlin
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbGremlin"/> class.
     /// </summary>
-    public AzCosmosdbGremlin(ICommand command)
+    public AzCosmosdbGremlin(ICommandContext command)
     {
         _command = command;
     }

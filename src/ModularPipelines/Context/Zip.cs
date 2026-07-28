@@ -6,7 +6,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
-internal class Zip : IZip, IZipContext
+internal class Zip : IZipContext
 {
     private readonly IFileSystemProvider _fileSystemProvider;
 

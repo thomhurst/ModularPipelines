@@ -7,7 +7,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Http;
 
-internal class Http : IHttp, IHttpContext
+internal class Http : IHttpContext
 {
     public HttpClient HttpClient { get; }
 

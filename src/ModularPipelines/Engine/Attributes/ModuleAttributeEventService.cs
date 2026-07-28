@@ -13,10 +13,10 @@ namespace ModularPipelines.Engine.Attributes;
 /// </summary>
 internal class ModuleAttributeEventService : IModuleAttributeEventService
 {
-    private readonly ConcurrentDictionary<Type, AttributeHandlerCache> _cache = new();
+    private readonly ConcurrentDictionary<Type, Lazy<AttributeHandlerCache>> _cache = new();
 
     public IReadOnlyList<Attribute> GetAttributes(Type moduleType)
-        => CreateAttributes(moduleType);
+        => GetCache(moduleType).Attributes;
 
     public IReadOnlyList<IModuleRegistrationEventReceiver> GetRegistrationReceivers(Type moduleType)
         => GetCache(moduleType).RegistrationReceivers;
@@ -37,11 +37,16 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         => GetCache(moduleType).SkippedHandlers;
 
     private AttributeHandlerCache GetCache(Type moduleType)
-        => _cache.GetOrAdd(moduleType, DiscoverHandlers);
+        => _cache.GetOrAdd(
+            moduleType,
+            static type => new Lazy<AttributeHandlerCache>(
+                () => DiscoverHandlers(type),
+                LazyThreadSafetyMode.ExecutionAndPublication)).Value;
 
     private static AttributeHandlerCache DiscoverHandlers(Type moduleType)
     {
-        return CreateHandlerCache(CreateAttributes(moduleType));
+        var attributes = CreateAttributes(moduleType);
+        return CreateHandlerCache(attributes);
     }
 
     private static IReadOnlyList<Attribute> CreateAttributes(Type moduleType)
@@ -96,6 +101,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         // Sort all handlers by priority (lower values first)
         // Handlers without IEventHandlerPriority default to 0
         return new AttributeHandlerCache(
+            attributes,
             SortByPriority(registrationReceivers),
             SortByPriority(readyHandlers),
             SortByPriority(startHandlers),
@@ -131,6 +137,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         => handler is IEventHandlerPriority prioritized ? prioritized.Priority : 0;
 
     private sealed record AttributeHandlerCache(
+        IReadOnlyList<Attribute> Attributes,
         IReadOnlyList<IModuleRegistrationEventReceiver> RegistrationReceivers,
         IReadOnlyList<IModuleReadyHandler> ReadyHandlers,
         IReadOnlyList<IModuleStartHandler> StartHandlers,

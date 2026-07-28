@@ -12,7 +12,7 @@ public class SkipIfDependencyPullRequest : Attribute, IConditionAttribute
 
     public string ConditionNames => nameof(SkipIfDependencyPullRequest);
 
-    public async Task<bool> EvaluateAsync(IPipelineHookContext pipelineContext)
+    public async Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
         var gitHubEnvironmentVariables = pipelineContext.GitHub().EnvironmentVariables;
 

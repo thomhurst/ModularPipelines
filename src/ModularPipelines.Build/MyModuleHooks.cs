@@ -12,7 +12,7 @@ public class MyModuleHooks : IPipelineModuleHooks
     private readonly ConcurrentDictionary<string, DateTimeOffset> _moduleStartTimes = new();
 
     /// <inheritdoc/>
-    public Task OnBeforeModuleStartAsync(IPipelineHookContext pipelineContext, IModule module)
+    public Task OnBeforeModuleStartAsync(IPipelineContext pipelineContext, IModule module)
     {
         var moduleName = module.GetType().Name;
         var startTime = DateTimeOffset.UtcNow;
@@ -22,7 +22,7 @@ public class MyModuleHooks : IPipelineModuleHooks
     }
 
     /// <inheritdoc/>
-    public Task OnAfterModuleEndAsync(IPipelineHookContext pipelineContext, IModule module)
+    public Task OnAfterModuleEndAsync(IPipelineContext pipelineContext, IModule module)
     {
         var moduleName = module.GetType().Name;
         var endTime = DateTimeOffset.UtcNow;

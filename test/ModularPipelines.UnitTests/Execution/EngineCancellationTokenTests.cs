@@ -123,9 +123,10 @@ public class EngineCancellationTokenTests : TestBase
 
         await Task.Delay(WaitForCancellationDelay);
 
-        await Assert.That(async () => await pipelineTask).ThrowsException();
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await pipelineTask);
 
         var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModule));
+        await Assert.That(exception).IsNotNull();
         await Assert.That(longRunningModuleResult).IsNotNull();
         await Assert.That(longRunningModuleResult!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
         await Assert.That(longRunningModuleResult.ModuleDuration).IsLessThan(TimeSpan.FromSeconds(5));

@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Kind.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Kind.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Kind : IKind
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Kind"/> class.
@@ -31,7 +31,7 @@ internal partial class Kind : IKind
         KindExport export,
         KindGet get,
         KindLoad load,
-        ICommand command
+        ICommandContext command
     )
     {
         Build = build;

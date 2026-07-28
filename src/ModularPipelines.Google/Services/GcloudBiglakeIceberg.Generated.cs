@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudBiglakeIceberg
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudBiglakeIcebergCatalogs? _catalogs;
     private GcloudBiglakeIcebergNamespaces? _namespaces;
     private GcloudBiglakeIcebergTables? _tables;
@@ -27,7 +27,7 @@ public class GcloudBiglakeIceberg
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBiglakeIceberg"/> class.
     /// </summary>
-    public GcloudBiglakeIceberg(ICommand command)
+    public GcloudBiglakeIceberg(ICommandContext command)
     {
         _command = command;
     }

@@ -12,7 +12,7 @@ namespace ModularPipelines.Requirements;
 public class WindowsRequirement : IPipelineRequirement
 {
     /// <inheritdoc/>
-    public Task<RequirementDecision> MustAsync(IPipelineHookContext context)
+    public Task<RequirementDecision> MustAsync(IPipelineContext context)
     {
         if (OperatingSystem.IsWindows())
         {

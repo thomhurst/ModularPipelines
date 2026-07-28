@@ -45,13 +45,13 @@ public class NewRunConditionAttributeTests : TestBase
 
     private class AlwaysTrue : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineHookContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context)
             => Task.FromResult(true);
     }
 
     private class AlwaysFalse : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineHookContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context)
             => Task.FromResult(false);
     }
 
@@ -188,7 +188,7 @@ public class NewRunConditionAttributeTests : TestBase
 
     private class CancelDuringEvaluation : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineHookContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context)
         {
             ConditionCancellationTokenSource!.Cancel();
             return Task.FromResult(false);
@@ -197,7 +197,7 @@ public class NewRunConditionAttributeTests : TestBase
 
     private class TrackEvaluation : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineHookContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context)
         {
             SubsequentConditionWasEvaluated = true;
             return Task.FromResult(true);
@@ -208,7 +208,7 @@ public class NewRunConditionAttributeTests : TestBase
     {
         public ThrowOnConstruction() => throw new InvalidOperationException("Condition should not be constructed");
 
-        public Task<bool> EvaluateAsync(IPipelineHookContext context) => Task.FromResult(true);
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
     }
 
     private class UnregisteredDependencyModule : SimpleTestModule<bool>
@@ -382,7 +382,7 @@ public class NewRunConditionAttributeTests : TestBase
     public async Task RunIfAny_DoesNotConstructConditionsAfterTrueResult()
     {
         var result = await new RunIfAnyAttribute<AlwaysTrue, ThrowOnConstruction>()
-            .EvaluateAsync(Mock.Of<IPipelineHookContext>());
+            .EvaluateAsync(Mock.Of<IPipelineContext>());
 
         await Assert.That(result).IsTrue();
     }
@@ -391,7 +391,7 @@ public class NewRunConditionAttributeTests : TestBase
     public async Task RunIfAll_DoesNotConstructConditionsAfterFalseResult()
     {
         var result = await new RunIfAllAttribute<AlwaysFalse, ThrowOnConstruction>()
-            .EvaluateAsync(Mock.Of<IPipelineHookContext>());
+            .EvaluateAsync(Mock.Of<IPipelineContext>());
 
         await Assert.That(result).IsFalse();
     }
@@ -400,7 +400,7 @@ public class NewRunConditionAttributeTests : TestBase
     public async Task SkipIf_DoesNotConstructConditionsAfterTrueResult()
     {
         var result = await new SkipIfAttribute<AlwaysTrue, ThrowOnConstruction>()
-            .EvaluateAsync(Mock.Of<IPipelineHookContext>());
+            .EvaluateAsync(Mock.Of<IPipelineContext>());
 
         await Assert.That(result).IsTrue();
     }

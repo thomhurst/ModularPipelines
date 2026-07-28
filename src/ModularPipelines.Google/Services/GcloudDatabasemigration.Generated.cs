@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDatabasemigration
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudDatabasemigrationConnectionProfiles? _connectionProfiles;
     private GcloudDatabasemigrationConversionWorkspaces? _conversionWorkspaces;
     private GcloudDatabasemigrationMigrationJobs? _migrationJobs;
@@ -30,7 +30,7 @@ public class GcloudDatabasemigration
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatabasemigration"/> class.
     /// </summary>
-    public GcloudDatabasemigration(ICommand command)
+    public GcloudDatabasemigration(ICommandContext command)
     {
         _command = command;
     }

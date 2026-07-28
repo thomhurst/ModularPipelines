@@ -46,11 +46,11 @@ public abstract class ConditionGroup : IRunCondition
     /// For <see cref="ConditionLogic.All"/>: <c>true</c> if all conditions pass.
     /// For <see cref="ConditionLogic.Any"/>: <c>true</c> if any condition passes.
     /// </returns>
-    public Task<bool> EvaluateAsync(IPipelineHookContext context) =>
+    public Task<bool> EvaluateAsync(IPipelineContext context) =>
         EvaluateAsync(context, CancellationToken.None);
 
     /// <inheritdoc />
-    public Task<bool> EvaluateAsync(IPipelineHookContext context, CancellationToken cancellationToken)
+    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         if (Conditions.Length == 0)
         {

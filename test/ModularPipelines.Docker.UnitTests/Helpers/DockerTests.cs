@@ -4,8 +4,8 @@ using ModularPipelines.Docker.Extensions;
 using ModularPipelines.Docker.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
-using ModularPipelines.Options;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.Docker.UnitTests.Helpers;
@@ -54,9 +54,9 @@ public class DockerTests : TestBase
         var resultRegistry = host.Services.GetRequiredService<ModularPipelines.Engine.IModuleResultRegistry>();
         var result = resultRegistry.GetResult<CommandResult>(typeof(DockerBuildModule))!;
 
-        // IPipelineHookContext is a scoped service, so we need to create a scope
+        // IPipelineContext is a scoped service, so we need to create a scope
         await using var scope = host.Services.CreateAsyncScope();
-        var context = scope.ServiceProvider.GetRequiredService<IPipelineHookContext>();
+        var context = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
         var dockerfilePath = context.Files.GetFolder(Environment.CurrentDirectory)
             .GetFolder("src")
             .GetFolder("MyApp")

@@ -20,7 +20,7 @@ public class RunOnlyIfBranchStartsWithAttribute : Attribute, IConditionAttribute
         BranchNamePrefix = branchNamePrefix;
     }
 
-    public Task<bool> EvaluateAsync(IPipelineHookContext pipelineContext)
+    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
         return Task.FromResult(BranchConditionHelper.CheckBranchStartsWith(
             pipelineContext,

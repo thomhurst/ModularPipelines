@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Scheduling;
 using ModularPipelines.Enums;
@@ -49,7 +50,9 @@ public class ModuleSchedulerConfigurationTests
             TimeProvider.System,
             Microsoft.Extensions.Options.Options.Create(new SchedulerOptions()),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
+            new ModuleMetadataRegistry(
+                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+                new ModuleAttributeEventService()),
             Mock.Of<IMetricsCollector>(),
             Mock.Of<IModuleConstraintEvaluator>(),
             Mock.Of<ISchedulerStatusReporter>());

@@ -9,13 +9,13 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
-internal class Downloader : IDownloader, IDownloaderContext
+internal class Downloader : IDownloaderContext
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
-    private readonly IHttp _http;
+    private readonly IHttpContext _http;
     private readonly IFileSystemProvider _fileSystemProvider;
 
-    public Downloader(IModuleLoggerProvider moduleLoggerProvider, IHttp http, IFileSystemProvider fileSystemProvider)
+    public Downloader(IModuleLoggerProvider moduleLoggerProvider, IHttpContext http, IFileSystemProvider fileSystemProvider)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         _http = http;

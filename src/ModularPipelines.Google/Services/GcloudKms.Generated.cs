@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudKms
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudKmsAutokeyConfig? _autokeyConfig;
     private GcloudKmsEkmConfig? _ekmConfig;
     private GcloudKmsEkmConnections? _ekmConnections;
@@ -36,7 +36,7 @@ public class GcloudKms
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudKms"/> class.
     /// </summary>
-    public GcloudKms(ICommand command)
+    public GcloudKms(ICommandContext command)
     {
         _command = command;
     }

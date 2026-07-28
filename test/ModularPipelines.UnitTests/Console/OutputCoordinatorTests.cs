@@ -323,6 +323,29 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    public async Task ImmediateFlush_PausesProgressOnceForQueuedBatch()
+    {
+        var firstBuffer = new BlockingOutputBuffer();
+        var secondBuffer = new CancellingOutputBuffer();
+        var progressController = new Mock<IProgressController>();
+        progressController.Setup(x => x.PauseAsync()).Returns(Task.CompletedTask);
+        progressController.Setup(x => x.ResumeAsync()).Returns(Task.CompletedTask);
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+        coordinator.SetProgressController(progressController.Object);
+
+        var firstFlush = coordinator.EnqueueAndFlushAsync(firstBuffer, OutputFlushKind.Complete);
+        await firstBuffer.FlushStarted.Task;
+        var secondFlush = coordinator.EnqueueAndFlushAsync(secondBuffer, OutputFlushKind.Complete);
+
+        firstBuffer.ReleaseFlush.TrySetResult();
+        await Task.WhenAll(firstFlush, secondFlush);
+        await coordinator.WaitForPendingFlushesAsync();
+
+        progressController.Verify(x => x.PauseAsync(), Times.Once);
+        progressController.Verify(x => x.ResumeAsync(), Times.Once);
+    }
+
+    [Test]
     public async Task ImmediateFlush_ProcessorStartsOutsideCallersStack()
     {
         var buffer = new SynchronouslyBlockingOutputBuffer();

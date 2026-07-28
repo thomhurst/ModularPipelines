@@ -1,5 +1,3 @@
-using Microsoft.CodeAnalysis;
-
 namespace ModularPipelines.SourceGenerator;
 
 /// <summary>
@@ -7,8 +5,5 @@ namespace ModularPipelines.SourceGenerator;
 /// </summary>
 internal sealed record ModuleClassInfo(
     string Namespace,
-    string ClassName,
-    string ResultTypeName,
-    string ResultTypeFullName,
-    Location Location
+    string ClassName
 );

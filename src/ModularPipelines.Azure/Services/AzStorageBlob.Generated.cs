@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageBlob
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzStorageBlobCopy? _copy;
     private AzStorageBlobImmutabilityPolicy? _immutabilityPolicy;
     private AzStorageBlobIncrementalCopy? _incrementalCopy;
@@ -30,7 +30,7 @@ public class AzStorageBlob
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageBlob"/> class.
     /// </summary>
-    public AzStorageBlob(ICommand command)
+    public AzStorageBlob(ICommandContext command)
     {
         _command = command;
     }

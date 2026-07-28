@@ -164,7 +164,7 @@ public class GeneratedAttributeEventMetadataTests
         await Assert.That(ReferenceEquals(
                 handlers[0],
                 contextAttributes.OfType<GeneratedStartAttribute>().First()))
-            .IsFalse();
+            .IsTrue();
         await Assert.That(contextAttributes
             .OfType<GeneratedMarkerAttribute>()
             .Single()

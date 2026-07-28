@@ -232,11 +232,27 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         try
         {
             var formatter = _formatterProvider.GetFormatter();
-            PendingFlush? pending;
-
-            while ((pending = DequeuePendingFlush()) is not null)
+            await _writeLock.WaitAsync().ConfigureAwait(false);
+            try
             {
-                await ProcessPendingFlushAsync(pending, formatter).ConfigureAwait(false);
+                var progressController = _progressController;
+                await progressController.PauseAsync().ConfigureAwait(false);
+                try
+                {
+                    PendingFlush? pending;
+                    while ((pending = DequeuePendingFlush()) is not null)
+                    {
+                        await ProcessPendingFlushAsync(pending, formatter).ConfigureAwait(false);
+                    }
+                }
+                finally
+                {
+                    await progressController.ResumeAsync().ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                _writeLock.Release();
             }
         }
         catch (Exception ex)
@@ -302,28 +318,12 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         var cancellationToken = pending.CancellationToken;
         cancellationToken.ThrowIfCancellationRequested();
 
-        await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
-        try
-        {
-            await _progressController.PauseAsync().ConfigureAwait(false);
-            try
-            {
-                await FlushBufferAsync(
-                        pending.Buffer,
-                        formatter,
-                        pending.FlushKind,
-                        cancellationToken)
-                    .ConfigureAwait(false);
-            }
-            finally
-            {
-                await _progressController.ResumeAsync().ConfigureAwait(false);
-            }
-        }
-        finally
-        {
-            _writeLock.Release();
-        }
+        await FlushBufferAsync(
+                pending.Buffer,
+                formatter,
+                pending.FlushKind,
+                cancellationToken)
+            .ConfigureAwait(false);
     }
 
     private PendingFlush[] DrainPendingFlushes()

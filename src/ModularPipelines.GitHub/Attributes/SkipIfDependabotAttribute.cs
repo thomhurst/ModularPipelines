@@ -11,7 +11,7 @@ public class SkipIfDependabotAttribute : Attribute, IConditionAttribute
 
     public string ConditionNames => nameof(SkipIfDependabotAttribute);
 
-    public Task<bool> EvaluateAsync(IPipelineHookContext pipelineContext)
+    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
         var isDependabot = pipelineContext.Services.Get<IGitHubEnvironmentVariables>()?.Actor == "dependabot[bot]";
 

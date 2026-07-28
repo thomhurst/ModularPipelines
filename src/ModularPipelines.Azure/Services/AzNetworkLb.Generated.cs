@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkLb
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzNetworkLbAddressPool? _addressPool;
     private AzNetworkLbFrontendIp? _frontendIp;
     private AzNetworkLbInboundNatPool? _inboundNatPool;
@@ -31,7 +31,7 @@ public class AzNetworkLb
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkLb"/> class.
     /// </summary>
-    public AzNetworkLb(ICommand command)
+    public AzNetworkLb(ICommandContext command)
     {
         _command = command;
     }
