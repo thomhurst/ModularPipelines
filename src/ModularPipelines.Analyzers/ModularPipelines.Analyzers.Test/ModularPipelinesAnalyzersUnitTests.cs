@@ -143,6 +143,17 @@ namespace ModularPipelines.Generated
     }
 
     [TestMethod]
+    public async Task Direct_Optional_Accessor_Is_Triggered()
+    {
+        var source = BadModuleSource.Replace(
+            "var module1 = await {|#0:context.GetModule<Module1>()|};",
+            "var module1 = {|#0:context.GetModuleIfRegistered<Module1>()|};");
+        var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Unrelated_GetModule_Is_Ignored()
     {
         const string source = @"
@@ -186,5 +197,24 @@ public class Module2 : Module<string>
             BadModuleSource.ReplaceLineEndings("\n"),
             expected,
             FixedModuleSource.ReplaceLineEndings("\n"));
+    }
+
+    [TestMethod]
+    public async Task OptionalCodeFixWorks()
+    {
+        var source = BadModuleSource
+            .Replace(
+                "var module1 = await {|#0:context.GetModule<Module1>()|};",
+                "var module1 = {|#0:context.GetModuleIfRegistered<Module1>()|};")
+            .ReplaceLineEndings("\n");
+        var fixedSource = FixedModuleSource
+            .Replace("[DependsOn<Module1>]", "[DependsOn<Module1>(Optional = true)]")
+            .Replace(
+                "var module1 = await context.GetModule<Module1>();",
+                "var module1 = context.GetModuleIfRegistered<Module1>();")
+            .ReplaceLineEndings("\n");
+        var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
     }
 }

@@ -80,6 +80,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             var properties = new Dictionary<string, string?>
             {
                 ["Name"] = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
+                ["Optional"] = (methodSymbol.Name == AnalyzerConstants.MethodNames.GetModuleIfRegistered).ToString(),
             }.ToImmutableDictionary();
 
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), properties, namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
@@ -121,7 +122,8 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         moduleType = null!;
 
         if (invokedName is not GenericNameSyntax
-            || methodSymbol.Name != AnalyzerConstants.MethodNames.GetModule
+            || (methodSymbol.Name != AnalyzerConstants.MethodNames.GetModule
+                && methodSymbol.Name != AnalyzerConstants.MethodNames.GetModuleIfRegistered)
             || methodSymbol.TypeArguments.Length != 1
             || !SymbolEqualityComparer.Default.Equals(
                 methodSymbol.OriginalDefinition.ContainingType,
