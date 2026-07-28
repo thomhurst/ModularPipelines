@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Master;
@@ -43,7 +44,7 @@ public class DistributedModuleExecutorTests
             => Task.FromResult<SimpleResult?>(new SimpleResult { Message = "done" });
     }
 
-    [RunOnLinuxOnly]
+    [RunIfAll<OnLinux>]
     private class LinuxOnlyModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -533,7 +534,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public async Task CreateAssignment_Auto_Detects_Linux_Capability_From_RunOnLinuxOnly()
+    public async Task CreateAssignment_Auto_Detects_Linux_Capability_From_RunIfAll()
     {
         // Arrange
         var coordinator = new InMemoryDistributedCoordinator();
@@ -548,7 +549,7 @@ public class DistributedModuleExecutorTests
         // Act
         var assignment = publisher.CreateAssignment(module);
 
-        // Assert — "linux" capability auto-detected from [RunOnLinuxOnly]
+        // Assert — "linux" capability auto-detected from [RunIfAll<OnLinux>]
         await Assert.That(assignment.RequiredCapabilities).Contains("linux");
     }
 

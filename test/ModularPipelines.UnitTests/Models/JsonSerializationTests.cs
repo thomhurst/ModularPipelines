@@ -58,11 +58,11 @@ public class JsonSerializationTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<Module1>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        var pipelineSummary = await host.ExecutePipelineAsync();
+        var pipelineSummary = await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var module1Result = resultRegistry.GetResult<IDictionary<string, object>>(typeof(Module1))!;
 
         // Serialize and deserialize the pipeline summary

@@ -25,7 +25,7 @@ namespace ModularPipelines.Build.Modules.UnitTests;
 /// </summary>
 [DependsOn<BuildSolutionsModule>(Optional = true)]
 [ConsumesArtifact(typeof(BuildSolutionsModule), "build-output", RestorePath = "../../")]
-[RunOnLinuxOnly]
+[RunIfAll<ModularPipelines.Conditions.OnLinux>]
 [RequiresCapability("linux")]
 public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult>
 {

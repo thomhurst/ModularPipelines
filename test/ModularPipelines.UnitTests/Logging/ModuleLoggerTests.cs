@@ -63,9 +63,9 @@ public class ModuleLoggerTests
                 collection.AddLogging(builder => { builder.AddFile(file); });
             })
             .AddModule<Module1>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
         await host.DisposeAsync();
 
@@ -88,9 +88,9 @@ public class ModuleLoggerTests
                 collection.AddSingleton(typeof(IModule), moduleType);
             })
             .SetLogLevel(LogLevel.Information)
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
         await host.DisposeAsync();
 

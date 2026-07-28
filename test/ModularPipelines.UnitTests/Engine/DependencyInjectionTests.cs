@@ -15,7 +15,7 @@ public class DependencyInjectionTests
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<TestModule1>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         var services = host.Services;
 

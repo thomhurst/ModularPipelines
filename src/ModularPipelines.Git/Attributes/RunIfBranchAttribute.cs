@@ -1,13 +1,18 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Git.Attributes;
 
 [ExcludeFromCodeCoverage]
-#pragma warning disable CS0618 // This public compatibility attribute intentionally uses the legacy run-condition contract.
-public class RunIfBranchAttribute : RunConditionAttribute
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+public class RunIfBranchAttribute : Attribute, IConditionAttribute
 {
+    public ConditionLogic Logic => ConditionLogic.All;
+
+    public string ConditionNames => $"{nameof(RunIfBranchAttribute)}({BranchName})";
+
     public string BranchName { get; }
 
     public RunIfBranchAttribute(string branchName)
@@ -15,7 +20,7 @@ public class RunIfBranchAttribute : RunConditionAttribute
         BranchName = branchName;
     }
 
-    public override Task<bool> Condition(IPipelineHookContext pipelineContext)
+    public Task<bool> EvaluateAsync(IPipelineHookContext pipelineContext)
     {
         return Task.FromResult(BranchConditionHelper.CheckBranchMatches(
             pipelineContext,
@@ -23,4 +28,3 @@ public class RunIfBranchAttribute : RunConditionAttribute
             "Current Branch: {CurrentBranch} | Can run on: {ExpectedBranch}"));
     }
 }
-#pragma warning restore CS0618

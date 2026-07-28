@@ -85,7 +85,7 @@ public class SummaryLoggerTests
                 collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
             })
             .AddModule<SummaryInfoLoggingModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         await host.RunAsync();
         await host.DisposeAsync();
@@ -104,7 +104,7 @@ public class SummaryLoggerTests
                 collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
             })
             .AddModule<SummarySuccessLoggingModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         await host.RunAsync();
         await host.DisposeAsync();
@@ -123,7 +123,7 @@ public class SummaryLoggerTests
                 collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
             })
             .AddModule<SummaryWarningLoggingModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         await host.RunAsync();
         await host.DisposeAsync();
@@ -142,7 +142,7 @@ public class SummaryLoggerTests
                 collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
             })
             .AddModule<SummaryErrorLoggingModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         await host.RunAsync();
         await host.DisposeAsync();
@@ -161,7 +161,7 @@ public class SummaryLoggerTests
                 collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
             })
             .AddModule<SummaryKeyValueLoggingModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         await host.RunAsync();
         await host.DisposeAsync();
@@ -180,7 +180,7 @@ public class SummaryLoggerTests
                 collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
             })
             .AddModule<SummaryCategoryLoggingModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         await host.RunAsync();
         await host.DisposeAsync();

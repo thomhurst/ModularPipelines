@@ -34,12 +34,11 @@ Multiple condition attributes are evaluated in this order: `SkipIf`, `RunIfAll`,
 directly. Fluent `.WithSkipWhen(...)` conditions run later in the execution pipeline and invoke
 the skipped hooks and lifecycle notifications.
 
-Built-in platform attributes remain available, including `[RunOnLinux]`, `[RunOnWindows]`,
-`[RunOnMacOS]`, and their `*Only` variants.
+Built-in platform conditions include `OnLinux`, `OnWindows`, and `OnMacOS`:
 
-## Legacy attributes
+```csharp
+[RunIfAll<OnLinux>]
+public class LinuxModule : Module<None>
+```
 
-`RunConditionAttribute` and `MandatoryRunConditionAttribute` are deprecated. Existing modules
-continue to work, but new reusable conditions should implement `IRunCondition` and use the
-intent-specific attributes above. One-off conditions should use
-`Configure().WithSkipWhen(...)`.
+One-off conditions can use `Configure().WithSkipWhen(...)`.

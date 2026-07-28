@@ -1,17 +1,20 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.GitHub.Attributes;
 
-#pragma warning disable CS0618 // This public compatibility attribute intentionally uses the legacy run-condition contract.
-public class SkipIfDependabotAttribute : MandatoryRunConditionAttribute
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+public class SkipIfDependabotAttribute : Attribute, IConditionAttribute
 {
-    /// <inheritdoc/>
-    public override Task<bool> Condition(IPipelineHookContext pipelineContext)
+    public ConditionLogic Logic => ConditionLogic.Skip;
+
+    public string ConditionNames => nameof(SkipIfDependabotAttribute);
+
+    public Task<bool> EvaluateAsync(IPipelineHookContext pipelineContext)
     {
         var isDependabot = pipelineContext.Services.Get<IGitHubEnvironmentVariables>()?.Actor == "dependabot[bot]";
 
-        return Task.FromResult(!isDependabot);
+        return Task.FromResult(isDependabot);
     }
 }
-#pragma warning restore CS0618

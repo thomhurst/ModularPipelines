@@ -129,7 +129,7 @@ public class ModuleConditionHandlerTests
             : new WindowsOnlyModule();
     }
 
-    [RunOnLinuxOnly]
+    [RunIfAll<OnLinux>]
     private sealed class LinuxOnlyModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -140,7 +140,7 @@ public class ModuleConditionHandlerTests
         }
     }
 
-    [RunOnWindowsOnly]
+    [RunIfAll<OnWindows>]
     private sealed class WindowsOnlyModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -151,8 +151,8 @@ public class ModuleConditionHandlerTests
         }
     }
 
-    [RunOnWindowsOnly]
-    [RunOnLinuxOnly]
+    [RunIfAll<OnWindows>]
+    [RunIfAll<OnLinux>]
     private sealed class ContradictoryOsModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(

@@ -35,13 +35,9 @@ internal class DistributedWorkPublisher(
             .Select(a => a.Capability)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        // Auto-detect OS requirements from RunOn*Only mandatory conditions, sharing the same
-        // attribute-to-capability mapping the condition handler uses so the two cannot drift.
-#pragma warning disable CS0618 // MandatoryRunConditionAttribute is the legacy base type of the OS-only conditions.
-        foreach (var osCondition in moduleType.GetCustomAttributes<MandatoryRunConditionAttribute>(true))
-#pragma warning restore CS0618
+        foreach (var osCondition in moduleType.GetCustomAttributes(true).OfType<IConditionAttribute>())
         {
-            if (OperatingSystemConditions.GetTarget(osCondition) is { } osCapability)
+            foreach (var osCapability in OperatingSystemConditions.GetTargets(osCondition))
             {
                 requiredCapabilities.Add(osCapability);
             }

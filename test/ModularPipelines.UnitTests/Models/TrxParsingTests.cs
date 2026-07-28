@@ -95,11 +95,11 @@ public class TrxParsingTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<NUnitModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var module = host.RootServices.GetServices<IModule>().OfType<NUnitModule>().First();
+        var module = host.Services.GetServices<IModule>().OfType<NUnitModule>().First();
         var testResult = module.LastResult!;
 
         await Assert.That(testResult.Successful).IsFalse();

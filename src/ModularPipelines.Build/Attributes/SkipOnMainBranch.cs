@@ -1,16 +1,19 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 
 namespace ModularPipelines.Build.Attributes;
 
-#pragma warning disable CS0618 // This compatibility attribute intentionally uses the legacy run-condition contract.
-public class SkipOnMainBranch : MandatoryRunConditionAttribute
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+public class SkipOnMainBranch : Attribute, IConditionAttribute
 {
-    /// <inheritdoc/>
-    public override Task<bool> Condition(IPipelineHookContext pipelineContext)
+    public ConditionLogic Logic => ConditionLogic.Skip;
+
+    public string ConditionNames => nameof(SkipOnMainBranch);
+
+    public Task<bool> EvaluateAsync(IPipelineHookContext pipelineContext)
     {
-        return Task.FromResult(pipelineContext.Git().Information.BranchName != "main");
+        return Task.FromResult(pipelineContext.Git().Information.BranchName == "main");
     }
 }
-#pragma warning restore CS0618

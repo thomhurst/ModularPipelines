@@ -1,12 +1,12 @@
+using ModularPipelines.Conditions;
+
 namespace ModularPipelines.Attributes;
 
 /// <summary>
-/// Single source of truth mapping the OS-only mandatory run conditions
-/// (<see cref="RunOnWindowsOnlyAttribute"/>, <see cref="RunOnLinuxOnlyAttribute"/>,
-/// <see cref="RunOnMacOSOnlyAttribute"/>) to their operating-system capability identifier.
+/// Maps platform run conditions to distributed operating-system capability identifiers.
 /// Both the condition handler (which decides whether to defer an OS condition to a worker)
 /// and the distributed work publisher (which stamps the OS capability onto an assignment)
-/// consume this, so the two paths cannot drift as new operating systems are added.
+/// consume this mapping.
 /// </summary>
 internal static class OperatingSystemConditions
 {
@@ -20,17 +20,37 @@ internal static class OperatingSystemConditions
     public const string MacOS = "macos";
 
     /// <summary>
-    /// Returns the operating-system capability an OS-only mandatory condition targets, or
-    /// <see langword="null"/> if the attribute is not an OS-only condition. Pattern matching
-    /// means subclasses of the OS-only attributes are classified by their base operating system.
+    /// Returns the operating-system capabilities targeted by an all-platform condition.
+    /// Mixed platform and non-platform conditions are evaluated locally and return no targets.
     /// </summary>
-#pragma warning disable CS0618 // MandatoryRunConditionAttribute is the legacy base type these OS conditions derive from.
-    public static string? GetTarget(MandatoryRunConditionAttribute attribute) => attribute switch
-#pragma warning restore CS0618
+    public static IReadOnlyList<string> GetTargets(IConditionAttribute attribute)
     {
-        RunOnWindowsOnlyAttribute => Windows,
-        RunOnLinuxOnlyAttribute => Linux,
-        RunOnMacOSOnlyAttribute => MacOS,
-        _ => null,
-    };
+        if (attribute.Logic != ConditionLogic.All)
+        {
+            return [];
+        }
+
+        var conditionTypes = attribute.GetType().GetGenericArguments();
+        if (conditionTypes.Length == 0 || conditionTypes.Any(type => GetTarget(type) is null))
+        {
+            return [];
+        }
+
+        return conditionTypes.Select(type => GetTarget(type)!).Distinct().ToArray();
+    }
+
+    private static string? GetTarget(Type conditionType)
+    {
+        if (conditionType == typeof(OnWindows))
+        {
+            return Windows;
+        }
+
+        if (conditionType == typeof(OnLinux))
+        {
+            return Linux;
+        }
+
+        return conditionType == typeof(OnMacOS) ? MacOS : null;
+    }
 }

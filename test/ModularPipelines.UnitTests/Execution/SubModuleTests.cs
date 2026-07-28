@@ -242,10 +242,10 @@ public class SubModuleTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create(new TestHostSettings { ShowProgressInConsole = true })
             .AddModule<SubModulesWithReturnTypeModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
-        var module = host.RootServices.GetServices<IModule>().OfType<SubModulesWithReturnTypeModule>().First();
+        await host.RunAsync();
+        var module = host.Services.GetServices<IModule>().OfType<SubModulesWithReturnTypeModule>().First();
 
         using (Assert.Multiple())
         {
@@ -258,10 +258,10 @@ public class SubModuleTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SubModulesWithReturnTypeModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
-        var module = host.RootServices.GetServices<IModule>().OfType<SubModulesWithReturnTypeModule>().First();
+        await host.RunAsync();
+        var module = host.Services.GetServices<IModule>().OfType<SubModulesWithReturnTypeModule>().First();
 
         using (Assert.Multiple())
         {
@@ -274,10 +274,10 @@ public class SubModuleTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SubModulesWithoutReturnTypeModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
-        var module = host.RootServices.GetServices<IModule>().OfType<SubModulesWithoutReturnTypeModule>().First();
+        await host.RunAsync();
+        var module = host.Services.GetServices<IModule>().OfType<SubModulesWithoutReturnTypeModule>().First();
 
         using (Assert.Multiple())
         {
@@ -290,10 +290,10 @@ public class SubModuleTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SubModulesWithReturnTypeModuleSynchronous>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
-        var module = host.RootServices.GetServices<IModule>().OfType<SubModulesWithReturnTypeModuleSynchronous>().First();
+        await host.RunAsync();
+        var module = host.Services.GetServices<IModule>().OfType<SubModulesWithReturnTypeModuleSynchronous>().First();
 
         using (Assert.Multiple())
         {
@@ -306,10 +306,10 @@ public class SubModuleTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SubModulesWithoutReturnTypeModuleSynchronous>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
-        var module = host.RootServices.GetServices<IModule>().OfType<SubModulesWithoutReturnTypeModuleSynchronous>().First();
+        await host.RunAsync();
+        var module = host.Services.GetServices<IModule>().OfType<SubModulesWithoutReturnTypeModuleSynchronous>().First();
 
         using (Assert.Multiple())
         {
@@ -392,12 +392,12 @@ public class SubModuleTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SucceedingSubModulesDoNotRetryModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
-            await host.ExecutePipelineAsync());
+            await host.RunAsync());
 
-        var module = host.RootServices.GetServices<IModule>().OfType<SucceedingSubModulesDoNotRetryModule>().First();
+        var module = host.Services.GetServices<IModule>().OfType<SucceedingSubModulesDoNotRetryModule>().First();
 
         // Polly retries the entire module execution, so all counters increment on each retry
         // With RetryAsync(3), we get 1 original + 3 retries = 4 total executions
@@ -414,12 +414,12 @@ public class SubModuleTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SucceedingSubModulesDoNotRetryModule_WithReturnType>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
-            await host.ExecutePipelineAsync());
+            await host.RunAsync());
 
-        var module = host.RootServices.GetServices<IModule>().OfType<SucceedingSubModulesDoNotRetryModule_WithReturnType>().First();
+        var module = host.Services.GetServices<IModule>().OfType<SucceedingSubModulesDoNotRetryModule_WithReturnType>().First();
 
         // Polly retries the entire module execution, so all counters increment on each retry
         // With RetryAsync(3), we get 1 original + 3 retries = 4 total executions

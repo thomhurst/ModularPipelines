@@ -23,7 +23,7 @@ public class BranchConditionLoggingTests
             x.Logger == logger.Object &&
             x.Services == services.Object);
 
-        var result = await new RunIfBranchAttribute("main").Condition(context);
+        var result = await new RunIfBranchAttribute("main").EvaluateAsync(context);
         var logMessage = logger.Invocations
             .Single(x => x.Method.Name == nameof(ILogger.Log))
             .Arguments[2]

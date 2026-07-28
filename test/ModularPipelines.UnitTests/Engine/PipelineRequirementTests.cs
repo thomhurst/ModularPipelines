@@ -19,11 +19,11 @@ public class PipelineRequirementTests
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<SuccessfulRequirement>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }

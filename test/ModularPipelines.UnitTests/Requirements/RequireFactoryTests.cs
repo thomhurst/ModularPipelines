@@ -19,11 +19,11 @@ public class RequireFactoryTests
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement(Require.That(_ => true, "Should not fail"))
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -55,11 +55,11 @@ public class RequireFactoryTests
                 await Task.Yield();
                 return true;
             }, "Should not fail"))
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -95,11 +95,11 @@ public class RequireFactoryTests
             var host = await TestPipelineHostBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement(Require.EnvironmentVariable(varName))
-                .BuildHostAsync();
+                .BuildAsync();
 
-            await host.ExecutePipelineAsync();
+            await host.RunAsync();
 
-            var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+            var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
             var result = resultRegistry.GetResult(typeof(DummyModule))!;
             await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
         }

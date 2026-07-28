@@ -13,12 +13,6 @@ public interface IPipeline : IAsyncDisposable
     IServiceProvider Services { get; }
 
     /// <summary>
-    /// Gets the root service provider for the pipeline.
-    /// </summary>
-    /// <remarks>This is an alias for <see cref="Services"/> for backward compatibility.</remarks>
-    IServiceProvider RootServices => Services;
-
-    /// <summary>
     /// Executes the pipeline and returns a summary of the results.
     /// </summary>
     /// <param name="cancellationToken">Optional cancellation token.</param>

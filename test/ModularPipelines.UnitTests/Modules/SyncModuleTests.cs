@@ -95,18 +95,18 @@ public class SyncModuleTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<ThrowingSyncModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         try
         {
-            await host.ExecutePipelineAsync();
+            await host.RunAsync();
         }
         catch
         {
             // Expected
         }
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(ThrowingSyncModule))!;
 
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.Failed);
@@ -197,18 +197,18 @@ public class SyncModuleTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SyncModuleWithFailedHook>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         try
         {
-            await host.ExecutePipelineAsync();
+            await host.RunAsync();
         }
         catch
         {
             // Expected
         }
 
-        var modules = host.RootServices.GetServices<IModule>();
+        var modules = host.Services.GetServices<IModule>();
         var module = modules.OfType<SyncModuleWithFailedHook>().Single();
 
         await Assert.That(module.FailedHookCalled).IsTrue();
@@ -245,11 +245,11 @@ public class SyncModuleTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SyncModuleWithSkipConfig>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var modules = host.RootServices.GetServices<IModule>();
+        var modules = host.Services.GetServices<IModule>();
         var module = modules.OfType<SyncModuleWithSkipConfig>().Single();
 
         await Assert.That(module.SkippedHookCalled).IsTrue();
@@ -375,7 +375,7 @@ public class SyncModuleTests : TestBase
     {
         var module = await RunModule<SyncModuleWithTimeout>();
 
-        var imodule = (IModule)module;
+        var imodule = (IModule) module;
         await Assert.That(imodule.Configuration.Timeout).IsEqualTo(TimeSpan.FromMinutes(5));
     }
 

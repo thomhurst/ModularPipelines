@@ -123,11 +123,11 @@ public class ComposableModuleTests
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<AlwaysSkippedModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(AlwaysSkippedModule))!;
         await Assert.That(moduleResult.SkipDecisionOrDefault!.ShouldSkip).IsTrue();
         await Assert.That(moduleResult.SkipDecisionOrDefault.Reason).IsEqualTo("Skipped via composition");
@@ -138,11 +138,11 @@ public class ComposableModuleTests
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<NeverSkippedModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(NeverSkippedModule))!;
         await Assert.That(moduleResult.SkipDecisionOrDefault?.ShouldSkip ?? false).IsFalse();
     }
@@ -152,11 +152,11 @@ public class ComposableModuleTests
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<TimeoutableModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(TimeoutableModule))!;
         // The module should have executed successfully with the custom timeout
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(ModularPipelines.Enums.Status.Successful);
@@ -180,12 +180,12 @@ public class ComposableModuleTests
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<AlwaysRunModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
         // Verify the module is registered and executed
-        var module = host.RootServices.GetServices<IModule>().OfType<AlwaysRunModule>().Single();
+        var module = host.Services.GetServices<IModule>().OfType<AlwaysRunModule>().Single();
         await Assert.That(module).IsNotNull();
     }
 }

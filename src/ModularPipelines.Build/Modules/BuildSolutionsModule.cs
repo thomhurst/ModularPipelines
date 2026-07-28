@@ -9,7 +9,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-[RunOnLinuxOnly]
+[RunIfAll<ModularPipelines.Conditions.OnLinux>]
 [ProducesArtifact("build-output", "../../_build-staging")]
 public class BuildSolutionsModule : Module<CommandResult[]>
 {

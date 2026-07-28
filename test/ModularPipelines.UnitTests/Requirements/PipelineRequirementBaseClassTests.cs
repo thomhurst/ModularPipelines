@@ -19,11 +19,11 @@ public class PipelineRequirementBaseClassTests
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<PassingSyncRequirement>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -50,11 +50,11 @@ public class PipelineRequirementBaseClassTests
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<PassingAsyncRequirement>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -81,11 +81,11 @@ public class PipelineRequirementBaseClassTests
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<WhenTrueRequirement>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }

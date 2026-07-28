@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
@@ -64,7 +65,7 @@ public class IgnoredModuleResultRegistrarTests
         }
     }
 
-    [RunOnWindowsOnly]
+    [RunIfAll<OnWindows>]
     private sealed class ForeignOperatingSystemModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(

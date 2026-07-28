@@ -21,12 +21,12 @@ public abstract class BuildSolutionOnPlatformModule : Module<CommandResult>
     }
 }
 
-[RunOnWindowsOnly]
+[RunIfAll<ModularPipelines.Conditions.OnWindows>]
 public sealed class BuildSolutionOnWindowsModule : BuildSolutionOnPlatformModule
 {
 }
 
-[RunOnMacOSOnly]
+[RunIfAll<ModularPipelines.Conditions.OnMacOS>]
 public sealed class BuildSolutionOnMacOSModule : BuildSolutionOnPlatformModule
 {
 }

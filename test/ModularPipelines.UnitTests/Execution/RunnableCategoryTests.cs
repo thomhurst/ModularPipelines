@@ -60,11 +60,11 @@ public class RunnableCategoryTests : TestBase
             .AddModule<RunnableModule3>()
             .AddModule<OtherModule3>()
             .RunCategories("Run1", "Run2")
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         using (Assert.Multiple())
         {
@@ -88,11 +88,11 @@ public class RunnableCategoryTests : TestBase
             .AddModule<RunnableModule3>()
             .AddModule<OtherModule3>()
             .IgnoreCategories("NoRun1", "NoRun2")
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         using (Assert.Multiple())
         {
@@ -114,11 +114,11 @@ public class RunnableCategoryTests : TestBase
                 services.AddModule<RegistrationCategoryModule>().WithCategory("Run1");
             })
             .RunCategories("Run1")
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         await Assert.That(resultRegistry.GetResult(typeof(RegistrationCategoryModule))!.ModuleStatus)
             .IsEqualTo(Status.Successful);
     }

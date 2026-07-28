@@ -39,11 +39,11 @@ public class OutputCoordinatorDeferredFlushTests : TestBase
                 services.Configure<PipelineOptions>(opt => opt.ShowProgressInConsole = false);
             })
             .AddModule<Module1>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         await using (host)
         {
-            var result = await host.ExecutePipelineAsync();
+            var result = await host.RunAsync();
             await Assert.That(result.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
         }
     }
@@ -58,11 +58,11 @@ public class OutputCoordinatorDeferredFlushTests : TestBase
             })
             .AddModule<Module1>()
             .AddModule<Module2>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         await using (host)
         {
-            var result = await host.ExecutePipelineAsync();
+            var result = await host.RunAsync();
             await Assert.That(result.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
         }
     }

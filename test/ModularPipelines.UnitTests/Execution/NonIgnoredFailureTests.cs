@@ -19,11 +19,11 @@ public class NonIgnoredFailureTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<NonIgnoredFailureModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await Assert.ThrowsAsync<ModuleFailedException>(async () => await host.ExecutePipelineAsync());
+        await Assert.ThrowsAsync<ModuleFailedException>(async () => await host.RunAsync());
 
-        var engineCancellationToken = host.RootServices.GetRequiredService<EngineCancellationToken>();
+        var engineCancellationToken = host.Services.GetRequiredService<EngineCancellationToken>();
 
         // The cancellation should happen very quickly after module failure
         // Use a small polling loop with a reasonable timeout instead of a fixed 10-second delay
