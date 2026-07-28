@@ -8,6 +8,8 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
 
+#pragma warning disable SA1202 // Lifecycle members are ordered by execution phase rather than accessibility.
+
 /// <summary>
 /// Core interface for pipeline modules. Implement this interface to define a module's execution logic.
 /// </summary>
@@ -60,7 +62,7 @@ public abstract class Module<T> : IModule, ITaggedModule
     private readonly Lazy<FrozenSet<string>> _tags;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Module{T}"/> class.
+    /// Initialises a new instance of the <see cref="Module{T}"/> class.
     /// </summary>
     protected Module()
     {
@@ -311,6 +313,7 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// <summary>
     /// Gets an awaiter for this module's result.
     /// </summary>
+    /// <returns>An awaiter for the module result.</returns>
     public TaskAwaiter<ModuleResult<T>> GetAwaiter() => CompletionSource.Task.GetAwaiter();
 
     private ModuleConfiguration CreateConfiguration()
@@ -323,3 +326,5 @@ public abstract class Module<T> : IModule, ITaggedModule
             GetDeclaredDependencies());
     }
 }
+
+#pragma warning restore SA1202
