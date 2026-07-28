@@ -199,7 +199,10 @@ internal class ModuleStateTracker : IModuleStateTracker
         }
         else if (exception != null)
         {
-            state.CompletionSource.TrySetException(exception);
+            if (state.CompletionSource.TrySetException(exception))
+            {
+                _ = state.CompletionSource.Task.Exception;
+            }
         }
         else
         {

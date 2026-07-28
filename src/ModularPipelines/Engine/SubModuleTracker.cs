@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using ModularPipelines.Enums;
-using ModularPipelines.Exceptions;
 
 namespace ModularPipelines.Engine;
 
@@ -16,7 +15,6 @@ namespace ModularPipelines.Engine;
 internal class SubModuleTracker
 {
     private readonly Stopwatch _stopwatch = new();
-    private readonly TaskCompletionSource _completionSource = new();
 
     public SubModuleTracker(string name, Type parentModuleType)
     {
@@ -55,11 +53,6 @@ internal class SubModuleTracker
     public TimeSpan Duration { get; private set; }
 
     /// <summary>
-    /// Gets the task that completes when this sub-operation finishes.
-    /// </summary>
-    public Task CompletionTask => _completionSource.Task;
-
-    /// <summary>
     /// Executes an action and tracks its progress.
     /// </summary>
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action)
@@ -73,16 +66,14 @@ internal class SubModuleTracker
             var result = await action().ConfigureAwait(false);
 
             RecordCompletion(Status.Successful);
-            _completionSource.TrySetResult();
 
             return result;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Catch ALL exceptions including fatal ones - we need to record completion
-            // and set the exception before re-throwing. The immediate throw ensures propagation.
+            // before re-throwing. The immediate throw ensures propagation.
             RecordCompletion(Status.Failed);
-            _completionSource.TrySetException(new SubModuleFailedException(Name, ParentModuleType, ex));
             throw;
         }
     }
