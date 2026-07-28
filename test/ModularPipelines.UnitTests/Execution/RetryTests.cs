@@ -30,15 +30,14 @@ public class RetryTests : TestBase
     private const int ExpectedSingleExecutionCount = 1;
 
     /// <summary>
-    /// The timeout duration for the FailedModuleWithTimeout test module (in milliseconds).
+    /// The timeout duration for timeout test modules (in milliseconds).
     /// </summary>
-    private const int ModuleTimeoutMs = 50;
+    private const int ModuleTimeoutMs = 250;
 
     /// <summary>
-    /// The delay duration for the FailedModuleWithTimeout test module (in milliseconds).
-    /// Must be less than ModuleTimeoutMs to allow timeout to trigger.
+    /// The retry back-off duration for the FailedModuleWithTimeout test module (in milliseconds).
     /// </summary>
-    private const int ModuleDelayMs = 30;
+    private const int RetryDelayMs = 750;
 
     private class SuccessModule : Module<bool>
     {
@@ -100,14 +99,15 @@ public class RetryTests : TestBase
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
+            .WithRetryPolicy(Policy
+                .Handle<Exception>()
+                .WaitAndRetryAsync(DefaultRetryCount, _ => TimeSpan.FromMilliseconds(RetryDelayMs)))
             .Build();
 
-        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
-            await Task.Delay(TimeSpan.FromMilliseconds(ModuleDelayMs), cancellationToken);
-
-            throw new Exception();
+            return Task.FromException<bool>(new Exception());
         }
     }
 
