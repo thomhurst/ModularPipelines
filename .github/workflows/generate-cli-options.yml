@@ -10,7 +10,7 @@ on:
       # Linux tools: helm, kubectl, kustomize, docker, trivy, hadolint, podman, buildah, skopeo
       # Cloud CLIs: az, gcloud, aws
       # Infrastructure: terraform, pulumi, packer, vault, ansible, flyway, liquibase
-      # Development: dotnet, go, cargo, mvn, gradle, yarn, pnpm, gh
+      # Development: dotnet, go, cargo, mvn, gradle, yarn, pnpm, gh, git, brew
       # Kubernetes/GitOps: eksctl, argocd, flux, kind, minikube
       # Security/Quality: sonar-scanner, snyk, shellcheck, cosign, syft, grype
       # Other: newman, nbgv, jq, yq, pip
@@ -81,6 +81,8 @@ jobs:
           - cargo
           - mvn
           - gradle
+          - git
+          - brew
           # Node.js ecosystem
           - yarn
           - pnpm
@@ -198,6 +200,8 @@ jobs:
             ["cargo"]="ModularPipelines.Rust:Cargo"
             ["mvn"]="ModularPipelines.Java:Maven"
             ["gradle"]="ModularPipelines.Java:Gradle"
+            ["git"]="ModularPipelines.Git:Git"
+            ["brew"]="ModularPipelines.Homebrew:Brew"
             # Node.js ecosystem
             ["yarn"]="ModularPipelines.Yarn:Yarn"
             ["pnpm"]="ModularPipelines.Node:Pnpm"
@@ -587,8 +591,12 @@ jobs:
       # .NET CLI is installed via setup-dotnet
       # pip is pre-installed with Python on ubuntu-latest
 
+      - name: Add Homebrew to PATH
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'brew'
+        run: echo "/home/linuxbrew/.linuxbrew/bin" >> "$GITHUB_PATH"
+
       - name: Verify affected tool installation
-        if: steps.should-run.outputs.run == 'true' && contains(fromJSON('["aws","gh","snyk","yarn","cosign","eksctl","trivy","liquibase"]'), matrix.tool)
+        if: steps.should-run.outputs.run == 'true' && contains(fromJSON('["aws","gh","git","brew","snyk","yarn","cosign","eksctl","trivy","liquibase"]'), matrix.tool)
         run: |
           command -v "${{ matrix.tool }}"
           case "${{ matrix.tool }}" in
