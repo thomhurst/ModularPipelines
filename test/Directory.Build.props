@@ -6,6 +6,9 @@
     <LangVersion>preview</LangVersion>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Testing.Extensions.HangDump" />
+  </ItemGroup>
   <ItemGroup Condition="'$(MSBuildProjectName)' == 'ModularPipelines.UnitTests'">
     <ProjectReference Include="$(MSBuildThisFileDirectory)..\src\ModularPipelines.SourceGenerator\ModularPipelines.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
   </ItemGroup>
