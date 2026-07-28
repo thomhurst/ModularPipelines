@@ -177,19 +177,6 @@ internal class ModuleStateTracker : IModuleStateTracker
             queuedCount = _queuedModules.Count;
             executingCount = _executingModules.Count;
 
-            if (success)
-            {
-                state.CompletionSource.TrySetResult(state.Module);
-            }
-            else if (exception != null)
-            {
-                state.CompletionSource.TrySetException(exception);
-            }
-            else
-            {
-                state.CompletionSource.TrySetCanceled();
-            }
-
             // Process dependent modules and capture updates for logging outside lock
             dependentUpdates = ProcessDependentModules(state, moduleType);
 
@@ -198,6 +185,19 @@ internal class ModuleStateTracker : IModuleStateTracker
         finally
         {
             _stateLock.ExitWriteLock();
+        }
+
+        if (success)
+        {
+            state.CompletionSource.TrySetResult(state.Module);
+        }
+        else if (exception != null)
+        {
+            state.CompletionSource.TrySetException(exception);
+        }
+        else
+        {
+            state.CompletionSource.TrySetCanceled();
         }
 
         // Record metrics outside lock to prevent lock recursion
@@ -253,7 +253,6 @@ internal class ModuleStateTracker : IModuleStateTracker
                     _queuedModules.Remove(moduleState);
                     _executingModules.Remove(moduleState);
                     moduleState.State = ModuleExecutionState.Completed;
-                    moduleState.CompletionSource.TrySetCanceled();
                     cancelledModules.Add((moduleState, originalState));
                 }
             }
@@ -261,6 +260,11 @@ internal class ModuleStateTracker : IModuleStateTracker
         finally
         {
             _stateLock.ExitWriteLock();
+        }
+
+        foreach (var (moduleState, _) in cancelledModules)
+        {
+            moduleState.CompletionSource.TrySetCanceled();
         }
 
         // Logging outside lock
