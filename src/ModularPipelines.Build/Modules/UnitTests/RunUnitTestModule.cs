@@ -38,7 +38,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(0))
         .Build();
 
-    protected virtual SkipDecision GetSkipDecision() => SkipDecision.DoNotSkip;
+    protected virtual SkipDecision GetSkipDecision(IModuleContext context) => SkipDecision.DoNotSkip;
 
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

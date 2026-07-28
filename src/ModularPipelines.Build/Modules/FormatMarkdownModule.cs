@@ -19,7 +19,7 @@ public class FormatMarkdownModule : Module<CommandResult>
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithSkipWhen(ctx =>
         {
-            if (FastFailValidation.IsComplete)
+            if (FastFailValidation.IsComplete(ctx))
             {
                 return SkipDecision.Skip("Validated by the fast-fail CI job");
             }
