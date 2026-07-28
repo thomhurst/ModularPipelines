@@ -52,7 +52,7 @@ namespace ModularPipelines.Exceptions;
 public class ModuleTimeoutException : PipelineException
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ModuleTimeoutException"/> class.
+    /// Initialises a new instance of the <see cref="ModuleTimeoutException"/> class.
     /// </summary>
     /// <param name="moduleType">The type of the module that timed out.</param>
     /// <param name="configuredTimeout">The timeout duration that was configured.</param>
@@ -62,8 +62,8 @@ public class ModuleTimeoutException : PipelineException
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ModuleTimeoutException"/> class
-    /// with detailed timeout information.
+    /// Initialises a new instance of the <see cref="ModuleTimeoutException"/> class with
+    /// detailed timeout information.
     /// </summary>
     /// <param name="moduleType">The type of the module that timed out.</param>
     /// <param name="configuredTimeout">The timeout duration that was configured.</param>
