@@ -1,0 +1,224 @@
+<Project>
+  <UsingTask
+    TaskName="_ModularPipelinesWriteTextFile"
+    TaskFactory="RoslynCodeTaskFactory"
+    AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <FilePath ParameterType="System.String" Required="true" />
+      <Content ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System" />
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.Text" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
+var encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+if (!File.Exists(FilePath)
+    || !string.Equals(File.ReadAllText(FilePath, encoding), Content, StringComparison.Ordinal))
+{
+    File.WriteAllText(FilePath, Content, encoding);
+}
+      ]]></Code>
+    </Task>
+  </UsingTask>
+
+  <PropertyGroup>
+    <_ModularPipelinesPipelineProjectSpecified Condition="'$(ModularPipelinesPipelineProject.Length)' == '0'">false</_ModularPipelinesPipelineProjectSpecified>
+    <_ModularPipelinesPipelineProjectSpecified Condition="'$(ModularPipelinesPipelineProject.Length)' != '0'">true</_ModularPipelinesPipelineProjectSpecified>
+    <ModularPipelinesRepositoryRoot Condition="'$(ModularPipelinesRepositoryRoot.Length)' == '0'">$(MSBuildProjectDirectory)</ModularPipelinesRepositoryRoot>
+    <ModularPipelinesBuildBranch Condition="'$(ModularPipelinesBuildBranch.Length)' == '0'">main</ModularPipelinesBuildBranch>
+    <ModularPipelinesDotNetVersion Condition="'$(ModularPipelinesDotNetVersion.Length)' == '0'">10.0.x</ModularPipelinesDotNetVersion>
+    <ModularPipelinesDotNetSdkImage Condition="'$(ModularPipelinesDotNetSdkImage.Length)' == '0'">mcr.microsoft.com/dotnet/sdk:10.0</ModularPipelinesDotNetSdkImage>
+    <ModularPipelinesTargetFramework Condition="'$(ModularPipelinesTargetFramework.Length)' == '0' and '$(TargetFramework.Length)' != '0'">$(TargetFramework)</ModularPipelinesTargetFramework>
+    <ModularPipelinesTargetFramework Condition="'$(ModularPipelinesTargetFramework.Length)' == '0' and '$(TargetFrameworks.Length)' != '0'">$(TargetFrameworks.Split(';')[0])</ModularPipelinesTargetFramework>
+    <ModularPipelinesOverwriteBuildServerFiles Condition="'$(ModularPipelinesOverwriteBuildServerFiles.Length)' == '0'">false</ModularPipelinesOverwriteBuildServerFiles>
+    <_ModularPipelinesIsWindows Condition="'$(_ModularPipelinesIsWindows.Length)' == '0'">$([MSBuild]::IsOSPlatform('Windows'))</_ModularPipelinesIsWindows>
+  </PropertyGroup>
+
+  <Target
+    Name="_GenerateModularPipelinesBuildServerFilesForCrossTargetingBuild"
+    BeforeTargets="DispatchToInnerBuilds"
+    DependsOnTargets="_ComputeTargetFrameworkItems"
+    Condition="'$(ModularPipelinesBuildSystem.Length)' != '0' and '$(DesignTimeBuild)' != 'true' and '$(IsCrossTargetingBuild)' == 'true'">
+    <CallTarget Targets="GenerateModularPipelinesBuildServerFiles" />
+    <ItemGroup>
+      <_InnerBuildProjects Update="@(_InnerBuildProjects)">
+        <AdditionalProperties>%(AdditionalProperties);_ModularPipelinesSkipBuildServerFileGeneration=true</AdditionalProperties>
+      </_InnerBuildProjects>
+    </ItemGroup>
+  </Target>
+
+  <Target
+    Name="GenerateModularPipelinesBuildServerFiles"
+    BeforeTargets="BeforeBuild"
+    Condition="'$(ModularPipelinesBuildSystem.Length)' != '0' and '$(DesignTimeBuild)' != 'true' and '$(_ModularPipelinesSkipBuildServerFileGeneration)' != 'true'">
+    <PropertyGroup>
+      <_ModularPipelinesEscapedRepositoryRoot>$([MSBuild]::Escape($(ModularPipelinesRepositoryRoot)))</_ModularPipelinesEscapedRepositoryRoot>
+    </PropertyGroup>
+    <ConvertToAbsolutePath Paths="$(_ModularPipelinesEscapedRepositoryRoot)">
+      <Output TaskParameter="AbsolutePaths" PropertyName="_ModularPipelinesRepositoryRoot" />
+    </ConvertToAbsolutePath>
+    <FindUnderPath
+      Path="$(_ModularPipelinesRepositoryRoot)"
+      Files="$(MSBuildProjectFullPath)"
+      Condition="'$(_ModularPipelinesPipelineProjectSpecified)' == 'false'">
+      <Output TaskParameter="OutOfPath" ItemName="_ModularPipelinesProjectOutsideRoot" />
+    </FindUnderPath>
+    <AssignTargetPath
+      Files="$(MSBuildProjectFullPath)"
+      RootFolder="$(_ModularPipelinesRepositoryRoot)"
+      Condition="'$(_ModularPipelinesPipelineProjectSpecified)' == 'false'">
+      <Output TaskParameter="AssignedFiles" ItemName="_ModularPipelinesAssignedProject" />
+    </AssignTargetPath>
+
+    <PropertyGroup>
+      <_ModularPipelinesPipelineProject Condition="'$(_ModularPipelinesPipelineProjectSpecified)' == 'false'">@(_ModularPipelinesAssignedProject->'%(TargetPath)')</_ModularPipelinesPipelineProject>
+      <_ModularPipelinesPipelineProject Condition="'$(_ModularPipelinesPipelineProjectSpecified)' == 'true'">$(ModularPipelinesPipelineProject)</_ModularPipelinesPipelineProject>
+      <_ModularPipelinesPipelineProject Condition="'$(_ModularPipelinesIsWindows)' == 'true'">$(_ModularPipelinesPipelineProject.Replace('\', '/'))</_ModularPipelinesPipelineProject>
+      <_ModularPipelinesPipelineProjectBase64>$([MSBuild]::ConvertToBase64($(_ModularPipelinesPipelineProject)))</_ModularPipelinesPipelineProjectBase64>
+      <_ModularPipelinesTargetFrameworkBase64>$([MSBuild]::ConvertToBase64($(ModularPipelinesTargetFramework)))</_ModularPipelinesTargetFrameworkBase64>
+
+      <_ModularPipelinesGitHubDirectory>$(_ModularPipelinesRepositoryRoot)/.github/workflows</_ModularPipelinesGitHubDirectory>
+      <_ModularPipelinesGitHubFile>$(_ModularPipelinesGitHubDirectory)/modular-pipelines.yml</_ModularPipelinesGitHubFile>
+      <_ModularPipelinesGitLabFile>$(_ModularPipelinesRepositoryRoot)/.gitlab-ci.yml</_ModularPipelinesGitLabFile>
+      <_ModularPipelinesAzureFile>$(_ModularPipelinesRepositoryRoot)/azure-pipelines.yml</_ModularPipelinesAzureFile>
+
+      <_ModularPipelinesGitHubBranchPattern>$(ModularPipelinesBuildBranch.Replace('\', '\\').Replace('*', '\*').Replace('+', '\+').Replace('?', '\?').Replace('!', '\!').Replace('[', '\[').Replace(']', '\]').Replace('$', '[$]'))</_ModularPipelinesGitHubBranchPattern>
+      <_ModularPipelinesYamlGitHubBranchPattern>$(_ModularPipelinesGitHubBranchPattern.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlGitHubBranchPattern>
+      <_ModularPipelinesYamlBranch>$(ModularPipelinesBuildBranch.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlBranch>
+      <_ModularPipelinesYamlDotNetVersion>$(ModularPipelinesDotNetVersion.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlDotNetVersion>
+      <_ModularPipelinesYamlDotNetSdkImage>$(ModularPipelinesDotNetSdkImage.Replace('\', '\\').Replace('&quot;', '\&quot;'))</_ModularPipelinesYamlDotNetSdkImage>
+
+      <_ModularPipelinesGitHubWorkflow><![CDATA[name: ModularPipelines
+
+on:
+  push:
+    branches: ["$(_ModularPipelinesYamlGitHubBranchPattern)"]
+  pull_request:
+    branches: ["$(_ModularPipelinesYamlGitHubBranchPattern)"]
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: "$(_ModularPipelinesYamlDotNetVersion)"
+      - run: |
+          PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_BASE64" | base64 -d`
+          PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_BASE64" | base64 -d`
+          dotnet run --project "$PIPELINE_PROJECT" --configuration Release --framework "$PIPELINE_FRAMEWORK"
+        env:
+          PIPELINE_PROJECT_BASE64: "$(_ModularPipelinesPipelineProjectBase64)"
+          PIPELINE_FRAMEWORK_BASE64: "$(_ModularPipelinesTargetFrameworkBase64)"
+]]></_ModularPipelinesGitHubWorkflow>
+
+      <_ModularPipelinesGitLabPipeline><![CDATA[variables:
+  MODULAR_PIPELINES_BUILD_BRANCH:
+    value: "$(_ModularPipelinesYamlBranch)"
+    expand: false
+
+stages:
+  - pipeline
+
+modular-pipelines:
+  image: "$(_ModularPipelinesYamlDotNetSdkImage)"
+  stage: pipeline
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $MODULAR_PIPELINES_BUILD_BRANCH'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MODULAR_PIPELINES_BUILD_BRANCH'
+  variables:
+    PIPELINE_PROJECT_BASE64:
+      value: "$(_ModularPipelinesPipelineProjectBase64)"
+      expand: false
+    PIPELINE_FRAMEWORK_BASE64:
+      value: "$(_ModularPipelinesTargetFrameworkBase64)"
+      expand: false
+  script:
+    - PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_BASE64" | base64 -d`
+    - PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_BASE64" | base64 -d`
+    - dotnet run --project "$PIPELINE_PROJECT" --configuration Release --framework "$PIPELINE_FRAMEWORK"
+]]></_ModularPipelinesGitLabPipeline>
+
+      <_ModularPipelinesAzurePipeline><![CDATA[trigger:
+  - "$(_ModularPipelinesYamlBranch)"
+
+# YAML PR triggers apply to GitHub and Bitbucket Cloud repositories.
+# Azure Repos Git requires a Build Validation branch policy instead.
+pr:
+  - "$(_ModularPipelinesYamlBranch)"
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: UseDotNet@2
+    inputs:
+      packageType: sdk
+      version: "$(_ModularPipelinesYamlDotNetVersion)"
+  - script: |
+      PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_BASE64" | base64 -d`
+      PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_BASE64" | base64 -d`
+      dotnet run --project "$PIPELINE_PROJECT" --configuration Release --framework "$PIPELINE_FRAMEWORK"
+    displayName: Run ModularPipelines
+    env:
+      PIPELINE_PROJECT_BASE64: "$(_ModularPipelinesPipelineProjectBase64)"
+      PIPELINE_FRAMEWORK_BASE64: "$(_ModularPipelinesTargetFrameworkBase64)"
+]]></_ModularPipelinesAzurePipeline>
+
+      <_ModularPipelinesOutputFile Condition="'$(ModularPipelinesBuildSystem)' == 'GitHubActions'">$(_ModularPipelinesGitHubFile)</_ModularPipelinesOutputFile>
+      <_ModularPipelinesOutputFile Condition="'$(ModularPipelinesBuildSystem)' == 'GitLab'">$(_ModularPipelinesGitLabFile)</_ModularPipelinesOutputFile>
+      <_ModularPipelinesOutputFile Condition="'$(ModularPipelinesBuildSystem)' == 'AzurePipelines'">$(_ModularPipelinesAzureFile)</_ModularPipelinesOutputFile>
+      <_ModularPipelinesOutputDirectory Condition="'$(ModularPipelinesBuildSystem)' == 'GitHubActions'">$(_ModularPipelinesGitHubDirectory)</_ModularPipelinesOutputDirectory>
+      <_ModularPipelinesOutputDirectory Condition="'$(ModularPipelinesBuildSystem)' == 'GitLab'">$(_ModularPipelinesRepositoryRoot)</_ModularPipelinesOutputDirectory>
+      <_ModularPipelinesOutputDirectory Condition="'$(ModularPipelinesBuildSystem)' == 'AzurePipelines'">$(_ModularPipelinesRepositoryRoot)</_ModularPipelinesOutputDirectory>
+      <_ModularPipelinesOutputContent Condition="'$(ModularPipelinesBuildSystem)' == 'GitHubActions'">$(_ModularPipelinesGitHubWorkflow)</_ModularPipelinesOutputContent>
+      <_ModularPipelinesOutputContent Condition="'$(ModularPipelinesBuildSystem)' == 'GitLab'">$(_ModularPipelinesGitLabPipeline)</_ModularPipelinesOutputContent>
+      <_ModularPipelinesOutputContent Condition="'$(ModularPipelinesBuildSystem)' == 'AzurePipelines'">$(_ModularPipelinesAzurePipeline)</_ModularPipelinesOutputContent>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <_ModularPipelinesRepositoryRootCandidate Include="$(_ModularPipelinesRepositoryRoot)" />
+      <_ModularPipelinesExistingRepositoryRoot Include="@(_ModularPipelinesRepositoryRootCandidate->Exists())" />
+      <_ModularPipelinesOutputFileCandidate Include="$(_ModularPipelinesOutputFile)" />
+      <_ModularPipelinesExistingOutputFile Include="@(_ModularPipelinesOutputFileCandidate->Exists())" />
+    </ItemGroup>
+    <PropertyGroup>
+      <_ModularPipelinesRepositoryRootExists>@(_ModularPipelinesExistingRepositoryRoot->Count())</_ModularPipelinesRepositoryRootExists>
+      <_ModularPipelinesOutputFileExists>@(_ModularPipelinesExistingOutputFile->Count())</_ModularPipelinesOutputFileExists>
+      <_ModularPipelinesProjectOutsideRootCount>@(_ModularPipelinesProjectOutsideRoot->Count())</_ModularPipelinesProjectOutsideRootCount>
+    </PropertyGroup>
+
+    <Error
+      Condition="'$(ModularPipelinesBuildSystem)' != 'GitHubActions' and '$(ModularPipelinesBuildSystem)' != 'GitLab' and '$(ModularPipelinesBuildSystem)' != 'AzurePipelines'"
+      Text="Unsupported ModularPipelinesBuildSystem '$(ModularPipelinesBuildSystem)'. Use GitHubActions, GitLab, or AzurePipelines." />
+    <Error
+      Condition="'$(_ModularPipelinesRepositoryRootExists)' == '0'"
+      Text="ModularPipelinesRepositoryRoot '$(_ModularPipelinesRepositoryRoot)' does not exist." />
+    <Error
+      Condition="'$(_ModularPipelinesProjectOutsideRootCount)' != '0'"
+      Text="The pipeline project must be inside ModularPipelinesRepositoryRoot, or ModularPipelinesPipelineProject must be set explicitly." />
+    <Error
+      Condition="'$(ModularPipelinesTargetFramework.Length)' == '0'"
+      Text="A target framework is required. Set TargetFramework, TargetFrameworks, or ModularPipelinesTargetFramework." />
+
+    <MakeDir
+      Directories="$(_ModularPipelinesOutputDirectory)"
+      Condition="'$(_ModularPipelinesOutputFileExists)' == '0'" />
+
+    <_ModularPipelinesWriteTextFile
+      FilePath="$(_ModularPipelinesOutputFile)"
+      Content="$(_ModularPipelinesOutputContent)"
+      Condition="'$(_ModularPipelinesOutputFileExists)' == '0' or '$(ModularPipelinesOverwriteBuildServerFiles)' == 'true'" />
+
+    <Message
+      Importance="high"
+      Text="Generated $(_ModularPipelinesOutputFile)"
+      Condition="'$(_ModularPipelinesOutputFileExists)' == '0' or '$(ModularPipelinesOverwriteBuildServerFiles)' == 'true'" />
+    <Message
+      Importance="high"
+      Text="Kept existing $(_ModularPipelinesOutputFile). Set ModularPipelinesOverwriteBuildServerFiles=true to replace it."
+      Condition="'$(_ModularPipelinesOutputFileExists)' != '0' and '$(ModularPipelinesOverwriteBuildServerFiles)' != 'true'" />
+  </Target>
+</Project>
