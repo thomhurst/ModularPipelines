@@ -6,11 +6,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.Kubernetes.Services;
 
 namespace ModularPipelines.Kubernetes.Extensions;
@@ -21,19 +20,12 @@ namespace ModularPipelines.Kubernetes.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class KustomizeExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterKustomizeContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterKustomizeContext(collection));
-    }
-
     /// <summary>
     /// Registers kustomize services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterKustomizeContext(this IServiceCollection services)
     {
         services.TryAddScoped<IKustomize, Services.Kustomize>();

@@ -5,11 +5,10 @@
 
 #nullable enable
 
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.Yarn.Services;
 
 namespace ModularPipelines.Yarn.Extensions;
@@ -19,19 +18,12 @@ namespace ModularPipelines.Yarn.Extensions;
 /// </summary>
 public static class YarnExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterYarnContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterYarnContext(collection));
-    }
-
     /// <summary>
     /// Registers yarn services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterYarnContext(this IServiceCollection services)
     {
         services.TryAddScoped<IYarn, Services.Yarn>();

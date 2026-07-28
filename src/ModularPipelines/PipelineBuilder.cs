@@ -1,10 +1,10 @@
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Attributes;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
@@ -286,10 +286,11 @@ public sealed class PipelineBuilder
             // Auto-register any missing required dependencies
             ModuleAutoRegistrar.AutoRegisterMissingDependencies(services);
 
-            // Register context delegates from loaded ModularPipeline assemblies
-            foreach (var contextRegistrationDelegate in ModularPipelinesContextRegistry.ContextRegistrationDelegates)
+            foreach (var contextAttribute in AppDomain.CurrentDomain.GetAssemblies()
+                         .SelectMany(static assembly => assembly.GetCustomAttributes<ModularPipelinesContextAttribute>())
+                         .OrderBy(static attribute => attribute.ContextType.AssemblyQualifiedName, StringComparer.Ordinal))
             {
-                contextRegistrationDelegate(services);
+                contextAttribute.Register(services);
             }
         });
 
@@ -311,11 +312,6 @@ public sealed class PipelineBuilder
         {
             var assembly = Assembly.Load(new AssemblyName(modularPipelineAssembly));
             PluginVersionValidator.Validate(assembly, coreVersion);
-        }
-
-        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-        {
-            RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
         }
     }
 
