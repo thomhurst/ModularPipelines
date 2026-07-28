@@ -1618,17 +1618,17 @@ return myModule switch
 };
 ```
 
-Or use the convenience properties for simpler checks:
+Or use the safe accessors for simpler checks:
 
 ```csharp
 var myModule = await context.GetModule<MyOptionalModule>();
 
-if (myModule.IsSkipped)
+if (myModule.SkipDecisionOrDefault is not null)
 {
     return null;
 }
 
-if (myModule.IsFailure)
+if (myModule.ExceptionOrDefault is not null)
 {
     // Check the exception
     if (myModule.ExceptionOrDefault is ItemAlreadyExistsException)
@@ -2225,7 +2225,7 @@ public class TestModule : Module<string>
         }
 
         var result = await compile;
-        return result.IsSkipped
+        return result.SkipDecisionOrDefault is not null
             ? "Compile was skipped"
             : $"Compile result: {result.Value}";
     }
@@ -3554,29 +3554,26 @@ return result.Match(
 );
 ```
 
-## Convenience Properties
+## Safe Accessors
 
-For simpler checks, use the convenience properties:
+For simpler checks, inspect the union through its safe accessors:
 
 ```csharp
 var result = await context.GetModule<MyModule>();
 
-// Quick status checks
-if (result.IsSuccess)
+if (result is ModuleResult<MyResult>.Success)
 {
     var value = result.ValueOrDefault;
     // Process value
 }
 
-if (result.IsFailure)
+if (result.ExceptionOrDefault is { } exception)
 {
-    var exception = result.ExceptionOrDefault;
     // Handle error
 }
 
-if (result.IsSkipped)
+if (result.SkipDecisionOrDefault is { } skipDecision)
 {
-    var skipDecision = result.SkipDecisionOrDefault;
     // Handle skip
 }
 ```
@@ -4700,18 +4697,17 @@ var artifact = buildResult.ValueOrDefault?.ArtifactPath;
 if (artifact == null) return null;
 return await Deploy(artifact);
 
-// Option 4: Quick status checks
-if (buildResult.IsSuccess)
+// Option 4: Safe accessors and the Success union case
+if (buildResult is ModuleResult<BuildOutput>.Success)
 {
     var value = buildResult.ValueOrDefault;
 }
-if (buildResult.IsFailure)
+if (buildResult.ExceptionOrDefault is { } ex)
 {
-    var ex = buildResult.ExceptionOrDefault;
 }
-if (buildResult.IsSkipped)
+if (buildResult.SkipDecisionOrDefault is { } skip)
 {
-    var reason = buildResult.SkipDecisionOrDefault?.Reason;
+    var reason = skip.Reason;
 }
 ```
 
@@ -4722,15 +4718,15 @@ if (buildResult.IsSkipped)
 | `await GetModule<T>()` (on module) | `await context.GetModule<T>()` (on context) |
 | `result.Value` | `result.ValueOrDefault` or pattern match |
 | `result.Exception` | `result.ExceptionOrDefault` or pattern match |
-| `result.ModuleResultType == ModuleResultType.X` | `result.IsSuccess`, `result.IsFailure`, `result.IsSkipped` |
+| Legacy result enum check | Pattern match or inspect `ExceptionOrDefault` / `SkipDecisionOrDefault` |
 
 ### Result Type Quick Reference
 
 | Check | V2 | V3 |
 |-------|-----|-----|
-| Is success? | `result.ModuleResultType == ModuleResultType.Success` | `result.IsSuccess` or `result is ModuleResult<T>.Success` |
-| Is failure? | `result.ModuleResultType == ModuleResultType.Failure` | `result.IsFailure` or `result is ModuleResult.Failure` |
-| Is skipped? | `result.ModuleResultType == ModuleResultType.Skipped` | `result.IsSkipped` or `result is ModuleResult.Skipped` |
+| Is success? | Legacy result enum check | `result is ModuleResult<T>.Success` |
+| Is failure? | Legacy result enum check | `result.ExceptionOrDefault is not null` |
+| Is skipped? | Legacy result enum check | `result.SkipDecisionOrDefault is not null` |
 | Get value | `result.Value` | `result.ValueOrDefault` or pattern match |
 | Get exception | `result.Exception` | `result.ExceptionOrDefault` or pattern match |
 
@@ -5291,7 +5287,7 @@ public class DeployModule : Module<bool>
 | `GetModule<T>()` | `context.GetModule<T>()` | Method moved to context |
 | `SubModule()` | `context.SubModule()` | Method moved to context |
 | `result.Value` | `result.ValueOrDefault` | Or use pattern matching |
-| `result.ModuleResultType` | `result.IsSuccess/IsFailure/IsSkipped` | Or pattern match |
+| Legacy result enum | `ModuleStatus`, safe accessors, or pattern matching | One result model |
 | `ShouldSkip()` override | `Configure().WithSkipWhen()` | Fluent builder |
 | `ShouldIgnoreFailures()` override | `Configure().WithIgnoreFailures()` | Fluent builder |
 | `Timeout` property override | `Configure().WithTimeout()` | Fluent builder |
@@ -5362,14 +5358,14 @@ This section provides structured data optimized for AI assistants helping with c
 - old: "result.Exception"
   new: "result.ExceptionOrDefault"
 
-- old: "result.ModuleResultType == ModuleResultType.Success"
-  new: "result.IsSuccess"
+- old: "legacy success enum check"
+  new: "result is ModuleResult<T>.Success"
 
-- old: "result.ModuleResultType == ModuleResultType.Failure"
-  new: "result.IsFailure"
+- old: "legacy failure enum check"
+  new: "result.ExceptionOrDefault is not null"
 
-- old: "result.ModuleResultType == ModuleResultType.Skipped"
-  new: "result.IsSkipped"
+- old: "legacy skipped enum check"
+  new: "result.SkipDecisionOrDefault is not null"
 
 # Module Configuration (property overrides → fluent builder)
 - old: "protected internal override TimeSpan Timeout => ..."
@@ -5505,10 +5501,7 @@ s/SubModule\(/context.SubModule(/g
 s/\.Value(?![a-zA-Z])/\.ValueOrDefault/g
 s/\.Exception(?![a-zA-Z])/\.ExceptionOrDefault/g
 
-# Result type checks
-s/\.ModuleResultType\s*==\s*ModuleResultType\.Success/\.IsSuccess/g
-s/\.ModuleResultType\s*==\s*ModuleResultType\.Failure/\.IsFailure/g
-s/\.ModuleResultType\s*==\s*ModuleResultType\.Skipped/\.IsSkipped/g
+# Result checks should be migrated manually to pattern matching or safe accessors.
 ```
 
 ### V3 Module Template
@@ -5574,7 +5567,7 @@ return result.Match(
 
 // Pattern 3: Simple property access (easiest migration)
 var result = await context.GetModule<BuildModule>();
-if (result.IsSuccess)
+if (result is ModuleResult<BuildOutput>.Success)
 {
     var value = result.ValueOrDefault;
 }
