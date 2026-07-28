@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
@@ -78,6 +80,43 @@ public class CommandTests : TestBase
         var moduleResult = await await RunModule<CommandEchoTimeoutModule>();
 
         await Assert.That(moduleResult.ValueOrDefault!.Trim()).IsEqualTo(TestConstants.TestString);
+    }
+
+    [Test]
+    public async Task Failed_Command_Exposes_Obfuscated_Result()
+    {
+        const string secret = "command-result-secret-value";
+        var (command, pipeline) = await GetService<ICommand>(_ => { });
+        pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
+
+        var exception = await Assert.ThrowsAsync<CommandException>(() =>
+            command.ExecuteCommandLineTool(
+                new GenericCommandLineToolOptions("pwsh")
+                {
+                    Arguments =
+                    [
+                        "-NoProfile",
+                        "-Command",
+                        $"Write-Output '{secret}'; [Console]::Error.WriteLine('{secret}'); exit 42",
+                    ],
+                },
+                new CommandExecutionOptions
+                {
+                    EnvironmentVariables = new Dictionary<string, string?>
+                    {
+                        ["MP_TEST_SECRET"] = secret,
+                    },
+                }));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Result.ExitCode).IsEqualTo(42);
+            await Assert.That(exception.Result.CommandInput).DoesNotContain(secret);
+            await Assert.That(exception.Result.StandardOutput).DoesNotContain(secret);
+            await Assert.That(exception.Result.StandardError).DoesNotContain(secret);
+            await Assert.That(exception.Result.EnvironmentVariables["MP_TEST_SECRET"]).DoesNotContain(secret);
+            await Assert.That(exception.Message).IsEqualTo("Command failed with exit code 42.");
+        }
     }
 
     [Test]
