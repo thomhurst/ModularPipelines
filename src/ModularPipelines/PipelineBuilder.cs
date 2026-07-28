@@ -282,6 +282,7 @@ public sealed class PipelineBuilder
                 opts.DefaultExecutionOptions = _options.DefaultExecutionOptions;
                 opts.ThrowOnPipelineFailure = _options.ThrowOnPipelineFailure;
                 opts.ModuleOutputFlushInterval = _options.ModuleOutputFlushInterval;
+                opts.ModuleOutputFlushThreshold = _options.ModuleOutputFlushThreshold;
             });
 
             // Auto-register any missing required dependencies

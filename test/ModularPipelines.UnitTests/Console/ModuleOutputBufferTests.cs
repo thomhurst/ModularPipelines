@@ -100,6 +100,33 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task IncrementalFlush_RearmsOutputThreshold()
+    {
+        var thresholdRequests = 0;
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            outputFlushThreshold: 2,
+            _ => thresholdRequests++);
+
+        buffer.WriteLine("first");
+        buffer.WriteLine("second");
+        await Assert.That(thresholdRequests).IsEqualTo(1);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        buffer.WriteLine("third");
+        buffer.WriteLine("fourth");
+
+        await Assert.That(thresholdRequests).IsEqualTo(2);
+    }
+
+    [Test]
     public async Task IncrementalFlush_DoesNotDrainCompletedModule()
     {
         var writer = new StringWriter();
