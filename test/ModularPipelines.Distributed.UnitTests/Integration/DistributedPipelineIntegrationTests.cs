@@ -90,7 +90,7 @@ public class DistributedPipelineIntegrationTests
         var result = await collector.WaitForResultAsync(typeof(ModuleA).FullName!, CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.IsSuccess).IsTrue();
+        await Assert.That(result!.ModuleStatus).IsEqualTo(Status.Successful);
         await Assert.That(result.ModuleName).IsEqualTo("ModuleA");
     }
 
@@ -186,15 +186,15 @@ public class DistributedPipelineIntegrationTests
         var collectedC = await collector.WaitForResultAsync(typeof(ModuleC).FullName!, CancellationToken.None);
 
         await Assert.That(collectedA).IsNotNull();
-        await Assert.That(collectedA!.IsSuccess).IsTrue();
+        await Assert.That(collectedA!.ModuleStatus).IsEqualTo(Status.Successful);
         await Assert.That(collectedA.ModuleName).IsEqualTo("ModuleA");
 
         await Assert.That(collectedB).IsNotNull();
-        await Assert.That(collectedB!.IsSuccess).IsTrue();
+        await Assert.That(collectedB!.ModuleStatus).IsEqualTo(Status.Successful);
         await Assert.That(collectedB.ModuleName).IsEqualTo("ModuleB");
 
         await Assert.That(collectedC).IsNotNull();
-        await Assert.That(collectedC!.IsSuccess).IsTrue();
+        await Assert.That(collectedC!.ModuleStatus).IsEqualTo(Status.Successful);
         await Assert.That(collectedC.ModuleName).IsEqualTo("ModuleC");
     }
 }

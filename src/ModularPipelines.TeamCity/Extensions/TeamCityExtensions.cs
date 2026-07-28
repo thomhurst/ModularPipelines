@@ -1,23 +1,15 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 
 namespace ModularPipelines.TeamCity.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class TeamCityExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterTeamCityContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterTeamCityContext(collection));
-    }
-
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterTeamCityContext(this IServiceCollection services)
     {
         services.TryAddScoped<ITeamCity, TeamCity>();

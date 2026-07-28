@@ -4,181 +4,185 @@ title: Hooks
 
 # Hooks
 
-## Module Hooks
+Module lifecycle behavior has three extension points:
 
-There are three ways to hook into module execution:
-1. **Direct hooks** - Override virtual lifecycle methods in `Module<T>` (new in v4)
-2. **IHookable interface** - Implement the interface for before/after execution
-3. **Module hooks class** - Register global hooks invoked for every module
+1. Override the virtual lifecycle methods on `Module<T>` for behavior owned by one module.
+2. Implement the attribute interfaces in `ModularPipelines.Attributes.Events` for reusable,
+   opt-in behavior attached to selected modules.
+3. Implement `IModuleEventReceiver` for behavior that observes every module in a pipeline.
 
-### Direct Module Hooks (Recommended)
+`ModuleConfiguration` controls execution policy only; it does not contain lifecycle hooks.
 
-The simplest way to add lifecycle hooks is to override the virtual methods directly in your module. These hooks run **before** IHookable hooks and provide access to the full module context and result.
+## Module virtual hooks
+
+Override the virtual methods directly when the behavior belongs to the module:
 
 ```csharp
 public class MyModule : Module<string>
 {
-    // Called before ExecuteAsync - ideal for setup, validation, or logging
-    protected override Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task OnBeforeExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
     {
-        context.Logger.LogInformation("Setting up MyModule...");
+        context.Logger.LogInformation("Setting up MyModule");
         return Task.CompletedTask;
     }
 
-    // Called after ExecuteAsync - can modify the result or add cleanup logic
     protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
         IModuleContext context,
         ModuleResult<string> result,
         CancellationToken cancellationToken)
     {
-        context.Logger.LogInformation("MyModule completed with: {Result}", result.Value);
-        return Task.FromResult<ModuleResult<string>?>(null); // null = keep original result
+        context.Logger.LogInformation("MyModule completed");
+        return Task.FromResult<ModuleResult<string>?>(null);
     }
 
-    // Called when the module is skipped (ShouldSkip returns true)
     protected override Task OnSkippedAsync(
         IModuleContext context,
         SkipDecision skipDecision,
         CancellationToken cancellationToken)
     {
-        context.Logger.LogInformation("MyModule was skipped: {Reason}", skipDecision.Reason);
+        context.Logger.LogInformation("Skipped: {Reason}", skipDecision.Reason);
         return Task.CompletedTask;
     }
 
-    // Called when ExecuteAsync throws an exception (before OnAfterExecuteAsync)
     protected override Task OnFailedAsync(
         IModuleContext context,
         Exception exception,
         CancellationToken cancellationToken)
     {
-        context.Logger.LogError(exception, "MyModule failed!");
-        // Send alert, cleanup resources, etc.
+        context.Logger.LogError(exception, "MyModule failed");
         return Task.CompletedTask;
     }
 
-    public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        return "Hello, World!";
-    }
+    protected internal override Task<string?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+        => Task.FromResult<string?>("Hello, World!");
 }
 ```
 
-**Hook execution order:**
-1. `OnBeforeExecuteAsync` (direct hook)
-2. `IHookable.OnBeforeExecute` (if implemented)
-3. `ExecuteAsync`
-4. On failure: `OnFailedAsync` (direct hook)
-5. `OnAfterExecuteAsync` (direct hook)
-6. `IHookable.OnAfterExecute` (in finally block)
+`OnBeforeExecuteAsync` runs once before the first execution attempt.
+`OnAfterExecuteAsync` runs once after the final attempt and can return a replacement result;
+return `null` to retain the original result. `OnFailedAsync` runs before
+`OnAfterExecuteAsync` when execution fails.
 
-**Error handling:**
-- `OnBeforeExecuteAsync` exceptions **prevent** execution and are propagated
-- `OnAfterExecuteAsync` exceptions are **logged** but don't affect the result
-- `OnSkippedAsync` exceptions are **logged** but don't affect skip behavior
-- `OnFailedAsync` exceptions are **logged** but don't prevent `OnAfterExecuteAsync`
+## Attribute event handlers
 
-**Edge case: OnBeforeExecuteAsync throws**
-If `OnBeforeExecuteAsync` throws an exception:
-- `ExecuteAsync` will NOT be called
-- `OnFailedAsync` will NOT be called (module never started)
-- `OnAfterExecuteAsync` will NOT be called (before hooks didn't complete)
-- `IHookable.OnAfterExecute` WILL still be called (in finally block)
-
-### ModuleConfiguration Hooks
-
-You can also configure simple before/after hooks using `ModuleConfiguration`:
+Implement an event-handler interface on an attribute, then apply it to selected modules:
 
 ```csharp
-public class MyModule : Module<string>
+[AttributeUsage(AttributeTargets.Class)]
+public sealed class AuditModuleAttribute : Attribute,
+    IModuleStartHandler,
+    IModuleEndHandler
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithBeforeExecute(ctx =>
-        {
-            ctx.Logger.LogInformation("MyModule starting!");
-            return Task.CompletedTask;
-        })
-        .WithAfterExecute(ctx =>
-        {
-            ctx.Logger.LogInformation("MyModule ended!");
-            return Task.CompletedTask;
-        })
-        .Build();
-
-    public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public Task OnModuleStartAsync(IModuleHookContext context)
     {
-        return "Done";
+        context.Logger.LogInformation("{Module} started", context.ModuleName);
+        return Task.CompletedTask;
+    }
+
+    public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+    {
+        context.Logger.LogInformation("{Module} ended", context.ModuleName);
+        return Task.CompletedTask;
     }
 }
-```
 
-This approach is useful when you want to combine hooks with other configuration like timeouts or retry policies:
-
-```csharp
-protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-    .WithBeforeExecute(ctx => LogStartAsync(ctx))
-    .WithAfterExecute(ctx => LogEndAsync(ctx))
-    .WithTimeout(TimeSpan.FromMinutes(5))
-    .WithRetryCount(3)
-    .Build();
-```
-
-### Hooks class
-
-If we want to have repeat behaviour for every module, we can register some 'Hook' classes during startup.
-
-Pipeline Global Hooks will run once, before any modules have started, and/or after all modules have finished. Pipeline Module Hooks will run repeatedly, before every module, and/or after every module.
-
-This can be useful if you want some repeated action for every module. E.g. standard logging behaviour.
-
-To do so, simply create a class that implements `IPipelineModuleHooks`.
-
-```csharp
-collection.AddPipelineModuleHooks<MyModuleHooks>();
-```
-
-```csharp
-public class MyModuleHooks : IPipelineModuleHooks
+[AuditModule]
+public class BuildModule : Module<string>
 {
-    public Task OnBeforeModuleStartAsync(IPipelineContext context, IModule module)
-    {
-        context.Logger.LogInformation("{Module} is starting", module.GetType().Name);
-        return Task.CompletedTask;
-    }
-
-    public Task OnBeforeModuleEndAsync(IPipelineContext context, IModule module)
-    {
-        context.Logger.LogInformation("{Module} finished after {Elapsed}", module.GetType().Name, module.Duration);
-        return Task.CompletedTask;
-    }
+    // ...
 }
 ```
 
-## Global Hooks
+Available interfaces are `IModuleReadyHandler`, `IModuleStartHandler`,
+`IModuleEndHandler`, `IModuleFailureHandler`, and `IModuleSkippedHandler`.
+Handlers can implement `IEventHandlerPriority`; lower values run first.
 
-Global hooks can be registered by creating a class that implements the `IPipelineGlobalHooks` interface. 
+## Global module event receivers
 
-These are similar to the module hooks, but instead of running before and after EACH module, they run before and after ALL modules. So think of them more as a pipeline start up, and a pipeline finish hook.
-
-The end hook also gives you access to a Pipeline summary object. Giving you information such as pass/fail, duration, start and end, etc.
-
-
-```csharp
-collection.AddPipelineGlobalHooks<MyGlobalHooks>();
-```
+Implement `IModuleEventReceiver` to observe every module, then register it once:
 
 ```csharp
-public class MyGlobalHooks : IPipelineGlobalHooks
+public sealed class ModuleMetricsReceiver : IModuleEventReceiver
 {
-    public Task OnStartAsync(IPipelineContext pipelineContext)
+    public Task OnModuleStartAsync(IModuleHookContext context)
     {
-        pipelineContext.Logger.LogInformation("Pipeline is starting");
+        context.Logger.LogInformation("{Module} started", context.ModuleName);
         return Task.CompletedTask;
     }
 
-    public Task OnEndAsync(IPipelineContext pipelineContext, PipelineSummary pipelineSummary)
+    public Task OnModuleEndAsync(IModuleHookContext context)
     {
-        pipelineContext.Logger.LogInformation("Pipeline is ending");
+        context.Logger.LogInformation(
+            "{Module} finished after {Elapsed}",
+            context.ModuleName,
+            context.ElapsedTime);
         return Task.CompletedTask;
     }
 }
+
+builder.AddModuleEventReceiver<ModuleMetricsReceiver>();
+```
+
+All registered global receivers are invoked concurrently for each event. Attribute handlers
+run sequentially in priority order.
+
+## Lifecycle ordering
+
+The order for a successful module is:
+
+1. Global `OnModuleReadyAsync`
+2. Global `OnModuleStartAsync`
+3. Attribute `IModuleReadyHandler`
+4. Attribute `IModuleStartHandler`
+5. Module `OnBeforeExecuteAsync`
+6. Module `ExecuteAsync` with its retry policy
+7. Module `OnAfterExecuteAsync`
+8. Global `OnModuleEndAsync`
+9. Attribute `IModuleEndHandler`
+
+For a failed execution, the completion portion is:
+
+1. Module `OnFailedAsync`
+2. Module `OnAfterExecuteAsync`
+3. Attribute `IModuleFailureHandler`
+4. Global `OnModuleFailureAsync`
+
+For a skipped module, the completion portion is:
+
+1. Module `OnSkippedAsync`
+2. Attribute `IModuleSkippedHandler`
+3. Global `OnModuleSkippedAsync`
+
+If `OnBeforeExecuteAsync` throws, `ExecuteAsync` and `OnAfterExecuteAsync` do not run;
+`OnFailedAsync` and the failure event receivers are still notified. Exceptions from
+`OnAfterExecuteAsync`, `OnFailedAsync`, and `OnSkippedAsync` are logged without replacing
+the module outcome.
+
+## Pipeline hooks
+
+`IPipelineGlobalHooks` observes the pipeline as a whole rather than individual modules:
+
+```csharp
+public sealed class PipelineLoggingHooks : IPipelineGlobalHooks
+{
+    public Task OnPipelineStartAsync(IPipelineContext context)
+    {
+        context.Logger.LogInformation("Pipeline started");
+        return Task.CompletedTask;
+    }
+
+    public Task OnPipelineEndAsync(
+        IPipelineContext context,
+        PipelineSummary summary)
+    {
+        context.Logger.LogInformation("Pipeline ended");
+        return Task.CompletedTask;
+    }
+}
+
+builder.AddPipelineGlobalHooks<PipelineLoggingHooks>();
 ```

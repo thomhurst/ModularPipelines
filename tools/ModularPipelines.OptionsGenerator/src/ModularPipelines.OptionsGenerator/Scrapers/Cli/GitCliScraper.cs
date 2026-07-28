@@ -402,20 +402,7 @@ public partial class GitCliScraper : ICliScraper
     /// <summary>
     /// Converts to PascalCase.
     /// </summary>
-    private static string ToPascalCase(string input)
-    {
-        if (string.IsNullOrEmpty(input))
-        {
-            return input;
-        }
-
-        // Handle special git command names
-        input = input.Replace("-", " ").Replace("_", " ");
-        var words = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-        return string.Join("", words.Select(w =>
-            char.ToUpperInvariant(w[0]) + (w.Length > 1 ? w[1..].ToLowerInvariant() : "")));
-    }
+    private static string ToPascalCase(string input) => GeneratorUtils.ToPascalCase(input);
 
     /// <summary>
     /// Determines if a command should be skipped.

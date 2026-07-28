@@ -9,19 +9,20 @@ namespace ModularPipelines.Engine;
 internal class PipelineSetupExecutor : IPipelineSetupExecutor
 {
     private readonly IEnumerable<IPipelineGlobalHooks> _globalHooks;
-    private readonly IReadOnlyCollection<IPipelineModuleHooks> _moduleHooks;
+    private readonly IReadOnlyCollection<IModuleEventReceiver> _moduleEventReceivers;
     private readonly IPipelineContextProvider _moduleContextProvider;
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IModuleAttributeEventService _attributeEventService;
 
     public PipelineSetupExecutor(IEnumerable<IPipelineGlobalHooks> globalHooks,
-        IEnumerable<IPipelineModuleHooks> moduleHooks,
+        IEnumerable<IModuleEventReceiver> moduleEventReceivers,
         IPipelineContextProvider moduleContextProvider,
         IModuleMetadataRegistry metadataRegistry,
         IModuleAttributeEventService attributeEventService)
     {
         _globalHooks = globalHooks;
-        _moduleHooks = moduleHooks as IReadOnlyCollection<IPipelineModuleHooks> ?? moduleHooks.ToArray();
+        _moduleEventReceivers = moduleEventReceivers as IReadOnlyCollection<IModuleEventReceiver>
+            ?? moduleEventReceivers.ToArray();
         _moduleContextProvider = moduleContextProvider;
         _metadataRegistry = metadataRegistry;
         _attributeEventService = attributeEventService;
@@ -38,41 +39,42 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
     }
 
     public Task OnModuleReadyAsync(ModuleState moduleState)
-        => InvokeModuleHooksAsync(
+        => InvokeModuleEventReceiversAsync(
             moduleState,
-            static (hook, context) => hook.OnModuleReadyAsync(context));
+            static (receiver, context) => receiver.OnModuleReadyAsync(context));
 
     public Task OnModuleStartAsync(ModuleState moduleState)
-        => InvokeModuleHooksAsync(
+        => InvokeModuleEventReceiversAsync(
             moduleState,
-            static (hook, context) => hook.OnModuleStartAsync(context));
+            static (receiver, context) => receiver.OnModuleStartAsync(context));
 
     public Task OnModuleEndAsync(ModuleState moduleState)
-        => InvokeModuleHooksAsync(
+        => InvokeModuleEventReceiversAsync(
             moduleState,
-            static (hook, context) => hook.OnModuleEndAsync(context));
+            static (receiver, context) => receiver.OnModuleEndAsync(context));
 
     public Task OnModuleFailureAsync(ModuleState moduleState)
-        => InvokeModuleHooksAsync(
+        => InvokeModuleEventReceiversAsync(
             moduleState,
-            static (hook, context) => hook.OnModuleFailureAsync(context));
+            static (receiver, context) => receiver.OnModuleFailureAsync(context));
 
     public Task OnModuleSkippedAsync(ModuleState moduleState)
-        => InvokeModuleHooksAsync(
+        => InvokeModuleEventReceiversAsync(
             moduleState,
-            static (hook, context) => hook.OnModuleSkippedAsync(context));
+            static (receiver, context) => receiver.OnModuleSkippedAsync(context));
 
-    private Task InvokeModuleHooksAsync(
+    private Task InvokeModuleEventReceiversAsync(
         ModuleState moduleState,
-        Func<IPipelineModuleHooks, IModuleHookContext, Task> invokeHook)
+        Func<IModuleEventReceiver, IModuleHookContext, Task> invokeReceiver)
     {
-        if (_moduleHooks.Count == 0)
+        if (_moduleEventReceivers.Count == 0)
         {
             return Task.CompletedTask;
         }
 
         var context = CreateModuleHookContext(moduleState);
-        return Task.WhenAll(_moduleHooks.Select(hook => invokeHook(hook, context)));
+        return Task.WhenAll(
+            _moduleEventReceivers.Select(receiver => invokeReceiver(receiver, context)));
     }
 
     private IPipelineContext GetPipelineContext()

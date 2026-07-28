@@ -16,9 +16,7 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly ILogger<PipelineExecutor> _logger;
     private readonly IExceptionRethrowService _exceptionRethrowService;
     private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
-    private readonly IModuleResultRegistry _resultRegistry;
-    private readonly IMetricsCollector _metricsCollector;
-    private readonly IParallelLimitProvider _parallelLimitProvider;
+    private readonly IPipelineSummaryFactory _pipelineSummaryFactory;
     private readonly IOptions<PipelineOptions> _options;
 
     public PipelineExecutor(
@@ -27,9 +25,7 @@ internal class PipelineExecutor : IPipelineExecutor
         ILogger<PipelineExecutor> logger,
         IExceptionRethrowService exceptionRethrowService,
         ISecondaryExceptionContainer secondaryExceptionContainer,
-        IModuleResultRegistry resultRegistry,
-        IMetricsCollector metricsCollector,
-        IParallelLimitProvider parallelLimitProvider,
+        IPipelineSummaryFactory pipelineSummaryFactory,
         IOptions<PipelineOptions> options)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
@@ -37,9 +33,7 @@ internal class PipelineExecutor : IPipelineExecutor
         _logger = logger;
         _exceptionRethrowService = exceptionRethrowService;
         _secondaryExceptionContainer = secondaryExceptionContainer;
-        _resultRegistry = resultRegistry;
-        _metricsCollector = metricsCollector;
-        _parallelLimitProvider = parallelLimitProvider;
+        _pipelineSummaryFactory = pipelineSummaryFactory;
         _options = options;
     }
 
@@ -59,7 +53,11 @@ internal class PipelineExecutor : IPipelineExecutor
         {
             var end = DateTimeOffset.UtcNow;
 
-            pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end, _resultRegistry, _metricsCollector, _parallelLimitProvider.GetMaxDegreeOfParallelism());
+            pipelineSummary = _pipelineSummaryFactory.Create(
+                organizedModules.AllModules,
+                stopWatch.Elapsed,
+                start,
+                end);
 
             await _pipelineSetupExecutor.OnPipelineEndAsync(pipelineSummary).ConfigureAwait(false);
         }

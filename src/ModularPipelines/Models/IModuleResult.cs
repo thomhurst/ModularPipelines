@@ -33,26 +33,6 @@ public interface IModuleResult
     Status ModuleStatus { get; }
 
     /// <summary>
-    /// Gets the type of result that is held.
-    /// </summary>
-    ModuleResultType ModuleResultType { get; }
-
-    /// <summary>
-    /// Gets whether the result is a success.
-    /// </summary>
-    bool IsSuccess { get; }
-
-    /// <summary>
-    /// Gets whether the result is a failure.
-    /// </summary>
-    bool IsFailure { get; }
-
-    /// <summary>
-    /// Gets whether the result was skipped.
-    /// </summary>
-    bool IsSkipped { get; }
-
-    /// <summary>
     /// Gets the value if successful, or null/default otherwise. Does not throw.
     /// </summary>
     object? ValueOrDefault { get; }

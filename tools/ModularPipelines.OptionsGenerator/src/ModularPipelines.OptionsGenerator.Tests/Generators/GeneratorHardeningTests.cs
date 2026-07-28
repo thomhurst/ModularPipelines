@@ -180,7 +180,20 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task SubDomain_Generators_Preserve_Legacy_Casing_Without_Override()
+    public async Task DependencyRegistrationGenerator_Uses_CompileTime_Integration_Marker()
+    {
+        var files = await new DependencyRegistrationGenerator().GenerateAsync(
+            Tool(Command("ToolRunOptions", "ToolOptions", ["run"])));
+        var content = files.Single().Content;
+
+        await Assert.That(content).Contains("using ModularPipelines.Attributes;");
+        await Assert.That(content).Contains("[ModularPipelinesIntegration]");
+        await Assert.That(content).DoesNotContain("ModuleInitializer");
+        await Assert.That(content).DoesNotContain("ModularPipelinesContextRegistry");
+    }
+
+    [Test]
+    public async Task SubDomain_Generators_Preserve_Existing_Word_Boundaries()
     {
         var tool = Tool(Command(
             "ToolWorkspaceAddOnsGetOptions",
@@ -191,8 +204,8 @@ public class GeneratorHardeningTests
         var subDomainFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
         var interfaceFiles = await new ServiceInterfaceGenerator().GenerateAsync(tool);
 
-        await Assert.That(subDomainFiles.Single().RelativePath).EndsWith("ToolWorkspaceaddons.Generated.cs");
-        await Assert.That(interfaceFiles.Single().Content).Contains("ToolWorkspaceaddons Workspaceaddons { get; }");
+        await Assert.That(subDomainFiles.Single().RelativePath).EndsWith("ToolWorkspaceAddOns.Generated.cs");
+        await Assert.That(interfaceFiles.Single().Content).Contains("ToolWorkspaceAddOns WorkspaceAddOns { get; }");
     }
 
     [Test]
@@ -265,7 +278,7 @@ public class GeneratorHardeningTests
         var implementationFiles = await new ServiceImplementationGenerator().GenerateAsync(tool);
         var registrationFiles = await new DependencyRegistrationGenerator().GenerateAsync(tool);
         var clusterInfoService = subDomainFiles.Single(file =>
-            file.RelativePath.EndsWith("KubernetesClusterinfo.Generated.cs"));
+            file.RelativePath.EndsWith("KubernetesClusterInfo.Generated.cs"));
 
         await Assert.That(clusterInfoService.Content)
             .Contains("KubernetesClusterInfoOptions? options = null");
@@ -274,11 +287,11 @@ public class GeneratorHardeningTests
         await Assert.That(clusterInfoService.Content)
             .Contains("public virtual async Task<CommandResult> Dump(");
         await Assert.That(interfaceFiles.Single().Content)
-            .Contains("KubernetesClusterinfo Clusterinfo { get; }");
+            .Contains("KubernetesClusterInfo ClusterInfo { get; }");
         await Assert.That(implementationFiles.Single().Content)
-            .Contains("KubernetesClusterinfo Clusterinfo { get; }");
+            .Contains("KubernetesClusterInfo ClusterInfo { get; }");
         await Assert.That(registrationFiles.Single().Content)
-            .Contains("TryAddScoped<KubernetesClusterinfo>()");
+            .Contains("TryAddScoped<KubernetesClusterInfo>()");
     }
 
     #endregion

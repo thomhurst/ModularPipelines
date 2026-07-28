@@ -16,11 +16,14 @@ public class DotNetTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
+            var repositoryInfo = await context.Git().Information.GetInfoAsync()
+                ?? throw new InvalidOperationException("Git repository information is unavailable.");
+
             // Use main solution explicitly - FindFile returns first match alphabetically
             // which could be ModularPipelines.Analyzers.sln causing flaky failures
             return await context.DotNet().Package.List(new DotNetPackageListOptions
             {
-                Project = context.Git().RootDirectory.FindFile(x => x.Name == "ModularPipelines.sln").AssertExists(),
+                Project = repositoryInfo.Root.FindFile(x => x.Name == "ModularPipelines.sln").AssertExists(),
             }, cancellationToken: cancellationToken);
         }
     }
@@ -29,9 +32,12 @@ public class DotNetTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
+            var repositoryInfo = await context.Git().Information.GetInfoAsync()
+                ?? throw new InvalidOperationException("Git repository information is unavailable.");
+
             return await context.DotNet().Format(new DotNetFormatOptions
             {
-                ProjectSolution = context.Git().RootDirectory.FindFile(x => x.Name.Contains("TestsForTests")).AssertExists(),
+                ProjectSolution = repositoryInfo.Root.FindFile(x => x.Name.Contains("TestsForTests")).AssertExists(),
             }, cancellationToken: cancellationToken);
         }
     }

@@ -24,7 +24,7 @@ public record AzContainerappConnectionUpdateFabricSqlOptions : AzOptions
     /// The app configuration id to store configuration.
     /// </summary>
     [CliFlag("--appconfig-id")]
-    public bool? AppconfigId { get; set; }
+    public bool? AppConfigId { get; set; }
 
     /// <summary>
     /// The client type used on the containerapp.  Allowed values: dotnet, go, java, none, php, python.

@@ -8,9 +8,10 @@ namespace ModularPipelines.Build.Attributes;
 public class SkipOnMainBranch : MandatoryRunConditionAttribute
 {
     /// <inheritdoc/>
-    public override Task<bool> Condition(IPipelineContext pipelineContext)
+    public override async Task<bool> Condition(IPipelineContext pipelineContext)
     {
-        return Task.FromResult(pipelineContext.Git().Information.BranchName != "main");
+        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync().ConfigureAwait(false);
+        return repositoryInfo?.BranchName != "main";
     }
 }
 #pragma warning restore CS0618

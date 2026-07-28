@@ -58,7 +58,7 @@ public partial interface IAz
     /// <summary>
     /// Gets the appconfig sub-domain service.
     /// </summary>
-    AzAppconfig Appconfig { get; }
+    AzAppConfig AppConfig { get; }
 
     /// <summary>
     /// Gets the appservice sub-domain service.
@@ -163,7 +163,7 @@ public partial interface IAz
     /// <summary>
     /// Gets the diskencryptionset sub-domain service.
     /// </summary>
-    AzDiskencryptionset Diskencryptionset { get; }
+    AzDiskEncryptionSet DiskEncryptionSet { get; }
 
     /// <summary>
     /// Gets the dms sub-domain service.
@@ -323,12 +323,12 @@ public partial interface IAz
     /// <summary>
     /// Gets the resourcemanagement sub-domain service.
     /// </summary>
-    AzResourcemanagement Resourcemanagement { get; }
+    AzResourceManagement ResourceManagement { get; }
 
     /// <summary>
     /// Gets the restorepoint sub-domain service.
     /// </summary>
-    AzRestorepoint Restorepoint { get; }
+    AzRestorePoint RestorePoint { get; }
 
     /// <summary>
     /// Gets the role sub-domain service.

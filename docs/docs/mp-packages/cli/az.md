@@ -336,53 +336,53 @@ public class RunCommandModule : Module<CommandResult>
 | `az apim product update` | `AzApimProductUpdateOptions` |
 | `az apim restore` | `AzApimRestoreOptions` |
 | `az apim update` | `AzApimUpdateOptions` |
-| `az appconfig create` | `AzAppconfigCreateOptions` |
-| `az appconfig credential list` | `AzAppconfigCredentialListOptions` |
-| `az appconfig credential regenerate` | `AzAppconfigCredentialRegenerateOptions` |
-| `az appconfig delete` | `AzAppconfigDeleteOptions` |
-| `az appconfig feature delete` | `AzAppconfigFeatureDeleteOptions` |
-| `az appconfig feature disable` | `AzAppconfigFeatureDisableOptions` |
-| `az appconfig feature enable` | `AzAppconfigFeatureEnableOptions` |
-| `az appconfig feature filter add` | `AzAppconfigFeatureFilterAddOptions` |
-| `az appconfig feature filter delete` | `AzAppconfigFeatureFilterDeleteOptions` |
-| `az appconfig feature filter list` | `AzAppconfigFeatureFilterListOptions` |
-| `az appconfig feature filter show` | `AzAppconfigFeatureFilterShowOptions` |
-| `az appconfig feature filter update` | `AzAppconfigFeatureFilterUpdateOptions` |
-| `az appconfig feature list` | `AzAppconfigFeatureListOptions` |
-| `az appconfig feature lock` | `AzAppconfigFeatureLockOptions` |
-| `az appconfig feature set` | `AzAppconfigFeatureSetOptions` |
-| `az appconfig feature show` | `AzAppconfigFeatureShowOptions` |
-| `az appconfig feature unlock` | `AzAppconfigFeatureUnlockOptions` |
-| `az appconfig identity assign` | `AzAppconfigIdentityAssignOptions` |
-| `az appconfig identity remove` | `AzAppconfigIdentityRemoveOptions` |
-| `az appconfig identity show` | `AzAppconfigIdentityShowOptions` |
-| `az appconfig kv delete` | `AzAppconfigKvDeleteOptions` |
-| `az appconfig kv export` | `AzAppconfigKvExportOptions` |
-| `az appconfig kv import` | `AzAppconfigKvImportOptions` |
-| `az appconfig kv list` | `AzAppconfigKvListOptions` |
-| `az appconfig kv lock` | `AzAppconfigKvLockOptions` |
-| `az appconfig kv restore` | `AzAppconfigKvRestoreOptions` |
-| `az appconfig kv set` | `AzAppconfigKvSetOptions` |
-| `az appconfig kv set-keyvault` | `AzAppconfigKvSetKeyvaultOptions` |
-| `az appconfig kv set-snapshot-reference` | `AzAppconfigKvSetSnapshotReferenceOptions` |
-| `az appconfig kv show` | `AzAppconfigKvShowOptions` |
-| `az appconfig kv unlock` | `AzAppconfigKvUnlockOptions` |
-| `az appconfig list` | `AzAppconfigListOptions` |
-| `az appconfig purge` | `AzAppconfigPurgeOptions` |
-| `az appconfig recover` | `AzAppconfigRecoverOptions` |
-| `az appconfig replica create` | `AzAppconfigReplicaCreateOptions` |
-| `az appconfig replica delete` | `AzAppconfigReplicaDeleteOptions` |
-| `az appconfig replica list` | `AzAppconfigReplicaListOptions` |
-| `az appconfig replica show` | `AzAppconfigReplicaShowOptions` |
-| `az appconfig revision list` | `AzAppconfigRevisionListOptions` |
-| `az appconfig show` | `AzAppconfigShowOptions` |
-| `az appconfig show-deleted` | `AzAppconfigShowDeletedOptions` |
-| `az appconfig snapshot archive` | `AzAppconfigSnapshotArchiveOptions` |
-| `az appconfig snapshot create` | `AzAppconfigSnapshotCreateOptions` |
-| `az appconfig snapshot list` | `AzAppconfigSnapshotListOptions` |
-| `az appconfig snapshot recover` | `AzAppconfigSnapshotRecoverOptions` |
-| `az appconfig snapshot show` | `AzAppconfigSnapshotShowOptions` |
-| `az appconfig update` | `AzAppconfigUpdateOptions` |
+| `az appconfig create` | `AzAppConfigCreateOptions` |
+| `az appconfig credential list` | `AzAppConfigCredentialListOptions` |
+| `az appconfig credential regenerate` | `AzAppConfigCredentialRegenerateOptions` |
+| `az appconfig delete` | `AzAppConfigDeleteOptions` |
+| `az appconfig feature delete` | `AzAppConfigFeatureDeleteOptions` |
+| `az appconfig feature disable` | `AzAppConfigFeatureDisableOptions` |
+| `az appconfig feature enable` | `AzAppConfigFeatureEnableOptions` |
+| `az appconfig feature filter add` | `AzAppConfigFeatureFilterAddOptions` |
+| `az appconfig feature filter delete` | `AzAppConfigFeatureFilterDeleteOptions` |
+| `az appconfig feature filter list` | `AzAppConfigFeatureFilterListOptions` |
+| `az appconfig feature filter show` | `AzAppConfigFeatureFilterShowOptions` |
+| `az appconfig feature filter update` | `AzAppConfigFeatureFilterUpdateOptions` |
+| `az appconfig feature list` | `AzAppConfigFeatureListOptions` |
+| `az appconfig feature lock` | `AzAppConfigFeatureLockOptions` |
+| `az appconfig feature set` | `AzAppConfigFeatureSetOptions` |
+| `az appconfig feature show` | `AzAppConfigFeatureShowOptions` |
+| `az appconfig feature unlock` | `AzAppConfigFeatureUnlockOptions` |
+| `az appconfig identity assign` | `AzAppConfigIdentityAssignOptions` |
+| `az appconfig identity remove` | `AzAppConfigIdentityRemoveOptions` |
+| `az appconfig identity show` | `AzAppConfigIdentityShowOptions` |
+| `az appconfig kv delete` | `AzAppConfigKvDeleteOptions` |
+| `az appconfig kv export` | `AzAppConfigKvExportOptions` |
+| `az appconfig kv import` | `AzAppConfigKvImportOptions` |
+| `az appconfig kv list` | `AzAppConfigKvListOptions` |
+| `az appconfig kv lock` | `AzAppConfigKvLockOptions` |
+| `az appconfig kv restore` | `AzAppConfigKvRestoreOptions` |
+| `az appconfig kv set` | `AzAppConfigKvSetOptions` |
+| `az appconfig kv set-keyvault` | `AzAppConfigKvSetKeyvaultOptions` |
+| `az appconfig kv set-snapshot-reference` | `AzAppConfigKvSetSnapshotReferenceOptions` |
+| `az appconfig kv show` | `AzAppConfigKvShowOptions` |
+| `az appconfig kv unlock` | `AzAppConfigKvUnlockOptions` |
+| `az appconfig list` | `AzAppConfigListOptions` |
+| `az appconfig purge` | `AzAppConfigPurgeOptions` |
+| `az appconfig recover` | `AzAppConfigRecoverOptions` |
+| `az appconfig replica create` | `AzAppConfigReplicaCreateOptions` |
+| `az appconfig replica delete` | `AzAppConfigReplicaDeleteOptions` |
+| `az appconfig replica list` | `AzAppConfigReplicaListOptions` |
+| `az appconfig replica show` | `AzAppConfigReplicaShowOptions` |
+| `az appconfig revision list` | `AzAppConfigRevisionListOptions` |
+| `az appconfig show` | `AzAppConfigShowOptions` |
+| `az appconfig show-deleted` | `AzAppConfigShowDeletedOptions` |
+| `az appconfig snapshot archive` | `AzAppConfigSnapshotArchiveOptions` |
+| `az appconfig snapshot create` | `AzAppConfigSnapshotCreateOptions` |
+| `az appconfig snapshot list` | `AzAppConfigSnapshotListOptions` |
+| `az appconfig snapshot recover` | `AzAppConfigSnapshotRecoverOptions` |
+| `az appconfig snapshot show` | `AzAppConfigSnapshotShowOptions` |
+| `az appconfig update` | `AzAppConfigUpdateOptions` |
 | `az appservice ase create` | `AzAppserviceAseCreateOptions` |
 | `az appservice ase delete` | `AzAppserviceAseDeleteOptions` |
 | `az appservice ase list` | `AzAppserviceAseListOptions` |
@@ -552,7 +552,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az cognitiveservices account update` | `AzCognitiveservicesAccountUpdateOptions` |
 | `az compute-fleet list-vms` | `AzComputeFleetListVmsOptions` |
 | `az connection create app-insights` | `AzConnectionCreateAppInsightsOptions` |
-| `az connection create appconfig` | `AzConnectionCreateAppconfigOptions` |
+| `az connection create appconfig` | `AzConnectionCreateAppConfigOptions` |
 | `az connection create confluent-cloud` | `AzConnectionCreateConfluentCloudOptions` |
 | `az connection create cosmos-cassandra` | `AzConnectionCreateCosmosCassandraOptions` |
 | `az connection create cosmos-gremlin` | `AzConnectionCreateCosmosGremlinOptions` |
@@ -580,7 +580,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az connection list` | `AzConnectionListOptions` |
 | `az connection list-support-types` | `AzConnectionListSupportTypesOptions` |
 | `az connection preview-configuration app-insights` | `AzConnectionPreviewConfigurationAppInsightsOptions` |
-| `az connection preview-configuration appconfig` | `AzConnectionPreviewConfigurationAppconfigOptions` |
+| `az connection preview-configuration appconfig` | `AzConnectionPreviewConfigurationAppConfigOptions` |
 | `az connection preview-configuration confluent-cloud` | `AzConnectionPreviewConfigurationConfluentCloudOptions` |
 | `az connection preview-configuration cosmos-cassandra` | `AzConnectionPreviewConfigurationCosmosCassandraOptions` |
 | `az connection preview-configuration cosmos-gremlin` | `AzConnectionPreviewConfigurationCosmosGremlinOptions` |
@@ -605,7 +605,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az connection preview-configuration webpubsub` | `AzConnectionPreviewConfigurationWebpubsubOptions` |
 | `az connection show` | `AzConnectionShowOptions` |
 | `az connection update app-insights` | `AzConnectionUpdateAppInsightsOptions` |
-| `az connection update appconfig` | `AzConnectionUpdateAppconfigOptions` |
+| `az connection update appconfig` | `AzConnectionUpdateAppConfigOptions` |
 | `az connection update confluent-cloud` | `AzConnectionUpdateConfluentCloudOptions` |
 | `az connection update cosmos-cassandra` | `AzConnectionUpdateCosmosCassandraOptions` |
 | `az connection update cosmos-gremlin` | `AzConnectionUpdateCosmosGremlinOptions` |
@@ -653,7 +653,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az containerapp auth update` | `AzContainerappAuthUpdateOptions` |
 | `az containerapp compose create` | `AzContainerappComposeCreateOptions` |
 | `az containerapp connection create app-insights` | `AzContainerappConnectionCreateAppInsightsOptions` |
-| `az containerapp connection create appconfig` | `AzContainerappConnectionCreateAppconfigOptions` |
+| `az containerapp connection create appconfig` | `AzContainerappConnectionCreateAppConfigOptions` |
 | `az containerapp connection create cognitiveservices` | `AzContainerappConnectionCreateCognitiveservicesOptions` |
 | `az containerapp connection create confluent-cloud` | `AzContainerappConnectionCreateConfluentCloudOptions` |
 | `az containerapp connection create containerapp` | `AzContainerappConnectionCreateContainerappOptions` |
@@ -685,7 +685,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az containerapp connection list-support-types` | `AzContainerappConnectionListSupportTypesOptions` |
 | `az containerapp connection show` | `AzContainerappConnectionShowOptions` |
 | `az containerapp connection update app-insights` | `AzContainerappConnectionUpdateAppInsightsOptions` |
-| `az containerapp connection update appconfig` | `AzContainerappConnectionUpdateAppconfigOptions` |
+| `az containerapp connection update appconfig` | `AzContainerappConnectionUpdateAppConfigOptions` |
 | `az containerapp connection update cognitiveservices` | `AzContainerappConnectionUpdateCognitiveservicesOptions` |
 | `az containerapp connection update confluent-cloud` | `AzContainerappConnectionUpdateConfluentCloudOptions` |
 | `az containerapp connection update containerapp` | `AzContainerappConnectionUpdateContainerappOptions` |
@@ -1042,7 +1042,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az functionapp config ssl unbind` | `AzFunctionappConfigSslUnbindOptions` |
 | `az functionapp config ssl upload` | `AzFunctionappConfigSslUploadOptions` |
 | `az functionapp connection create app-insights` | `AzFunctionappConnectionCreateAppInsightsOptions` |
-| `az functionapp connection create appconfig` | `AzFunctionappConnectionCreateAppconfigOptions` |
+| `az functionapp connection create appconfig` | `AzFunctionappConnectionCreateAppConfigOptions` |
 | `az functionapp connection create cognitiveservices` | `AzFunctionappConnectionCreateCognitiveservicesOptions` |
 | `az functionapp connection create confluent-cloud` | `AzFunctionappConnectionCreateConfluentCloudOptions` |
 | `az functionapp connection create cosmos-cassandra` | `AzFunctionappConnectionCreateCosmosCassandraOptions` |
@@ -1073,7 +1073,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az functionapp connection list-support-types` | `AzFunctionappConnectionListSupportTypesOptions` |
 | `az functionapp connection show` | `AzFunctionappConnectionShowOptions` |
 | `az functionapp connection update app-insights` | `AzFunctionappConnectionUpdateAppInsightsOptions` |
-| `az functionapp connection update appconfig` | `AzFunctionappConnectionUpdateAppconfigOptions` |
+| `az functionapp connection update appconfig` | `AzFunctionappConnectionUpdateAppConfigOptions` |
 | `az functionapp connection update cognitiveservices` | `AzFunctionappConnectionUpdateCognitiveservicesOptions` |
 | `az functionapp connection update confluent-cloud` | `AzFunctionappConnectionUpdateConfluentCloudOptions` |
 | `az functionapp connection update cosmos-cassandra` | `AzFunctionappConnectionUpdateCosmosCassandraOptions` |
@@ -2244,8 +2244,8 @@ public class RunCommandModule : Module<CommandResult>
 | `az resource tag` | `AzResourceTagOptions` |
 | `az resource update` | `AzResourceUpdateOptions` |
 | `az resource wait` | `AzResourceWaitOptions` |
-| `az resourcemanagement private-link delete` | `AzResourcemanagementPrivateLinkDeleteOptions` |
-| `az resourcemanagement private-link list` | `AzResourcemanagementPrivateLinkListOptions` |
+| `az resourcemanagement private-link delete` | `AzResourceManagementPrivateLinkDeleteOptions` |
+| `az resourcemanagement private-link list` | `AzResourceManagementPrivateLinkListOptions` |
 | `az restore-point collection create` | `AzRestorePointCollectionCreateOptions` |
 | `az restore-point collection delete` | `AzRestorePointCollectionDeleteOptions` |
 | `az restore-point collection show` | `AzRestorePointCollectionShowOptions` |
@@ -3026,7 +3026,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az webapp config storage-account list` | `AzWebappConfigStorageAccountListOptions` |
 | `az webapp config storage-account update` | `AzWebappConfigStorageAccountUpdateOptions` |
 | `az webapp connection create app-insights` | `AzWebappConnectionCreateAppInsightsOptions` |
-| `az webapp connection create appconfig` | `AzWebappConnectionCreateAppconfigOptions` |
+| `az webapp connection create appconfig` | `AzWebappConnectionCreateAppConfigOptions` |
 | `az webapp connection create cognitiveservices` | `AzWebappConnectionCreateCognitiveservicesOptions` |
 | `az webapp connection create confluent-cloud` | `AzWebappConnectionCreateConfluentCloudOptions` |
 | `az webapp connection create cosmos-cassandra` | `AzWebappConnectionCreateCosmosCassandraOptions` |
@@ -3057,7 +3057,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az webapp connection list-support-types` | `AzWebappConnectionListSupportTypesOptions` |
 | `az webapp connection show` | `AzWebappConnectionShowOptions` |
 | `az webapp connection update app-insights` | `AzWebappConnectionUpdateAppInsightsOptions` |
-| `az webapp connection update appconfig` | `AzWebappConnectionUpdateAppconfigOptions` |
+| `az webapp connection update appconfig` | `AzWebappConnectionUpdateAppConfigOptions` |
 | `az webapp connection update cognitiveservices` | `AzWebappConnectionUpdateCognitiveservicesOptions` |
 | `az webapp connection update confluent-cloud` | `AzWebappConnectionUpdateConfluentCloudOptions` |
 | `az webapp connection update cosmos-cassandra` | `AzWebappConnectionUpdateCosmosCassandraOptions` |

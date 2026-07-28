@@ -17,10 +17,10 @@ public class RunIfBranchAttribute : RunConditionAttribute
 
     public override Task<bool> Condition(IPipelineContext pipelineContext)
     {
-        return Task.FromResult(BranchConditionHelper.CheckBranchMatches(
+        return BranchConditionHelper.CheckBranchMatches(
             pipelineContext,
             BranchName,
-            "Current Branch: {CurrentBranch} | Can run on: {ExpectedBranch}"));
+            "Current Branch: {CurrentBranch} | Can run on: {ExpectedBranch}");
     }
 }
 #pragma warning restore CS0618

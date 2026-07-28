@@ -219,13 +219,11 @@ public class MyModule : Module<string>
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithTimeout(TimeSpan.FromMinutes(5))
         .WithRetryCount(3)
-        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+        .WithSkipWhen(async ctx => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
             ? SkipDecision.Skip("Only runs on main branch")
             : SkipDecision.DoNotSkip)
         .WithIgnoreFailures()
         .WithAlwaysRun()
-        .WithBeforeExecute(ctx => LogStartAsync(ctx))
-        .WithAfterExecute(ctx => LogEndAsync(ctx))
         .Build();
 
     protected override async Task<string?> ExecuteAsync(
@@ -246,8 +244,8 @@ public class MyModule : Module<string>
 | `Task<SkipDecision> ShouldSkip()` method | `.WithSkipWhen(...)` |
 | `Task<bool> ShouldIgnoreFailures()` method | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)` |
 | `ModuleRunType.AlwaysRun` | `.WithAlwaysRun()` |
-| `Task OnBeforeExecute()` method | `.WithBeforeExecute(...)` |
-| `Task OnAfterExecute()` method | `.WithAfterExecute(...)` |
+| `Task OnBeforeExecute()` method | `OnBeforeExecuteAsync(...)` |
+| `Task OnAfterExecute()` method | `OnAfterExecuteAsync(...)` |
 
 ### Alternative: Lifecycle Hook Overrides
 
@@ -600,18 +598,17 @@ var artifact = buildResult.ValueOrDefault?.ArtifactPath;
 if (artifact == null) return null;
 return await Deploy(artifact);
 
-// Option 4: Quick status checks
-if (buildResult.IsSuccess)
+// Option 4: Safe accessors and the Success union case
+if (buildResult is ModuleResult<BuildOutput>.Success)
 {
     var value = buildResult.ValueOrDefault;
 }
-if (buildResult.IsFailure)
+if (buildResult.ExceptionOrDefault is { } ex)
 {
-    var ex = buildResult.ExceptionOrDefault;
 }
-if (buildResult.IsSkipped)
+if (buildResult.SkipDecisionOrDefault is { } skip)
 {
-    var reason = buildResult.SkipDecisionOrDefault?.Reason;
+    var reason = skip.Reason;
 }
 ```
 
@@ -622,15 +619,15 @@ if (buildResult.IsSkipped)
 | `await GetModule<T>()` (on module) | `await context.GetModule<T>()` (on context) |
 | `result.Value` | `result.ValueOrDefault` or pattern match |
 | `result.Exception` | `result.ExceptionOrDefault` or pattern match |
-| `result.ModuleResultType == ModuleResultType.X` | `result.IsSuccess`, `result.IsFailure`, `result.IsSkipped` |
+| Legacy result enum check | Pattern match or inspect `ExceptionOrDefault` / `SkipDecisionOrDefault` |
 
 ### Result Type Quick Reference
 
 | Check | V2 | V3 |
 |-------|-----|-----|
-| Is success? | `result.ModuleResultType == ModuleResultType.Success` | `result.IsSuccess` or `result is ModuleResult<T>.Success` |
-| Is failure? | `result.ModuleResultType == ModuleResultType.Failure` | `result.IsFailure` or `result is ModuleResult.Failure` |
-| Is skipped? | `result.ModuleResultType == ModuleResultType.Skipped` | `result.IsSkipped` or `result is ModuleResult.Skipped` |
+| Is success? | Legacy result enum check | `result is ModuleResult<T>.Success` |
+| Is failure? | Legacy result enum check | `result.ExceptionOrDefault is not null` |
+| Is skipped? | Legacy result enum check | `result.SkipDecisionOrDefault is not null` |
 | Get value | `result.Value` | `result.ValueOrDefault` or pattern match |
 | Get exception | `result.Exception` | `result.ExceptionOrDefault` or pattern match |
 
@@ -833,14 +830,16 @@ The `WithSkipWhen` and `WithIgnoreFailuresWhen` methods accept both sync and asy
 // Async lambda - same method name
 .WithSkipWhen(async () => await CheckConditionAsync())
 
-// With context - sync
-.WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main")
+// With context - async repository lookup
+.WithSkipWhen(async ctx =>
+    (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main")
 
 // With context - async
 .WithSkipWhen(async ctx => await ctx.SomeAsyncCheck())
 
 // Returning SkipDecision
-.WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+.WithSkipWhen(async ctx =>
+    (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
     ? SkipDecision.Skip("Not main branch")
     : SkipDecision.DoNotSkip)
 ```
@@ -1159,7 +1158,7 @@ public class BuildModule : Module<BuildOutput>
 public class DeployModule : Module<bool>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+        .WithSkipWhen(async ctx => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
             ? SkipDecision.Skip("Not main branch")
             : SkipDecision.DoNotSkip)
         .Build();
@@ -1191,14 +1190,14 @@ public class DeployModule : Module<bool>
 | `GetModule<T>()` | `context.GetModule<T>()` | Method moved to context |
 | `SubModule()` | `context.SubModule()` | Method moved to context |
 | `result.Value` | `result.ValueOrDefault` | Or use pattern matching |
-| `result.ModuleResultType` | `result.IsSuccess/IsFailure/IsSkipped` | Or pattern match |
+| Legacy result enum | `ModuleStatus`, safe accessors, or pattern matching | One result model |
 | `ShouldSkip()` override | `Configure().WithSkipWhen()` | Fluent builder |
 | `ShouldIgnoreFailures()` override | `Configure().WithIgnoreFailures()` | Fluent builder |
 | `Timeout` property override | `Configure().WithTimeout()` | Fluent builder |
 | `RetryPolicy` property override | `Configure().WithRetryCount()` | Fluent builder |
 | `ModuleRunType` override | `Configure().WithAlwaysRun()` | Fluent builder |
-| `OnBeforeExecute()` override | `Configure().WithBeforeExecute()` or `OnBeforeExecuteAsync()` | Either approach |
-| `OnAfterExecute()` override | `Configure().WithAfterExecute()` or `OnAfterExecuteAsync()` | Either approach |
+| `OnBeforeExecute()` override | `OnBeforeExecuteAsync()` | Override the module virtual |
+| `OnAfterExecute()` override | `OnAfterExecuteAsync()` | Override the module virtual |
 | `options.WorkingDirectory` | `CommandExecutionOptions.WorkingDirectory` | Separate parameter |
 | `options.EnvironmentVariables` | `CommandExecutionOptions.EnvironmentVariables` | Separate parameter |
 | `options.ThrowOnNonZeroExitCode` | `CommandExecutionOptions.ThrowOnNonZeroExitCode` | Separate parameter |
@@ -1262,14 +1261,14 @@ This section provides structured data optimized for AI assistants helping with c
 - old: "result.Exception"
   new: "result.ExceptionOrDefault"
 
-- old: "result.ModuleResultType == ModuleResultType.Success"
-  new: "result.IsSuccess"
+- old: "legacy success enum check"
+  new: "result is ModuleResult<T>.Success"
 
-- old: "result.ModuleResultType == ModuleResultType.Failure"
-  new: "result.IsFailure"
+- old: "legacy failure enum check"
+  new: "result.ExceptionOrDefault is not null"
 
-- old: "result.ModuleResultType == ModuleResultType.Skipped"
-  new: "result.IsSkipped"
+- old: "legacy skipped enum check"
+  new: "result.SkipDecisionOrDefault is not null"
 
 # Module Configuration (property overrides → fluent builder)
 - old: "protected internal override TimeSpan Timeout => ..."
@@ -1288,10 +1287,10 @@ This section provides structured data optimized for AI assistants helping with c
   new: "Configure().WithAlwaysRun()"
 
 - old: "protected internal override Task OnBeforeExecute(IPipelineContext context)"
-  new: "Configure().WithBeforeExecute(...) or OnBeforeExecuteAsync(...)"
+  new: "OnBeforeExecuteAsync(...)"
 
 - old: "protected internal override Task OnAfterExecute(IPipelineContext context)"
-  new: "Configure().WithAfterExecute(...) or OnAfterExecuteAsync(...)"
+  new: "OnAfterExecuteAsync(...)"
 
 # Command Execution Options (moved from tool options to separate parameter)
 - old: "new DotNetBuildOptions { WorkingDirectory = path }"
@@ -1405,10 +1404,7 @@ s/SubModule\(/context.SubModule(/g
 s/\.Value(?![a-zA-Z])/\.ValueOrDefault/g
 s/\.Exception(?![a-zA-Z])/\.ExceptionOrDefault/g
 
-# Result type checks
-s/\.ModuleResultType\s*==\s*ModuleResultType\.Success/\.IsSuccess/g
-s/\.ModuleResultType\s*==\s*ModuleResultType\.Failure/\.IsFailure/g
-s/\.ModuleResultType\s*==\s*ModuleResultType\.Skipped/\.IsSkipped/g
+# Result checks should be migrated manually to pattern matching or safe accessors.
 ```
 
 ### V3 Module Template
@@ -1474,7 +1470,7 @@ return result.Match(
 
 // Pattern 3: Simple property access (easiest migration)
 var result = await context.GetModule<BuildModule>();
-if (result.IsSuccess)
+if (result is ModuleResult<BuildOutput>.Success)
 {
     var value = result.ValueOrDefault;
 }

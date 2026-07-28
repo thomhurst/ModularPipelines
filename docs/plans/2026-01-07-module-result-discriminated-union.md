@@ -32,24 +32,10 @@ public abstract record ModuleResult<T> : IModuleResult
     public required DateTimeOffset ModuleEnd { get; init; }
     public required Status ModuleStatus { get; init; }
 
-    // Quick checks
-    public bool IsSuccess => this is Success;
-    public bool IsFailure => this is Failure;
-    public bool IsSkipped => this is Skipped;
-
     // Safe accessors (no exceptions)
     public T? ValueOrDefault => this is Success s ? s.Value : default;
     public Exception? ExceptionOrDefault => this is Failure f ? f.Exception : null;
     public SkipDecision? SkipDecisionOrDefault => this is Skipped sk ? sk.Decision : null;
-
-    // Computed for compatibility
-    public ModuleResultType ModuleResultType => this switch
-    {
-        Success => ModuleResultType.Success,
-        Failure => ModuleResultType.Failure,
-        Skipped => ModuleResultType.Skipped,
-        _ => throw new InvalidOperationException()
-    };
 
     // Discriminated variants
     public sealed record Success(T Value) : ModuleResult<T>;
@@ -92,12 +78,12 @@ string message = result.Match(
 );
 ```
 
-### Quick Checks
+### Status Checks
 
 ```csharp
-if (result.IsSuccess)
+if (result.ModuleStatus == Status.Successful)
 {
-    DoSomething(result.ValueOrDefault!);
+    // Use pattern matching when the result value is required.
 }
 ```
 
@@ -150,8 +136,6 @@ public interface IModuleResult
     DateTimeOffset ModuleStart { get; }
     DateTimeOffset ModuleEnd { get; }
     Status ModuleStatus { get; }
-    ModuleResultType ModuleResultType { get; }
-
     object? ValueOrDefault { get; }
     Exception? ExceptionOrDefault { get; }
     SkipDecision? SkipDecisionOrDefault { get; }
@@ -178,7 +162,6 @@ internal static Skipped CreateSkipped(SkipDecision decision, ModuleExecutionCont
 - `TimedOutModuleResult<T>` subclass
 
 ### Preserved
-- `ModuleResultType` property (now computed)
 - `IModuleResult` interface
 - All metadata property names
 - JSON serialization support

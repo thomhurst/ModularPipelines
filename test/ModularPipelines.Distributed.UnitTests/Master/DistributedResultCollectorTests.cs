@@ -57,7 +57,7 @@ public class DistributedResultCollectorTests
         var result = await collector.WaitForResultAsync(typeof(TestModule).FullName!, CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.IsSuccess).IsTrue();
+        await Assert.That(result!.ModuleStatus).IsEqualTo(Status.Successful);
         await Assert.That(result.ModuleName).IsEqualTo("TestModule");
     }
 

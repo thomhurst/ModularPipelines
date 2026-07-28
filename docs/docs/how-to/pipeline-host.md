@@ -233,8 +233,8 @@ var builder = Pipeline.CreateBuilder(args);
 // Global hooks (run before/after all modules)
 builder.AddPipelineGlobalHooks<MyGlobalHooks>();
 
-// Module hooks (run before/after each module)
-builder.AddPipelineModuleHooks<MyModuleHooks>();
+// Module event receivers (observe every module)
+builder.AddModuleEventReceiver<MyModuleEventReceiver>();
 
 // Requirements (validated before pipeline starts)
 builder.AddRequirement<DotNetSdkRequirement>();
