@@ -30,8 +30,11 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Cargo().Build(
-            new CargoBuildOptions(),
+        return await context.Cargo().Check(
+            new CargoCheckOptions
+            {
+                Quiet = true,
+            },
             cancellationToken: cancellationToken);
     }
 }

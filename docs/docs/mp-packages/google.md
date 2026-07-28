@@ -23,18 +23,24 @@ Import `ModularPipelines.Google.Extensions`, then use this service from a module
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Google.Extensions;
+using ModularPipelines.Google.Options;
 
-public class UseGcloudModule : SyncModule
+public class UseGcloudModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var gcloud = context.Gcloud();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Gcloud integration is ready");
+        return await context.Gcloud().Info(
+            new GcloudInfoOptions
+            {
+                Anonymize = true,
+            },
+            cancellationToken: cancellationToken);
     }
 }
 ```

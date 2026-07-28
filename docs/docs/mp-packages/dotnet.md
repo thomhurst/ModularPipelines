@@ -24,18 +24,21 @@ Import `ModularPipelines.DotNet.Extensions`, then use these services from a modu
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.DotNet.Extensions;
+using ModularPipelines.DotNet.Options;
 
-public class UseDotNetModule : SyncModule
+public class UseDotNetModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var dotNet = context.DotNet();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("DotNet integration is ready");
+        return await context.DotNet().Workload.List(
+            new DotNetWorkloadListOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```

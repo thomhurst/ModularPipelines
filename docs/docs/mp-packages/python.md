@@ -23,18 +23,21 @@ Import `ModularPipelines.Python.Extensions`, then use this service from a module
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Python.Extensions;
+using ModularPipelines.Python.Options;
 
-public class UsePipModule : SyncModule
+public class UsePipModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var pip = context.Pip();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Pip integration is ready");
+        return await context.Pip().Freeze(
+            new PipFreezeOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```

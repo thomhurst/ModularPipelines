@@ -23,18 +23,24 @@ Import `ModularPipelines.Git.Extensions`, then use this service from a module:
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Git.Options;
 
-public class UseGitModule : SyncModule
+public class UseGitModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var git = context.Git();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Git integration is ready");
+        return await context.Git().Status(
+            new GitStatusOptions
+            {
+                Short = true,
+            },
+            cancellationToken: cancellationToken);
     }
 }
 ```

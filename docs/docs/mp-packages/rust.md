@@ -23,18 +23,24 @@ Import `ModularPipelines.Rust.Extensions`, then use this service from a module:
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Rust.Extensions;
+using ModularPipelines.Rust.Options;
 
-public class UseCargoModule : SyncModule
+public class UseCargoModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var cargo = context.Cargo();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Cargo integration is ready");
+        return await context.Cargo().Check(
+            new CargoCheckOptions
+            {
+                Quiet = true,
+            },
+            cancellationToken: cancellationToken);
     }
 }
 ```

@@ -23,18 +23,21 @@ Import `ModularPipelines.Go.Extensions`, then use this service from a module:
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Go.Extensions;
+using ModularPipelines.Go.Options;
 
-public class UseGoModule : SyncModule
+public class UseGoModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var go = context.Go();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Go integration is ready");
+        return await context.Go().Vet(
+            new GoVetOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```

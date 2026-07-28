@@ -24,18 +24,21 @@ Import `ModularPipelines.Kubernetes.Extensions`, then use these services from a 
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Kubernetes.Extensions;
+using ModularPipelines.Kubernetes.Options;
 
-public class UseKubernetesModule : SyncModule
+public class UseKubernetesModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var kubernetes = context.Kubernetes();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Kubernetes integration is ready");
+        return await context.Kubernetes().Config.View(
+            new KubernetesConfigViewOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```

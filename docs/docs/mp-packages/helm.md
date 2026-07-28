@@ -23,18 +23,21 @@ Import `ModularPipelines.Helm.Extensions`, then use this service from a module:
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Helm.Extensions;
+using ModularPipelines.Helm.Options;
 
-public class UseHelmModule : SyncModule
+public class UseHelmModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var helm = context.Helm();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Helm integration is ready");
+        return await context.Helm().Env(
+            new HelmEnvOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```
