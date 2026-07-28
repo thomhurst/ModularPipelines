@@ -81,6 +81,10 @@ internal class DistributedWorkPublisher(
     /// </summary>
     private const int CompressionThresholdBytes = 64 * 1024;
 
+    internal static string CompressJson(string json) => CompressJsonCore(json);
+
+    internal static string DecompressJson(string compressed) => DecompressJsonCore(compressed);
+
     /// <summary>
     /// Gathers serialized results for all dependencies resolved by the canonical dependency resolver.
     /// The scheduler guarantees that all dependencies have completed before a module becomes ready,
@@ -129,7 +133,7 @@ internal class DistributedWorkPublisher(
     /// <summary>
     /// GZip-compresses a JSON string and returns it as a prefixed base64 string.
     /// </summary>
-    internal static string CompressJson(string json)
+    private static string CompressJsonCore(string json)
     {
         var bytes = Encoding.UTF8.GetBytes(json);
         using var output = new MemoryStream();
@@ -144,7 +148,7 @@ internal class DistributedWorkPublisher(
     /// <summary>
     /// Decompresses a GZip-compressed JSON string (with prefix removed).
     /// </summary>
-    internal static string DecompressJson(string compressed)
+    private static string DecompressJsonCore(string compressed)
     {
         var payload = compressed.AsSpan(GzipPrefix.Length);
         var bytes = Convert.FromBase64String(payload.ToString());

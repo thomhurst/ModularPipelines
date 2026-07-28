@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine;
@@ -226,7 +227,9 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TRepository">The type of result repository to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddResultsRepository<TRepository>(this PipelineBuilder builder)
+    public static PipelineBuilder AddResultsRepository<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TRepository>(
+        this PipelineBuilder builder)
         where TRepository : class, IModuleResultRepository
     {
         builder.Services.AddSingleton<IModuleResultRepository, TRepository>();
@@ -263,7 +266,9 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TProvider">The type of estimated time provider to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddModuleEstimatedTimeProvider<TProvider>(this PipelineBuilder builder)
+    public static PipelineBuilder AddModuleEstimatedTimeProvider<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TProvider>(
+        this PipelineBuilder builder)
         where TProvider : class, IModuleEstimatedTimeProvider
     {
         builder.Services.AddSingleton<IModuleEstimatedTimeProvider, TProvider>();
@@ -276,7 +281,9 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TWriter">The type of pipeline file writer to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddPipelineFileWriter<TWriter>(this PipelineBuilder builder)
+    public static PipelineBuilder AddPipelineFileWriter<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TWriter>(
+        this PipelineBuilder builder)
         where TWriter : class, IBuildSystemPipelineFileWriter
     {
         builder.Services.AddSingleton<IBuildSystemPipelineFileWriter, TWriter>();
@@ -302,7 +309,9 @@ public static class PipelineBuilderExtensions
     /// <typeparam name="TImplementation">The implementation type.</typeparam>
     /// <param name="builder">The pipeline builder.</param>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddSingleton<TService, TImplementation>(this PipelineBuilder builder)
+    public static PipelineBuilder AddSingleton<TService,
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(
+        this PipelineBuilder builder)
         where TService : class
         where TImplementation : class, TService
     {
