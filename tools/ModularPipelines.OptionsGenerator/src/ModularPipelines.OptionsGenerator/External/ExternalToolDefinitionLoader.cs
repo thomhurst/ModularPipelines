@@ -444,26 +444,19 @@ public static class ExternalToolDefinitionLoader
 
     private static (
         IReadOnlySet<string> All,
-        IReadOnlySet<string> Writable) GetCompatibilityForwardingTargets(
+        IReadOnlyDictionary<string, string> Writable) GetCompatibilityForwardingTargets(
             CliCommandDefinition command,
             IReadOnlyList<CliOptionDefinition> globalOptions)
     {
         var writable = command.Options
             .Where(option => !option.IsRequired)
-            .Select(option => option.PropertyName)
+            .Select(option => (option.PropertyName, option.CSharpType))
             .Concat(command.PositionalArguments
                 .Where(argument => !argument.IsRequired)
-                .Select(argument => argument.PropertyName))
-            .Concat(globalOptions.Select(option => option.PropertyName))
-            .Concat(typeof(CommandLineToolOptions)
-                .GetProperties()
-                .Where(property => property.SetMethod is not null
-                    && !property.SetMethod.ReturnParameter
-                        .GetRequiredCustomModifiers()
-                        .Contains(typeof(System.Runtime.CompilerServices.IsExternalInit)))
-                .Select(property => property.Name))
-            .ToHashSet(StringComparer.Ordinal);
-        var all = writable
+                .Select(argument => (argument.PropertyName, argument.CSharpType)))
+            .Concat(globalOptions.Select(option => (option.PropertyName, option.CSharpType)))
+            .ToDictionary(target => target.PropertyName, target => target.CSharpType, StringComparer.Ordinal);
+        var all = writable.Keys
             .Concat(command.Options.Select(option => option.PropertyName))
             .Concat(command.PositionalArguments.Select(argument => argument.PropertyName))
             .Concat(typeof(CommandLineToolOptions)
@@ -478,7 +471,7 @@ public static class ExternalToolDefinitionLoader
         CliCompatibilityProperty property,
         CliCommandDefinition command,
         IReadOnlySet<string> forwardingTargets,
-        IReadOnlySet<string> writableForwardingTargets)
+        IReadOnlyDictionary<string, string> writableForwardingTargets)
     {
         RequireIdentifier(
             property.PropertyName,
@@ -502,12 +495,23 @@ public static class ExternalToolDefinitionLoader
                 + $"'{property.ForwardToPropertyName}'.");
         }
 
-        if (!writableForwardingTargets.Contains(property.ForwardToPropertyName))
+        if (!writableForwardingTargets.TryGetValue(
+                property.ForwardToPropertyName,
+                out var forwardingTargetType))
         {
             throw new InvalidDataException(
                 $"Compatibility property '{property.PropertyName}' on command "
                 + $"'{command.FullCommand}' forwards to init-only property "
                 + $"'{property.ForwardToPropertyName}'.");
+        }
+
+        if (!SyntaxFactory.ParseTypeName(property.CSharpType)
+                .IsEquivalentTo(SyntaxFactory.ParseTypeName(forwardingTargetType)))
+        {
+            throw new InvalidDataException(
+                $"Compatibility property '{property.PropertyName}' on command "
+                + $"'{command.FullCommand}' cannot forward type '{property.CSharpType}' "
+                + $"to '{forwardingTargetType}' property '{property.ForwardToPropertyName}'.");
         }
     }
 

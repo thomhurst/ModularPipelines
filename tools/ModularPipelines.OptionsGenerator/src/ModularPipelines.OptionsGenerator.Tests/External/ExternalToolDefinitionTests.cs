@@ -1684,6 +1684,82 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Metadata_Rejects_Incompatible_Compatibility_Forwarding_Type()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            tool = tool with
+            {
+                Commands =
+                [
+                    command with
+                    {
+                        CompatibilityProperties =
+                        [
+                            new CliCompatibilityProperty
+                            {
+                                PropertyName = "LegacyEnvironment",
+                                CSharpType = "int?",
+                                ForwardToPropertyName = "Environment",
+                                ObsoleteMessage = "Use Environment.",
+                            },
+                        ],
+                    },
+                ],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Execute_Child_Collision()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            var parent = command with
+            {
+                FullCommand = "private-widget config",
+                CommandParts = ["config"],
+                ClassName = "PrivateWidgetConfigOptions",
+                SubDomainGroup = null,
+            };
+            var nested = command with
+            {
+                FullCommand = "private-widget config execute run",
+                CommandParts = ["config", "execute", "run"],
+                ClassName = "PrivateWidgetConfigExecuteRunOptions",
+                SubDomainGroup = "Config",
+            };
+            tool = tool with { Commands = [parent, nested] };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidOperationException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Metadata_Rejects_Undeclared_Parent_Options_Class()
     {
         var workspace = CreateTemporaryDirectory();
