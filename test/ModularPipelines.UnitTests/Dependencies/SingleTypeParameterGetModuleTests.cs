@@ -56,7 +56,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             // Use the new single-type-parameter API
             var result = await context.GetModule<StringModule>();
 
-            // Verify the result is properly typed (ModuleResult<string?>)
+            // Verify the result is properly typed (ModuleResult<string>)
             if (result.IsSuccess)
             {
                 return result.ValueOrDefault;
@@ -74,7 +74,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     {
         protected internal override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            // Type inference should work: result is ModuleResult<ComplexResult?>
+            // Type inference should work: result is ModuleResult<ComplexResult>
             var result = await context.GetModule<ComplexResultModule>();
 
             if (result.IsSuccess && result.ValueOrDefault is not null)

@@ -277,6 +277,26 @@ public abstract record ModuleResult<T> : ModuleResult
     [JsonIgnore]
     public T? ValueOrDefault => this is Success s ? s.Value : default;
 
+    /// <summary>
+    /// Attempts to get the successful value.
+    /// </summary>
+    /// <param name="value">
+    /// When this method returns <c>true</c>, contains the successful value;
+    /// otherwise, contains the default value for <typeparamref name="T"/>.
+    /// </param>
+    /// <returns><c>true</c> for a successful result; otherwise, <c>false</c>.</returns>
+    public bool TryGetValue([MaybeNullWhen(false)] out T value)
+    {
+        if (this is Success success)
+        {
+            value = success.Value;
+            return true;
+        }
+
+        value = default;
+        return false;
+    }
+
     /// <inheritdoc />
     protected override object? GetValueOrDefault() => ValueOrDefault;
 

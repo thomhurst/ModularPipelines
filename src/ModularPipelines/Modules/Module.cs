@@ -54,7 +54,7 @@ namespace ModularPipelines.Modules;
 /// </example>
 public abstract class Module<T> : IModule, ITaggedModule
 {
-    internal TaskCompletionSource<ModuleResult<T?>> CompletionSource { get; } = new();
+    internal TaskCompletionSource<ModuleResult<T>> CompletionSource { get; } = new();
 
     /// <inheritdoc />
     Task<IModuleResult> IModule.ResultTask => CompletionSource.Task.ContinueWith(
@@ -296,11 +296,11 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// <inheritdoc />
     bool IModule.TrySetDistributedResult(IModuleResult result)
     {
-        return CompletionSource.TrySetResult((ModuleResult<T?>) result);
+        return CompletionSource.TrySetResult((ModuleResult<T>) result);
     }
 
     /// <summary>
     /// Gets an awaiter for this module's result.
     /// </summary>
-    public TaskAwaiter<ModuleResult<T?>> GetAwaiter() => CompletionSource.Task.GetAwaiter();
+    public TaskAwaiter<ModuleResult<T>> GetAwaiter() => CompletionSource.Task.GetAwaiter();
 }
