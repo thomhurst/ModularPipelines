@@ -24,7 +24,7 @@ public record AzWebappConnectionCreatePostgresFlexibleOptions : AzOptions
     /// The app configuration id to store configuration.
     /// </summary>
     [CliFlag("--appconfig-id")]
-    public bool? AppconfigId { get; set; }
+    public bool? AppConfigId { get; set; }
 
     /// <summary>
     /// The client type used on the webapp.  Allowed values: django, dotnet, dotnet-internal, go, java, nodejs, none, php, python, ruby, springBoot.

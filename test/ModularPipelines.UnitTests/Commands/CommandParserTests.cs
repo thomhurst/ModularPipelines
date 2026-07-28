@@ -149,9 +149,9 @@ public class CommandParserTests : TestBase
     }
 
     [Test]
-    public async Task DotNet_Nuget_Delete_With_Two_Positional_Arguments()
+    public async Task DotNet_NuGet_Delete_With_Two_Positional_Arguments()
     {
-        var result = await GetResult(new DotNetNugetDeleteOptions
+        var result = await GetResult(new DotNetNuGetDeleteOptions
         {
             PackageName = "MyPackageName",
             Version = "1.0.0"
@@ -160,9 +160,9 @@ public class CommandParserTests : TestBase
     }
 
     [Test]
-    public async Task DotNet_Nuget_Delete_With_Source_Option()
+    public async Task DotNet_NuGet_Delete_With_Source_Option()
     {
-        var result = await GetResult(new DotNetNugetDeleteOptions
+        var result = await GetResult(new DotNetNuGetDeleteOptions
         {
             PackageName = "MyPackageName",
             Version = "1.0.0",
@@ -172,9 +172,9 @@ public class CommandParserTests : TestBase
     }
 
     [Test]
-    public async Task DotNet_Nuget_Delete_With_ApiKey_Option()
+    public async Task DotNet_NuGet_Delete_With_ApiKey_Option()
     {
-        var result = await GetResult(new DotNetNugetDeleteOptions
+        var result = await GetResult(new DotNetNuGetDeleteOptions
         {
             PackageName = "MyPackageName",
             Version = "1.0.0",

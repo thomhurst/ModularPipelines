@@ -24,7 +24,7 @@ public record AzContainerappConnectionUpdateConfluentCloudOptions : AzOptions
     /// The app configuration id to store configuration.
     /// </summary>
     [CliFlag("--appconfig-id")]
-    public bool? AppconfigId { get; set; }
+    public bool? AppConfigId { get; set; }
 
     /// <summary>
     /// Kafka bootstrap server url.

@@ -38,12 +38,12 @@ public class AzWebappConnectionCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Appconfig(
-        AzWebappConnectionCreateAppconfigOptions? options = null,
+    public virtual async Task<CommandResult> AppConfig(
+        AzWebappConnectionCreateAppConfigOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionCreateAppconfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionCreateAppConfigOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

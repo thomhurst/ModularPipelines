@@ -538,7 +538,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the resourcemanager sub-domain service.
     /// </summary>
-    GcloudResourcemanager Resourcemanager { get; }
+    GcloudResourceManager ResourceManager { get; }
 
     /// <summary>
     /// Gets the run sub-domain service.

@@ -55,7 +55,7 @@ public record DotNetPublishOptions : DotNetOptions
     /// Do not display the startup banner or the copyright message. [default: False]
     /// </summary>
     [CliFlag("--nologo")]
-    public bool? Nologo { get; set; }
+    public bool? NoLogo { get; set; }
 
     /// <summary>
     /// The target framework to publish for. The target framework has to be specified in the project file.

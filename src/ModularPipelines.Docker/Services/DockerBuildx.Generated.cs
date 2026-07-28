@@ -22,7 +22,7 @@ public class DockerBuildx
     private readonly ICommandContext _command;
     private DockerBuildxDap? _dap;
     private DockerBuildxHistory? _history;
-    private DockerBuildxImagetools? _imagetools;
+    private DockerBuildxImageTools? _imagetools;
     private DockerBuildxPolicy? _policy;
 
     /// <summary>
@@ -48,7 +48,7 @@ public class DockerBuildx
     /// <summary>
     /// docker imagetools sub-commands.
     /// </summary>
-    public DockerBuildxImagetools Imagetools => _imagetools ??= new DockerBuildxImagetools(_command);
+    public DockerBuildxImageTools ImageTools => _imagetools ??= new DockerBuildxImageTools(_command);
 
     /// <summary>
     /// docker policy sub-commands.

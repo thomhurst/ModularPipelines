@@ -32,7 +32,7 @@ internal partial class Az : IAz
         AzAks aks,
         AzAms ams,
         AzApim apim,
-        AzAppconfig appconfig,
+        AzAppConfig appconfig,
         AzAppservice appservice,
         AzAro aro,
         AzBackup backup,
@@ -53,7 +53,7 @@ internal partial class Az : IAz
         AzDeploymentscripts deploymentscripts,
         AzDisk disk,
         AzDiskaccess diskaccess,
-        AzDiskencryptionset diskencryptionset,
+        AzDiskEncryptionSet diskencryptionset,
         AzDms dms,
         AzEventgrid eventgrid,
         AzEventhubs eventhubs,
@@ -85,8 +85,8 @@ internal partial class Az : IAz
         AzRedis redis,
         AzRelay relay,
         AzResource resource,
-        AzResourcemanagement resourcemanagement,
-        AzRestorepoint restorepoint,
+        AzResourceManagement resourcemanagement,
+        AzRestorePoint restorepoint,
         AzRole role,
         AzSearch search,
         AzSecurity security,
@@ -116,7 +116,7 @@ internal partial class Az : IAz
         Aks = aks;
         Ams = ams;
         Apim = apim;
-        Appconfig = appconfig;
+        AppConfig = appconfig;
         Appservice = appservice;
         Aro = aro;
         Backup = backup;
@@ -137,7 +137,7 @@ internal partial class Az : IAz
         Deploymentscripts = deploymentscripts;
         Disk = disk;
         Diskaccess = diskaccess;
-        Diskencryptionset = diskencryptionset;
+        DiskEncryptionSet = diskencryptionset;
         Dms = dms;
         Eventgrid = eventgrid;
         Eventhubs = eventhubs;
@@ -169,8 +169,8 @@ internal partial class Az : IAz
         Redis = redis;
         Relay = relay;
         Resource = resource;
-        Resourcemanagement = resourcemanagement;
-        Restorepoint = restorepoint;
+        ResourceManagement = resourcemanagement;
+        RestorePoint = restorepoint;
         Role = role;
         Search = search;
         Security = security;
@@ -217,7 +217,7 @@ internal partial class Az : IAz
     public AzApim Apim { get; }
 
     /// <inheritdoc />
-    public AzAppconfig Appconfig { get; }
+    public AzAppConfig AppConfig { get; }
 
     /// <inheritdoc />
     public AzAppservice Appservice { get; }
@@ -280,7 +280,7 @@ internal partial class Az : IAz
     public AzDiskaccess Diskaccess { get; }
 
     /// <inheritdoc />
-    public AzDiskencryptionset Diskencryptionset { get; }
+    public AzDiskEncryptionSet DiskEncryptionSet { get; }
 
     /// <inheritdoc />
     public AzDms Dms { get; }
@@ -376,10 +376,10 @@ internal partial class Az : IAz
     public AzResource Resource { get; }
 
     /// <inheritdoc />
-    public AzResourcemanagement Resourcemanagement { get; }
+    public AzResourceManagement ResourceManagement { get; }
 
     /// <inheritdoc />
-    public AzRestorepoint Restorepoint { get; }
+    public AzRestorePoint RestorePoint { get; }
 
     /// <inheritdoc />
     public AzRole Role { get; }

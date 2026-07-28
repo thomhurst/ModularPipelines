@@ -142,7 +142,7 @@ public class UploadNugetPackagesModule : Module<FileInfo>
         var nugetFiles = await GetModule<FindNugetPackagesModule>();
 
         return await nugetFiles.Value!
-            .SelectAsync(async nugetFile => await context.DotNet().Nuget.Push(new DotNetNugetPushOptions
+            .SelectAsync(async nugetFile => await context.DotNet().NuGet.Push(new DotNetNuGetPushOptions
             {
                 Path = nugetFile,
                 Source = "https://api.nuget.org/v3/index.json",

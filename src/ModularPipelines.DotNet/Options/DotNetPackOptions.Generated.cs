@@ -61,7 +61,7 @@ public record DotNetPackOptions : DotNetOptions
     /// Do not display the startup banner or the copyright message. [default: False]
     /// </summary>
     [CliFlag("--nologo")]
-    public bool? Nologo { get; set; }
+    public bool? NoLogo { get; set; }
 
     /// <summary>
     /// Allows the command to stop and wait for user input or action (for example to
