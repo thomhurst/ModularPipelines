@@ -123,4 +123,11 @@ public record DotNetPublishOptions : DotNetOptions
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? ProjectSolution { get; set; }
 
+    [Obsolete("Use NoLogo instead.")]
+    public bool? Nologo
+    {
+        get => NoLogo;
+        set => NoLogo = value;
+    }
+
 }
