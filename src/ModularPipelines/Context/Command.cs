@@ -158,10 +158,11 @@ internal sealed class Command : ICommand, ICommandContext
                         forcefulCancellationToken: CancellationToken.None,
                         gracefulCancellationToken: linkedCancellationToken.Token);
                 using var descendantCaptureRegistration =
-                    linkedCancellationToken.Token.Register(processTreeTerminator.CaptureDescendants);
+                    linkedCancellationToken.Token.Register(processTreeTerminator.BeginGracefulShutdown);
                 var result = await executionTask.ConfigureAwait(false);
 
                 await WaitForForcefulCancellationAsync(
+                    processTreeTerminator,
                     linkedCancellationToken.Token,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
@@ -190,6 +191,7 @@ internal sealed class Command : ICommand, ICommandContext
             catch (CommandExecutionException e)
             {
                 await WaitForForcefulCancellationAsync(
+                    processTreeTerminator,
                     linkedCancellationToken.Token,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
@@ -212,6 +214,7 @@ internal sealed class Command : ICommand, ICommandContext
             catch (Exception e) when (e is not CommandExecutionException and not CommandException)
             {
                 await WaitForForcefulCancellationAsync(
+                    processTreeTerminator,
                     linkedCancellationToken.Token,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
@@ -235,6 +238,7 @@ internal sealed class Command : ICommand, ICommandContext
     }
 
     private static async Task WaitForForcefulCancellationAsync(
+        ProcessTreeTerminator processTreeTerminator,
         CancellationToken gracefulCancellationToken,
         CancellationToken forcefulCancellationToken)
     {
@@ -246,7 +250,10 @@ internal sealed class Command : ICommand, ICommandContext
 
         try
         {
-            await Task.Delay(Timeout.InfiniteTimeSpan, forcefulCancellationToken).ConfigureAwait(false);
+            while (processTreeTerminator.HasRunningProcesses())
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(10), forcefulCancellationToken).ConfigureAwait(false);
+            }
         }
         catch (OperationCanceledException) when (forcefulCancellationToken.IsCancellationRequested)
         {
@@ -256,10 +263,13 @@ internal sealed class Command : ICommand, ICommandContext
 
     private sealed class ProcessTreeTerminator : IDisposable
     {
+        private static readonly TimeSpan DescendantPollingInterval = TimeSpan.FromMilliseconds(10);
         private readonly Lock _lock = new();
         private readonly Dictionary<int, Process> _descendants = [];
         private Process? _process;
         private SafeFileHandle? _windowsJob;
+        private Timer? _descendantCaptureTimer;
+        private bool _disposed;
         private bool _killRequested;
 
         public void Attach(Process process)
@@ -280,28 +290,136 @@ internal sealed class Command : ICommand, ICommandContext
             TryKill(process, windowsJob);
         }
 
-        public void CaptureDescendants()
+        public void BeginGracefulShutdown()
         {
             if (OperatingSystem.IsWindows())
             {
                 return;
             }
 
+            CaptureDescendants();
+
+            lock (_lock)
+            {
+                if (_disposed || _killRequested)
+                {
+                    return;
+                }
+
+                _descendantCaptureTimer ??= new Timer(
+                    static state => ((ProcessTreeTerminator) state!).CaptureDescendants(),
+                    this,
+                    DescendantPollingInterval,
+                    DescendantPollingInterval);
+            }
+        }
+
+        public bool HasRunningProcesses()
+        {
             Process? process;
+            SafeFileHandle? windowsJob;
+            Process[] descendants;
 
             lock (_lock)
             {
                 process = _process;
+                windowsJob = _windowsJob;
+                descendants = [.. _descendants.Values];
             }
 
-            if (process is null)
+            if (OperatingSystem.IsWindows() &&
+                windowsJob is { IsInvalid: false, IsClosed: false })
             {
-                return;
+                return WindowsNativeMethods.HasActiveProcesses(windowsJob);
+            }
+
+            return (process is not null && IsRunning(process)) ||
+                   descendants.Any(IsRunning);
+        }
+
+        public void Kill()
+        {
+            Process? process;
+            SafeFileHandle? windowsJob;
+            Process[] descendants;
+            Timer? descendantCaptureTimer;
+
+            lock (_lock)
+            {
+                _killRequested = true;
+                process = _process;
+                windowsJob = _windowsJob;
+                descendants = [.. _descendants.Values];
+                descendantCaptureTimer = _descendantCaptureTimer;
+                _descendantCaptureTimer = null;
+            }
+
+            descendantCaptureTimer?.Dispose();
+
+            if (process is not null)
+            {
+                TryKill(process, windowsJob);
+            }
+
+            foreach (var descendant in descendants)
+            {
+                TryKill(descendant, null);
+            }
+        }
+
+        public void Dispose()
+        {
+            SafeFileHandle? windowsJob;
+            Process[] descendants;
+            Timer? descendantCaptureTimer;
+
+            lock (_lock)
+            {
+                _disposed = true;
+                windowsJob = _windowsJob;
+                descendants = [.. _descendants.Values];
+                descendantCaptureTimer = _descendantCaptureTimer;
+                _windowsJob = null;
+                _process = null;
+                _descendantCaptureTimer = null;
+                _descendants.Clear();
+            }
+
+            descendantCaptureTimer?.Dispose();
+            windowsJob?.Dispose();
+
+            foreach (var descendant in descendants)
+            {
+                descendant.Dispose();
+            }
+        }
+
+        private void CaptureDescendants()
+        {
+            int[] processIds;
+
+            lock (_lock)
+            {
+                if (_disposed)
+                {
+                    return;
+                }
+
+                try
+                {
+                    processIds = _process is null
+                        ? []
+                        : [_process.Id, .. _descendants.Keys];
+                }
+                catch (InvalidOperationException)
+                {
+                    processIds = [.. _descendants.Keys];
+                }
             }
 
             try
             {
-                foreach (var processId in GetDescendantProcessIds(process.Id))
+                foreach (var processId in processIds.SelectMany(GetDescendantProcessIds).Distinct())
                 {
                     Process? descendant = null;
 
@@ -313,7 +431,11 @@ internal sealed class Command : ICommand, ICommandContext
 
                         lock (_lock)
                         {
-                            if (_descendants.TryAdd(processId, descendant))
+                            if (_disposed)
+                            {
+                                descendant.Dispose();
+                            }
+                            else if (_descendants.TryAdd(processId, descendant))
                             {
                                 killDescendant = _killRequested;
                             }
@@ -342,54 +464,27 @@ internal sealed class Command : ICommand, ICommandContext
             }
             catch (InvalidOperationException)
             {
-                // The root process exited before its descendants could be captured.
+                // A process exited while its descendants were being captured.
+            }
+            catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+            {
+                // Timer and cancellation callbacks must never propagate process-discovery failures.
             }
         }
 
-        public void Kill()
+        private static bool IsRunning(Process process)
         {
-            Process? process;
-            SafeFileHandle? windowsJob;
-            Process[] descendants;
-
-            lock (_lock)
+            try
             {
-                _killRequested = true;
-                process = _process;
-                windowsJob = _windowsJob;
-                descendants = [.. _descendants.Values];
+                return !process.HasExited;
             }
-
-            if (process is not null)
+            catch (InvalidOperationException)
             {
-                TryKill(process, windowsJob);
+                return false;
             }
-
-            foreach (var descendant in descendants)
+            catch (Win32Exception)
             {
-                TryKill(descendant, null);
-            }
-        }
-
-        public void Dispose()
-        {
-            SafeFileHandle? windowsJob;
-            Process[] descendants;
-
-            lock (_lock)
-            {
-                windowsJob = _windowsJob;
-                descendants = [.. _descendants.Values];
-                _windowsJob = null;
-                _process = null;
-                _descendants.Clear();
-            }
-
-            windowsJob?.Dispose();
-
-            foreach (var descendant in descendants)
-            {
-                descendant.Dispose();
+                return false;
             }
         }
 
@@ -498,6 +593,23 @@ internal sealed class Command : ICommand, ICommandContext
 
         private static class WindowsNativeMethods
         {
+            private const int JobObjectBasicAccountingInformation = 1;
+
+            public static bool HasActiveProcesses(SafeFileHandle job)
+            {
+                if (!QueryInformationJobObject(
+                        job,
+                        JobObjectBasicAccountingInformation,
+                        out var information,
+                        (uint) Marshal.SizeOf<BasicAccountingInformation>(),
+                        out _))
+                {
+                    return true;
+                }
+
+                return information.ActiveProcesses > 0;
+            }
+
 #pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
             [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
             public static extern SafeFileHandle CreateJobObject(nint jobAttributes, string? name);
@@ -511,7 +623,29 @@ internal sealed class Command : ICommand, ICommandContext
             [DllImport("kernel32.dll", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool TerminateJobObject(SafeFileHandle job, uint exitCode);
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            private static extern bool QueryInformationJobObject(
+                SafeFileHandle job,
+                int informationClass,
+                out BasicAccountingInformation information,
+                uint informationLength,
+                out uint returnLength);
 #pragma warning restore SYSLIB1054
+
+            [StructLayout(LayoutKind.Sequential)]
+            private struct BasicAccountingInformation
+            {
+                public long TotalUserTime;
+                public long TotalKernelTime;
+                public long ThisPeriodTotalUserTime;
+                public long ThisPeriodTotalKernelTime;
+                public uint TotalPageFaultCount;
+                public uint TotalProcesses;
+                public uint ActiveProcesses;
+                public uint TotalTerminatedProcesses;
+            }
         }
 
         [SupportedOSPlatform("macos")]

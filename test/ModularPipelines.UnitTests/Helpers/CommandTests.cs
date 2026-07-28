@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
@@ -352,6 +353,122 @@ public class CommandTests : TestBase
             childProcess?.Dispose();
             File.Delete(pidFile);
             File.Delete(parentExitFile);
+        }
+    }
+
+    [Test]
+    public async Task ExecuteCommandLineTool_GracefulExit_DoesNotWaitForForcefulTimeout()
+    {
+        var parentExitFile = Path.Combine(
+            Path.GetTempPath(),
+            $"modular-pipelines-parent-exit-{Guid.NewGuid():N}");
+
+        try
+        {
+            var command = await GetService<ICommand>();
+            using var cancellationTokenSource = new CancellationTokenSource();
+            var script =
+                $"while (-not (Test-Path -LiteralPath '{EscapePowerShellLiteral(parentExitFile)}')) " +
+                "{ Start-Sleep -Milliseconds 10 }";
+
+            var executionTask = command.ExecuteCommandLineTool(
+                new GenericCommandLineToolOptions("pwsh")
+                {
+                    Arguments = ["-NoProfile", "-Command", script],
+                },
+                new CommandExecutionOptions
+                {
+                    GracefulShutdownTimeout = TimeSpan.FromSeconds(10),
+                },
+                cancellationTokenSource.Token);
+
+            await Task.Delay(100);
+            var stopwatch = Stopwatch.StartNew();
+            cancellationTokenSource.Cancel();
+            await File.WriteAllTextAsync(parentExitFile, string.Empty);
+
+            await Assert.ThrowsAsync<CommandException>(async () => await executionTask);
+            await Assert.That(stopwatch.Elapsed).IsLessThan(TimeSpan.FromSeconds(5));
+        }
+        finally
+        {
+            File.Delete(parentExitFile);
+        }
+    }
+
+    [Test]
+    public async Task ExecuteCommandLineTool_ForcefulCancellation_CapturesDescendantSpawnedDuringGrace()
+    {
+        var fileSuffix = Guid.NewGuid().ToString("N");
+        var triggerFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-trigger-{fileSuffix}");
+        var intermediatePidFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-intermediate-{fileSuffix}.pid");
+        var grandchildPidFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-grandchild-{fileSuffix}.pid");
+        Process? intermediateProcess = null;
+        Process? grandchildProcess = null;
+
+        try
+        {
+            var command = await GetService<ICommand>();
+            using var cancellationTokenSource = new CancellationTokenSource();
+            var intermediateScript = string.Join(
+                "; ",
+                $"while (-not (Test-Path -LiteralPath '{EscapePowerShellLiteral(triggerFile)}')) {{ Start-Sleep -Milliseconds 10 }}",
+                "$grandchild = Start-Process pwsh -ArgumentList '-NoProfile', '-Command', 'Start-Sleep -Seconds 60' -PassThru",
+                $"Set-Content -LiteralPath '{EscapePowerShellLiteral(grandchildPidFile)}' -Value $grandchild.Id",
+                "Start-Sleep -Milliseconds 500");
+            var encodedIntermediateScript =
+                Convert.ToBase64String(Encoding.Unicode.GetBytes(intermediateScript));
+            var parentScript = string.Join(
+                "; ",
+                $"$intermediate = Start-Process pwsh -ArgumentList '-NoProfile', '-EncodedCommand', '{encodedIntermediateScript}' -PassThru",
+                $"Set-Content -LiteralPath '{EscapePowerShellLiteral(intermediatePidFile)}' -Value $intermediate.Id",
+                "Wait-Process -Id $intermediate.Id");
+
+            var executionTask = command.ExecuteCommandLineTool(
+                new GenericCommandLineToolOptions("pwsh")
+                {
+                    Arguments = ["-NoProfile", "-Command", parentScript],
+                },
+                new CommandExecutionOptions
+                {
+                    GracefulShutdownTimeout = TimeSpan.FromSeconds(1),
+                },
+                cancellationTokenSource.Token);
+
+            using var intermediatePidFileTimeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            var intermediateProcessId = await WaitForProcessIdAsync(
+                intermediatePidFile,
+                intermediatePidFileTimeout.Token);
+            intermediateProcess = Process.GetProcessById(intermediateProcessId);
+            cancellationTokenSource.Cancel();
+            await File.WriteAllTextAsync(triggerFile, string.Empty);
+
+            using var grandchildPidFileTimeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            var grandchildProcessId = await WaitForProcessIdAsync(
+                grandchildPidFile,
+                grandchildPidFileTimeout.Token);
+            grandchildProcess = Process.GetProcessById(grandchildProcessId);
+            await Assert.ThrowsAsync<CommandException>(async () => await executionTask);
+
+            var grandchildExited = await WaitForExitAsync(grandchildProcess, TimeSpan.FromSeconds(2));
+            await Assert.That(grandchildExited).IsTrue();
+        }
+        finally
+        {
+            foreach (var process in new[] { intermediateProcess, grandchildProcess })
+            {
+                if (process is { HasExited: false })
+                {
+                    process.Kill(entireProcessTree: true);
+                    await process.WaitForExitAsync();
+                }
+
+                process?.Dispose();
+            }
+
+            File.Delete(triggerFile);
+            File.Delete(intermediatePidFile);
+            File.Delete(grandchildPidFile);
         }
     }
 
