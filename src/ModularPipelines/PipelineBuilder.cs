@@ -313,11 +313,6 @@ public sealed class PipelineBuilder
         {
             var assembly = Assembly.Load(new AssemblyName(modularPipelineAssembly));
             PluginVersionValidator.Validate(assembly, coreVersion);
-        }
-
-        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()
-                     .Where(static assembly => assembly.IsDefined(typeof(ModularPipelinesPluginAttribute))))
-        {
             RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
         }
     }

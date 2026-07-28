@@ -17,25 +17,36 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private const string ServiceCollectionFullName =
         "Microsoft.Extensions.DependencyInjection.IServiceCollection";
 
+    private static readonly DiagnosticDescriptor InvalidIntegrationMethod = new(
+        id: "MPGEN001",
+        title: "Invalid Modular Pipelines integration registrar",
+        messageFormat:
+            "Method '{0}' marked with [ModularPipelinesIntegration] must be an accessible, "
+            + "non-generic static method on an accessible, non-generic type; it must accept exactly "
+            + "one IServiceCollection parameter and return void or IServiceCollection",
+        category: "ModularPipelines.SourceGenerator",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        var registrations = context.SyntaxProvider.ForAttributeWithMetadataName(
+        var candidates = context.SyntaxProvider.ForAttributeWithMetadataName(
                 IntegrationAttributeFullName,
                 static (node, _) => node is MethodDeclarationSyntax,
-                static (generatorContext, _) => GetRegistration(generatorContext))
-            .Where(static registration => registration is not null)
-            .Select(static (registration, _) => registration!);
+                static (generatorContext, _) => GetCandidate(generatorContext));
 
         context.RegisterSourceOutput(
-            registrations.Collect(),
+            candidates.Collect(),
             static (sourceContext, items) => Generate(sourceContext, items));
     }
 
-    private static IntegrationRegistration? GetRegistration(
+    private static IntegrationCandidate GetCandidate(
         GeneratorAttributeSyntaxContext context)
     {
-        if (context.TargetSymbol is not IMethodSymbol method
-            || !method.IsStatic
+        var method = (IMethodSymbol) context.TargetSymbol;
+        var location = method.Locations.FirstOrDefault() ?? context.TargetNode.GetLocation();
+
+        if (!method.IsStatic
             || method.IsGenericMethod
             || method.Parameters.Length != 1
             || method.Parameters[0].Type.ToDisplayString() != ServiceCollectionFullName
@@ -47,12 +58,18 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 or Accessibility.ProtectedOrInternal)
             || !IsAccessibleFromGeneratedRegistrar(method.ContainingType))
         {
-            return null;
+            return new IntegrationCandidate(
+                Registration: null,
+                method.ToDisplayString(),
+                location);
         }
 
-        return new IntegrationRegistration(
-            method.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-            method.Name);
+        return new IntegrationCandidate(
+            new IntegrationRegistration(
+                method.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                method.Name),
+            method.ToDisplayString(),
+            location);
     }
 
     private static bool IsAccessibleFromGeneratedRegistrar(INamedTypeSymbol type)
@@ -74,9 +91,22 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
 
     private static void Generate(
         SourceProductionContext context,
-        ImmutableArray<IntegrationRegistration> registrations)
+        ImmutableArray<IntegrationCandidate> candidates)
     {
-        var uniqueRegistrations = registrations
+        foreach (var candidate in candidates)
+        {
+            if (candidate.Registration is null)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    InvalidIntegrationMethod,
+                    candidate.Location,
+                    candidate.MethodName));
+            }
+        }
+
+        var uniqueRegistrations = candidates
+            .Select(static candidate => candidate.Registration)
+            .OfType<IntegrationRegistration>()
             .Distinct()
             .OrderBy(static registration => registration.TypeName, StringComparer.Ordinal)
             .ThenBy(static registration => registration.MethodName, StringComparer.Ordinal)
@@ -114,6 +144,11 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
 
         context.AddSource("ModularPipelines.IntegrationRegistration.g.cs", builder.ToString());
     }
+
+    private sealed record IntegrationCandidate(
+        IntegrationRegistration? Registration,
+        string MethodName,
+        Location Location);
 
     private sealed record IntegrationRegistration(string TypeName, string MethodName);
 }
