@@ -24,7 +24,7 @@ public class DocumentationSnippetTests
     {
         var repositoryRoot = FindRepositoryRoot();
 
-        foreach (var relativePath in await GetTrackedMarkdownPathsAsync(repositoryRoot).ConfigureAwait(false))
+        foreach (var relativePath in await GetTrackedRegularMarkdownPathsAsync(repositoryRoot).ConfigureAwait(false))
         {
             if (IntentionalLegacyDocumentation.Contains(relativePath))
             {
@@ -83,7 +83,7 @@ public class DocumentationSnippetTests
         await Assert.That(contents).DoesNotContain("builder.Services.AddModule<");
     }
 
-    private static async Task<IReadOnlyList<string>> GetTrackedMarkdownPathsAsync(string repositoryRoot)
+    private static async Task<IReadOnlyList<string>> GetTrackedRegularMarkdownPathsAsync(string repositoryRoot)
     {
         var startInfo = new ProcessStartInfo("git")
         {
@@ -93,6 +93,7 @@ public class DocumentationSnippetTests
             UseShellExecute = false,
         };
         startInfo.ArgumentList.Add("ls-files");
+        startInfo.ArgumentList.Add("--format=%(objectmode) %(path)");
         startInfo.ArgumentList.Add("--");
         startInfo.ArgumentList.Add("*.md");
 
@@ -111,6 +112,8 @@ public class DocumentationSnippetTests
 
         return output
             .Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries)
+            .Where(line => !line.StartsWith("120000 ", StringComparison.Ordinal))
+            .Select(line => line[(line.IndexOf(' ') + 1)..])
             .ToArray();
     }
 }
