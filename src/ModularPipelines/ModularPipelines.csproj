@@ -129,24 +129,34 @@
     <PackageReference Include="YamlDotNet" />
   </ItemGroup>
   <ItemGroup>
-    <!-- Build analyzers (but don't apply them to this project - they're for consumers) -->
-    <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
-    <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.CodeFixes\ModularPipelines.Analyzers.CodeFixes.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <!-- Build package analyzers and capture their actual target paths for packing. -->
+    <ProjectReference Include="..\ModularPipelines.SourceGenerator\ModularPipelines.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" PackAsAnalyzer="true" />
+    <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" PackAsAnalyzer="true" />
+    <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.CodeFixes\ModularPipelines.Analyzers.CodeFixes.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" PackAsAnalyzer="true" />
   </ItemGroup>
   <ItemGroup>
     <None Include="buildTransitive\ModularPipelines.targets" Pack="true" PackagePath="buildTransitive\ModularPipelines.targets" />
   </ItemGroup>
   <!-- Include source generator and analyzers in NuGet package for consumers -->
   <PropertyGroup>
-    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddSourceGeneratorToPackage</TargetsForTfmSpecificContentInPackage>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddAnalyzerOutputsToPackage</TargetsForTfmSpecificContentInPackage>
   </PropertyGroup>
-  <Target Name="_AddSourceGeneratorToPackage">
+  <Target Name="_AddAnalyzerOutputsToPackage" DependsOnTargets="PrepareProjectReferences">
     <ItemGroup>
-      <!-- Source Generator -->
-      <TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)..\ModularPipelines.SourceGenerator\bin\$(Configuration)\netstandard2.0\ModularPipelines.SourceGenerator.dll" PackagePath="analyzers/dotnet/cs" />
-      <!-- Analyzers -->
-      <TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)..\ModularPipelines.Analyzers\ModularPipelines.Analyzers\bin\$(Configuration)\netstandard2.0\ModularPipelines.Analyzers.dll" PackagePath="analyzers/dotnet/cs" />
-      <TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.CodeFixes\bin\$(Configuration)\netstandard2.0\ModularPipelines.Analyzers.CodeFixes.dll" PackagePath="analyzers/dotnet/cs" />
+      <_PackAnalyzerProjectReference Include="@(_MSBuildProjectReferenceExistent)" Condition="'%(_MSBuildProjectReferenceExistent.PackAsAnalyzer)' == 'true'" />
+    </ItemGroup>
+    <MSBuild
+      Projects="@(_PackAnalyzerProjectReference)"
+      Targets="GetTargetPath"
+      BuildInParallel="$(BuildInParallel)"
+      Properties="%(_PackAnalyzerProjectReference.SetConfiguration); %(_PackAnalyzerProjectReference.SetPlatform); %(_PackAnalyzerProjectReference.SetTargetFramework)"
+      RemoveProperties="%(_PackAnalyzerProjectReference.GlobalPropertiesToRemove)$(_GlobalPropertiesToRemoveFromProjectReferences)">
+      <Output TaskParameter="TargetOutputs" ItemName="_PackAnalyzerOutput" />
+    </MSBuild>
+    <Error Condition="'@(_PackAnalyzerOutput)' == ''" Text="No source generator or analyzer project outputs were resolved for packaging." />
+    <Error Condition="!Exists('%(_PackAnalyzerOutput.Identity)')" Text="Package analyzer output '%(_PackAnalyzerOutput.Identity)' does not exist. Build the referenced project before packing." />
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="@(_PackAnalyzerOutput)" PackagePath="analyzers/dotnet/cs" />
     </ItemGroup>
   </Target>
 </Project>

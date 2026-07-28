@@ -14,9 +14,15 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
+  <PropertyGroup>
+    <!-- The dedicated analyzer job opts back in while other CI builds stay lean. -->
+    <EnableCiAnalyzers Condition="'$(EnableCiAnalyzers)' == ''">false</EnableCiAnalyzers>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' and '$(EnableCiAnalyzers)' != 'true'">
     <RunAnalyzers>false</RunAnalyzers>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
   </PropertyGroup>
@@ -31,14 +37,14 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
-    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" Condition="$(MSBuildProjectFile.Contains('Test')) == false and '$(GITHUB_ACTIONS)' != 'true'" />
+    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" Condition="$(MSBuildProjectFile.Contains('Test')) == false and ('$(GITHUB_ACTIONS)' != 'true' or '$(EnableCiAnalyzers)' == 'true')" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(MSBuildProjectName)' != 'ModularPipelines.Development.Analyzers'">
       <ProjectReference Include="$(MSBuildThisFileDirectory)src\ModularPipelines.Development.Analyzers\ModularPipelines.Development.Analyzers.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(MSBuildProjectName)' != 'ModularPipelines.SourceGenerator' and '$(MSBuildProjectName)' != 'ModularPipelines.Development.Analyzers' and '$(MSBuildProjectName)' != 'ModularPipelines.Build'">
+  <ItemGroup Condition="'$(MSBuildProjectName)' != 'ModularPipelines' and '$(MSBuildProjectName)' != 'ModularPipelines.SourceGenerator' and '$(MSBuildProjectName)' != 'ModularPipelines.Development.Analyzers' and '$(MSBuildProjectName)' != 'ModularPipelines.Build'">
       <ProjectReference Include="$(MSBuildThisFileDirectory)src\ModularPipelines.SourceGenerator\ModularPipelines.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
   </ItemGroup>
 </Project>

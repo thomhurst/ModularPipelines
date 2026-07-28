@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using System.Runtime.CompilerServices;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
@@ -54,6 +55,22 @@ namespace ModularPipelines.Modules;
 /// </example>
 public abstract class Module<T> : IModule, ITaggedModule
 {
+    private readonly Lazy<ModuleConfiguration> _configuration;
+    private readonly Lazy<FrozenSet<string>> _tags;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Module{T}"/> class.
+    /// </summary>
+    protected Module()
+    {
+        _tags = new Lazy<FrozenSet<string>>(
+            () => Tags.ToFrozenSet(StringComparer.OrdinalIgnoreCase),
+            LazyThreadSafetyMode.ExecutionAndPublication);
+        _configuration = new Lazy<ModuleConfiguration>(
+            CreateConfiguration,
+            LazyThreadSafetyMode.ExecutionAndPublication);
+    }
+
     internal TaskCompletionSource<ModuleResult<T>> CompletionSource { get; } = new();
 
     /// <inheritdoc />
@@ -69,8 +86,8 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// <returns>The module configuration.</returns>
     /// <remarks>
     /// <para>
-    /// This method is called once when the <see cref="IModule.Configuration"/> property is first accessed.
-    /// The result is cached for subsequent accesses.
+    /// This method is called once during module activation and cached for subsequent accesses.
+    /// Directly constructed modules initialize on first access.
     /// </para>
     /// <para>
     /// Use <see cref="ModuleConfiguration.Create"/> to build a custom configuration,
@@ -88,16 +105,11 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// </example>
     protected virtual ModuleConfiguration Configure() => ModuleConfiguration.Default;
 
-    // Cached configuration - evaluated once on first access
-    private ModuleConfiguration? _configuration;
+    /// <inheritdoc />
+    ModuleConfiguration IModule.Configuration => _configuration.Value;
 
     /// <inheritdoc />
-    ModuleConfiguration IModule.Configuration => _configuration ??= ModuleConfigurationAttributeAdapter.Apply(
-        GetType(),
-        Configure(),
-        Tags,
-        Category,
-        GetDeclaredDependencies());
+    IReadOnlySet<string> ITaggedModule.Tags => _tags.Value;
 
     /// <summary>
     /// Gets the tags for this module. Override to declare tags programmatically.
@@ -106,7 +118,7 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// Tags can also be declared via <see cref="ModuleTagAttribute"/>.
     /// Both sources are merged together.
     /// </remarks>
-    public virtual IReadOnlySet<string> Tags => new HashSet<string>();
+    public virtual IReadOnlySet<string> Tags => FrozenSet<string>.Empty;
 
     /// <summary>
     /// Gets the category for this module. Override to declare category programmatically.
@@ -303,4 +315,14 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// Gets an awaiter for this module's result.
     /// </summary>
     public TaskAwaiter<ModuleResult<T>> GetAwaiter() => CompletionSource.Task.GetAwaiter();
+
+    private ModuleConfiguration CreateConfiguration()
+    {
+        return ModuleConfigurationAttributeAdapter.Apply(
+            GetType(),
+            Configure(),
+            _tags.Value,
+            Category,
+            GetDeclaredDependencies());
+    }
 }
