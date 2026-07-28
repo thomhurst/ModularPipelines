@@ -103,8 +103,11 @@ public static class ExternalToolDefinitionLoader
             ValidateCommand(command, tool.ToolName, tool.NamespacePrefix);
         }
 
-        ValidateOptions(tool.GlobalOptions, "tool.globalOptions");
-        ValidateOptions(tool.SupplementalGlobalOptions, "tool.supplementalGlobalOptions");
+        ValidateOptions(tool.GlobalOptions, "tool.globalOptions", allowRequired: false);
+        ValidateOptions(
+            tool.SupplementalGlobalOptions,
+            "tool.supplementalGlobalOptions",
+            allowRequired: false);
         ValidateEquivalentEnumDefinitions(tool);
 
         var globalOptions = tool.GetGlobalOptions();
@@ -216,20 +219,27 @@ public static class ExternalToolDefinitionLoader
 
     private static void ValidateOptions(
         IReadOnlyList<CliOptionDefinition> options,
-        string propertyName)
+        string propertyName,
+        bool allowRequired = true)
     {
         foreach (var option in options)
         {
             ValidateOption(option, propertyName);
+            if (!allowRequired && option.IsRequired)
+            {
+                throw new InvalidDataException(
+                    $"{propertyName}[].isRequired is not supported for global options.");
+            }
         }
     }
 
     private static void ValidateOption(CliOptionDefinition option, string propertyName)
     {
-        RequireValue(option.SwitchName, $"{propertyName}[].switchName");
+        RequireSingleToken(option.SwitchName, $"{propertyName}[].switchName");
+
         if (option.ShortForm is not null)
         {
-            RequireValue(option.ShortForm, $"{propertyName}[].shortForm");
+            RequireSingleToken(option.ShortForm, $"{propertyName}[].shortForm");
         }
 
         RequireIdentifier(option.PropertyName, $"{propertyName}[].propertyName");
@@ -543,6 +553,15 @@ public static class ExternalToolDefinitionLoader
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new InvalidDataException($"{propertyName} is required.");
+        }
+    }
+
+    private static void RequireSingleToken(string value, string propertyName)
+    {
+        RequireValue(value, propertyName);
+        if (value.Any(char.IsWhiteSpace))
+        {
+            throw new InvalidDataException($"{propertyName} must contain one CLI token.");
         }
     }
 

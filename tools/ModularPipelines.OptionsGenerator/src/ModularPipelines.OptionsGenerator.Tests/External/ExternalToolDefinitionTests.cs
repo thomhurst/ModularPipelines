@@ -1709,6 +1709,65 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Metadata_Rejects_Whitespace_In_Primary_Switch_Name()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            var option = command.Options.Single() with { SwitchName = "--output file" };
+            tool = tool with
+            {
+                Commands = [command with { Options = [option] }],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Rejects_Required_Global_Options()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            tool = tool with
+            {
+                GlobalOptions =
+                [
+                    new CliOptionDefinition
+                    {
+                        SwitchName = "--required-global",
+                        PropertyName = "RequiredGlobal",
+                        CSharpType = "string",
+                        IsRequired = true,
+                    },
+                ],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Generation_Recovers_After_Output_Write_Failure()
     {
         var workspace = CreateTemporaryDirectory();
@@ -1753,6 +1812,71 @@ public class ExternalToolDefinitionTests
 
             await Assert.That(result.HasErrors).IsFalse();
             await Assert.That(File.Exists(coveragePath)).IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Generation_Recovers_Enum_Baselines_After_Interrupted_Output_Move()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var orchestrator = CreateOrchestrator();
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            var environment = new CliEnumDefinition
+            {
+                EnumName = "PrivateWidgetEnvironment",
+                Values =
+                [
+                    new CliEnumValue
+                    {
+                        MemberName = "Production",
+                        CliValue = "production",
+                    },
+                ],
+            };
+            tool = tool with
+            {
+                Commands = [command with { Enums = [environment] }],
+            };
+            await orchestrator.GenerateFromDefinitionAsync(tool, outputDirectory);
+
+            var movedTool = tool with { OutputDirectory = "moved" };
+            var movedCoveragePath = CommandCoverageGuard.GetManifestPath(
+                movedTool,
+                outputDirectory);
+            Directory.CreateDirectory(movedCoveragePath);
+
+            try
+            {
+                await orchestrator.GenerateFromDefinitionAsync(movedTool, outputDirectory);
+                throw new InvalidOperationException("Generation unexpectedly succeeded.");
+            }
+            catch (Exception exception)
+                when (exception is IOException or UnauthorizedAccessException)
+            {
+                // Expected: source files and the recovery journal were written first.
+            }
+
+            Directory.Delete(movedCoveragePath);
+            var result = await orchestrator.GenerateFromDefinitionAsync(
+                movedTool,
+                outputDirectory);
+
+            await Assert.That(result.HasErrors).IsFalse();
+            await Assert.That(File.Exists(Path.Combine(
+                    outputDirectory,
+                    "moved",
+                    "Enums",
+                    "PrivateWidgetEnvironment.Generated.cs")))
+                .IsTrue();
         }
         finally
         {

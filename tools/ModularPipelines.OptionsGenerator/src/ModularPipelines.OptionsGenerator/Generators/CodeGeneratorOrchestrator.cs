@@ -408,8 +408,12 @@ public class CodeGeneratorOrchestrator
             .Where(path => Path.GetFileName(path).EndsWith(
                 generatedSuffix,
                 StringComparison.Ordinal))
-            .ToDictionary(
+            .GroupBy(
                 path => Path.GetFileName(path)[..^generatedSuffix.Length],
+                StringComparer.Ordinal)
+            .ToDictionary(
+                group => group.Key,
+                group => group.FirstOrDefault(File.Exists) ?? group.First(),
                 StringComparer.Ordinal);
     }
 
