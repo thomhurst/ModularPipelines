@@ -1,4 +1,27 @@
 <Project>
+  <UsingTask
+    TaskName="_ModularPipelinesWriteTextFile"
+    TaskFactory="RoslynCodeTaskFactory"
+    AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <FilePath ParameterType="System.String" Required="true" />
+      <Content ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System" />
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.Text" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
+var encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+if (!File.Exists(FilePath)
+    || !string.Equals(File.ReadAllText(FilePath, encoding), Content, StringComparison.Ordinal))
+{
+    File.WriteAllText(FilePath, Content, encoding);
+}
+      ]]></Code>
+    </Task>
+  </UsingTask>
+
   <PropertyGroup>
     <_ModularPipelinesPipelineProjectSpecified Condition="'$(ModularPipelinesPipelineProject.Length)' == '0'">false</_ModularPipelinesPipelineProjectSpecified>
     <_ModularPipelinesPipelineProjectSpecified Condition="'$(ModularPipelinesPipelineProject.Length)' != '0'">true</_ModularPipelinesPipelineProjectSpecified>
@@ -153,7 +176,6 @@ steps:
       <_ModularPipelinesOutputContent Condition="'$(ModularPipelinesBuildSystem)' == 'GitHubActions'">$(_ModularPipelinesGitHubWorkflow)</_ModularPipelinesOutputContent>
       <_ModularPipelinesOutputContent Condition="'$(ModularPipelinesBuildSystem)' == 'GitLab'">$(_ModularPipelinesGitLabPipeline)</_ModularPipelinesOutputContent>
       <_ModularPipelinesOutputContent Condition="'$(ModularPipelinesBuildSystem)' == 'AzurePipelines'">$(_ModularPipelinesAzurePipeline)</_ModularPipelinesOutputContent>
-      <_ModularPipelinesEscapedOutputContent>$([MSBuild]::Escape($(_ModularPipelinesOutputContent)))</_ModularPipelinesEscapedOutputContent>
     </PropertyGroup>
 
     <ItemGroup>
@@ -185,12 +207,9 @@ steps:
       Directories="$(_ModularPipelinesOutputDirectory)"
       Condition="'$(_ModularPipelinesOutputFileExists)' == '0'" />
 
-    <WriteLinesToFile
-      File="$(_ModularPipelinesOutputFile)"
-      Lines="$(_ModularPipelinesEscapedOutputContent)"
-      Overwrite="true"
-      WriteOnlyWhenDifferent="true"
-      Encoding="UTF-8"
+    <_ModularPipelinesWriteTextFile
+      FilePath="$(_ModularPipelinesOutputFile)"
+      Content="$(_ModularPipelinesOutputContent)"
       Condition="'$(_ModularPipelinesOutputFileExists)' == '0' or '$(ModularPipelinesOverwriteBuildServerFiles)' == 'true'" />
 
     <Message
