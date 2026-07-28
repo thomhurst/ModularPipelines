@@ -72,10 +72,26 @@ public class FormatMarkdownModule : Module<CommandResult>
             }, cancellationToken);
         }
 
-        if (await GitHelpers.HasUncommittedChanges(context, filesToFormat))
+        var changes = await GitHelpers.GetUncommittedChanges(context, filesToFormat, cancellationToken)
+            .ConfigureAwait(false);
+        if (changes is not null)
         {
+            var changedFiles = string.Join(
+                Environment.NewLine,
+                changes.ChangedFiles.Select(file => $"- {file}"));
+
             throw new InvalidOperationException(
-                "Markdown files are not formatted. Run FormatMarkdownModule locally and commit the changes.");
+                $"""
+                 Markdown files are not formatted.
+
+                 Offending files:
+                 {changedFiles}
+
+                 Diff summary:
+                 {changes.DiffStat}
+
+                 Run FormatMarkdownModule locally and commit the changes.
+                 """);
         }
 
         return null;

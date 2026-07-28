@@ -3,7 +3,6 @@ using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Build;
 
@@ -43,20 +42,35 @@ public static class GitHelpers
         }, cancellationToken: cancellationToken);
     }
 
-    public static async Task<bool> HasUncommittedChanges(IModuleContext context, IEnumerable<string> paths)
+    internal static async Task<GitDiffDetails?> GetUncommittedChanges(
+        IModuleContext context,
+        IEnumerable<string> paths,
+        CancellationToken cancellationToken)
     {
-        var result = await context.Git().Commands.Diff(
+        var pathArguments = paths.ToArray();
+        var changedFilesResult = await context.Git().Commands.Diff(
             new GitDiffOptions
             {
-                Quiet = true,
-                Arguments = ["--", .. paths],
+                NameOnly = true,
+                Arguments = ["-z", "--", .. pathArguments],
             },
-            new CommandExecutionOptions
-            {
-                ThrowOnNonZeroExitCode = false,
-            });
+            cancellationToken: cancellationToken).ConfigureAwait(false);
+        var changedFiles = changedFilesResult.StandardOutput
+            .Split('\0', StringSplitOptions.RemoveEmptyEntries);
+        if (changedFiles.Length == 0)
+        {
+            return null;
+        }
 
-        return result.ExitCode != 0;
+        var diffStatResult = await context.Git().Commands.Diff(
+            new GitDiffOptions
+            {
+                Stat = true,
+                Arguments = ["--", .. pathArguments],
+            },
+            cancellationToken: cancellationToken).ConfigureAwait(false);
+
+        return new GitDiffDetails(changedFiles, diffStatResult.StandardOutput.TrimEnd());
     }
 
     private static GitHubSettings GetGitHubSettings(IModuleContext context)
@@ -65,3 +79,5 @@ public static class GitHelpers
         return options?.Value ?? new GitHubSettings();
     }
 }
+
+internal sealed record GitDiffDetails(IReadOnlyList<string> ChangedFiles, string DiffStat);
