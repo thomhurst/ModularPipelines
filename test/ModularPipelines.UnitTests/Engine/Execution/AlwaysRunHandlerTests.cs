@@ -6,6 +6,7 @@ using ModularPipelines.Engine.Execution;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Engine.Execution;
@@ -87,11 +88,21 @@ public class AlwaysRunHandlerTests
     public async Task WaitForAlwaysRunModulesAsync_RetriesDeferredPendingModule()
     {
         var module = new FirstAlwaysRunModule();
+        var blocker = new BlockingModule();
         var moduleState = new ModuleState(module, module.GetType());
-        var scheduler = CreateScheduler(moduleState);
+        var blockerState = new ModuleState(blocker, blocker.GetType())
+        {
+            State = ModuleExecutionState.Executing,
+        };
+        var scheduler = CreateScheduler(moduleState, blockerState);
         var moduleRunner = new Mock<IModuleRunner>();
+        var blockerWaitObserved = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var attempts = 0;
 
+        scheduler
+            .Setup(x => x.GetModuleCompletionTask(blocker.GetType()))
+            .Callback(() => blockerWaitObserved.TrySetResult())
+            .Returns(blockerState.CompletionSource.Task);
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
                 moduleState,
@@ -110,13 +121,102 @@ public class AlwaysRunHandlerTests
 
         var handler = CreateHandler(moduleRunner.Object);
 
-        await handler.WaitForAlwaysRunModulesAsync(scheduler.Object, [module]);
+        var handlerTask = handler.WaitForAlwaysRunModulesAsync(scheduler.Object, [module, blocker]);
+        await blockerWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        var attemptsBeforeProgress = attempts;
+
+        blockerState.State = ModuleExecutionState.Completed;
+        blockerState.CompletionSource.TrySetResult(blocker);
+        await handlerTask;
 
         using (Assert.Multiple())
         {
+            await Assert.That(attemptsBeforeProgress).IsEqualTo(1);
             await Assert.That(attempts).IsEqualTo(2);
             await Assert.That(moduleState.State).IsEqualTo(ModuleExecutionState.Completed);
         }
+    }
+
+    [Test]
+    public async Task WaitForAlwaysRunModulesAsync_PreservesAlwaysRunDependencyOrder()
+    {
+        var prerequisite = new FirstAlwaysRunModule();
+        var dependent = new SecondAlwaysRunModule();
+        var prerequisiteState = new ModuleState(prerequisite, prerequisite.GetType());
+        var dependentState = new ModuleState(dependent, dependent.GetType());
+        dependentState.Dependencies[prerequisite.GetType()] = false;
+        var scheduler = CreateScheduler(prerequisiteState, dependentState);
+        var moduleRunner = new Mock<IModuleRunner>();
+        var prerequisiteStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releasePrerequisite = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var dependentStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        moduleRunner
+            .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
+                prerequisiteState,
+                scheduler.Object,
+                CancellationToken.None))
+            .Returns(async () =>
+            {
+                prerequisiteStarted.TrySetResult();
+                await releasePrerequisite.Task;
+                prerequisiteState.State = ModuleExecutionState.Completed;
+                prerequisiteState.CompletionSource.TrySetResult(prerequisite);
+            });
+        moduleRunner
+            .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
+                dependentState,
+                scheduler.Object,
+                CancellationToken.None))
+            .Returns(() =>
+            {
+                dependentStarted.TrySetResult();
+                dependentState.State = ModuleExecutionState.Completed;
+                dependentState.CompletionSource.TrySetResult(dependent);
+                return Task.CompletedTask;
+            });
+
+        var handler = CreateHandler(moduleRunner.Object);
+        var handlerTask = handler.WaitForAlwaysRunModulesAsync(
+            scheduler.Object,
+            [prerequisite, dependent]);
+
+        await prerequisiteStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        var dependentStartedBeforePrerequisiteCompleted = await Task.WhenAny(
+            dependentStarted.Task,
+            Task.Delay(TimeSpan.FromMilliseconds(200))) == dependentStarted.Task;
+        releasePrerequisite.TrySetResult();
+        await handlerTask;
+
+        await Assert.That(dependentStartedBeforePrerequisiteCompleted).IsFalse();
+    }
+
+    [Test]
+    public async Task WaitForAlwaysRunModulesAsync_TimesOutWhenSchedulerCannotMakeProgress()
+    {
+        var module = new FirstAlwaysRunModule();
+        var blocker = new BlockingModule();
+        var moduleState = new ModuleState(module, module.GetType());
+        var blockerState = new ModuleState(blocker, blocker.GetType())
+        {
+            State = ModuleExecutionState.Executing,
+        };
+        var scheduler = CreateScheduler(moduleState, blockerState);
+        var moduleRunner = new Mock<IModuleRunner>();
+
+        moduleRunner
+            .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
+                moduleState,
+                scheduler.Object,
+                CancellationToken.None))
+            .Returns(Task.CompletedTask);
+
+        var handler = CreateHandler(moduleRunner.Object, TimeSpan.FromMilliseconds(50));
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(() =>
+            handler.WaitForAlwaysRunModulesAsync(scheduler.Object, [module, blocker]));
+
+        await Assert.That(exception!.InnerExceptions).Contains(x => x is TimeoutException);
     }
 
     private static Mock<IModuleScheduler> CreateScheduler(params ModuleState[] moduleStates)
@@ -134,7 +234,9 @@ public class AlwaysRunHandlerTests
         return scheduler;
     }
 
-    private static AlwaysRunHandler CreateHandler(IModuleRunner moduleRunner)
+    private static AlwaysRunHandler CreateHandler(
+        IModuleRunner moduleRunner,
+        TimeSpan? schedulerProgressTimeout = null)
     {
         var parallelLimitProvider = new Mock<IParallelLimitProvider>();
         parallelLimitProvider
@@ -144,6 +246,10 @@ public class AlwaysRunHandlerTests
         return new AlwaysRunHandler(
             moduleRunner,
             parallelLimitProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+            {
+                DefaultModuleTimeout = schedulerProgressTimeout ?? TimeSpan.FromSeconds(2),
+            }),
             NullLogger<AlwaysRunHandler>.Instance);
     }
 
@@ -169,4 +275,14 @@ public class AlwaysRunHandlerTests
     private sealed class SecondAlwaysRunModule : AlwaysRunTestModule;
 
     private sealed class ThirdAlwaysRunModule : AlwaysRunTestModule;
+
+    private sealed class BlockingModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
+    }
 }

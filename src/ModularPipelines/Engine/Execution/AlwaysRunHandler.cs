@@ -1,9 +1,11 @@
 using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine.Execution;
 
@@ -13,10 +15,12 @@ namespace ModularPipelines.Engine.Execution;
 internal class AlwaysRunHandler(
     IModuleRunner moduleRunner,
     IParallelLimitProvider parallelLimitProvider,
+    IOptions<PipelineOptions> pipelineOptions,
     ILogger<AlwaysRunHandler> logger) : IAlwaysRunHandler
 {
     private readonly IModuleRunner _moduleRunner = moduleRunner;
     private readonly IParallelLimitProvider _parallelLimitProvider = parallelLimitProvider;
+    private readonly TimeSpan _schedulerProgressTimeout = pipelineOptions.Value.DefaultModuleTimeout;
     private readonly ILogger<AlwaysRunHandler> _logger = logger;
 
     /// <inheritdoc />
@@ -26,20 +30,100 @@ internal class AlwaysRunHandler(
         _logger.LogDebug("Found {Count} AlwaysRun modules", alwaysRunModules.Count);
 
         var exceptions = new ConcurrentQueue<Exception>();
-        var modulesToProcess = alwaysRunModules;
+        var remainingModules = alwaysRunModules;
 
-        while (modulesToProcess.Count > 0)
+        while (remainingModules.Count > 0)
         {
+            var modulesToProcess = GetDependencyReadyModules(scheduler, remainingModules);
+            if (modulesToProcess.Count == 0)
+            {
+                exceptions.Enqueue(new InvalidOperationException(
+                    "AlwaysRun modules could not make progress because their dependency graph has no ready modules."));
+                break;
+            }
+
             await ProcessAlwaysRunModulesAsync(scheduler, modulesToProcess, exceptions).ConfigureAwait(false);
 
-            // Constraint checks can defer a late start. Each pass waits for active modules,
-            // then retries only modules that remained pending.
-            modulesToProcess = [.. modulesToProcess.Where(module => scheduler.GetModuleState(module.GetType())?.State == ModuleExecutionState.Pending)];
+            var deferredModules = modulesToProcess
+                .Where(module => scheduler.GetModuleState(module.GetType())?.State == ModuleExecutionState.Pending)
+                .ToList();
+            var processedModules = modulesToProcess.Except(deferredModules).ToHashSet();
+            remainingModules.RemoveAll(processedModules.Contains);
+
+            if (deferredModules.Count > 0 &&
+                !await WaitForSchedulerProgressAsync(scheduler, modules, deferredModules, exceptions).ConfigureAwait(false))
+            {
+                break;
+            }
         }
 
         if (!exceptions.IsEmpty)
         {
             throw new AggregateException("One or more AlwaysRun modules failed", exceptions);
+        }
+    }
+
+    private static List<IModule> GetDependencyReadyModules(
+        IModuleScheduler scheduler,
+        IReadOnlyCollection<IModule> remainingModules)
+    {
+        var remainingModuleTypes = remainingModules.Select(module => module.GetType()).ToHashSet();
+
+        return
+        [
+            .. remainingModules.Where(module =>
+            {
+                var moduleState = scheduler.GetModuleState(module.GetType());
+                return moduleState == null ||
+                       moduleState.Dependencies.Keys.All(dependencyType => !remainingModuleTypes.Contains(dependencyType));
+            }),
+        ];
+    }
+
+    private async Task<bool> WaitForSchedulerProgressAsync(
+        IModuleScheduler scheduler,
+        IReadOnlyCollection<IModule> modules,
+        IReadOnlyCollection<IModule> deferredModules,
+        ConcurrentQueue<Exception> exceptions)
+    {
+        var deferredModuleTypes = deferredModules.Select(module => module.GetType()).ToHashSet();
+        var deferredModuleNames = string.Join(", ", deferredModuleTypes.Select(type => type.Name));
+        var activeModuleTasks = modules
+            .Select(module => scheduler.GetModuleState(module.GetType()))
+            .Where(state => state is { State: ModuleExecutionState.Executing } &&
+                            !deferredModuleTypes.Contains(state.ModuleType))
+            .Select(state => scheduler.GetModuleCompletionTask(state!.ModuleType))
+            .Where(task => task != null)
+            .Select(task => task!)
+            .ToList();
+
+        if (activeModuleTasks.Count == 0)
+        {
+            var exception = new InvalidOperationException(
+                $"AlwaysRun modules were deferred with no active module able to release their constraints: {deferredModuleNames}.");
+            _logger.LogWarning(exception, "AlwaysRun modules could not be retried");
+            exceptions.Enqueue(exception);
+            return false;
+        }
+
+        try
+        {
+            var schedulerProgress = Task.WhenAny(activeModuleTasks);
+            var completedTask = _schedulerProgressTimeout > TimeSpan.Zero
+                ? await schedulerProgress.WaitAsync(_schedulerProgressTimeout).ConfigureAwait(false)
+                : await schedulerProgress.ConfigureAwait(false);
+
+            _ = completedTask.Exception;
+            return true;
+        }
+        catch (TimeoutException timeoutException)
+        {
+            var exception = new TimeoutException(
+                $"Timed out waiting for scheduler progress before retrying AlwaysRun modules: {deferredModuleNames}.",
+                timeoutException);
+            _logger.LogWarning(exception, "AlwaysRun modules could not be retried");
+            exceptions.Enqueue(exception);
+            return false;
         }
     }
 
