@@ -12,6 +12,13 @@ public class DocumentationSnippetTests
         "docs/versioned_docs/version-3.x/migrating-to-v3.md",
     ];
 
+    private static readonly string[] CurrentApiXmlDocumentation =
+    [
+        "src/ModularPipelines/Options/SecretMaskingOptions.cs",
+        "src/ModularPipelines/Requirements/MacOSRequirement.cs",
+        "src/ModularPipelines/Requirements/WindowsAdminRequirement.cs",
+    ];
+
     [Test]
     public async Task Published_Getting_Started_Snippets_Use_Current_APIs()
     {
@@ -30,6 +37,19 @@ public class DocumentationSnippetTests
             await Assert.That(contents).DoesNotContain("PipelineHostBuilder.Create()");
             await Assert.That(contents).DoesNotContain("ExecuteAsync(IPipelineContext");
             await Assert.That(contents).DoesNotContain("await GetModule<");
+
+            if (!relativePath.StartsWith("docs/versioned_docs/version-3.x/", StringComparison.Ordinal))
+            {
+                await AssertDoesNotUseRetiredBuilderApisAsync(contents);
+            }
+        }
+
+        foreach (var relativePath in CurrentApiXmlDocumentation)
+        {
+            var contents = await File.ReadAllTextAsync(Path.Combine(repositoryRoot, relativePath))
+                .ConfigureAwait(false);
+
+            await AssertDoesNotUseRetiredBuilderApisAsync(contents);
         }
     }
 
@@ -55,6 +75,12 @@ public class DocumentationSnippetTests
 
         return directory?.FullName
                ?? throw new DirectoryNotFoundException("Could not find the repository root.");
+    }
+
+    private static async Task AssertDoesNotUseRetiredBuilderApisAsync(string contents)
+    {
+        await Assert.That(contents).DoesNotContain("builder.Build().RunAsync()");
+        await Assert.That(contents).DoesNotContain("builder.Services.AddModule<");
     }
 
     private static async Task<IReadOnlyList<string>> GetTrackedMarkdownPathsAsync(string repositoryRoot)
