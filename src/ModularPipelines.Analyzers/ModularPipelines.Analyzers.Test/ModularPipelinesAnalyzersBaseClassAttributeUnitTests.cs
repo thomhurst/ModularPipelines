@@ -37,7 +37,7 @@ public class Module2 : DependsOnModule1
 {{
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        var module1 = await {{|#0:context.GetModule<Module1>()|}};
+        var module1 = await context.GetModule<Module1>();
         return null;
     }}
 }}
@@ -63,7 +63,7 @@ public class Module2 : Module<IDictionary<string, object>>, IDependsOnModule1
 {{
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        var module1 = await {{|#0:context.GetModule<Module1>()|}};
+        var module1 = await context.GetModule<Module1>();
         return null;
     }}
 }}

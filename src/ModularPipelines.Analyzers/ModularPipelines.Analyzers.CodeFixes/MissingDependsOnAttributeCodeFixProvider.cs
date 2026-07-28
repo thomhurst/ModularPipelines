@@ -63,39 +63,67 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
 
         var documentRoot = (await document.GetSyntaxRootAsync(cancellationToken))!;
 
-        var name = context.Diagnostics.First().Properties["Name"]!;
+        var diagnostic = context.Diagnostics.First();
+        var name = diagnostic.Properties["Name"]!;
+        var isOptional = diagnostic.Properties.TryGetValue("Optional", out var optionalValue)
+                         && bool.TryParse(optionalValue, out var optional)
+                         && optional;
+        var endOfLine = documentRoot
+            .DescendantTrivia()
+            .FirstOrDefault(trivia => trivia.IsKind(SyntaxKind.EndOfLineTrivia))
+            .ToFullString();
+
+        if (string.IsNullOrEmpty(endOfLine))
+        {
+            endOfLine = Environment.NewLine;
+        }
 
         var attributes = typeDecl.AttributeLists.Add(
-            SyntaxFactory.AttributeList(SyntaxFactory.SingletonSeparatedList(CreateDependsOnAttribute(name, syntaxTree!)))
-                .WithTrailingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed)
-                .NormalizeWhitespace());
+            SyntaxFactory.AttributeList(SyntaxFactory.SingletonSeparatedList(CreateDependsOnAttribute(name, syntaxTree!, isOptional)))
+                .WithTrailingTrivia(SyntaxFactory.EndOfLine(endOfLine))
+                .NormalizeWhitespace(eol: endOfLine));
 
         return document.WithSyntaxRoot(
             documentRoot
-                .ReplaceNode(typeDecl, typeDecl.WithAttributeLists(attributes).WithTrailingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed))
+                .ReplaceNode(typeDecl, typeDecl.WithAttributeLists(attributes).WithTrailingTrivia(SyntaxFactory.EndOfLine(endOfLine)))
                 .AddUsings()
-                .NormalizeWhitespace()
+                .NormalizeWhitespace(eol: endOfLine)
         );
     }
 
-    private static AttributeSyntax CreateDependsOnAttribute(string name, SyntaxTree syntaxTree)
+    private static AttributeSyntax CreateDependsOnAttribute(string name, SyntaxTree syntaxTree, bool isOptional)
     {
         var cSharpParseOptions = (CSharpParseOptions) syntaxTree.Options;
+        AttributeSyntax attribute;
 
         if (cSharpParseOptions.LanguageVersion.MapSpecifiedToEffectiveVersion() >= (LanguageVersion) 1100)
         {
-            return SyntaxFactory.Attribute(SyntaxFactory.ParseName($"DependsOn<{name}>"));
+            attribute = SyntaxFactory.Attribute(SyntaxFactory.ParseName($"DependsOn<{name}>"));
         }
-
-        return SyntaxFactory.Attribute(SyntaxFactory.IdentifierName("DependsOn"))
-            .WithArgumentList(
-                SyntaxFactory.AttributeArgumentList(
-                    SyntaxFactory.SingletonSeparatedList(
-                        SyntaxFactory.AttributeArgument(
-                            SyntaxFactory.TypeOfExpression(SyntaxFactory.ParseTypeName(name))
+        else
+        {
+            attribute = SyntaxFactory.Attribute(SyntaxFactory.IdentifierName("DependsOn"))
+                .WithArgumentList(
+                    SyntaxFactory.AttributeArgumentList(
+                        SyntaxFactory.SingletonSeparatedList(
+                            SyntaxFactory.AttributeArgument(
+                                SyntaxFactory.TypeOfExpression(SyntaxFactory.ParseTypeName(name))
+                            )
                         )
                     )
-                )
-            );
+                );
+        }
+
+        if (!isOptional)
+        {
+            return attribute;
+        }
+
+        var optionalArgument = SyntaxFactory.AttributeArgument(
+                SyntaxFactory.LiteralExpression(SyntaxKind.TrueLiteralExpression))
+            .WithNameEquals(SyntaxFactory.NameEquals(SyntaxFactory.IdentifierName("Optional")));
+        var arguments = attribute.ArgumentList?.Arguments ?? default;
+
+        return attribute.WithArgumentList(SyntaxFactory.AttributeArgumentList(arguments.Add(optionalArgument)));
     }
 }
