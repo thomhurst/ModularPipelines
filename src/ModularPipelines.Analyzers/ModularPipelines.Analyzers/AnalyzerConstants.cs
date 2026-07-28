@@ -20,11 +20,6 @@ internal static class AnalyzerConstants
         internal const string Module = "Module";
 
         /// <summary>
-        /// The ModuleBase type name.
-        /// </summary>
-        internal const string ModuleBase = "ModuleBase";
-
-        /// <summary>
         /// The DependsOn attribute type name.
         /// </summary>
         internal const string DependsOn = "DependsOn";
@@ -71,9 +66,9 @@ internal static class AnalyzerConstants
         internal const string FromResult = "FromResult";
 
         /// <summary>
-        /// The OnAfterExecute method name from Module.
+        /// The OnAfterExecuteAsync method name from Module.
         /// </summary>
-        internal const string OnAfterExecute = "OnAfterExecute";
+        internal const string OnAfterExecuteAsync = "OnAfterExecuteAsync";
     }
 
     /// <summary>
@@ -113,6 +108,11 @@ internal static class AnalyzerConstants
     /// </summary>
     internal static class FullyQualifiedTypeNames
     {
+        /// <summary>
+        /// The metadata name for the generic Module&lt;T&gt; base type.
+        /// </summary>
+        internal const string Module = "ModularPipelines.Modules.Module`1";
+
         /// <summary>
         /// The fully qualified System.Console type in global:: format.
         /// </summary>

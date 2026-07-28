@@ -12,7 +12,7 @@ public class ModularPipelinesAnalyzersStatefulModuleUnitTests
 
 public class Module1 : Module<string>
 {{
-    private string {{|#0:_state|}};
+    private string {{|#0:_state|}} = string.Empty;
 
     protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
@@ -30,7 +30,7 @@ public class Module1 : Module<int>
 {{
     private List<string> {{|#0:_items|}} = new();
 
-    protected override async Task<int?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         _items.Add(""item"");
@@ -46,7 +46,7 @@ public class Module1 : Module<int>
 {{
     private Dictionary<string, int> {{|#0:_cache|}} = new();
 
-    protected override async Task<int?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         _cache[""key""] = 42;
@@ -62,7 +62,7 @@ public class Module1 : Module<int>
 {{
     private int {{|#0:_counter|}};
 
-    protected override async Task<int?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         _counter++;
@@ -83,7 +83,7 @@ public class Module1 : Module<int>
 {{
     private MyCache {{|#0:_cache|}} = new();
 
-    protected override async Task<int?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         _cache.Items[""key""] = ""value"";
@@ -180,7 +180,7 @@ namespace ModularPipelines.Examples.Other;
 
 public class NotAModule
 {
-    private string _state;
+    private string _state = string.Empty;
 
     public void DoSomething()
     {
@@ -192,7 +192,7 @@ public class NotAModule
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableField()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0);
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0).WithArguments("_state", "Module1");
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableField, expected);
     }
@@ -200,7 +200,7 @@ public class NotAModule
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableCollection()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0);
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0).WithArguments("_items", "Module1");
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableCollection, expected);
     }
@@ -208,7 +208,7 @@ public class NotAModule
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableDictionary()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0);
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0).WithArguments("_cache", "Module1");
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableDictionary, expected);
     }
@@ -216,7 +216,7 @@ public class NotAModule
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableCounter()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0);
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0).WithArguments("_counter", "Module1");
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableCounter, expected);
     }
@@ -224,7 +224,7 @@ public class NotAModule
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableCustomClass()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0);
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0).WithArguments("_cache", "Module1");
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableCustomClass, expected);
     }

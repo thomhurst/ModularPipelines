@@ -27,7 +27,7 @@ public static partial class CSharpAnalyzerVerifier<TAnalyzer>
         var test = new Test
         {
             TestCode = source,
-            ReferenceAssemblies = Net.Net80,
+            ReferenceAssemblies = Net.Net100,
             TestState =
             {
                 AdditionalReferences = { typeof(IModuleContext).Assembly.Location },

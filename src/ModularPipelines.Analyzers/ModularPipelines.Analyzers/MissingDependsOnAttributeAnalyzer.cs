@@ -39,7 +39,14 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (invocationExpressionSyntax.Expression is not GenericNameSyntax genericNameSyntax)
+        var genericNameSyntax = invocationExpressionSyntax.Expression switch
+        {
+            GenericNameSyntax directGenericName => directGenericName,
+            MemberAccessExpressionSyntax { Name: GenericNameSyntax memberGenericName } => memberGenericName,
+            _ => null,
+        };
+
+        if (genericNameSyntax is null)
         {
             return;
         }

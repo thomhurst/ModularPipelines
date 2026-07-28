@@ -20,7 +20,7 @@ public class ModularPipelinesAnalyzersInvalidDependsOnTypeUnitTests
 
 public class NotAModule {{ }}
 
-[{{|#0:DependsOn<NotAModule>|}}]
+[{{|#0:DependsOn(typeof(NotAModule))|}}]
 public class Module1 : Module<List<string>>
 {SimpleModuleBody}
 ";
