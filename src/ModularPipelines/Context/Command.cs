@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 using CliWrap;
@@ -116,6 +117,9 @@ internal sealed class Command : ICommand, ICommandContext
             : CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
         using var forcefulCancellationToken = new CancellationTokenSource();
+        var processTreeTerminator = new ProcessTreeTerminator();
+        using var processTreeCancellationRegistration =
+            forcefulCancellationToken.Token.Register(processTreeTerminator.Kill);
 
         var registration = linkedCancellationToken.Token.Register(() =>
         {
@@ -139,7 +143,18 @@ internal sealed class Command : ICommand, ICommandContext
                     .WithStandardOutputPipe(PipeTarget.ToStringBuilder(standardOutputStringBuilder))
                     .WithStandardErrorPipe(PipeTarget.ToStringBuilder(standardErrorStringBuilder))
                     .WithValidation(CommandResultValidation.None)
-                    .ExecuteAsync(forcefulCancellationToken.Token, linkedCancellationToken.Token).ConfigureAwait(false);
+                    .ExecuteAsync(
+                        configureStartInfo: startInfo =>
+                        {
+                            if (OperatingSystem.IsWindows())
+                            {
+                                startInfo.CreateNewProcessGroup = true;
+                            }
+                        },
+                        configureProcess: processTreeTerminator.Attach,
+                        forcefulCancellationToken: CancellationToken.None,
+                        gracefulCancellationToken: linkedCancellationToken.Token)
+                    .ConfigureAwait(false);
 
                 standardOutput = standardOutputStringBuilder.ToString();
                 standardError = standardErrorStringBuilder.ToString();
@@ -198,6 +213,64 @@ internal sealed class Command : ICommand, ICommandContext
                 );
 
                 throw new CommandException(inputToLog, -1, stopwatch.Elapsed, standardOutput, standardError, e);
+            }
+        }
+    }
+
+    private sealed class ProcessTreeTerminator
+    {
+        private readonly Lock _lock = new();
+        private Process? _process;
+        private bool _killRequested;
+
+        public void Attach(Process process)
+        {
+            lock (_lock)
+            {
+                _process = process;
+
+                if (!_killRequested)
+                {
+                    return;
+                }
+            }
+
+            TryKill(process);
+        }
+
+        public void Kill()
+        {
+            Process? process;
+
+            lock (_lock)
+            {
+                _killRequested = true;
+                process = _process;
+            }
+
+            if (process is not null)
+            {
+                TryKill(process);
+            }
+        }
+
+        private static void TryKill(Process process)
+        {
+            try
+            {
+                process.Kill(entireProcessTree: true);
+            }
+            catch (InvalidOperationException)
+            {
+                // The process already exited.
+            }
+            catch (Win32Exception)
+            {
+                // The process already exited or could not be terminated.
+            }
+            catch (NotSupportedException)
+            {
+                // The process is remote.
             }
         }
     }
