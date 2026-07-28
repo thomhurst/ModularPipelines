@@ -96,12 +96,15 @@ public class RetryTests : TestBase
 
     private class FailedModuleWithTimeout : Module<bool>
     {
+        internal int ExecutionCount;
+
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
             .Build();
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
+            ExecutionCount++;
             await Task.Delay(TimeSpan.FromMilliseconds(ModuleDelayMs), cancellationToken);
 
             throw new Exception();
@@ -224,17 +227,14 @@ public class RetryTests : TestBase
             .AddModule<FailedModuleWithTimeout>()
             .BuildHostAsync();
 
-        var executionTask = host.ExecutePipelineAsync();
-        var completedPromptly = await Task.WhenAny(
-            executionTask,
-            Task.Delay(TimeSpan.FromMilliseconds(500))) == executionTask;
-        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await executionTask);
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await host.ExecutePipelineAsync());
 
+        var module = host.RootServices.GetServices<IModule>().OfType<FailedModuleWithTimeout>().Single();
         var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
         using (Assert.Multiple())
         {
-            await Assert.That(completedPromptly).IsTrue();
+            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
             await Assert.That(timeoutException!.WasCancellationTokenRespected).IsFalse();
         }
     }
