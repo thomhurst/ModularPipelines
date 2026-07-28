@@ -12,9 +12,12 @@ public abstract class BuildSolutionOnPlatformModule : Module<CommandResult>
 {
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
+        var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+
         return await context.DotNet().Build(new DotNetBuildOptions
         {
-            ProjectSolution = Path.Combine(context.Git().RootDirectory.Path, "ModularPipelines.All.sln"),
+            ProjectSolution = Path.Combine(repositoryInfo.Root.Path, "ModularPipelines.All.sln"),
             Configuration = "Release",
             NoRestore = true,
         }, cancellationToken: cancellationToken);

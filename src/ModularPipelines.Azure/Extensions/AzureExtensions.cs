@@ -1,8 +1,8 @@
-using System.Runtime.CompilerServices;
 using Azure.Core;
 using Azure.ResourceManager;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Provisioning;
 using ModularPipelines.Azure.Provisioning.Compute;
 using ModularPipelines.Azure.Provisioning.Containers;
@@ -14,7 +14,6 @@ using ModularPipelines.Azure.Provisioning.Security;
 using ModularPipelines.Azure.Provisioning.Storage;
 using ModularPipelines.Azure.Services;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 
 namespace ModularPipelines.Azure.Extensions;
 
@@ -26,19 +25,12 @@ namespace ModularPipelines.Azure.Extensions;
 /// </remarks>
 public static class AzureExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterAzureContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterAzureContext(collection));
-    }
-
     /// <summary>
     /// Registers Azure services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection to register services with.</param>
     /// <returns>The service collection for method chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterAzureContext(this IServiceCollection services)
     {
         // Core Azure services

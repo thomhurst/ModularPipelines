@@ -36,11 +36,10 @@ public class DependencyRegistrationGenerator : ICodeGenerator
 
         // Usings
         sb.AppendLine("using System.CodeDom.Compiler;");
-        sb.AppendLine("using System.Runtime.CompilerServices;");
         sb.AppendLine("using Microsoft.Extensions.DependencyInjection;");
         sb.AppendLine("using Microsoft.Extensions.DependencyInjection.Extensions;");
+        sb.AppendLine("using ModularPipelines.Attributes;");
         sb.AppendLine("using ModularPipelines.Context;");
-        sb.AppendLine("using ModularPipelines.Engine;");
         sb.AppendLine($"using {tool.TargetNamespace}.Services;");
         sb.AppendLine();
 
@@ -60,22 +59,13 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         sb.AppendLine($"public static class {className}");
         sb.AppendLine("{");
 
-        // ModuleInitializer method
-        sb.AppendLine("#pragma warning disable CA2255");
-        sb.AppendLine("    [ModuleInitializer]");
-        sb.AppendLine("#pragma warning restore CA2255");
-        sb.AppendLine($"    public static void Register{serviceName}Context()");
-        sb.AppendLine("    {");
-        sb.AppendLine($"        ModularPipelinesContextRegistry.RegisterContext(collection => Register{serviceName}Context(collection));");
-        sb.AppendLine("    }");
-        sb.AppendLine();
-
         // IServiceCollection extension method
         sb.AppendLine("    /// <summary>");
         sb.AppendLine($"    /// Registers {tool.ToolName} services with the dependency injection container.");
         sb.AppendLine("    /// </summary>");
         sb.AppendLine("    /// <param name=\"services\">The service collection.</param>");
         sb.AppendLine("    /// <returns>The service collection for chaining.</returns>");
+        sb.AppendLine("    [ModularPipelinesIntegration]");
         sb.AppendLine($"    public static IServiceCollection Register{serviceName}Context(this IServiceCollection services)");
         sb.AppendLine("    {");
 

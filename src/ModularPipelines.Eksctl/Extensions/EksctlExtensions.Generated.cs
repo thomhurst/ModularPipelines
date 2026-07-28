@@ -4,11 +4,10 @@
 // </auto-generated>
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.Eksctl.Services;
 
 namespace ModularPipelines.Eksctl.Extensions;
@@ -19,19 +18,12 @@ namespace ModularPipelines.Eksctl.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class EksctlExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterEksctlContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterEksctlContext(collection));
-    }
-
     /// <summary>
     /// Registers eksctl services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterEksctlContext(this IServiceCollection services)
     {
         services.TryAddScoped<IEksctl, Services.Eksctl>();

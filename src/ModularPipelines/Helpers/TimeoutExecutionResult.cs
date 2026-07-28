@@ -29,12 +29,11 @@ internal readonly struct TimeoutExecutionResult<T>
     public bool TimedOut { get; }
 
     /// <summary>
-    /// Gets a value indicating whether the cancellation token was properly observed.
+    /// Gets a value indicating whether the operation completed within the cancellation grace period.
     /// </summary>
     /// <remarks>
-    /// When <c>true</c>, the operation responded to the cancellation token and exited gracefully.
-    /// When <c>false</c>, the operation ignored the cancellation token and had to be forcibly
-    /// abandoned by the timeout enforcement mechanism.
+    /// This is a timing-based signal: it cannot prove that the operation observed the cancellation token.
+    /// When <c>false</c>, the timeout enforcement mechanism stopped waiting after the grace period.
     /// </remarks>
     public bool WasCancellationTokenRespected { get; }
 

@@ -134,7 +134,7 @@ public class DynamicDependencyIntegrationTests : TestBase
         var dependentResult = await result.Modules
             .OfType<DynamicallySkippedDependent>()
             .Single();
-        await Assert.That(dependentResult.IsSkipped).IsTrue();
+        await Assert.That(dependentResult.SkipDecisionOrDefault).IsNotNull();
         await Assert.That(dependentResult.SkipDecisionOrDefault!.Reason)
             .Contains(nameof(DynamicallySkippedDependency));
     }

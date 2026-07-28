@@ -6,11 +6,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.Terraform.Services;
 
 namespace ModularPipelines.Terraform.Extensions;
@@ -21,19 +20,12 @@ namespace ModularPipelines.Terraform.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class TerraformExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterTerraformContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterTerraformContext(collection));
-    }
-
     /// <summary>
     /// Registers terraform services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterTerraformContext(this IServiceCollection services)
     {
         services.TryAddScoped<ITerraform, Services.Terraform>();

@@ -241,10 +241,26 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         // Get retry policy if applicable
         var retryPolicy = GetRetryPolicy<T>(config, moduleContext);
+        var moduleAttemptRespondedToCancellation = 0;
+
+        async Task<T?> ExecuteModuleAttempt(CancellationToken ct)
+        {
+            try
+            {
+                return await module.ExecuteAsync(moduleContext, ct).ConfigureAwait(false);
+            }
+            finally
+            {
+                if (ct.IsCancellationRequested)
+                {
+                    Volatile.Write(ref moduleAttemptRespondedToCancellation, 1);
+                }
+            }
+        }
 
         // Create the execution function that optionally includes retry
         Func<CancellationToken, Task<T?>> executeFunc = retryPolicy != null
-            ? ct => retryPolicy.ExecuteAsync(() => module.ExecuteAsync(moduleContext, ct))
+            ? ct => retryPolicy.ExecuteAsync(ExecuteModuleAttempt, ct)
             : ct => module.ExecuteAsync(moduleContext, ct);
 
         // Use TimeoutHelper with detailed results to get information about token cooperation
@@ -256,12 +272,16 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         if (timeoutResult.TimedOut)
         {
+            var wasCancellationTokenRespected = timeoutResult.WasCancellationTokenRespected
+                                                && (retryPolicy is null
+                                                    || Volatile.Read(ref moduleAttemptRespondedToCancellation) == 1);
+
             // Create a detailed timeout exception with information about token cooperation
             throw new ModuleTimeoutException(
                 executionContext.ModuleType,
                 timeout,
                 timeoutResult.ElapsedTime,
-                timeoutResult.WasCancellationTokenRespected);
+                wasCancellationTokenRespected);
         }
 
         return timeoutResult.Value;
@@ -333,7 +353,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             if (!timeoutException.WasCancellationTokenRespected)
             {
                 logger.LogWarning(
-                    "Module {ModuleName} did not respond to cancellation token and was forcibly terminated after {ElapsedTime}",
+                    "Module {ModuleName} did not complete within the cancellation grace period; timeout enforcement stopped waiting after {ElapsedTime}",
                     executionContext.ModuleType.Name,
                     timeoutException.ElapsedTime.ToDisplayString());
             }
@@ -451,4 +471,20 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         logger.Log(logLevel, message);
     }
+}
+
+/// <summary>
+/// Interface for the module execution pipeline.
+/// </summary>
+internal interface IModuleExecutionPipeline
+{
+    /// <summary>
+    /// Executes a module with all applicable behaviors.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    Task<ModuleResult<T>> ExecuteAsync<T>(
+        Module<T> module,
+        ModuleExecutionContext<T> executionContext,
+        IModuleContext moduleContext,
+        CancellationToken engineCancellationToken);
 }

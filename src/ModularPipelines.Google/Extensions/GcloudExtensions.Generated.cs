@@ -6,11 +6,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.Google.Services;
 
 namespace ModularPipelines.Google.Extensions;
@@ -21,19 +20,12 @@ namespace ModularPipelines.Google.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class GcloudExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterGcloudContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterGcloudContext(collection));
-    }
-
     /// <summary>
     /// Registers gcloud services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterGcloudContext(this IServiceCollection services)
     {
         services.TryAddScoped<IGcloud, Services.Gcloud>();

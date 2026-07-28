@@ -61,6 +61,9 @@ internal class GitVersioning : IGitVersioning
                 return _prefetchedGitVersionInformation;
             }
 
+            var repositoryInfo = await _gitInformation.GetInfoAsync().ConfigureAwait(false)
+                ?? throw new InvalidOperationException("Git repository information is unavailable.");
+
             await _command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("dotnet")
             {
                 Arguments =
@@ -73,7 +76,7 @@ internal class GitVersioning : IGitVersioning
                 ],
             }).ConfigureAwait(false);
 
-            await TryWriteConfigurationFile().ConfigureAwait(false);
+            await TryWriteConfigurationFile(repositoryInfo.Root).ConfigureAwait(false);
 
             var gitVersionOutput = await _command.ExecuteCommandLineTool(
                 new GenericCommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
@@ -85,7 +88,7 @@ internal class GitVersioning : IGitVersioning
                 },
                 new CommandExecutionOptions
                 {
-                    WorkingDirectory = _gitInformation.Root.Path,
+                    WorkingDirectory = repositoryInfo.Root.Path,
                 }).ConfigureAwait(false);
 
             return _prefetchedGitVersionInformation ??=
@@ -97,11 +100,11 @@ internal class GitVersioning : IGitVersioning
         }
     }
 
-    private async Task TryWriteConfigurationFile()
+    private async Task TryWriteConfigurationFile(Folder root)
     {
         try
         {
-            var file = new File(Path.Combine(_gitInformation.Root.Path, "GitVersion.yml"));
+            var file = new File(Path.Combine(root.Path, "GitVersion.yml"));
 
             if (!file.Exists)
             {

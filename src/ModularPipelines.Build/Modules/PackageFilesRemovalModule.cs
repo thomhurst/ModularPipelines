@@ -6,10 +6,11 @@ namespace ModularPipelines.Build.Modules;
 
 public class PackageFilesRemovalModule : Module<int>
 {
-    protected override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var packageFiles = context.Git()
-            .RootDirectory
+        var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var packageFiles = repositoryInfo.Root
             .GetFiles(path => path.Extension is ".nupkg");
 
         var count = 0;
@@ -19,6 +20,6 @@ public class PackageFilesRemovalModule : Module<int>
             count++;
         }
 
-        return Task.FromResult(count);
+        return count;
     }
 }

@@ -38,7 +38,7 @@ protected internal override Task<SkipDecision> ShouldSkip(...) => ...;
 protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
     .WithTimeout(TimeSpan.FromMinutes(5))
     .WithRetryCount(3)
-    .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+    .WithSkipWhen(async ctx => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
         ? SkipDecision.Skip("Only runs on main")
         : SkipDecision.DoNotSkip)
     .Build();
@@ -60,11 +60,11 @@ return result switch
 };
 ```
 
-Or use the simpler helpers for quick migrations:
+Or inspect the status when you do not need the result value:
 ```csharp
-if (result.IsSuccess)
+if (result.ModuleStatus == Status.Successful)
 {
-    var value = result.ValueOrDefault;
+    // The module completed successfully.
 }
 ```
 
@@ -232,7 +232,7 @@ protected override Task OnFailedAsync(IModuleContext context, Exception ex, Canc
 |----|-----|
 | `result.Value` | `result.ValueOrDefault` or pattern match |
 | `result.Exception` | `result.ExceptionOrDefault` or pattern match |
-| `result.ModuleResultType == ModuleResultType.Success` | `result.IsSuccess` or pattern match |
+| `result.ModuleResultType == ModuleResultType.Success` | `result.ModuleStatus == Status.Successful` or pattern match |
 
 ### Command Execution
 

@@ -43,14 +43,15 @@ public class GitTests : TestBase
     }
 
     [Test]
-    public async Task GitRootDirectory()
+    public async Task GitRepositoryInfo()
     {
         var git = await GetService<IGit>();
+        var repositoryInfo = await git.Information.GetInfoAsync();
 
         using (Assert.Multiple())
         {
-            await Assert.That(git.RootDirectory.Name).IsEqualTo("ModularPipelines");
-            await Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name)).Contains("README.md");
+            await Assert.That(repositoryInfo).IsNotNull();
+            await Assert.That(repositoryInfo!.Root.ListFiles().Select(x => x.Name)).Contains("README.md");
         }
     }
 
@@ -58,6 +59,16 @@ public class GitTests : TestBase
     public async Task DefaultBranchName()
     {
         var git = await GetService<IGit>();
-        await Assert.That(git.Information.DefaultBranchName).IsEqualTo("main");
+        var repositoryInfo = await git.Information.GetInfoAsync();
+        await Assert.That(repositoryInfo?.DefaultBranchName).IsEqualTo("main");
+    }
+
+    [Test]
+    public async Task Commits_Are_Available_Through_Interface()
+    {
+        var git = await GetService<IGit>();
+        await using var commits = git.Information.Commits().GetAsyncEnumerator();
+
+        await Assert.That(await commits.MoveNextAsync()).IsTrue();
     }
 }

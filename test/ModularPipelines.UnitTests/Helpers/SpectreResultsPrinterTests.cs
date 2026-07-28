@@ -40,12 +40,12 @@ public class SpectreResultsPrinterTests
 
         var summary = new PipelineSummary(
             [module],
+            [],
             end - start,
             start,
             end,
-            new Mock<IModuleResultRegistry>().Object,
-            metricsCollector.Object,
-            maxParallelism: 1);
+            metricsCollector.Object.ComputeMetrics(start, end, maxParallelism: 1),
+            metricsCollector.Object.GetTimelines());
 
         var table = SpectreResultsPrinter.CreateModulesTable(summary);
         var output = RenderToString(table);

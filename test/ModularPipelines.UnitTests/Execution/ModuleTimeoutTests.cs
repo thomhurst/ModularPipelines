@@ -173,12 +173,12 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
-    public async Task Timeout_Exception_Message_Includes_Warning_When_Token_Ignored()
+    public async Task Timeout_Exception_Message_Reports_Grace_Period_Expiry()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_NotUsingCancellationToken>);
 
         var timeoutException = exception!.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
-        await Assert.That(timeoutException!.Message).Contains("did not respond to the cancellation token");
+        await Assert.That(timeoutException!.Message).Contains("did not complete within the cancellation grace period");
     }
 }

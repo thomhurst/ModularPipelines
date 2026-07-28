@@ -3,6 +3,7 @@ using ModularPipelines.Attributes.Events;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
@@ -317,7 +318,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
         var module1Result = resultRegistry.GetResult(typeof(Module1));
         var module2Result = resultRegistry.GetResult(typeof(Module2));
 
-        await Assert.That(module1Result!.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-        await Assert.That(module2Result!.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+        await Assert.That(module1Result!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(module2Result!.ModuleStatus).IsEqualTo(Status.Successful);
     }
 }

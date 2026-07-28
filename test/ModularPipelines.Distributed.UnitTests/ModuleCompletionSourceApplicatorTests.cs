@@ -49,7 +49,7 @@ public class ModuleCompletionSourceApplicatorTests
         // The ResultTask should now be completed with the applied result
         var moduleResult = await ((IModule) module).ResultTask;
         await Assert.That(moduleResult).IsNotNull();
-        await Assert.That(moduleResult!.IsSuccess).IsTrue();
+        await Assert.That(moduleResult!.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
     [Test]

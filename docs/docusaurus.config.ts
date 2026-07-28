@@ -19,6 +19,17 @@ const config: Config = {
     ],
   ],
 
+  themes: [
+    [
+      '@easyops-cn/docusaurus-search-local',
+      {
+        hashed: true,
+        indexBlog: false,
+        indexPages: false,
+      },
+    ],
+  ],
+
   // Set the production url of your site here
   url: 'https://thomhurst.github.io/',
   // Set the /<baseUrl>/ pathname under which your site is served
@@ -70,6 +81,10 @@ const config: Config = {
           sidebarId: 'tutorialSidebar',
           position: 'left',
           label: 'Tutorial',
+        },
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
         },
         {
           href: 'https://github.com/thomhurst/ModularPipelines',

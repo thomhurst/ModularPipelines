@@ -38,9 +38,9 @@ public class FolderTests : TestBase
     {
         protected internal override async Task<ModularPipelines.FileSystem.File?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            await Task.CompletedTask;
-
-            return context.Git().RootDirectory.FindFile(x => x.Name == "README.md");
+            var repositoryInfo = await context.Git().Information.GetInfoAsync()
+                ?? throw new InvalidOperationException("Git repository information is unavailable.");
+            return repositoryInfo.Root.FindFile(x => x.Name == "README.md");
         }
     }
 
@@ -65,8 +65,8 @@ public class FolderTests : TestBase
     public async Task FindFile()
     {
         var git = await GetService<IGit>();
-
-        var readme = git.RootDirectory.FindFile(x => x.Name == "README.md");
+        var repositoryInfo = await git.Information.GetInfoAsync();
+        var readme = repositoryInfo?.Root.FindFile(x => x.Name == "README.md");
         await Assert.That(readme).IsNotNull();
         await Assert.That(readme!.Exists).IsTrue();
     }
@@ -94,8 +94,8 @@ public class FolderTests : TestBase
     public async Task FindFolder()
     {
         var git = await GetService<IGit>();
-
-        var src = git.RootDirectory.FindFolder(x => x.Name == "src");
+        var repositoryInfo = await git.Information.GetInfoAsync();
+        var src = repositoryInfo?.Root.FindFolder(x => x.Name == "src");
         await Assert.That(src).IsNotNull();
         await Assert.That(src!.Exists).IsTrue();
     }

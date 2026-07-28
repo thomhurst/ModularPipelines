@@ -6,11 +6,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.Buildah.Services;
 
 namespace ModularPipelines.Buildah.Extensions;
@@ -21,19 +20,12 @@ namespace ModularPipelines.Buildah.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class BuildahExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterBuildahContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterBuildahContext(collection));
-    }
-
     /// <summary>
     /// Registers buildah services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterBuildahContext(this IServiceCollection services)
     {
         services.TryAddScoped<IBuildah, Services.Buildah>();

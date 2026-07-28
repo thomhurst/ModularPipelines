@@ -5,11 +5,10 @@
 
 #nullable enable
 
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.AmazonWebServices.Services;
 
 namespace ModularPipelines.AmazonWebServices.Extensions;
@@ -19,19 +18,12 @@ namespace ModularPipelines.AmazonWebServices.Extensions;
 /// </summary>
 public static class AwsExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterAwsContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterAwsContext(collection));
-    }
-
     /// <summary>
     /// Registers aws services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterAwsContext(this IServiceCollection services)
     {
         services.TryAddScoped<IAws, Services.Aws>();

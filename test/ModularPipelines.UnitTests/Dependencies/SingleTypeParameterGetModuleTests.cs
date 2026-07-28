@@ -57,7 +57,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             var result = await context.GetModule<StringModule>();
 
             // Verify the result is properly typed (ModuleResult<string>)
-            if (result.IsSuccess)
+            if (result is ModuleResult<string>.Success)
             {
                 return result.ValueOrDefault;
             }
@@ -77,7 +77,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             // Type inference should work: result is ModuleResult<ComplexResult>
             var result = await context.GetModule<ComplexResultModule>();
 
-            if (result.IsSuccess && result.ValueOrDefault is not null)
+            if (result is ModuleResult<ComplexResult>.Success && result.ValueOrDefault is not null)
             {
                 return result.ValueOrDefault.Id;
             }

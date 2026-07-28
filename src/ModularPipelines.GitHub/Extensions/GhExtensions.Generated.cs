@@ -6,11 +6,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.GitHub.Services;
 
 namespace ModularPipelines.GitHub.Extensions;
@@ -21,19 +20,12 @@ namespace ModularPipelines.GitHub.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class GhExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterGhContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterGhContext(collection));
-    }
-
     /// <summary>
     /// Registers gh services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterGhContext(this IServiceCollection services)
     {
         services.TryAddScoped<IGh, Services.Gh>();
