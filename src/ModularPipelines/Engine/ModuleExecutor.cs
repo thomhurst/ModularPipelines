@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine.Attributes;
@@ -206,6 +207,8 @@ internal class ModuleExecutor : IModuleExecutor
         };
 
         Exception? firstException = null;
+        var recordedWorkerExceptions =
+            new ConcurrentDictionary<Exception, byte>(ReferenceEqualityComparer.Instance);
 
         try
         {
@@ -220,9 +223,14 @@ internal class ModuleExecutor : IModuleExecutor
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                     {
-                        _secondaryExceptionContainer.RegisterException(ex);
-                        Interlocked.CompareExchange(ref firstException, ex, null);
-                        cancellationTokenSource.Cancel();
+                        if (!IsExpectedFailFastCancellation(ex, cancellationTokenSource)
+                            && recordedWorkerExceptions.TryAdd(ex, 0))
+                        {
+                            _secondaryExceptionContainer.RegisterException(ex);
+                            Interlocked.CompareExchange(ref firstException, ex, null);
+                        }
+
+                        EnsureCancellation(cancellationTokenSource);
                     }
                     catch (Exception ex)
                     {
@@ -236,6 +244,14 @@ internal class ModuleExecutor : IModuleExecutor
         }
 
         return firstException;
+    }
+
+    private static bool IsExpectedFailFastCancellation(
+        Exception exception,
+        CancellationTokenSource cancellationTokenSource)
+    {
+        return cancellationTokenSource.IsCancellationRequested
+               && exception is OperationCanceledException;
     }
 
     private void HandleWaitForAllWorkerFailure(
