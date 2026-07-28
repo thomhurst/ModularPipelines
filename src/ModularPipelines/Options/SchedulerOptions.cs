@@ -9,8 +9,7 @@ namespace ModularPipelines.Options;
 public record SchedulerOptions
 {
     /// <summary>
-    /// Gets or sets timeout for waiting on scheduler notifications before re-checking state.
-    /// This periodic re-check ensures we don't miss signals due to race conditions.
+    /// Gets or sets the confirmation delay before treating a blocked scheduler as deadlocked.
     /// Default: 100ms.
     /// </summary>
     public TimeSpan NotificationTimeout { get; set; } = TimeSpan.FromMilliseconds(100);
