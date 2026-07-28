@@ -67,8 +67,7 @@ jobs:
             "$RUNNER_TEMP/template-pack/ModularPipelines.Templates.$template_package_version.nupkg"
           dotnet new modularpipeline \
             --name TemplateVersionSmoke \
-            --output "$RUNNER_TEMP/template-version-smoke" \
-            --no-restore
+            --output "$RUNNER_TEMP/template-version-smoke"
           test "$(grep -Fc "Version=\"$template_package_version\"" \
             "$RUNNER_TEMP/template-version-smoke/Directory.Packages.props")" -eq 2
           dotnet new modularpipeline \
@@ -76,8 +75,7 @@ jobs:
             --output "$RUNNER_TEMP/template-smoke" \
             --solution ../Example.slnx \
             --publish-project ../src/Example/Example.csproj \
-            --framework-version "$framework_version" \
-            --no-restore
+            --framework-version "$framework_version"
           grep -F '"Solution": "../Example.slnx"' \
             "$RUNNER_TEMP/template-smoke/appsettings.json"
           grep -F '"PublishProject": "../src/Example/Example.csproj"' \
@@ -100,8 +98,7 @@ jobs:
             --output "$RUNNER_TEMP/template-run" \
             --solution ../Example.slnx \
             --publish-project ../src/Example/Example.csproj \
-            --framework-version "$framework_version" \
-            --no-restore
+            --framework-version "$framework_version"
           mkdir "$RUNNER_TEMP/template-caller"
           (
             cd "$RUNNER_TEMP/template-caller"
