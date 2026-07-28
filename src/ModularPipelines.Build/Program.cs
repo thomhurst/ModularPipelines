@@ -58,6 +58,7 @@ builder
     .AddModule<RunTrivyUnitTestsModule>()
     .AddModule<RunAzureUnitTestsModule>()
     .AddModule<RunAnalyzersUnitTestsModule>()
+    .AddModule<RunConsumerAnalyzersUnitTestsModule>()
     .AddModule<RunDistributedUnitTestsModule>()
     .AddModule<RunDistributedRedisUnitTestsModule>()
     .AddModule<RunDistributedArtifactsS3UnitTestsModule>()

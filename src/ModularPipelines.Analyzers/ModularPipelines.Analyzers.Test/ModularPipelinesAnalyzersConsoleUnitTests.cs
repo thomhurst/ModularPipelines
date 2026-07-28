@@ -7,7 +7,9 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModularPipelinesAnalyzersConsoleUnitTests
 {
     private static string CreateBadModuleSource(string consoleCall, bool isAsync = false) => $@"
-{TestSourceConstants.StandardModuleHeader}
+{TestSourceConstants.StandardUsings}
+
+namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
