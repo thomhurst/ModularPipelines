@@ -194,6 +194,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         var filteredCommands = excludedCommands != null
             ? node.Commands.Where(c => !excludedCommands.Contains(c)).ToList()
             : node.Commands;
+        EnsureUniquePublicMemberNames(tool, node, filteredCommands, parentCommand);
 
         var hasCommands = filteredCommands.Count > 0 || parentCommand is not null;
         if (hasCommands)
@@ -222,6 +223,33 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine("}");
 
         return sb.ToString();
+    }
+
+    private static void EnsureUniquePublicMemberNames(
+        CliToolDefinition tool,
+        CommandTreeNode node,
+        IReadOnlyList<CliCommandDefinition> commands,
+        CliCommandDefinition? parentCommand)
+    {
+        var publicMembers = node.Children.Values
+            .Select(child => child.PascalSegment)
+            .Concat(commands.Select(GeneratorUtils.GenerateMethodNameFromLastCommandPart));
+        if (parentCommand is not null)
+        {
+            publicMembers = publicMembers.Append("Execute");
+        }
+
+        var duplicates = publicMembers
+            .GroupBy(name => name, StringComparer.OrdinalIgnoreCase)
+            .Where(group => group.Skip(1).Any())
+            .Select(group => group.Key)
+            .ToList();
+        if (duplicates.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"The {tool.ToolName} sub-domain '{node.Segment}' generates duplicate public "
+                + $"member name(s): {string.Join(", ", duplicates)}.");
+        }
     }
 
     private static void GenerateExecuteMethod(StringBuilder sb, CliCommandDefinition command)

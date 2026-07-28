@@ -196,6 +196,7 @@ ModularPipelines has strongly-typed wrappers for the tools you already use:
 | ModularPipelines.Ftp | Helpers for downloading and uploading via FTP. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Ftp.svg)](https://www.nuget.org/packages/ModularPipelines.Ftp/) |
 | ModularPipelines.Yarn | Helpers for interacting with Yarn CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Yarn.svg)](https://www.nuget.org/packages/ModularPipelines.Yarn/) |
 | ModularPipelines.Node | Helpers for interacting with node / npm CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Node.svg)](https://www.nuget.org/packages/ModularPipelines.Node/) |
+| ModularPipelines.OptionsGenerator | Generates strongly typed ModularPipelines integrations from CLI metadata. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.OptionsGenerator.svg)](https://www.nuget.org/packages/ModularPipelines.OptionsGenerator/) |
 | ModularPipelines.Git | Helpers for interacting with git. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Git.svg)](https://www.nuget.org/packages/ModularPipelines.Git/) |
 | ModularPipelines.GitHub | Helpers for interacting with GitHub Actions build agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.GitHub.svg)](https://www.nuget.org/packages/ModularPipelines.GitHub/) |
 | ModularPipelines.Google | Helpers for interacting with the Google gcloud CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Google.svg)](https://www.nuget.org/packages/ModularPipelines.Google/) |

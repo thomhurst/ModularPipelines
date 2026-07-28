@@ -51,6 +51,7 @@ builder.Services
     .AddModule<RunLiquibaseUnitTestsModule>()
     .AddModule<RunNerdbankGitVersioningUnitTestsModule>()
     .AddModule<RunNodeUnitTestsModule>()
+    .AddModule<RunOptionsGeneratorUnitTestsModule>()
     .AddModule<RunShellcheckUnitTestsModule>()
     .AddModule<RunSnykUnitTestsModule>()
     .AddModule<RunSonarScannerUnitTestsModule>()

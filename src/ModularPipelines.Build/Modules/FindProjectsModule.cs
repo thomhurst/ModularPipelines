@@ -33,6 +33,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
             Sourcy.DotNet.Projects.ModularPipelines_Ftp,
             Sourcy.DotNet.Projects.ModularPipelines_Yarn,
             Sourcy.DotNet.Projects.ModularPipelines_Node,
+            Sourcy.DotNet.Projects.ModularPipelines_OptionsGenerator,
             Sourcy.DotNet.Projects.ModularPipelines_Git,
             Sourcy.DotNet.Projects.ModularPipelines_GitHub,
             Sourcy.DotNet.Projects.ModularPipelines_Google,

@@ -116,11 +116,9 @@ public class ServiceInterfaceGenerator : ICodeGenerator
 
         foreach (var compatibilityMethod in GeneratorUtils.GetCompatibilityMethods(command, methodName))
         {
-            var obsoleteMessage = compatibilityMethod.ObsoleteMessage
-                .Replace("\\", "\\\\")
-                .Replace("\"", "\\\"");
             sb.AppendLine();
-            sb.AppendLine($"    [Obsolete(\"{obsoleteMessage}\")]");
+            sb.AppendLine(
+                $"    [Obsolete({GeneratorUtils.FormatStringLiteral(compatibilityMethod.ObsoleteMessage)})]");
             sb.AppendLine($"    Task<CommandResult> {compatibilityMethod.MethodName}({GeneratorUtils.BuildOptionsParameter(command)}, {GeneratorUtils.ExecutionOptionsParameter}, CancellationToken cancellationToken = default);");
         }
     }

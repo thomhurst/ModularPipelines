@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "tool": {
+    "ownershipId": "private-widget-integration",
+    "toolName": "private-widget",
+    "namespacePrefix": "PrivateWidget",
+    "targetNamespace": "Example.Build.PrivateWidget",
+    "outputDirectory": "generated",
+    "documentationOutputDirectory": null,
+    "executablePrerequisiteMetadataExemption": "Installation is controlled by the private repository.",
+    "commands": [
+      {
+        "fullCommand": "private-widget deploy",
+        "commandParts": [
+          "deploy"
+        ],
+        "className": "PrivateWidgetDeployOptions",
+        "parentClassName": "PrivateWidgetOptions",
+        "toolNamespacePrefix": "PrivateWidget",
+        "description": "Deploys a private widget.",
+        "options": [
+          {
+            "switchName": "--environment",
+            "propertyName": "Environment",
+            "cSharpType": "string?",
+            "description": "Deployment environment."
+          }
+        ]
+      }
+    ]
+  }
+}

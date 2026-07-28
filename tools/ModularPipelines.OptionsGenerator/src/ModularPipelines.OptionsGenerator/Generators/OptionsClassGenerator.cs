@@ -102,7 +102,9 @@ public class OptionsClassGenerator : ICodeGenerator
         // CliSubCommand attribute - contains only the subcommand parts (tool name comes from base class)
         if (command.CommandParts.Length > 0)
         {
-            var args = string.Join(", ", command.CommandParts.Select(p => $"\"{p}\""));
+            var args = string.Join(
+                ", ",
+                command.CommandParts.Select(GeneratorUtils.FormatStringLiteral));
             sb.AppendLine($"[CliSubCommand({args})]");
         }
     }
@@ -179,7 +181,7 @@ public class OptionsClassGenerator : ICodeGenerator
                     ? GeneratorUtils.GenerateCliAttributeString(option)
                     : GetPositionalAttributeString(parameter.PositionalArgument!);
                 var secretAttribute = parameter.Option is { IsSecret: true } secretOption
-                    ? $"{GenerateSecretAttribute(secretOption)}, "
+                    ? $"{GeneratorUtils.GenerateSecretAttribute(secretOption)}, "
                     : parameter.IsSecret ? "SecretValue, " : "";
                 parameters.Add(
                     $"    [property: {secretAttribute}{attribute}] " +
@@ -213,7 +215,7 @@ public class OptionsClassGenerator : ICodeGenerator
         // Secret attribute for sensitive values
         if (option.IsSecret)
         {
-            sb.AppendLine($"    [{GenerateSecretAttribute(option)}]");
+            sb.AppendLine($"    [{GeneratorUtils.GenerateSecretAttribute(option)}]");
         }
 
         // Command attribute
@@ -222,18 +224,6 @@ public class OptionsClassGenerator : ICodeGenerator
 
         // Property
         sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.CSharpType} {option.PropertyName} {{ get; set; }}");
-    }
-
-    private static string GenerateSecretAttribute(CliOptionDefinition option)
-    {
-        if (option.SecretValueKeys.Count == 0)
-        {
-            return "SecretValue";
-        }
-
-        var keys = option.SecretValueKeys
-            .Select(key => $"\"{key.Replace("\\", "\\\\").Replace("\"", "\\\"")}\"");
-        return $"SecretValue({string.Join(", ", keys)})";
     }
 
     private static void GeneratePositionalArgument(StringBuilder sb, CliPositionalArgument positional)
@@ -252,10 +242,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static void GenerateCompatibilityProperty(StringBuilder sb, CliCompatibilityProperty property)
     {
-        var obsoleteMessage = property.ObsoleteMessage
-            .Replace("\\", "\\\\")
-            .Replace("\"", "\\\"");
-        sb.AppendLine($"    [Obsolete(\"{obsoleteMessage}\")]");
+        sb.AppendLine($"    [Obsolete({GeneratorUtils.FormatStringLiteral(property.ObsoleteMessage)})]");
 
         if (property.ForwardToPropertyName is null)
         {

@@ -6,6 +6,12 @@ namespace ModularPipelines.OptionsGenerator.Models;
 public record CliToolDefinition
 {
     /// <summary>
+    /// Stable identity used to reconcile externally generated files across mutable
+    /// tool names, namespace prefixes, and output directories.
+    /// </summary>
+    public string? OwnershipId { get; init; }
+
+    /// <summary>
     /// The tool name (e.g., "kubectl", "docker", "az").
     /// </summary>
     public required string ToolName { get; init; }
@@ -24,6 +30,13 @@ public record CliToolDefinition
     /// The output directory relative to the repository root.
     /// </summary>
     public required string OutputDirectory { get; init; }
+
+    /// <summary>
+    /// Optional documentation output directory relative to the selected output root.
+    /// Set to <see langword="null"/> to omit generated documentation.
+    /// </summary>
+    public string? DocumentationOutputDirectory { get; init; } =
+        Path.Combine("docs", "docs", "mp-packages", "cli");
 
     /// <summary>
     /// All commands for this tool.
@@ -93,7 +106,10 @@ public record CliToolDefinition
     /// check fails the tool loudly instead.
     /// </summary>
     public IReadOnlyList<CliEnumDefinition> AllEnums => Commands
-        .SelectMany(c => c.Enums)
+        .SelectMany(command => command.Enums.Concat(
+            command.Options
+                .Where(option => option.EnumDefinition is not null)
+                .Select(option => option.EnumDefinition!)))
         .Concat(GetGlobalOptions()
             .Where(option => option.EnumDefinition is not null)
             .Select(option => option.EnumDefinition!))

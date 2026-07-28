@@ -69,4 +69,33 @@ public class GlobalOptionsBaseGeneratorTests
         await Assert.That(generated).Contains("Availability: Secure edition.");
         await Assert.That(generated).Contains("Documentation: https://example.test/license");
     }
+
+    [Test]
+    public async Task Generate_Preserves_Keyed_Secret_Masking_For_Global_Options()
+    {
+        var tool = new CliToolDefinition
+        {
+            ToolName = "fake",
+            NamespacePrefix = "Fake",
+            TargetNamespace = "ModularPipelines.Fake",
+            OutputDirectory = "src/ModularPipelines.Fake",
+            Commands = [],
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--property",
+                    PropertyName = "Property",
+                    CSharpType = "IEnumerable<KeyValue>?",
+                    IsSecret = true,
+                    IsKeyValue = true,
+                    SecretValueKeys = ["token", "password"],
+                },
+            ],
+        };
+
+        var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(generated).Contains("[SecretValue(\"token\", \"password\")]");
+    }
 }

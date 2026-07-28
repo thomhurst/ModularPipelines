@@ -68,9 +68,7 @@ public class EnumGenerator : ICodeGenerator
             }
 
             // Add the attribute consumed by CommandArgumentBuilder at runtime.
-            // Escape special characters in the CLI value for use in string literal
-            var escapedCliValue = EscapeStringLiteral(value.CliValue);
-            sb.AppendLine($"    [EnumValue(\"{escapedCliValue}\")]");
+            sb.AppendLine($"    [EnumValue({GeneratorUtils.FormatStringLiteral(value.CliValue)})]");
             var numericValue = value.NumericValue is { } number ? $" = {number}" : string.Empty;
             sb.AppendLine($"    {value.MemberName}{numericValue}{(isLast ? "" : ",")}");
 
@@ -81,71 +79,6 @@ public class EnumGenerator : ICodeGenerator
         }
 
         sb.AppendLine("}");
-
-        return sb.ToString();
-    }
-
-    /// <summary>
-    /// Escapes a string for use in a C# string literal.
-    /// Handles newlines, carriage returns, tabs, backslashes, quotes, and other control characters.
-    /// </summary>
-    private static string EscapeStringLiteral(string value)
-    {
-        if (string.IsNullOrEmpty(value))
-        {
-            return value;
-        }
-
-        var sb = new StringBuilder(value.Length + 10);
-
-        foreach (var c in value)
-        {
-            switch (c)
-            {
-                case '\\':
-                    sb.Append("\\\\");
-                    break;
-                case '"':
-                    sb.Append("\\\"");
-                    break;
-                case '\r':
-                    sb.Append("\\r");
-                    break;
-                case '\n':
-                    sb.Append("\\n");
-                    break;
-                case '\t':
-                    sb.Append("\\t");
-                    break;
-                case '\0':
-                    sb.Append("\\0");
-                    break;
-                case '\a':
-                    sb.Append("\\a");
-                    break;
-                case '\b':
-                    sb.Append("\\b");
-                    break;
-                case '\f':
-                    sb.Append("\\f");
-                    break;
-                case '\v':
-                    sb.Append("\\v");
-                    break;
-                default:
-                    // Escape other control characters and Unicode line/paragraph separators
-                    if (char.IsControl(c) || c == '\u2028' || c == '\u2029')
-                    {
-                        sb.Append($"\\u{(int) c:X4}");
-                    }
-                    else
-                    {
-                        sb.Append(c);
-                    }
-
-                    break;
-            }
-        }
 
         return sb.ToString();
     }

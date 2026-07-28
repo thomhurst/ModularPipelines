@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
@@ -21,11 +22,18 @@ internal static partial class CommandCoverageGuard
     public static CommandCoverageEvaluation Evaluate(
         CliToolDefinition tool,
         string outputDirectory,
-        bool approveShrinkage)
+        bool approveShrinkage,
+        string? fallbackManifestPath = null,
+        StringComparer? pathComparer = null)
     {
         var commands = NormalizeCommands(tool.Commands.Select(command => command.FullCommand));
         var manifestPath = GetManifestPath(tool, outputDirectory);
-        var (previous, usedGeneratedApiBaseline) = ReadBaseline(tool, outputDirectory, manifestPath);
+        var (previous, usedGeneratedApiBaseline) = ReadBaseline(
+            tool,
+            outputDirectory,
+            manifestPath,
+            fallbackManifestPath,
+            pathComparer ?? StringComparer.OrdinalIgnoreCase);
         var exclusions = ValidateExclusions(tool.CommandCoverage.Exclusions);
         var excludedCommands = exclusions
             .Select(exclusion => NormalizeCommand(exclusion.Command))
@@ -71,12 +79,24 @@ internal static partial class CommandCoverageGuard
     private static (CommandCoverageManifest? Manifest, bool UsedGeneratedApiBaseline) ReadBaseline(
         CliToolDefinition tool,
         string outputDirectory,
-        string manifestPath)
+        string manifestPath,
+        string? fallbackManifestPath,
+        StringComparer pathComparer)
     {
         var manifest = ReadManifest(manifestPath);
         if (manifest is not null)
         {
             return (manifest, false);
+        }
+
+        if (!string.IsNullOrEmpty(fallbackManifestPath)
+            && !pathComparer.Equals(manifestPath, fallbackManifestPath))
+        {
+            manifest = ReadManifest(fallbackManifestPath);
+            if (manifest is not null)
+            {
+                return (manifest, false);
+            }
         }
 
         var generatedApiBaseline = ReadGeneratedApiBaseline(tool, outputDirectory);
@@ -148,16 +168,60 @@ internal static partial class CommandCoverageGuard
 
     public static async Task WriteManifestAsync(
         CommandCoverageEvaluation evaluation,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        string? containmentRoot = null)
     {
+        ValidateManifestContainment(evaluation.ManifestPath, containmentRoot);
         var directory = Path.GetDirectoryName(evaluation.ManifestPath);
         if (!string.IsNullOrEmpty(directory))
         {
             Directory.CreateDirectory(directory);
         }
 
+        ValidateManifestContainment(evaluation.ManifestPath, containmentRoot);
         var json = JsonSerializer.Serialize(evaluation.Manifest, JsonOptions) + Environment.NewLine;
         await File.WriteAllTextAsync(evaluation.ManifestPath, json, cancellationToken);
+    }
+
+    internal static bool IsGeneratedManifest(
+        string path,
+        string? containmentRoot = null)
+    {
+        if (!path.EndsWith(
+                ".CommandCoverage.json",
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        try
+        {
+            ValidateManifestContainment(path, containmentRoot);
+            return ReadManifest(path) is not null;
+        }
+        catch (JsonException)
+        {
+            return false;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
+    }
+
+    private static void ValidateManifestContainment(
+        string manifestPath,
+        string? containmentRoot)
+    {
+        if (containmentRoot is null)
+        {
+            return;
+        }
+
+        ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
+            Path.GetRelativePath(containmentRoot, manifestPath),
+            containmentRoot,
+            "command coverage manifest");
     }
 
     private static CommandCoverageManifest? ReadManifest(string path)
@@ -341,7 +405,7 @@ internal static partial class CommandCoverageGuard
         Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(string.Join('\n', commands))))
             .ToLowerInvariant();
 
-    private static string GetManifestPath(CliToolDefinition tool, string outputDirectory) =>
+    internal static string GetManifestPath(CliToolDefinition tool, string outputDirectory) =>
         Path.Combine(
             outputDirectory,
             tool.OutputDirectory,
