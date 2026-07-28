@@ -1,8 +1,11 @@
 using Microsoft.Extensions.Options;
+using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.Build.Modules.UnitTests;
 
+[ExecutionHint(ExecutionType.CpuIntensive)]
 public sealed class RunGeneratedOptionsUnitTestsModule<TProject>(
     IOptions<PipelineSettings> pipelineSettings)
     : RunUnitTestModule(pipelineSettings)
@@ -105,9 +108,10 @@ public static class GeneratedOptionsUnitTestProjects
             typeof(Yq),
         ];
 
-        return projectTypes
-            .Select(type =>
-                typeof(RunGeneratedOptionsUnitTestsModule<>).MakeGenericType(type))
-            .ToArray();
+        return
+        [
+            .. projectTypes.Select(type =>
+                typeof(RunGeneratedOptionsUnitTestsModule<>).MakeGenericType(type)),
+        ];
     }
 }
