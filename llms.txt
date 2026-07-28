@@ -7,7 +7,7 @@ This file contains links to documentation sections following the llmstxt.org sta
 ## Table of Contents
 
 - [Modular Pipelines](https://thomhurst.github.io/ModularPipelines/docs/README): Modular Pipelines is a framework for writing your pipeline in C#. Giving you strong types, intellisense, parallelisation, and the entire .NET ecosy...
-- [Module Execution Lifecycle](https://thomhurst.github.io/ModularPipelines/docs/architecture/module-execution-lifecycle): This document describes the complete execution lifecycle of a module in ModularPipelines, including the order of operations for hooks, skip checks,...
+- [Module Execution Lifecycle](https://thomhurst.github.io/ModularPipelines/docs/architecture/module-execution-lifecycle): A module combines execution policy, module-owned virtual hooks, opt-in attribute handlers,
 - [Architecture](https://thomhurst.github.io/ModularPipelines/docs/distributed/architecture): This page describes the internal architecture of distributed mode for contributors and advanced users.
 - [Capabilities and Routing](https://thomhurst.github.io/ModularPipelines/docs/distributed/capabilities): Not every worker can execute every module. Some modules need Docker, others need a specific OS. The capability system controls how modules are rout...
 - [Configuration](https://thomhurst.github.io/ModularPipelines/docs/distributed/configuration): Distributed mode has two layers of configuration: the core `DistributedOptions` (shared across all coordinator implementations) and coordinator-spe...
@@ -31,7 +31,7 @@ This file contains links to documentation sections following the llmstxt.org sta
 - [Execution and Dependencies](https://thomhurst.github.io/ModularPipelines/docs/how-to/execution-and-dependencies): The default behaviour is for modules to run in parallel, to speed up a pipeline as much as possible.
 - [Using F#](https://thomhurst.github.io/ModularPipelines/docs/how-to/fsharp): ModularPipelines modules can be authored and executed from an F# project. Inherit
 - [Generate a private CLI integration](https://thomhurst.github.io/ModularPipelines/docs/how-to/generate-private-cli-integration): `ModularPipelines.OptionsGenerator` is a .NET tool that generates the same strongly typed
-- [Hooks](https://thomhurst.github.io/ModularPipelines/docs/how-to/hooks): There are three ways to hook into module execution:
+- [Hooks](https://thomhurst.github.io/ModularPipelines/docs/how-to/hooks): Module lifecycle behavior has three extension points:
 - [Ignoring Failures](https://thomhurst.github.io/ModularPipelines/docs/how-to/ignoring-failures): Sometimes a module might throw an exception, but we simply don't care as it's not that important, or a specific error might be expected.
 - [Inheriting](https://thomhurst.github.io/ModularPipelines/docs/how-to/inheriting): Each 'Module' is expected to be registered only once. If you build a custom module that you'd like to instantiate multiple times but with different...
 - [Logging](https://thomhurst.github.io/ModularPipelines/docs/how-to/logging): This is because the `IModuleLogger` will perform many actions that will improve the output of your logs.

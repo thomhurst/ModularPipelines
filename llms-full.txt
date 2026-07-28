@@ -54,432 +54,71 @@ Modular Pipelines is a framework for writing your pipeline in C#. Giving you str
 
 ## Module Execution Lifecycle
 
+# Module execution lifecycle
 
-This document describes the complete execution lifecycle of a module in ModularPipelines, including the order of operations for hooks, skip checks, retries, timeouts, and how different behavior interfaces interact with each other.
-
-## Overview
-
-ModularPipelines modules can implement several behavior interfaces to customize their execution:
-
-| Interface | Purpose |
-|-----------|---------|
-| `ISkippable` | Define conditions to skip module execution |
-| `IHookable` | Add before/after execution hooks |
-| `ITimeoutable` | Set execution timeout |
-| `IRetryable<T>` | Configure retry policy |
-| `IIgnoreFailures` | Allow failures without failing the pipeline |
-| `IAlwaysRun` | Run even when pipeline fails |
-
-## Execution Flow Diagram
-
-The following diagram shows the complete module execution lifecycle:
-
-```
-                    Module Scheduled
-                          |
-                          v
-              +------------------------+
-              |  Wait for Dependencies |
-              +------------------------+
-                          |
-                          v
-              +------------------------+
-              | Setup Cancellation     |
-              | (IAlwaysRun check)     |
-              +------------------------+
-                          |
-                          v
-              +------------------------+
-              | ISkippable.ShouldSkip  |-----> Skip? ---+
-              +------------------------+               |
-                          |                            |
-                          | No                         | Yes
-                          v                            v
-              +------------------------+    +-------------------+
-              | OnBeforeExecuteAsync   |    | OnSkippedAsync    |
-              | (direct hook)          |    | (direct hook)     |
-              +------------------------+    +-------------------+
-                          |                            |
-                          v                            v
-              +------------------------+    +-------------------+
-              | IHookable.OnBeforeExe  |    | Return Skipped    |
-              +------------------------+    | Result            |
-                          |                 +-------------------+
-                          v
-              +------------------------+
-              |    Start Stopwatch     |
-              |    Status=Processing   |
-              +------------------------+
-                          |
-                          v
-         +--------------------------------+
-         |   ExecuteWithPolicies          |
-         |   +-------------------------+  |
-         |   | Apply Timeout           |  |
-         |   | (ITimeoutable or 30min) |  |
-         |   +-------------------------+  |
-         |              |                 |
-         |              v                 |
-         |   +-------------------------+  |
-         |   | Apply Retry Policy      |  |
-         |   | (IRetryable or default) |  |
-         |   +-------------------------+  |
-         |              |                 |
-         |              v                 |
-         |   +-------------------------+  |
-         |   |    ExecuteAsync         |  |
-         |   +-------------------------+  |
-         +--------------------------------+
-                          |
-            +-------------+-------------+
-            |                           |
-         Success                     Exception
-            |                           |
-            v                           v
-  +------------------+       +--------------------+
-  | Status=Successful|       | OnFailedAsync      |
-  +------------------+       | (direct hook)      |
-            |                +--------------------+
-            |                           |
-            |                           v
-            |                +--------------------+
-            |                | IIgnoreFailures?   |----> Yes: IgnoredFailure
-            |                +--------------------+
-            |                           |
-            |                        No |
-            |                           v
-            |                +--------------------+
-            |                | Status=Failed      |
-            |                | Cancel Pipeline    |
-            |                +--------------------+
-            |                           |
-            +-------------+-------------+
-                          |
-                          v
-              +------------------------+
-              | OnAfterExecuteAsync    |
-              | (direct hook)          |
-              +------------------------+
-                          |
-                          v
-              +------------------------+
-              | IHookable.OnAfterExe   |
-              | (in finally block)     |
-              +------------------------+
-                          |
-                          v
-                    Module Complete
-```
+A module combines execution policy, module-owned virtual hooks, opt-in attribute handlers,
+and global event receivers.
 
-## Detailed Phase Descriptions
+## Execution phases
 
-### Phase 1: Dependency Resolution
+For a module that runs successfully, the phases are:
 
-Before a module begins execution, it waits for all its dependencies to complete:
+1. Dependencies become ready.
+2. Global `IModuleEventReceiver.OnModuleReadyAsync` receivers run concurrently.
+3. Global `IModuleEventReceiver.OnModuleStartAsync` receivers run concurrently.
+4. Attribute `IModuleReadyHandler` handlers run sequentially by priority.
+5. Attribute `IModuleStartHandler` handlers run sequentially by priority.
+6. The module skip condition is evaluated.
+7. `Module<T>.OnBeforeExecuteAsync` runs once.
+8. `Module<T>.ExecuteAsync` runs through timeout and retry policies.
+9. `Module<T>.OnAfterExecuteAsync` runs once.
+10. Global `IModuleEventReceiver.OnModuleEndAsync` receivers run concurrently.
+11. Attribute `IModuleEndHandler` handlers run sequentially by priority.
+12. The module result is published and dependants become eligible.
 
-1. Dependencies declared via `[DependsOn<T>]` attributes are resolved
-2. Dependencies declared via `DeclareDependencies()` method are resolved
-3. The module waits until all dependencies have finished (success, failure, or skip)
-4. If `[NotInParallel]` is specified, the module waits for exclusive execution
+`OnBeforeExecuteAsync` and `OnAfterExecuteAsync` wrap the complete retry policy, not each
+individual attempt.
 
-**Exception for AlwaysRun modules**: When a pipeline fails and AlwaysRun modules are executed late, they skip dependency waiting to prevent deadlocks.
+## Skipped modules
 
-### Phase 2: Cancellation Setup
+The skip condition is evaluated before the module-owned before hook. If it returns a skip
+decision:
 
-The cancellation token is configured based on whether the module implements `IAlwaysRun`:
+1. `Module<T>.OnSkippedAsync`
+2. Attribute `IModuleSkippedHandler`
+3. Global `IModuleEventReceiver.OnModuleSkippedAsync`
 
-- **Normal modules**: Linked to the engine cancellation token (cancelled when any module fails)
-- **AlwaysRun modules**: Not linked to engine cancellation (runs even after pipeline failure)
+`OnBeforeExecuteAsync`, `ExecuteAsync`, and `OnAfterExecuteAsync` do not run.
 
-### Phase 3: Skip Check
+## Failed modules
 
-If the module implements `ISkippable`:
+When module execution throws:
 
-1. `ShouldSkip(IModuleContext)` is called
-2. If `SkipDecision.ShouldSkip` is true:
-   - `OnSkippedAsync` (direct hook) is called
-   - If a result repository is configured, historical results may be returned
-   - The module is marked as `Skipped` and execution ends
+1. `Module<T>.OnFailedAsync`
+2. `Module<T>.OnAfterExecuteAsync`, with a failed `ModuleResult<T>`
+3. Attribute `IModuleFailureHandler`
+4. Global `IModuleEventReceiver.OnModuleFailureAsync`
 
-**Important**: When a module is skipped, neither `OnBeforeExecuteAsync` nor `IHookable.OnBeforeExecute` are called.
+Retry attempts complete before this failure sequence. If the configured failure condition
+ignores the failure, the resulting module status reflects that policy.
 
-### Phase 4: Before Hooks
+## Hook failures
 
-Hooks execute in this order:
+- An exception from `OnBeforeExecuteAsync` prevents module execution. `OnFailedAsync` and the
+  failure event receivers are notified, but `OnAfterExecuteAsync` does not run.
+- Exceptions from `OnFailedAsync`, `OnSkippedAsync`, and `OnAfterExecuteAsync` are logged and do
+  not replace the module outcome.
+- Attribute handlers propagate by default. Set their `ContinueOnError` property to continue after
+  a handler failure.
+- Exceptions from global event receivers propagate from the lifecycle event.
 
-1. **OnBeforeExecuteAsync** (direct virtual method override)
-   - Exceptions here **prevent** execution and are propagated as module failure
-   - Neither `OnFailedAsync` nor `OnAfterExecuteAsync` will be called
+## Choosing an extension point
 
-2. **IHookable.OnBeforeExecute** (interface implementation)
-   - Runs after the direct hook
-   - Exceptions are propagated
+Use module virtual hooks when behavior is part of one module. Use attribute handlers when
+behavior should be explicitly attached to selected module types. Use `IModuleEventReceiver`
+when one service must observe every module in the pipeline.
 
-### Phase 5: Execution with Policies
-
-The actual `ExecuteAsync` method is wrapped with timeout and retry policies:
-
-#### Timeout Application
-
-1. If `ITimeoutable` is implemented, use the specified `Timeout` property
-2. Otherwise, use the default timeout of 30 minutes
-3. Use `TimeSpan.Zero` to disable timeout (not recommended)
-
-#### Retry Policy Application
-
-1. If `IRetryable<T>` is implemented, use the custom retry policy
-2. Otherwise, if `PipelineOptions.DefaultRetryCount > 0`, use default retry policy
-3. Otherwise, no retries are attempted
-
-**The timeout wraps the entire retry operation**, meaning the timeout applies to the total execution time including all retries.
-
-### Phase 6: Failure Handling
-
-When `ExecuteAsync` throws an exception:
-
-1. **OnFailedAsync** (direct hook) is called first
-2. If `IIgnoreFailures` is implemented:
-   - `ShouldIgnoreFailures(context, exception)` is called
-   - If true, status is set to `IgnoredFailure` and pipeline continues
-3. If failure is not ignored, the pipeline is cancelled
-
-### Phase 7: After Hooks
-
-Regardless of success or failure, after hooks run:
-
-1. **OnAfterExecuteAsync** (direct hook)
-   - Only runs if `OnBeforeExecuteAsync` completed successfully
-   - Receives the `ModuleResult<T>` (success or failure)
-   - Can modify and return a new result
-   - Exceptions are logged but don't affect the result
-
-2. **IHookable.OnAfterExecute** (in finally block)
-   - Always runs if before hooks executed
-   - Runs even if `OnAfterExecuteAsync` threw an exception
-   - Exceptions are logged but don't affect the result
-
-## Behavior Interaction Matrix
-
-This table shows how different behavior combinations interact:
-
-| Combination | Behavior |
-|-------------|----------|
-| **IHookable + ISkippable** | `OnBeforeExecute` does NOT run if module is skipped. Skip check happens before hooks. |
-| **IRetryable + ITimeoutable** | Timeout applies to TOTAL execution time (all retries combined), not per-retry. |
-| **IHookable + IRetryable** | `OnBeforeExecute` runs ONCE before any retries. `OnAfterExecute` runs ONCE after all retries complete. |
-| **IAlwaysRun + ISkippable** | Skip check still runs. AlwaysRun only affects cancellation, not skip logic. Both can be combined. |
-| **IIgnoreFailures + IRetryable** | Retries happen first. If all retries fail, then `IIgnoreFailures` is checked. |
-| **IAlwaysRun + IIgnoreFailures** | Both apply. AlwaysRun prevents cancellation from other failures; IIgnoreFailures prevents this module's failure from cancelling others. |
-| **ITimeoutable + IAlwaysRun** | Timeout still applies. AlwaysRun only affects pipeline cancellation, not module timeout. |
-
-## Detailed Behavior Interaction Examples
-
-### IHookable + ISkippable
-
-```csharp
-public class MyModule : Module<string>, IHookable, ISkippable
-{
-    public Task<SkipDecision> ShouldSkip(IPipelineContext context)
-    {
-        // This runs FIRST
-        return SkipDecision.Skip("Not needed").AsTask();
-    }
-
-    public Task OnBeforeExecute(IPipelineContext context)
-    {
-        // This does NOT run when skipped
-        return Task.CompletedTask;
-    }
-
-    public Task OnAfterExecute(IPipelineContext context)
-    {
-        // This does NOT run when skipped
-        return Task.CompletedTask;
-    }
-}
-```
-
-**Result**: When `ShouldSkip` returns true, neither `OnBeforeExecute` nor `OnAfterExecute` are called.
-
-### IRetryable + ITimeoutable
-
-```csharp
-public class MyModule : Module<string>, IRetryable<string>, ITimeoutable
-{
-    public TimeSpan Timeout => TimeSpan.FromSeconds(30);
-
-    public AsyncRetryPolicy<string?> GetRetryPolicy(IPipelineContext context)
-    {
-        return Policy<string?>
-            .Handle<HttpRequestException>()
-            .WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(i));
-    }
-}
-```
-
-**Result**: The 30-second timeout applies to the TOTAL execution time. If each retry takes 10 seconds with 3-second waits between retries, you could timeout during the second retry attempt.
-
-```
-Timeline:
-0s  - Attempt 1 starts
-10s - Attempt 1 fails, wait 1s
-11s - Attempt 2 starts
-21s - Attempt 2 fails, wait 2s
-23s - Attempt 3 starts
-30s - TIMEOUT! (even though attempt 3 might succeed at 33s)
-```
-
-### IHookable + IRetryable
-
-```csharp
-public class MyModule : Module<string>, IHookable, IRetryable<string>
-{
-    private int _beforeCount = 0;
-    private int _afterCount = 0;
-
-    public Task OnBeforeExecute(IPipelineContext context)
-    {
-        _beforeCount++; // Called ONCE, regardless of retries
-        return Task.CompletedTask;
-    }
-
-    public Task OnAfterExecute(IPipelineContext context)
-    {
-        _afterCount++; // Called ONCE, after all retries complete
-        return Task.CompletedTask;
-    }
-
-    public AsyncRetryPolicy<string?> GetRetryPolicy(IPipelineContext context)
-    {
-        return Policy<string?>.Handle<Exception>().RetryAsync(3);
-    }
-}
-```
-
-**Result**: Hooks run once, not per-retry:
-- `OnBeforeExecute`: Called once before first attempt
-- `ExecuteAsync`: May be called 1-4 times (initial + 3 retries)
-- `OnAfterExecute`: Called once after final attempt (success or failure)
-
-### IAlwaysRun + ISkippable
-
-```csharp
-public class CleanupModule : Module<string>, IAlwaysRun, ISkippable
-{
-    public Task<SkipDecision> ShouldSkip(IPipelineContext context)
-    {
-        // Skip logic still applies to AlwaysRun modules
-        if (context.Environment.IsDevelopment())
-        {
-            return SkipDecision.Skip("No cleanup in dev").AsTask();
-        }
-        return SkipDecision.DoNotSkip.AsTask();
-    }
-}
-```
-
-**Result**: Both behaviors apply independently:
-- `IAlwaysRun`: Module won't be cancelled when other modules fail
-- `ISkippable`: Module can still be skipped based on custom logic
-
-### IIgnoreFailures + IRetryable
-
-```csharp
-public class ResilientModule : Module<string>, IRetryable<string>, IIgnoreFailures
-{
-    public AsyncRetryPolicy<string?> GetRetryPolicy(IPipelineContext context)
-    {
-        return Policy<string?>.Handle<Exception>().RetryAsync(3);
-    }
-
-    public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
-    {
-        // This is only called AFTER all retries are exhausted
-        return Task.FromResult(true);
-    }
-}
-```
-
-**Result**: Order of operations:
-1. Attempt execution
-2. On failure, retry up to 3 times
-3. If all 4 attempts fail, check `ShouldIgnoreFailures`
-4. If ignored, status = `IgnoredFailure`, pipeline continues
-
-## Hook Execution Order Summary
-
-For a module that implements all behaviors and runs successfully:
-
-```
-1. Wait for dependencies
-2. Setup cancellation (check IAlwaysRun)
-3. ISkippable.ShouldSkip() [if implemented]
-4. OnBeforeExecuteAsync() [direct hook]
-5. IHookable.OnBeforeExecute() [if implemented]
-6. Start timing
-7. Apply timeout + retry wrapper
-8. ExecuteAsync() [may retry multiple times]
-9. Stop timing
-10. OnAfterExecuteAsync() [direct hook]
-11. IHookable.OnAfterExecute() [in finally block]
-```
-
-For a module that fails:
-
-```
-1-7. Same as above
-8. ExecuteAsync() fails after retries
-9. OnFailedAsync() [direct hook]
-10. IIgnoreFailures.ShouldIgnoreFailures() [if implemented]
-11. If not ignored: Cancel pipeline
-12. OnAfterExecuteAsync() [direct hook]
-13. IHookable.OnAfterExecute() [in finally block]
-```
-
-For a module that is skipped:
-
-```
-1. Wait for dependencies
-2. Setup cancellation
-3. ISkippable.ShouldSkip() returns true
-4. OnSkippedAsync() [direct hook]
-5. Check result repository for historical data
-6. Return skipped result
-```
-
-## Edge Cases
-
-### OnBeforeExecuteAsync Throws Exception
-
-If `OnBeforeExecuteAsync` throws:
-- `ExecuteAsync` is NOT called
-- `OnFailedAsync` is NOT called (module never started)
-- `OnAfterExecuteAsync` is NOT called (before hooks didn't complete)
-- `IHookable.OnAfterExecute` IS still called (in finally block)
-
-### AlwaysRun Module with Failed Dependencies
-
-When the pipeline fails and an AlwaysRun module hasn't started yet:
-- The module is started without waiting for dependencies
-- This prevents deadlocks where dependencies will never complete
-- The module receives a fresh `CancellationToken.None`
-
-### Timeout vs Cancellation
-
-- **Timeout**: Module-specific limit on execution time
-- **Cancellation**: Pipeline-wide signal when any module fails
-
-AlwaysRun modules ignore pipeline cancellation but still respect their own timeout.
-
-## Best Practices
-
-1. **Use ISkippable for conditional execution**, not OnBeforeExecuteAsync
-2. **Set reasonable timeouts** to prevent runaway modules
-3. **Use IIgnoreFailures for non-critical modules** like notifications
-4. **Combine IAlwaysRun with IIgnoreFailures** for cleanup modules
-5. **Keep hooks lightweight** - heavy logic belongs in ExecuteAsync
-6. **Log in OnFailedAsync** for debugging failed modules
-7. **Consider total time when using IRetryable + ITimeoutable** together
+See [Hooks](../how-to/hooks.md) for implementation examples.
 
 ---
 
@@ -2376,8 +2015,6 @@ public class MyModule : Module<FileInfo>
 | `.WithIgnoreFailures()` | Don't fail the pipeline if this module fails |
 | `.WithIgnoreFailuresWhen(...)` | Conditionally ignore failures |
 | `.WithAlwaysRun()` | Run even if the pipeline has failed |
-| `.WithBeforeExecute(...)` | Hook to run before execution |
-| `.WithAfterExecute(...)` | Hook to run after execution |
 | `.WithNotInParallel(...)` | Prevent parallel execution globally or for matching constraint keys |
 | `.WithPriority(ModulePriority)` | Set scheduler priority |
 | `.WithExecutionHint(ExecutionType)` | Select CPU, I/O, or default concurrency limits |
@@ -2827,182 +2464,187 @@ with `--input`.
 ## Hooks
 
 
-## Module Hooks
+Module lifecycle behavior has three extension points:
 
-There are three ways to hook into module execution:
-1. **Direct hooks** - Override virtual lifecycle methods in `Module<T>` (new in v4)
-2. **IHookable interface** - Implement the interface for before/after execution
-3. **Module hooks class** - Register global hooks invoked for every module
+1. Override the virtual lifecycle methods on `Module<T>` for behavior owned by one module.
+2. Implement the attribute interfaces in `ModularPipelines.Attributes.Events` for reusable,
+   opt-in behavior attached to selected modules.
+3. Implement `IModuleEventReceiver` for behavior that observes every module in a pipeline.
 
-### Direct Module Hooks (Recommended)
+`ModuleConfiguration` controls execution policy only; it does not contain lifecycle hooks.
 
-The simplest way to add lifecycle hooks is to override the virtual methods directly in your module. These hooks run **before** IHookable hooks and provide access to the full module context and result.
+## Module virtual hooks
+
+Override the virtual methods directly when the behavior belongs to the module:
 
 ```csharp
 public class MyModule : Module<string>
 {
-    // Called before ExecuteAsync - ideal for setup, validation, or logging
-    protected override Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task OnBeforeExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
     {
-        context.Logger.LogInformation("Setting up MyModule...");
+        context.Logger.LogInformation("Setting up MyModule");
         return Task.CompletedTask;
     }
 
-    // Called after ExecuteAsync - can modify the result or add cleanup logic
     protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
         IModuleContext context,
         ModuleResult<string> result,
         CancellationToken cancellationToken)
     {
-        context.Logger.LogInformation("MyModule completed with: {Result}", result.Value);
-        return Task.FromResult<ModuleResult<string>?>(null); // null = keep original result
+        context.Logger.LogInformation("MyModule completed");
+        return Task.FromResult<ModuleResult<string>?>(null);
     }
 
-    // Called when the module is skipped (ShouldSkip returns true)
     protected override Task OnSkippedAsync(
         IModuleContext context,
         SkipDecision skipDecision,
         CancellationToken cancellationToken)
     {
-        context.Logger.LogInformation("MyModule was skipped: {Reason}", skipDecision.Reason);
+        context.Logger.LogInformation("Skipped: {Reason}", skipDecision.Reason);
         return Task.CompletedTask;
     }
 
-    // Called when ExecuteAsync throws an exception (before OnAfterExecuteAsync)
     protected override Task OnFailedAsync(
         IModuleContext context,
         Exception exception,
         CancellationToken cancellationToken)
     {
-        context.Logger.LogError(exception, "MyModule failed!");
-        // Send alert, cleanup resources, etc.
+        context.Logger.LogError(exception, "MyModule failed");
         return Task.CompletedTask;
     }
 
-    public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        return "Hello, World!";
-    }
+    protected internal override Task<string?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+        => Task.FromResult<string?>("Hello, World!");
 }
 ```
 
-**Hook execution order:**
-1. `OnBeforeExecuteAsync` (direct hook)
-2. `IHookable.OnBeforeExecute` (if implemented)
-3. `ExecuteAsync`
-4. On failure: `OnFailedAsync` (direct hook)
-5. `OnAfterExecuteAsync` (direct hook)
-6. `IHookable.OnAfterExecute` (in finally block)
+`OnBeforeExecuteAsync` runs once before the first execution attempt.
+`OnAfterExecuteAsync` runs once after the final attempt and can return a replacement result;
+return `null` to retain the original result. `OnFailedAsync` runs before
+`OnAfterExecuteAsync` when execution fails.
 
-**Error handling:**
-- `OnBeforeExecuteAsync` exceptions **prevent** execution and are propagated
-- `OnAfterExecuteAsync` exceptions are **logged** but don't affect the result
-- `OnSkippedAsync` exceptions are **logged** but don't affect skip behavior
-- `OnFailedAsync` exceptions are **logged** but don't prevent `OnAfterExecuteAsync`
+## Attribute event handlers
 
-**Edge case: OnBeforeExecuteAsync throws**
-If `OnBeforeExecuteAsync` throws an exception:
-- `ExecuteAsync` will NOT be called
-- `OnFailedAsync` will NOT be called (module never started)
-- `OnAfterExecuteAsync` will NOT be called (before hooks didn't complete)
-- `IHookable.OnAfterExecute` WILL still be called (in finally block)
-
-### ModuleConfiguration Hooks
-
-You can also configure simple before/after hooks using `ModuleConfiguration`:
+Implement an event-handler interface on an attribute, then apply it to selected modules:
 
 ```csharp
-public class MyModule : Module<string>
+[AttributeUsage(AttributeTargets.Class)]
+public sealed class AuditModuleAttribute : Attribute,
+    IModuleStartHandler,
+    IModuleEndHandler
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithBeforeExecute(ctx =>
-        {
-            ctx.Logger.LogInformation("MyModule starting!");
-            return Task.CompletedTask;
-        })
-        .WithAfterExecute(ctx =>
-        {
-            ctx.Logger.LogInformation("MyModule ended!");
-            return Task.CompletedTask;
-        })
-        .Build();
-
-    public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public Task OnModuleStartAsync(IModuleHookContext context)
     {
-        return "Done";
+        context.Logger.LogInformation("{Module} started", context.ModuleName);
+        return Task.CompletedTask;
+    }
+
+    public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+    {
+        context.Logger.LogInformation("{Module} ended", context.ModuleName);
+        return Task.CompletedTask;
     }
 }
-```
 
-This approach is useful when you want to combine hooks with other configuration like timeouts or retry policies:
-
-```csharp
-protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-    .WithBeforeExecute(ctx => LogStartAsync(ctx))
-    .WithAfterExecute(ctx => LogEndAsync(ctx))
-    .WithTimeout(TimeSpan.FromMinutes(5))
-    .WithRetryCount(3)
-    .Build();
-```
-
-### Hooks class
-
-If we want to have repeat behaviour for every module, we can register some 'Hook' classes during startup.
-
-Pipeline Global Hooks will run once, before any modules have started, and/or after all modules have finished. Pipeline Module Hooks will run repeatedly, before every module, and/or after every module.
-
-This can be useful if you want some repeated action for every module. E.g. standard logging behaviour.
-
-To do so, simply create a class that implements `IPipelineModuleHooks`.
-
-```csharp
-collection.AddPipelineModuleHooks<MyModuleHooks>();
-```
-
-```csharp
-public class MyModuleHooks : IPipelineModuleHooks
+[AuditModule]
+public class BuildModule : Module<string>
 {
-    public Task OnBeforeModuleStartAsync(IPipelineContext context, IModule module)
-    {
-        context.Logger.LogInformation("{Module} is starting", module.GetType().Name);
-        return Task.CompletedTask;
-    }
-
-    public Task OnBeforeModuleEndAsync(IPipelineContext context, IModule module)
-    {
-        context.Logger.LogInformation("{Module} finished after {Elapsed}", module.GetType().Name, module.Duration);
-        return Task.CompletedTask;
-    }
+    // ...
 }
 ```
 
-## Global Hooks
+Available interfaces are `IModuleReadyHandler`, `IModuleStartHandler`,
+`IModuleEndHandler`, `IModuleFailureHandler`, and `IModuleSkippedHandler`.
+Handlers can implement `IEventHandlerPriority`; lower values run first.
 
-Global hooks can be registered by creating a class that implements the `IPipelineGlobalHooks` interface. 
+## Global module event receivers
 
-These are similar to the module hooks, but instead of running before and after EACH module, they run before and after ALL modules. So think of them more as a pipeline start up, and a pipeline finish hook.
-
-The end hook also gives you access to a Pipeline summary object. Giving you information such as pass/fail, duration, start and end, etc.
-
-```csharp
-collection.AddPipelineGlobalHooks<MyGlobalHooks>();
-```
+Implement `IModuleEventReceiver` to observe every module, then register it once:
 
 ```csharp
-public class MyGlobalHooks : IPipelineGlobalHooks
+public sealed class ModuleMetricsReceiver : IModuleEventReceiver
 {
-    public Task OnStartAsync(IPipelineContext pipelineContext)
+    public Task OnModuleStartAsync(IModuleHookContext context)
     {
-        pipelineContext.Logger.LogInformation("Pipeline is starting");
+        context.Logger.LogInformation("{Module} started", context.ModuleName);
         return Task.CompletedTask;
     }
 
-    public Task OnEndAsync(IPipelineContext pipelineContext, PipelineSummary pipelineSummary)
+    public Task OnModuleEndAsync(IModuleHookContext context)
     {
-        pipelineContext.Logger.LogInformation("Pipeline is ending");
+        context.Logger.LogInformation(
+            "{Module} finished after {Elapsed}",
+            context.ModuleName,
+            context.ElapsedTime);
         return Task.CompletedTask;
     }
 }
+
+builder.AddModuleEventReceiver<ModuleMetricsReceiver>();
+```
+
+All registered global receivers are invoked concurrently for each event. Attribute handlers
+run sequentially in priority order.
+
+## Lifecycle ordering
+
+The order for a successful module is:
+
+1. Global `OnModuleReadyAsync`
+2. Global `OnModuleStartAsync`
+3. Attribute `IModuleReadyHandler`
+4. Attribute `IModuleStartHandler`
+5. Module `OnBeforeExecuteAsync`
+6. Module `ExecuteAsync` with its retry policy
+7. Module `OnAfterExecuteAsync`
+8. Global `OnModuleEndAsync`
+9. Attribute `IModuleEndHandler`
+
+For a failed execution, the completion portion is:
+
+1. Module `OnFailedAsync`
+2. Module `OnAfterExecuteAsync`
+3. Attribute `IModuleFailureHandler`
+4. Global `OnModuleFailureAsync`
+
+For a skipped module, the completion portion is:
+
+1. Module `OnSkippedAsync`
+2. Attribute `IModuleSkippedHandler`
+3. Global `OnModuleSkippedAsync`
+
+If `OnBeforeExecuteAsync` throws, `ExecuteAsync` and `OnAfterExecuteAsync` do not run;
+`OnFailedAsync` and the failure event receivers are still notified. Exceptions from
+`OnAfterExecuteAsync`, `OnFailedAsync`, and `OnSkippedAsync` are logged without replacing
+the module outcome.
+
+## Pipeline hooks
+
+`IPipelineGlobalHooks` observes the pipeline as a whole rather than individual modules:
+
+```csharp
+public sealed class PipelineLoggingHooks : IPipelineGlobalHooks
+{
+    public Task OnPipelineStartAsync(IPipelineContext context)
+    {
+        context.Logger.LogInformation("Pipeline started");
+        return Task.CompletedTask;
+    }
+
+    public Task OnPipelineEndAsync(
+        IPipelineContext context,
+        PipelineSummary summary)
+    {
+        context.Logger.LogInformation("Pipeline ended");
+        return Task.CompletedTask;
+    }
+}
+
+builder.AddPipelineGlobalHooks<PipelineLoggingHooks>();
 ```
 
 ---
@@ -3605,8 +3247,8 @@ var builder = Pipeline.CreateBuilder(args);
 // Global hooks (run before/after all modules)
 builder.AddPipelineGlobalHooks<MyGlobalHooks>();
 
-// Module hooks (run before/after each module)
-builder.AddPipelineModuleHooks<MyModuleHooks>();
+// Module event receivers (observe every module)
+builder.AddModuleEventReceiver<MyModuleEventReceiver>();
 
 // Requirements (validated before pipeline starts)
 builder.AddRequirement<DotNetSdkRequirement>();
@@ -4684,8 +4326,6 @@ public class MyModule : Module<string>
             : SkipDecision.DoNotSkip)
         .WithIgnoreFailures()
         .WithAlwaysRun()
-        .WithBeforeExecute(ctx => LogStartAsync(ctx))
-        .WithAfterExecute(ctx => LogEndAsync(ctx))
         .Build();
 
     protected override async Task<string?> ExecuteAsync(
@@ -4706,8 +4346,8 @@ public class MyModule : Module<string>
 | `Task<SkipDecision> ShouldSkip()` method | `.WithSkipWhen(...)` |
 | `Task<bool> ShouldIgnoreFailures()` method | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)` |
 | `ModuleRunType.AlwaysRun` | `.WithAlwaysRun()` |
-| `Task OnBeforeExecute()` method | `.WithBeforeExecute(...)` |
-| `Task OnAfterExecute()` method | `.WithAfterExecute(...)` |
+| `Task OnBeforeExecute()` method | `OnBeforeExecuteAsync(...)` |
+| `Task OnAfterExecute()` method | `OnAfterExecuteAsync(...)` |
 
 ### Alternative: Lifecycle Hook Overrides
 
@@ -5657,8 +5297,8 @@ public class DeployModule : Module<bool>
 | `Timeout` property override | `Configure().WithTimeout()` | Fluent builder |
 | `RetryPolicy` property override | `Configure().WithRetryCount()` | Fluent builder |
 | `ModuleRunType` override | `Configure().WithAlwaysRun()` | Fluent builder |
-| `OnBeforeExecute()` override | `Configure().WithBeforeExecute()` or `OnBeforeExecuteAsync()` | Either approach |
-| `OnAfterExecute()` override | `Configure().WithAfterExecute()` or `OnAfterExecuteAsync()` | Either approach |
+| `OnBeforeExecute()` override | `OnBeforeExecuteAsync()` | Override the module virtual |
+| `OnAfterExecute()` override | `OnAfterExecuteAsync()` | Override the module virtual |
 | `options.WorkingDirectory` | `CommandExecutionOptions.WorkingDirectory` | Separate parameter |
 | `options.EnvironmentVariables` | `CommandExecutionOptions.EnvironmentVariables` | Separate parameter |
 | `options.ThrowOnNonZeroExitCode` | `CommandExecutionOptions.ThrowOnNonZeroExitCode` | Separate parameter |
@@ -5748,10 +5388,10 @@ This section provides structured data optimized for AI assistants helping with c
   new: "Configure().WithAlwaysRun()"
 
 - old: "protected internal override Task OnBeforeExecute(IPipelineContext context)"
-  new: "Configure().WithBeforeExecute(...) or OnBeforeExecuteAsync(...)"
+  new: "OnBeforeExecuteAsync(...)"
 
 - old: "protected internal override Task OnAfterExecute(IPipelineContext context)"
-  new: "Configure().WithAfterExecute(...) or OnAfterExecuteAsync(...)"
+  new: "OnAfterExecuteAsync(...)"
 
 # Command Execution Options (moved from tool options to separate parameter)
 - old: "new DotNetBuildOptions { WorkingDirectory = path }"
