@@ -1256,7 +1256,9 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
-        var projects = context.Git().RootDirectory
+        var repositoryInfo = await context.Git().Information.GetInfoAsync()
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var projects = repositoryInfo.Root
             .GetFiles(x =>
                 x.Extension == ".csproj" && !x.Name.Contains("test", StringComparison.InvariantCultureIgnoreCase))
             .ToList();
@@ -1287,7 +1289,9 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
 {
     protected override async Task<DotNetTestResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        return await context.Git().RootDirectory
+        var repositoryInfo = await context.Git().Information.GetInfoAsync()
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        return await repositoryInfo.Root
             .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
                               && file.Path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase))
             .ToAsyncProcessorBuilder()
@@ -1320,7 +1324,9 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
     {
         ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
 
-        var packages = context.Git().RootDirectory
+        var repositoryInfo = await context.Git().Information.GetInfoAsync()
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var packages = repositoryInfo.Root
             .GetFiles(x =>
                 x.Extension == ".nupkg")
             .ToList();
@@ -3671,7 +3677,8 @@ When you need access to the pipeline context for your skip condition:
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main")
+        .WithSkipWhen(async ctx =>
+            (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main")
         .Build();
 
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -3689,9 +3696,10 @@ For better reporting, you can return a `SkipDecision` with a reason:
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(ctx =>
+        .WithSkipWhen(async ctx =>
         {
-            if (ctx.Git().Information.BranchName == "main")
+            var repositoryInfo = await ctx.Git().Information.GetInfoAsync();
+            if (repositoryInfo?.BranchName == "main")
             {
                 return SkipDecision.DoNotSkip;
             }
@@ -3731,7 +3739,8 @@ You can combine skip conditions with other module behaviors:
 public class CleanupModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main")
+        .WithSkipWhen(async ctx =>
+            (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main")
         .WithAlwaysRun()  // Run even if dependencies fail (when not skipped)
         .WithTimeout(TimeSpan.FromMinutes(5))
         .Build();
@@ -3790,13 +3799,15 @@ public class MyModuleRepository : IModuleResultRepository
     
     public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
     {
-        var commit = pipelineContext.Git().Information.LastCommitSha;
+        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync();
+        var commit = repositoryInfo?.LastCommitSha;
         await _blobContainerClient.UploadBlobAsync(module.GetType().FullName + commit, new BinaryData(JsonSerializer.Serialize(moduleResult)));
     }
 
     public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineContext pipelineContext)
     {
-        var commit = pipelineContext.Git().Information.LastCommitSha;
+        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync();
+        var commit = repositoryInfo?.LastCommitSha;
         
         var blobContent = await _blobContainerClient.GetBlobClient(module.GetType().FullName + commit).DownloadContentAsync();
 
@@ -3832,7 +3843,9 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
-        var projects = context.Git().RootDirectory
+        var repositoryInfo = await context.Git().Information.GetInfoAsync()
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var projects = repositoryInfo.Root
             .GetFiles(x =>
                 x.Extension == ".csproj" && !x.Name.Contains("test", StringComparison.InvariantCultureIgnoreCase))
             .ToList();
@@ -4351,7 +4364,7 @@ public class MyModule : Module<string>
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithTimeout(TimeSpan.FromMinutes(5))
         .WithRetryCount(3)
-        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+        .WithSkipWhen(async ctx => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
             ? SkipDecision.Skip("Only runs on main branch")
             : SkipDecision.DoNotSkip)
         .WithIgnoreFailures()
@@ -4962,14 +4975,16 @@ The `WithSkipWhen` and `WithIgnoreFailuresWhen` methods accept both sync and asy
 // Async lambda - same method name
 .WithSkipWhen(async () => await CheckConditionAsync())
 
-// With context - sync
-.WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main")
+// With context - async repository lookup
+.WithSkipWhen(async ctx =>
+    (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main")
 
 // With context - async
 .WithSkipWhen(async ctx => await ctx.SomeAsyncCheck())
 
 // Returning SkipDecision
-.WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+.WithSkipWhen(async ctx =>
+    (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
     ? SkipDecision.Skip("Not main branch")
     : SkipDecision.DoNotSkip)
 ```
@@ -5288,7 +5303,7 @@ public class BuildModule : Module<BuildOutput>
 public class DeployModule : Module<bool>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+        .WithSkipWhen(async ctx => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
             ? SkipDecision.Skip("Not main branch")
             : SkipDecision.DoNotSkip)
         .Build();
