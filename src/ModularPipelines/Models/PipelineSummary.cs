@@ -94,5 +94,4 @@ public record PipelineSummary
     public T GetModule<T>()
         where T : IModule
         => Modules.GetModule<T>();
-
 }
