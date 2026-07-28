@@ -68,7 +68,8 @@ jobs:
           dotnet new modularpipeline --help | grep -F -- '--no-restore'
           dotnet new modularpipeline \
             --name TemplateVersionSmoke \
-            --output "$RUNNER_TEMP/template-version-smoke"
+            --output "$RUNNER_TEMP/template-version-smoke" \
+            --no-restore
           test "$(grep -Fc "Version=\"$template_package_version\"" \
             "$RUNNER_TEMP/template-version-smoke/Directory.Packages.props")" -eq 2
           dotnet new modularpipeline \
@@ -76,7 +77,8 @@ jobs:
             --output "$RUNNER_TEMP/template-smoke" \
             --solution ../Example.slnx \
             --publish-project ../src/Example/Example.csproj \
-            --framework-version "$framework_version"
+            --framework-version "$framework_version" \
+            --no-restore
           grep -F '"Solution": "../Example.slnx"' \
             "$RUNNER_TEMP/template-smoke/appsettings.json"
           grep -F '"PublishProject": "../src/Example/Example.csproj"' \
@@ -99,7 +101,8 @@ jobs:
             --output "$RUNNER_TEMP/template-run" \
             --solution ../Example.slnx \
             --publish-project ../src/Example/Example.csproj \
-            --framework-version "$framework_version"
+            --framework-version "$framework_version" \
+            --no-restore
           mkdir "$RUNNER_TEMP/template-caller"
           (
             cd "$RUNNER_TEMP/template-caller"
@@ -109,6 +112,17 @@ jobs:
           )
           test -f "$RUNNER_TEMP/template-run/artifacts/publish/Example.dll"
           test ! -d "$RUNNER_TEMP/template-caller/artifacts"
+          dotnet publish \
+            "$RUNNER_TEMP/template-run/TemplateRun.csproj" \
+            --configuration Release \
+            --output "$RUNNER_TEMP/template-published"
+          mkdir "$RUNNER_TEMP/published-caller"
+          (
+            cd "$RUNNER_TEMP/published-caller"
+            dotnet "$RUNNER_TEMP/template-published/TemplateRun.dll"
+          )
+          test -f "$RUNNER_TEMP/template-run/artifacts/publish/Example.dll"
+          test ! -d "$RUNNER_TEMP/published-caller/artifacts"
       - name: Run OptionsGenerator unit tests
         run: |
           dotnet restore tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.sln

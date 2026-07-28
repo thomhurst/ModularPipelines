@@ -19,7 +19,7 @@
     },
     "skipRestore": {
       "longName": "no-restore",
-      "shortName": ""
+      "shortName": "nr"
     }
   }
 }

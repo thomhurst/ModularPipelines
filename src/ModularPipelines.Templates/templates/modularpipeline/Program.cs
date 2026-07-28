@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines;
@@ -24,14 +25,19 @@ builder
 
 await builder.ExecutePipelineAsync();
 
-static string FindPipelineDirectory()
+static string FindPipelineDirectory([CallerFilePath] string sourceFilePath = "")
 {
-    for (var directory = Directory.GetParent(AppContext.BaseDirectory);
+    var sourceDirectory = Path.GetDirectoryName(sourceFilePath);
+    if (sourceDirectory is not null && IsPipelineDirectory(sourceDirectory))
+    {
+        return sourceDirectory;
+    }
+
+    for (var directory = new DirectoryInfo(AppContext.BaseDirectory);
          directory is not null;
          directory = directory.Parent)
     {
-        if (File.Exists(Path.Combine(directory.FullName, "appsettings.json"))
-            && directory.EnumerateFiles("*.csproj").Any())
+        if (IsPipelineDirectory(directory.FullName))
         {
             return directory.FullName;
         }
@@ -39,3 +45,8 @@ static string FindPipelineDirectory()
 
     return AppContext.BaseDirectory;
 }
+
+static bool IsPipelineDirectory(string? directory) =>
+    directory is not null
+    && File.Exists(Path.Combine(directory, "appsettings.json"))
+    && Directory.EnumerateFiles(directory, "*.csproj").Any();
