@@ -12,7 +12,7 @@ If you don't want a particular module to start until another one has finished, t
 These can chain together as appropriate. And it'll detect if two modules depend on each other.
 
 ```csharp
-[DependsOn<Module1>] // or [DependsOn(typeof(Module1))] for older language versions
+[DependsOn<Module1>] // F#: [<DependsOn(typeof<Module1>)>]
 public class Module2 : Module
 {
     ...
