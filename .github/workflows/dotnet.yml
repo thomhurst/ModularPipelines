@@ -116,7 +116,15 @@ jobs:
           done < <(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' BuildSolutions.txt)
 
       - name: Run Pipeline
-        run: dotnet run -c Release --framework net10.0
+        shell: bash
+        run: |
+          # version-tag.yml exclusively owns tags for main pushes. With no standard token,
+          # SkipIfNoStandardGitHubToken prevents this pipeline from creating a second tag.
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            unset GitHub__StandardToken
+          fi
+
+          dotnet run -c Release --framework net10.0
         working-directory: "src/ModularPipelines.Build"
         env:
           GITHUB_TOKEN: ${{ github.token }}
