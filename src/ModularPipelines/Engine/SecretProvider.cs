@@ -41,7 +41,11 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
     private readonly ConcurrentDictionary<string, byte> _shortSecretWarnings = new();
     private readonly object _initLock = new();
 
+    private long _version;
     private volatile bool _initialized;
+
+    /// <inheritdoc />
+    public long Version => Volatile.Read(ref _version);
 
     /// <summary>
     /// Gets all registered secrets.
@@ -91,9 +95,15 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             return;
         }
 
+        var secretAdded = false;
         foreach (var pattern in patterns)
         {
-            _secrets.TryAdd(pattern, 0);
+            secretAdded |= _secrets.TryAdd(pattern, 0);
+        }
+
+        if (secretAdded)
+        {
+            Interlocked.Increment(ref _version);
         }
     }
 

@@ -43,6 +43,7 @@ internal sealed class Command : ICommand, ICommandContext
         var execOpts = executionOptions ?? new CommandExecutionOptions();
 
         _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(options));
+        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(execOpts));
 
         var commandLine = _commandLineBuilder.Build(options);
         var resolvedTool = commandLine.Tool;

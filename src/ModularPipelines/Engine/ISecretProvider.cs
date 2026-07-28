@@ -3,6 +3,11 @@ namespace ModularPipelines.Engine;
 internal interface ISecretProvider
 {
     /// <summary>
+    /// Gets the version of the registered secret collection.
+    /// </summary>
+    long Version { get; }
+
+    /// <summary>
     /// Gets a list of the detected secrets from IOptions objects.
     /// </summary>
     IEnumerable<string> Secrets { get; }

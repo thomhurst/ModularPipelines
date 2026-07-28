@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Text;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -29,6 +30,9 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
 {
     private readonly ISecretProvider _secretProvider;
     private readonly IOptions<SecretMaskingOptions> _maskingOptions;
+    private readonly object _secretCacheLock = new();
+
+    private SecretCache? _secretCache;
 
     public int Order => int.MaxValue;
 
@@ -61,21 +65,9 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         var maskValue = string.IsNullOrWhiteSpace(options.MaskValue) ? "**********" : options.MaskValue;
         var caseInsensitive = options.CaseInsensitive;
 
-        var minimumLength = Math.Max(1, options.MinimumSecretLength);
-        var secretsFromExtraObject = _secretProvider.GetSecretsInObject(optionsObject)
-            .Where(secret => secret.Length >= minimumLength)
-            .SelectMany(SecretMaskingPatternGenerator.Generate);
-
-        // Combine all secrets and sort by length (longest first) to ensure
-        // longer secrets are replaced before shorter ones that might be substrings
-        var allSecrets = _secretProvider.Secrets
-            .Concat(secretsFromExtraObject)
-            .Where(s => !string.IsNullOrWhiteSpace(s))
-            .Distinct(caseInsensitive ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal)
-            .OrderByDescending(s => s.Length)
-            .ToList();
-
-        if (allSecrets.Count == 0)
+        var secretCache = GetSecretCache(optionsObject, options, caseInsensitive);
+        if (secretCache.SearchValues is null ||
+            !input.AsSpan().ContainsAny(secretCache.SearchValues))
         {
             return input;
         }
@@ -84,17 +76,89 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         // For case-insensitive matching, we need a different approach
         if (caseInsensitive)
         {
-            return ObfuscateCaseInsensitive(input, allSecrets, maskValue);
+            return ObfuscateCaseInsensitive(input, secretCache.Secrets, maskValue);
         }
 
-        return ObfuscateCaseSensitive(input, allSecrets, maskValue);
+        return ObfuscateCaseSensitive(input, secretCache.Secrets, maskValue);
+    }
+
+    private SecretCache GetSecretCache(
+        object? optionsObject,
+        SecretMaskingOptions options,
+        bool caseInsensitive)
+    {
+        var registeredSecrets = GetRegisteredSecretCache(caseInsensitive);
+        if (optionsObject is null)
+        {
+            return registeredSecrets;
+        }
+
+        var minimumLength = Math.Max(1, options.MinimumSecretLength);
+        var extraSecrets = _secretProvider.GetSecretsInObject(optionsObject)
+            .Where(secret => secret.Length >= minimumLength)
+            .SelectMany(SecretMaskingPatternGenerator.Generate)
+            .ToArray();
+
+        return extraSecrets.Length == 0
+            ? registeredSecrets
+            : CreateSecretCache(
+                registeredSecrets.Secrets.Concat(extraSecrets),
+                registeredSecrets.Version,
+                caseInsensitive);
+    }
+
+    private SecretCache GetRegisteredSecretCache(bool caseInsensitive)
+    {
+        var version = _secretProvider.Version;
+        var currentCache = Volatile.Read(ref _secretCache);
+        if (currentCache is not null &&
+            currentCache.Version == version &&
+            currentCache.CaseInsensitive == caseInsensitive)
+        {
+            return currentCache;
+        }
+
+        lock (_secretCacheLock)
+        {
+            version = _secretProvider.Version;
+            currentCache = _secretCache;
+            if (currentCache is not null &&
+                currentCache.Version == version &&
+                currentCache.CaseInsensitive == caseInsensitive)
+            {
+                return currentCache;
+            }
+
+            var newCache = CreateSecretCache(_secretProvider.Secrets, version, caseInsensitive);
+            Volatile.Write(ref _secretCache, newCache);
+            return newCache;
+        }
+    }
+
+    private static SecretCache CreateSecretCache(
+        IEnumerable<string> secrets,
+        long version,
+        bool caseInsensitive)
+    {
+        var comparer = caseInsensitive ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
+        var orderedSecrets = secrets
+            .Where(secret => !string.IsNullOrWhiteSpace(secret))
+            .Distinct(comparer)
+            .OrderByDescending(secret => secret.Length)
+            .ToArray();
+        var comparison = caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+        var searchValues = orderedSecrets.Length == 0
+            ? null
+            : SearchValues.Create(orderedSecrets, comparison);
+
+        return new SecretCache(version, caseInsensitive, orderedSecrets, searchValues);
     }
 
     /// <summary>
     /// Performs case-sensitive obfuscation using StringBuilder.Replace.
     /// This is the most efficient approach for case-sensitive matching.
     /// </summary>
-    private static string ObfuscateCaseSensitive(string input, List<string> secrets, string maskValue)
+    private static string ObfuscateCaseSensitive(string input, IReadOnlyList<string> secrets, string maskValue)
     {
         var stringBuilder = new StringBuilder(input);
 
@@ -109,7 +173,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
     /// <summary>
     /// Performs case-insensitive obfuscation using IndexOf with OrdinalIgnoreCase.
     /// </summary>
-    private static string ObfuscateCaseInsensitive(string input, List<string> secrets, string maskValue)
+    private static string ObfuscateCaseInsensitive(string input, IReadOnlyList<string> secrets, string maskValue)
     {
         var result = input;
 
@@ -131,15 +195,21 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
             return input;
         }
 
+        var firstIndex = input.IndexOf(pattern, StringComparison.OrdinalIgnoreCase);
+        if (firstIndex < 0)
+        {
+            return input;
+        }
+
         var result = new StringBuilder(input.Length);
         var lastIndex = 0;
-        int index;
-
-        while ((index = input.IndexOf(pattern, lastIndex, StringComparison.OrdinalIgnoreCase)) >= 0)
+        var index = firstIndex;
+        while (index >= 0)
         {
             result.Append(input, lastIndex, index - lastIndex);
             result.Append(replacement);
             lastIndex = index + pattern.Length;
+            index = input.IndexOf(pattern, lastIndex, StringComparison.OrdinalIgnoreCase);
         }
 
         // Append the remaining part after the last match
@@ -147,4 +217,10 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
 
         return result.ToString();
     }
+
+    private sealed record SecretCache(
+        long Version,
+        bool CaseInsensitive,
+        string[] Secrets,
+        SearchValues<string>? SearchValues);
 }
