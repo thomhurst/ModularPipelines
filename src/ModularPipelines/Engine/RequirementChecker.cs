@@ -20,7 +20,9 @@ internal class RequirementChecker : IRequirementChecker
     {
         var failedRequirementsNames = new ConcurrentBag<string>();
 
-        var groupedRequirements = _requirements.GroupBy(x => x.Order);
+        var groupedRequirements = _requirements
+            .GroupBy(x => x.Order)
+            .OrderBy(group => group.Key);
 
         foreach (var pipelineRequirements in groupedRequirements)
         {
@@ -36,7 +38,7 @@ internal class RequirementChecker : IRequirementChecker
                 }).ProcessInParallel();
         }
 
-        if (failedRequirementsNames.Any())
+        if (!failedRequirementsNames.IsEmpty)
         {
             throw new FailedRequirementsException($"Requirements failed:\r\n{string.Join("\r\n", failedRequirementsNames)}");
         }
