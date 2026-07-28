@@ -20,7 +20,7 @@ namespace ModularPipelines.Exceptions;
 /// <item><see cref="ModuleType"/> - The type of the module that timed out</item>
 /// <item><see cref="ConfiguredTimeout"/> - The timeout duration that was configured</item>
 /// <item><see cref="ElapsedTime"/> - The actual time elapsed before timeout was enforced</item>
-/// <item><see cref="WasCancellationTokenRespected"/> - Whether the module observed the cancellation token</item>
+/// <item><see cref="WasCancellationTokenRespected"/> - Whether the module completed within the cancellation grace period</item>
 /// </list>
 /// <para><b>Handling example:</b></para>
 /// <code>
@@ -36,7 +36,7 @@ namespace ModularPipelines.Exceptions;
 ///
 ///     if (!ex.WasCancellationTokenRespected)
 ///     {
-///         Console.WriteLine("Warning: Module did not respond to cancellation token");
+///         Console.WriteLine("Warning: Module did not complete within the cancellation grace period");
 ///     }
 /// }
 /// </code>
@@ -68,7 +68,7 @@ public class ModuleTimeoutException : PipelineException
     /// <param name="moduleType">The type of the module that timed out.</param>
     /// <param name="configuredTimeout">The timeout duration that was configured.</param>
     /// <param name="elapsedTime">The actual time elapsed before timeout was enforced.</param>
-    /// <param name="wasCancellationTokenRespected">Whether the module observed the cancellation token.</param>
+    /// <param name="wasCancellationTokenRespected">Whether the module completed within the cancellation grace period.</param>
     internal ModuleTimeoutException(
         Type moduleType,
         TimeSpan configuredTimeout,
@@ -102,12 +102,11 @@ public class ModuleTimeoutException : PipelineException
     public TimeSpan ElapsedTime { get; }
 
     /// <summary>
-    /// Gets a value indicating whether the module properly observed the cancellation token.
+    /// Gets a value indicating whether the module completed within the cancellation grace period.
     /// </summary>
     /// <remarks>
-    /// When <c>true</c>, the module responded to the cancellation token and exited gracefully.
-    /// When <c>false</c>, the module ignored the cancellation token and was forcibly terminated
-    /// by the timeout enforcement mechanism (Task.WhenAny pattern).
+    /// This is a timing-based signal: it cannot prove that the module observed the cancellation token.
+    /// When <c>false</c>, the timeout enforcement mechanism stopped waiting after the grace period.
     /// </remarks>
     public bool WasCancellationTokenRespected { get; }
 
@@ -121,7 +120,7 @@ public class ModuleTimeoutException : PipelineException
 
         if (!wasCancellationTokenRespected)
         {
-            return $"{baseMessage}. The module did not respond to the cancellation token and was forcibly terminated after {elapsedTime.ToDisplayString()}.";
+            return $"{baseMessage}. The module did not complete within the cancellation grace period; timeout enforcement stopped waiting after {elapsedTime.ToDisplayString()}.";
         }
 
         return baseMessage;

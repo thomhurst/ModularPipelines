@@ -388,7 +388,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             if (!timeoutException.WasCancellationTokenRespected)
             {
                 logger.LogWarning(
-                    "Module {ModuleName} did not respond to cancellation token and was forcibly terminated after {ElapsedTime}",
+                    "Module {ModuleName} did not complete within the cancellation grace period; timeout enforcement stopped waiting after {ElapsedTime}",
                     executionContext.ModuleType.Name,
                     timeoutException.ElapsedTime.ToDisplayString());
             }
