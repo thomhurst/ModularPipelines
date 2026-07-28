@@ -33,6 +33,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IMetricsCollector _metricsCollector;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
+    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ILogger<ModuleExecutor> _logger;
 
@@ -47,6 +48,7 @@ internal class ModuleExecutor : IModuleExecutor
         IMetricsCollector metricsCollector,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
+        ISecondaryExceptionContainer secondaryExceptionContainer,
         IOptions<PipelineOptions> pipelineOptions,
         ILogger<ModuleExecutor> logger)
     {
@@ -60,6 +62,7 @@ internal class ModuleExecutor : IModuleExecutor
         _metricsCollector = metricsCollector;
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
+        _secondaryExceptionContainer = secondaryExceptionContainer;
         _pipelineOptions = pipelineOptions;
         _logger = logger;
     }
@@ -220,15 +223,18 @@ internal class ModuleExecutor : IModuleExecutor
                         Interlocked.CompareExchange(ref firstException, ex, null);
                         cancellationTokenSource.Cancel();
                     }
+                    catch (Exception ex)
+                    {
+                        _secondaryExceptionContainer.RegisterException(ex);
+                        _logger.LogError(
+                            ex,
+                            "Module worker failed but remaining modules will continue due to ExecutionMode.WaitForAllModules");
+                    }
                 }).ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (firstException != null)
         {
             // Expected when we cancelled due to StopOnFirstException
-        }
-        catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode != ExecutionMode.StopOnFirstException)
-        {
-            _logger.LogDebug(ex, "Module execution failed but continuing due to ExecutionMode.WaitForAllModules");
         }
 
         return firstException;
