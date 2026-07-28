@@ -21,11 +21,10 @@ namespace ModularPipelines.Requirements;
 /// <para><b>Example:</b></para>
 /// <code>
 /// var builder = Pipeline.CreateBuilder();
-/// builder.Services
-///     .AddRequirement&lt;WindowsAdminRequirement&gt;()
-///     .AddModule&lt;InstallServiceModule&gt;();
+/// builder.Services.AddRequirement&lt;WindowsAdminRequirement&gt;();
+/// builder.AddModule&lt;InstallServiceModule&gt;();
 ///
-/// await builder.Build().RunAsync();
+/// await builder.ExecutePipelineAsync();
 /// </code>
 /// </remarks>
 /// <seealso cref="WindowsRequirement"/>

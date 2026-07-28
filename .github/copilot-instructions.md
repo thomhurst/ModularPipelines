@@ -156,9 +156,9 @@ yarn start
 
 **Host Pattern:**
 - Use `Pipeline.CreateBuilder(args)` to bootstrap
-- Register modules with `builder.Services.AddModule<T>()`
+- Register modules with `builder.AddModule<T>()`
 - Configure services through `builder.Services`
-- Run with `await builder.Build().RunAsync()`
+- Run with `await builder.ExecutePipelineAsync()`
 
 ## Validation Scenarios
 

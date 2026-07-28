@@ -97,11 +97,13 @@ builder.Services
     .Configure<NuGetSettings>(builder.Configuration.GetSection("NuGet"))
     .Configure<PublishSettings>(builder.Configuration.GetSection("Publish"))
     .AddSingleton<ISomeService1, SomeService1>()
-    .AddTransient<ISomeService2, SomeService2>()
+    .AddTransient<ISomeService2, SomeService2>();
+
+builder
     .AddModule<FindNugetPackagesModule>()
     .AddModule<UploadNugetPackagesModule>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ### Custom Modules
@@ -109,7 +111,7 @@ await builder.Build().RunAsync();
 ```csharp
 public class FindNugetPackagesModule : Module<List<File>>
 {
-    protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<List<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var repositoryInfo = await context.Git().Information.GetInfoAsync()
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
@@ -136,7 +138,7 @@ public class UploadNugetPackagesModule : Module
         var nugetFiles = await context.GetModule<FindNugetPackagesModule>();
 
         await nugetFiles.ValueOrDefault!
-            .SelectAsync(async nugetFile => await context.DotNet().Nuget.Push(new DotNetNugetPushOptions
+            .SelectAsync(async nugetFile => await context.DotNet().NuGet.Push(new DotNetNuGetPushOptions
             {
                 Path = nugetFile,
                 Source = "https://api.nuget.org/v3/index.json",

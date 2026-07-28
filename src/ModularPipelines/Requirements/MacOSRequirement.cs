@@ -16,11 +16,10 @@ namespace ModularPipelines.Requirements;
 /// <para><b>Example:</b></para>
 /// <code>
 /// var builder = Pipeline.CreateBuilder();
-/// builder.Services
-///     .AddRequirement&lt;MacOSRequirement&gt;()
-///     .AddModule&lt;BuildMacAppModule&gt;();
+/// builder.Services.AddRequirement&lt;MacOSRequirement&gt;();
+/// builder.AddModule&lt;BuildMacAppModule&gt;();
 ///
-/// await builder.Build().RunAsync();
+/// await builder.ExecutePipelineAsync();
 /// </code>
 /// </remarks>
 /// <seealso cref="WindowsRequirement"/>
