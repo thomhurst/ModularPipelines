@@ -62,14 +62,16 @@ public static partial class GeneratorUtils
         // option defaults (e.g. "/home/runner/.config/helm/..."). Those paths are
         // meaningless to consumers, so normalize them to "~" before shipping docs.
         text = RunnerHomePathPattern().Replace(text, "~");
+        text = text
+            .Replace("\r\n", " ")
+            .Replace("\n", " ")
+            .Replace("\r", " ");
+        text = string.Concat(text.Select(static character => char.IsControl(character) ? ' ' : character));
 
         return text
             .Replace("&", "&amp;")
             .Replace("<", "&lt;")
             .Replace(">", "&gt;")
-            .Replace("\r\n", " ")
-            .Replace("\n", " ")
-            .Replace("\r", " ")
             .Trim();
     }
 

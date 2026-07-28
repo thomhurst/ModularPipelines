@@ -51,7 +51,17 @@ public class PipelineValidationException : PipelineException
     /// </summary>
     /// <param name="validationResult">The validation result containing the errors.</param>
     public PipelineValidationException(ValidationResult validationResult)
-        : base(FormatMessage(validationResult))
+        : this(validationResult, null)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PipelineValidationException"/> class.
+    /// </summary>
+    /// <param name="validationResult">The validation result containing the errors.</param>
+    /// <param name="innerException">The exception that caused validation to fail, when available.</param>
+    public PipelineValidationException(ValidationResult validationResult, Exception? innerException)
+        : base(FormatMessage(validationResult), innerException)
     {
         ValidationResult = validationResult;
     }

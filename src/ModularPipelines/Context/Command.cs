@@ -104,60 +104,56 @@ internal sealed class Command : ICommandContext
         CommandExecutionOptions execOpts,
         CancellationToken cancellationToken = default)
     {
-        StringBuilder standardOutputStringBuilder = new();
-        StringBuilder standardErrorStringBuilder = new();
+        var standardOutputBuffer = new BoundedCommandOutputBuffer(execOpts.MaxCapturedOutputLength);
+        var standardErrorBuffer = new BoundedCommandOutputBuffer(execOpts.MaxCapturedOutputLength);
+        var completeStandardOutputBuffer = CreateCompleteOutputBuffer(execOpts);
+        var completeStandardErrorBuffer = CreateCompleteOutputBuffer(execOpts);
+        var outputLogger = _commandLogger as ICommandOutputLogger;
+        var streamsOutput = outputLogger is not null && execOpts.OutputLoggingManipulator is null;
         var stopwatch = Stopwatch.StartNew();
 
         var standardOutput = string.Empty;
         var standardError = string.Empty;
 
-        var inputToLog = execOpts.InputLoggingManipulator == null ? command.ToString() : execOpts.InputLoggingManipulator(command.ToString());
+        var inputToLog = GetInputToLog(command, execOpts);
 
         // Only create timeout token if ExecutionTimeout is specified to avoid unnecessary allocations
-        using var timeoutCancellationToken = execOpts.ExecutionTimeout.HasValue
-            ? new CancellationTokenSource(execOpts.ExecutionTimeout.Value)
-            : null;
+        using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
 
         // Link the timeout token with the passed cancellation token, or just wrap the original if no timeout
-        using var linkedCancellationToken = timeoutCancellationToken != null
-            ? CancellationTokenSource.CreateLinkedTokenSource(timeoutCancellationToken.Token, cancellationToken)
-            : CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        using var linkedCancellationToken = CreateLinkedCancellationToken(timeoutCancellationToken, cancellationToken);
 
         using var forcefulCancellationToken = new CancellationTokenSource();
         using var processTreeTerminator = new ProcessTreeTerminator();
         using var processTreeCancellationRegistration =
             forcefulCancellationToken.Token.Register(processTreeTerminator.Kill);
 
-        var registration = linkedCancellationToken.Token.Register(() =>
-        {
-            try
-            {
-                if (forcefulCancellationToken.Token.CanBeCanceled)
-                {
-                    forcefulCancellationToken.CancelAfter(execOpts.GracefulShutdownTimeout);
-                }
-            }
-            catch (ObjectDisposedException)
-            {
-                // Ignored
-            }
-        });
+        var registration = linkedCancellationToken.Token.Register(
+            () => ScheduleForcefulCancellation(forcefulCancellationToken, execOpts.GracefulShutdownTimeout));
         await using (registration.ConfigureAwait(false))
         {
             try
             {
                 var executionTask = command
-                    .WithStandardOutputPipe(PipeTarget.ToStringBuilder(standardOutputStringBuilder))
-                    .WithStandardErrorPipe(PipeTarget.ToStringBuilder(standardErrorStringBuilder))
+                    .WithStandardOutputPipe(CreateOutputTarget(
+                        standardOutputBuffer,
+                        completeStandardOutputBuffer,
+                        CreateStandardOutputLogger(
+                            streamsOutput,
+                            outputLogger,
+                            options,
+                            execOpts)))
+                    .WithStandardErrorPipe(CreateOutputTarget(
+                        standardErrorBuffer,
+                        completeStandardErrorBuffer,
+                        CreateStandardErrorLogger(
+                            streamsOutput,
+                            outputLogger,
+                            options,
+                            execOpts)))
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync(
-                        configureStartInfo: startInfo =>
-                        {
-                            if (OperatingSystem.IsWindows())
-                            {
-                                startInfo.CreateNewProcessGroup = true;
-                            }
-                        },
+                        configureStartInfo: ConfigureStartInfo,
                         configureProcess: processTreeTerminator.Attach,
                         forcefulCancellationToken: CancellationToken.None,
                         gracefulCancellationToken: linkedCancellationToken.Token);
@@ -170,19 +166,21 @@ internal sealed class Command : ICommandContext
                     linkedCancellationToken.Token,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
-                standardOutput = standardOutputStringBuilder.ToString();
-                standardError = standardErrorStringBuilder.ToString();
+                standardOutput = standardOutputBuffer.ToString();
+                standardError = standardErrorBuffer.ToString();
 
-                _commandLogger.Log(
-                    options: options,
-                    execOpts: execOpts,
-                    inputToLog: inputToLog,
-                    exitCode: result.ExitCode,
-                    runTime: result.RunTime,
-                    standardOutput: standardOutput,
-                    standardError: standardError,
-                    commandWorkingDirPath: command.WorkingDirPath
-                );
+                LogCommandCompletion(
+                    options,
+                    execOpts,
+                    inputToLog,
+                    result.ExitCode,
+                    result.RunTime,
+                    standardOutput,
+                    standardError,
+                    completeStandardOutputBuffer,
+                    completeStandardErrorBuffer,
+                    streamsOutput,
+                    command.WorkingDirPath);
 
                 if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
                 {
@@ -207,19 +205,21 @@ internal sealed class Command : ICommandContext
                     linkedCancellationToken.Token,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
-                standardOutput = standardOutputStringBuilder.ToString();
-                standardError = standardErrorStringBuilder.ToString();
+                standardOutput = standardOutputBuffer.ToString();
+                standardError = standardErrorBuffer.ToString();
 
-                _commandLogger.Log(
-                    options: options,
-                    execOpts: execOpts,
-                    inputToLog: inputToLog,
-                    exitCode: e.ExitCode,
-                    runTime: stopwatch.Elapsed,
-                    standardOutput: standardOutput,
-                    standardError: standardError,
-                    commandWorkingDirPath: command.WorkingDirPath
-                );
+                LogCommandCompletion(
+                    options,
+                    execOpts,
+                    inputToLog,
+                    e.ExitCode,
+                    stopwatch.Elapsed,
+                    standardOutput,
+                    standardError,
+                    completeStandardOutputBuffer,
+                    completeStandardErrorBuffer,
+                    streamsOutput,
+                    command.WorkingDirPath);
 
                 throw new CommandException(
                     CreateFailureResult(
@@ -239,19 +239,21 @@ internal sealed class Command : ICommandContext
                     linkedCancellationToken.Token,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
-                standardOutput = standardOutputStringBuilder.ToString();
-                standardError = standardErrorStringBuilder.ToString();
+                standardOutput = standardOutputBuffer.ToString();
+                standardError = standardErrorBuffer.ToString();
 
-                _commandLogger.Log(
-                    options: options,
-                    execOpts: execOpts,
-                    inputToLog: inputToLog,
-                    exitCode: -1,
-                    runTime: stopwatch.Elapsed,
-                    standardOutput: standardOutput,
-                    standardError: standardError,
-                    commandWorkingDirPath: command.WorkingDirPath
-                );
+                LogCommandCompletion(
+                    options,
+                    execOpts,
+                    inputToLog,
+                    -1,
+                    stopwatch.Elapsed,
+                    standardOutput,
+                    standardError,
+                    completeStandardOutputBuffer,
+                    completeStandardErrorBuffer,
+                    streamsOutput,
+                    command.WorkingDirPath);
 
                 throw new CommandException(
                     CreateFailureResult(
@@ -297,6 +299,84 @@ internal sealed class Command : ICommandContext
             endTime: completedAt,
             duration: duration,
             exitCode: exitCode);
+    }
+
+    private static BoundedCommandOutputBuffer? CreateCompleteOutputBuffer(CommandExecutionOptions options)
+    {
+        return options.OutputLoggingManipulator is null
+            ? null
+            : new BoundedCommandOutputBuffer(maximumLength: 0);
+    }
+
+    private static string GetInputToLog(CliWrap.Command command, CommandExecutionOptions options)
+    {
+        var commandText = command.ToString();
+        return options.InputLoggingManipulator is null
+            ? commandText
+            : options.InputLoggingManipulator(commandText);
+    }
+
+    private static CancellationTokenSource? CreateTimeoutCancellationToken(CommandExecutionOptions options)
+    {
+        return options.ExecutionTimeout.HasValue
+            ? new CancellationTokenSource(options.ExecutionTimeout.Value)
+            : null;
+    }
+
+    private static CancellationTokenSource CreateLinkedCancellationToken(
+        CancellationTokenSource? timeoutCancellationToken,
+        CancellationToken cancellationToken)
+    {
+        return timeoutCancellationToken is null
+            ? CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
+            : CancellationTokenSource.CreateLinkedTokenSource(timeoutCancellationToken.Token, cancellationToken);
+    }
+
+    private static void ScheduleForcefulCancellation(
+        CancellationTokenSource forcefulCancellationToken,
+        TimeSpan gracefulShutdownTimeout)
+    {
+        try
+        {
+            if (forcefulCancellationToken.Token.CanBeCanceled)
+            {
+                forcefulCancellationToken.CancelAfter(gracefulShutdownTimeout);
+            }
+        }
+        catch (ObjectDisposedException)
+        {
+            // Ignored
+        }
+    }
+
+    private static Action<string>? CreateStandardOutputLogger(
+        bool streamsOutput,
+        ICommandOutputLogger? outputLogger,
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions)
+    {
+        return streamsOutput
+            ? line => outputLogger!.LogStandardOutputLine(options, executionOptions, line)
+            : null;
+    }
+
+    private static Action<string>? CreateStandardErrorLogger(
+        bool streamsOutput,
+        ICommandOutputLogger? outputLogger,
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions)
+    {
+        return streamsOutput
+            ? line => outputLogger!.LogStandardErrorLine(options, executionOptions, line)
+            : null;
+    }
+
+    private static void ConfigureStartInfo(ProcessStartInfo startInfo)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            startInfo.CreateNewProcessGroup = true;
+        }
     }
 
     private static async Task WaitForForcefulCancellationAsync(
@@ -737,5 +817,66 @@ internal sealed class Command : ICommandContext
                 int byteCount);
 #pragma warning restore SYSLIB1054
         }
+    }
+
+    private static PipeTarget CreateOutputTarget(
+        BoundedCommandOutputBuffer buffer,
+        BoundedCommandOutputBuffer? completeOutputBuffer,
+        Action<string>? logLine)
+    {
+        var captureTarget = CreateCaptureTarget(buffer, completeOutputBuffer);
+        return logLine is null
+            ? captureTarget
+            : PipeTarget.Merge(captureTarget, PipeTarget.ToDelegate(logLine));
+    }
+
+    private void LogCommandCompletion(
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions,
+        string input,
+        int exitCode,
+        TimeSpan runTime,
+        string standardOutput,
+        string standardError,
+        BoundedCommandOutputBuffer? completeStandardOutputBuffer,
+        BoundedCommandOutputBuffer? completeStandardErrorBuffer,
+        bool streamsOutput,
+        string workingDirectory)
+    {
+        _commandLogger.Log(
+            options,
+            executionOptions,
+            input,
+            exitCode,
+            runTime,
+            streamsOutput
+                ? string.Empty
+                : completeStandardOutputBuffer?.ToString() ?? standardOutput,
+            streamsOutput
+                ? string.Empty
+                : completeStandardErrorBuffer?.ToString() ?? standardError,
+            workingDirectory);
+    }
+
+    private static PipeTarget CreateCaptureTarget(
+        BoundedCommandOutputBuffer buffer,
+        BoundedCommandOutputBuffer? completeOutputBuffer)
+    {
+        return PipeTarget.Create(async (stream, cancellationToken) =>
+        {
+            using var reader = new StreamReader(
+                stream,
+                Encoding.Default,
+                detectEncodingFromByteOrderMarks: true,
+                bufferSize: 4096,
+                leaveOpen: true);
+            var characters = new char[4096];
+            int charactersRead;
+            while ((charactersRead = await reader.ReadAsync(characters, cancellationToken).ConfigureAwait(false)) > 0)
+            {
+                buffer.Append(characters.AsSpan(0, charactersRead));
+                completeOutputBuffer?.Append(characters.AsSpan(0, charactersRead));
+            }
+        });
     }
 }

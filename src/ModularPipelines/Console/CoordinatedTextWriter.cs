@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using ModularPipelines.Engine;
@@ -36,6 +37,8 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly ISecretProvider _secretProvider;
     private readonly Dictionary<LineBufferKey, LineBufferState> _lineBuffers = [];
     private readonly object _lineBufferLock = new();
+    private string[] _secretPatterns = [];
+    private long? _secretPatternsVersion;
 
     /// <summary>
     /// Initialises a new instance of the <see cref="CoordinatedTextWriter"/> class.
@@ -68,7 +71,7 @@ internal class CoordinatedTextWriter : TextWriter
     {
         lock (_lineBufferLock)
         {
-            WriteCore(value ?? string.Empty, appendNewLine: true);
+            WriteCore((value ?? string.Empty).AsSpan(), appendNewLine: true);
         }
     }
 
@@ -88,20 +91,40 @@ internal class CoordinatedTextWriter : TextWriter
 
         lock (_lineBufferLock)
         {
-            WriteCore(value, appendNewLine: false);
+            WriteCore(value.AsSpan(), appendNewLine: false);
         }
     }
 
     /// <inheritdoc />
     public override void Write(char value)
     {
-        Write(value.ToString());
+        lock (_lineBufferLock)
+        {
+            var state = GetLineBufferState();
+            var shouldBuffer = GetBufferMode(state, ShouldBuffer());
+            state.Buffer.Append(value);
+            ProcessPendingOutput(state, shouldBuffer, shouldProcess: value == '\n');
+        }
     }
 
     /// <inheritdoc />
     public override void Write(char[] buffer, int index, int count)
     {
-        Write(new string(buffer, index, count));
+        ArgumentNullException.ThrowIfNull(buffer);
+
+        lock (_lineBufferLock)
+        {
+            WriteCore(buffer.AsSpan(index, count), appendNewLine: false);
+        }
+    }
+
+    /// <inheritdoc />
+    public override void Write(ReadOnlySpan<char> buffer)
+    {
+        lock (_lineBufferLock)
+        {
+            WriteCore(buffer, appendNewLine: false);
+        }
     }
 
     /// <summary>
@@ -122,7 +145,7 @@ internal class CoordinatedTextWriter : TextWriter
         }
     }
 
-    private void WriteCore(string value, bool appendNewLine)
+    private void WriteCore(ReadOnlySpan<char> value, bool appendNewLine)
     {
         var state = GetLineBufferState();
         var shouldBuffer = GetBufferMode(state, ShouldBuffer());
@@ -131,6 +154,19 @@ internal class CoordinatedTextWriter : TextWriter
         if (appendNewLine)
         {
             state.Buffer.Append(Environment.NewLine);
+        }
+
+        ProcessPendingOutput(
+            state,
+            shouldBuffer,
+            shouldProcess: appendNewLine || value.Contains('\n'));
+    }
+
+    private void ProcessPendingOutput(LineBufferState state, bool shouldBuffer, bool shouldProcess)
+    {
+        if (shouldBuffer && !shouldProcess)
+        {
+            return;
         }
 
         var patterns = GetSecretPatterns();
@@ -162,12 +198,26 @@ internal class CoordinatedTextWriter : TextWriter
         return state.ShouldBuffer.Value;
     }
 
-    private string[] GetSecretPatterns() =>
-        _secretProvider.Secrets
+    private string[] GetSecretPatterns()
+    {
+        var version = _secretProvider.Version;
+        if (_secretPatternsVersion is not null
+            && (version & 1) == 0
+            && _secretPatternsVersion == version
+            && _secretProvider.Version == version)
+        {
+            return _secretPatterns;
+        }
+
+        var snapshot = _secretProvider.GetSnapshot();
+        _secretPatterns = (snapshot.Secrets ?? [])
             .Where(pattern => !string.IsNullOrEmpty(pattern))
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .OrderByDescending(pattern => pattern.Length)
             .ToArray();
+        _secretPatternsVersion = snapshot.Version;
+        return _secretPatterns;
+    }
 
     private void ObfuscateCompletePatterns(
         LineBufferState state,
@@ -179,11 +229,11 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
+        var retainedPrefixLength = GetPotentialPatternPrefixLength(state.Buffer, patterns);
         var pending = state.Buffer.ToString();
         var output = new StringBuilder(pending.Length);
         var searchIndex = 0;
         var replaced = false;
-        var retainedPrefixLength = GetPotentialPatternPrefixLength(pending, patterns);
         var retainedPrefixStart = pending.Length - retainedPrefixLength;
 
         while (searchIndex < pending.Length)
@@ -221,7 +271,7 @@ internal class CoordinatedTextWriter : TextWriter
     {
         var retainedLength = patterns.Count == 0
             ? 0
-            : GetPotentialPatternPrefixLength(state.Buffer.ToString(), patterns);
+            : GetPotentialPatternPrefixLength(state.Buffer, patterns);
 
         FlushSafePrefix(state, state.Buffer.Length - retainedLength, shouldBuffer);
 
@@ -233,18 +283,29 @@ internal class CoordinatedTextWriter : TextWriter
 
     private void FlushSafePrefix(LineBufferState state, int safeLength, bool shouldBuffer)
     {
-        while (safeLength > 0)
+        var consumedLength = 0;
+        for (var index = 0; index < safeLength; index++)
         {
-            var newlineIndex = state.Buffer.ToString(0, safeLength).IndexOf('\n');
-            if (newlineIndex < 0)
+            if (state.Buffer[index] != '\n')
             {
-                break;
+                continue;
             }
 
-            var line = state.Buffer.ToString(0, newlineIndex).TrimEnd('\r');
-            state.Buffer.Remove(0, newlineIndex + 1);
-            safeLength -= newlineIndex + 1;
+            var lineLength = index - consumedLength;
+            while (lineLength > 0 && state.Buffer[consumedLength + lineLength - 1] == '\r')
+            {
+                lineLength--;
+            }
+
+            var line = state.Buffer.ToString(consumedLength, lineLength);
             WriteCompletedLine(line, shouldBuffer, state.ModuleType);
+            consumedLength = index + 1;
+        }
+
+        if (consumedLength > 0)
+        {
+            state.Buffer.Remove(0, consumedLength);
+            safeLength -= consumedLength;
         }
 
         if (!shouldBuffer)
@@ -274,15 +335,47 @@ internal class CoordinatedTextWriter : TextWriter
         return (firstIndex, longestMatch);
     }
 
-    private static int GetPotentialPatternPrefixLength(string input, IReadOnlyList<string> patterns)
+    private static int GetPotentialPatternPrefixLength(StringBuilder input, IReadOnlyList<string> patterns)
     {
-        var maximumLength = patterns.Max(pattern => pattern.Length) - 1;
-        for (var length = Math.Min(input.Length, maximumLength); length > 0; length--)
+        if (input.Length == 0 || patterns.Count == 0)
         {
-            var suffix = input.AsSpan(input.Length - length, length);
+            return 0;
+        }
+
+        var maximumLength = patterns[0].Length - 1;
+        var suffixLength = Math.Min(input.Length, maximumLength);
+
+        if (suffixLength <= 256)
+        {
+            Span<char> suffixBuffer = stackalloc char[suffixLength];
+            input.CopyTo(input.Length - suffixLength, suffixBuffer, suffixLength);
+            return FindPotentialPatternPrefixLength(suffixBuffer, patterns);
+        }
+
+        var rentedBuffer = ArrayPool<char>.Shared.Rent(suffixLength);
+        try
+        {
+            var suffixBuffer = rentedBuffer.AsSpan(0, suffixLength);
+            input.CopyTo(input.Length - suffixLength, suffixBuffer, suffixLength);
+            return FindPotentialPatternPrefixLength(suffixBuffer, patterns);
+        }
+        finally
+        {
+            ArrayPool<char>.Shared.Return(rentedBuffer, clearArray: true);
+        }
+    }
+
+    private static int FindPotentialPatternPrefixLength(
+        ReadOnlySpan<char> suffixBuffer,
+        IReadOnlyList<string> patterns)
+    {
+        for (var length = suffixBuffer.Length; length > 0; length--)
+        {
+            var suffix = suffixBuffer[^length..];
             foreach (var pattern in patterns)
             {
-                if (pattern.Length > length && pattern.AsSpan().StartsWith(suffix, StringComparison.OrdinalIgnoreCase))
+                if (pattern.Length > length
+                    && pattern.AsSpan().StartsWith(suffix, StringComparison.OrdinalIgnoreCase))
                 {
                     return length;
                 }
@@ -383,7 +476,7 @@ internal class CoordinatedTextWriter : TextWriter
                 {
                     var retainedLength = patterns.Length == 0
                         ? 0
-                        : GetPotentialPatternPrefixLength(state.Buffer.ToString(), patterns);
+                        : GetPotentialPatternPrefixLength(state.Buffer, patterns);
                     FlushPartialPrefix(state, state.Buffer.Length - retainedLength, shouldBuffer);
                 }
 

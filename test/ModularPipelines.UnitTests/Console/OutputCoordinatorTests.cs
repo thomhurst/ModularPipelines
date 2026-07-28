@@ -339,6 +339,7 @@ public class OutputCoordinatorTests
 
         firstBuffer.ReleaseFlush.TrySetResult();
         await Task.WhenAll(firstFlush, secondFlush);
+        await coordinator.WaitForPendingFlushesAsync();
 
         progressController.Verify(x => x.PauseAsync(), Times.Once);
         progressController.Verify(x => x.ResumeAsync(), Times.Once);

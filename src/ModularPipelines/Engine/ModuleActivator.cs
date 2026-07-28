@@ -27,7 +27,9 @@ internal sealed class ModuleActivator : IModuleActivator
 
         try
         {
-            return (IModule)ActivatorUtilities.CreateInstance(serviceProvider, moduleType);
+            var module = (IModule) ActivatorUtilities.CreateInstance(serviceProvider, moduleType);
+            _ = module.Configuration;
+            return module;
         }
         finally
         {

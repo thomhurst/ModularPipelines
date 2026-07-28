@@ -118,6 +118,19 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    public async Task EscapeXmlComment_Replaces_All_Control_Characters_With_Spaces()
+    {
+        foreach (var controlCharacter in Enumerable.Range(char.MinValue, char.MaxValue + 1)
+                     .Select(static value => (char) value)
+                     .Where(char.IsControl))
+        {
+            var result = GeneratorUtils.EscapeXmlComment($"before{controlCharacter}after");
+
+            await Assert.That(result).IsEqualTo("before after");
+        }
+    }
+
+    [Test]
     public async Task EscapeXmlComment_Returns_Empty_For_Null_Input()
     {
         var result = GeneratorUtils.EscapeXmlComment(null);
