@@ -6,15 +6,10 @@ ModularPipelines is a .NET framework that allows you to define CI/CD pipelines i
 
 ## Prerequisites and Setup
 
-Install .NET SDK 9.0.301 (REQUIRED by global.json):
+Install .NET SDK 10.0.302 (REQUIRED by global.json):
 ```bash
-curl -sSL https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh | bash /dev/stdin --version 9.0.301
+curl -sSL https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh | bash /dev/stdin --version 10.0.302
 export PATH="$HOME/.dotnet:$PATH"
-```
-
-Install .NET 8.0 SDK (REQUIRED for build pipeline execution):
-```bash
-curl -sSL https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh | bash /dev/stdin --version 8.0.118
 ```
 
 For documentation work, ensure Node.js 20+ is available and yarn is installed.
@@ -151,18 +146,19 @@ yarn start
 **Module System:**
 - Inherit from `Module<T>` where T is the return type
 - Use `[DependsOn<TModule>]` attributes for dependencies
-- Implement `ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)`
-- Access other module results with `await GetModule<TModule>()`
+- Implement `ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)`
+- Access other module results with `await context.GetModule<TModule>()`
 
 **Pipeline Context:**
-- `IPipelineContext` provides access to all tools and services
+- `IModuleContext` provides access to all tools and services
 - Tool extensions: `context.DotNet()`, `context.Git()`, `context.Docker()`, etc.
 - Full dependency injection support
 
 **Host Pattern:**
-- Use `PipelineHostBuilder.Create()` to bootstrap
-- Register modules with `.AddModule<T>()`
-- Configure services with `.ConfigureServices()`
+- Use `Pipeline.CreateBuilder(args)` to bootstrap
+- Register modules with `builder.Services.AddModule<T>()`
+- Configure services through `builder.Services`
+- Run with `await builder.Build().RunAsync()`
 
 ## Validation Scenarios
 
@@ -203,8 +199,7 @@ yarn start
 ## Troubleshooting
 
 **Build Issues:**
-- Ensure .NET 9.0.301 SDK is installed and in PATH
-- For build pipeline, also ensure .NET 8.0 runtime is available
+- Ensure .NET 10.0.302 SDK is installed and in PATH
 - Check `global.json` for required SDK version
 
 **Test Failures:**

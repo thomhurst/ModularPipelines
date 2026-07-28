@@ -2,11 +2,11 @@ namespace ModularPipelines.UnitTests.Documentation;
 
 public class DocumentationSnippetTests
 {
-    private static readonly string[] PublishedDocumentationFiles =
+    private static readonly HashSet<string> IntentionalLegacyDocumentation =
     [
-        "README.md",
-        "README_Template.md",
-        Path.Combine("docs", "docs", "how-to", "execution-and-dependencies.md"),
+        "RELEASE_NOTES_V3.md",
+        "docs/docs/migrating-to-v3.md",
+        "docs/docs/advanced/migrating-to-v2.md",
     ];
 
     [Test]
@@ -14,9 +14,16 @@ public class DocumentationSnippetTests
     {
         var repositoryRoot = FindRepositoryRoot();
 
-        foreach (var relativePath in PublishedDocumentationFiles)
+        foreach (var path in Directory.EnumerateFiles(repositoryRoot, "*.md", SearchOption.AllDirectories))
         {
-            var contents = await File.ReadAllTextAsync(Path.Combine(repositoryRoot, relativePath))
+            var relativePath = Path.GetRelativePath(repositoryRoot, path).Replace('\\', '/');
+            if (IntentionalLegacyDocumentation.Contains(relativePath)
+                || relativePath.Split('/').Any(segment => segment is ".git" or "bin" or "node_modules" or "obj"))
+            {
+                continue;
+            }
+
+            var contents = await File.ReadAllTextAsync(path)
                 .ConfigureAwait(false);
 
             await Assert.That(contents).DoesNotContain("PipelineHostBuilder.Create()");
