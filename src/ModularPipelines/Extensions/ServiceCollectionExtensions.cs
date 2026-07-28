@@ -61,7 +61,7 @@ internal static class ServiceCollectionExtensions
     /// <para>
     /// <b>Note:</b> Since the module instance is pre-created, any logging performed during
     /// construction will not have module context available. For full logging context support
-    /// during construction, use <see cref="AddModule{TModule}()"/> or
+    /// during construction, use <see cref="AddModule{TModule}(IServiceCollection)"/> or
     /// <see cref="AddModule{TModule}(IServiceCollection, Func{IServiceProvider, TModule})"/> instead.
     /// </para>
     /// </remarks>

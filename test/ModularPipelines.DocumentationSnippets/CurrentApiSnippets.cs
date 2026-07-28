@@ -20,7 +20,7 @@ public static class CurrentApiSnippets
     {
         var builder = Pipeline.CreateBuilder(args);
 
-        builder.Services
+        builder
             .AddModule<BuildModule>()
             .AddModule<TestModule>()
             .AddModule<PublishModule>()
@@ -35,7 +35,7 @@ public static class CurrentApiSnippets
             options.MaskValue = "[REDACTED]";
         });
 
-        return builder.Build().RunAsync();
+        return builder.ExecutePipelineAsync();
     }
 
     public sealed record BuildInfo(string Version, string OutputPath);
@@ -106,7 +106,7 @@ public static class CurrentApiSnippets
 
     public sealed class HasDotNetSdkRequirement : PipelineRequirement
     {
-        public override async Task<RequirementDecision> MustAsync(IPipelineHookContext context)
+        public override async Task<RequirementDecision> MustAsync(IPipelineContext context)
         {
             var result = await context.Shell.Command.ExecuteCommandLineTool(
                 new GenericCommandLineToolOptions("dotnet") { Arguments = ["--version"] })
@@ -118,7 +118,7 @@ public static class CurrentApiSnippets
 
     public sealed class HasGitHubToken : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineHookContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context)
             => Task.FromResult(!string.IsNullOrEmpty(
                 context.Environment.Variables.GetEnvironmentVariable("GITHUB_TOKEN")));
     }

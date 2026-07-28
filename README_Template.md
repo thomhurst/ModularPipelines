@@ -124,12 +124,12 @@ using ModularPipelines.Extensions;
 
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<BuildModule>()
     .AddModule<TestModule>()
     .AddModule<PublishModule>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ```csharp
