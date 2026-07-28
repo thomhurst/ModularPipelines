@@ -41,7 +41,11 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
             || method.Parameters[0].Type.ToDisplayString() != ServiceCollectionFullName
             || (!method.ReturnsVoid
                 && method.ReturnType.ToDisplayString() != ServiceCollectionFullName)
-            || method.DeclaredAccessibility == Accessibility.Private)
+            || method.DeclaredAccessibility is not (
+                Accessibility.Public
+                or Accessibility.Internal
+                or Accessibility.ProtectedOrInternal)
+            || !IsAccessibleFromGeneratedRegistrar(method.ContainingType))
         {
             return null;
         }
@@ -49,6 +53,23 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         return new IntegrationRegistration(
             method.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             method.Name);
+    }
+
+    private static bool IsAccessibleFromGeneratedRegistrar(INamedTypeSymbol type)
+    {
+        for (var current = type; current is not null; current = current.ContainingType)
+        {
+            if (current.IsGenericType
+                || current.DeclaredAccessibility is not (
+                    Accessibility.Public
+                    or Accessibility.Internal
+                    or Accessibility.ProtectedOrInternal))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static void Generate(
