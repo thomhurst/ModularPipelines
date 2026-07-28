@@ -118,7 +118,7 @@ namespace ModularPipelines.Examples.Modules
         protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var module1 = await {|#0:context.GetModule1Module()|};
-            var optionalModule1 = await {|#1:context.GetModule1ModuleIfRegistered()|};
+            var optionalModule1 = {|#1:context.GetModule1ModuleIfRegistered()|};
             return null;
         }
     }

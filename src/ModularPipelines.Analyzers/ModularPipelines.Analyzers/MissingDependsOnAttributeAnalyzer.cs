@@ -160,7 +160,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return false;
         }
 
-        moduleType = (INamedTypeSymbol)returnType
+        moduleType = (INamedTypeSymbol) returnType
             .WithNullableAnnotation(NullableAnnotation.NotAnnotated);
         return true;
     }
