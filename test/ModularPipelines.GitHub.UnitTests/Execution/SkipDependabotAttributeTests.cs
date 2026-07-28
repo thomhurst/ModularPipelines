@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
@@ -13,23 +14,21 @@ namespace ModularPipelines.GitHub.UnitTests.Execution;
 
 public class SkipDependabotAttributeTests : TestBase
 {
-#pragma warning disable CS0618 // Test-only attributes exercise the legacy run-condition compatibility path.
-    private class CanRunAttribute : RunConditionAttribute
+    private class CanRunCondition : IRunCondition
     {
-        public override Task<bool> Condition(IPipelineContext pipelineContext)
+        public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
         {
             return Task.FromResult(true);
         }
     }
 
-    private class CannotRunAttribute : RunConditionAttribute
+    private class CannotRunCondition : IRunCondition
     {
-        public override Task<bool> Condition(IPipelineContext pipelineContext)
+        public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
         {
             return Task.FromResult(false);
         }
     }
-#pragma warning restore CS0618
 
     [SkipIfDependabot]
     private class Module1 : SimpleTestModule<bool>
@@ -38,22 +37,21 @@ public class SkipDependabotAttributeTests : TestBase
     }
 
     [SkipIfDependabot]
-    [CanRun]
+    [RunIfAny<CanRunCondition>]
     private class Module2 : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
     [SkipIfDependabot]
-    [CannotRun]
+    [RunIfAny<CannotRunCondition>]
     private class Module3 : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
     [SkipIfDependabot]
-    [CanRun]
-    [CannotRun]
+    [RunIfAny<CanRunCondition, CannotRunCondition>]
     private class Module4 : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -67,11 +65,11 @@ public class SkipDependabotAttributeTests : TestBase
         var host = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module1>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(Module1))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -87,11 +85,11 @@ public class SkipDependabotAttributeTests : TestBase
         var host = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module1>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(Module1))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
     }
@@ -104,11 +102,11 @@ public class SkipDependabotAttributeTests : TestBase
         var host = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module2>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(Module2))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -121,11 +119,11 @@ public class SkipDependabotAttributeTests : TestBase
         var host = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module3>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(Module3))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
     }
@@ -138,11 +136,11 @@ public class SkipDependabotAttributeTests : TestBase
         var host = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module4>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(Module4))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Master;
@@ -45,12 +46,20 @@ public class DistributedModuleExecutorTests
             => Task.FromResult<SimpleResult?>(new SimpleResult { Message = "done" });
     }
 
-    [RunOnLinuxOnly]
+    [RunIfAll<OnLinux>]
     private class LinuxOnlyModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("linux done");
+    }
+
+    [RunIfAll<OnUnix>]
+    private class UnixModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            Context.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("unix done");
     }
 
     private class AnotherDistributedModule : Module<int>
@@ -535,7 +544,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public async Task CreateAssignment_Auto_Detects_Linux_Capability_From_RunOnLinuxOnly()
+    public async Task CreateAssignment_Auto_Detects_Linux_Capability_From_RunIfAll()
     {
         // Arrange
         var coordinator = new InMemoryDistributedCoordinator();
@@ -550,8 +559,32 @@ public class DistributedModuleExecutorTests
         // Act
         var assignment = publisher.CreateAssignment(module);
 
-        // Assert — "linux" capability auto-detected from [RunOnLinuxOnly]
+        // Assert — "linux" capability auto-detected from [RunIfAll<OnLinux>]
         await Assert.That(assignment.RequiredCapabilities).Contains("linux");
+    }
+
+    [Test]
+    public async Task CreateAssignment_Routes_Unix_Group_To_Linux_Or_MacOS_Workers()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(UnixModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new UnixModule());
+        var requiredCapability = assignment.RequiredCapabilities.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux))
+                .Contains(requiredCapability);
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS))
+                .Contains(requiredCapability);
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
+                .DoesNotContain(requiredCapability);
+        }
     }
 
     // =================================================================

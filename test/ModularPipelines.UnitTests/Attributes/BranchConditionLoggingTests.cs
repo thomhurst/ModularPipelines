@@ -1,4 +1,6 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Git;
@@ -11,6 +13,20 @@ namespace ModularPipelines.UnitTests.Attributes;
 
 public class BranchConditionLoggingTests
 {
+    [Test]
+    public async Task Repeatable_Branch_Conditions_Share_An_Alternative_Group()
+    {
+        IGroupedConditionAttribute exactBranch = new RunIfBranchAttribute("main");
+        IGroupedConditionAttribute branchPrefix = new RunIfBranchStartsWithAttribute("release/");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exactBranch.Logic).IsEqualTo(ConditionLogic.Any);
+            await Assert.That(branchPrefix.Logic).IsEqualTo(ConditionLogic.Any);
+            await Assert.That(exactBranch.ConditionGroupType).IsEqualTo(branchPrefix.ConditionGroupType);
+        }
+    }
+
     [Test]
     public async Task RunIfBranch_UsesDetachedPlaceholderForEmptyBranch()
     {
@@ -27,7 +43,7 @@ public class BranchConditionLoggingTests
             x.Logger == logger.Object &&
             x.Services == services.Object);
 
-        var result = await new RunIfBranchAttribute("main").Condition(context);
+        var result = await new RunIfBranchAttribute("main").EvaluateAsync(context);
         var logMessage = logger.Invocations
             .Single(x => x.Method.Name == nameof(ILogger.Log))
             .Arguments[2]

@@ -29,11 +29,11 @@ public class SkippedModuleTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkippedModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(SkippedModule))!;
 
         using (Assert.Multiple())

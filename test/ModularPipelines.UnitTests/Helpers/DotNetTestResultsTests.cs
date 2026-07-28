@@ -120,13 +120,13 @@ public class DotNetTestResultsTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<DotNetTestWithoutFailureModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
         // Get the Trx helper from a pipeline context
         // IPipelineContext is a scoped service, so we need to create a scope
-        await using var scope = host.RootServices.CreateAsyncScope();
+        await using var scope = host.Services.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
         var parsedResults = await context.Trx().ParseTrxFile(DotNetTestWithoutFailureModule.TrxFile!);
 

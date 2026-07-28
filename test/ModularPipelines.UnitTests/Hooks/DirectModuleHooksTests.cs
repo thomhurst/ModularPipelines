@@ -273,11 +273,11 @@ public class DirectModuleHooksTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<AfterHookFailingModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(AfterHookFailingModule)) as ModuleResult<string>;
 
         // Module should still succeed despite after hook throwing
@@ -292,9 +292,9 @@ public class DirectModuleHooksTests : TestBase
         // A module that doesn't override any hooks should work fine
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<ResultModifyingModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        var result = await host.ExecutePipelineAsync();
+        var result = await host.RunAsync();
 
         await Assert.That(result.Modules).Count().IsEqualTo(1);
     }

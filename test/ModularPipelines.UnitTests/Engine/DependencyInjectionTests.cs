@@ -23,7 +23,7 @@ public class DependencyInjectionTests
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<TestModule1>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         var services = host.Services;
 
@@ -56,7 +56,7 @@ public class DependencyInjectionTests
         {
             await using var pipeline = await TestPipelineHostBuilder.Create()
                 .AddModule<TestModule1>()
-                .BuildHostAsync();
+                .BuildAsync();
 
             pipeline.Services.GetRequiredService<ICmd>();
             pipeline.Services.GetRequiredService<IDotNet>();

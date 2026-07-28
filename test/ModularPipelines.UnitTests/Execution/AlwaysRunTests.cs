@@ -67,18 +67,18 @@ public class AlwaysRunTests : TestBase
             .AddModule<MyModule2>()
             .AddModule<MyModule3>()
             .AddModule<MyModule4>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         try
         {
-            await host.ExecutePipelineAsync();
+            await host.RunAsync();
         }
         catch
         {
             // Expected - pipeline will fail
         }
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         var result1 = resultRegistry.GetResult(typeof(MyModule1))!;
         var result2 = resultRegistry.GetResult(typeof(MyModule2))!;

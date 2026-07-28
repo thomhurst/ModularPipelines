@@ -20,7 +20,7 @@ public class ModuleStateLoggingTests
                 services.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
             })
             .AddModule<ModuleWithoutLocks>()
-            .BuildHostAsync();
+            .BuildAsync();
 
         await host.RunAsync();
         await host.DisposeAsync();

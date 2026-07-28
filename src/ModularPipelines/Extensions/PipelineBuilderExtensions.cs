@@ -267,17 +267,6 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Builds the pipeline asynchronously with validation.
-    /// </summary>
-    /// <param name="builder">The pipeline builder.</param>
-    /// <returns>A validated pipeline ready for execution.</returns>
-    /// <remarks>This is an alias for <see cref="PipelineBuilder.BuildAsync"/> for backward compatibility.</remarks>
-    public static Task<IPipeline> BuildHostAsync(this PipelineBuilder builder)
-    {
-        return builder.BuildAsync();
-    }
-
-    /// <summary>
     /// Adds a custom module estimated time provider.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>

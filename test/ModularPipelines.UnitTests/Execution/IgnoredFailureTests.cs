@@ -31,14 +31,14 @@ public class IgnoredFailureTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<IgnoredFailureModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        var pipelineSummary = await host.ExecutePipelineAsync();
+        var pipelineSummary = await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult<CommandResult>(typeof(IgnoredFailureModule))!;
 
-        var engineCancellationToken = host.RootServices.GetRequiredService<EngineCancellationToken>();
+        var engineCancellationToken = host.Services.GetRequiredService<EngineCancellationToken>();
 
         using (Assert.Multiple())
         {

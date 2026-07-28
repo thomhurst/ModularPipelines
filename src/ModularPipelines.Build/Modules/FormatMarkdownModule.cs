@@ -11,7 +11,7 @@ using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Build.Modules;
 
-[RunOnLinuxOnly]
+[RunIfAll<ModularPipelines.Conditions.OnLinux>]
 [DependsOn<GenerateReadMeModule>]
 public class FormatMarkdownModule : Module<CommandResult>
 {

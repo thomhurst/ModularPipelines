@@ -92,11 +92,11 @@ public class EngineCancellationTokenTests : TestBase
         // This test expects the pipeline to throw when BadModule fails
         builder.Options.ThrowOnPipelineFailure = true;
 
-        var host = await builder.BuildHostAsync();
+        var host = await builder.BuildAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
-        await Assert.That(async () => await host.ExecutePipelineAsync()).ThrowsException();
+        await Assert.That(async () => await host.RunAsync()).ThrowsException();
 
         // Results should be registered before the exception is thrown, no delay needed
         var module1Result = resultRegistry.GetResult(typeof(Module1));
@@ -115,11 +115,11 @@ public class EngineCancellationTokenTests : TestBase
         // This test expects the pipeline to throw when BadModule fails
         builder.Options.ThrowOnPipelineFailure = true;
 
-        var host = await builder.BuildHostAsync();
+        var host = await builder.BuildAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
-        var pipelineTask = host.ExecutePipelineAsync();
+        var pipelineTask = host.RunAsync();
 
         await Task.Delay(WaitForCancellationDelay);
 
@@ -142,11 +142,11 @@ public class EngineCancellationTokenTests : TestBase
         // This test expects the pipeline to throw when BadModule fails
         builder.Options.ThrowOnPipelineFailure = true;
 
-        var host = await builder.BuildHostAsync();
+        var host = await builder.BuildAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
-        var pipelineTask = host.ExecutePipelineAsync();
+        var pipelineTask = host.RunAsync();
 
         await Task.Delay(WaitForCancellationDelay);
 
@@ -168,10 +168,10 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<WaitForAllCompletingModule>()
             .AddModule<WaitForAllPendingModule>();
 
-        var host = await builder.BuildHostAsync();
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var host = await builder.BuildAsync();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
-        var pipelineSummary = await host.ExecutePipelineAsync();
+        var pipelineSummary = await host.RunAsync();
 
         var completingModuleResult = resultRegistry.GetResult(typeof(WaitForAllCompletingModule));
         var pendingModuleResult = resultRegistry.GetResult(typeof(WaitForAllPendingModule));

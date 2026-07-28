@@ -17,11 +17,11 @@ public class SafeEstimatedTimeProviderTests
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddModuleEstimatedTimeProvider<SuccessfulTimeProvider>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -32,11 +32,11 @@ public class SafeEstimatedTimeProviderTests
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddModuleEstimatedTimeProvider<FailingTimeProvider>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -47,11 +47,11 @@ public class SafeEstimatedTimeProviderTests
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddModuleEstimatedTimeProvider<FailingTimeProvider2>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }

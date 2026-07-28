@@ -1,13 +1,20 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Git.Attributes;
 
 [ExcludeFromCodeCoverage]
-#pragma warning disable CS0618 // This public compatibility attribute intentionally uses the legacy run-condition contract.
-public class RunIfBranchStartsWithAttribute : RunConditionAttribute
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+public class RunIfBranchStartsWithAttribute : Attribute, IGroupedConditionAttribute
 {
+    public ConditionLogic Logic => ConditionLogic.Any;
+
+    public Type ConditionGroupType => typeof(BranchConditionHelper);
+
+    public string ConditionNames => $"{nameof(RunIfBranchStartsWithAttribute)}({BranchNamePrefix})";
+
     public string BranchNamePrefix { get; }
 
     public RunIfBranchStartsWithAttribute(string branchNamePrefix)
@@ -15,7 +22,7 @@ public class RunIfBranchStartsWithAttribute : RunConditionAttribute
         BranchNamePrefix = branchNamePrefix;
     }
 
-    public override Task<bool> Condition(IPipelineContext pipelineContext)
+    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
         return BranchConditionHelper.CheckBranchStartsWith(
             pipelineContext,
@@ -23,4 +30,3 @@ public class RunIfBranchStartsWithAttribute : RunConditionAttribute
             "Current Branch: {CurrentBranch} | Can run if starts with: {ExpectedPrefix}");
     }
 }
-#pragma warning restore CS0618

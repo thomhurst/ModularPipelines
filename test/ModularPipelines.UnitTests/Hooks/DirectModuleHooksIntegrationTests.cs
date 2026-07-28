@@ -217,9 +217,9 @@ public class DirectModuleHooksIntegrationTests : TestBase
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<Module1>()
             .AddModule<Module2>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
         var log = GetLogSnapshot();
 
@@ -243,9 +243,9 @@ public class DirectModuleHooksIntegrationTests : TestBase
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<OrderedHooksModule>()
             .AddModuleEventReceiver<RecordingModuleEventReceiver>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
         var log = GetLogSnapshot();
         var expected = new[]
@@ -274,9 +274,9 @@ public class DirectModuleHooksIntegrationTests : TestBase
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<Module1>()
             .AddModule<DependentLoggingModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
         var log = GetLogSnapshot();
 
@@ -305,15 +305,15 @@ public class DirectModuleHooksIntegrationTests : TestBase
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<Module1>()
             .AddModule<Module2>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        var result = await host.ExecutePipelineAsync();
+        var result = await host.RunAsync();
 
         // Pipeline should complete successfully
         await Assert.That(result.Modules).Count().IsEqualTo(2);
 
         // All modules should have succeeded
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         var module1Result = resultRegistry.GetResult(typeof(Module1));
         var module2Result = resultRegistry.GetResult(typeof(Module2));

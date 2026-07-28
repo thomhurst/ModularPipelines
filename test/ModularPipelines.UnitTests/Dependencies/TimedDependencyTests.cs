@@ -22,11 +22,11 @@ public class TimedDependencyTests
         var host = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<FiveSecondModule>()
             .AddModule<OneSecondModuleDependentOnFiveSecondModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var fiveSecondResult = resultRegistry.GetResult(typeof(FiveSecondModule))!;
         var oneSecondResult = resultRegistry.GetResult(typeof(OneSecondModuleDependentOnFiveSecondModule))!;
 

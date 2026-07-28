@@ -116,14 +116,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     {
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
         var attributes = GetConditionAttributes(moduleType);
-        var newStyleResult = await EvaluateNewStyleConditions(attributes, pipelineContext, cancellationToken).ConfigureAwait(false);
-
-        if (!newStyleResult.IsRunnable)
-        {
-            return newStyleResult;
-        }
-
-        return await EvaluateLegacyConditions(
+        return await EvaluateConditions(
             attributes,
             pipelineContext,
             IsDistributedMaster(),
@@ -138,7 +131,6 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                && _roleDetector.DetectRole() == DistributedRole.Master;
     }
 
-#pragma warning disable CS0618 // Legacy condition attributes are cached and evaluated here to preserve compatibility.
     private ConditionAttributes GetConditionAttributes(Type moduleType)
     {
         return _conditionAttributes.GetOrAdd(
@@ -151,112 +143,145 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private static ConditionAttributes CreateConditionAttributes(Type moduleType)
     {
         var attributes = moduleType.GetCustomAttributes(inherit: true);
-        var newStyleAttributes = attributes.OfType<IConditionAttribute>().ToArray();
-        var legacyAttributes = attributes.OfType<RunConditionAttribute>().ToArray();
+        var conditionAttributes = attributes.OfType<IConditionAttribute>().ToArray();
 
         return new ConditionAttributes(
-            newStyleAttributes.Where(attribute => attribute.Logic == ConditionLogic.Skip).ToArray(),
-            newStyleAttributes.Where(attribute => attribute.Logic == ConditionLogic.All).ToArray(),
-            newStyleAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any).ToArray(),
-            legacyAttributes.OfType<MandatoryRunConditionAttribute>().ToArray(),
-            legacyAttributes.Where(attribute => attribute is not MandatoryRunConditionAttribute).ToArray());
+            conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.Skip).ToArray(),
+            conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.All).ToArray(),
+            conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any).ToArray());
     }
 
-    private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateNewStyleConditions(
-        ConditionAttributes attributes,
-        IPipelineContext pipelineContext,
-        CancellationToken cancellationToken)
-    {
-        foreach (var attribute in attributes.Skip)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            if (await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
-            {
-                return (false, SkipDecision.Skip($"SkipIf<{attribute.ConditionNames}> returned true"));
-            }
-        }
-
-        foreach (var attribute in attributes.All)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
-            {
-                return (false, SkipDecision.Skip($"RunIfAll<{attribute.ConditionNames}> not satisfied"));
-            }
-        }
-
-        foreach (var attribute in attributes.Any)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
-            {
-                return (false, SkipDecision.Skip($"RunIfAny<{attribute.ConditionNames}> not satisfied"));
-            }
-        }
-
-        return (true, null);
-    }
-
-    private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateLegacyConditions(
+    private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateConditions(
         ConditionAttributes attributes,
         IPipelineContext pipelineContext,
         bool isDistributedMaster,
         CancellationToken cancellationToken)
     {
-        var allMandatoryConditions = attributes.Mandatory;
+        var skipDecision = await EvaluateSkipConditions(
+            attributes.Skip,
+            pipelineContext,
+            cancellationToken).ConfigureAwait(false);
+        skipDecision ??= await EvaluateAllConditions(
+            attributes.All,
+            pipelineContext,
+            isDistributedMaster,
+            cancellationToken).ConfigureAwait(false);
+        skipDecision ??= await EvaluateAnyConditions(
+            attributes.Any,
+            pipelineContext,
+            cancellationToken).ConfigureAwait(false);
 
-        // On a distributed master, OS-only conditions are normally deferred to the matching
-        // worker (skipped here) so the master publishes the assignment with an OS capability
-        // instead of skipping it locally. But if a module carries contradictory OS-only
-        // conditions targeting more than one operating system (e.g. Windows-only AND
-        // Linux-only, possibly via inheritance), no single worker can ever satisfy them.
-        // In that case we must keep evaluating them here so the module is skipped everywhere,
-        // otherwise the master would publish an assignment requiring multiple mutually
-        // exclusive OS capabilities and wait forever for a result that never arrives.
-        var targetsMultipleOperatingSystems = allMandatoryConditions
-            .Select(OperatingSystemConditions.GetTarget)
-            .Where(operatingSystem => operatingSystem is not null)
-            .Distinct()
-            .Count() > 1;
+        return skipDecision is null ? (true, null) : (false, skipDecision);
+    }
 
-        var deferOperatingSystemConditionsToWorker = isDistributedMaster && !targetsMultipleOperatingSystems;
+    private static async Task<SkipDecision?> EvaluateSkipConditions(
+        IEnumerable<IConditionAttribute> attributes,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        foreach (var attribute in attributes)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
 
-        var mandatoryConditions = allMandatoryConditions
-            .Where(attribute => !deferOperatingSystemConditionsToWorker || OperatingSystemConditions.GetTarget(attribute) is null)
+            if (await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+            {
+                return SkipDecision.Skip($"SkipIf<{attribute.ConditionNames}> returned true");
+            }
+        }
+
+        return null;
+    }
+
+    private static async Task<SkipDecision?> EvaluateAllConditions(
+        IEnumerable<IConditionAttribute> attributes,
+        IPipelineContext pipelineContext,
+        bool isDistributedMaster,
+        CancellationToken cancellationToken)
+    {
+        var allConditions = attributes
+            .Select(attribute => (Attribute: attribute, OperatingSystemTargets: OperatingSystemConditions.GetTargets(attribute)))
             .ToArray();
-        var optionalConditions = attributes.Optional;
+        var operatingSystemTargets = allConditions
+            .SelectMany(condition => condition.OperatingSystemTargets)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        var deferOperatingSystemConditions = isDistributedMaster && operatingSystemTargets.Length == 1;
 
-        foreach (var attribute in mandatoryConditions)
+        foreach (var (attribute, attributeOperatingSystemTargets) in allConditions)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (!await attribute.Condition(pipelineContext).ConfigureAwait(false))
+            if (deferOperatingSystemConditions && attributeOperatingSystemTargets.Count > 0)
             {
-                return (false, SkipDecision.Skip($"A condition to run this module has not been met - {attribute.GetType().Name}"));
+                continue;
+            }
+
+            if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+            {
+                return SkipDecision.Skip($"RunIfAll<{attribute.ConditionNames}> not satisfied");
             }
         }
 
-        if (optionalConditions.Length == 0)
-        {
-            return (true, null);
-        }
+        return null;
+    }
 
-        foreach (var attribute in optionalConditions)
+    private static async Task<SkipDecision?> EvaluateAnyConditions(
+        IReadOnlyList<IConditionAttribute> attributes,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        var evaluatedGroups = new HashSet<Type>();
+
+        foreach (var attribute in attributes)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (await attribute.Condition(pipelineContext).ConfigureAwait(false))
+            if (attribute is not IGroupedConditionAttribute groupedAttribute)
             {
-                return (true, null);
+                if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+                {
+                    return SkipDecision.Skip($"RunIfAny<{attribute.ConditionNames}> not satisfied");
+                }
+
+                continue;
+            }
+
+            if (!evaluatedGroups.Add(groupedAttribute.ConditionGroupType))
+            {
+                continue;
+            }
+
+            var alternatives = attributes
+                .OfType<IGroupedConditionAttribute>()
+                .Where(candidate => candidate.ConditionGroupType == groupedAttribute.ConditionGroupType)
+                .ToArray();
+
+            if (!await AnyConditionMatches(alternatives, pipelineContext, cancellationToken).ConfigureAwait(false))
+            {
+                return SkipDecision.Skip(
+                    $"No grouped run conditions were met: {string.Join(", ", alternatives.Select(x => x.ConditionNames))}");
             }
         }
 
-        var names = optionalConditions.Select(attribute =>
-            attribute.GetType().Name.Replace("Attribute", string.Empty, StringComparison.OrdinalIgnoreCase));
-        return (false, SkipDecision.Skip($"No run conditions were met: {string.Join(", ", names)}"));
+        return null;
+    }
+
+    private static async Task<bool> AnyConditionMatches(
+        IEnumerable<IGroupedConditionAttribute> alternatives,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        foreach (var alternative in alternatives)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (await alternative.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private sealed class ConditionEvaluation
@@ -271,9 +296,5 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private sealed record ConditionAttributes(
         IConditionAttribute[] Skip,
         IConditionAttribute[] All,
-        IConditionAttribute[] Any,
-        MandatoryRunConditionAttribute[] Mandatory,
-        RunConditionAttribute[] Optional);
-
-#pragma warning restore CS0618
+        IConditionAttribute[] Any);
 }

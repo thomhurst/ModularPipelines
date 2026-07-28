@@ -99,10 +99,10 @@ public class DependsOnAllInheritingFromTests : TestBase
             .AddModule<Module2>()
             .AddModule<Module3>()
             .AddModule<Module4>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        var pipelineSummary = await host.ExecutePipelineAsync();
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var pipelineSummary = await host.RunAsync();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         var result1 = resultRegistry.GetResult(typeof(Module1))!;
         var result2 = resultRegistry.GetResult(typeof(Module2))!;
@@ -131,10 +131,10 @@ public class DependsOnAllInheritingFromTests : TestBase
             .AddModule<GenericModule1>()
             .AddModule<GenericModule2>()
             .AddModule<DependsOnOpenGenericModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        var pipelineSummary = await host.ExecutePipelineAsync();
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var pipelineSummary = await host.RunAsync();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         var result1 = resultRegistry.GetResult(typeof(GenericModule1))!;
         var result2 = resultRegistry.GetResult(typeof(GenericModule2))!;

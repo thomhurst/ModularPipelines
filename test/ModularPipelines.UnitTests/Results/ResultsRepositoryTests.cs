@@ -54,11 +54,11 @@ public class ResultsRepositoryTests : TestBase
             .AddResultsRepository<JsonResultRepository>()
             .AddModule<Module1>()
             .AddModule<Module2>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var module1Result = resultRegistry.GetResult(typeof(Module1))!;
         var module2Result = resultRegistry.GetResult(typeof(Module2))!;
 
@@ -78,11 +78,11 @@ public class ResultsRepositoryTests : TestBase
             .AddModule<Module1>()
             .AddModule<Module2>()
             .RunCategories("Other")
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var module1Result = resultRegistry.GetResult(typeof(Module1))!;
         var module2Result = resultRegistry.GetResult(typeof(Module2))!;
 

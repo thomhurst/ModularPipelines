@@ -133,12 +133,12 @@ public class RetryTests : TestBase
                 options.DefaultRetryCount = DefaultRetryCount;
             })
             .AddModule<SuccessModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var module = host.RootServices.GetServices<IModule>().OfType<SuccessModule>().First();
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var module = host.Services.GetServices<IModule>().OfType<SuccessModule>().First();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SuccessModule))!;
 
         using (Assert.Multiple())
@@ -157,12 +157,12 @@ public class RetryTests : TestBase
                 options.DefaultRetryCount = DefaultRetryCount;
             })
             .AddModule<FailedModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var module = host.RootServices.GetServices<IModule>().OfType<FailedModule>().First();
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var module = host.Services.GetServices<IModule>().OfType<FailedModule>().First();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(FailedModule))!;
 
         using (Assert.Multiple())
@@ -177,12 +177,12 @@ public class RetryTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<FailedModuleWithCustomRetryPolicy>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var module = host.RootServices.GetServices<IModule>().OfType<FailedModuleWithCustomRetryPolicy>().First();
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var module = host.Services.GetServices<IModule>().OfType<FailedModuleWithCustomRetryPolicy>().First();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(FailedModuleWithCustomRetryPolicy))!;
 
         using (Assert.Multiple())
@@ -201,12 +201,12 @@ public class RetryTests : TestBase
                 options.DefaultRetryCount = 0;
             })
             .AddModule<FailedModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await host.ExecutePipelineAsync());
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await host.RunAsync());
 
-        var module = host.RootServices.GetServices<IModule>().OfType<FailedModule>().First();
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var module = host.Services.GetServices<IModule>().OfType<FailedModule>().First();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(FailedModule))!;
 
         using (Assert.Multiple())
@@ -225,11 +225,11 @@ public class RetryTests : TestBase
                 options.DefaultRetryCount = DefaultRetryCount;
             })
             .AddModule<FailedModuleWithTimeout>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await host.ExecutePipelineAsync());
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await host.RunAsync());
 
-        var module = host.RootServices.GetServices<IModule>().OfType<FailedModuleWithTimeout>().Single();
+        var module = host.Services.GetServices<IModule>().OfType<FailedModuleWithTimeout>().Single();
         var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
         using (Assert.Multiple())

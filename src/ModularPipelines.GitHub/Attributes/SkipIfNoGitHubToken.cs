@@ -1,17 +1,20 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.GitHub.Attributes;
 
-#pragma warning disable CS0618 // This public compatibility attribute intentionally uses the legacy run-condition contract.
-public class SkipIfNoGitHubToken : MandatoryRunConditionAttribute
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+public class SkipIfNoGitHubToken : Attribute, IConditionAttribute
 {
-    /// <inheritdoc/>
-    public override Task<bool> Condition(IPipelineContext pipelineContext)
+    public ConditionLogic Logic => ConditionLogic.Skip;
+
+    public string ConditionNames => nameof(SkipIfNoGitHubToken);
+
+    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
         var token = pipelineContext.Environment.Variables.GetEnvironmentVariable("GITHUB_TOKEN");
 
-        return Task.FromResult(!string.IsNullOrEmpty(token));
+        return Task.FromResult(string.IsNullOrEmpty(token));
     }
 }
-#pragma warning restore CS0618

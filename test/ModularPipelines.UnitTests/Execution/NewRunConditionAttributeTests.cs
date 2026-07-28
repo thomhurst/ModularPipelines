@@ -257,11 +257,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<NoConditionsModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(NoConditionsModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -271,11 +271,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<RunIfAllTrueModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAllTrueModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -285,11 +285,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<RunIfAllFalseModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAllFalseModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
     }
@@ -299,11 +299,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<RunIfAllMixedModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAllMixedModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
     }
@@ -313,11 +313,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<RunIfAnyTrueModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAnyTrueModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -327,11 +327,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<RunIfAnyFalseModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAnyFalseModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
     }
@@ -341,11 +341,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<RunIfAnyMixedModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAnyMixedModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -355,11 +355,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipIfTrueModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(SkipIfTrueModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
     }
@@ -369,11 +369,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipIfFalseModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(SkipIfFalseModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -410,11 +410,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<CombinedSkipAndRunModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(CombinedSkipAndRunModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
     }
@@ -424,11 +424,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<MultipleRunIfAllTrueModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(MultipleRunIfAllTrueModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -438,11 +438,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<MultipleRunIfAllMixedModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(MultipleRunIfAllMixedModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
     }
@@ -452,11 +452,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<ConditionGroupTrueModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(ConditionGroupTrueModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
@@ -466,11 +466,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<ConditionGroupFalseModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(ConditionGroupFalseModule))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
     }
@@ -480,11 +480,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<AttributeAndFluentConditionModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(AttributeAndFluentConditionModule))!;
         using (Assert.Multiple())
         {
@@ -498,11 +498,11 @@ public class NewRunConditionAttributeTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkippedModuleWithUnregisteredDependency>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(SkippedModuleWithUnregisteredDependency))!;
         await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
     }
@@ -515,9 +515,9 @@ public class NewRunConditionAttributeTests : TestBase
 
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<CancellationAwareConditionModule>()
-            .BuildHostAsync();
+            .BuildAsync();
         var module = new CancellationAwareConditionModule();
-        var conditionHandler = host.RootServices.GetRequiredService<IModuleConditionHandler>();
+        var conditionHandler = host.Services.GetRequiredService<IModuleConditionHandler>();
         using var cancellationTokenSource = new CancellationTokenSource();
         ConditionCancellationTokenSource = cancellationTokenSource;
         SubsequentConditionWasEvaluated = false;
@@ -554,9 +554,9 @@ public class NewRunConditionAttributeTests : TestBase
         ConditionCancellationTokenSource = setupTokenSource;
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<TModule>()
-            .BuildHostAsync();
+            .BuildAsync();
         var module = new TModule();
-        var conditionHandler = host.RootServices.GetRequiredService<IModuleConditionHandler>();
+        var conditionHandler = host.Services.GetRequiredService<IModuleConditionHandler>();
         using var cancellationTokenSource = new CancellationTokenSource();
         ConditionCancellationTokenSource = cancellationTokenSource;
         SubsequentConditionWasEvaluated = false;

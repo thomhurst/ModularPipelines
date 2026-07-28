@@ -47,15 +47,15 @@ public class DockerTests : TestBase
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<DockerBuildModule>()
-            .BuildHostAsync();
+            .BuildAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<ModularPipelines.Engine.IModuleResultRegistry>();
+        var resultRegistry = host.Services.GetRequiredService<ModularPipelines.Engine.IModuleResultRegistry>();
         var result = resultRegistry.GetResult<CommandResult>(typeof(DockerBuildModule))!;
 
         // IPipelineContext is a scoped service, so we need to create a scope
-        await using var scope = host.RootServices.CreateAsyncScope();
+        await using var scope = host.Services.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
         var dockerfilePath = context.Files.GetFolder(Environment.CurrentDirectory)
             .GetFolder("src")

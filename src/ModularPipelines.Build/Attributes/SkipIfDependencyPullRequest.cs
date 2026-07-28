@@ -1,35 +1,39 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.GitHub.Extensions;
 
 namespace ModularPipelines.Build.Attributes;
 
-#pragma warning disable CS0618 // This compatibility attribute intentionally uses the legacy run-condition contract.
-public class SkipIfDependencyPullRequest : MandatoryRunConditionAttribute
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+public class SkipIfDependencyPullRequest : Attribute, IConditionAttribute
 {
-    public override async Task<bool> Condition(IPipelineContext pipelineContext)
+    public ConditionLogic Logic => ConditionLogic.Skip;
+
+    public string ConditionNames => nameof(SkipIfDependencyPullRequest);
+
+    public async Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
         var gitHubEnvironmentVariables = pipelineContext.GitHub().EnvironmentVariables;
 
         if (gitHubEnvironmentVariables.EventName != "pull_request")
         {
-            return true;
+            return false;
         }
 
         var refNamePart = gitHubEnvironmentVariables.RefName?.Split('/').FirstOrDefault();
         if (!int.TryParse(refNamePart, out var prNumber))
         {
-            return true;
+            return false;
         }
 
         if (!long.TryParse(gitHubEnvironmentVariables.RepositoryId, out var repositoryId))
         {
-            return true;
+            return false;
         }
 
         var pr = await pipelineContext.GitHub().Client.PullRequest.Get(repositoryId, prNumber);
 
-        return pr.Labels.All(x => x.Name != "dependencies");
+        return pr.Labels.Any(x => x.Name == "dependencies");
     }
 }
-#pragma warning restore CS0618

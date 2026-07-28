@@ -224,11 +224,7 @@ internal class DistributedModuleExecutor(
         var capabilities = new HashSet<string>(options.Capabilities, StringComparer.OrdinalIgnoreCase);
         if (options.AutoDetectOsCapability)
         {
-            var osCapability = OsCapabilityDetector.Detect();
-            if (osCapability is not null)
-            {
-                capabilities.Add(osCapability);
-            }
+            capabilities.UnionWith(OsCapabilityDetector.Detect());
         }
 
         _logger.LogInformation("Master worker loop started with capabilities: {Capabilities}",
