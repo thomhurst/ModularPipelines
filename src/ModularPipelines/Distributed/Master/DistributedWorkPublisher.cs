@@ -81,9 +81,34 @@ internal class DistributedWorkPublisher(
     /// </summary>
     private const int CompressionThresholdBytes = 64 * 1024;
 
-    internal static string CompressJson(string json) => CompressJsonCore(json);
+    /// <summary>
+    /// GZip-compresses a JSON string and returns it as a prefixed base64 string.
+    /// </summary>
+    internal static string CompressJson(string json)
+    {
+        var bytes = Encoding.UTF8.GetBytes(json);
+        using var output = new MemoryStream();
+        using (var gzip = new GZipStream(output, CompressionLevel.Optimal))
+        {
+            gzip.Write(bytes, 0, bytes.Length);
+        }
 
-    internal static string DecompressJson(string compressed) => DecompressJsonCore(compressed);
+        return GzipPrefix + Convert.ToBase64String(output.ToArray());
+    }
+
+    /// <summary>
+    /// Decompresses a GZip-compressed JSON string (with prefix removed).
+    /// </summary>
+    internal static string DecompressJson(string compressed)
+    {
+        var payload = compressed.AsSpan(GzipPrefix.Length);
+        var bytes = Convert.FromBase64String(payload.ToString());
+        using var input = new MemoryStream(bytes);
+        using var gzip = new GZipStream(input, CompressionMode.Decompress);
+        using var output = new MemoryStream();
+        gzip.CopyTo(output);
+        return Encoding.UTF8.GetString(output.ToArray());
+    }
 
     /// <summary>
     /// Gathers serialized results for all dependencies resolved by the canonical dependency resolver.
@@ -128,34 +153,5 @@ internal class DistributedWorkPublisher(
         }
 
         return results.Count > 0 ? results : null;
-    }
-
-    /// <summary>
-    /// GZip-compresses a JSON string and returns it as a prefixed base64 string.
-    /// </summary>
-    private static string CompressJsonCore(string json)
-    {
-        var bytes = Encoding.UTF8.GetBytes(json);
-        using var output = new MemoryStream();
-        using (var gzip = new GZipStream(output, CompressionLevel.Optimal))
-        {
-            gzip.Write(bytes, 0, bytes.Length);
-        }
-
-        return GzipPrefix + Convert.ToBase64String(output.ToArray());
-    }
-
-    /// <summary>
-    /// Decompresses a GZip-compressed JSON string (with prefix removed).
-    /// </summary>
-    private static string DecompressJsonCore(string compressed)
-    {
-        var payload = compressed.AsSpan(GzipPrefix.Length);
-        var bytes = Convert.FromBase64String(payload.ToString());
-        using var input = new MemoryStream(bytes);
-        using var gzip = new GZipStream(input, CompressionMode.Decompress);
-        using var output = new MemoryStream();
-        gzip.CopyTo(output);
-        return Encoding.UTF8.GetString(output.ToArray());
     }
 }
