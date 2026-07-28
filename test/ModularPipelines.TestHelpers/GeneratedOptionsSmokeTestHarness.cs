@@ -234,35 +234,14 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         var type = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
 
-        if (type == typeof(string))
+        if (TryCreateKnownSample(type) is { } knownSample)
         {
-            return "smoke-value";
-        }
-
-        if (type == typeof(bool))
-        {
-            return true;
-        }
-
-        if (type == typeof(CliOptionValuePair))
-        {
-            return new CliOptionValuePair("smoke-first", "smoke-second");
-        }
-
-        if (type == typeof(KeyValue))
-        {
-            return new KeyValue("smoke-key", "smoke-value");
-        }
-
-        if (type == typeof(Uri))
-        {
-            return new Uri("https://example.invalid/smoke");
+            return knownSample;
         }
 
         if (type.IsEnum)
         {
-            return Enum.GetValues(type).GetValue(0)
-                ?? throw new InvalidOperationException($"{type.FullName} has no values.");
+            return CreateEnumSample(type);
         }
 
         if (IsNumeric(type))
@@ -270,27 +249,51 @@ public static class GeneratedOptionsSmokeTestHarness
             return Convert.ChangeType(1, type, CultureInfo.InvariantCulture);
         }
 
-        if (TryGetEnumerableElementType(type) is { } elementType)
+        if (TryCreateEnumerableSample(type) is { } enumerableSample)
         {
-            var element = CreateSample(elementType);
-            var array = Array.CreateInstance(elementType, 1);
-            array.SetValue(element, 0);
-
-            if (type.IsAssignableFrom(array.GetType()))
-            {
-                return array;
-            }
-
-            var listType = typeof(List<>).MakeGenericType(elementType);
-            var list = (IList) Activator.CreateInstance(listType)!;
-            list.Add(element);
-
-            if (type.IsAssignableFrom(listType))
-            {
-                return list;
-            }
+            return enumerableSample;
         }
 
+        return CreateConstructedSample(type);
+    }
+
+    private static object? TryCreateKnownSample(Type type) =>
+        type == typeof(string) ? "smoke-value"
+        : type == typeof(bool) ? true
+        : type == typeof(CliOptionValuePair) ? new CliOptionValuePair("smoke-first", "smoke-second")
+        : type == typeof(KeyValue) ? new KeyValue("smoke-key", "smoke-value")
+        : type == typeof(Uri) ? new Uri("https://example.invalid/smoke")
+        : null;
+
+    private static object CreateEnumSample(Type type) =>
+        Enum.GetValues(type).GetValue(0)
+        ?? throw new InvalidOperationException($"{type.FullName} has no values.");
+
+    private static object? TryCreateEnumerableSample(Type type)
+    {
+        if (TryGetEnumerableElementType(type) is not { } elementType)
+        {
+            return null;
+        }
+
+        var element = CreateSample(elementType);
+        var array = Array.CreateInstance(elementType, 1);
+        array.SetValue(element, 0);
+
+        if (type.IsAssignableFrom(array.GetType()))
+        {
+            return array;
+        }
+
+        var listType = typeof(List<>).MakeGenericType(elementType);
+        var list = (IList) Activator.CreateInstance(listType)!;
+        list.Add(element);
+
+        return type.IsAssignableFrom(listType) ? list : null;
+    }
+
+    private static object CreateConstructedSample(Type type)
+    {
         if (type.GetConstructor([typeof(string)]) is { } stringConstructor)
         {
             return stringConstructor.Invoke(["smoke-value"]);
@@ -352,52 +355,33 @@ public static class GeneratedOptionsSmokeTestHarness
         backingField.SetValue(target, value);
     }
 
-    private static IReadOnlyList<string> GetValues(object value)
+    private static IReadOnlyList<string> GetValues(object value) =>
+        value switch
+        {
+            string stringValue => [stringValue],
+            IEnumerable<KeyValue> keyValues => keyValues.Select(item => item.ToString()).ToList(),
+            IEnumerable enumerable when value is not IEnumerable<char> => GetEnumerableValues(enumerable),
+            bool boolValue => [boolValue.ToString().ToLowerInvariant()],
+            Uri uri => [uri.IsAbsoluteUri ? uri.AbsoluteUri : uri.ToString()],
+            IFormattable formattable when !value.GetType().IsEnum =>
+                [formattable.ToString(null, CultureInfo.InvariantCulture)],
+            _ => GetEnumOrDefaultValue(value),
+        };
+
+    private static IReadOnlyList<string> GetEnumerableValues(IEnumerable enumerable) =>
+        enumerable
+            .Cast<object>()
+            .SelectMany(GetValues)
+            .ToList();
+
+    private static IReadOnlyList<string> GetEnumOrDefaultValue(object value)
     {
-        if (value is string stringValue)
-        {
-            return [stringValue];
-        }
+        var enumValue = value.GetType()
+            .GetField(value.ToString()!)?
+            .GetCustomAttribute<EnumValueAttribute>()?
+            .Value;
 
-        if (value is IEnumerable<KeyValue> keyValues)
-        {
-            return keyValues.Select(item => item.ToString()).ToList();
-        }
-
-        if (value is IEnumerable enumerable and not IEnumerable<char>)
-        {
-            return enumerable
-                .Cast<object>()
-                .SelectMany(GetValues)
-                .ToList();
-        }
-
-        if (value is bool boolValue)
-        {
-            return [boolValue.ToString().ToLowerInvariant()];
-        }
-
-        if (value.GetType().IsEnum)
-        {
-            var enumValue = value.GetType()
-                .GetField(value.ToString()!)?
-                .GetCustomAttribute<EnumValueAttribute>()?
-                .Value;
-
-            return [enumValue ?? value.ToString()!];
-        }
-
-        if (value is Uri uri)
-        {
-            return [uri.IsAbsoluteUri ? uri.AbsoluteUri : uri.ToString()];
-        }
-
-        if (value is IFormattable formattable)
-        {
-            return [formattable.ToString(null, CultureInfo.InvariantCulture)];
-        }
-
-        return [value.ToString()!];
+        return [enumValue ?? value.ToString()!];
     }
 }
 
