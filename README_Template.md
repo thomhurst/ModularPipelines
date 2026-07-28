@@ -28,15 +28,15 @@ ModularPipelines lets you write your CI/CD pipelines as regular C# code. That me
 [DependsOn<TestModule>]
 public class PublishModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // This is real C#. Set a breakpoint. Inspect variables. Debug locally.
         return await context.DotNet().Publish(new DotNetPublishOptions
         {
-            Project = "src/MyApp/MyApp.csproj",
-            Configuration = Configuration.Release,
+            ProjectSolution = "src/MyApp/MyApp.csproj",
+            Configuration = "Release",
             Output = "publish/"
-        }, cancellationToken);
+        }, cancellationToken: cancellationToken);
     }
 }
 ```
@@ -77,7 +77,9 @@ public class BuildModule : Module<BuildInfo>
 {
     protected override async Task<BuildInfo?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().Build(new DotNetBuildOptions { Project = "MyApp.csproj" }, cancellationToken);
+        await context.DotNet().Build(
+            new DotNetBuildOptions { ProjectSolution = "MyApp.csproj" },
+            cancellationToken: cancellationToken);
         return new BuildInfo { Version = "1.0.0", OutputPath = "bin/Release" };
     }
 }
@@ -86,10 +88,10 @@ public class BuildModule : Module<BuildInfo>
 [DependsOn<BuildModule>]
 public class PublishModule : Module
 {
-    protected override async Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task ExecuteModuleAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var buildResult = await GetModule<BuildModule>();
-        var outputPath = buildResult.Value!.OutputPath; // Strongly-typed, compile-time checked
+        var buildResult = await context.GetModule<BuildModule>();
+        var outputPath = buildResult.ValueOrDefault!.OutputPath; // Strongly-typed, compile-time checked
         // Publish using the build output...
     }
 }
@@ -112,44 +114,64 @@ Built-in Roslyn analyzers catch common mistakes before you even run:
 dotnet new console -n MyPipeline
 cd MyPipeline
 dotnet add package ModularPipelines
+dotnet add package ModularPipelines.DotNet
 ```
 
 ```csharp
 // Program.cs
-await PipelineHostBuilder.Create()
+using ModularPipelines;
+using ModularPipelines.Extensions;
+
+var builder = Pipeline.CreateBuilder(args);
+
+builder
     .AddModule<BuildModule>()
     .AddModule<TestModule>()
-    .AddModule<PublishModule>()
-    .ExecutePipelineAsync();
+    .AddModule<PublishModule>();
+
+await builder.ExecutePipelineAsync();
 ```
 
 ```csharp
 // BuildModule.cs
+using ModularPipelines.Context;
+using ModularPipelines.DotNet.Extensions;
+using ModularPipelines.DotNet.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
+
 public class BuildModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.DotNet().Build(new DotNetBuildOptions
         {
-            Project = "MySolution.sln",
-            Configuration = Configuration.Release
-        }, cancellationToken);
+            ProjectSolution = "MySolution.sln",
+            Configuration = "Release"
+        }, cancellationToken: cancellationToken);
     }
 }
 ```
 
 ```csharp
 // TestModule.cs
+using ModularPipelines.Attributes;
+using ModularPipelines.Context;
+using ModularPipelines.DotNet.Extensions;
+using ModularPipelines.DotNet.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
+
 [DependsOn<BuildModule>]
 public class TestModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.DotNet().Test(new DotNetTestOptions
         {
             Project = "MySolution.sln",
-            Configuration = Configuration.Release
-        }, cancellationToken);
+            Configuration = "Release"
+        }, cancellationToken: cancellationToken);
     }
 }
 ```

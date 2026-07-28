@@ -49,10 +49,8 @@ namespace ModularPipelines.Modules;
 ///         deps.DependsOnIf&lt;MonitoringModule&gt;(Environment.IsProduction);
 ///     }
 ///
-///     public override async Task&lt;ApiResult?&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-///     {
-///         // Implementation
-///     }
+///     protected override Task&lt;ApiResult?&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+///         =&gt; Task.FromResult&lt;ApiResult?&gt;(new ApiResult());
 /// }
 /// </code>
 /// </example>
@@ -215,7 +213,7 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// <remarks>
     /// <para>
     /// This hook is called after both successful execution and failures. On failure, it is called
-    /// after <see cref="OnFailedAsync"/>. Check <see cref="ModuleResult{T}.Exception"/> to determine
+    /// after <see cref="OnFailedAsync"/>. Check <see cref="ModuleResult.ExceptionOrDefault"/> to determine
     /// if the module failed.
     /// </para>
     /// <para>

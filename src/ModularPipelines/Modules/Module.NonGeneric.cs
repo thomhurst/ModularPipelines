@@ -3,6 +3,8 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
 
+#pragma warning disable SA1202 // Lifecycle members are grouped by behavior rather than accessibility.
+
 /// <summary>
 /// Base class for modules that don't return a meaningful result.
 /// </summary>
@@ -21,7 +23,9 @@ namespace ModularPipelines.Modules;
 /// {
 ///     protected override async Task ExecuteModuleAsync(IModuleContext context, CancellationToken cancellationToken)
 ///     {
-///         await context.Command.ExecuteCommandLineTool(...);
+///         await context.Shell.Command.ExecuteCommandLineTool(
+///             new GenericCommandLineToolOptions("deploy"),
+///             cancellationToken: cancellationToken);
 ///         // No return statement needed
 ///     }
 /// }
@@ -48,3 +52,5 @@ public abstract class Module : Module<None>
         return None.Value;
     }
 }
+
+#pragma warning restore SA1202

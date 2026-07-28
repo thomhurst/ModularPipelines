@@ -16,7 +16,7 @@ namespace ModularPipelines.Conditions;
 /// {
 ///     public Task&lt;bool&gt; EvaluateAsync(IPipelineContext context)
 ///         =&gt; Task.FromResult(!string.IsNullOrEmpty(
-///             context.Environment.GetEnvironmentVariable("GITHUB_TOKEN")));
+///             context.Environment.Variables.GetEnvironmentVariable("GITHUB_TOKEN")));
 /// }
 /// </code>
 /// </example>

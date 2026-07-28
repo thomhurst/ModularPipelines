@@ -91,31 +91,27 @@ If you want to see how to get started, or want to know more about ModularPipelin
 ### Program.cs - Main method
 
 ```csharp
-await PipelineHostBuilder.Create()
-    .ConfigureAppConfiguration((context, builder) =>
-    {
-        builder.AddJsonFile("appsettings.json")
-            .AddUserSecrets<Program>()
-            .AddEnvironmentVariables();
-    })
-    .ConfigureServices((context, collection) =>
-    {
-        collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
-        collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
-        collection.AddSingleton<ISomeService1, SomeService1>();
-        collection.AddTransient<ISomeService2, SomeService2>();
-    })
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Services
+    .Configure<NuGetSettings>(builder.Configuration.GetSection("NuGet"))
+    .Configure<PublishSettings>(builder.Configuration.GetSection("Publish"))
+    .AddSingleton<ISomeService1, SomeService1>()
+    .AddTransient<ISomeService2, SomeService2>();
+
+builder
     .AddModule<FindNugetPackagesModule>()
-    .AddModule<UploadNugetPackagesModule>()
-    .ExecutePipelineAsync();
+    .AddModule<UploadNugetPackagesModule>();
+
+await builder.ExecutePipelineAsync();
 ```
 
 ### Custom Modules
 
 ```csharp
-public class FindNugetPackagesModule : Module<FileInfo>
+public class FindNugetPackagesModule : Module<List<File>>
 {
-    protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<List<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var repositoryInfo = await context.Git().Information.GetInfoAsync()
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
@@ -128,7 +124,7 @@ public class FindNugetPackagesModule : Module<FileInfo>
 
 ```csharp
 [DependsOn<FindNugetPackagesModule>]
-public class UploadNugetPackagesModule : Module<FileInfo>
+public class UploadNugetPackagesModule : Module
 {
     private readonly IOptions<NuGetSettings> _nugetSettings;
 
@@ -137,11 +133,11 @@ public class UploadNugetPackagesModule : Module<FileInfo>
         _nugetSettings = nugetSettings;
     }
 
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task ExecuteModuleAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var nugetFiles = await GetModule<FindNugetPackagesModule>();
+        var nugetFiles = await context.GetModule<FindNugetPackagesModule>();
 
-        return await nugetFiles.Value!
+        await nugetFiles.ValueOrDefault!
             .SelectAsync(async nugetFile => await context.DotNet().NuGet.Push(new DotNetNuGetPushOptions
             {
                 Path = nugetFile,

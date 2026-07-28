@@ -19,7 +19,7 @@ namespace ModularPipelines.Options;
 /// </item>
 /// <item>
 /// <term>Global Configuration</term>
-/// <description>Settings in this <see cref="PipelineOptions"/> class, configured via <see cref="Host.PipelineHostBuilder.ConfigurePipelineOptions"/></description>
+/// <description>Settings in this <see cref="PipelineOptions"/> class, configured via <see cref="PipelineBuilder.Options"/></description>
 /// </item>
 /// <item>
 /// <term>Module Configuration</term>

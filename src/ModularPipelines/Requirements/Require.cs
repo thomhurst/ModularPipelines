@@ -21,8 +21,8 @@ namespace ModularPipelines.Requirements;
 /// // Async condition
 /// services.AddRequirement(Require.ThatAsync(
 ///     async context =&gt; {
-///         var result = await context.Command.ExecuteCommandLineTool(
-///             new CommandLineToolOptions("docker", "--version"));
+///         var result = await context.Shell.Command.ExecuteCommandLineTool(
+///             new GenericCommandLineToolOptions("docker") { Arguments = ["--version"] });
 ///         return result.ExitCode == 0;
 ///     },
 ///     "Docker must be installed"));
@@ -70,8 +70,8 @@ public static class Require
     /// <code>
     /// services.AddRequirement(Require.ThatAsync(
     ///     async ctx =&gt; {
-    ///         var result = await ctx.Command.ExecuteCommandLineTool(
-    ///             new CommandLineToolOptions("git", "--version"));
+    ///         var result = await ctx.Shell.Command.ExecuteCommandLineTool(
+    ///             new GenericCommandLineToolOptions("git") { Arguments = ["--version"] });
     ///         return result.ExitCode == 0;
     ///     },
     ///     "Git must be installed"));

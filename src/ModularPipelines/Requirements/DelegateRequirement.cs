@@ -13,9 +13,10 @@ namespace ModularPipelines.Requirements;
 /// </para>
 /// <para><b>Example with async delegate:</b></para>
 /// <code>
-/// services.AddRequirement(Require.That(
+/// services.AddRequirement(Require.ThatAsync(
 ///     async context =&gt; {
-///         var result = await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("docker", "--version"));
+///         var result = await context.Shell.Command.ExecuteCommandLineTool(
+///             new GenericCommandLineToolOptions("docker") { Arguments = ["--version"] });
 ///         return result.ExitCode == 0;
 ///     },
 ///     "Docker must be installed"));
@@ -35,7 +36,7 @@ public sealed class DelegateRequirement : IPipelineRequirement
     private readonly int _order;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DelegateRequirement"/> class with an async evaluator.
+    /// Initialises a new instance of the <see cref="DelegateRequirement"/> class with an async evaluator.
     /// </summary>
     /// <param name="evaluator">The async delegate that evaluates the requirement.</param>
     /// <param name="failureReason">The reason to display if the requirement fails.</param>
@@ -51,7 +52,7 @@ public sealed class DelegateRequirement : IPipelineRequirement
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DelegateRequirement"/> class with a sync evaluator.
+    /// Initialises a new instance of the <see cref="DelegateRequirement"/> class with a sync evaluator.
     /// </summary>
     /// <param name="evaluator">The delegate that evaluates the requirement.</param>
     /// <param name="failureReason">The reason to display if the requirement fails.</param>

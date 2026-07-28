@@ -8,7 +8,7 @@ namespace ModularPipelines.Options;
 /// <remarks>
 /// <para>
 /// These options control how secrets are detected and masked in log output.
-/// Configure via <see cref="Host.PipelineHostBuilder.ConfigureServices"/> or <c>Configure&lt;SecretMaskingOptions&gt;</c>.
+/// Configure through <see cref="PipelineBuilder.Services"/> and <c>Configure&lt;SecretMaskingOptions&gt;</c>.
 /// </para>
 /// <para>
 /// <strong>Default Behavior:</strong>
@@ -21,24 +21,22 @@ namespace ModularPipelines.Options;
 /// </remarks>
 /// <example>
 /// <code>
-/// await PipelineHostBuilder.Create()
-///     .ConfigureServices((ctx, services) =>
-///     {
-///         services.Configure&lt;SecretMaskingOptions&gt;(options =>
-///         {
-///             options.CaseInsensitive = true;  // Match "Password", "PASSWORD", "password"
-///             options.MinimumSecretLength = 4; // Only mask secrets 4+ chars
-///             options.MaskValue = "[REDACTED]"; // Custom mask text
-///         });
-///     })
-///     .ExecutePipelineAsync();
+/// var builder = Pipeline.CreateBuilder();
+/// builder.Services.Configure&lt;SecretMaskingOptions&gt;(options =>
+/// {
+///     options.CaseInsensitive = true;  // Match "Password", "PASSWORD", "password"
+///     options.MinimumSecretLength = 4; // Only mask secrets 4+ chars
+///     options.MaskValue = "[REDACTED]"; // Custom mask text
+/// });
+///
+/// await builder.ExecutePipelineAsync();
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]
 public record SecretMaskingOptions
 {
     /// <summary>
-    /// Gets or sets whether secret matching should be case-insensitive.
+    /// Gets or sets a value indicating whether secret matching is case-insensitive.
     /// </summary>
     /// <remarks>
     /// When <c>true</c>, a secret value of "MyPassword" will also mask "MYPASSWORD", "mypassword", etc.

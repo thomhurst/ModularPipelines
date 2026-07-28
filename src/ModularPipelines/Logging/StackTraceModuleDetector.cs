@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using ModularPipelines.Attributes;
@@ -20,7 +21,7 @@ namespace ModularPipelines.Logging;
 ///
 /// Fallback strategies (when AsyncLocal is not available):
 /// 1. Look for methods with [ModuleMethodMarker] attribute
-/// 2. Find types inheriting from ModuleBase
+/// 2. Find types implementing <see cref="IModule"/>
 /// 3. Find the calling class from the entry assembly
 /// 4. Find any non-abstract, non-generic calling class
 ///
@@ -61,6 +62,10 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
     /// </summary>
     private static readonly Assembly? EntryAssembly = Assembly.GetEntryAssembly();
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Stack inspection is a runtime fallback when AsyncLocal context is unavailable.")]
     public Type? DetectModuleType()
     {
         // Fast path: check AsyncLocal first to avoid expensive stack trace inspection
@@ -143,6 +148,10 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
         return null;
     }
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Stack inspection is a runtime fallback when AsyncLocal context is unavailable.")]
     private static string? GetCacheKey(List<StackFrame> stackFrames)
     {
         // Find the first frame that's not from logging infrastructure
@@ -162,6 +171,10 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
         return $"{relevantFrame.DeclaringType?.FullName}.{relevantFrame.Name}";
     }
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Stack inspection is a runtime fallback when AsyncLocal context is unavailable.")]
     private static Type? GetModuleFromMarkerAttributes(List<StackFrame> stackFrames)
     {
         foreach (var frame in stackFrames)
@@ -195,6 +208,10 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
             !t.IsAbstract && t.IsAssignableTo(typeof(IModule)));
     }
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Stack inspection is a runtime fallback when AsyncLocal context is unavailable.")]
     private static Type? GetNonCompilerGeneratedType(StackFrame stackFrame)
     {
         var type = stackFrame.GetMethod()?.ReflectedType;
