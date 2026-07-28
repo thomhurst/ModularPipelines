@@ -268,9 +268,20 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                     StringComparison.OrdinalIgnoreCase));
             if (!emittedRootCommand)
             {
-                throw new InvalidOperationException(
-                    $"Preferred documentation example command '{command.FullCommand}' for "
-                    + $"'{tool.ToolName}' is not exposed as a root service method.");
+                var subDomainParent = GeneratorUtils.GetSubDomainParentCommands(tool)
+                    .FirstOrDefault(candidate => string.Equals(
+                        candidate.FullCommand,
+                        command.FullCommand,
+                        StringComparison.OrdinalIgnoreCase));
+                if (subDomainParent is null)
+                {
+                    throw new InvalidOperationException(
+                        $"Preferred documentation example command '{command.FullCommand}' for "
+                        + $"'{tool.ToolName}' is not exposed as a service method.");
+                }
+
+                var subDomain = GeneratorUtils.GetCommandGroupIdentifier(subDomainParent);
+                return $"context.{tool.NamespacePrefix}().{subDomain}.Execute";
             }
 
             return $"context.{tool.NamespacePrefix}().{rootMethod}";
@@ -285,9 +296,28 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
             .SkipLast(1)
             .Select(GeneratorUtils.ToPascalCase));
 
+        if (tool.Commands.Any(candidate =>
+                string.Equals(
+                    candidate.SubDomainGroup,
+                    command.SubDomainGroup,
+                    StringComparison.OrdinalIgnoreCase)
+                && IsCommandPrefix(command, candidate)))
+        {
+            navigationSegments.Add(GeneratorUtils.ToPascalCase(command.CommandParts[^1]));
+            return $"context.{tool.NamespacePrefix}().{string.Join('.', navigationSegments)}.Execute";
+        }
+
         var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
         return $"context.{tool.NamespacePrefix}().{string.Join('.', navigationSegments)}.{methodName}";
     }
+
+    private static bool IsCommandPrefix(
+        CliCommandDefinition command,
+        CliCommandDefinition candidate) =>
+        candidate.CommandParts.Length > command.CommandParts.Length
+        && command.CommandParts.SequenceEqual(
+            candidate.CommandParts.Take(command.CommandParts.Length),
+            StringComparer.OrdinalIgnoreCase);
 
     private static string BuildOptionsExpression(CliCommandDefinition command)
     {
