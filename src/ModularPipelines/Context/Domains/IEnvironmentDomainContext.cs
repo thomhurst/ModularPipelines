@@ -9,22 +9,22 @@ namespace ModularPipelines.Context.Domains;
 public interface IEnvironmentDomainContext
 {
     /// <summary>
-    /// The current operating system.
+    /// Gets the current operating system.
     /// </summary>
     OSPlatform OperatingSystem { get; }
 
     /// <summary>
-    /// The processor architecture.
+    /// Gets the processor architecture.
     /// </summary>
     Architecture Architecture { get; }
 
     /// <summary>
-    /// The machine name.
+    /// Gets the machine name.
     /// </summary>
     string MachineName { get; }
 
     /// <summary>
-    /// The current user name.
+    /// Gets the current user name.
     /// </summary>
     string UserName { get; }
 
@@ -38,12 +38,12 @@ public interface IEnvironmentDomainContext
     string WorkingDirectory { get; }
 
     /// <summary>
-    /// Environment variable operations.
+    /// Gets environment variable operations.
     /// </summary>
     IEnvironmentVariablesContext Variables { get; }
 
     /// <summary>
-    /// CI/CD build system detection.
+    /// Gets CI/CD build system detection.
     /// </summary>
     IBuildSystemContext BuildSystem { get; }
 }

@@ -11,10 +11,10 @@ internal class EnvironmentDomainContext : IEnvironmentDomainContext
     /// <summary>
     /// Cached operating system platform detected at class load time.
     /// </summary>
-    private static readonly OSPlatform s_operatingSystem = DetectOperatingSystem();
+    private static readonly OSPlatform OperatingSystemValue = DetectOperatingSystem();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="EnvironmentDomainContext"/> class.
+    /// Initialises a new instance of the <see cref="EnvironmentDomainContext"/> class.
     /// </summary>
     /// <param name="variables">The environment variables context.</param>
     /// <param name="buildSystem">The build system context.</param>
@@ -28,7 +28,7 @@ internal class EnvironmentDomainContext : IEnvironmentDomainContext
     }
 
     /// <inheritdoc />
-    public OSPlatform OperatingSystem => s_operatingSystem;
+    public OSPlatform OperatingSystem => OperatingSystemValue;
 
     /// <summary>
     /// Detects the operating system platform.
