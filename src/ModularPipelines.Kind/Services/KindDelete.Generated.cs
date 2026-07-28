@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Kind.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Kind.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class KindDelete
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="KindDelete"/> class.
     /// </summary>
-    public KindDelete(ICommand command)
+    public KindDelete(ICommandContext command)
     {
         _command = command;
     }

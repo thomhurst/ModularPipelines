@@ -10,7 +10,7 @@ Reusable run conditions implement `IRunCondition`:
 ```csharp
 public class ServiceIsAvailable : IRunCondition
 {
-    public async Task<bool> EvaluateAsync(IPipelineHookContext context)
+    public async Task<bool> EvaluateAsync(IPipelineContext context)
     {
         var response = await context.Http.SendAsync("https://www.example.com/ping");
         return response.StatusCode == HttpStatusCode.OK;

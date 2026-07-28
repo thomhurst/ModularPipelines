@@ -15,7 +15,7 @@ public class RunIfBranchStartsWithAttribute : RunConditionAttribute
         BranchNamePrefix = branchNamePrefix;
     }
 
-    public override Task<bool> Condition(IPipelineHookContext pipelineContext)
+    public override Task<bool> Condition(IPipelineContext pipelineContext)
     {
         return Task.FromResult(BranchConditionHelper.CheckBranchStartsWith(
             pipelineContext,

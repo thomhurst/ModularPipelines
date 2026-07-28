@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudMetastoreServices
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudMetastoreServicesBackups? _backups;
     private GcloudMetastoreServicesExport? _export;
     private GcloudMetastoreServicesImport? _import;
@@ -27,7 +27,7 @@ public class GcloudMetastoreServices
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMetastoreServices"/> class.
     /// </summary>
-    public GcloudMetastoreServices(ICommand command)
+    public GcloudMetastoreServices(ICommandContext command)
     {
         _command = command;
     }

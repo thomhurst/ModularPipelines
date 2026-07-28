@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Pulumi.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Pulumi.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PulumiInsights
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private PulumiInsightsAccount? _account;
     private PulumiInsightsResource? _resource;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiInsights"/> class.
     /// </summary>
-    public PulumiInsights(ICommand command)
+    public PulumiInsights(ICommandContext command)
     {
         _command = command;
     }

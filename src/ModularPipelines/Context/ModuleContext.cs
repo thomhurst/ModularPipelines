@@ -12,16 +12,16 @@ namespace ModularPipelines.Context;
 /// <summary>
 /// Module-specific context that wraps the pipeline context and adds module-specific capabilities.
 /// </summary>
-internal class ModuleContext : IModuleContext, IPipelineHookContext, IInternalPipelineContext
+internal class ModuleContext : IModuleContext, IInternalPipelineContext
 {
-    private readonly IPipelineHookContext _pipelineContext;
+    private readonly IPipelineContext _pipelineContext;
     private readonly IInternalPipelineContext _internalContext;
     private readonly IModule _currentModule;
     private readonly ModuleExecutionContext _executionContext;
     private readonly IModuleLogger _logger;
 
     public ModuleContext(
-        IPipelineHookContext pipelineContext,
+        IPipelineContext pipelineContext,
         IModule currentModule,
         ModuleExecutionContext executionContext,
         IModuleLogger logger)

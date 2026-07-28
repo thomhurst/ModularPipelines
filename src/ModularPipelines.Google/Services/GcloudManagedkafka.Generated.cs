@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudManagedkafka
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudManagedkafkaAcls? _acls;
     private GcloudManagedkafkaClusters? _clusters;
     private GcloudManagedkafkaConnectClusters? _connectClusters;
@@ -31,7 +31,7 @@ public class GcloudManagedkafka
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudManagedkafka"/> class.
     /// </summary>
-    public GcloudManagedkafka(ICommand command)
+    public GcloudManagedkafka(ICommandContext command)
     {
         _command = command;
     }

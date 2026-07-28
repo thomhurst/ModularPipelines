@@ -5,7 +5,7 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Git.Options;
@@ -17,12 +17,12 @@ namespace ModularPipelines.Git.Services;
 /// </summary>
 internal class Git : IGit
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Git"/> class.
     /// </summary>
-    public Git(ICommand command)
+    public Git(ICommandContext command)
     {
         _command = command;
     }

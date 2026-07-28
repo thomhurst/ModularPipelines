@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworksecuritySecurityProfiles
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudNetworksecuritySecurityProfilesCustomIntercept? _customIntercept;
     private GcloudNetworksecuritySecurityProfilesCustomMirroring? _customMirroring;
     private GcloudNetworksecuritySecurityProfilesThreatPrevention? _threatPrevention;
@@ -28,7 +28,7 @@ public class GcloudNetworksecuritySecurityProfiles
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecurityProfiles"/> class.
     /// </summary>
-    public GcloudNetworksecuritySecurityProfiles(ICommand command)
+    public GcloudNetworksecuritySecurityProfiles(ICommandContext command)
     {
         _command = command;
     }

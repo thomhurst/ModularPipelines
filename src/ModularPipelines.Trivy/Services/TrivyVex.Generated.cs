@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Trivy.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Trivy.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class TrivyVex
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private TrivyVexRepo? _repo;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TrivyVex"/> class.
     /// </summary>
-    public TrivyVex(ICommand command)
+    public TrivyVex(ICommandContext command)
     {
         _command = command;
     }

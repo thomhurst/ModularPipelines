@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Context;
+using ModularPipelines.Context;
 using ModularPipelines.Interfaces;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -6,7 +6,7 @@ namespace ModularPipelines.GitHub.PipelineWriters;
 
 public abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
 {
-    public async Task Write(IPipelineHookContext pipelineHookContext)
+    public async Task Write(IPipelineContext pipelineHookContext)
     {
         var options = await GetGitHubPipelineFileWriterOptions(pipelineHookContext);
 
@@ -73,5 +73,5 @@ public abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
         await options.OutputPath.WriteAsync(yaml);
     }
 
-    public abstract Task<GitHubPipelineFileWriterOptions> GetGitHubPipelineFileWriterOptions(IPipelineHookContext pipelineHookContext);
+    public abstract Task<GitHubPipelineFileWriterOptions> GetGitHubPipelineFileWriterOptions(IPipelineContext pipelineHookContext);
 }

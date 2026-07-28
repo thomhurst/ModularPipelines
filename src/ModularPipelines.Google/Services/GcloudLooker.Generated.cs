@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudLooker
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudLookerBackups? _backups;
     private GcloudLookerInstances? _instances;
     private GcloudLookerOperations? _operations;
@@ -28,7 +28,7 @@ public class GcloudLooker
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudLooker"/> class.
     /// </summary>
-    public GcloudLooker(ICommand command)
+    public GcloudLooker(ICommandContext command)
     {
         _command = command;
     }

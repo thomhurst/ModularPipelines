@@ -18,14 +18,6 @@ public class ContextHierarchyTests
     }
 
     [Test]
-    public async Task IPipelineHookContext_ShouldInheritFromIPipelineContext()
-    {
-        // IPipelineHookContext should inherit from IPipelineContext
-        await Assert.That(typeof(IPipelineHookContext).GetInterfaces())
-            .Contains(typeof(IPipelineContext));
-    }
-
-    [Test]
     public async Task IPipelineContext_ShouldHaveExpectedDomainProperties()
     {
         var contextType = typeof(IPipelineContext);

@@ -20,7 +20,7 @@ namespace ModularPipelines.Context;
 /// Orchestrates command-line tool execution by coordinating argument building,
 /// placeholder replacement, and command execution.
 /// </summary>
-internal sealed class Command : ICommand, ICommandContext
+internal sealed class Command : ICommandContext
 {
     private readonly ICommandLogger _commandLogger;
     private readonly ICommandLineBuilder _commandLineBuilder;

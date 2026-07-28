@@ -1,5 +1,6 @@
 using System.Xml.Linq;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Data;
 using ModularPipelines.TestHelpers;
 using static ModularPipelines.UnitTests.Helpers.SerializationTestModels;
 
@@ -30,7 +31,7 @@ public class XmlTests : TestBase
     [Test]
     public async Task Can_Serialize_With_Null()
     {
-        var xml = await GetService<IXml>();
+        var xml = await GetService<IXmlContext>();
 
         var result = xml.ToXml(XmlModel.CreateDefault());
         await Assert.That(result.Trim()).IsEqualTo($"""
@@ -44,7 +45,7 @@ public class XmlTests : TestBase
     [Test]
     public async Task Can_Serialize_With_Array()
     {
-        var xml = await GetService<IXml>();
+        var xml = await GetService<IXmlContext>();
 
         var result = xml.ToXml(XmlModel.CreateWithItems());
         await Assert.That(result.Trim()).IsEqualTo($"""
@@ -63,7 +64,7 @@ public class XmlTests : TestBase
     [Test]
     public async Task Can_Serialize_With_Options()
     {
-        var xml = await GetService<IXml>();
+        var xml = await GetService<IXmlContext>();
 
         var result = xml.ToXml(XmlModel.CreateDefault(), SaveOptions.DisableFormatting);
         await Assert.That(result.Trim()).IsEqualTo($"""
@@ -77,7 +78,7 @@ public class XmlTests : TestBase
     [Test]
     public async Task Can_Deserialize()
     {
-        var xml = await GetService<IXml>();
+        var xml = await GetService<IXmlContext>();
 
         var result = xml.FromXml<XmlModel>($"""
                                               <XmlModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -91,7 +92,7 @@ public class XmlTests : TestBase
     [Test]
     public async Task Can_Deserialize_With_Options()
     {
-        var xml = await GetService<IXml>();
+        var xml = await GetService<IXmlContext>();
 
         var result = xml.FromXml<XmlModel>($"""
                                               <XmlModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">

@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMariadbServer
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzMariadbServerConfiguration? _configuration;
     private AzMariadbServerFirewallRule? _firewallRule;
     private AzMariadbServerPrivateEndpointConnection? _privateEndpointConnection;
@@ -29,7 +29,7 @@ public class AzMariadbServer
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMariadbServer"/> class.
     /// </summary>
-    public AzMariadbServer(ICommand command)
+    public AzMariadbServer(ICommandContext command)
     {
         _command = command;
     }

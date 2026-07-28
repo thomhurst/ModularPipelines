@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Docker.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Docker : IDocker
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Docker"/> class.
@@ -38,7 +38,7 @@ internal partial class Docker : IDocker
         DockerSystem system,
         DockerTrust trust,
         DockerVolume volume,
-        ICommand command
+        ICommandContext command
     )
     {
         Builder = builder;

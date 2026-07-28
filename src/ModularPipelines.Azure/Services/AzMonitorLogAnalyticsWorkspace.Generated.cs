@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorLogAnalyticsWorkspace
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzMonitorLogAnalyticsWorkspaceDataExport? _dataExport;
     private AzMonitorLogAnalyticsWorkspaceIdentity? _identity;
     private AzMonitorLogAnalyticsWorkspaceLinkedService? _linkedService;
@@ -30,7 +30,7 @@ public class AzMonitorLogAnalyticsWorkspace
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorLogAnalyticsWorkspace"/> class.
     /// </summary>
-    public AzMonitorLogAnalyticsWorkspace(ICommand command)
+    public AzMonitorLogAnalyticsWorkspace(ICommandContext command)
     {
         _command = command;
     }

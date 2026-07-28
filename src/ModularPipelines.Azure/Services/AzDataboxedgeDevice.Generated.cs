@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzDataboxedgeDevice
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzDataboxedgeDeviceShare? _share;
     private AzDataboxedgeDeviceStorageAccount? _storageAccount;
     private AzDataboxedgeDeviceStorageAccountCredential? _storageAccountCredential;
@@ -28,7 +28,7 @@ public class AzDataboxedgeDevice
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDataboxedgeDevice"/> class.
     /// </summary>
-    public AzDataboxedgeDevice(ICommand command)
+    public AzDataboxedgeDevice(ICommandContext command)
     {
         _command = command;
     }

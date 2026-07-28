@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Context.Domains.Shell;
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
@@ -19,12 +20,12 @@ namespace ModularPipelines.Homebrew.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 internal partial class Brew : IBrew
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Brew"/> class.
     /// </summary>
-    public Brew(ICommand command)
+    public Brew(ICommandContext command)
     {
         _command = command;
     }

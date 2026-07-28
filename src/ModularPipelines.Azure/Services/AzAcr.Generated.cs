@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAcr
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzAcrCache? _cache;
     private AzAcrConnectedRegistry? _connectedRegistry;
     private AzAcrCredential? _credential;
@@ -39,7 +39,7 @@ public class AzAcr
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAcr"/> class.
     /// </summary>
-    public AzAcr(ICommand command)
+    public AzAcr(ICommandContext command)
     {
         _command = command;
     }

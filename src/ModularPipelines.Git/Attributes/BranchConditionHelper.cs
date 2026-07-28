@@ -13,7 +13,7 @@ internal static class BranchConditionHelper
     /// Checks if the current branch matches the expected branch name.
     /// </summary>
     internal static bool CheckBranchMatches(
-        IPipelineHookContext pipelineContext,
+        IPipelineContext pipelineContext,
         string expectedBranchName,
         string logMessageFormat)
     {
@@ -26,7 +26,7 @@ internal static class BranchConditionHelper
     /// Checks if the current branch starts with the expected prefix.
     /// </summary>
     internal static bool CheckBranchStartsWith(
-        IPipelineHookContext pipelineContext,
+        IPipelineContext pipelineContext,
         string expectedPrefix,
         string logMessageFormat)
     {

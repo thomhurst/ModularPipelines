@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Eksctl.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Eksctl.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class EksctlDelete
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EksctlDelete"/> class.
     /// </summary>
-    public EksctlDelete(ICommand command)
+    public EksctlDelete(ICommandContext command)
     {
         _command = command;
     }

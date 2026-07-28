@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorDiagnosticSettings
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzMonitorDiagnosticSettingsCategories? _categories;
     private AzMonitorDiagnosticSettingsSubscription? _subscription;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorDiagnosticSettings"/> class.
     /// </summary>
-    public AzMonitorDiagnosticSettings(ICommand command)
+    public AzMonitorDiagnosticSettings(ICommandContext command)
     {
         _command = command;
     }

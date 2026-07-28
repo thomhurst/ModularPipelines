@@ -1,14 +1,15 @@
 using ModularPipelines.Context.Domains.Installers;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options.Windows;
 
 namespace ModularPipelines.Context;
 
-internal class WindowsInstaller : IWindowsInstaller, IWindowsInstallerContext
+internal class WindowsInstaller : IWindowsInstallerContext
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
-    public WindowsInstaller(ICommand command)
+    public WindowsInstaller(ICommandContext command)
     {
         _command = command;
     }

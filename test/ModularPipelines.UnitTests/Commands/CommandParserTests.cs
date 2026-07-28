@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -184,7 +185,7 @@ public class CommandParserTests : TestBase
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
     {
-        var command = await GetService<ICommand>();
+        var command = await GetService<ICommandContext>();
 
         var executionOptions = new CommandExecutionOptions
         {

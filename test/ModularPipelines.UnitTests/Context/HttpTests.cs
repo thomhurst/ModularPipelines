@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Http;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
@@ -14,7 +15,7 @@ public class HttpTests : TestBase
     [Test]
     public async Task Can_Send_Request_With_String_To_Request_Implicit_Conversion()
     {
-        var result = await GetService<IHttp>((context, collection) => { });
+        var result = await GetService<IHttpContext>((context, collection) => { });
 
         var http = result.T;
 
@@ -26,7 +27,7 @@ public class HttpTests : TestBase
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var result = await GetService<IHttp>((_, collection) =>
+        var result = await GetService<IHttpContext>((_, collection) =>
         {
             collection.AddLogging(builder =>
             {
@@ -55,7 +56,7 @@ public class HttpTests : TestBase
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var result = await GetService<IHttp>((_, collection) =>
+        var result = await GetService<IHttpContext>((_, collection) =>
         {
             collection.AddLogging(builder =>
             {
@@ -86,7 +87,7 @@ public class HttpTests : TestBase
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var result = await GetService<IHttp>((_, collection) =>
+        var result = await GetService<IHttpContext>((_, collection) =>
         {
             collection.AddLogging(builder =>
             {

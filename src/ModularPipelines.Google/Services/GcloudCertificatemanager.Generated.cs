@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudCertificatemanager
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudCertificatemanagerCertificates? _certificates;
     private GcloudCertificatemanagerDnsAuthorizations? _dnsAuthorizations;
     private GcloudCertificatemanagerIssuanceConfigs? _issuanceConfigs;
@@ -30,7 +30,7 @@ public class GcloudCertificatemanager
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudCertificatemanager"/> class.
     /// </summary>
-    public GcloudCertificatemanager(ICommand command)
+    public GcloudCertificatemanager(ICommandContext command)
     {
         _command = command;
     }

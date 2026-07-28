@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkApplicationGatewayUrlPathMap
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzNetworkApplicationGatewayUrlPathMapRule? _rule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGatewayUrlPathMap"/> class.
     /// </summary>
-    public AzNetworkApplicationGatewayUrlPathMap(ICommand command)
+    public AzNetworkApplicationGatewayUrlPathMap(ICommandContext command)
     {
         _command = command;
     }

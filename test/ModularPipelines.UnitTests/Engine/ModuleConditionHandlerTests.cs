@@ -108,7 +108,7 @@ public class ModuleConditionHandlerTests
     private static ModuleConditionHandler CreateHandler(DistributedOptions distributedOptions)
     {
         var contextProvider = new Mock<IPipelineContextProvider>();
-        contextProvider.Setup(x => x.GetModuleContext()).Returns(Mock.Of<IPipelineHookContext>());
+        contextProvider.Setup(x => x.GetModuleContext()).Returns(Mock.Of<IPipelineContext>());
 
         // A bare mock reports no category (GetCategory returns null) and a no-op
         // FinalizeMetadata, so category filtering never interferes with these OS-condition tests.
@@ -165,7 +165,7 @@ public class ModuleConditionHandlerTests
 
     private sealed class CountingCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineHookContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context)
         {
             Interlocked.Increment(ref _conditionEvaluationCount);
             return Task.FromResult(true);

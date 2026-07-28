@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Context;
+using ModularPipelines.Context;
 
 namespace ModularPipelines.Interfaces;
 
@@ -12,5 +12,5 @@ public interface IBuildSystemPipelineFileWriter
     /// </summary>
     /// <param name="pipelineHookContext">The pipeline hook context containing information needed to write the pipeline file.</param>
     /// <returns>A task representing the asynchronous write operation.</returns>
-    Task Write(IPipelineHookContext pipelineHookContext);
+    Task Write(IPipelineContext pipelineHookContext);
 }

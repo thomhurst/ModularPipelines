@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudStorage
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudStorageBatchOperations? _batchOperations;
     private GcloudStorageBuckets? _buckets;
     private GcloudStorageFolders? _folders;
@@ -34,7 +34,7 @@ public class GcloudStorage
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudStorage"/> class.
     /// </summary>
-    public GcloudStorage(ICommand command)
+    public GcloudStorage(ICommandContext command)
     {
         _command = command;
     }

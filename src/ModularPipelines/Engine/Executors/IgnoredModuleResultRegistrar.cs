@@ -94,7 +94,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
 
     private async Task RegisterIgnoredModuleResultAsync(
         IgnoredModule ignoredModule,
-        IPipelineHookContext pipelineContext)
+        IPipelineContext pipelineContext)
     {
         var module = ignoredModule.Module;
         var moduleType = module.GetType();
@@ -151,7 +151,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
     private async Task<IModuleResult?> TryGetHistoricalResultAsync(
         IModule module,
         Type resultType,
-        IPipelineHookContext pipelineContext)
+        IPipelineContext pipelineContext)
     {
         try
         {

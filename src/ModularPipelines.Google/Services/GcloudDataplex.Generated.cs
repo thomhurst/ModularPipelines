@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataplex
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudDataplexAspectTypes? _aspectTypes;
     private GcloudDataplexAssets? _assets;
     private GcloudDataplexContext? _context;
@@ -37,7 +37,7 @@ public class GcloudDataplex
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataplex"/> class.
     /// </summary>
-    public GcloudDataplex(ICommand command)
+    public GcloudDataplex(ICommandContext command)
     {
         _command = command;
     }

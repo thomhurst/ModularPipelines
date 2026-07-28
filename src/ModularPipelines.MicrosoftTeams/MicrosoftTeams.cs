@@ -1,4 +1,5 @@
 using System.Text.Json;
+using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Http;
 using ModularPipelines.MicrosoftTeams.Models;
 using ModularPipelines.MicrosoftTeams.Options;
@@ -7,9 +8,9 @@ namespace ModularPipelines.MicrosoftTeams;
 
 internal class MicrosoftTeams : IMicrosoftTeams
 {
-    private readonly IHttp _http;
+    private readonly IHttpContext _http;
 
-    public MicrosoftTeams(IHttp http)
+    public MicrosoftTeams(IHttpContext http)
     {
         _http = http;
     }

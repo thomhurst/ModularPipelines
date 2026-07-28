@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudBms
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudBmsInstances? _instances;
     private GcloudBmsNetworks? _networks;
     private GcloudBmsNfsShares? _nfsShares;
@@ -31,7 +31,7 @@ public class GcloudBms
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBms"/> class.
     /// </summary>
-    public GcloudBms(ICommand command)
+    public GcloudBms(ICommandContext command)
     {
         _command = command;
     }

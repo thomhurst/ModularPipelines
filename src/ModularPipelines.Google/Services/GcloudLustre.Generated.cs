@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudLustre
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudLustreInstances? _instances;
     private GcloudLustreOperations? _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudLustre"/> class.
     /// </summary>
-    public GcloudLustre(ICommand command)
+    public GcloudLustre(ICommandContext command)
     {
         _command = command;
     }

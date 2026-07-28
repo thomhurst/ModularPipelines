@@ -3,7 +3,7 @@ using ModularPipelines.Context.Domains.Data;
 
 namespace ModularPipelines.Context;
 
-internal class Base64 : IBase64, IBase64Context
+internal class Base64 : IBase64Context
 {
     public string ToBase64String(string input, Encoding encoding)
     {

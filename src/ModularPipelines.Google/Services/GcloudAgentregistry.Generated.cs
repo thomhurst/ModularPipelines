@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAgentregistry
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudAgentregistryAgents? _agents;
     private GcloudAgentregistryBindings? _bindings;
     private GcloudAgentregistryEndpoints? _endpoints;
@@ -30,7 +30,7 @@ public class GcloudAgentregistry
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAgentregistry"/> class.
     /// </summary>
-    public GcloudAgentregistry(ICommand command)
+    public GcloudAgentregistry(ICommandContext command)
     {
         _command = command;
     }

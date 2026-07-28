@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkconnectivityMulticloudDataTransferConfigs
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudNetworkconnectivityMulticloudDataTransferConfigsDestinations? _destinations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityMulticloudDataTransferConfigs"/> class.
     /// </summary>
-    public GcloudNetworkconnectivityMulticloudDataTransferConfigs(ICommand command)
+    public GcloudNetworkconnectivityMulticloudDataTransferConfigs(ICommandContext command)
     {
         _command = command;
     }

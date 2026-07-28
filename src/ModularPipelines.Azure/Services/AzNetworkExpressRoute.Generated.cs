@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkExpressRoute
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzNetworkExpressRouteAuth? _auth;
     private AzNetworkExpressRouteGateway? _gateway;
     private AzNetworkExpressRoutePeering? _peering;
@@ -28,7 +28,7 @@ public class AzNetworkExpressRoute
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkExpressRoute"/> class.
     /// </summary>
-    public AzNetworkExpressRoute(ICommand command)
+    public AzNetworkExpressRoute(ICommandContext command)
     {
         _command = command;
     }

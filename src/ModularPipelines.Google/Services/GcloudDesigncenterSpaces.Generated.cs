@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDesigncenterSpaces
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudDesigncenterSpacesApplications? _applications;
     private GcloudDesigncenterSpacesApplicationTemplates? _applicationTemplates;
     private GcloudDesigncenterSpacesCatalogs? _catalogs;
@@ -28,7 +28,7 @@ public class GcloudDesigncenterSpaces
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDesigncenterSpaces"/> class.
     /// </summary>
-    public GcloudDesigncenterSpaces(ICommand command)
+    public GcloudDesigncenterSpaces(ICommandContext command)
     {
         _command = command;
     }

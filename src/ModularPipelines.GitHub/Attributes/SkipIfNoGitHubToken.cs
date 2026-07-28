@@ -7,7 +7,7 @@ namespace ModularPipelines.GitHub.Attributes;
 public class SkipIfNoGitHubToken : MandatoryRunConditionAttribute
 {
     /// <inheritdoc/>
-    public override Task<bool> Condition(IPipelineHookContext pipelineContext)
+    public override Task<bool> Condition(IPipelineContext pipelineContext)
     {
         var token = pipelineContext.Environment.Variables.GetEnvironmentVariable("GITHUB_TOKEN");
 

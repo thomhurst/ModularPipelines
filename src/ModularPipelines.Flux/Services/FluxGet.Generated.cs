@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Flux.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Flux.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxGet
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private FluxGetArtifacts? _artifacts;
     private FluxGetImages? _images;
     private FluxGetSources? _sources;
@@ -27,7 +27,7 @@ public class FluxGet
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxGet"/> class.
     /// </summary>
-    public FluxGet(ICommand command)
+    public FluxGet(ICommandContext command)
     {
         _command = command;
     }

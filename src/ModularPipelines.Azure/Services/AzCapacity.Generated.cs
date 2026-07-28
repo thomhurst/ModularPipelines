@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCapacity
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzCapacityReservation? _reservation;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCapacity"/> class.
     /// </summary>
-    public AzCapacity(ICommand command)
+    public AzCapacity(ICommandContext command)
     {
         _command = command;
     }

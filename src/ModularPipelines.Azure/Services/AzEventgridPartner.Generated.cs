@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventgridPartner
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzEventgridPartnerConfiguration? _configuration;
     private AzEventgridPartnerDestination? _destination;
     private AzEventgridPartnerNamespace? _namespace;
@@ -30,7 +30,7 @@ public class AzEventgridPartner
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventgridPartner"/> class.
     /// </summary>
-    public AzEventgridPartner(ICommand command)
+    public AzEventgridPartner(ICommandContext command)
     {
         _command = command;
     }

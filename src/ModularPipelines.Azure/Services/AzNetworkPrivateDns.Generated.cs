@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkPrivateDns
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzNetworkPrivateDnsLink? _link;
     private AzNetworkPrivateDnsRecordSet? _recordSet;
     private AzNetworkPrivateDnsZone? _zone;
@@ -27,7 +27,7 @@ public class AzNetworkPrivateDns
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkPrivateDns"/> class.
     /// </summary>
-    public AzNetworkPrivateDns(ICommand command)
+    public AzNetworkPrivateDns(ICommandContext command)
     {
         _command = command;
     }

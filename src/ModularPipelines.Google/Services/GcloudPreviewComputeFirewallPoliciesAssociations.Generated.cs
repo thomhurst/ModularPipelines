@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeFirewallPoliciesAssociations
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeFirewallPoliciesAssociations"/> class.
     /// </summary>
-    public GcloudPreviewComputeFirewallPoliciesAssociations(ICommand command)
+    public GcloudPreviewComputeFirewallPoliciesAssociations(ICommandContext command)
     {
         _command = command;
     }

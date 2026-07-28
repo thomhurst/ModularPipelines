@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPostgres
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzPostgresFlexibleServer? _flexibleServer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPostgres"/> class.
     /// </summary>
-    public AzPostgres(ICommand command)
+    public AzPostgres(ICommandContext command)
     {
         _command = command;
     }

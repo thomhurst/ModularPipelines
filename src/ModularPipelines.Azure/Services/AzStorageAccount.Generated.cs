@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageAccount
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzStorageAccountBlobServiceProperties? _blobServiceProperties;
     private AzStorageAccountEncryptionScope? _encryptionScope;
     private AzStorageAccountFileServiceProperties? _fileServiceProperties;
@@ -34,7 +34,7 @@ public class AzStorageAccount
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageAccount"/> class.
     /// </summary>
-    public AzStorageAccount(ICommand command)
+    public AzStorageAccount(ICommandContext command)
     {
         _command = command;
     }

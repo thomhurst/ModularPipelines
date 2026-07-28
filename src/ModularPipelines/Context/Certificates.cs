@@ -3,7 +3,7 @@ using ModularPipelines.Context.Domains.Security;
 
 namespace ModularPipelines.Context;
 
-internal class Certificates : ICertificates, ICertificatesContext
+internal class Certificates : ICertificatesContext
 {
     public X509Certificate2? GetCertificateBySubject(StoreLocation storeLocation, string subject)
     {

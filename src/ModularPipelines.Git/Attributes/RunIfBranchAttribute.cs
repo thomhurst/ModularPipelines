@@ -15,7 +15,7 @@ public class RunIfBranchAttribute : RunConditionAttribute
         BranchName = branchName;
     }
 
-    public override Task<bool> Condition(IPipelineHookContext pipelineContext)
+    public override Task<bool> Condition(IPipelineContext pipelineContext)
     {
         return Task.FromResult(BranchConditionHelper.CheckBranchMatches(
             pipelineContext,

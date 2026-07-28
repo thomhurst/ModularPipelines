@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudBilling
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudBillingAccounts? _accounts;
     private GcloudBillingBudgets? _budgets;
     private GcloudBillingProjects? _projects;
@@ -27,7 +27,7 @@ public class GcloudBilling
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBilling"/> class.
     /// </summary>
-    public GcloudBilling(ICommand command)
+    public GcloudBilling(ICommandContext command)
     {
         _command = command;
     }

@@ -38,7 +38,7 @@ namespace ModularPipelines.Attributes;
 public class RunOnLinuxAttribute : RunConditionAttribute
 {
     /// <inheritdoc/>
-    public override Task<bool> Condition(IPipelineHookContext pipelineContext)
+    public override Task<bool> Condition(IPipelineContext pipelineContext)
     {
         return Task.FromResult(OperatingSystem.IsLinux());
     }

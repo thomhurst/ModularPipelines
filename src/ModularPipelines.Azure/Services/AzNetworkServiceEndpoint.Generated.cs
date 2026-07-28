@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkServiceEndpoint
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzNetworkServiceEndpointPolicy? _policy;
     private AzNetworkServiceEndpointPolicyDefinition? _policyDefinition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkServiceEndpoint"/> class.
     /// </summary>
-    public AzNetworkServiceEndpoint(ICommand command)
+    public AzNetworkServiceEndpoint(ICommandContext command)
     {
         _command = command;
     }

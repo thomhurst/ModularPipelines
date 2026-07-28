@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAccesscontextmanager
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudAccesscontextmanagerAuthorizedOrgs? _authorizedOrgs;
     private GcloudAccesscontextmanagerCloudBindings? _cloudBindings;
     private GcloudAccesscontextmanagerLevels? _levels;
@@ -31,7 +31,7 @@ public class GcloudAccesscontextmanager
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAccesscontextmanager"/> class.
     /// </summary>
-    public GcloudAccesscontextmanager(ICommand command)
+    public GcloudAccesscontextmanager(ICommandContext command)
     {
         _command = command;
     }

@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Docker.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Docker.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DockerTrust
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private DockerTrustKey? _key;
     private DockerTrustSigner? _signer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerTrust"/> class.
     /// </summary>
-    public DockerTrust(ICommand command)
+    public DockerTrust(ICommandContext command)
     {
         _command = command;
     }

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -17,12 +18,12 @@ namespace ModularPipelines.DotNet.Generated.Services;
 /// </summary>
 public class DotNetNuget
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DotNetNuget"/> class.
     /// </summary>
-    public DotNetNuget(ICommand command)
+    public DotNetNuget(ICommandContext command)
     {
         _command = command;
     }

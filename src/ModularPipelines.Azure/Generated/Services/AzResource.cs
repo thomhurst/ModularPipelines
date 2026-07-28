@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -17,12 +18,12 @@ namespace ModularPipelines.Azure.Generated.Services;
 /// </summary>
 public class AzResource
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzResource"/> class.
     /// </summary>
-    public AzResource(ICommand command)
+    public AzResource(ICommandContext command)
     {
         _command = command;
     }

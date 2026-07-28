@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Flux.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Flux.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxDelete
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private FluxDeleteImage? _image;
     private FluxDeleteSource? _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxDelete"/> class.
     /// </summary>
-    public FluxDelete(ICommand command)
+    public FluxDelete(ICommandContext command)
     {
         _command = command;
     }

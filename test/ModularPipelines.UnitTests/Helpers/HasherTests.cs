@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Security;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Helpers;
@@ -21,7 +22,7 @@ public class HasherTests : TestBase
     [Arguments("Sha512", "e399b0584705f5f229a4398baa31c4b7cc820ac208327d26e66f0668288536981c3460a7ea92ef6be488ce30ff5b6a991babfe24833094eba3226cea5c14162c")]
     public async Task Hash_Algorithm_Produces_Expected_Output(string algorithm, string expected)
     {
-        var hasher = await GetService<IHasher>();
+        var hasher = await GetService<IHasherContext>();
 
         var result = algorithm switch
         {

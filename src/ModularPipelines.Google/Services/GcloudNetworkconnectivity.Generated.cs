@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkconnectivity
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudNetworkconnectivityHubs? _hubs;
     private GcloudNetworkconnectivityInternalRanges? _internalRanges;
     private GcloudNetworkconnectivityLocations? _locations;
@@ -35,7 +35,7 @@ public class GcloudNetworkconnectivity
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkconnectivity"/> class.
     /// </summary>
-    public GcloudNetworkconnectivity(ICommand command)
+    public GcloudNetworkconnectivity(ICommandContext command)
     {
         _command = command;
     }

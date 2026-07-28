@@ -75,7 +75,7 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
         return Task.WhenAll(_moduleHooks.Select(hook => invokeHook(hook, context)));
     }
 
-    private IPipelineHookContext GetPipelineContext()
+    private IPipelineContext GetPipelineContext()
     {
         return _moduleContextProvider.GetModuleContext();
     }

@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkApplicationGateway
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzNetworkApplicationGatewayAddressPool? _addressPool;
     private AzNetworkApplicationGatewayAuthCert? _authCert;
     private AzNetworkApplicationGatewayClientCert? _clientCert;
@@ -46,7 +46,7 @@ public class AzNetworkApplicationGateway
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGateway"/> class.
     /// </summary>
-    public AzNetworkApplicationGateway(ICommand command)
+    public AzNetworkApplicationGateway(ICommandContext command)
     {
         _command = command;
     }

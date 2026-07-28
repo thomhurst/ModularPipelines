@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudFunctions
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudFunctionsEventTypes? _eventTypes;
     private GcloudFunctionsLogs? _logs;
     private GcloudFunctionsRegions? _regions;
@@ -28,7 +28,7 @@ public class GcloudFunctions
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFunctions"/> class.
     /// </summary>
-    public GcloudFunctions(ICommand command)
+    public GcloudFunctions(ICommandContext command)
     {
         _command = command;
     }

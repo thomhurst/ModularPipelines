@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Rust.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Rust.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Cargo : ICargo
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Cargo"/> class.
     /// </summary>
-    public Cargo(ICommand command)
+    public Cargo(ICommandContext command)
     {
         _command = command;
     }

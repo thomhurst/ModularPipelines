@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzDeployment
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzDeploymentGroup? _group;
     private AzDeploymentMg? _mg;
     private AzDeploymentSub? _sub;
@@ -28,7 +28,7 @@ public class AzDeployment
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDeployment"/> class.
     /// </summary>
-    public AzDeployment(ICommand command)
+    public AzDeployment(ICommandContext command)
     {
         _command = command;
     }

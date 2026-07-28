@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
@@ -13,7 +14,7 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
     where TBuilder : CommandBuilderBase<TBuilder, TOptions>
     where TOptions : CommandLineToolOptions, new()
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private TOptions _toolOptions;
     private CommandExecutionOptions _executionOptions = new();
 
@@ -21,7 +22,7 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
     /// Initializes a new instance of the builder with default options.
     /// </summary>
     /// <param name="command">The command interface for execution.</param>
-    protected CommandBuilderBase(ICommand command)
+    protected CommandBuilderBase(ICommandContext command)
     {
         _command = command;
         _toolOptions = new TOptions();
@@ -32,7 +33,7 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
     /// </summary>
     /// <param name="command">The command interface for execution.</param>
     /// <param name="initialOptions">The initial tool options.</param>
-    protected CommandBuilderBase(ICommand command, TOptions initialOptions)
+    protected CommandBuilderBase(ICommandContext command, TOptions initialOptions)
     {
         _command = command;
         _toolOptions = initialOptions;
@@ -41,7 +42,7 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
     /// <summary>
     /// Gets the builder instance as the concrete type for fluent chaining.
     /// </summary>
-    protected TBuilder Self => (TBuilder)this;
+    protected TBuilder Self => (TBuilder) this;
 
     /// <summary>
     /// Gets or sets the tool-specific options being built.

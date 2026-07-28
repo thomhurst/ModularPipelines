@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudArtifactsDocker
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudArtifactsDockerImages? _images;
     private GcloudArtifactsDockerTags? _tags;
     private GcloudArtifactsDockerUpgrade? _upgrade;
@@ -27,7 +27,7 @@ public class GcloudArtifactsDocker
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudArtifactsDocker"/> class.
     /// </summary>
-    public GcloudArtifactsDocker(ICommand command)
+    public GcloudArtifactsDocker(ICommandContext command)
     {
         _command = command;
     }

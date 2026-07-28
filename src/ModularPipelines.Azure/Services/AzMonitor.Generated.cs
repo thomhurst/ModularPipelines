@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitor
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzMonitorAccount? _account;
     private AzMonitorActionGroup? _actionGroup;
     private AzMonitorActivityLog? _activityLog;
@@ -33,7 +33,7 @@ public class AzMonitor
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitor"/> class.
     /// </summary>
-    public AzMonitor(ICommand command)
+    public AzMonitor(ICommandContext command)
     {
         _command = command;
     }
