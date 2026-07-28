@@ -265,6 +265,77 @@ public class AlwaysRunHandlerTests
         await Assert.That(exception!.InnerExceptions).Contains(x => x is TimeoutException);
     }
 
+    [Test]
+    public async Task WaitForAlwaysRunModulesAsync_UsesCumulativeSchedulerProgressTimeout()
+    {
+        var module = new FirstAlwaysRunModule();
+        var firstBlocker = new FirstBlockingModule();
+        var secondBlocker = new SecondBlockingModule();
+        var moduleState = new ModuleState(module, module.GetType());
+        var firstBlockerState = new ModuleState(firstBlocker, firstBlocker.GetType())
+        {
+            State = ModuleExecutionState.Executing,
+        };
+        var secondBlockerState = new ModuleState(secondBlocker, secondBlocker.GetType())
+        {
+            State = ModuleExecutionState.Executing,
+        };
+        var scheduler = CreateScheduler(moduleState, firstBlockerState, secondBlockerState);
+        var moduleRunner = new Mock<IModuleRunner>();
+        var firstWaitObserved = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var secondWaitObserved = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var secondBlockerTaskRequests = 0;
+        var attempts = 0;
+
+        scheduler
+            .Setup(x => x.GetModuleCompletionTask(firstBlocker.GetType()))
+            .Callback(() => firstWaitObserved.TrySetResult())
+            .Returns(firstBlockerState.CompletionSource.Task);
+        scheduler
+            .Setup(x => x.GetModuleCompletionTask(secondBlocker.GetType()))
+            .Callback(() =>
+            {
+                if (Interlocked.Increment(ref secondBlockerTaskRequests) == 2)
+                {
+                    secondWaitObserved.TrySetResult();
+                }
+            })
+            .Returns(secondBlockerState.CompletionSource.Task);
+        moduleRunner
+            .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
+                moduleState,
+                scheduler.Object,
+                CancellationToken.None))
+            .Callback(() => Interlocked.Increment(ref attempts))
+            .Returns(Task.CompletedTask);
+
+        var handler = CreateHandler(moduleRunner.Object, TimeSpan.FromMilliseconds(200));
+        var handlerTask = handler.WaitForAlwaysRunModulesAsync(
+            scheduler.Object,
+            [module, firstBlocker, secondBlocker]);
+
+        await firstWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await Task.Delay(TimeSpan.FromMilliseconds(150));
+        firstBlockerState.State = ModuleExecutionState.Completed;
+        firstBlockerState.CompletionSource.TrySetResult(firstBlocker);
+        await secondWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
+
+        var completedWithinRemainingBudget = await Task.WhenAny(
+            handlerTask,
+            Task.Delay(TimeSpan.FromMilliseconds(100))) == handlerTask;
+
+        secondBlockerState.State = ModuleExecutionState.Completed;
+        secondBlockerState.CompletionSource.TrySetResult(secondBlocker);
+        var exception = await Assert.ThrowsAsync<AggregateException>(() => handlerTask);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(completedWithinRemainingBudget).IsTrue();
+            await Assert.That(attempts).IsEqualTo(2);
+            await Assert.That(exception!.InnerExceptions).Contains(x => x is TimeoutException);
+        }
+    }
+
     private static Mock<IModuleScheduler> CreateScheduler(params ModuleState[] moduleStates)
     {
         var statesByType = moduleStates.ToDictionary(x => x.ModuleType);
@@ -322,7 +393,7 @@ public class AlwaysRunHandlerTests
 
     private sealed class ThirdAlwaysRunModule : AlwaysRunTestModule;
 
-    private sealed class BlockingModule : Module<bool>
+    private class BlockingModule : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(
             IModuleContext context,
@@ -331,4 +402,8 @@ public class AlwaysRunHandlerTests
             return Task.FromResult(true);
         }
     }
+
+    private sealed class FirstBlockingModule : BlockingModule;
+
+    private sealed class SecondBlockingModule : BlockingModule;
 }

@@ -31,6 +31,10 @@ internal class AlwaysRunHandler(
 
         var exceptions = new ConcurrentQueue<Exception>();
         var remainingModules = alwaysRunModules;
+        using var schedulerProgressTimeoutSource = _schedulerProgressTimeout > TimeSpan.Zero
+            ? new CancellationTokenSource()
+            : null;
+        var schedulerProgressTimeoutStarted = false;
 
         while (remainingModules.Count > 0)
         {
@@ -50,11 +54,23 @@ internal class AlwaysRunHandler(
             var processedModules = modulesToProcess.Except(deferredModules).ToHashSet();
             remainingModules.RemoveAll(processedModules.Contains);
 
-            if (deferredModules.Count > 0 &&
-                processedModules.Count == 0 &&
-                !await WaitForSchedulerProgressAsync(scheduler, modules, deferredModules, exceptions).ConfigureAwait(false))
+            if (deferredModules.Count > 0 && processedModules.Count == 0)
             {
-                break;
+                if (schedulerProgressTimeoutSource != null && !schedulerProgressTimeoutStarted)
+                {
+                    schedulerProgressTimeoutSource.CancelAfter(_schedulerProgressTimeout);
+                    schedulerProgressTimeoutStarted = true;
+                }
+
+                if (!await WaitForSchedulerProgressAsync(
+                        scheduler,
+                        modules,
+                        deferredModules,
+                        exceptions,
+                        schedulerProgressTimeoutSource?.Token ?? CancellationToken.None).ConfigureAwait(false))
+                {
+                    break;
+                }
             }
         }
 
@@ -85,7 +101,8 @@ internal class AlwaysRunHandler(
         IModuleScheduler scheduler,
         IReadOnlyCollection<IModule> modules,
         IReadOnlyCollection<IModule> deferredModules,
-        ConcurrentQueue<Exception> exceptions)
+        ConcurrentQueue<Exception> exceptions,
+        CancellationToken schedulerProgressTimeoutToken)
     {
         var deferredModuleTypes = deferredModules.Select(module => module.GetType()).ToHashSet();
         var deferredModuleNames = string.Join(", ", deferredModuleTypes.Select(type => type.Name));
@@ -110,18 +127,19 @@ internal class AlwaysRunHandler(
         try
         {
             var schedulerProgress = Task.WhenAny(activeModuleTasks);
-            var completedTask = _schedulerProgressTimeout > TimeSpan.Zero
-                ? await schedulerProgress.WaitAsync(_schedulerProgressTimeout).ConfigureAwait(false)
-                : await schedulerProgress.ConfigureAwait(false);
+            var completedTask = await schedulerProgress
+                .WaitAsync(schedulerProgressTimeoutToken)
+                .ConfigureAwait(false);
 
             _ = completedTask.Exception;
             return true;
         }
-        catch (TimeoutException timeoutException)
+        catch (OperationCanceledException operationCanceledException)
+            when (schedulerProgressTimeoutToken.IsCancellationRequested)
         {
             var exception = new TimeoutException(
                 $"Timed out waiting for scheduler progress before retrying AlwaysRun modules: {deferredModuleNames}.",
-                timeoutException);
+                operationCanceledException);
             _logger.LogWarning(exception, "AlwaysRun modules could not be retried");
             exceptions.Enqueue(exception);
             return false;
