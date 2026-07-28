@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -31,19 +32,23 @@ namespace ModularPipelines.Console;
 [ExcludeFromCodeCoverage]
 internal class ProgressSession : IProgressSession, IProgressController
 {
+    private static readonly TimeSpan RefreshInterval = TimeSpan.FromMilliseconds(100);
+
     private readonly ConsoleCoordinator _coordinator;
     private readonly OrganizedModules _modules;
     private readonly IOptions<PipelineOptions> _options;
-    private readonly CancellationToken _cancellationToken;
     private readonly ILogger _logger;
+    private readonly CancellationTokenSource _progressLoopCancellationTokenSource;
 
     private readonly ConcurrentDictionary<IModule, ProgressTask> _moduleTasks = new();
     private readonly ConcurrentDictionary<SubModuleBase, ProgressTask> _subModuleTasks = new();
+    private readonly Dictionary<ProgressTask, ProgressTicker> _progressTickers = [];
     private readonly object _progressLock = new();
 
     private ProgressContext? _progressContext;
     private ProgressTask? _totalTask;
-    private readonly TaskCompletionSource _progressCompleted = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private Task? _progressLoopTask;
+    private Task? _disposeTask;
     private int _totalModuleCount;
     private int _completedModuleCount;
 
@@ -65,7 +70,8 @@ internal class ProgressSession : IProgressSession, IProgressController
         _modules = modules;
         _options = options;
         _logger = loggerFactory.CreateLogger<ProgressSession>();
-        _cancellationToken = cancellationToken;
+        _progressLoopCancellationTokenSource =
+            CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
     }
 
     /// <summary>
@@ -73,14 +79,21 @@ internal class ProgressSession : IProgressSession, IProgressController
     /// </summary>
     public void Start()
     {
-        _totalModuleCount = _modules.RunnableModules.Count;
+        lock (_progressLock)
+        {
+            if (_progressLoopTask is not null || _disposeTask is not null)
+            {
+                return;
+            }
 
-        // Fire and forget - progress runs until disposed
-        _ = RunProgressLoopAsync();
+            _totalModuleCount = _modules.RunnableModules.Count;
+            _progressLoopTask = RunProgressLoopAsync();
+        }
     }
 
     private async Task RunProgressLoopAsync()
     {
+        var cancellationToken = _progressLoopCancellationTokenSource.Token;
         try
         {
             await AnsiConsole.Progress()
@@ -110,8 +123,10 @@ internal class ProgressSession : IProgressSession, IProgressController
                     RegisterPendingModules(ctx);
 
                     // Keep alive until all modules complete or cancellation
-                    while (!ctx.IsFinished && !_cancellationToken.IsCancellationRequested)
+                    while (!ctx.IsFinished)
                     {
+                        cancellationToken.ThrowIfCancellationRequested();
+
                         // Check pause state and prepare for refresh
                         bool shouldRefresh;
                         TaskCompletionSource? resumeSignal = null;
@@ -136,10 +151,13 @@ internal class ProgressSession : IProgressSession, IProgressController
                         if (resumeSignal != null)
                         {
                             // Wait for resume signal with timeout to prevent stuck UI
-                            var timeoutTask = Task.Delay(TimeSpan.FromSeconds(60), CancellationToken.None);
-                            var completedTask = await Task.WhenAny(resumeSignal.Task, timeoutTask).ConfigureAwait(false);
-
-                            if (completedTask == timeoutTask)
+                            try
+                            {
+                                await resumeSignal.Task
+                                    .WaitAsync(TimeSpan.FromSeconds(60), cancellationToken)
+                                    .ConfigureAwait(false);
+                            }
+                            catch (TimeoutException)
                             {
                                 _logger.LogWarning(
                                     "Progress pause timed out after 60 seconds. Forcing resume to prevent stuck UI.");
@@ -158,6 +176,7 @@ internal class ProgressSession : IProgressSession, IProgressController
                         {
                             try
                             {
+                                UpdateProgressTickers();
                                 ctx.Refresh();
                             }
                             finally
@@ -175,9 +194,10 @@ internal class ProgressSession : IProgressSession, IProgressController
                             }
                         }
 
-                        await Task.Delay(100, CancellationToken.None).ConfigureAwait(false);
+                        await Task.Delay(RefreshInterval, cancellationToken).ConfigureAwait(false);
                     }
-                });
+                })
+                .ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {
@@ -186,10 +206,6 @@ internal class ProgressSession : IProgressSession, IProgressController
         catch (Exception)
         {
             // Suppress exceptions from progress display
-        }
-        finally
-        {
-            _progressCompleted.TrySetResult();
         }
     }
 
@@ -259,8 +275,7 @@ internal class ProgressSession : IProgressSession, IProgressController
                 _moduleTasks[state.Module] = task;
             }
 
-            // Start background ticker for progress animation
-            StartProgressTicker(task, estimatedDuration);
+            RegisterProgressTicker(task, estimatedDuration);
         }
     }
 
@@ -288,6 +303,8 @@ internal class ProgressSession : IProgressSession, IProgressController
 
                     task.StopTask();
                 }
+
+                _progressTickers.Remove(task);
 
                 // Update total progress
                 _completedModuleCount++;
@@ -322,6 +339,8 @@ internal class ProgressSession : IProgressSession, IProgressController
                 {
                     task.StopTask();
                 }
+
+                _progressTickers.Remove(task);
             }
             else
             {
@@ -367,8 +386,7 @@ internal class ProgressSession : IProgressSession, IProgressController
 
             _subModuleTasks[subModule] = task;
 
-            // Start background ticker for progress animation
-            StartProgressTicker(task, estimatedDuration);
+            RegisterProgressTicker(task, estimatedDuration);
         }
     }
 
@@ -404,39 +422,51 @@ internal class ProgressSession : IProgressSession, IProgressController
 
                     task.StopTask();
                 }
+
+                _progressTickers.Remove(task);
             }
         }
     }
 
-    private void StartProgressTicker(ProgressTask task, TimeSpan estimatedDuration)
+    private void RegisterProgressTicker(ProgressTask task, TimeSpan estimatedDuration)
     {
-        _ = Task.Run(async () =>
+        var totalTicks = 95.0;
+        var seconds = estimatedDuration.TotalSeconds > 0 ? estimatedDuration.TotalSeconds : 10.0;
+        var ticksPerSecond = Math.Clamp(totalTicks / seconds, 0.5, 20.0);
+        _progressTickers[task] = new ProgressTicker(ticksPerSecond);
+    }
+
+    private void UpdateProgressTickers()
+    {
+        lock (_progressLock)
         {
-            try
-            {
-                // Calculate tick rate based on estimate
-                var totalTicks = 95.0; // Go to 95%, completion fills the rest
-                var seconds = estimatedDuration.TotalSeconds > 0 ? estimatedDuration.TotalSeconds : 10.0;
-                var ticksPerSecond = Math.Clamp(totalTicks / seconds, 0.5, 20.0);
+            List<ProgressTask>? finishedTasks = null;
+            var timestamp = Stopwatch.GetTimestamp();
 
-                while (task is { IsFinished: false, Value: < 95 })
+            foreach (var (task, ticker) in _progressTickers)
+            {
+                if (task.IsFinished || task.Value >= 95)
                 {
-                    await Task.Delay(1000, CancellationToken.None).ConfigureAwait(false);
-
-                    lock (_progressLock)
-                    {
-                        if (!task.IsFinished && task.Value < 95)
-                        {
-                            task.Increment(ticksPerSecond);
-                        }
-                    }
+                    finishedTasks ??= [];
+                    finishedTasks.Add(task);
+                    continue;
                 }
+
+                var elapsed = Stopwatch.GetElapsedTime(ticker.LastUpdatedTimestamp, timestamp);
+                task.Increment(Math.Min(ticker.TicksPerSecond * elapsed.TotalSeconds, 95 - task.Value));
+                ticker.LastUpdatedTimestamp = timestamp;
             }
-            catch
+
+            if (finishedTasks is null)
             {
-                // Ignore - progress ticking is best-effort
+                return;
             }
-        }, CancellationToken.None);
+
+            foreach (var task in finishedTasks)
+            {
+                _progressTickers.Remove(task);
+            }
+        }
     }
 
     #region IProgressController Implementation
@@ -445,18 +475,13 @@ internal class ProgressSession : IProgressSession, IProgressController
     public bool IsInteractive => true;
 
     /// <inheritdoc />
-    public async Task PauseAsync()
+    public Task PauseAsync()
     {
-        TaskCompletionSource? waitForRefresh = null;
-
         lock (_pauseStateLock)
         {
             if (_isPaused)
             {
-                // Already paused - nothing to do. We don't wait on _refreshCompleted here
-                // because it could be stale (e.g., from a previous pause that timed out),
-                // which would cause this caller to wait forever.
-                return;
+                return _refreshCompleted?.Task ?? Task.CompletedTask;
             }
 
             _isPaused = true;
@@ -464,21 +489,12 @@ internal class ProgressSession : IProgressSession, IProgressController
 
             if (_inRefresh)
             {
-                // Progress loop is currently in ctx.Refresh() - need to wait for it
                 _refreshCompleted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-                waitForRefresh = _refreshCompleted;
+                return _refreshCompleted.Task;
             }
-            // else: Progress loop is not refreshing, pause takes effect immediately
-        }
 
-        // Wait for any in-flight refresh to complete (outside the lock)
-        if (waitForRefresh != null)
-        {
-            await waitForRefresh.Task.ConfigureAwait(false);
+            return Task.CompletedTask;
         }
-
-        // Small delay to allow terminal to process any buffered escape sequences
-        await Task.Delay(50).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -498,8 +514,20 @@ internal class ProgressSession : IProgressSession, IProgressController
     #endregion
 
     /// <inheritdoc />
-    public async ValueTask DisposeAsync()
+    public ValueTask DisposeAsync()
     {
+        lock (_progressLock)
+        {
+            _disposeTask ??= DisposeCoreAsync();
+            return new ValueTask(_disposeTask);
+        }
+    }
+
+    private async Task DisposeCoreAsync()
+    {
+        _progressLoopCancellationTokenSource.Cancel();
+        TaskCompletionSource? refreshCompletion;
+
         // Signal resume in case we're disposed while paused
         // Also clear the signals to prevent any concurrent PauseAsync from hanging
         lock (_pauseStateLock)
@@ -507,6 +535,7 @@ internal class ProgressSession : IProgressSession, IProgressController
             _isPaused = false;
             _resumeSignal?.TrySetResult();
             _resumeSignal = null;
+            refreshCompletion = _refreshCompleted;
             _refreshCompleted = null;
         }
 
@@ -536,11 +565,26 @@ internal class ProgressSession : IProgressSession, IProgressController
                     task.StopTask();
                 }
             }
+
+            _progressTickers.Clear();
         }
 
-        // Wait for progress loop to finish (with timeout)
-        var timeoutTask = Task.Delay(TimeSpan.FromSeconds(5));
-        await Task.WhenAny(_progressCompleted.Task, timeoutTask).ConfigureAwait(false);
+        if (_progressLoopTask is not null)
+        {
+            try
+            {
+                await _progressLoopTask
+                    .WaitAsync(TimeSpan.FromSeconds(5))
+                    .ConfigureAwait(false);
+            }
+            catch (TimeoutException)
+            {
+                _logger.LogWarning("Progress display did not stop within 5 seconds.");
+            }
+        }
+
+        refreshCompletion?.TrySetResult();
+        _progressLoopCancellationTokenSource.Dispose();
 
         // NOW it's safe to end the progress phase
         _coordinator.EndProgressPhase();
@@ -555,6 +599,13 @@ internal class ProgressSession : IProgressSession, IProgressController
         return escaped.EndsWith("Module", StringComparison.Ordinal)
             ? escaped[..^6]
             : escaped;
+    }
+
+    private sealed class ProgressTicker(double ticksPerSecond)
+    {
+        public double TicksPerSecond { get; } = ticksPerSecond;
+
+        public long LastUpdatedTimestamp { get; set; } = Stopwatch.GetTimestamp();
     }
 }
 
