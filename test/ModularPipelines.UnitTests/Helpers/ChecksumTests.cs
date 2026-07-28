@@ -11,8 +11,8 @@ public class ChecksumTests : TestBase
     public async Task Md5_Checksum()
     {
         var git = await GetService<IGit>();
-
-        var file = git.RootDirectory.FindFile(x => x.Name == "Foo.txt");
+        var repositoryInfo = await git.Information.GetInfoAsync();
+        var file = repositoryInfo?.Root.FindFile(x => x.Name == "Foo.txt");
 
         var checksum = await GetService<IChecksumContext>();
 

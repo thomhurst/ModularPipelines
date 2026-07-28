@@ -8,6 +8,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Attributes;
+using ModularPipelines.Git.Models;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -133,8 +134,14 @@ public class ModuleConditionHandlerTests
     [Test]
     public async Task Mandatory_Branch_Condition_Is_Not_Overridden_By_Optional_Alternative()
     {
-        var gitInformation = Mock.Of<IGitInformation>(x => x.BranchName == "release/1.0");
-        var git = Mock.Of<IGit>(x => x.Information == gitInformation);
+        var gitInformation = new Mock<IGitInformation>();
+        gitInformation.Setup(x => x.GetInfoAsync())
+            .ReturnsAsync(new GitRepositoryInfo(
+                new ModularPipelines.FileSystem.Folder(TestContext.WorkingDirectory))
+            {
+                BranchName = "release/1.0",
+            });
+        var git = Mock.Of<IGit>(x => x.Information == gitInformation.Object);
         var services = new Mock<IServicesContext>();
         services.Setup(x => x.Get<IGit>()).Returns(git);
         var logger = Mock.Of<IModuleLogger>();

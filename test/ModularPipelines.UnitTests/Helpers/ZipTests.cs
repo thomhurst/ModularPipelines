@@ -71,9 +71,9 @@ public class ZipTests : TestBase
     {
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            await Task.Yield();
-
-            var directory = context.Git().RootDirectory.GetFolder("test")
+            var repositoryInfo = await context.Git().Information.GetInfoAsync()
+                ?? throw new InvalidOperationException("Git repository information is unavailable.");
+            var directory = repositoryInfo.Root.GetFolder("test")
                 .GetFolder("ModularPipelines.UnitTests")
                 .GetFolder("Data")
                 .GetFolder("Zip");

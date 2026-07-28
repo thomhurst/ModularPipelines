@@ -22,9 +22,9 @@ public class RunOnlyOnBranchAttribute : Attribute, IConditionAttribute
 
     public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
-        return Task.FromResult(BranchConditionHelper.CheckBranchMatches(
+        return BranchConditionHelper.CheckBranchMatches(
             pipelineContext,
             BranchName,
-            "Current Branch: {CurrentBranch} | Can run on: {ExpectedBranch}"));
+            "Current Branch: {CurrentBranch} | Can run on: {ExpectedBranch}");
     }
 }

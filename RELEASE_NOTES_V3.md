@@ -38,7 +38,7 @@ protected internal override Task<SkipDecision> ShouldSkip(...) => ...;
 protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
     .WithTimeout(TimeSpan.FromMinutes(5))
     .WithRetryCount(3)
-    .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+    .WithSkipWhen(async ctx => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
         ? SkipDecision.Skip("Only runs on main")
         : SkipDecision.DoNotSkip)
     .Build();

@@ -5,6 +5,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Attributes;
+using ModularPipelines.Git.Models;
 using ModularPipelines.Logging;
 using Moq;
 
@@ -31,8 +32,11 @@ public class BranchConditionLoggingTests
     {
         var logger = new Mock<IModuleLogger>();
         logger.Setup(x => x.IsEnabled(LogLevel.Debug)).Returns(true);
-        var gitInformation = Mock.Of<IGitInformation>(x => x.BranchName == string.Empty);
-        var git = Mock.Of<IGit>(x => x.Information == gitInformation);
+        var gitInformation = new Mock<IGitInformation>();
+        gitInformation.Setup(x => x.GetInfoAsync())
+            .ReturnsAsync(new GitRepositoryInfo(
+                new ModularPipelines.FileSystem.Folder(TestContext.WorkingDirectory)));
+        var git = Mock.Of<IGit>(x => x.Information == gitInformation.Object);
         var services = new Mock<IServicesContext>();
         services.Setup(x => x.Get<IGit>()).Returns(git);
         var context = Mock.Of<IPipelineContext>(x =>

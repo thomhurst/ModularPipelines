@@ -30,15 +30,14 @@ public class RetryTests : TestBase
     private const int ExpectedSingleExecutionCount = 1;
 
     /// <summary>
-    /// The timeout duration for the FailedModuleWithTimeout test module (in milliseconds).
+    /// The timeout duration for timeout test modules (in milliseconds).
     /// </summary>
-    private const int ModuleTimeoutMs = 50;
+    private const int ModuleTimeoutMs = 250;
 
     /// <summary>
-    /// The delay duration for the FailedModuleWithTimeout test module (in milliseconds).
-    /// Must be less than ModuleTimeoutMs to allow timeout to trigger.
+    /// The retry back-off duration for the FailedModuleWithTimeout test module (in milliseconds).
     /// </summary>
-    private const int ModuleDelayMs = 30;
+    private const int RetryDelayMs = 750;
 
     private class SuccessModule : Module<bool>
     {
@@ -96,15 +95,32 @@ public class RetryTests : TestBase
 
     private class FailedModuleWithTimeout : Module<bool>
     {
+        internal int ExecutionCount;
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
+            .WithRetryPolicy(Policy
+                .Handle<Exception>()
+                .WaitAndRetryAsync(DefaultRetryCount, _ => TimeSpan.FromMilliseconds(RetryDelayMs)))
+            .Build();
+
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            ExecutionCount++;
+            return Task.FromException<bool>(new Exception());
+        }
+    }
+
+    private class CancellableModuleWithTimeout : Module<bool>
+    {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
             .Build();
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromMilliseconds(ModuleDelayMs), cancellationToken);
-
-            throw new Exception();
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            return true;
         }
     }
 
@@ -203,13 +219,39 @@ public class RetryTests : TestBase
     [Test]
     public async Task When_Retry_With_Timeout_Then_Honour_Overall_Timeout()
     {
-        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .ConfigurePipelineOptions((_, options) =>
             {
                 options.DefaultRetryCount = DefaultRetryCount;
             })
             .AddModule<FailedModuleWithTimeout>()
+            .BuildAsync();
+
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await host.RunAsync());
+
+        var module = host.Services.GetServices<IModule>().OfType<FailedModuleWithTimeout>().Single();
+        var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
+        await Assert.That(timeoutException).IsNotNull();
+        using (Assert.Multiple())
+        {
+            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
+            await Assert.That(timeoutException!.WasCancellationTokenRespected).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task When_Retry_Timeouts_During_Module_Then_Report_Token_Respected()
+    {
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
+            .ConfigurePipelineOptions((_, options) =>
+            {
+                options.DefaultRetryCount = DefaultRetryCount;
+            })
+            .AddModule<CancellableModuleWithTimeout>()
             .ExecutePipelineAsync());
-        await Assert.That(moduleFailedException?.InnerException).IsTypeOf<ModuleTimeoutException>();
+
+        var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
+        await Assert.That(timeoutException).IsNotNull();
+        await Assert.That(timeoutException!.WasCancellationTokenRespected).IsTrue();
     }
 }

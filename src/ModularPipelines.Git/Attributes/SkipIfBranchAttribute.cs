@@ -20,11 +20,11 @@ public class SkipIfBranchAttribute : Attribute, IConditionAttribute
         BranchName = branchName;
     }
 
-    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
+    public async Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
-        return Task.FromResult(BranchConditionHelper.CheckBranchMatches(
+        return await BranchConditionHelper.CheckBranchMatches(
             pipelineContext,
             BranchName,
-            "Current Branch: {CurrentBranch} | Will skip on: {SkipBranch}"));
+            "Current Branch: {CurrentBranch} | Will skip on: {SkipBranch}").ConfigureAwait(false);
     }
 }

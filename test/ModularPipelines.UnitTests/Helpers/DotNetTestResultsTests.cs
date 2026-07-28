@@ -22,7 +22,9 @@ public class DotNetTestResultsTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var testProject = context.Git().RootDirectory
+            var repositoryInfo = await context.Git().Information.GetInfoAsync()
+                ?? throw new InvalidOperationException("Git repository information is unavailable.");
+            var testProject = repositoryInfo.Root
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
 
             return await context.DotNet().Test(
@@ -51,7 +53,9 @@ public class DotNetTestResultsTests : TestBase
 
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var testProject = context.Git().RootDirectory
+            var repositoryInfo = await context.Git().Information.GetInfoAsync()
+                ?? throw new InvalidOperationException("Git repository information is unavailable.");
+            var testProject = repositoryInfo.Root
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
 
             var outputDir = testProject.Folder!.GetFolder("bin/Debug/net10.0/TestResults");

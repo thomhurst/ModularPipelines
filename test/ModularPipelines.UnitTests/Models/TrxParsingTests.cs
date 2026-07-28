@@ -53,7 +53,9 @@ public class TrxParsingTests : TestBase
 
         protected internal override async Task<DotNetTestResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var testProject = context.Git().RootDirectory
+            var repositoryInfo = await context.Git().Information.GetInfoAsync()
+                ?? throw new InvalidOperationException("Git repository information is unavailable.");
+            var testProject = repositoryInfo.Root
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
 
             // Create a temp directory for test results

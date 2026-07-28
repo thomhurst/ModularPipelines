@@ -6,11 +6,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.Node.Services;
 
 namespace ModularPipelines.Node.Extensions;
@@ -21,19 +20,12 @@ namespace ModularPipelines.Node.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class PnpmExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterPnpmContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterPnpmContext(collection));
-    }
-
     /// <summary>
     /// Registers pnpm services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterPnpmContext(this IServiceCollection services)
     {
         services.TryAddScoped<IPnpm, Services.Pnpm>();

@@ -12,8 +12,9 @@ public class SkipOnMainBranch : Attribute, IConditionAttribute
 
     public string ConditionNames => nameof(SkipOnMainBranch);
 
-    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
+    public async Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
-        return Task.FromResult(pipelineContext.Git().Information.BranchName == "main");
+        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync().ConfigureAwait(false);
+        return repositoryInfo?.BranchName == "main";
     }
 }

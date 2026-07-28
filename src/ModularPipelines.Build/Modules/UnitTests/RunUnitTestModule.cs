@@ -39,7 +39,9 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
 
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var testProject = context.Git().RootDirectory
+        var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var testProject = repositoryInfo.Root
             .GetFiles(file => file.Name.Equals(TestProjectFileName, StringComparison.OrdinalIgnoreCase))
             .Single();
         var trxFile = GetTrxFile(testProject);

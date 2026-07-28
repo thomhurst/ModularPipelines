@@ -180,6 +180,19 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task DependencyRegistrationGenerator_Uses_CompileTime_Integration_Marker()
+    {
+        var files = await new DependencyRegistrationGenerator().GenerateAsync(
+            Tool(Command("ToolRunOptions", "ToolOptions", ["run"])));
+        var content = files.Single().Content;
+
+        await Assert.That(content).Contains("using ModularPipelines.Attributes;");
+        await Assert.That(content).Contains("[ModularPipelinesIntegration]");
+        await Assert.That(content).DoesNotContain("ModuleInitializer");
+        await Assert.That(content).DoesNotContain("ModularPipelinesContextRegistry");
+    }
+
+    [Test]
     public async Task SubDomain_Generators_Preserve_Existing_Word_Boundaries()
     {
         var tool = Tool(Command(
