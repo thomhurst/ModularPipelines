@@ -1,26 +1,27 @@
 using System.Runtime.InteropServices;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Distributed.Capabilities;
 
 internal static class OsCapabilityDetector
 {
-    public static string? Detect()
+    public static IReadOnlyList<string> Detect()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            return "windows";
+            return OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows);
         }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            return "linux";
+            return OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux);
         }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            return "macos";
+            return OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS);
         }
 
-        return null;
+        return [];
     }
 }

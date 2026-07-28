@@ -102,9 +102,9 @@ internal class WorkerModuleExecutor(
     private static HashSet<string> BuildCapabilities(DistributedOptions options)
     {
         var capabilities = new HashSet<string>(options.Capabilities, StringComparer.OrdinalIgnoreCase);
-        if (options.AutoDetectOsCapability && OsCapabilityDetector.Detect() is { } osCapability)
+        if (options.AutoDetectOsCapability)
         {
-            capabilities.Add(osCapability);
+            capabilities.UnionWith(OsCapabilityDetector.Detect());
         }
 
         return capabilities;

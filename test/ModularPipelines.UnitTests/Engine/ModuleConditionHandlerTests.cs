@@ -92,6 +92,41 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Does_Not_Filter_Unix_Condition_Group()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnore(new UnixModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
+    public async Task Grouped_Alternatives_Run_When_One_Condition_Matches()
+    {
+        var handler = CreateHandler(new DistributedOptions());
+
+        var result = await handler.ShouldIgnore(new MatchingAlternativeModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
+    public async Task Grouped_Alternatives_Skip_When_No_Condition_Matches()
+    {
+        var handler = CreateHandler(new DistributedOptions());
+
+        var result = await handler.ShouldIgnore(new NoMatchingAlternativeModule());
+
+        await Assert.That(result.ShouldIgnore).IsTrue();
+    }
+
+    [Test]
     public async Task ShouldIgnore_EvaluatesConditionsOncePerModuleInstance()
     {
         _conditionEvaluationCount = 0;
@@ -161,6 +196,53 @@ public class ModuleConditionHandlerTests
         {
             return Task.FromResult<string?>(null);
         }
+    }
+
+    [RunIfAll<OnUnix>]
+    private sealed class UnixModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult<string?>(null);
+        }
+    }
+
+    [AlternativeCondition(false)]
+    [AlternativeCondition(true)]
+    private sealed class MatchingAlternativeModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult<string?>(null);
+        }
+    }
+
+    [AlternativeCondition(false)]
+    [AlternativeCondition(false)]
+    private sealed class NoMatchingAlternativeModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult<string?>(null);
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    private sealed class AlternativeConditionAttribute(bool result) : Attribute, IGroupedConditionAttribute
+    {
+        public ConditionLogic Logic => ConditionLogic.Any;
+
+        public Type ConditionGroupType => typeof(AlternativeConditionAttribute);
+
+        public string ConditionNames => nameof(AlternativeConditionAttribute);
+
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(result);
     }
 
     private sealed class CountingCondition : IRunCondition

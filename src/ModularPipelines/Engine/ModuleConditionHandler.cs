@@ -191,13 +191,48 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             }
         }
 
+        var evaluatedGroups = new HashSet<Type>();
+
         foreach (var attribute in attributes.Any)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+            if (attribute is not IGroupedConditionAttribute groupedAttribute)
             {
-                return (false, SkipDecision.Skip($"RunIfAny<{attribute.ConditionNames}> not satisfied"));
+                if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+                {
+                    return (false, SkipDecision.Skip($"RunIfAny<{attribute.ConditionNames}> not satisfied"));
+                }
+
+                continue;
+            }
+
+            if (!evaluatedGroups.Add(groupedAttribute.ConditionGroupType))
+            {
+                continue;
+            }
+
+            var alternatives = attributes.Any
+                .OfType<IGroupedConditionAttribute>()
+                .Where(candidate => candidate.ConditionGroupType == groupedAttribute.ConditionGroupType)
+                .ToArray();
+            var satisfied = false;
+
+            foreach (var alternative in alternatives)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                if (await alternative.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+                {
+                    satisfied = true;
+                    break;
+                }
+            }
+
+            if (!satisfied)
+            {
+                return (false, SkipDecision.Skip(
+                    $"No grouped run conditions were met: {string.Join(", ", alternatives.Select(x => x.ConditionNames))}"));
             }
         }
 

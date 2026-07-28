@@ -7,9 +7,11 @@ namespace ModularPipelines.Git.Attributes;
 
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class RunIfBranchStartsWithAttribute : Attribute, IConditionAttribute
+public class RunIfBranchStartsWithAttribute : Attribute, IGroupedConditionAttribute
 {
-    public ConditionLogic Logic => ConditionLogic.All;
+    public ConditionLogic Logic => ConditionLogic.Any;
+
+    public Type ConditionGroupType => typeof(BranchConditionHelper);
 
     public string ConditionNames => $"{nameof(RunIfBranchStartsWithAttribute)}({BranchNamePrefix})";
 
