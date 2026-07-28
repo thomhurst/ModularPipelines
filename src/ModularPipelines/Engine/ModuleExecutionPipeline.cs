@@ -276,10 +276,26 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         // Get retry policy if applicable
         var retryPolicy = GetRetryPolicy<T>(config, moduleContext);
+        var moduleAttemptRespondedToCancellation = 0;
+
+        async Task<T?> ExecuteModuleAttempt(CancellationToken ct)
+        {
+            try
+            {
+                return await module.ExecuteAsync(moduleContext, ct).ConfigureAwait(false);
+            }
+            finally
+            {
+                if (ct.IsCancellationRequested)
+                {
+                    Volatile.Write(ref moduleAttemptRespondedToCancellation, 1);
+                }
+            }
+        }
 
         // Create the execution function that optionally includes retry
         Func<CancellationToken, Task<T?>> executeFunc = retryPolicy != null
-            ? ct => retryPolicy.ExecuteAsync(c => module.ExecuteAsync(moduleContext, c), ct)
+            ? ct => retryPolicy.ExecuteAsync(ExecuteModuleAttempt, ct)
             : ct => module.ExecuteAsync(moduleContext, ct);
 
         // Use TimeoutHelper with detailed results to get information about token cooperation
@@ -291,12 +307,16 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         if (timeoutResult.TimedOut)
         {
+            var wasCancellationTokenRespected = timeoutResult.WasCancellationTokenRespected
+                                                && (retryPolicy is null
+                                                    || Volatile.Read(ref moduleAttemptRespondedToCancellation) == 1);
+
             // Create a detailed timeout exception with information about token cooperation
             throw new ModuleTimeoutException(
                 executionContext.ModuleType,
                 timeout,
                 timeoutResult.ElapsedTime,
-                timeoutResult.WasCancellationTokenRespected);
+                wasCancellationTokenRespected);
         }
 
         return timeoutResult.Value;

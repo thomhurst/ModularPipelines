@@ -108,6 +108,19 @@ public class RetryTests : TestBase
         }
     }
 
+    private class CancellableModuleWithTimeout : Module<bool>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
+            .Build();
+
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            return true;
+        }
+    }
+
     [Test]
     public async Task When_Successful_Do_Not_Retry()
     {
@@ -203,12 +216,38 @@ public class RetryTests : TestBase
     [Test]
     public async Task When_Retry_With_Timeout_Then_Honour_Overall_Timeout()
     {
-        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .ConfigurePipelineOptions((_, options) =>
             {
                 options.DefaultRetryCount = DefaultRetryCount;
             })
             .AddModule<FailedModuleWithTimeout>()
+            .BuildHostAsync();
+
+        var executionTask = host.ExecutePipelineAsync();
+        var completedPromptly = await Task.WhenAny(
+            executionTask,
+            Task.Delay(TimeSpan.FromMilliseconds(500))) == executionTask;
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await executionTask);
+
+        var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
+        await Assert.That(timeoutException).IsNotNull();
+        using (Assert.Multiple())
+        {
+            await Assert.That(completedPromptly).IsTrue();
+            await Assert.That(timeoutException!.WasCancellationTokenRespected).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task When_Retry_Timeouts_During_Module_Then_Report_Token_Respected()
+    {
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
+            .ConfigurePipelineOptions((_, options) =>
+            {
+                options.DefaultRetryCount = DefaultRetryCount;
+            })
+            .AddModule<CancellableModuleWithTimeout>()
             .ExecutePipelineAsync());
 
         var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
