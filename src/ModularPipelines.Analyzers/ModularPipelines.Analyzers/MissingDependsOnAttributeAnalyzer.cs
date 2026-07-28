@@ -39,28 +39,22 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var genericNameSyntax = invocationExpressionSyntax.Expression switch
+        var invokedName = invocationExpressionSyntax.Expression switch
         {
-            GenericNameSyntax directGenericName => directGenericName,
-            MemberAccessExpressionSyntax { Name: GenericNameSyntax memberGenericName } => memberGenericName,
+            SimpleNameSyntax simpleName => simpleName,
+            MemberAccessExpressionSyntax memberAccess => memberAccess.Name,
             _ => null,
         };
 
-        if (genericNameSyntax is null)
+        if (invokedName is null)
         {
             return;
         }
 
-        if (genericNameSyntax.Identifier.ValueText is not AnalyzerConstants.MethodNames.GetModule)
-        {
-            return;
-        }
+        var methodSymbol = context.SemanticModel.GetSymbolInfo(invocationExpressionSyntax, context.CancellationToken).Symbol as IMethodSymbol;
 
-        var genericArgument = genericNameSyntax.TypeArgumentList.Arguments.First();
-
-        var genericArgumentSymbol = context.SemanticModel.GetSymbolInfo(genericArgument).Symbol;
-
-        if (genericArgumentSymbol is not INamedTypeSymbol namedTypeSymbol)
+        if (methodSymbol is null ||
+            !TryGetModuleType(context.Compilation, methodSymbol, invokedName, out var namedTypeSymbol))
         {
             return;
         }
@@ -92,20 +86,66 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private ClassDeclarationSyntax? GetClassDeclarationSyntax(InvocationExpressionSyntax invocationExpressionSyntax)
+    private static bool TryGetModuleType(
+        Compilation compilation,
+        IMethodSymbol methodSymbol,
+        SimpleNameSyntax invokedName,
+        out INamedTypeSymbol moduleType)
     {
-        var parent = invocationExpressionSyntax.Parent;
+        moduleType = null!;
+        var moduleContextType = compilation.GetTypeByMetadataName("ModularPipelines.Context.IModuleContext");
 
-        while (parent is not null)
+        if (moduleContextType is null)
         {
-            if (parent is ClassDeclarationSyntax classDeclarationSyntax)
-            {
-                return classDeclarationSyntax;
-            }
-
-            parent = parent.Parent;
+            return false;
         }
 
-        return null;
+        if (invokedName is GenericNameSyntax &&
+            methodSymbol.Name == AnalyzerConstants.MethodNames.GetModule &&
+            methodSymbol.TypeArguments.Length == 1 &&
+            SymbolEqualityComparer.Default.Equals(methodSymbol.OriginalDefinition.ContainingType, moduleContextType))
+        {
+            if (methodSymbol.TypeArguments[0] is not INamedTypeSymbol directModuleType)
+            {
+                return false;
+            }
+
+            moduleType = directModuleType;
+            return true;
+        }
+
+        var extensionMethod = methodSymbol.ReducedFrom ?? methodSymbol;
+
+        if (!extensionMethod.IsExtensionMethod ||
+            !extensionMethod.Name.StartsWith("Get", StringComparison.Ordinal) ||
+            !extensionMethod.Name.EndsWith("Module", StringComparison.Ordinal) ||
+            extensionMethod.Parameters.Length == 0 ||
+            !SymbolEqualityComparer.Default.Equals(extensionMethod.Parameters[0].Type, moduleContextType) ||
+            extensionMethod.ContainingType.ToDisplayString() != "ModularPipelines.Generated.ModuleContextExtensions" ||
+            !IsGeneratedModuleAccessor(extensionMethod.ContainingType))
+        {
+            return false;
+        }
+
+        if (methodSymbol.ReturnType is not INamedTypeSymbol generatedModuleType)
+        {
+            return false;
+        }
+
+        moduleType = generatedModuleType;
+        return true;
+    }
+
+    private static bool IsGeneratedModuleAccessor(INamedTypeSymbol containingType)
+    {
+        return containingType.GetAttributes().Any(attribute =>
+            attribute.AttributeClass?.ToDisplayString() == "System.CodeDom.Compiler.GeneratedCodeAttribute" &&
+            attribute.ConstructorArguments.Length > 0 &&
+            attribute.ConstructorArguments[0].Value is "ModularPipelines.SourceGenerator");
+    }
+
+    private static ClassDeclarationSyntax? GetClassDeclarationSyntax(InvocationExpressionSyntax invocationExpressionSyntax)
+    {
+        return invocationExpressionSyntax.Ancestors().OfType<ClassDeclarationSyntax>().FirstOrDefault();
     }
 }

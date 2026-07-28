@@ -94,15 +94,87 @@ public class Module2 : Module<IDictionary<string, object>>
     }
 
     [TestMethod]
+    public async Task Generated_Accessor_Is_Triggered()
+    {
+        const string source = @"
+#nullable enable
+using System.CodeDom.Compiler;
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Generated;
+using ModularPipelines.Modules;
+
+namespace ModularPipelines.Examples.Modules
+{
+    public class Module1 : Module<string>
+    {
+        protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>(null);
+    }
+
+    public class Module2 : Module<string>
+    {
+        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            var module1 = await {|#0:context.GetModule1Module()|};
+            return null;
+        }
+    }
+}
+
+namespace ModularPipelines.Generated
+{
+    [GeneratedCode(""ModularPipelines.SourceGenerator"", ""1.0.0"")]
+    public static class ModuleContextExtensions
+    {
+        public static ModularPipelines.Examples.Modules.Module1 GetModule1Module(this IModuleContext context)
+            => context.GetModule<ModularPipelines.Examples.Modules.Module1>();
+    }
+}";
+        var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Unrelated_GetModule_Is_Ignored()
+    {
+        const string source = @"
+#nullable enable
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+namespace ModularPipelines.Examples.Modules;
+
+public class Module1 : Module<string>
+{
+    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => Task.FromResult<string?>(null);
+}
+
+public class ModuleLookup
+{
+    public T GetModule<T>() where T : new() => new T();
+}
+
+public class Module2 : Module<string>
+{
+    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        var module1 = new ModuleLookup().GetModule<Module1>();
+        return Task.FromResult<string?>(null);
+    }
+}";
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task CodeFixWorks()
     {
-        if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-        {
-            // This fails on Linux only due to different line endings
-            // Is there a way around that?
-            return;
-        }
-
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
 
         await VerifyCS.VerifyCodeFixAsync(
