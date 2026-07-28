@@ -51,6 +51,7 @@ internal class AlwaysRunHandler(
             remainingModules.RemoveAll(processedModules.Contains);
 
             if (deferredModules.Count > 0 &&
+                processedModules.Count == 0 &&
                 !await WaitForSchedulerProgressAsync(scheduler, modules, deferredModules, exceptions).ConfigureAwait(false))
             {
                 break;

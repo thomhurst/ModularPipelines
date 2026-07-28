@@ -138,6 +138,52 @@ public class AlwaysRunHandlerTests
     }
 
     [Test]
+    public async Task WaitForAlwaysRunModulesAsync_RetriesDeferredModuleAfterSameBatchProgress()
+    {
+        var firstModule = new FirstAlwaysRunModule();
+        var secondModule = new SecondAlwaysRunModule();
+        var firstState = new ModuleState(firstModule, firstModule.GetType());
+        var secondState = new ModuleState(secondModule, secondModule.GetType());
+        var scheduler = CreateScheduler(firstState, secondState);
+        var moduleRunner = new Mock<IModuleRunner>();
+        var secondAttemptObserved = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var attempts = 0;
+
+        moduleRunner
+            .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
+                It.IsAny<ModuleState>(),
+                scheduler.Object,
+                CancellationToken.None))
+            .Returns(async (ModuleState state, IModuleScheduler _, CancellationToken _) =>
+            {
+                var attempt = Interlocked.Increment(ref attempts);
+                if (attempt == 1)
+                {
+                    await secondAttemptObserved.Task;
+                }
+                else if (attempt == 2)
+                {
+                    secondAttemptObserved.TrySetResult();
+                    return;
+                }
+
+                state.State = ModuleExecutionState.Completed;
+                state.CompletionSource.TrySetResult(state.Module);
+            });
+
+        var handler = CreateHandler(moduleRunner.Object);
+
+        await handler.WaitForAlwaysRunModulesAsync(scheduler.Object, [firstModule, secondModule]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(attempts).IsEqualTo(3);
+            await Assert.That(firstState.State).IsEqualTo(ModuleExecutionState.Completed);
+            await Assert.That(secondState.State).IsEqualTo(ModuleExecutionState.Completed);
+        }
+    }
+
+    [Test]
     public async Task WaitForAlwaysRunModulesAsync_PreservesAlwaysRunDependencyOrder()
     {
         var prerequisite = new FirstAlwaysRunModule();
