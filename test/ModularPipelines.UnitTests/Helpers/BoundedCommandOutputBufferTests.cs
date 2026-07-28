@@ -37,14 +37,15 @@ public class BoundedCommandOutputBufferTests
     {
         var buffer = new BoundedCommandOutputBuffer(8);
 
-        buffer.Append("012345".AsSpan());
-        buffer.Append("6789".AsSpan());
+        buffer.Append("01234".AsSpan());
+        buffer.Append("56".AsSpan());
+        buffer.Append("78".AsSpan());
 
         var result = buffer.ToString();
         using (Assert.Multiple())
         {
             await Assert.That(result).StartsWith("0123");
-            await Assert.That(result).EndsWith("6789");
+            await Assert.That(result).EndsWith("5678");
         }
     }
 

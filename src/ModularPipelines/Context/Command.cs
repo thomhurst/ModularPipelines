@@ -104,6 +104,7 @@ internal sealed class Command : ICommand, ICommandContext
         var standardOutputBuffer = new BoundedCommandOutputBuffer(execOpts.MaxCapturedOutputLength);
         var standardErrorBuffer = new BoundedCommandOutputBuffer(execOpts.MaxCapturedOutputLength);
         var outputLogger = _commandLogger as ICommandOutputLogger;
+        var streamsOutput = outputLogger is not null && execOpts.OutputLoggingManipulator is null;
         var stopwatch = Stopwatch.StartNew();
 
         var standardOutput = string.Empty;
@@ -145,14 +146,16 @@ internal sealed class Command : ICommand, ICommandContext
             try
             {
                 var executionTask = command
-                    .WithStandardOutputPipe(PipeTarget.Merge(
-                        CreateCaptureTarget(standardOutputBuffer),
-                        PipeTarget.ToDelegate(line =>
-                            outputLogger?.LogStandardOutputLine(options, execOpts, line))))
-                    .WithStandardErrorPipe(PipeTarget.Merge(
-                        CreateCaptureTarget(standardErrorBuffer),
-                        PipeTarget.ToDelegate(line =>
-                            outputLogger?.LogStandardErrorLine(options, execOpts, line))))
+                    .WithStandardOutputPipe(CreateOutputTarget(
+                        standardOutputBuffer,
+                        streamsOutput
+                            ? line => outputLogger!.LogStandardOutputLine(options, execOpts, line)
+                            : null))
+                    .WithStandardErrorPipe(CreateOutputTarget(
+                        standardErrorBuffer,
+                        streamsOutput
+                            ? line => outputLogger!.LogStandardErrorLine(options, execOpts, line)
+                            : null))
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync(
                         configureStartInfo: startInfo =>
@@ -177,16 +180,16 @@ internal sealed class Command : ICommand, ICommandContext
                 standardOutput = standardOutputBuffer.ToString();
                 standardError = standardErrorBuffer.ToString();
 
-                _commandLogger.Log(
-                    options: options,
-                    execOpts: execOpts,
-                    inputToLog: inputToLog,
-                    exitCode: result.ExitCode,
-                    runTime: result.RunTime,
-                    standardOutput: outputLogger is null ? standardOutput : string.Empty,
-                    standardError: outputLogger is null ? standardError : string.Empty,
-                    commandWorkingDirPath: command.WorkingDirPath
-                );
+                LogCommandCompletion(
+                    options,
+                    execOpts,
+                    inputToLog,
+                    result.ExitCode,
+                    result.RunTime,
+                    standardOutput,
+                    standardError,
+                    streamsOutput,
+                    command.WorkingDirPath);
 
                 if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
                 {
@@ -206,16 +209,16 @@ internal sealed class Command : ICommand, ICommandContext
                 standardOutput = standardOutputBuffer.ToString();
                 standardError = standardErrorBuffer.ToString();
 
-                _commandLogger.Log(
-                    options: options,
-                    execOpts: execOpts,
-                    inputToLog: inputToLog,
-                    exitCode: e.ExitCode,
-                    runTime: stopwatch.Elapsed,
-                    standardOutput: outputLogger is null ? standardOutput : string.Empty,
-                    standardError: outputLogger is null ? standardError : string.Empty,
-                    commandWorkingDirPath: command.WorkingDirPath
-                );
+                LogCommandCompletion(
+                    options,
+                    execOpts,
+                    inputToLog,
+                    e.ExitCode,
+                    stopwatch.Elapsed,
+                    standardOutput,
+                    standardError,
+                    streamsOutput,
+                    command.WorkingDirPath);
 
                 throw new CommandException(inputToLog, e.ExitCode, stopwatch.Elapsed, standardOutput, standardError, e);
             }
@@ -229,16 +232,16 @@ internal sealed class Command : ICommand, ICommandContext
                 standardOutput = standardOutputBuffer.ToString();
                 standardError = standardErrorBuffer.ToString();
 
-                _commandLogger.Log(
-                    options: options,
-                    execOpts: execOpts,
-                    inputToLog: inputToLog,
-                    exitCode: -1,
-                    runTime: stopwatch.Elapsed,
-                    standardOutput: outputLogger is null ? standardOutput : string.Empty,
-                    standardError: outputLogger is null ? standardError : string.Empty,
-                    commandWorkingDirPath: command.WorkingDirPath
-                );
+                LogCommandCompletion(
+                    options,
+                    execOpts,
+                    inputToLog,
+                    -1,
+                    stopwatch.Elapsed,
+                    standardOutput,
+                    standardError,
+                    streamsOutput,
+                    command.WorkingDirPath);
 
                 throw new CommandException(inputToLog, -1, stopwatch.Elapsed, standardOutput, standardError, e);
             }
@@ -683,6 +686,38 @@ internal sealed class Command : ICommand, ICommandContext
                 int byteCount);
 #pragma warning restore SYSLIB1054
         }
+    }
+
+    private static PipeTarget CreateOutputTarget(
+        BoundedCommandOutputBuffer buffer,
+        Action<string>? logLine)
+    {
+        var captureTarget = CreateCaptureTarget(buffer);
+        return logLine is null
+            ? captureTarget
+            : PipeTarget.Merge(captureTarget, PipeTarget.ToDelegate(logLine));
+    }
+
+    private void LogCommandCompletion(
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions,
+        string input,
+        int exitCode,
+        TimeSpan runTime,
+        string standardOutput,
+        string standardError,
+        bool streamsOutput,
+        string workingDirectory)
+    {
+        _commandLogger.Log(
+            options,
+            executionOptions,
+            input,
+            exitCode,
+            runTime,
+            streamsOutput ? string.Empty : standardOutput,
+            streamsOutput ? string.Empty : standardError,
+            workingDirectory);
     }
 
     private static PipeTarget CreateCaptureTarget(BoundedCommandOutputBuffer buffer)

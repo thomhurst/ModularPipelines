@@ -66,6 +66,30 @@ public class CommandLoggerTests : TestBase
     }
 
     [Test]
+    public async Task OutputLoggingManipulator_Receives_Complete_Output()
+    {
+        const string firstLine = "first-output-line";
+        const string secondLine = "second-output-line";
+        var receivedOutputs = new List<string>();
+        var command = await GetService<ICommand>();
+
+        await command.ExecuteCommandLineTool(
+            new PowershellScriptOptions($"Write-Output '{firstLine}'; Write-Output '{secondLine}'"),
+            new CommandExecutionOptions
+            {
+                OutputLoggingManipulator = output =>
+                {
+                    receivedOutputs.Add(output);
+                    return output;
+                },
+            });
+
+        await Assert.That(receivedOutputs).Contains(output =>
+            output.Contains(firstLine, StringComparison.Ordinal)
+            && output.Contains(secondLine, StringComparison.Ordinal));
+    }
+
+    [Test]
     [MatrixDataSource]
     public async Task Logs_As_Expected_With_Options(
         [Matrix(true, false)] bool logInput,
@@ -283,13 +307,13 @@ public class CommandLoggerTests : TestBase
     {
         var marker = $"live-output-{Guid.NewGuid():N}";
         var errorMarker = $"live-error-{Guid.NewGuid():N}";
-        var logFile = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
         var readyFile = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".ready");
         var releaseFile = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".release");
+        using var logObserver = new StreamingLogObserver(marker, errorMarker);
         var result = await GetService<ICommand>((_, collection) =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
-            collection.AddLogging(builder => builder.AddFile(logFile));
+            collection.AddLogging(builder => builder.AddProvider(logObserver));
         });
         var script = $$"""
                       Write-Output '{{marker}}'
@@ -303,11 +327,8 @@ public class CommandLoggerTests : TestBase
         try
         {
             await Assert.That(await WaitUntilAsync(() => File.Exists(readyFile), TimeSpan.FromSeconds(5))).IsTrue();
-            var loggedWhileCommandRunning = await WaitUntilAsync(
-                () => FileContains(logFile, marker) && FileContains(logFile, errorMarker),
-                TimeSpan.FromSeconds(1));
-
-            await Assert.That(loggedWhileCommandRunning).IsTrue();
+            await logObserver.OutputObserved.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(commandTask.IsCompleted).IsFalse();
         }
         finally
         {
@@ -332,16 +353,61 @@ public class CommandLoggerTests : TestBase
         return true;
     }
 
-    private static bool FileContains(string path, string value)
+    private sealed class StreamingLogObserver(string outputMarker, string errorMarker) : ILoggerProvider
     {
-        if (!File.Exists(path))
+        private readonly Lock _lock = new();
+        private readonly TaskCompletionSource _outputObserved =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private bool _sawOutput;
+        private bool _sawError;
+
+        public Task OutputObserved => _outputObserved.Task;
+
+        public ILogger CreateLogger(string categoryName)
         {
-            return false;
+            return new ObserverLogger(Record);
         }
 
-        using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        using var reader = new StreamReader(stream);
-        return reader.ReadToEnd().Contains(value, StringComparison.Ordinal);
+        public void Dispose()
+        {
+        }
+
+        private void Record(string message)
+        {
+            lock (_lock)
+            {
+                _sawOutput |= message.Contains(outputMarker, StringComparison.Ordinal);
+                _sawError |= message.Contains(errorMarker, StringComparison.Ordinal);
+                if (_sawOutput && _sawError)
+                {
+                    _outputObserved.TrySetResult();
+                }
+            }
+        }
+    }
+
+    private sealed class ObserverLogger(Action<string> record) : ILogger
+    {
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull
+        {
+            return null;
+        }
+
+        public bool IsEnabled(LogLevel logLevel)
+        {
+            return true;
+        }
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            record(formatter(state, exception));
+        }
     }
 
     [CliTool("pwsh")]

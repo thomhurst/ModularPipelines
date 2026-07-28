@@ -109,19 +109,10 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             return;
         }
 
-        var output = executionOptions.OutputLoggingManipulator is null
-            ? line
-            : executionOptions.OutputLoggingManipulator(line);
-        var obfuscatedOutput = _secretObfuscator.Obfuscate(output, executionOptions);
-
-        if (isError)
-        {
-            Logger.LogWarning("  ✗ {CommandError}", obfuscatedOutput);
-        }
-        else
-        {
-            Logger.LogInformation("  ↳ {CommandOutput}", obfuscatedOutput);
-        }
+        var obfuscatedOutput = _secretObfuscator.Obfuscate(line, null);
+        Logger.LogInformation(
+            isError ? "  ↳ {CommandError}" : "  ↳ {CommandOutput}",
+            obfuscatedOutput);
     }
 
     private void LogCompact(
@@ -151,83 +142,100 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             ? execOpts.OutputLoggingManipulator(standardError)
             : standardError;
 
-        // Add inline output for short, single-line output on successful commands
         var trimmedOutput = standardOutputToLog.Trim();
-        var hasShortOutput = !string.IsNullOrEmpty(trimmedOutput)
-            && !trimmedOutput.Contains('\n')
-            && trimmedOutput.Length <= 100
-            && options.Verbosity >= CommandLogVerbosity.Normal
-            && options.ShowStandardOutput;
-
+        var hasShortOutput = ShouldInlineOutput(options, trimmedOutput);
         var inlineOutput = hasShortOutput && isSuccess
             ? $" → {_secretObfuscator.Obfuscate(trimmedOutput, null)}"
             : string.Empty;
-
-        // Add status indicator and metadata
-        var commandStatus = new StringBuilder();
-        if (options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExitCode || options.ShowExecutionTime)
-        {
-            commandStatus.Append(' ');
-            commandStatus.Append(isSuccess ? '✓' : '✗');
-
-            var hasMetadata = false;
-            if (options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExecutionTime)
-            {
-                commandStatus.Append(" [");
-                commandStatus.Append(runTime?.ToDisplayString() ?? "?");
-                hasMetadata = true;
-            }
-
-            if (options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExitCode)
-            {
-                if (hasMetadata)
-                {
-                    commandStatus.Append(", ");
-                }
-                else
-                {
-                    commandStatus.Append(" [");
-                    hasMetadata = true;
-                }
-
-                commandStatus.Append("exit ");
-                commandStatus.Append(exitCode);
-            }
-
-            if (hasMetadata)
-            {
-                commandStatus.Append(']');
-            }
-        }
+        var commandStatus = BuildCommandStatus(options, isSuccess, exitCode, runTime);
 
         Logger.LogInformation(
             "{CommandMessage}{CommandOutput}{CommandStatus}",
             commandMessage.ToString(),
             inlineOutput,
-            commandStatus.ToString());
+            commandStatus);
 
-        // Log multi-line or long output on separate lines (only if not already shown inline)
-        if (!hasShortOutput && !string.IsNullOrWhiteSpace(trimmedOutput)
-            && options.Verbosity >= CommandLogVerbosity.Normal
-            && options.ShowStandardOutput)
-        {
-            Logger.LogInformation("  ↳ {CommandOutput}", _secretObfuscator.Obfuscate(trimmedOutput, null));
-        }
-
-        // Log errors on separate line
-        if (!string.IsNullOrWhiteSpace(standardErrorToLog)
-            && options.Verbosity >= CommandLogVerbosity.Normal
-            && options.ShowStandardError
-            && exitCode != 0)
-        {
-            Logger.LogWarning("  ✗ {CommandError}", _secretObfuscator.Obfuscate(standardErrorToLog, null));
-        }
+        LogCapturedOutput(options, trimmedOutput, hasShortOutput);
+        LogCapturedError(options, standardErrorToLog, exitCode);
 
         // Log working directory only at Diagnostic level (separate line, indented)
         if (options.Verbosity >= CommandLogVerbosity.Diagnostic || options.ShowWorkingDirectory)
         {
             Logger.LogInformation("  Working Directory: {WorkingDirectory}", workingDirectory);
         }
+    }
+
+    private static bool ShouldInlineOutput(CommandLoggingOptions options, string output)
+    {
+        return !string.IsNullOrEmpty(output)
+               && !output.Contains('\n')
+               && output.Length <= 100
+               && options.Verbosity >= CommandLogVerbosity.Normal
+               && options.ShowStandardOutput;
+    }
+
+    private static string BuildCommandStatus(
+        CommandLoggingOptions options,
+        bool isSuccess,
+        int? exitCode,
+        TimeSpan? runTime)
+    {
+        if (options.Verbosity < CommandLogVerbosity.Detailed
+            && !options.ShowExitCode
+            && !options.ShowExecutionTime)
+        {
+            return string.Empty;
+        }
+
+        var status = new StringBuilder()
+            .Append(' ')
+            .Append(isSuccess ? '✓' : '✗');
+        var showExecutionTime = options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExecutionTime;
+        var showExitCode = options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExitCode;
+
+        if (showExecutionTime)
+        {
+            status.Append(" [").Append(runTime?.ToDisplayString() ?? "?");
+        }
+
+        if (showExitCode)
+        {
+            status.Append(showExecutionTime ? ", " : " [").Append("exit ").Append(exitCode);
+        }
+
+        return status.Append(']').ToString();
+    }
+
+    private void LogCapturedOutput(
+        CommandLoggingOptions options,
+        string output,
+        bool wasInlined)
+    {
+        if (wasInlined
+            || string.IsNullOrWhiteSpace(output)
+            || options.Verbosity < CommandLogVerbosity.Normal
+            || !options.ShowStandardOutput)
+        {
+            return;
+        }
+
+        Logger.LogInformation("  ↳ {CommandOutput}", _secretObfuscator.Obfuscate(output, null));
+    }
+
+    private void LogCapturedError(
+        CommandLoggingOptions options,
+        string error,
+        int? exitCode)
+    {
+        if (string.IsNullOrWhiteSpace(error)
+            || options.Verbosity < CommandLogVerbosity.Normal
+            || !options.ShowStandardError
+            || exitCode == 0)
+        {
+            return;
+        }
+
+        Logger.LogWarning("  ✗ {CommandError}", _secretObfuscator.Obfuscate(error, null));
     }
 
     private static bool ShouldShowInput(CommandLoggingOptions options)
