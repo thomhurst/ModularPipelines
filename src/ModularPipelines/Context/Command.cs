@@ -1,8 +1,11 @@
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Text;
 using CliWrap;
 using CliWrap.Exceptions;
+using Microsoft.Win32.SafeHandles;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
@@ -117,7 +120,7 @@ internal sealed class Command : ICommand, ICommandContext
             : CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
         using var forcefulCancellationToken = new CancellationTokenSource();
-        var processTreeTerminator = new ProcessTreeTerminator();
+        using var processTreeTerminator = new ProcessTreeTerminator();
         using var processTreeCancellationRegistration =
             forcefulCancellationToken.Token.Register(processTreeTerminator.Kill);
 
@@ -139,7 +142,7 @@ internal sealed class Command : ICommand, ICommandContext
         {
             try
             {
-                var result = await command
+                var executionTask = command
                     .WithStandardOutputPipe(PipeTarget.ToStringBuilder(standardOutputStringBuilder))
                     .WithStandardErrorPipe(PipeTarget.ToStringBuilder(standardErrorStringBuilder))
                     .WithValidation(CommandResultValidation.None)
@@ -153,8 +156,14 @@ internal sealed class Command : ICommand, ICommandContext
                         },
                         configureProcess: processTreeTerminator.Attach,
                         forcefulCancellationToken: CancellationToken.None,
-                        gracefulCancellationToken: linkedCancellationToken.Token)
-                    .ConfigureAwait(false);
+                        gracefulCancellationToken: linkedCancellationToken.Token);
+                using var descendantCaptureRegistration =
+                    linkedCancellationToken.Token.Register(processTreeTerminator.CaptureDescendants);
+                var result = await executionTask.ConfigureAwait(false);
+
+                await WaitForForcefulCancellationAsync(
+                    linkedCancellationToken.Token,
+                    forcefulCancellationToken.Token).ConfigureAwait(false);
 
                 standardOutput = standardOutputStringBuilder.ToString();
                 standardError = standardErrorStringBuilder.ToString();
@@ -180,6 +189,10 @@ internal sealed class Command : ICommand, ICommandContext
             }
             catch (CommandExecutionException e)
             {
+                await WaitForForcefulCancellationAsync(
+                    linkedCancellationToken.Token,
+                    forcefulCancellationToken.Token).ConfigureAwait(false);
+
                 standardOutput = standardOutputStringBuilder.ToString();
                 standardError = standardErrorStringBuilder.ToString();
 
@@ -198,6 +211,10 @@ internal sealed class Command : ICommand, ICommandContext
             }
             catch (Exception e) when (e is not CommandExecutionException and not CommandException)
             {
+                await WaitForForcefulCancellationAsync(
+                    linkedCancellationToken.Token,
+                    forcefulCancellationToken.Token).ConfigureAwait(false);
+
                 standardOutput = standardOutputStringBuilder.ToString();
                 standardError = standardErrorStringBuilder.ToString();
 
@@ -217,17 +234,42 @@ internal sealed class Command : ICommand, ICommandContext
         }
     }
 
-    private sealed class ProcessTreeTerminator
+    private static async Task WaitForForcefulCancellationAsync(
+        CancellationToken gracefulCancellationToken,
+        CancellationToken forcefulCancellationToken)
+    {
+        if (!gracefulCancellationToken.IsCancellationRequested ||
+            forcefulCancellationToken.IsCancellationRequested)
+        {
+            return;
+        }
+
+        try
+        {
+            await Task.Delay(Timeout.InfiniteTimeSpan, forcefulCancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (forcefulCancellationToken.IsCancellationRequested)
+        {
+            // The graceful shutdown window elapsed.
+        }
+    }
+
+    private sealed class ProcessTreeTerminator : IDisposable
     {
         private readonly Lock _lock = new();
+        private readonly Dictionary<int, Process> _descendants = [];
         private Process? _process;
+        private SafeFileHandle? _windowsJob;
         private bool _killRequested;
 
         public void Attach(Process process)
         {
+            var windowsJob = OperatingSystem.IsWindows() ? TryCreateWindowsJob(process) : null;
+
             lock (_lock)
             {
                 _process = process;
+                _windowsJob = windowsJob;
 
                 if (!_killRequested)
                 {
@@ -235,29 +277,209 @@ internal sealed class Command : ICommand, ICommandContext
                 }
             }
 
-            TryKill(process);
+            TryKill(process, windowsJob);
+        }
+
+        public void CaptureDescendants()
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                return;
+            }
+
+            Process? process;
+
+            lock (_lock)
+            {
+                process = _process;
+            }
+
+            if (process is null)
+            {
+                return;
+            }
+
+            try
+            {
+                foreach (var processId in GetDescendantProcessIds(process.Id))
+                {
+                    Process? descendant = null;
+
+                    try
+                    {
+                        descendant = Process.GetProcessById(processId);
+                        var capturedDescendant = descendant;
+                        var killDescendant = false;
+
+                        lock (_lock)
+                        {
+                            if (_descendants.TryAdd(processId, descendant))
+                            {
+                                killDescendant = _killRequested;
+                            }
+                            else
+                            {
+                                descendant.Dispose();
+                            }
+
+                            descendant = null;
+                        }
+
+                        if (killDescendant)
+                        {
+                            TryKill(capturedDescendant, null);
+                        }
+                    }
+                    catch (ArgumentException)
+                    {
+                        // The descendant exited while it was being captured.
+                    }
+                    finally
+                    {
+                        descendant?.Dispose();
+                    }
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                // The root process exited before its descendants could be captured.
+            }
         }
 
         public void Kill()
         {
             Process? process;
+            SafeFileHandle? windowsJob;
+            Process[] descendants;
 
             lock (_lock)
             {
                 _killRequested = true;
                 process = _process;
+                windowsJob = _windowsJob;
+                descendants = [.. _descendants.Values];
             }
 
             if (process is not null)
             {
-                TryKill(process);
+                TryKill(process, windowsJob);
+            }
+
+            foreach (var descendant in descendants)
+            {
+                TryKill(descendant, null);
             }
         }
 
-        private static void TryKill(Process process)
+        public void Dispose()
+        {
+            SafeFileHandle? windowsJob;
+            Process[] descendants;
+
+            lock (_lock)
+            {
+                windowsJob = _windowsJob;
+                descendants = [.. _descendants.Values];
+                _windowsJob = null;
+                _process = null;
+                _descendants.Clear();
+            }
+
+            windowsJob?.Dispose();
+
+            foreach (var descendant in descendants)
+            {
+                descendant.Dispose();
+            }
+        }
+
+        private static HashSet<int> GetDescendantProcessIds(int rootProcessId)
+        {
+            var pendingProcessIds = new Queue<int>();
+            var descendantProcessIds = new HashSet<int>();
+            pendingProcessIds.Enqueue(rootProcessId);
+
+            while (pendingProcessIds.TryDequeue(out var parentProcessId))
+            {
+                foreach (var childProcessId in GetChildProcessIds(parentProcessId))
+                {
+                    if (descendantProcessIds.Add(childProcessId))
+                    {
+                        pendingProcessIds.Enqueue(childProcessId);
+                    }
+                }
+            }
+
+            return descendantProcessIds;
+        }
+
+        private static int[] GetChildProcessIds(int parentProcessId)
+        {
+            if (OperatingSystem.IsLinux())
+            {
+                var childrenFile = $"/proc/{parentProcessId}/task/{parentProcessId}/children";
+
+                try
+                {
+                    var processIds = File.ReadAllText(childrenFile)
+                        .Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries);
+                    return Array.ConvertAll(processIds, int.Parse);
+                }
+                catch (IOException)
+                {
+                    return [];
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    return [];
+                }
+            }
+
+            if (OperatingSystem.IsMacOS())
+            {
+                return MacNativeMethods.GetChildProcessIds(parentProcessId);
+            }
+
+            return [];
+        }
+
+        [SupportedOSPlatform("windows")]
+        private static SafeFileHandle? TryCreateWindowsJob(Process process)
+        {
+            var job = WindowsNativeMethods.CreateJobObject(nint.Zero, null);
+            if (job.IsInvalid)
+            {
+                job.Dispose();
+                return null;
+            }
+
+            try
+            {
+                if (WindowsNativeMethods.AssignProcessToJobObject(job, process.SafeHandle))
+                {
+                    return job;
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                // The process exited before it could be assigned.
+            }
+
+            job.Dispose();
+            return null;
+        }
+
+        private static void TryKill(Process process, SafeFileHandle? windowsJob)
         {
             try
             {
+                if (OperatingSystem.IsWindows() &&
+                    windowsJob is { IsInvalid: false, IsClosed: false } &&
+                    WindowsNativeMethods.TerminateJobObject(windowsJob, 1))
+                {
+                    return;
+                }
+
                 process.Kill(entireProcessTree: true);
             }
             catch (InvalidOperationException)
@@ -272,6 +494,52 @@ internal sealed class Command : ICommand, ICommandContext
             {
                 // The process is remote.
             }
+        }
+
+        private static class WindowsNativeMethods
+        {
+#pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
+            [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+            public static extern SafeFileHandle CreateJobObject(nint jobAttributes, string? name);
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool AssignProcessToJobObject(
+                SafeFileHandle job,
+                SafeProcessHandle process);
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool TerminateJobObject(SafeFileHandle job, uint exitCode);
+#pragma warning restore SYSLIB1054
+        }
+
+        [SupportedOSPlatform("macos")]
+        private static class MacNativeMethods
+        {
+            public static int[] GetChildProcessIds(int parentProcessId)
+            {
+                var processCount = ProcListChildPids(parentProcessId, null, 0);
+                if (processCount <= 0)
+                {
+                    return [];
+                }
+
+                var processIds = new int[processCount];
+                var actualProcessCount =
+                    ProcListChildPids(parentProcessId, processIds, processIds.Length * sizeof(int));
+                return actualProcessCount > 0
+                    ? processIds[..Math.Min(actualProcessCount, processIds.Length)]
+                    : [];
+            }
+
+#pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
+            [DllImport("libproc", EntryPoint = "proc_listchildpids")]
+            private static extern int ProcListChildPids(
+                int parentProcessId,
+                int[]? processIds,
+                int byteCount);
+#pragma warning restore SYSLIB1054
         }
     }
 }
