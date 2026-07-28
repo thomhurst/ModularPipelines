@@ -18,6 +18,7 @@ public class ExecutionOrchestratorTests
         var organizedModules = new OrganizedModules([], []);
         var summary = new PipelineSummary(
             [],
+            [],
             TimeSpan.Zero,
             DateTimeOffset.UtcNow,
             DateTimeOffset.UtcNow);
