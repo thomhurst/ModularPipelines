@@ -32,7 +32,7 @@ builder.Services.Configure<PublishSettings>(builder.Configuration.GetSection("Pu
 builder.Services.Configure<CodacySettings>(builder.Configuration.GetSection("Codacy"));
 builder.Services.Configure<CodeCovSettings>(builder.Configuration.GetSection("CodeCov"));
 
-builder.Services
+builder
     .AddModule<BuildSolutionsModule>()
     .AddModule<BuildSolutionOnWindowsModule>()
     .AddModule<BuildSolutionOnMacOSModule>()
@@ -111,7 +111,7 @@ if (!string.IsNullOrEmpty(runCategories))
 
 builder.SetLogLevel(LogLevel.Debug); // Temporarily hardcoded for debugging
 
-var pipeline = builder.Build();
+await using var pipeline = await builder.BuildAsync();
 await pipeline.RunAsync();
 
 file static class BuildPipelineConfiguration
@@ -126,13 +126,13 @@ file static class BuildPipelineConfiguration
 
         if (builder.Environment.IsDevelopment() && !isRunningInCI)
         {
-            builder.Services.AddModule<CreateLocalNugetFolderModule>()
+            builder.AddModule<CreateLocalNugetFolderModule>()
                 .AddModule<AddLocalNugetSourceModule>()
                 .AddModule<UploadPackagesToLocalNuGetModule>();
         }
         else if (!builder.Environment.IsDevelopment())
         {
-            builder.Services.AddModule<UploadPackagesToNugetModule>()
+            builder.AddModule<UploadPackagesToNugetModule>()
                 .AddModule<CreateReleaseModule>();
         }
     }

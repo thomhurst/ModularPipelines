@@ -1,11 +1,10 @@
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
-using IPipelineRequirementInstance = ModularPipelines.Requirements.IPipelineRequirement;
 
 namespace ModularPipelines.Extensions;
 
@@ -24,6 +23,7 @@ public static class PipelineBuilderExtensions
         where TModule : class, IModule
     {
         builder.Services.AddModule<TModule>();
+        builder.LastRegisteredModuleType = typeof(TModule);
         return builder;
     }
 
@@ -38,6 +38,7 @@ public static class PipelineBuilderExtensions
         where TModule : class, IModule
     {
         builder.Services.AddModule(module);
+        builder.LastRegisteredModuleType = typeof(TModule);
         return builder;
     }
 
@@ -52,71 +53,78 @@ public static class PipelineBuilderExtensions
         where TModule : class, IModule
     {
         builder.Services.AddModule(factory);
+        builder.LastRegisteredModuleType = typeof(TModule);
         return builder;
     }
 
     /// <summary>
-    /// Adds multiple modules to the pipeline.
+    /// Adds multiple module types to the pipeline.
     /// </summary>
-    public static PipelineBuilder AddModules<T1, T2>(this PipelineBuilder builder)
-        where T1 : class, IModule
-        where T2 : class, IModule
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="moduleTypes">The module types to add.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddModules(this PipelineBuilder builder, params Type[] moduleTypes)
     {
-        builder.Services.AddModule<T1>().AddModule<T2>();
+        ArgumentNullException.ThrowIfNull(moduleTypes);
+
+        foreach (var moduleType in moduleTypes)
+        {
+            ValidateModuleType(moduleType);
+            builder.Services.AddModule(moduleType);
+            builder.LastRegisteredModuleType = moduleType;
+        }
+
         return builder;
     }
 
     /// <summary>
-    /// Adds multiple modules to the pipeline.
+    /// Adds all modules from the assembly containing the specified type.
     /// </summary>
-    public static PipelineBuilder AddModules<T1, T2, T3>(this PipelineBuilder builder)
-        where T1 : class, IModule
-        where T2 : class, IModule
-        where T3 : class, IModule
+    /// <typeparam name="T">Any type from the assembly to scan.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddModulesFromAssemblyContainingType<T>(this PipelineBuilder builder)
     {
-        builder.Services.AddModule<T1>().AddModule<T2>().AddModule<T3>();
+        return builder.AddModulesFromAssembly(typeof(T).Assembly);
+    }
+
+    /// <summary>
+    /// Adds all modules from an assembly.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="assembly">The assembly to scan.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddModulesFromAssembly(this PipelineBuilder builder, Assembly assembly)
+    {
+        ArgumentNullException.ThrowIfNull(assembly);
+        builder.Services.AddModulesFromAssembly(assembly);
+        builder.LastRegisteredModuleType = null;
         return builder;
     }
 
     /// <summary>
-    /// Adds multiple modules to the pipeline.
+    /// Adds tags to the most recently registered module.
     /// </summary>
-    public static PipelineBuilder AddModules<T1, T2, T3, T4>(this PipelineBuilder builder)
-        where T1 : class, IModule
-        where T2 : class, IModule
-        where T3 : class, IModule
-        where T4 : class, IModule
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="tags">The tags to add.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder WithTags(this PipelineBuilder builder, params string[] tags)
     {
-        builder.Services.AddModule<T1>().AddModule<T2>().AddModule<T3>().AddModule<T4>();
+        var moduleType = GetLastRegisteredModuleType(builder);
+        builder.Services.Configure<ModuleRegistrationOptions>(options => options.AddTags(moduleType, tags));
         return builder;
     }
 
     /// <summary>
-    /// Adds multiple modules to the pipeline.
+    /// Sets the category of the most recently registered module.
     /// </summary>
-    public static PipelineBuilder AddModules<T1, T2, T3, T4, T5>(this PipelineBuilder builder)
-        where T1 : class, IModule
-        where T2 : class, IModule
-        where T3 : class, IModule
-        where T4 : class, IModule
-        where T5 : class, IModule
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="category">The category to set.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder WithCategory(this PipelineBuilder builder, string category)
     {
-        builder.Services.AddModule<T1>().AddModule<T2>().AddModule<T3>().AddModule<T4>().AddModule<T5>();
-        return builder;
-    }
-
-    /// <summary>
-    /// Adds multiple modules to the pipeline.
-    /// </summary>
-    public static PipelineBuilder AddModules<T1, T2, T3, T4, T5, T6>(this PipelineBuilder builder)
-        where T1 : class, IModule
-        where T2 : class, IModule
-        where T3 : class, IModule
-        where T4 : class, IModule
-        where T5 : class, IModule
-        where T6 : class, IModule
-    {
-        builder.Services.AddModule<T1>().AddModule<T2>().AddModule<T3>().AddModule<T4>().AddModule<T5>().AddModule<T6>();
+        var moduleType = GetLastRegisteredModuleType(builder);
+        builder.Services.Configure<ModuleRegistrationOptions>(options => options.SetCategory(moduleType, category));
         return builder;
     }
 
@@ -130,6 +138,22 @@ public static class PipelineBuilderExtensions
         where TRequirement : class, IPipelineRequirement
     {
         builder.Services.AddRequirement<TRequirement>();
+        return builder;
+    }
+
+    /// <summary>
+    /// Adds a requirement using a factory.
+    /// </summary>
+    /// <typeparam name="TRequirement">The requirement type.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="factory">The requirement factory.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddRequirement<TRequirement>(
+        this PipelineBuilder builder,
+        Func<IServiceProvider, TRequirement> factory)
+        where TRequirement : class, IPipelineRequirement
+    {
+        builder.Services.AddRequirement(factory);
         return builder;
     }
 
@@ -192,7 +216,7 @@ public static class PipelineBuilderExtensions
     /// <returns>A summary of the pipeline execution results.</returns>
     public static async Task<Models.PipelineSummary> ExecutePipelineAsync(this PipelineBuilder builder, CancellationToken cancellationToken = default)
     {
-        var pipeline = builder.Build();
+        await using var pipeline = await builder.BuildAsync().ConfigureAwait(false);
         return await pipeline.RunAsync(cancellationToken).ConfigureAwait(false);
     }
 
@@ -276,9 +300,78 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="requirement">The requirement instance to add.</param>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddRequirement(this PipelineBuilder builder, IPipelineRequirementInstance requirement)
+    public static PipelineBuilder AddRequirement(this PipelineBuilder builder, IPipelineRequirement requirement)
     {
         builder.Services.AddSingleton(requirement);
         return builder;
+    }
+
+    /// <summary>
+    /// Adds a singleton service to the pipeline.
+    /// </summary>
+    /// <typeparam name="TService">The service type.</typeparam>
+    /// <typeparam name="TImplementation">The implementation type.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddSingleton<TService, TImplementation>(this PipelineBuilder builder)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        builder.Services.AddSingleton<TService, TImplementation>();
+        return builder;
+    }
+
+    /// <summary>
+    /// Adds a singleton service instance to the pipeline.
+    /// </summary>
+    /// <typeparam name="TService">The service type.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="implementationInstance">The service instance.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddSingleton<TService>(
+        this PipelineBuilder builder,
+        TService implementationInstance)
+        where TService : class
+    {
+        builder.Services.AddSingleton(implementationInstance);
+        return builder;
+    }
+
+    /// <summary>
+    /// Configures options for the pipeline.
+    /// </summary>
+    /// <typeparam name="TOptions">The options type.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="configureOptions">The configuration action.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder Configure<TOptions>(
+        this PipelineBuilder builder,
+        Action<TOptions> configureOptions)
+        where TOptions : class
+    {
+        builder.Services.Configure(configureOptions);
+        return builder;
+    }
+
+    private static Type GetLastRegisteredModuleType(PipelineBuilder builder)
+    {
+        return builder.LastRegisteredModuleType
+               ?? throw new InvalidOperationException(
+                   "Module metadata must follow an AddModule call.");
+    }
+
+    private static void ValidateModuleType(Type moduleType)
+    {
+        ArgumentNullException.ThrowIfNull(moduleType);
+
+        if (!typeof(IModule).IsAssignableFrom(moduleType)
+            || !moduleType.IsClass
+            || moduleType.IsAbstract
+            || moduleType.IsGenericTypeDefinition)
+        {
+            throw new ArgumentException(
+                $"Type '{moduleType.FullName}' must be a concrete, closed module type.",
+                nameof(moduleType));
+        }
     }
 }

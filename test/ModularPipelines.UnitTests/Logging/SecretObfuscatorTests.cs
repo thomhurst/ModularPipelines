@@ -48,19 +48,19 @@ public class SecretObfuscatorTests
         await Assert.That(logOutput).DoesNotContain("::add-mask::This is NOT a secret value!");
     }
 
-    private IPipeline GetPipeline()
+    private async Task<IPipeline> GetPipeline()
     {
         var builder = TestPipelineHostBuilder.Create();
         builder.Services.AddSingleton(_buildSystemMock.Object);
         builder.Services.Configure<MyModel>(builder.Configuration);
         builder.Services.AddSingleton(_consoleWriterMock.Object);
-        builder.Services.AddModule<GlobalDummyModule>();
-        return builder.Build();
+        builder.AddModule<GlobalDummyModule>();
+        return await builder.BuildAsync();
     }
 
     private async Task ExecutePipelineAsync()
     {
-        var pipeline = GetPipeline();
+        var pipeline = await GetPipeline();
         await pipeline.RunAsync();
     }
 }

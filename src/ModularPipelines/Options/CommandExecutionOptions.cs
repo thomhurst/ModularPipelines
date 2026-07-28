@@ -6,6 +6,7 @@ namespace ModularPipelines.Options;
 public record CommandExecutionOptions
 {
     internal static TimeSpan DefaultExecutionTimeout { get; } = TimeSpan.FromMinutes(30);
+    internal const int DefaultMaxCapturedOutputLength = 1024 * 1024;
 
     /// <summary>
     /// Gets any EnvironmentVariables to pass to the command.
@@ -34,6 +35,8 @@ public record CommandExecutionOptions
 
     /// <summary>
     /// Gets if logging output, you can use this to edit how the output is logged.
+    /// The complete output stream is retained for this delegate even when
+    /// <see cref="MaxCapturedOutputLength"/> bounds the returned command result.
     /// </summary>
     public Func<string, string>? OutputLoggingManipulator { get; init; }
 
@@ -57,6 +60,13 @@ public record CommandExecutionOptions
     /// Gets or sets the time to wait for graceful shutdown before forcefully terminating.
     /// </summary>
     public TimeSpan GracefulShutdownTimeout { get; init; } = TimeSpan.FromSeconds(30);
+
+    /// <summary>
+    /// Gets or sets the maximum number of characters retained from each command output stream.
+    /// When output exceeds this limit, the beginning and end are retained with a truncation marker.
+    /// Set to 0 or a negative value to retain unlimited output.
+    /// </summary>
+    public int MaxCapturedOutputLength { get; init; } = DefaultMaxCapturedOutputLength;
 
     internal bool InternalDryRun { get; set; }
 }

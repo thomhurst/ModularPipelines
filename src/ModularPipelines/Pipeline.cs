@@ -14,10 +14,10 @@ public static class Pipeline
     /// <code>
     /// var builder = Pipeline.CreateBuilder(args);
     ///
-    /// builder.Services.AddModule&lt;BuildModule&gt;();
+    /// builder.AddModule&lt;BuildModule&gt;();
     /// builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
     ///
-    /// var pipeline = builder.Build();
+    /// var pipeline = await builder.BuildAsync();
     /// var summary = await pipeline.RunAsync();
     /// </code>
     /// </example>
@@ -39,8 +39,8 @@ public static class Pipeline
     ///     EnvironmentName = "Development"
     /// });
     ///
-    /// builder.Services.AddModule&lt;BuildModule&gt;();
-    /// var pipeline = builder.Build();
+    /// builder.AddModule&lt;BuildModule&gt;();
+    /// var pipeline = await builder.BuildAsync();
     /// var summary = await pipeline.RunAsync();
     /// </code>
     /// </example>

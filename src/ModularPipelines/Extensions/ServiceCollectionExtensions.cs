@@ -9,41 +9,16 @@ using ModularPipelines.Requirements;
 namespace ModularPipelines.Extensions;
 
 /// <summary>
-/// Extensions for adding pipeline services to the service provider.
+/// Internal service-registration primitives used by <see cref="PipelineBuilderExtensions"/>.
 /// </summary>
-/// <remarks>
-/// <para>
-/// These extension methods provide a fluent API for registering modules, requirements, and hooks
-/// within the dependency injection container. The most common usage is through
-/// <see cref="Host.PipelineHostBuilder.ConfigureServices"/>.
-/// </para>
-/// </remarks>
-/// <example>
-/// <code>
-/// PipelineHostBuilder.Create()
-///     .ConfigureServices((context, services) =>
-///     {
-///         services.AddModule&lt;BuildModule&gt;()
-///             .AddModule&lt;TestModule&gt;()
-///             .AddModule&lt;DeployModule&gt;();
-///     })
-///     .ExecutePipelineAsync();
-/// </code>
-/// </example>
-public static class ServiceCollectionExtensions
+internal static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Adds a Module to the pipeline.
     /// </summary>
     /// <param name="services">The pipeline's service collection.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
-    /// <returns>A builder for configuring the module registration with tags or categories.</returns>
-    /// <remarks>
-    /// <para>
-    /// The returned <see cref="IModuleRegistrationBuilder"/> allows chaining additional module registrations
-    /// or configuring the module with metadata such as tags and categories.
-    /// </para>
-    /// </remarks>
+    /// <returns>The service collection.</returns>
     /// <example>
     /// <code>
     /// // Basic registration
@@ -59,7 +34,7 @@ public static class ServiceCollectionExtensions
     ///     .AddModule&lt;DeployModule&gt;();
     /// </code>
     /// </example>
-    public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services)
+    internal static IServiceCollection AddModule<TModule>(this IServiceCollection services)
         where TModule : class, IModule
     {
         // Track module type for auto-registration and unused module detection
@@ -67,7 +42,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<IModule>(sp =>
             sp.GetRequiredService<IModuleActivator>().CreateModule(typeof(TModule), sp));
-        return new ModuleRegistrationBuilder(services, typeof(TModule));
+        return services;
     }
 
     /// <summary>
@@ -76,7 +51,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The pipeline's service collection.</param>
     /// <param name="tModule">The module instance to add.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
-    /// <returns>A builder for configuring the module registration with tags or categories.</returns>
+    /// <returns>The service collection.</returns>
     /// <remarks>
     /// <para>
     /// This overload is useful when you need to pass constructor arguments to the module
@@ -95,7 +70,7 @@ public static class ServiceCollectionExtensions
     /// services.AddModule(buildModule);
     /// </code>
     /// </example>
-    public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services, TModule tModule)
+    internal static IServiceCollection AddModule<TModule>(this IServiceCollection services, TModule tModule)
         where TModule : class, IModule
     {
         ArgumentNullException.ThrowIfNull(tModule);
@@ -110,7 +85,7 @@ public static class ServiceCollectionExtensions
             services.AddSingleton<IModule>(tModule);
         }
 
-        return new ModuleRegistrationBuilder(services, typeof(TModule));
+        return services;
     }
 
     /// <summary>
@@ -119,7 +94,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The pipeline's service collection.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
     /// <param name="tModuleFactory">A factory method for creating the module.</param>
-    /// <returns>A builder for configuring the module registration with tags or categories.</returns>
+    /// <returns>The service collection.</returns>
     /// <remarks>
     /// <para>
     /// This overload is useful when the module requires dependencies from the service provider
@@ -135,7 +110,7 @@ public static class ServiceCollectionExtensions
     /// });
     /// </code>
     /// </example>
-    public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
+    internal static IServiceCollection AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
         where TModule : class, IModule
     {
         // Track module type for auto-registration and unused module detection
@@ -156,7 +131,7 @@ public static class ServiceCollectionExtensions
                 Logging.ModuleLogger.CurrentModuleType.Value = previousType;
             }
         });
-        return new ModuleRegistrationBuilder(services, typeof(TModule));
+        return services;
     }
 
     /// <summary>
@@ -186,7 +161,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The pipeline's service collection.</param>
     /// <typeparam name="TRequirement">The type of requirement to add.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
-    public static IServiceCollection AddRequirement<TRequirement>(this IServiceCollection services)
+    internal static IServiceCollection AddRequirement<TRequirement>(this IServiceCollection services)
         where TRequirement : class, IPipelineRequirement
     {
         return services.AddSingleton<IPipelineRequirement, TRequirement>();
@@ -199,7 +174,7 @@ public static class ServiceCollectionExtensions
     /// <param name="tRequirement">The requirement to add.</param>
     /// <typeparam name="TRequirement">The type of requirement to add.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
-    public static IServiceCollection AddRequirement<TRequirement>(this IServiceCollection services, TRequirement tRequirement)
+    internal static IServiceCollection AddRequirement<TRequirement>(this IServiceCollection services, TRequirement tRequirement)
         where TRequirement : class, IPipelineRequirement
     {
         return services.AddSingleton<IPipelineRequirement>(tRequirement);
@@ -212,7 +187,7 @@ public static class ServiceCollectionExtensions
     /// <param name="tRequirementFactory">A factory method for creating the requirement.</param>
     /// <typeparam name="TRequirement">The type of requirement to add.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
-    public static IServiceCollection AddRequirement<TRequirement>(this IServiceCollection services, Func<IServiceProvider, TRequirement> tRequirementFactory)
+    internal static IServiceCollection AddRequirement<TRequirement>(this IServiceCollection services, Func<IServiceProvider, TRequirement> tRequirementFactory)
         where TRequirement : class, IPipelineRequirement
     {
         return services.AddSingleton<IPipelineRequirement>(tRequirementFactory);
@@ -233,7 +208,7 @@ public static class ServiceCollectionExtensions
     /// services.AddRequirement(Require.That(ctx => Environment.Is64BitProcess, "64-bit required"));
     /// </code>
     /// </example>
-    public static IServiceCollection AddRequirement(this IServiceCollection services, IPipelineRequirement requirement)
+    internal static IServiceCollection AddRequirement(this IServiceCollection services, IPipelineRequirement requirement)
     {
         return services.AddSingleton(requirement);
     }
@@ -260,7 +235,7 @@ public static class ServiceCollectionExtensions
     /// </code>
     /// </example>
     /// <exception cref="Exceptions.CircularDependencyException">Thrown when a circular dependency is detected among the modules.</exception>
-    public static IServiceCollection AddModulesFromAssemblyContainingType<T>(this IServiceCollection services)
+    internal static IServiceCollection AddModulesFromAssemblyContainingType<T>(this IServiceCollection services)
     {
         return AddModulesFromAssembly(services, typeof(T).Assembly);
     }
@@ -289,7 +264,7 @@ public static class ServiceCollectionExtensions
     /// </code>
     /// </example>
     /// <exception cref="Exceptions.CircularDependencyException">Thrown when a circular dependency is detected among the modules.</exception>
-    public static IServiceCollection AddModulesFromAssembly(this IServiceCollection services, Assembly assembly)
+    internal static IServiceCollection AddModulesFromAssembly(this IServiceCollection services, Assembly assembly)
     {
         var modules = assembly.GetTypes()
             .Where(type => type.IsAssignableTo(typeof(IModule)))
@@ -357,7 +332,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The pipeline's service collection.</param>
     /// <typeparam name="TGlobalSetup">The type of hook class.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
-    public static IServiceCollection AddPipelineGlobalHooks<TGlobalSetup>(this IServiceCollection services)
+    internal static IServiceCollection AddPipelineGlobalHooks<TGlobalSetup>(this IServiceCollection services)
         where TGlobalSetup : class, IPipelineGlobalHooks
     {
         return services.AddSingleton<IPipelineGlobalHooks, TGlobalSetup>();
@@ -369,7 +344,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The pipeline's service collection.</param>
     /// <typeparam name="TReceiver">The receiver type.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
-    public static IServiceCollection AddModuleEventReceiver<TReceiver>(this IServiceCollection services)
+    internal static IServiceCollection AddModuleEventReceiver<TReceiver>(this IServiceCollection services)
         where TReceiver : class, IModuleEventReceiver
     {
         return services.AddSingleton<IModuleEventReceiver, TReceiver>();

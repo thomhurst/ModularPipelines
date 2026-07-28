@@ -485,11 +485,11 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
 
     private sealed record ModuleEventMetadata(
         string TypeName,
-        ImmutableArray<string> Attributes,
+        EquatableArray<string> Attributes,
         bool IsComplete);
 
     private sealed record AttributeMetadata(
-        ImmutableArray<string> Expressions,
+        EquatableArray<string> Expressions,
         bool IsComplete);
 
     private sealed record AttributeCandidate(

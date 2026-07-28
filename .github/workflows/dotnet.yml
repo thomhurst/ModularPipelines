@@ -19,6 +19,79 @@ on:
         default: true
 
 jobs:
+  analyzers:
+    name: analyzers
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    env:
+      EnableCiAnalyzers: "true"
+      MSBUILDDISABLENODEREUSE: "1"
+      DOTNET_gcServer: "0"
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: 10.0.x
+      - name: Cache NuGet
+        uses: actions/cache@v6
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-analyzers-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-analyzers-
+            ${{ runner.os }}-nuget-
+      - name: Restore core solution
+        run: dotnet restore ModularPipelines.sln
+      - name: Build core solution with analyzers
+        # Report existing analyzer debt without failing; the next step gates warning-level
+        # diagnostics in changed files so the baseline can only improve.
+        run: >
+          dotnet build ModularPipelines.sln
+          -c Release
+          --no-restore
+          -p:RunAnalyzers=true
+          -p:RunAnalyzersDuringBuild=true
+          -p:TreatWarningsAsErrors=false
+      - name: Verify analyzer fixes in changed C# files
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          $baseSha = $env:BASE_SHA
+          if ([string]::IsNullOrWhiteSpace($baseSha) -or $baseSha -match '^0+$') {
+            $baseSha = 'HEAD^'
+          }
+
+          $changedFiles = @(
+            git diff --name-only --diff-filter=ACMRT $baseSha $env:GITHUB_SHA -- '*.cs'
+          )
+
+          if ($changedFiles.Count -eq 0) {
+            Write-Output 'No changed C# files require analyzer verification.'
+            exit 0
+          }
+
+          $formatArguments = @(
+            'format',
+            'ModularPipelines.sln',
+            'analyzers',
+            '--no-restore',
+            '--verify-no-changes',
+            '--severity',
+            'warn',
+            '--include'
+          ) + $changedFiles
+
+          & dotnet @formatArguments
+          exit $LASTEXITCODE
+
   pipeline:
     name: ${{ matrix.check_name }}
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
