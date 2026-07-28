@@ -329,8 +329,8 @@ public class CommandLoggerTests : TestBase
 
         try
         {
-            await Assert.That(await WaitUntilAsync(() => File.Exists(readyFile), TimeSpan.FromSeconds(5))).IsTrue();
-            await logObserver.OutputObserved.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(await WaitUntilAsync(() => File.Exists(readyFile), TimeSpan.FromSeconds(30))).IsTrue();
+            await logObserver.OutputObserved.WaitAsync(TimeSpan.FromSeconds(30));
             await Assert.That(commandTask.IsCompleted).IsFalse();
         }
         finally

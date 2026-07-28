@@ -180,18 +180,20 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         int? exitCode,
         TimeSpan? runTime)
     {
-        if (options.Verbosity < CommandLogVerbosity.Detailed
-            && !options.ShowExitCode
-            && !options.ShowExecutionTime)
+        var showExecutionTime = options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExecutionTime;
+        var showExitCode = options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExitCode;
+        if (!showExecutionTime && !showExitCode)
         {
-            return string.Empty;
+            return !isSuccess
+                   && options.Verbosity >= CommandLogVerbosity.Normal
+                   && options.ShowStandardError
+                ? " ✗"
+                : string.Empty;
         }
 
         var status = new StringBuilder()
             .Append(' ')
             .Append(isSuccess ? '✓' : '✗');
-        var showExecutionTime = options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExecutionTime;
-        var showExitCode = options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExitCode;
 
         if (showExecutionTime)
         {

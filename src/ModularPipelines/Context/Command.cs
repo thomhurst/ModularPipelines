@@ -103,12 +103,8 @@ internal sealed class Command : ICommand, ICommandContext
     {
         var standardOutputBuffer = new BoundedCommandOutputBuffer(execOpts.MaxCapturedOutputLength);
         var standardErrorBuffer = new BoundedCommandOutputBuffer(execOpts.MaxCapturedOutputLength);
-        var completeStandardOutputBuffer = execOpts.OutputLoggingManipulator is null
-            ? null
-            : new BoundedCommandOutputBuffer(maximumLength: 0);
-        var completeStandardErrorBuffer = execOpts.OutputLoggingManipulator is null
-            ? null
-            : new BoundedCommandOutputBuffer(maximumLength: 0);
+        var completeStandardOutputBuffer = CreateCompleteOutputBuffer(execOpts);
+        var completeStandardErrorBuffer = CreateCompleteOutputBuffer(execOpts);
         var outputLogger = _commandLogger as ICommandOutputLogger;
         var streamsOutput = outputLogger is not null && execOpts.OutputLoggingManipulator is null;
         var stopwatch = Stopwatch.StartNew();
@@ -116,37 +112,21 @@ internal sealed class Command : ICommand, ICommandContext
         var standardOutput = string.Empty;
         var standardError = string.Empty;
 
-        var inputToLog = execOpts.InputLoggingManipulator == null ? command.ToString() : execOpts.InputLoggingManipulator(command.ToString());
+        var inputToLog = GetInputToLog(command, execOpts);
 
         // Only create timeout token if ExecutionTimeout is specified to avoid unnecessary allocations
-        using var timeoutCancellationToken = execOpts.ExecutionTimeout.HasValue
-            ? new CancellationTokenSource(execOpts.ExecutionTimeout.Value)
-            : null;
+        using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
 
         // Link the timeout token with the passed cancellation token, or just wrap the original if no timeout
-        using var linkedCancellationToken = timeoutCancellationToken != null
-            ? CancellationTokenSource.CreateLinkedTokenSource(timeoutCancellationToken.Token, cancellationToken)
-            : CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        using var linkedCancellationToken = CreateLinkedCancellationToken(timeoutCancellationToken, cancellationToken);
 
         using var forcefulCancellationToken = new CancellationTokenSource();
         using var processTreeTerminator = new ProcessTreeTerminator();
         using var processTreeCancellationRegistration =
             forcefulCancellationToken.Token.Register(processTreeTerminator.Kill);
 
-        var registration = linkedCancellationToken.Token.Register(() =>
-        {
-            try
-            {
-                if (forcefulCancellationToken.Token.CanBeCanceled)
-                {
-                    forcefulCancellationToken.CancelAfter(execOpts.GracefulShutdownTimeout);
-                }
-            }
-            catch (ObjectDisposedException)
-            {
-                // Ignored
-            }
-        });
+        var registration = linkedCancellationToken.Token.Register(
+            () => ScheduleForcefulCancellation(forcefulCancellationToken, execOpts.GracefulShutdownTimeout));
         await using (registration.ConfigureAwait(false))
         {
             try
@@ -155,24 +135,22 @@ internal sealed class Command : ICommand, ICommandContext
                     .WithStandardOutputPipe(CreateOutputTarget(
                         standardOutputBuffer,
                         completeStandardOutputBuffer,
-                        streamsOutput
-                            ? line => outputLogger!.LogStandardOutputLine(options, execOpts, line)
-                            : null))
+                        CreateStandardOutputLogger(
+                            streamsOutput,
+                            outputLogger,
+                            options,
+                            execOpts)))
                     .WithStandardErrorPipe(CreateOutputTarget(
                         standardErrorBuffer,
                         completeStandardErrorBuffer,
-                        streamsOutput
-                            ? line => outputLogger!.LogStandardErrorLine(options, execOpts, line)
-                            : null))
+                        CreateStandardErrorLogger(
+                            streamsOutput,
+                            outputLogger,
+                            options,
+                            execOpts)))
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync(
-                        configureStartInfo: startInfo =>
-                        {
-                            if (OperatingSystem.IsWindows())
-                            {
-                                startInfo.CreateNewProcessGroup = true;
-                            }
-                        },
+                        configureStartInfo: ConfigureStartInfo,
                         configureProcess: processTreeTerminator.Attach,
                         forcefulCancellationToken: CancellationToken.None,
                         gracefulCancellationToken: linkedCancellationToken.Token);
@@ -201,11 +179,13 @@ internal sealed class Command : ICommand, ICommandContext
                     streamsOutput,
                     command.WorkingDirPath);
 
-                if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
-                {
-                    var input = inputToLog;
-                    throw new CommandException(input, result.ExitCode, result.RunTime, standardOutput, standardError);
-                }
+                ThrowOnFailure(
+                    execOpts,
+                    inputToLog,
+                    result.ExitCode,
+                    result.RunTime,
+                    standardOutput,
+                    standardError);
 
                 return new CommandResult(command, result, standardOutput, standardError);
             }
@@ -259,6 +239,98 @@ internal sealed class Command : ICommand, ICommandContext
 
                 throw new CommandException(inputToLog, -1, stopwatch.Elapsed, standardOutput, standardError, e);
             }
+        }
+    }
+
+    private static BoundedCommandOutputBuffer? CreateCompleteOutputBuffer(CommandExecutionOptions options)
+    {
+        return options.OutputLoggingManipulator is null
+            ? null
+            : new BoundedCommandOutputBuffer(maximumLength: 0);
+    }
+
+    private static string GetInputToLog(CliWrap.Command command, CommandExecutionOptions options)
+    {
+        var commandText = command.ToString();
+        return options.InputLoggingManipulator is null
+            ? commandText
+            : options.InputLoggingManipulator(commandText);
+    }
+
+    private static CancellationTokenSource? CreateTimeoutCancellationToken(CommandExecutionOptions options)
+    {
+        return options.ExecutionTimeout.HasValue
+            ? new CancellationTokenSource(options.ExecutionTimeout.Value)
+            : null;
+    }
+
+    private static CancellationTokenSource CreateLinkedCancellationToken(
+        CancellationTokenSource? timeoutCancellationToken,
+        CancellationToken cancellationToken)
+    {
+        return timeoutCancellationToken is null
+            ? CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
+            : CancellationTokenSource.CreateLinkedTokenSource(timeoutCancellationToken.Token, cancellationToken);
+    }
+
+    private static void ScheduleForcefulCancellation(
+        CancellationTokenSource forcefulCancellationToken,
+        TimeSpan gracefulShutdownTimeout)
+    {
+        try
+        {
+            if (forcefulCancellationToken.Token.CanBeCanceled)
+            {
+                forcefulCancellationToken.CancelAfter(gracefulShutdownTimeout);
+            }
+        }
+        catch (ObjectDisposedException)
+        {
+            // Ignored
+        }
+    }
+
+    private static Action<string>? CreateStandardOutputLogger(
+        bool streamsOutput,
+        ICommandOutputLogger? outputLogger,
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions)
+    {
+        return streamsOutput
+            ? line => outputLogger!.LogStandardOutputLine(options, executionOptions, line)
+            : null;
+    }
+
+    private static Action<string>? CreateStandardErrorLogger(
+        bool streamsOutput,
+        ICommandOutputLogger? outputLogger,
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions)
+    {
+        return streamsOutput
+            ? line => outputLogger!.LogStandardErrorLine(options, executionOptions, line)
+            : null;
+    }
+
+    private static void ConfigureStartInfo(ProcessStartInfo startInfo)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            startInfo.CreateNewProcessGroup = true;
+        }
+    }
+
+    private static void ThrowOnFailure(
+        CommandExecutionOptions options,
+        string input,
+        int exitCode,
+        TimeSpan runTime,
+        string standardOutput,
+        string standardError)
+    {
+        if (exitCode != 0 && options.ThrowOnNonZeroExitCode)
+        {
+            throw new CommandException(input, exitCode, runTime, standardOutput, standardError);
         }
     }
 
