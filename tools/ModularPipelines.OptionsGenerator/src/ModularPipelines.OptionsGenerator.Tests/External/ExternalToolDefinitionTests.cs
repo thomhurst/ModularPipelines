@@ -1612,6 +1612,35 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Metadata_Rejects_Declaration_Invalid_Types()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            foreach (var invalidType in new[] { "void", "var" })
+            {
+                var tool = await LoadValidToolAsync(workspace, outputDirectory);
+                var command = tool.Commands.Single();
+                var option = command.Options.Single() with { CSharpType = invalidType };
+                tool = tool with
+                {
+                    Commands = [command with { Options = [option] }],
+                };
+
+                await Assert.That(async () =>
+                        await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                    .Throws<InvalidDataException>();
+            }
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Metadata_Rejects_Command_Member_Colliding_With_Global_Property()
     {
         var workspace = CreateTemporaryDirectory();

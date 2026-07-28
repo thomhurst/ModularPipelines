@@ -546,9 +546,14 @@ public static class ExternalToolDefinitionLoader
     {
         RequireValue(value, propertyName);
         var type = SyntaxFactory.ParseTypeName(value);
-        if (type.ContainsDiagnostics || type.ToFullString() != value)
+        if (type.ContainsDiagnostics
+            || type.ToFullString() != value
+            || type.DescendantTokens().Any(token =>
+                token.RawKind == (int) SyntaxKind.VoidKeyword
+                || token.ValueText.Equals("var", StringComparison.Ordinal)))
         {
-            throw new InvalidDataException($"{propertyName} must be a valid C# type name.");
+            throw new InvalidDataException(
+                $"{propertyName} must be a valid C# property or parameter type.");
         }
     }
 
