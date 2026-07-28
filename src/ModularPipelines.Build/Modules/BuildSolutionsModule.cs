@@ -15,7 +15,9 @@ public class BuildSolutionsModule : Module<CommandResult[]>
 {
     protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var gitRoot = context.Git().RootDirectory.Path;
+        var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var gitRoot = repositoryInfo.Root.Path;
         var solutions = File.ReadLines(Path.Combine(gitRoot, "BuildSolutions.txt"))
             .Select(line => line.Trim())
             .Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith('#'))

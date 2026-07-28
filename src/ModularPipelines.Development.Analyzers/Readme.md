@@ -115,13 +115,13 @@ await PipelineHostBuilder.Create()
 ```csharp
 public class FindNugetPackagesModule : Module<FileInfo>
 {
-    protected override Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        return context.Git()
-            .RootDirectory
+        var repositoryInfo = await context.Git().Information.GetInfoAsync()
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        return repositoryInfo.Root
             .GetFiles(path => path.Extension is ".nupkg")
-            .ToList()
-            .AsTask();
+            .ToList();
     }
 }
 ```
