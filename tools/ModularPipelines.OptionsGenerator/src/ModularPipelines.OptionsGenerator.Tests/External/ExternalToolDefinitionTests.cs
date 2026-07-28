@@ -1710,6 +1710,50 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Generation_Releases_Ownership_When_Stale_File_Loses_Marker()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var orchestrator = CreateOrchestrator();
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var documentedTool = tool with { DocumentationOutputDirectory = "docs" };
+            await orchestrator.GenerateFromDefinitionAsync(documentedTool, outputDirectory);
+
+            var documentationRelativePath = Path.Combine(
+                    "docs",
+                    "private-widget.md")
+                .Replace('\\', '/');
+            var documentationPath = Path.Combine(
+                outputDirectory,
+                documentationRelativePath);
+            var ownershipPath = Path.Combine(
+                outputDirectory,
+                ".modular-pipelines-options",
+                "PrivateWidget.files");
+            const string handAuthoredContent = "# Hand-authored documentation";
+            await File.WriteAllTextAsync(documentationPath, handAuthoredContent);
+
+            await orchestrator.GenerateFromDefinitionAsync(tool, outputDirectory);
+
+            await Assert.That(File.Exists(documentationPath)).IsTrue();
+            await Assert.That(await File.ReadAllTextAsync(ownershipPath))
+                .DoesNotContain(documentationRelativePath);
+            await Assert.That(async () =>
+                    await orchestrator.GenerateFromDefinitionAsync(documentedTool, outputDirectory))
+                .Throws<InvalidDataException>();
+            await Assert.That(await File.ReadAllTextAsync(documentationPath))
+                .IsEqualTo(handAuthoredContent);
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Generation_Retains_Ownership_When_Stale_Delete_Fails()
     {
         if (!OperatingSystem.IsWindows())

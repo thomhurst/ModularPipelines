@@ -377,8 +377,12 @@ public class CodeGeneratorOrchestrator
                 continue;
             }
 
-            if (!IsExternallyOwnedGeneratedFile(outputDirectory, fullPath)
-                || !DeleteFileAndRecord(
+            if (!IsExternallyOwnedGeneratedFile(outputDirectory, fullPath))
+            {
+                continue;
+            }
+
+            if (!DeleteFileAndRecord(
                     outputDirectory,
                     fullPath,
                     deletedPaths,
