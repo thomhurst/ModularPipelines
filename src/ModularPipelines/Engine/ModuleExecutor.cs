@@ -223,7 +223,7 @@ internal class ModuleExecutor : IModuleExecutor
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                     {
-                        if (!IsExpectedFailFastCancellation(ex, ct)
+                        if (!IsExpectedWorkerCancellation(ex, ct)
                             && recordedWorkerExceptions.TryAdd(ex, 0))
                         {
                             _secondaryExceptionContainer.RegisterException(ex);
@@ -246,7 +246,9 @@ internal class ModuleExecutor : IModuleExecutor
         return firstException;
     }
 
-    private static bool IsExpectedFailFastCancellation(
+    // Engine-linked module cancellation is converted to a PipelineTerminated result
+    // by ModuleExecutionPipeline. Only worker-token cancellation can reach this layer.
+    private static bool IsExpectedWorkerCancellation(
         Exception exception,
         CancellationToken workerCancellationToken)
     {

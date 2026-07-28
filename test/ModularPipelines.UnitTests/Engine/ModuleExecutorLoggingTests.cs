@@ -136,7 +136,7 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
-    public async Task StopOnFirstException_IgnoresCooperativeWorkerCancellation()
+    public async Task StopOnFirstException_IgnoresWorkerCancellation()
     {
         var faultingModule = new FaultingModule();
         var laterModule = new LaterModule();
