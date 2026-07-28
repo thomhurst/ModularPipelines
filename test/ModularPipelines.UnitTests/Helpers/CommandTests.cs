@@ -39,7 +39,7 @@ public class CommandTests : TestBase
     [Test]
     public async Task Command_Execution_Caps_Captured_Output_With_Head_And_Tail()
     {
-        var command = await GetService<ICommand>();
+        var command = await GetService<ICommandContext>();
         var result = await command.ExecuteCommandLineTool(
             new PowershellScriptOptions("Write-Output '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'"),
             new CommandExecutionOptions { MaxCapturedOutputLength = 10 });
