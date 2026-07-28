@@ -20,6 +20,8 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         nameof(Resources.MissingDependsOnAttributeAnalyzerMessageFormat),
         nameof(Resources.MissingDependsOnAttributeAnalyzerDescription));
 
+    private const string OptionalModuleAccessorSuffix = "ModuleIfRegistered";
+
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
@@ -39,28 +41,22 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var genericNameSyntax = invocationExpressionSyntax.Expression switch
+        var invokedName = invocationExpressionSyntax.Expression switch
         {
-            GenericNameSyntax directGenericName => directGenericName,
-            MemberAccessExpressionSyntax { Name: GenericNameSyntax memberGenericName } => memberGenericName,
+            SimpleNameSyntax simpleName => simpleName,
+            MemberAccessExpressionSyntax memberAccess => memberAccess.Name,
             _ => null,
         };
 
-        if (genericNameSyntax is null)
+        if (invokedName is null)
         {
             return;
         }
 
-        if (genericNameSyntax.Identifier.ValueText is not AnalyzerConstants.MethodNames.GetModule)
-        {
-            return;
-        }
+        var methodSymbol = context.SemanticModel.GetSymbolInfo(invocationExpressionSyntax, context.CancellationToken).Symbol as IMethodSymbol;
 
-        var genericArgument = genericNameSyntax.TypeArgumentList.Arguments.First();
-
-        var genericArgumentSymbol = context.SemanticModel.GetSymbolInfo(genericArgument).Symbol;
-
-        if (genericArgumentSymbol is not INamedTypeSymbol namedTypeSymbol)
+        if (methodSymbol is null ||
+            !TryGetModuleType(context.Compilation, methodSymbol, invokedName, out var namedTypeSymbol))
         {
             return;
         }
@@ -86,26 +82,107 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             var properties = new Dictionary<string, string?>
             {
                 ["Name"] = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
+                ["Optional"] = IsOptionalAccessor(methodSymbol).ToString(),
             }.ToImmutableDictionary();
 
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), properties, namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
         }
     }
 
-    private ClassDeclarationSyntax? GetClassDeclarationSyntax(InvocationExpressionSyntax invocationExpressionSyntax)
+    private static bool TryGetModuleType(
+        Compilation compilation,
+        IMethodSymbol methodSymbol,
+        SimpleNameSyntax invokedName,
+        out INamedTypeSymbol moduleType)
     {
-        var parent = invocationExpressionSyntax.Parent;
+        moduleType = null!;
+        var moduleContextType = compilation.GetTypeByMetadataName("ModularPipelines.Context.IModuleContext");
 
-        while (parent is not null)
+        if (moduleContextType is null)
         {
-            if (parent is ClassDeclarationSyntax classDeclarationSyntax)
-            {
-                return classDeclarationSyntax;
-            }
-
-            parent = parent.Parent;
+            return false;
         }
 
-        return null;
+        if (TryGetDirectModuleType(
+                methodSymbol,
+                invokedName,
+                moduleContextType,
+                out moduleType))
+        {
+            return true;
+        }
+
+        return TryGetGeneratedModuleType(methodSymbol, moduleContextType, out moduleType);
+    }
+
+    private static bool TryGetDirectModuleType(
+        IMethodSymbol methodSymbol,
+        SimpleNameSyntax invokedName,
+        INamedTypeSymbol moduleContextType,
+        out INamedTypeSymbol moduleType)
+    {
+        moduleType = null!;
+
+        if (invokedName is not GenericNameSyntax
+            || (methodSymbol.Name != AnalyzerConstants.MethodNames.GetModule
+                && methodSymbol.Name != AnalyzerConstants.MethodNames.GetModuleIfRegistered)
+            || methodSymbol.TypeArguments.Length != 1
+            || !SymbolEqualityComparer.Default.Equals(
+                methodSymbol.OriginalDefinition.ContainingType,
+                moduleContextType)
+            || methodSymbol.TypeArguments[0] is not INamedTypeSymbol directModuleType)
+        {
+            return false;
+        }
+
+        moduleType = directModuleType;
+        return true;
+    }
+
+    private static bool TryGetGeneratedModuleType(
+        IMethodSymbol methodSymbol,
+        INamedTypeSymbol moduleContextType,
+        out INamedTypeSymbol moduleType)
+    {
+        moduleType = null!;
+        var extensionMethod = methodSymbol.ReducedFrom ?? methodSymbol;
+
+        if (!extensionMethod.IsExtensionMethod ||
+            !extensionMethod.Name.StartsWith("Get", StringComparison.Ordinal) ||
+            (!extensionMethod.Name.EndsWith("Module", StringComparison.Ordinal) &&
+             !extensionMethod.Name.EndsWith(OptionalModuleAccessorSuffix, StringComparison.Ordinal)) ||
+            extensionMethod.Parameters.Length == 0 ||
+            !SymbolEqualityComparer.Default.Equals(extensionMethod.Parameters[0].Type, moduleContextType) ||
+            extensionMethod.ContainingType.ToDisplayString() != "ModularPipelines.Generated.ModuleContextExtensions" ||
+            !IsGeneratedModuleAccessor(extensionMethod.ContainingType))
+        {
+            return false;
+        }
+
+        if (methodSymbol.ReturnType is not INamedTypeSymbol returnType)
+        {
+            return false;
+        }
+
+        moduleType = (INamedTypeSymbol) returnType
+            .WithNullableAnnotation(NullableAnnotation.NotAnnotated);
+        return true;
+    }
+
+    private static bool IsGeneratedModuleAccessor(INamedTypeSymbol containingType)
+    {
+        return containingType.GetAttributes().Any(attribute =>
+            attribute.AttributeClass?.ToDisplayString() == "System.CodeDom.Compiler.GeneratedCodeAttribute" &&
+            attribute.ConstructorArguments.Length > 0 &&
+            attribute.ConstructorArguments[0].Value is "ModularPipelines.SourceGenerator");
+    }
+
+    private static bool IsOptionalAccessor(IMethodSymbol methodSymbol)
+        => (methodSymbol.ReducedFrom ?? methodSymbol).Name
+            .EndsWith(OptionalModuleAccessorSuffix, StringComparison.Ordinal);
+
+    private static ClassDeclarationSyntax? GetClassDeclarationSyntax(InvocationExpressionSyntax invocationExpressionSyntax)
+    {
+        return invocationExpressionSyntax.Ancestors().OfType<ClassDeclarationSyntax>().FirstOrDefault();
     }
 }

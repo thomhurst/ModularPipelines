@@ -56,6 +56,11 @@ internal static class AnalyzerConstants
         internal const string GetModule = "GetModule";
 
         /// <summary>
+        /// The GetModuleIfRegistered method name for retrieving optional module dependencies.
+        /// </summary>
+        internal const string GetModuleIfRegistered = "GetModuleIfRegistered";
+
+        /// <summary>
         /// The AsTask extension method name.
         /// </summary>
         internal const string AsTask = "AsTask";
