@@ -19,7 +19,7 @@
     },
     "noRestore": {
       "longName": "no-restore",
-      "shortName": ""
+      "shortName": "nr"
     }
   }
 }
