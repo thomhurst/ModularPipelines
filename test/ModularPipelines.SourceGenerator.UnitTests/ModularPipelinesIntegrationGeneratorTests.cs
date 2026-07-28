@@ -75,6 +75,32 @@ public class ModularPipelinesIntegrationGeneratorTests
         }
     }
 
+    [Test]
+    public async Task File_Local_Integration_Type_Reports_Diagnostic()
+    {
+        var result = RunGenerator("""
+            using ModularPipelines.Attributes;
+            using Microsoft.Extensions.DependencyInjection;
+
+            file static class FileLocalIntegration
+            {
+                [ModularPipelinesIntegration]
+                public static void Register(IServiceCollection services)
+                {
+                }
+            }
+            """);
+
+        var diagnostic = result.Diagnostics.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostic.Id).IsEqualTo("MPGEN001");
+            await Assert.That(diagnostic.GetMessage()).Contains("FileLocalIntegration.Register");
+            await Assert.That(result.GeneratedTrees).IsEmpty();
+        }
+    }
+
     private static GeneratorDriverRunResult RunGenerator(string source)
     {
         var infrastructureSyntaxTree = CSharpSyntaxTree.ParseText(TestInfrastructure);

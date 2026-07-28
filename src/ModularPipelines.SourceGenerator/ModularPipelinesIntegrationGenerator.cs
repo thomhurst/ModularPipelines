@@ -76,7 +76,8 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     {
         for (var current = type; current is not null; current = current.ContainingType)
         {
-            if (current.IsGenericType
+            if (current.IsFileLocal
+                || current.IsGenericType
                 || current.DeclaredAccessibility is not (
                     Accessibility.Public
                     or Accessibility.Internal
