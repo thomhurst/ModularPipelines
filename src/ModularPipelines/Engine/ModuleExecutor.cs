@@ -225,15 +225,7 @@ internal class ModuleExecutor : IModuleExecutor
                     }
                     catch (Exception ex)
                     {
-                        if (moduleState.State != ModuleExecutionState.Completed)
-                        {
-                            scheduler.MarkModuleCompleted(moduleState.ModuleType, success: false, ex);
-                        }
-
-                        _secondaryExceptionContainer.RegisterException(ex);
-                        _logger.LogError(
-                            ex,
-                            "Module worker failed but remaining modules will continue due to ExecutionMode.WaitForAllModules");
+                        HandleWaitForAllWorkerFailure(moduleState, scheduler, ex);
                     }
                 }).ConfigureAwait(false);
         }
@@ -243,6 +235,61 @@ internal class ModuleExecutor : IModuleExecutor
         }
 
         return firstException;
+    }
+
+    private void HandleWaitForAllWorkerFailure(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        Exception exception)
+    {
+        _secondaryExceptionContainer.RegisterException(exception);
+        TryMarkModuleFailed(moduleState, scheduler, exception);
+        TryRegisterTerminatedResult(moduleState, exception);
+
+        _logger.LogError(
+            exception,
+            "Module worker failed but remaining modules will continue due to ExecutionMode.WaitForAllModules");
+    }
+
+    private void TryMarkModuleFailed(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        Exception exception)
+    {
+        try
+        {
+            scheduler.MarkModuleCompleted(moduleState.ModuleType, success: false, exception);
+        }
+        catch (Exception recoveryException)
+        {
+            _secondaryExceptionContainer.RegisterException(recoveryException);
+            _logger.LogError(
+                recoveryException,
+                "Failed to complete scheduler state for faulted module {ModuleName}",
+                moduleState.ModuleType.Name);
+        }
+    }
+
+    private void TryRegisterTerminatedResult(ModuleState moduleState, Exception exception)
+    {
+        try
+        {
+            if (_resultRegistry.GetResult(moduleState.ModuleType) == null)
+            {
+                _resultRegistrar.RegisterTerminatedResult(
+                    moduleState.Module,
+                    moduleState.ModuleType,
+                    exception);
+            }
+        }
+        catch (Exception recoveryException)
+        {
+            _secondaryExceptionContainer.RegisterException(recoveryException);
+            _logger.LogError(
+                recoveryException,
+                "Failed to register terminated result for faulted module {ModuleName}",
+                moduleState.ModuleType.Name);
+        }
     }
 
     private void EnsureCancellation(CancellationTokenSource cancellationTokenSource)
