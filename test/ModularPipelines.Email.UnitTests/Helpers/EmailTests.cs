@@ -1,29 +1,20 @@
-using System.Net;
 using MailKit.Security;
 using MimeKit;
 using ModularPipelines.Email;
 using ModularPipelines.Email.Options;
 using ModularPipelines.TestHelpers;
-using TUnit.Core.Exceptions;
 
 namespace ModularPipelines.Email.UnitTests.Helpers;
 
-[Skip("Requires live SMTP credentials")]
 public class EmailTests : TestBase
 {
-    private const string EmailAddress = "modularpipelinestest@gmail.com";
+    private const string EmailAddress = "test@example.com";
 
     [Test]
     public async Task Can_Send_Email()
     {
         var email = await GetService<IEmail>();
-
-        var emailPassword = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
-
-        if (string.IsNullOrEmpty(emailPassword))
-        {
-            throw new SkipTestException("No email password");
-        }
+        await using var smtpServer = LocalSmtpServer.Start();
 
         var response = await email.SendAsync(
             new EmailSendOptions(
@@ -31,17 +22,18 @@ public class EmailTests : TestBase
                 To: [EmailAddress],
                 Subject: "Email Test",
                 Body: new TextPart { Text = "This is an email test." },
-                SmtpServerHost: "smtp-relay.brevo.com"
+                SmtpServerHost: "127.0.0.1"
             )
             {
-                Port = 587,
-                Credentials = new NetworkCredential(EmailAddress, emailPassword),
-                SecureSocketOptions = SecureSocketOptions.StartTls,
-                ClientConfigurator = client =>
-                {
-                },
+                Port = smtpServer.Port,
+                SecureSocketOptions = SecureSocketOptions.None,
             }
         );
+
+        var message = await smtpServer.Message;
+
         await Assert.That(response).Contains("queued");
+        await Assert.That(message).Contains("Subject: Email Test");
+        await Assert.That(message).Contains("This is an email test.");
     }
 }
