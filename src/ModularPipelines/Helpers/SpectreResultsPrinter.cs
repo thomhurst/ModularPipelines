@@ -315,7 +315,8 @@ internal class SpectreResultsPrinter : IResultsPrinter
     {
         // Only show modules that actually failed, not cascaded failures (PipelineTerminated)
         // Cascaded failures are modules that never started because their dependencies failed
-        var failedResults = pipelineSummary.GetFailedModuleResults()
+        var failedResults = pipelineSummary.Results
+            .Where(result => result.ExceptionOrDefault is not null)
             .Where(r => r.ModuleStatus is ModuleStatus.Failed or ModuleStatus.TimedOut)
             .ToList();
 

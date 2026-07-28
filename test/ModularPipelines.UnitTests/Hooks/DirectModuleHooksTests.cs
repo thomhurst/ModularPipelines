@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -338,7 +339,7 @@ public class DirectModuleHooksTests : TestBase
 
         // Module should still succeed despite after hook throwing
         await Assert.That(moduleResult).IsNotNull();
-        await Assert.That(moduleResult!.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+        await Assert.That(moduleResult!.ModuleStatus).IsEqualTo(Status.Successful);
         await Assert.That(moduleResult.ValueOrDefault).IsEqualTo("Success");
     }
 

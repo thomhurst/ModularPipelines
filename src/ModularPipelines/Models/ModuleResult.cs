@@ -54,20 +54,6 @@ public abstract record ModuleResult : IModuleResult
     [JsonInclude]
     public string? ModuleTypeName { get; init; }
 
-    // === Quick checks ===
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public bool IsSuccess => this is ISuccessResult;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public bool IsFailure => this is Failure or IFailureResult;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public bool IsSkipped => this is Skipped or ISkippedResult;
-
     // === Safe accessors (no exceptions) ===
 
     /// <inheritdoc />
@@ -106,20 +92,6 @@ public abstract record ModuleResult : IModuleResult
     /// Gets the skip decision from a skipped wrapper. Override in derived classes.
     /// </summary>
     protected virtual SkipDecision? GetSkipDecisionFromWrapper() => null;
-
-    // === Computed for compatibility ===
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public ModuleResultType ModuleResultType => this switch
-    {
-        ISuccessResult => ModuleResultType.Success,
-        Failure => ModuleResultType.Failure,
-        Skipped => ModuleResultType.Skipped,
-        IFailureResult => ModuleResultType.Failure,
-        ISkippedResult => ModuleResultType.Skipped,
-        _ => throw new InvalidOperationException("Unknown result type")
-    };
 
     // === Internal: Module type tracking ===
 
@@ -214,13 +186,6 @@ public abstract record ModuleResult : IModuleResult
     private protected ModuleResult()
     {
     }
-}
-
-/// <summary>
-/// Marker interface for success results to enable pattern matching across generic types.
-/// </summary>
-internal interface ISuccessResult
-{
 }
 
 /// <summary>
@@ -361,7 +326,7 @@ public abstract record ModuleResult<T> : ModuleResult
     /// Represents a successful module execution with a value.
     /// </summary>
     /// <param name="Value">The value produced by the module, which may be <c>null</c>.</param>
-    public sealed record Success(T? Value) : ModuleResult<T>, ISuccessResult;
+    public sealed record Success(T? Value) : ModuleResult<T>;
 
     // === Implicit conversions from non-generic Failure/Skipped ===
 
