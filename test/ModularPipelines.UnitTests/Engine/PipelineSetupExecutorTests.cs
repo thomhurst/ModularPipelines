@@ -8,6 +8,7 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
 
+[TUnit.Core.NotInParallel(nameof(PipelineSetupExecutorTests))]
 public class PipelineSetupExecutorTests
 {
     [AttributeUsage(AttributeTargets.Class)]
