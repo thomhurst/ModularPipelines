@@ -6,11 +6,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.Flux.Services;
 
 namespace ModularPipelines.Flux.Extensions;
@@ -21,19 +20,12 @@ namespace ModularPipelines.Flux.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class FluxExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterFluxContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterFluxContext(collection));
-    }
-
     /// <summary>
     /// Registers flux services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterFluxContext(this IServiceCollection services)
     {
         services.TryAddScoped<IFlux, Services.Flux>();

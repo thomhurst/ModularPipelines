@@ -1,23 +1,15 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 
 namespace ModularPipelines.Azure.Pipelines.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class AzurePipelineExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterAzurePipelineContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterAzurePipelineContext(collection));
-    }
-
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterAzurePipelineContext(this IServiceCollection services)
     {
         services.TryAddScoped<IAzurePipeline, AzurePipeline>();

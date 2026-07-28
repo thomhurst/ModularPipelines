@@ -1,9 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 
 namespace ModularPipelines.Git.Extensions;
 
@@ -14,23 +13,12 @@ namespace ModularPipelines.Git.Extensions;
 public static class GitExtensions
 {
     /// <summary>
-    /// Automatically registers the Git context services with the ModularPipelines framework.
-    /// This method is called by the module initializer and should not be called directly.
-    /// </summary>
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterGitContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterGitContext(collection));
-    }
-
-    /// <summary>
     /// Registers Git services with the dependency injection container.
     /// This includes services for running Git commands and accessing repository information.
     /// </summary>
     /// <param name="services">The service collection to add the Git services to.</param>
     /// <returns>The service collection for method chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterGitContext(this IServiceCollection services)
     {
         services.TryAddScoped<IGit, Git>();

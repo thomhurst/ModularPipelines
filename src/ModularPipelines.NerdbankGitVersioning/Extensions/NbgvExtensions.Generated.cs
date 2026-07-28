@@ -6,11 +6,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.NerdbankGitVersioning.Services;
 
 namespace ModularPipelines.NerdbankGitVersioning.Extensions;
@@ -21,19 +20,12 @@ namespace ModularPipelines.NerdbankGitVersioning.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class NbgvExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterNbgvContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterNbgvContext(collection));
-    }
-
     /// <summary>
     /// Registers nbgv services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterNbgvContext(this IServiceCollection services)
     {
         services.TryAddScoped<INbgv, Services.Nbgv>();
