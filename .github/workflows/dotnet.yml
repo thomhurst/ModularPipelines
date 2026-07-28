@@ -19,8 +19,70 @@ on:
         default: true
 
 jobs:
+  fast-fail:
+    name: Fast fail
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: src/ModularPipelines.Build/package-lock.json
+      - name: Check Markdown formatting
+        working-directory: src/ModularPipelines.Build
+        run: |
+          npm ci
+          npx --no-install remark ../../README.md ../../README_Template.md \
+            --use remark-lint \
+            --use remark-preset-lint-consistent \
+            --use remark-preset-lint-recommended \
+            --output
+          git diff --exit-code -- ../../README.md ../../README_Template.md
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 10.0.x
+      - name: Cache NuGet
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - name: Run OptionsGenerator unit tests
+        run: |
+          dotnet restore tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.sln
+          dotnet run \
+            --project tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/ModularPipelines.OptionsGenerator.Tests.csproj \
+            --configuration Release \
+            --framework net10.0 \
+            --no-restore \
+            -- \
+            --coverage \
+            --coverage-output-format cobertura \
+            --hangdump \
+            --hangdump-timeout 20m \
+            --results-directory "$RUNNER_TEMP/options-generator-test-results" \
+            --report-trx \
+            --report-trx-filename test-results.trx
+      - name: Upload OptionsGenerator test results
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: options-generator-test-results
+          path: ${{ runner.temp }}/options-generator-test-results
+          if-no-files-found: error
+          retention-days: 1
+
   analyzers:
     name: analyzers
+    needs: fast-fail
+    if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -31,6 +93,11 @@ jobs:
       DOTNET_gcServer: "0"
 
     steps:
+      - name: Require fast-fail success
+        if: needs.fast-fail.result != 'success'
+        run: |
+          echo "::error::The fast-fail lane did not pass."
+          exit 1
       - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
@@ -62,15 +129,30 @@ jobs:
       - name: Verify analyzer fixes in changed C# files
         shell: pwsh
         env:
-          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BEFORE_SHA: ${{ github.event.before }}
         run: |
-          $baseSha = $env:BASE_SHA
-          if ([string]::IsNullOrWhiteSpace($baseSha) -or $baseSha -match '^0+$') {
-            $baseSha = 'HEAD^'
+          $comparisonSha = $env:GITHUB_SHA
+
+          if ($env:EVENT_NAME -eq 'pull_request') {
+            $comparisonSha = $env:PR_HEAD_SHA
+            $baseSha = git merge-base "origin/$($env:BASE_REF)" $comparisonSha
+            if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($baseSha)) {
+              Write-Error 'Unable to determine the pull request merge base.'
+              exit 1
+            }
+          }
+          else {
+            $baseSha = $env:BEFORE_SHA
+            if ([string]::IsNullOrWhiteSpace($baseSha) -or $baseSha -match '^0+$') {
+              $baseSha = 'HEAD^'
+            }
           }
 
           $changedFiles = @(
-            git diff --name-only --diff-filter=ACMRT $baseSha $env:GITHUB_SHA -- '*.cs'
+            git diff --name-only --diff-filter=ACMRT $baseSha $comparisonSha -- '*.cs'
           )
 
           if ($changedFiles.Count -eq 0) {
@@ -89,11 +171,50 @@ jobs:
             '--include'
           ) + $changedFiles
 
-          & dotnet @formatArguments
-          exit $LASTEXITCODE
+          $formatOutput = @(& dotnet @formatArguments 2>&1)
+          $formatExitCode = $LASTEXITCODE
+          $formatOutput | ForEach-Object { Write-Output $_ }
+
+          if ($formatExitCode -eq 0) {
+            exit 0
+          }
+
+          $normalizedChangedFiles = @(
+            $changedFiles | ForEach-Object { $_.Replace('\', '/') }
+          )
+          $diagnosticLines = @(
+            $formatOutput | Where-Object {
+              $_.ToString().Replace('\', '/') -match '\.cs\(\d+,\d+\): (error|warning) '
+            }
+          )
+          $relevantDiagnostics = @(
+            foreach ($line in $diagnosticLines) {
+              $normalizedLine = $line.ToString().Replace('\', '/')
+              foreach ($changedFile in $normalizedChangedFiles) {
+                if ($normalizedLine.Contains("/$changedFile(", [System.StringComparison]::OrdinalIgnoreCase)) {
+                  $normalizedLine
+                  break
+                }
+              }
+            }
+          )
+
+          if ($relevantDiagnostics.Count -gt 0) {
+            Write-Error 'Analyzer diagnostics were found in changed C# files.'
+            exit 1
+          }
+
+          if ($diagnosticLines.Count -eq 0) {
+            Write-Error "dotnet format failed without analyzer diagnostics (exit code $formatExitCode)."
+            exit $formatExitCode
+          }
+
+          Write-Output 'Only pre-existing diagnostics outside changed C# files were found.'
 
   pipeline:
     name: ${{ matrix.check_name }}
+    needs: fast-fail
+    if: always()
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
     strategy:
       # Single standalone (non-distributed) Linux job. Distributed mode relied on Redis
@@ -123,8 +244,17 @@ jobs:
       # Workstation GC keeps the build/test footprint lower than server GC (which allocates a
       # heap per core) on these multi-core runners.
       DOTNET_gcServer: "0"
+      # Markdown and OptionsGenerator tests passed in the prerequisite job.
+      FAST_FAIL_VALIDATED: "true"
 
     steps:
+      # Keep the existing required check red when the prerequisite fails. A job skipped
+      # through `needs` is considered successful by GitHub branch protection.
+      - name: Require fast-fail success
+        if: needs.fast-fail.result != 'success'
+        run: |
+          echo "::error::The fast-fail lane did not pass."
+          exit 1
       - name: Add mask
         run: |
           echo "::add-mask::${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}"
@@ -135,6 +265,11 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Restore OptionsGenerator test results
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: options-generator-test-results
+          path: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/bin/Release/net10.0/TestResults
       - name: Increase swap space
         if: runner.os == 'Linux'
         shell: bash
@@ -156,7 +291,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Restore
@@ -220,7 +355,7 @@ jobs:
           TOTAL_INSTANCES: 1
 
       - name: Upload Hang Dumps
-        if: always()
+        if: always() && needs.fast-fail.result == 'success'
         uses: actions/upload-artifact@v7
         with:
           name: hang-dumps-${{ matrix.os }}
@@ -231,6 +366,8 @@ jobs:
 
   cross-platform-build:
     name: build (${{ matrix.os }})
+    needs: fast-fail
+    if: always()
     permissions:
       contents: read
     strategy:
@@ -248,6 +385,11 @@ jobs:
     # Compile only: running ModularPipelines.Build while it builds the listed solutions
     # would lock its own executable on Windows (MSB3027).
     steps:
+      - name: Require fast-fail success
+        if: needs.fast-fail.result != 'success'
+        run: |
+          echo "::error::The fast-fail lane did not pass."
+          exit 1
       - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
@@ -260,7 +402,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Restore and build solutions
