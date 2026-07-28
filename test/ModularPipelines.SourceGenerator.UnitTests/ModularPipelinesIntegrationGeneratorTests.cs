@@ -101,6 +101,32 @@ public class ModularPipelinesIntegrationGeneratorTests
         }
     }
 
+    [Test]
+    public async Task By_Reference_Parameter_Reports_Diagnostic()
+    {
+        var result = RunGenerator("""
+            using ModularPipelines.Attributes;
+            using Microsoft.Extensions.DependencyInjection;
+
+            public static class ByReferenceIntegration
+            {
+                [ModularPipelinesIntegration]
+                public static void Register(ref IServiceCollection services)
+                {
+                }
+            }
+            """);
+
+        var diagnostic = result.Diagnostics.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostic.Id).IsEqualTo("MPGEN001");
+            await Assert.That(diagnostic.GetMessage()).Contains("ByReferenceIntegration.Register");
+            await Assert.That(result.GeneratedTrees).IsEmpty();
+        }
+    }
+
     private static GeneratorDriverRunResult RunGenerator(string source)
     {
         var infrastructureSyntaxTree = CSharpSyntaxTree.ParseText(TestInfrastructure);

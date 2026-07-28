@@ -23,7 +23,7 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         messageFormat:
             "Method '{0}' marked with [ModularPipelinesIntegration] must be an accessible, "
             + "non-generic static method on an accessible, non-generic type; it must accept exactly "
-            + "one IServiceCollection parameter and return void or IServiceCollection",
+            + "one by-value IServiceCollection parameter and return void or IServiceCollection",
         category: "ModularPipelines.SourceGenerator",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
@@ -49,6 +49,7 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         if (!method.IsStatic
             || method.IsGenericMethod
             || method.Parameters.Length != 1
+            || method.Parameters[0].RefKind != RefKind.None
             || method.Parameters[0].Type.ToDisplayString() != ServiceCollectionFullName
             || (!method.ReturnsVoid
                 && method.ReturnType.ToDisplayString() != ServiceCollectionFullName)
