@@ -44,6 +44,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// for the specified module type.
     /// </summary>
     /// <param name="moduleType">The module type.</param>
+    /// <param name="outputFlushThreshold">The output count that triggers an incremental flush, or zero to disable threshold flushing.</param>
+    /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
     public ModuleOutputBuffer(
         Type moduleType,
         int outputFlushThreshold = 0,
@@ -58,6 +60,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// </summary>
     /// <param name="name">Display name for the buffer.</param>
     /// <param name="moduleType">Placeholder type.</param>
+    /// <param name="outputFlushThreshold">The output count that triggers an incremental flush, or zero to disable threshold flushing.</param>
+    /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
