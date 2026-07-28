@@ -2264,7 +2264,7 @@ builder.Options.ModuleOutputFlushInterval = TimeSpan.FromSeconds(30);
 
 Many common CLI tools, such as npm, yarn, dotnet, docker, kubectl, have all had strong objects created to wrap around their CLI commands.
 
-If you want to run a command that isn't currently supported by strong objects, you can still run commands directly through the `ICommand` interface available via `context.Shell.Command` within your modules.
+If you want to run a command that isn't currently supported by strong objects, you can still run commands directly through the `ICommandContext` interface available via `context.Shell.Command` within your modules.
 
 Every argument should be passed as a separate string in a collection. This allows proper formatting if there's things like spaces or quotes.
 
@@ -2961,13 +2961,13 @@ collection.AddPipelineModuleHooks<MyModuleHooks>();
 ```csharp
 public class MyModuleHooks : IPipelineModuleHooks
 {
-    public Task OnBeforeModuleStartAsync(IPipelineHookContext context, IModule module)
+    public Task OnBeforeModuleStartAsync(IPipelineContext context, IModule module)
     {
         context.Logger.LogInformation("{Module} is starting", module.GetType().Name);
         return Task.CompletedTask;
     }
 
-    public Task OnBeforeModuleEndAsync(IPipelineHookContext context, IModule module)
+    public Task OnBeforeModuleEndAsync(IPipelineContext context, IModule module)
     {
         context.Logger.LogInformation("{Module} finished after {Elapsed}", module.GetType().Name, module.Duration);
         return Task.CompletedTask;
@@ -2990,13 +2990,13 @@ collection.AddPipelineGlobalHooks<MyGlobalHooks>();
 ```csharp
 public class MyGlobalHooks : IPipelineGlobalHooks
 {
-    public Task OnStartAsync(IPipelineHookContext pipelineContext)
+    public Task OnStartAsync(IPipelineContext pipelineContext)
     {
         pipelineContext.Logger.LogInformation("Pipeline is starting");
         return Task.CompletedTask;
     }
 
-    public Task OnEndAsync(IPipelineHookContext pipelineContext, PipelineSummary pipelineSummary)
+    public Task OnEndAsync(IPipelineContext pipelineContext, PipelineSummary pipelineSummary)
     {
         pipelineContext.Logger.LogInformation("Pipeline is ending");
         return Task.CompletedTask;
@@ -3674,7 +3674,7 @@ Simply implement `IPipelineRequirement` and then call `IServiceCollection.AddReq
 ```csharp
 public class WindowsRequirement : IPipelineRequirement
 {
-    public Task<bool> MustAsync(IPipelineHookContext context)
+    public Task<bool> MustAsync(IPipelineContext context)
     {
         return (context.Environment.OperatingSystem == OSPlatform.Windows).AsTask();
     }
@@ -3790,7 +3790,7 @@ Reusable run conditions implement `IRunCondition`:
 ```csharp
 public class ServiceIsAvailable : IRunCondition
 {
-    public async Task<bool> EvaluateAsync(IPipelineHookContext context)
+    public async Task<bool> EvaluateAsync(IPipelineContext context)
     {
         var response = await context.Http.SendAsync("https://www.example.com/ping");
         return response.StatusCode == HttpStatusCode.OK;
@@ -4120,13 +4120,13 @@ public class MyModuleRepository : IModuleResultRepository
         _blobContainerClient = blobContainerClient;
     }
     
-    public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+    public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
     {
         var commit = pipelineContext.Git().Information.LastCommitSha;
         await _blobContainerClient.UploadBlobAsync(module.GetType().FullName + commit, new BinaryData(JsonSerializer.Serialize(moduleResult)));
     }
 
-    public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineHookContext pipelineContext)
+    public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineContext pipelineContext)
     {
         var commit = pipelineContext.Git().Information.LastCommitSha;
         
@@ -5231,7 +5231,7 @@ await context.Shell.Command.ExecuteCommandLineTool(
 ### Shell Context Structure
 
 ```csharp
-context.Shell.Command    // General CLI tool execution (ICommand)
+context.Shell.Command    // General CLI tool execution (ICommandContext)
 context.Shell.Bash       // Bash script execution
 context.Shell.PowerShell // PowerShell script execution
 ```
