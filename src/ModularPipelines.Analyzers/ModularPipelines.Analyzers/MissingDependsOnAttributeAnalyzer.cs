@@ -20,6 +20,8 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         nameof(Resources.MissingDependsOnAttributeAnalyzerMessageFormat),
         nameof(Resources.MissingDependsOnAttributeAnalyzerDescription));
 
+    private const string OptionalModuleAccessorSuffix = "ModuleIfRegistered";
+
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
@@ -80,7 +82,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             var properties = new Dictionary<string, string?>
             {
                 ["Name"] = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
-                ["Optional"] = (methodSymbol.Name == AnalyzerConstants.MethodNames.GetModuleIfRegistered).ToString(),
+                ["Optional"] = IsOptionalAccessor(methodSymbol).ToString(),
             }.ToImmutableDictionary();
 
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), properties, namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
@@ -148,7 +150,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         if (!extensionMethod.IsExtensionMethod ||
             !extensionMethod.Name.StartsWith("Get", StringComparison.Ordinal) ||
             (!extensionMethod.Name.EndsWith("Module", StringComparison.Ordinal) &&
-             !extensionMethod.Name.EndsWith("ModuleIfRegistered", StringComparison.Ordinal)) ||
+             !extensionMethod.Name.EndsWith(OptionalModuleAccessorSuffix, StringComparison.Ordinal)) ||
             extensionMethod.Parameters.Length == 0 ||
             !SymbolEqualityComparer.Default.Equals(extensionMethod.Parameters[0].Type, moduleContextType) ||
             extensionMethod.ContainingType.ToDisplayString() != "ModularPipelines.Generated.ModuleContextExtensions" ||
@@ -174,6 +176,10 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             attribute.ConstructorArguments.Length > 0 &&
             attribute.ConstructorArguments[0].Value is "ModularPipelines.SourceGenerator");
     }
+
+    private static bool IsOptionalAccessor(IMethodSymbol methodSymbol)
+        => (methodSymbol.ReducedFrom ?? methodSymbol).Name
+            .EndsWith(OptionalModuleAccessorSuffix, StringComparison.Ordinal);
 
     private static ClassDeclarationSyntax? GetClassDeclarationSyntax(InvocationExpressionSyntax invocationExpressionSyntax)
     {

@@ -8,6 +8,44 @@ namespace ModularPipelines.Analyzers.Test;
 [TestClass]
 public class ModularPipelinesAnalyzersUnitTests
 {
+    private const string GeneratedAccessorSource = @"
+#nullable enable
+using System.CodeDom.Compiler;
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Attributes;
+using ModularPipelines.Context;
+using ModularPipelines.Generated;
+using ModularPipelines.Modules;
+
+namespace ModularPipelines.Examples.Modules
+{
+    public class Module1 : Module<string>
+    {
+        protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => Task.FromResult<string?>(null);
+    }
+
+    public class Module2 : Module<string>
+    {
+        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            var module1 = await {|#0:context.GetModule1Module()|};
+            var optionalModule1 = {|#1:context.GetModule1ModuleIfRegistered()|};
+            return null;
+        }
+    }
+}
+
+namespace ModularPipelines.Generated
+{
+    [GeneratedCode(""ModularPipelines.SourceGenerator"", ""1.0.0"")]
+    public static class ModuleContextExtensions
+    {
+        public static ModularPipelines.Examples.Modules.Module1 GetModule1Module(this IModuleContext context) => context.GetModule<ModularPipelines.Examples.Modules.Module1>();
+        public static ModularPipelines.Examples.Modules.Module1? GetModule1ModuleIfRegistered(this IModuleContext context) => context.GetModuleIfRegistered<ModularPipelines.Examples.Modules.Module1>();
+    }
+}";
+
     private const string BadModuleSource = @"
 #nullable enable
 using System;
@@ -96,50 +134,34 @@ public class Module2 : Module<IDictionary<string, object>>
     [TestMethod]
     public async Task Generated_Accessor_Is_Triggered()
     {
-        const string source = @"
-#nullable enable
-using System.CodeDom.Compiler;
-using System.Threading;
-using System.Threading.Tasks;
-using ModularPipelines.Context;
-using ModularPipelines.Generated;
-using ModularPipelines.Modules;
-
-namespace ModularPipelines.Examples.Modules
-{
-    public class Module1 : Module<string>
-    {
-        protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>(null);
-    }
-
-    public class Module2 : Module<string>
-    {
-        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            var module1 = await {|#0:context.GetModule1Module()|};
-            var optionalModule1 = {|#1:context.GetModule1ModuleIfRegistered()|};
-            return null;
-        }
-    }
-}
-
-namespace ModularPipelines.Generated
-{
-    [GeneratedCode(""ModularPipelines.SourceGenerator"", ""1.0.0"")]
-    public static class ModuleContextExtensions
-    {
-        public static ModularPipelines.Examples.Modules.Module1 GetModule1Module(this IModuleContext context)
-            => context.GetModule<ModularPipelines.Examples.Modules.Module1>();
-
-        public static ModularPipelines.Examples.Modules.Module1? GetModule1ModuleIfRegistered(this IModuleContext context)
-            => context.GetModuleIfRegistered<ModularPipelines.Examples.Modules.Module1>();
-    }
-}";
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
         var optionalExpected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(1);
 
-        await VerifyCS.VerifyAnalyzerAsync(source, expected, optionalExpected);
+        await VerifyCS.VerifyAnalyzerAsync(GeneratedAccessorSource, expected, optionalExpected);
+    }
+
+    [TestMethod]
+    public async Task Generated_Optional_Accessor_Code_Fix_Is_Optional()
+    {
+        var source = GeneratedAccessorSource
+            .Replace(
+                "var module1 = await {|#0:context.GetModule1Module()|};",
+                "var module1 = context;")
+            .Replace(
+                "{|#1:context.GetModule1ModuleIfRegistered()|}",
+                "{|#0:context.GetModule1ModuleIfRegistered()|}")
+            .ReplaceLineEndings("\n");
+        var fixedSource = source
+            .Replace(
+                "public class Module2 : Module<string>",
+                "[DependsOn<Module1>(Optional = true)]\n    public class Module2 : Module<string>")
+            .Replace(
+                "{|#0:context.GetModule1ModuleIfRegistered()|}",
+                "context.GetModule1ModuleIfRegistered()")
+            .TrimStart();
+        var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
     }
 
     [TestMethod]
