@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace ModularPipelines.UnitTests.Documentation;
 
 public class DocumentationSnippetTests
@@ -14,16 +16,14 @@ public class DocumentationSnippetTests
     {
         var repositoryRoot = FindRepositoryRoot();
 
-        foreach (var path in Directory.EnumerateFiles(repositoryRoot, "*.md", SearchOption.AllDirectories))
+        foreach (var relativePath in await GetTrackedMarkdownPathsAsync(repositoryRoot).ConfigureAwait(false))
         {
-            var relativePath = Path.GetRelativePath(repositoryRoot, path).Replace('\\', '/');
-            if (IntentionalLegacyDocumentation.Contains(relativePath)
-                || relativePath.Split('/').Any(segment => segment is ".git" or "bin" or "node_modules" or "obj"))
+            if (IntentionalLegacyDocumentation.Contains(relativePath))
             {
                 continue;
             }
 
-            var contents = await File.ReadAllTextAsync(path)
+            var contents = await File.ReadAllTextAsync(Path.Combine(repositoryRoot, relativePath))
                 .ConfigureAwait(false);
 
             await Assert.That(contents).DoesNotContain("PipelineHostBuilder.Create()");
@@ -54,5 +54,36 @@ public class DocumentationSnippetTests
 
         return directory?.FullName
                ?? throw new DirectoryNotFoundException("Could not find the repository root.");
+    }
+
+    private static async Task<IReadOnlyList<string>> GetTrackedMarkdownPathsAsync(string repositoryRoot)
+    {
+        var startInfo = new ProcessStartInfo("git")
+        {
+            WorkingDirectory = repositoryRoot,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+        };
+        startInfo.ArgumentList.Add("ls-files");
+        startInfo.ArgumentList.Add("--");
+        startInfo.ArgumentList.Add("*.md");
+
+        using var process = Process.Start(startInfo)
+                            ?? throw new InvalidOperationException("Could not start git.");
+        var outputTask = process.StandardOutput.ReadToEndAsync();
+        var errorTask = process.StandardError.ReadToEndAsync();
+
+        await process.WaitForExitAsync().ConfigureAwait(false);
+        var output = await outputTask.ConfigureAwait(false);
+        var error = await errorTask.ConfigureAwait(false);
+        if (process.ExitCode != 0)
+        {
+            throw new InvalidOperationException($"Could not list tracked Markdown files: {error}");
+        }
+
+        return output
+            .Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries)
+            .ToArray();
     }
 }
