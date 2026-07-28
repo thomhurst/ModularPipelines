@@ -5,7 +5,7 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 
 /// <summary>
 /// Generates the service implementation class that implements the I{Tool} interface.
-/// Follows the existing ModularPipelines pattern of delegating to ICommand.ExecuteCommandLineTool().
+/// Follows the existing ModularPipelines pattern of delegating to ICommandContext.ExecuteCommandLineTool().
 /// </summary>
 public class ServiceImplementationGenerator : ICodeGenerator
 {
@@ -34,7 +34,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeaderWithNullable(sb);
 
         sb.AppendLine("using System.CodeDom.Compiler;");
-        sb.AppendLine("using ModularPipelines.Context;");
+        sb.AppendLine("using ModularPipelines.Context.Domains.Shell;");
         sb.AppendLine("using ModularPipelines.Models;");
         sb.AppendLine("using ModularPipelines.Options;");
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
@@ -60,8 +60,8 @@ public class ServiceImplementationGenerator : ICodeGenerator
         sb.AppendLine($"internal partial class {className} : {interfaceName}");
         sb.AppendLine("{");
 
-        // Private field for ICommand
-        sb.AppendLine("    private readonly ICommand _command;");
+        // Private field for ICommandContext
+        sb.AppendLine("    private readonly ICommandContext _command;");
         sb.AppendLine();
 
         // Constructor
@@ -81,7 +81,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
                 var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
                 constructorParams.Add($"        {subDomainClassName} {paramName}");
             }
-            constructorParams.Add("        ICommand command");
+            constructorParams.Add("        ICommandContext command");
 
             sb.AppendLine(string.Join(",\n", constructorParams));
             sb.AppendLine("    )");
@@ -104,7 +104,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
             sb.AppendLine("    /// <summary>");
             sb.AppendLine($"    /// Initializes a new instance of the <see cref=\"{className}\"/> class.");
             sb.AppendLine("    /// </summary>");
-            sb.AppendLine($"    public {className}(ICommand command)");
+            sb.AppendLine($"    public {className}(ICommandContext command)");
             sb.AppendLine("    {");
             sb.AppendLine("        _command = command;");
             sb.AppendLine("    }");

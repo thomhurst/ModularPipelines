@@ -63,7 +63,7 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
         return Task.WhenAll(_moduleHooks.Select(x => x.OnModuleSkippedAsync(context)));
     }
 
-    private IPipelineHookContext GetPipelineContext()
+    private IPipelineContext GetPipelineContext()
     {
         return _moduleContextProvider.GetModuleContext();
     }

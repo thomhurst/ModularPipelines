@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Docker.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Docker.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DockerVolume
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerVolume"/> class.
     /// </summary>
-    public DockerVolume(ICommand command)
+    public DockerVolume(ICommandContext command)
     {
         _command = command;
     }

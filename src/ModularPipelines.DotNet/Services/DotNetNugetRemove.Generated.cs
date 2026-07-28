@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.DotNet.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.DotNet.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DotNetNugetRemove
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DotNetNugetRemove"/> class.
     /// </summary>
-    public DotNetNugetRemove(ICommand command)
+    public DotNetNugetRemove(ICommandContext command)
     {
         _command = command;
     }

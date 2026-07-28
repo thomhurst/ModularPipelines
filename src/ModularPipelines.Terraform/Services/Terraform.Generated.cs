@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Terraform.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Terraform.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Terraform : ITerraform
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Terraform"/> class.
@@ -29,7 +29,7 @@ internal partial class Terraform : ITerraform
         TerraformStacks stacks,
         TerraformState state,
         TerraformWorkspace workspace,
-        ICommand command
+        ICommandContext command
     )
     {
         Providers = providers;

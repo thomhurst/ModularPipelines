@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudFirebaseTest
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudFirebaseTestAndroid? _android;
     private GcloudFirebaseTestIos? _ios;
     private GcloudFirebaseTestNetworkProfiles? _networkProfiles;
@@ -27,7 +27,7 @@ public class GcloudFirebaseTest
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirebaseTest"/> class.
     /// </summary>
-    public GcloudFirebaseTest(ICommand command)
+    public GcloudFirebaseTest(ICommandContext command)
     {
         _command = command;
     }

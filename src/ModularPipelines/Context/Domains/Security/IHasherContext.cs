@@ -1,8 +1,44 @@
 namespace ModularPipelines.Context.Domains.Security;
 
-/// <summary>
-/// Cryptographic hashing (SHA256, SHA512, MD5, etc.).
-/// </summary>
-public interface IHasherContext : IHasher
+public interface IHasherContext
 {
+    /// <summary>
+    /// Hashes the input to an Sha1 encoded string.
+    /// </summary>
+    /// <param name="input">The input to hash.</param>
+    /// <param name="hashType">The encoded string output format.</param>
+    /// <returns>The hashed string.</returns>
+    string Sha1(string input, HashType hashType = HashType.Hex);
+
+    /// <summary>
+    /// Hashes the input to an Sha256 encoded string.
+    /// </summary>
+    /// <param name="input">The input to hash.</param>
+    /// <param name="hashType">The encoded string output format.</param>
+    /// <returns>The hashed string.</returns>
+    string Sha256(string input, HashType hashType = HashType.Hex);
+
+    /// <summary>
+    /// Hashes the input to an Sha384 encoded string.
+    /// </summary>
+    /// <param name="input">The input to hash.</param>
+    /// <param name="hashType">The encoded string output format.</param>
+    /// <returns>The hashed string.</returns>
+    string Sha384(string input, HashType hashType = HashType.Hex);
+
+    /// <summary>
+    /// Hashes the input to an Sha512 encoded string.
+    /// </summary>
+    /// <param name="input">The input to hash.</param>
+    /// <param name="hashType">The encoded string output format.</param>
+    /// <returns>The hashed string.</returns>
+    string Sha512(string input, HashType hashType = HashType.Hex);
+
+    /// <summary>
+    /// Hashes the input to an md5 encoded string.
+    /// </summary>
+    /// <param name="input">The input to hash.</param>
+    /// <param name="hashType">The encoded string output format.</param>
+    /// <returns>The hashed string.</returns>
+    string Md5(string input, HashType hashType = HashType.Hex);
 }

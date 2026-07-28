@@ -16,6 +16,6 @@ namespace ModularPipelines.Conditions;
 public sealed class OnLinux : IRunCondition
 {
     /// <inheritdoc />
-    public Task<bool> EvaluateAsync(IPipelineHookContext context)
+    public Task<bool> EvaluateAsync(IPipelineContext context)
         => Task.FromResult(OperatingSystem.IsLinux());
 }

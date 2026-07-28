@@ -11,7 +11,7 @@ namespace ModularPipelines.Context;
 /// </summary>
 internal class ModuleHookContext : IModuleHookContext
 {
-    private readonly IPipelineHookContext _pipelineContext;
+    private readonly IPipelineContext _pipelineContext;
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly DateTimeOffset _startTime;
 
@@ -20,7 +20,7 @@ internal class ModuleHookContext : IModuleHookContext
         IReadOnlyList<Attribute> moduleAttributes,
         DateTimeOffset startTime,
         IModuleResult? result,
-        IPipelineHookContext pipelineContext,
+        IPipelineContext pipelineContext,
         IModuleMetadataRegistry metadataRegistry)
     {
         Module = module;

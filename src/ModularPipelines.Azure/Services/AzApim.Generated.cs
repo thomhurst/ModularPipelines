@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzApim
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzApimApi? _api;
     private AzApimBackend? _backend;
     private AzApimGraphql? _graphql;
@@ -29,7 +29,7 @@ public class AzApim
     /// <summary>
     /// Initializes a new instance of the <see cref="AzApim"/> class.
     /// </summary>
-    public AzApim(ICommand command)
+    public AzApim(ICommandContext command)
     {
         _command = command;
     }

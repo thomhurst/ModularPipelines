@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeInstances
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudPreviewComputeInstancesBulk? _bulk;
     private GcloudPreviewComputeInstancesNetworkInterfaces? _networkInterfaces;
     private GcloudPreviewComputeInstancesOpsAgents? _opsAgents;
@@ -28,7 +28,7 @@ public class GcloudPreviewComputeInstances
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeInstances"/> class.
     /// </summary>
-    public GcloudPreviewComputeInstances(ICommand command)
+    public GcloudPreviewComputeInstances(ICommandContext command)
     {
         _command = command;
     }

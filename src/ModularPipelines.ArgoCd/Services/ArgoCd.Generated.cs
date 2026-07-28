@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.ArgoCd.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.ArgoCd.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class ArgoCd : IArgoCd
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ArgoCd"/> class.
@@ -35,7 +35,7 @@ internal partial class ArgoCd : IArgoCd
         ArgoCdProj proj,
         ArgoCdRepo repo,
         ArgoCdRepocreds repocreds,
-        ICommand command
+        ICommandContext command
     )
     {
         Account = account;

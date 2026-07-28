@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzWebapp
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzWebappAuth? _auth;
     private AzWebappConfig? _config;
     private AzWebappConnection? _connection;
@@ -35,7 +35,7 @@ public class AzWebapp
     /// <summary>
     /// Initializes a new instance of the <see cref="AzWebapp"/> class.
     /// </summary>
-    public AzWebapp(ICommand command)
+    public AzWebapp(ICommandContext command)
     {
         _command = command;
     }

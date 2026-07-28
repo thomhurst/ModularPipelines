@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -11,7 +12,7 @@ namespace ModularPipelines.DotNet.Builders;
 /// </summary>
 public class DotNetBuildBuilder : IDotNetBuildBuilder
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private DotNetBuildOptions _toolOptions;
     private CommandExecutionOptions _executionOptions = new();
 
@@ -19,7 +20,7 @@ public class DotNetBuildBuilder : IDotNetBuildBuilder
     /// Initializes a new instance of the <see cref="DotNetBuildBuilder"/> class.
     /// </summary>
     /// <param name="command">The command interface for execution.</param>
-    public DotNetBuildBuilder(ICommand command)
+    public DotNetBuildBuilder(ICommandContext command)
     {
         _command = command;
         _toolOptions = new DotNetBuildOptions();
@@ -30,7 +31,7 @@ public class DotNetBuildBuilder : IDotNetBuildBuilder
     /// </summary>
     /// <param name="command">The command interface for execution.</param>
     /// <param name="options">The initial build options.</param>
-    public DotNetBuildBuilder(ICommand command, DotNetBuildOptions options)
+    public DotNetBuildBuilder(ICommandContext command, DotNetBuildOptions options)
     {
         _command = command;
         _toolOptions = options;

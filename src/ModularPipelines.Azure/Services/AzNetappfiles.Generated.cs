@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetappfiles
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzNetappfilesAccount? _account;
     private AzNetappfilesCache? _cache;
     private AzNetappfilesPool? _pool;
@@ -30,7 +30,7 @@ public class AzNetappfiles
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetappfiles"/> class.
     /// </summary>
-    public AzNetappfiles(ICommand command)
+    public AzNetappfiles(ICommandContext command)
     {
         _command = command;
     }

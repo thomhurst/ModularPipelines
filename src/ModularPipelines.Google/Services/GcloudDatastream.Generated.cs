@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDatastream
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudDatastreamConnectionProfiles? _connectionProfiles;
     private GcloudDatastreamLocations? _locations;
     private GcloudDatastreamObjects? _objects;
@@ -31,7 +31,7 @@ public class GcloudDatastream
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatastream"/> class.
     /// </summary>
-    public GcloudDatastream(ICommand command)
+    public GcloudDatastream(ICommandContext command)
     {
         _command = command;
     }

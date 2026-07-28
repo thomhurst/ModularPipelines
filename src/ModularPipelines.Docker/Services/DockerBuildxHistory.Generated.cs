@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Docker.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Docker.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DockerBuildxHistory
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private DockerBuildxHistoryInspect? _inspect;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerBuildxHistory"/> class.
     /// </summary>
-    public DockerBuildxHistory(ICommand command)
+    public DockerBuildxHistory(ICommandContext command)
     {
         _command = command;
     }

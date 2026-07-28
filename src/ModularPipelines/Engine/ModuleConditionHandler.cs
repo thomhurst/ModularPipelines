@@ -164,7 +164,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
     private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateNewStyleConditions(
         ConditionAttributes attributes,
-        IPipelineHookContext pipelineContext,
+        IPipelineContext pipelineContext,
         CancellationToken cancellationToken)
     {
         foreach (var attribute in attributes.Skip)
@@ -202,7 +202,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
     private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateLegacyConditions(
         ConditionAttributes attributes,
-        IPipelineHookContext pipelineContext,
+        IPipelineContext pipelineContext,
         bool isDistributedMaster,
         CancellationToken cancellationToken)
     {

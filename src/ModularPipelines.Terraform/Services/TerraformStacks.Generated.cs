@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Terraform.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Terraform.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class TerraformStacks
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private TerraformStacksConfiguration? _configuration;
     private TerraformStacksDeploymentGroup? _deploymentGroup;
     private TerraformStacksDeploymentRun? _deploymentRun;
@@ -27,7 +27,7 @@ public class TerraformStacks
     /// <summary>
     /// Initializes a new instance of the <see cref="TerraformStacks"/> class.
     /// </summary>
-    public TerraformStacks(ICommand command)
+    public TerraformStacks(ICommandContext command)
     {
         _command = command;
     }

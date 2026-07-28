@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Helm.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Helm.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Helm : IHelm
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Helm"/> class.
@@ -32,7 +32,7 @@ internal partial class Helm : IHelm
         HelmRepo repo,
         HelmSearch search,
         HelmShow show,
-        ICommand command
+        ICommandContext command
     )
     {
         Dependency = dependency;

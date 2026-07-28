@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzManagedcassandra
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzManagedcassandraCluster? _cluster;
     private AzManagedcassandraDatacenter? _datacenter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzManagedcassandra"/> class.
     /// </summary>
-    public AzManagedcassandra(ICommand command)
+    public AzManagedcassandra(ICommandContext command)
     {
         _command = command;
     }

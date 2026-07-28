@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzIot
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzIotCentral? _central;
     private AzIotDps? _dps;
     private AzIotHub? _hub;
@@ -27,7 +27,7 @@ public class AzIot
     /// <summary>
     /// Initializes a new instance of the <see cref="AzIot"/> class.
     /// </summary>
-    public AzIot(ICommand command)
+    public AzIot(ICommandContext command)
     {
         _command = command;
     }

@@ -162,7 +162,7 @@ public class ModuleRegistrationBuilderTests
 
     private class TestRequirement : IPipelineRequirement
     {
-        public Task<RequirementDecision> MustAsync(IPipelineHookContext context)
+        public Task<RequirementDecision> MustAsync(IPipelineContext context)
             => Task.FromResult(RequirementDecision.Passed);
     }
 

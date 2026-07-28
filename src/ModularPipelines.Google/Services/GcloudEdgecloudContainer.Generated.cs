@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudEdgecloudContainer
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudEdgecloudContainerClusters? _clusters;
     private GcloudEdgecloudContainerMachines? _machines;
     private GcloudEdgecloudContainerOperations? _operations;
@@ -30,7 +30,7 @@ public class GcloudEdgecloudContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEdgecloudContainer"/> class.
     /// </summary>
-    public GcloudEdgecloudContainer(ICommand command)
+    public GcloudEdgecloudContainer(ICommandContext command)
     {
         _command = command;
     }

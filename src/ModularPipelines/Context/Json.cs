@@ -3,7 +3,7 @@ using ModularPipelines.Context.Domains.Data;
 
 namespace ModularPipelines.Context;
 
-internal class Json : IJson, IJsonContext
+internal class Json : IJsonContext
 {
     public string ToJson<T>(T input)
     {

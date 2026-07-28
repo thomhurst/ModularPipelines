@@ -767,7 +767,7 @@ await context.Shell.Command.ExecuteCommandLineTool(
 ### Shell Context Structure
 
 ```csharp
-context.Shell.Command    // General CLI tool execution (ICommand)
+context.Shell.Command    // General CLI tool execution (ICommandContext)
 context.Shell.Bash       // Bash script execution
 context.Shell.PowerShell // PowerShell script execution
 ```

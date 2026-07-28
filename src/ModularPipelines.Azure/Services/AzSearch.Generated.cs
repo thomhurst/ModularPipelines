@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSearch
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzSearchPrivateEndpointConnection? _privateEndpointConnection;
     private AzSearchService? _service;
     private AzSearchSharedPrivateLinkResource? _sharedPrivateLinkResource;
@@ -27,7 +27,7 @@ public class AzSearch
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSearch"/> class.
     /// </summary>
-    public AzSearch(ICommand command)
+    public AzSearch(ICommandContext command)
     {
         _command = command;
     }

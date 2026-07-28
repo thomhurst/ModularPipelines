@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using NReco.Logging.File;
@@ -17,7 +18,7 @@ public class CommandLoggerTests : TestBase
     {
         const string secret = "command-option-secret";
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
-        var result = await GetService<ICommand>((_, collection) =>
+        var result = await GetService<ICommandContext>((_, collection) =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => builder.AddFile(file));
@@ -39,7 +40,7 @@ public class CommandLoggerTests : TestBase
         const string rawOutput = "raw-output";
         const string displayedOutput = "displayed-output";
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
-        var result = await GetService<ICommand>((_, collection) =>
+        var result = await GetService<ICommandContext>((_, collection) =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => builder.AddFile(file));
@@ -133,7 +134,7 @@ public class CommandLoggerTests : TestBase
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var result = await GetService<ICommand>((_, collection) =>
+        var result = await GetService<ICommandContext>((_, collection) =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => { builder.AddFile(file); });
@@ -258,7 +259,7 @@ public class CommandLoggerTests : TestBase
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var result = await GetService<ICommand>((_, collection) =>
+        var result = await GetService<ICommandContext>((_, collection) =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => { builder.AddFile(file); });

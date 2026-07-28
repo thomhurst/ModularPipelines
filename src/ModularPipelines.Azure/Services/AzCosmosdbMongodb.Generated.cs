@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbMongodb
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzCosmosdbMongodbCollection? _collection;
     private AzCosmosdbMongodbDatabase? _database;
     private AzCosmosdbMongodbRestorableCollection? _restorableCollection;
@@ -29,7 +29,7 @@ public class AzCosmosdbMongodb
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbMongodb"/> class.
     /// </summary>
-    public AzCosmosdbMongodb(ICommand command)
+    public AzCosmosdbMongodb(ICommandContext command)
     {
         _command = command;
     }

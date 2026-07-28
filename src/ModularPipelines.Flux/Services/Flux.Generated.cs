@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Flux.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Flux.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Flux : IFlux
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Flux"/> class.
@@ -43,7 +43,7 @@ internal partial class Flux : IFlux
         FluxTag tag,
         FluxTree tree,
         FluxTrigger trigger,
-        ICommand command
+        ICommandContext command
     )
     {
         Bootstrap = bootstrap;

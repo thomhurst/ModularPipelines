@@ -1,3 +1,4 @@
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -16,7 +17,7 @@ namespace ModularPipelines.Context;
 /// <b>Consolidation Note:</b> This class delegates to <see cref="ICommandLogger"/> to avoid
 /// duplicating logging logic. The same logging infrastructure is used by both
 /// <see cref="ICommandLineExecutor"/> (for CommandLine-based execution) and
-/// <see cref="ICommand"/> (for CommandLineToolOptions-based execution).
+/// <see cref="ICommandContext"/> (for CommandLineToolOptions-based execution).
 /// </para>
 /// </remarks>
 internal sealed class LoggingCommandLineExecutor : ICommandLineExecutor

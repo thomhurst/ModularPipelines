@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Logging;
@@ -29,7 +30,7 @@ namespace ModularPipelines.Git;
 internal class GitVersioning : IGitVersioning
 {
     private readonly IGitInformation _gitInformation;
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
 
     private readonly Folder _temporaryFolder;
@@ -41,7 +42,7 @@ internal class GitVersioning : IGitVersioning
     private static readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
     private static GitVersionInformation? _prefetchedGitVersionInformation;
 
-    public GitVersioning(IFileSystemContext fileSystemContext, IGitInformation gitInformation, ICommand command, IModuleLoggerProvider moduleLoggerProvider)
+    public GitVersioning(IFileSystemContext fileSystemContext, IGitInformation gitInformation, ICommandContext command, IModuleLoggerProvider moduleLoggerProvider)
     {
         _gitInformation = gitInformation;
         _command = command;

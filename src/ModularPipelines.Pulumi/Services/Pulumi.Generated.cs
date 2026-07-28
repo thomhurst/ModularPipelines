@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Pulumi.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Pulumi : IPulumi
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Pulumi"/> class.
@@ -39,7 +39,7 @@ internal partial class Pulumi : IPulumi
         PulumiStack stack,
         PulumiState state,
         PulumiTemplate template,
-        ICommand command
+        ICommandContext command
     )
     {
         Api = api;

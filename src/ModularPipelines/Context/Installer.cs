@@ -1,18 +1,20 @@
+using ModularPipelines.Context.Domains.Installers;
+
 namespace ModularPipelines.Context;
 
 internal class Installer : IInstaller
 {
-    public IPredefinedInstallers PredefinedInstallers { get; }
+    public IPredefinedInstallersContext PredefinedInstallers { get; }
 
     public IFileInstaller FileInstaller { get; }
 
-    public ILinuxInstaller LinuxInstaller { get; }
+    public ILinuxInstallerContext LinuxInstaller { get; }
 
-    public IWindowsInstaller WindowsInstaller { get; }
+    public IWindowsInstallerContext WindowsInstaller { get; }
 
-    public IMacInstaller MacInstaller { get; }
+    public IMacInstallerContext MacInstaller { get; }
 
-    public Installer(IPredefinedInstallers predefinedInstallers, IFileInstaller fileInstaller, ILinuxInstaller linuxInstaller, IWindowsInstaller windowsInstaller, IMacInstaller macInstaller)
+    public Installer(IPredefinedInstallersContext predefinedInstallers, IFileInstaller fileInstaller, ILinuxInstallerContext linuxInstaller, IWindowsInstallerContext windowsInstaller, IMacInstallerContext macInstaller)
     {
         PredefinedInstallers = predefinedInstallers;
         FileInstaller = fileInstaller;

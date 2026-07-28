@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageContainer
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzStorageContainerImmutabilityPolicy? _immutabilityPolicy;
     private AzStorageContainerLease? _lease;
     private AzStorageContainerLegalHold? _legalHold;
@@ -29,7 +29,7 @@ public class AzStorageContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageContainer"/> class.
     /// </summary>
-    public AzStorageContainer(ICommand command)
+    public AzStorageContainer(ICommandContext command)
     {
         _command = command;
     }

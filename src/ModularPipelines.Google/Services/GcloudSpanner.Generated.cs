@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudSpanner
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudSpannerBackups? _backups;
     private GcloudSpannerBackupSchedules? _backupSchedules;
     private GcloudSpannerDatabases? _databases;
@@ -33,7 +33,7 @@ public class GcloudSpanner
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSpanner"/> class.
     /// </summary>
-    public GcloudSpanner(ICommand command)
+    public GcloudSpanner(ICommandContext command)
     {
         _command = command;
     }

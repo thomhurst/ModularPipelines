@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeNetworksVpcAccess
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudComputeNetworksVpcAccessConnectors? _connectors;
     private GcloudComputeNetworksVpcAccessLocations? _locations;
     private GcloudComputeNetworksVpcAccessOperations? _operations;
@@ -27,7 +27,7 @@ public class GcloudComputeNetworksVpcAccess
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeNetworksVpcAccess"/> class.
     /// </summary>
-    public GcloudComputeNetworksVpcAccess(ICommand command)
+    public GcloudComputeNetworksVpcAccess(ICommandContext command)
     {
         _command = command;
     }

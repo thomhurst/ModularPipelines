@@ -4,7 +4,7 @@ using ModularPipelines.Context.Domains.Data;
 
 namespace ModularPipelines.Context;
 
-internal class Xml : IXml, IXmlContext
+internal class Xml : IXmlContext
 {
     public string ToXml<T>(T input, SaveOptions options = SaveOptions.None)
     {

@@ -139,13 +139,13 @@ collection.AddPipelineModuleHooks<MyModuleHooks>();
 ```csharp
 public class MyModuleHooks : IPipelineModuleHooks
 {
-    public Task OnBeforeModuleStartAsync(IPipelineHookContext context, IModule module)
+    public Task OnBeforeModuleStartAsync(IPipelineContext context, IModule module)
     {
         context.Logger.LogInformation("{Module} is starting", module.GetType().Name);
         return Task.CompletedTask;
     }
 
-    public Task OnBeforeModuleEndAsync(IPipelineHookContext context, IModule module)
+    public Task OnBeforeModuleEndAsync(IPipelineContext context, IModule module)
     {
         context.Logger.LogInformation("{Module} finished after {Elapsed}", module.GetType().Name, module.Duration);
         return Task.CompletedTask;
@@ -169,13 +169,13 @@ collection.AddPipelineGlobalHooks<MyGlobalHooks>();
 ```csharp
 public class MyGlobalHooks : IPipelineGlobalHooks
 {
-    public Task OnStartAsync(IPipelineHookContext pipelineContext)
+    public Task OnStartAsync(IPipelineContext pipelineContext)
     {
         pipelineContext.Logger.LogInformation("Pipeline is starting");
         return Task.CompletedTask;
     }
 
-    public Task OnEndAsync(IPipelineHookContext pipelineContext, PipelineSummary pipelineSummary)
+    public Task OnEndAsync(IPipelineContext pipelineContext, PipelineSummary pipelineSummary)
     {
         pipelineContext.Logger.LogInformation("Pipeline is ending");
         return Task.CompletedTask;

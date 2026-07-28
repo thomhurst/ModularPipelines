@@ -16,7 +16,7 @@ public class SkipDependabotAttributeTests : TestBase
 #pragma warning disable CS0618 // Test-only attributes exercise the legacy run-condition compatibility path.
     private class CanRunAttribute : RunConditionAttribute
     {
-        public override Task<bool> Condition(IPipelineHookContext pipelineContext)
+        public override Task<bool> Condition(IPipelineContext pipelineContext)
         {
             return Task.FromResult(true);
         }
@@ -24,7 +24,7 @@ public class SkipDependabotAttributeTests : TestBase
 
     private class CannotRunAttribute : RunConditionAttribute
     {
-        public override Task<bool> Condition(IPipelineHookContext pipelineContext)
+        public override Task<bool> Condition(IPipelineContext pipelineContext)
         {
             return Task.FromResult(false);
         }

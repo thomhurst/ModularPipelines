@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,14 +19,14 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerFleetScopes
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudContainerFleetScopesNamespaces? _namespaces;
     private GcloudContainerFleetScopesRbacrolebindings? _rbacrolebindings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerFleetScopes"/> class.
     /// </summary>
-    public GcloudContainerFleetScopes(ICommand command)
+    public GcloudContainerFleetScopes(ICommandContext command)
     {
         _command = command;
     }

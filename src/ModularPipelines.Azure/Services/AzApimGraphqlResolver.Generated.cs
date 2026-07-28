@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,13 +19,13 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzApimGraphqlResolver
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzApimGraphqlResolverPolicy? _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzApimGraphqlResolver"/> class.
     /// </summary>
-    public AzApimGraphqlResolver(ICommand command)
+    public AzApimGraphqlResolver(ICommandContext command)
     {
         _command = command;
     }

@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Node.Models;
 
@@ -8,9 +9,9 @@ namespace ModularPipelines.Node;
 [ExcludeFromCodeCoverage]
 internal class Npm : INpm
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
-    public Npm(ICommand command)
+    public Npm(ICommandContext command)
     {
         _command = command;
     }

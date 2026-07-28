@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Azure.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzVm
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private AzVmApplication? _application;
     private AzVmAvailabilitySet? _availabilitySet;
     private AzVmBootDiagnostics? _bootDiagnostics;
@@ -40,7 +40,7 @@ public class AzVm
     /// <summary>
     /// Initializes a new instance of the <see cref="AzVm"/> class.
     /// </summary>
-    public AzVm(ICommand command)
+    public AzVm(ICommandContext command)
     {
         _command = command;
     }

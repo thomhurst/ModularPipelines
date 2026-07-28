@@ -1,3 +1,5 @@
+using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
@@ -5,11 +7,11 @@ namespace ModularPipelines.Context;
 
 public class FileInstaller : IFileInstaller
 {
-    private readonly ICommand _command;
-    private readonly IDownloader _downloader;
-    private readonly IBash _bash;
+    private readonly ICommandContext _command;
+    private readonly IDownloaderContext _downloader;
+    private readonly IBashContext _bash;
 
-    public FileInstaller(ICommand command, IDownloader downloader, IBash bash)
+    public FileInstaller(ICommandContext command, IDownloaderContext downloader, IBashContext bash)
     {
         _command = command;
         _downloader = downloader;

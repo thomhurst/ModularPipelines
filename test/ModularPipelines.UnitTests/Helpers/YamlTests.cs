@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Data;
 using ModularPipelines.TestHelpers;
 using YamlDotNet.Serialization.NamingConventions;
 using static ModularPipelines.UnitTests.Helpers.SerializationTestModels;
@@ -10,7 +11,7 @@ public class YamlTests : TestBase
     [Test]
     public async Task Can_Serialize_With_Null()
     {
-        var yaml = await GetService<IYaml>();
+        var yaml = await GetService<IYamlContext>();
 
         var result = yaml.ToYaml(SerializationTestModel.CreateDefault());
         await Assert.That(result.Trim()).IsEqualTo($"""
@@ -22,7 +23,7 @@ public class YamlTests : TestBase
     [Test]
     public async Task Can_Serialize_With_Array()
     {
-        var yaml = await GetService<IYaml>();
+        var yaml = await GetService<IYamlContext>();
 
         var result = yaml.ToYaml(SerializationTestModel.CreateWithItems());
         await Assert.That(result.Trim()).IsEqualTo($"""
@@ -38,7 +39,7 @@ public class YamlTests : TestBase
     [Test]
     public async Task Can_Serialize_With_Options()
     {
-        var yaml = await GetService<IYaml>();
+        var yaml = await GetService<IYamlContext>();
 
         var result = yaml.ToYaml(SerializationTestModel.CreateDefault(),
             PascalCaseNamingConvention.Instance);
@@ -51,7 +52,7 @@ public class YamlTests : TestBase
     [Test]
     public async Task Can_Deserialize()
     {
-        var yaml = await GetService<IYaml>();
+        var yaml = await GetService<IYamlContext>();
 
         var result = yaml.FromYaml<SerializationTestModel>($"""
                                               foo: {TestValues.FooValue}
@@ -63,7 +64,7 @@ public class YamlTests : TestBase
     [Test]
     public async Task Can_Deserialize_With_Options()
     {
-        var yaml = await GetService<IYaml>();
+        var yaml = await GetService<IYamlContext>();
 
         var result = yaml.FromYaml<SerializationTestModel>($"""
                                               foo: {TestValues.FooValue}

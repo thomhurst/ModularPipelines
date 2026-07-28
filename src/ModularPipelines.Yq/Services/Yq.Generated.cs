@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Yq.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Yq.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Yq : IYq
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Yq"/> class.
     /// </summary>
-    public Yq(ICommand command)
+    public Yq(ICommandContext command)
     {
         _command = command;
     }

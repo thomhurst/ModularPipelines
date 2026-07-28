@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Enums;
 using ModularPipelines.TestHelpers;
 using Moq;
@@ -7,13 +8,13 @@ namespace ModularPipelines.UnitTests.Engine;
 
 public class BuildSystemDetectorTests : TestBase
 {
-    private readonly Mock<IEnvironmentVariables> _environmentVariables;
+    private readonly Mock<IEnvironmentVariablesContext> _environmentVariables;
 
     private readonly IBuildSystemDetector _buildSystemDetector;
 
     public BuildSystemDetectorTests()
     {
-        _environmentVariables = new Mock<IEnvironmentVariables>();
+        _environmentVariables = new Mock<IEnvironmentVariablesContext>();
         _buildSystemDetector = new BuildSystemDetector(_environmentVariables.Object);
     }
 

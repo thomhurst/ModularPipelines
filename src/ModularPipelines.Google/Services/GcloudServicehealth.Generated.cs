@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudServicehealth
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudServicehealthEvents? _events;
     private GcloudServicehealthOrganizationEvents? _organizationEvents;
     private GcloudServicehealthOrganizationImpacts? _organizationImpacts;
@@ -27,7 +27,7 @@ public class GcloudServicehealth
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudServicehealth"/> class.
     /// </summary>
-    public GcloudServicehealth(ICommand command)
+    public GcloudServicehealth(ICommandContext command)
     {
         _command = command;
     }

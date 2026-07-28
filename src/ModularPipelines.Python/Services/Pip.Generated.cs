@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Python.Options;
@@ -19,12 +19,12 @@ namespace ModularPipelines.Python.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Pip : IPip
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Pip"/> class.
     /// </summary>
-    public Pip(ICommand command)
+    public Pip(ICommandContext command)
     {
         _command = command;
     }

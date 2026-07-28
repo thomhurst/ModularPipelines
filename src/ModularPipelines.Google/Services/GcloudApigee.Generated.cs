@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudApigee
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudApigeeApis? _apis;
     private GcloudApigeeApplications? _applications;
     private GcloudApigeeDeployments? _deployments;
@@ -31,7 +31,7 @@ public class GcloudApigee
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApigee"/> class.
     /// </summary>
-    public GcloudApigee(ICommand command)
+    public GcloudApigee(ICommandContext command)
     {
         _command = command;
     }

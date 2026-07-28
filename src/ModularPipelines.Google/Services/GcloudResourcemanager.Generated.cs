@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudResourcemanager
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudResourcemanagerCapabilities? _capabilities;
     private GcloudResourcemanagerFolders? _folders;
     private GcloudResourcemanagerOrgPolicies? _orgPolicies;
@@ -28,7 +28,7 @@ public class GcloudResourcemanager
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudResourcemanager"/> class.
     /// </summary>
-    public GcloudResourcemanager(ICommand command)
+    public GcloudResourcemanager(ICommandContext command)
     {
         _command = command;
     }

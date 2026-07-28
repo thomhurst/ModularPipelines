@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeSoleTenancy
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
     private GcloudPreviewComputeSoleTenancyNodeGroups? _nodeGroups;
     private GcloudPreviewComputeSoleTenancyNodeTemplates? _nodeTemplates;
     private GcloudPreviewComputeSoleTenancyNodeTypes? _nodeTypes;
@@ -27,7 +27,7 @@ public class GcloudPreviewComputeSoleTenancy
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewComputeSoleTenancy"/> class.
     /// </summary>
-    public GcloudPreviewComputeSoleTenancy(ICommand command)
+    public GcloudPreviewComputeSoleTenancy(ICommandContext command)
     {
         _command = command;
     }

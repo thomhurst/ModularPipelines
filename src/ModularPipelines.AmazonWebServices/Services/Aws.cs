@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -17,12 +18,12 @@ namespace ModularPipelines.AmazonWebServices.Services;
 /// </summary>
 internal partial class Aws : IAws
 {
-    private readonly ICommand _command;
+    private readonly ICommandContext _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Aws"/> class.
     /// </summary>
-    public Aws(ICommand command)
+    public Aws(ICommandContext command)
     {
         _command = command;
     }
