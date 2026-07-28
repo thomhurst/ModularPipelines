@@ -30,6 +30,7 @@ This file contains links to documentation sections following the llmstxt.org sta
 - [Defining Modules](https://thomhurst.github.io/ModularPipelines/docs/how-to/defining-modules): Modules are defined by creating a class that inherits from the `Module<T>` base class.
 - [Execution and Dependencies](https://thomhurst.github.io/ModularPipelines/docs/how-to/execution-and-dependencies): The default behaviour is for modules to run in parallel, to speed up a pipeline as much as possible.
 - [Using F#](https://thomhurst.github.io/ModularPipelines/docs/how-to/fsharp): ModularPipelines modules can be authored and executed from an F# project. Inherit
+- [Generate a private CLI integration](https://thomhurst.github.io/ModularPipelines/docs/how-to/generate-private-cli-integration): `ModularPipelines.OptionsGenerator` is a .NET tool that generates the same strongly typed
 - [Hooks](https://thomhurst.github.io/ModularPipelines/docs/how-to/hooks): There are three ways to hook into module execution:
 - [Ignoring Failures](https://thomhurst.github.io/ModularPipelines/docs/how-to/ignoring-failures): Sometimes a module might throw an exception, but we simply don't care as it's not that important, or a specific error might be expected.
 - [Inheriting](https://thomhurst.github.io/ModularPipelines/docs/how-to/inheriting): Each 'Module' is expected to be registered only once. If you build a custom module that you'd like to instantiate multiple times but with different...
