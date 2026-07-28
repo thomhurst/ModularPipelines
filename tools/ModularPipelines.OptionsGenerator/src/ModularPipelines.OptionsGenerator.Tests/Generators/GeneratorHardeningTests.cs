@@ -314,8 +314,12 @@ public class GeneratorHardeningTests
         {
             await Assert.That(rootClass.Content)
                 .Contains("public class ToolParent : IToolParent");
+            await Assert.That(rootClass.Content)
+                .Contains("public ToolParentImageTools ImageTools =>");
             await Assert.That(rootInterface.Content)
                 .Contains("ToolParentImageTools ImageTools { get; }");
+            await Assert.That(rootInterface.Content)
+                .Contains("only this top-level facade is interface-backed");
             await Assert.That(childClass.Content)
                 .Contains("public class ToolParentImageTools");
             await Assert.That(generatedFiles.Any(file =>

@@ -101,6 +101,8 @@ public class SubDomainClassGenerator : ICodeGenerator
             parentCommand,
             excludedCommands);
 
+        // Only facade nodes are DI abstractions. Nested groups remain concrete
+        // navigation helpers owned by their facade.
         if (node.Depth == 0)
         {
             var interfaceContent = GenerateNodeInterface(
@@ -156,6 +158,9 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine("/// <summary>");
         sb.AppendLine($"/// {tool.ToolName} {node.Segment.ToLowerInvariant()} commands.");
         sb.AppendLine("/// </summary>");
+        sb.AppendLine("/// <remarks>");
+        sb.AppendLine("/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.");
+        sb.AppendLine("/// </remarks>");
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine($"public interface I{node.ClassName}");
         sb.AppendLine("{");
