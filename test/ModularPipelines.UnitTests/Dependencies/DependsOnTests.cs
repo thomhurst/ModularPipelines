@@ -139,10 +139,13 @@ public class DependsOnTests : TestBase
     [Test]
     public async Task Depends_On_Self_Module_Throws_Exception()
     {
-        await Assert.That(async () => await TestPipelineHostBuilder.Create()
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(
+            async () => await TestPipelineHostBuilder.Create()
                 .AddModule<DependsOnSelfModule>()
-                .ExecutePipelineAsync()).
-            Throws<ModuleReferencingSelfException>();
+                .ExecutePipelineAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors.Single().Message)
+            .IsEqualTo("Module 'DependsOnSelfModule' cannot reference itself. A module cannot depend on its own result.");
     }
 
     [Test]

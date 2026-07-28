@@ -11,7 +11,7 @@ public class NestedCollisionTests
     [Test]
     public async Task Modules_Dependent_On_Each_Other_Throws_Exception()
     {
-        await Assert.That(async () =>
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(async () =>
         {
             await TestPipelineHostBuilder.Create()
                 .AddModule<DependencyConflictModule1>()
@@ -20,8 +20,10 @@ public class NestedCollisionTests
                 .AddModule<DependencyConflictModule4>()
                 .AddModule<DependencyConflictModule5>()
                 .ExecutePipelineAsync();
-        }).Throws<DependencyCollisionException>()
-                .And.HasMessageEqualTo("Dependency collision detected: **DependencyConflictModule2** -> DependencyConflictModule3 -> DependencyConflictModule4 -> DependencyConflictModule5 -> **DependencyConflictModule2**");
+        });
+
+        await Assert.That(exception!.ValidationResult.Errors.Single().Message)
+            .IsEqualTo("Dependency collision detected: **DependencyConflictModule2** -> DependencyConflictModule3 -> DependencyConflictModule4 -> DependencyConflictModule5 -> **DependencyConflictModule2**");
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]

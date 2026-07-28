@@ -11,14 +11,16 @@ public class DirectCollisionTests
     [Test]
     public async Task Modules_Dependent_On_Each_Other_Throws_Exception()
     {
-        await Assert.That(async () =>
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(async () =>
         {
             await TestPipelineHostBuilder.Create()
                 .AddModule<DependencyConflictModule1>()
                 .AddModule<DependencyConflictModule2>()
                 .ExecutePipelineAsync();
-        }).Throws<DependencyCollisionException>()
-                .And.HasMessageEqualTo("Dependency collision detected: **DependencyConflictModule1** -> DependencyConflictModule2 -> **DependencyConflictModule1**");
+        });
+
+        await Assert.That(exception!.ValidationResult.Errors.Single().Message)
+            .IsEqualTo("Dependency collision detected: **DependencyConflictModule1** -> DependencyConflictModule2 -> **DependencyConflictModule1**");
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
