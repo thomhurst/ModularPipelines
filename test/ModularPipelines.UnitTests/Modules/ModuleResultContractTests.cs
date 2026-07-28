@@ -44,7 +44,7 @@ public class ModuleResultContractTests
     [Test]
     public async Task NullSuccess_TryGetValue_ReturnsTrue()
     {
-        ModuleResult<string> result = new ModuleResult<string>.Success(null!)
+        ModuleResult<string> result = new ModuleResult<string>.Success(null)
         {
             ModuleName = "NullableModule",
             ModuleDuration = TimeSpan.Zero,
@@ -59,6 +59,11 @@ public class ModuleResultContractTests
         {
             await Assert.That(hasValue).IsTrue();
             await Assert.That(value).IsNull();
+            await Assert.That(((ModuleResult<string>.Success) result).Value).IsNull();
+            await Assert.That(result.Match(
+                onSuccess: success => success,
+                onFailure: _ => "failure",
+                onSkipped: _ => "skipped")).IsNull();
         }
     }
 

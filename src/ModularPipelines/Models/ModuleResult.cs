@@ -281,11 +281,12 @@ public abstract record ModuleResult<T> : ModuleResult
     /// Attempts to get the successful value.
     /// </summary>
     /// <param name="value">
-    /// When this method returns <c>true</c>, contains the successful value;
+    /// When this method returns <c>true</c>, contains the successful value, which may
+    /// be <c>null</c> when the module returned <c>null</c>;
     /// otherwise, contains the default value for <typeparamref name="T"/>.
     /// </param>
     /// <returns><c>true</c> for a successful result; otherwise, <c>false</c>.</returns>
-    public bool TryGetValue([MaybeNullWhen(false)] out T value)
+    public bool TryGetValue(out T? value)
     {
         if (this is Success success)
         {
@@ -311,7 +312,7 @@ public abstract record ModuleResult<T> : ModuleResult
     /// <param name="onSkipped">Function to call if skipped.</param>
     /// <returns>The result of the matched function.</returns>
     public TResult Match<TResult>(
-        Func<T, TResult> onSuccess,
+        Func<T?, TResult> onSuccess,
         Func<Exception, TResult> onFailure,
         Func<SkipDecision, TResult> onSkipped) => this switch
         {
@@ -330,7 +331,7 @@ public abstract record ModuleResult<T> : ModuleResult
     /// <param name="onFailure">Action to call if failed.</param>
     /// <param name="onSkipped">Action to call if skipped.</param>
     public void Switch(
-        Action<T> onSuccess,
+        Action<T?> onSuccess,
         Action<Exception> onFailure,
         Action<SkipDecision> onSkipped)
     {
@@ -359,8 +360,8 @@ public abstract record ModuleResult<T> : ModuleResult
     /// <summary>
     /// Represents a successful module execution with a value.
     /// </summary>
-    /// <param name="Value">The value produced by the module.</param>
-    public sealed record Success(T Value) : ModuleResult<T>, ISuccessResult;
+    /// <param name="Value">The value produced by the module, which may be <c>null</c>.</param>
+    public sealed record Success(T? Value) : ModuleResult<T>, ISuccessResult;
 
     // === Implicit conversions from non-generic Failure/Skipped ===
 
@@ -434,7 +435,7 @@ public abstract record ModuleResult<T> : ModuleResult
 
     // === Internal factory methods ===
 
-    internal static Success CreateSuccess(T value, ModuleExecutionContext ctx)
+    internal static Success CreateSuccess(T? value, ModuleExecutionContext ctx)
     {
         var (start, end, duration) = GetTimingInfo(ctx);
         return new(value)
@@ -880,7 +881,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         return discriminator switch
         {
-            "Success" => new ModuleResult<T>.Success(value!)
+            "Success" => new ModuleResult<T>.Success(value)
             {
                 ModuleName = moduleName,
                 ModuleTypeName = moduleTypeName,

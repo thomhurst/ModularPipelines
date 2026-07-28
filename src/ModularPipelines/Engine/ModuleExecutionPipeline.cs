@@ -129,7 +129,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             executionContext.RecordEndTime();
             executionContext.Status = Status.Successful;
 
-            moduleResult = ModuleResult<T>.CreateSuccess(result!, executionContext);
+            moduleResult = ModuleResult<T>.CreateSuccess(result, executionContext);
 
             module.CompletionSource.TrySetResult(moduleResult!);
 

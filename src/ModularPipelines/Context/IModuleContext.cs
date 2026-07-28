@@ -83,7 +83,7 @@ public interface IModuleContext : IPipelineContext
     ///         var buildResult = await context.GetModule&lt;BuildModule&gt;();
     ///         // buildResult is ModuleResult&lt;BuildOutput&gt;
     ///
-    ///         if (buildResult.TryGetValue(out var buildOutput))
+    ///         if (buildResult.TryGetValue(out var buildOutput) &amp;&amp; buildOutput is not null)
     ///         {
     ///             var artifactPath = buildOutput.ArtifactPath;
     ///             return await Deploy(artifactPath);
