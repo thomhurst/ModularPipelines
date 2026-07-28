@@ -49,7 +49,7 @@ internal class ModuleState
     {
         Module = module;
         ModuleType = moduleType;
-        CompletionSource = new TaskCompletionSource<IModule>();
+        CompletionSource = new TaskCompletionSource<IModule>(TaskCreationOptions.RunContinuationsAsynchronously);
         Dependencies = new Dictionary<Type, bool>();
         UnresolvedDependencies = new HashSet<Type>();
         DependentModules = new List<ModuleState>();

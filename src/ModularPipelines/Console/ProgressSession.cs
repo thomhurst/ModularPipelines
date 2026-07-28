@@ -43,7 +43,7 @@ internal class ProgressSession : IProgressSession, IProgressController
 
     private ProgressContext? _progressContext;
     private ProgressTask? _totalTask;
-    private readonly TaskCompletionSource _progressCompleted = new();
+    private readonly TaskCompletionSource _progressCompleted = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private int _totalModuleCount;
     private int _completedModuleCount;
 

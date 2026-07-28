@@ -170,7 +170,7 @@ internal class ModuleResultRegistry : IModuleResultRegistry
     /// </remarks>
     public void RegisterModule(Type moduleType)
     {
-        _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+        _completionSources.GetOrAdd(moduleType, CreateCompletionSource);
     }
 
     /// <inheritdoc />
@@ -191,7 +191,7 @@ internal class ModuleResultRegistry : IModuleResultRegistry
         // Get or create TCS first - this ensures it exists before we store the result
         // Critical: TCS must be retrieved BEFORE storing the result to ensure proper
         // happens-before ordering when awaiters check _results after TCS completion
-        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+        var tcs = _completionSources.GetOrAdd(moduleType, CreateCompletionSource);
 
         // Store result
         _results[moduleType] = result;
@@ -299,7 +299,7 @@ internal class ModuleResultRegistry : IModuleResultRegistry
         // Get or create TCS first - this ensures it exists before we store the result
         // Critical: TCS must be retrieved BEFORE storing the result to ensure proper
         // happens-before ordering when awaiters check _results after TCS completion
-        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+        var tcs = _completionSources.GetOrAdd(moduleType, CreateCompletionSource);
 
         // Store result
         _results[moduleType] = result;
@@ -311,4 +311,7 @@ internal class ModuleResultRegistry : IModuleResultRegistry
         // Now signal completion - awaiters are guaranteed to see the result
         tcs.TrySetResult(result);
     }
+
+    private static TaskCompletionSource<object?> CreateCompletionSource(Type _) =>
+        new(TaskCreationOptions.RunContinuationsAsynchronously);
 }
