@@ -1,4 +1,6 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -8,18 +10,14 @@ namespace ModularPipelines.Engine.Execution;
 /// <summary>
 /// Responsible for handling AlwaysRun modules that must complete even after pipeline failure.
 /// </summary>
-internal class AlwaysRunHandler : IAlwaysRunHandler
+internal class AlwaysRunHandler(
+    IModuleRunner moduleRunner,
+    IParallelLimitProvider parallelLimitProvider,
+    ILogger<AlwaysRunHandler> logger) : IAlwaysRunHandler
 {
-    private readonly IModuleRunner _moduleRunner;
-    private readonly ILogger<AlwaysRunHandler> _logger;
-
-    public AlwaysRunHandler(
-        IModuleRunner moduleRunner,
-        ILogger<AlwaysRunHandler> logger)
-    {
-        _moduleRunner = moduleRunner;
-        _logger = logger;
-    }
+    private readonly IModuleRunner _moduleRunner = moduleRunner;
+    private readonly IParallelLimitProvider _parallelLimitProvider = parallelLimitProvider;
+    private readonly ILogger<AlwaysRunHandler> _logger = logger;
 
     /// <inheritdoc />
     public async Task WaitForAlwaysRunModulesAsync(IModuleScheduler scheduler, IReadOnlyList<IModule> modules)
@@ -27,21 +25,45 @@ internal class AlwaysRunHandler : IAlwaysRunHandler
         var alwaysRunModules = modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun).ToList();
         _logger.LogDebug("Found {Count} AlwaysRun modules", alwaysRunModules.Count);
 
-        var exceptions = new List<Exception>();
+        var exceptions = new ConcurrentQueue<Exception>();
+        var modulesToProcess = alwaysRunModules;
 
-        foreach (var module in alwaysRunModules)
+        while (modulesToProcess.Count > 0)
         {
-            var exception = await WaitForSingleAlwaysRunModuleAsync(scheduler, module).ConfigureAwait(false);
-            if (exception != null)
-            {
-                exceptions.Add(exception);
-            }
+            await ProcessAlwaysRunModulesAsync(scheduler, modulesToProcess, exceptions).ConfigureAwait(false);
+
+            // Constraint checks can defer a late start. Each pass waits for active modules,
+            // then retries only modules that remained pending.
+            modulesToProcess = [.. modulesToProcess.Where(module => scheduler.GetModuleState(module.GetType())?.State == ModuleExecutionState.Pending)];
         }
 
-        if (exceptions.Count > 0)
+        if (!exceptions.IsEmpty)
         {
             throw new AggregateException("One or more AlwaysRun modules failed", exceptions);
         }
+    }
+
+    private async Task ProcessAlwaysRunModulesAsync(
+        IModuleScheduler scheduler,
+        IReadOnlyCollection<IModule> modules,
+        ConcurrentQueue<Exception> exceptions)
+    {
+        var parallelOptions = new ParallelOptions
+        {
+            MaxDegreeOfParallelism = _parallelLimitProvider.GetMaxDegreeOfParallelism(),
+        };
+
+        await Parallel.ForEachAsync(
+            modules,
+            parallelOptions,
+            async (module, _) =>
+            {
+                var exception = await WaitForSingleAlwaysRunModuleAsync(scheduler, module).ConfigureAwait(false);
+                if (exception != null)
+                {
+                    exceptions.Enqueue(exception);
+                }
+            }).ConfigureAwait(false);
     }
 
     private async Task<Exception?> WaitForSingleAlwaysRunModuleAsync(IModuleScheduler scheduler, IModule module)
@@ -64,6 +86,15 @@ internal class AlwaysRunHandler : IAlwaysRunHandler
             try
             {
                 await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, scheduler, CancellationToken.None).ConfigureAwait(false);
+
+                if (moduleState.State == ModuleExecutionState.Pending)
+                {
+                    _logger.LogDebug(
+                        "AlwaysRun module {ModuleName} was deferred and will be retried",
+                        moduleType.Name);
+                    return null;
+                }
+
                 _logger.LogDebug("AlwaysRun module {ModuleName} completed after late start", moduleType.Name);
             }
             catch (Exception alwaysRunEx)
