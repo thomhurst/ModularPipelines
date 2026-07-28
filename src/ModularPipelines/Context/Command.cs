@@ -101,8 +101,9 @@ internal sealed class Command : ICommand, ICommandContext
         CommandExecutionOptions execOpts,
         CancellationToken cancellationToken = default)
     {
-        StringBuilder standardOutputStringBuilder = new();
-        StringBuilder standardErrorStringBuilder = new();
+        var standardOutputBuffer = new BoundedCommandOutputBuffer(execOpts.MaxCapturedOutputLength);
+        var standardErrorBuffer = new BoundedCommandOutputBuffer(execOpts.MaxCapturedOutputLength);
+        var outputLogger = _commandLogger as ICommandOutputLogger;
         var stopwatch = Stopwatch.StartNew();
 
         var standardOutput = string.Empty;
@@ -144,8 +145,14 @@ internal sealed class Command : ICommand, ICommandContext
             try
             {
                 var executionTask = command
-                    .WithStandardOutputPipe(PipeTarget.ToStringBuilder(standardOutputStringBuilder))
-                    .WithStandardErrorPipe(PipeTarget.ToStringBuilder(standardErrorStringBuilder))
+                    .WithStandardOutputPipe(PipeTarget.Merge(
+                        CreateCaptureTarget(standardOutputBuffer),
+                        PipeTarget.ToDelegate(line =>
+                            outputLogger?.LogStandardOutputLine(options, execOpts, line))))
+                    .WithStandardErrorPipe(PipeTarget.Merge(
+                        CreateCaptureTarget(standardErrorBuffer),
+                        PipeTarget.ToDelegate(line =>
+                            outputLogger?.LogStandardErrorLine(options, execOpts, line))))
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync(
                         configureStartInfo: startInfo =>
@@ -167,8 +174,8 @@ internal sealed class Command : ICommand, ICommandContext
                     linkedCancellationToken.Token,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
-                standardOutput = standardOutputStringBuilder.ToString();
-                standardError = standardErrorStringBuilder.ToString();
+                standardOutput = standardOutputBuffer.ToString();
+                standardError = standardErrorBuffer.ToString();
 
                 _commandLogger.Log(
                     options: options,
@@ -176,8 +183,8 @@ internal sealed class Command : ICommand, ICommandContext
                     inputToLog: inputToLog,
                     exitCode: result.ExitCode,
                     runTime: result.RunTime,
-                    standardOutput: standardOutput,
-                    standardError: standardError,
+                    standardOutput: outputLogger is null ? standardOutput : string.Empty,
+                    standardError: outputLogger is null ? standardError : string.Empty,
                     commandWorkingDirPath: command.WorkingDirPath
                 );
 
@@ -196,8 +203,8 @@ internal sealed class Command : ICommand, ICommandContext
                     linkedCancellationToken.Token,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
-                standardOutput = standardOutputStringBuilder.ToString();
-                standardError = standardErrorStringBuilder.ToString();
+                standardOutput = standardOutputBuffer.ToString();
+                standardError = standardErrorBuffer.ToString();
 
                 _commandLogger.Log(
                     options: options,
@@ -205,8 +212,8 @@ internal sealed class Command : ICommand, ICommandContext
                     inputToLog: inputToLog,
                     exitCode: e.ExitCode,
                     runTime: stopwatch.Elapsed,
-                    standardOutput: standardOutput,
-                    standardError: standardError,
+                    standardOutput: outputLogger is null ? standardOutput : string.Empty,
+                    standardError: outputLogger is null ? standardError : string.Empty,
                     commandWorkingDirPath: command.WorkingDirPath
                 );
 
@@ -219,8 +226,8 @@ internal sealed class Command : ICommand, ICommandContext
                     linkedCancellationToken.Token,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
-                standardOutput = standardOutputStringBuilder.ToString();
-                standardError = standardErrorStringBuilder.ToString();
+                standardOutput = standardOutputBuffer.ToString();
+                standardError = standardErrorBuffer.ToString();
 
                 _commandLogger.Log(
                     options: options,
@@ -228,8 +235,8 @@ internal sealed class Command : ICommand, ICommandContext
                     inputToLog: inputToLog,
                     exitCode: -1,
                     runTime: stopwatch.Elapsed,
-                    standardOutput: standardOutput,
-                    standardError: standardError,
+                    standardOutput: outputLogger is null ? standardOutput : string.Empty,
+                    standardError: outputLogger is null ? standardError : string.Empty,
                     commandWorkingDirPath: command.WorkingDirPath
                 );
 
@@ -676,5 +683,24 @@ internal sealed class Command : ICommand, ICommandContext
                 int byteCount);
 #pragma warning restore SYSLIB1054
         }
+    }
+
+    private static PipeTarget CreateCaptureTarget(BoundedCommandOutputBuffer buffer)
+    {
+        return PipeTarget.Create(async (stream, cancellationToken) =>
+        {
+            using var reader = new StreamReader(
+                stream,
+                Encoding.Default,
+                detectEncodingFromByteOrderMarks: true,
+                bufferSize: 4096,
+                leaveOpen: true);
+            var characters = new char[4096];
+            int charactersRead;
+            while ((charactersRead = await reader.ReadAsync(characters, cancellationToken).ConfigureAwait(false)) > 0)
+            {
+                buffer.Append(characters.AsSpan(0, charactersRead));
+            }
+        });
     }
 }

@@ -8,7 +8,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Logging;
 
-internal class CommandLogger : ICommandLogger
+internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
@@ -54,6 +54,22 @@ internal class CommandLogger : ICommandLogger
         LogCompact(effectiveOptions, execOpts, commandWorkingDirPath, inputToLog, exitCode, runTime, standardOutput, standardError);
     }
 
+    void ICommandOutputLogger.LogStandardOutputLine(
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions,
+        string line)
+    {
+        LogOutputLine(options, executionOptions, line, isError: false);
+    }
+
+    void ICommandOutputLogger.LogStandardErrorLine(
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions,
+        string line)
+    {
+        LogOutputLine(options, executionOptions, line, isError: true);
+    }
+
     private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions? options, CommandExecutionOptions? execOpts)
     {
         // Priority: execOpts property > pipeline default > system default
@@ -75,6 +91,37 @@ internal class CommandLogger : ICommandLogger
         Logger.LogInformation("{WorkingDirectory}> {Input} [DRY-RUN]",
             workingDirectory,
             input);
+    }
+
+    private void LogOutputLine(
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions,
+        string line,
+        bool isError)
+    {
+        var effectiveOptions = GetEffectiveLoggingOptions(options, executionOptions);
+        var shouldLog = effectiveOptions.Verbosity >= CommandLogVerbosity.Normal
+                        && (isError
+                            ? effectiveOptions.ShowStandardError
+                            : effectiveOptions.ShowStandardOutput);
+        if (!shouldLog)
+        {
+            return;
+        }
+
+        var output = executionOptions.OutputLoggingManipulator is null
+            ? line
+            : executionOptions.OutputLoggingManipulator(line);
+        var obfuscatedOutput = _secretObfuscator.Obfuscate(output, executionOptions);
+
+        if (isError)
+        {
+            Logger.LogWarning("  ✗ {CommandError}", obfuscatedOutput);
+        }
+        else
+        {
+            Logger.LogInformation("  ↳ {CommandOutput}", obfuscatedOutput);
+        }
     }
 
     private void LogCompact(

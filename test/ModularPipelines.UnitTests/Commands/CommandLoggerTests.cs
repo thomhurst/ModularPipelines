@@ -211,8 +211,9 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: command line includes working directory and command
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Output is shown inline (→ for short output)
-        await Assert.That(logFile).Contains("→");
+        // Output is streamed on a separate line
+        await Assert.That(logFile).Contains("↳");
+        await Assert.That(Regex.Matches(logFile, "↳ Hello").Count).IsEqualTo(1);
         // Normal doesn't show exit code or duration
         await Assert.That(logFile).DoesNotContain("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsFalse();
@@ -228,8 +229,8 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: all info on one line
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Output shown inline
-        await Assert.That(logFile).Contains("→");
+        // Output is streamed on a separate line
+        await Assert.That(logFile).Contains("↳");
         // Exit code and duration shown inline
         await Assert.That(logFile).Contains("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsTrue();
@@ -245,8 +246,8 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: all info on one line
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Output shown inline
-        await Assert.That(logFile).Contains("→");
+        // Output is streamed on a separate line
+        await Assert.That(logFile).Contains("↳");
         // Exit code and duration shown inline
         await Assert.That(logFile).Contains("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsTrue();
@@ -275,6 +276,72 @@ public class CommandLoggerTests : TestBase
         await result.Host.DisposeAsync();
 
         return file;
+    }
+
+    [Test]
+    public async Task Command_Output_Is_Logged_Before_Command_Completes()
+    {
+        var marker = $"live-output-{Guid.NewGuid():N}";
+        var errorMarker = $"live-error-{Guid.NewGuid():N}";
+        var logFile = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var readyFile = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".ready");
+        var releaseFile = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".release");
+        var result = await GetService<ICommand>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddFile(logFile));
+        });
+        var script = $$"""
+                      Write-Output '{{marker}}'
+                      [Console]::Error.WriteLine('{{errorMarker}}')
+                      [System.IO.File]::WriteAllText('{{readyFile}}', 'ready')
+                      while (-not (Test-Path '{{releaseFile}}')) { Start-Sleep -Milliseconds 10 }
+                      """;
+
+        var commandTask = result.T.ExecuteCommandLineTool(new PowershellScriptOptions(script));
+
+        try
+        {
+            await Assert.That(await WaitUntilAsync(() => File.Exists(readyFile), TimeSpan.FromSeconds(5))).IsTrue();
+            var loggedWhileCommandRunning = await WaitUntilAsync(
+                () => FileContains(logFile, marker) && FileContains(logFile, errorMarker),
+                TimeSpan.FromSeconds(1));
+
+            await Assert.That(loggedWhileCommandRunning).IsTrue();
+        }
+        finally
+        {
+            await File.WriteAllTextAsync(releaseFile, "release");
+            await commandTask;
+        }
+    }
+
+    private static async Task<bool> WaitUntilAsync(Func<bool> condition, TimeSpan timeout)
+    {
+        var timeoutTask = Task.Delay(timeout);
+        while (!condition())
+        {
+            if (timeoutTask.IsCompleted)
+            {
+                return false;
+            }
+
+            await Task.Delay(TimeSpan.FromMilliseconds(10));
+        }
+
+        return true;
+    }
+
+    private static bool FileContains(string path, string value)
+    {
+        if (!File.Exists(path))
+        {
+            return false;
+        }
+
+        using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        using var reader = new StreamReader(stream);
+        return reader.ReadToEnd().Contains(value, StringComparison.Ordinal);
     }
 
     [CliTool("pwsh")]
