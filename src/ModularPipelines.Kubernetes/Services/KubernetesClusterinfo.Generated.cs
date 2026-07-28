@@ -17,7 +17,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// kubectl clusterinfo commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KubernetesClusterinfo
+public class KubernetesClusterinfo : IKubernetesClusterinfo
 {
     private readonly ICommandContext _command;
 

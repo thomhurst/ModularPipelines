@@ -17,7 +17,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// kubectl config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KubernetesConfig
+public class KubernetesConfig : IKubernetesConfig
 {
     private readonly ICommandContext _command;
 

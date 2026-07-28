@@ -17,7 +17,7 @@ namespace ModularPipelines.Docker.Services;
 /// docker buildx commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class DockerBuildx
+public class DockerBuildx : IDockerBuildx
 {
     private readonly ICommandContext _command;
     private DockerBuildxDap? _dap;

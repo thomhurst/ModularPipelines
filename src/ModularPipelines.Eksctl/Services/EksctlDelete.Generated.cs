@@ -17,7 +17,7 @@ namespace ModularPipelines.Eksctl.Services;
 /// eksctl delete commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class EksctlDelete
+public class EksctlDelete : IEksctlDelete
 {
     private readonly ICommandContext _command;
 

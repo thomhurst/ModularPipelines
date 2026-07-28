@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux diff commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxDiff
+public class FluxDiff : IFluxDiff
 {
     private readonly ICommandContext _command;
 

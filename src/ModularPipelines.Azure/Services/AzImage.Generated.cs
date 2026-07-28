@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az image commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzImage
+public class AzImage : IAzImage
 {
     private readonly ICommandContext _command;
     private AzImageBuilder? _builder;

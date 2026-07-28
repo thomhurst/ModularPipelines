@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud iam commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudIam
+public class GcloudIam : IGcloudIam
 {
     private readonly ICommandContext _command;
     private GcloudIamOauthClients? _oauthClients;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Kind.Services;
 /// kind load commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KindLoad
+public class KindLoad : IKindLoad
 {
     private readonly ICommandContext _command;
 

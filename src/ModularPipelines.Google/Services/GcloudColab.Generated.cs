@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud colab commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudColab
+public class GcloudColab : IGcloudColab
 {
     private readonly ICommandContext _command;
     private GcloudColabExecutions? _executions;

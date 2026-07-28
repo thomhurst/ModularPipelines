@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud redis commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudRedis
+public class GcloudRedis : IGcloudRedis
 {
     private readonly ICommandContext _command;
     private GcloudRedisAclPolicies? _aclPolicies;

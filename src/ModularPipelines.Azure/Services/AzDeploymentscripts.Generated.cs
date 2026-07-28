@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az deploymentscripts commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzDeploymentscripts
+public class AzDeploymentscripts : IAzDeploymentscripts
 {
     private readonly ICommandContext _command;
 

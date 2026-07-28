@@ -25,24 +25,24 @@ internal partial class Flux : IFlux
     /// Initializes a new instance of the <see cref="Flux"/> class.
     /// </summary>
     public Flux(
-        FluxBootstrap bootstrap,
-        FluxBuild build,
-        FluxCreate create,
-        FluxDebug debug,
-        FluxDelete delete,
-        FluxDiff diff,
-        FluxExport export,
-        FluxGet get,
-        FluxList list,
-        FluxPlugin plugin,
-        FluxPull pull,
-        FluxPush push,
-        FluxReconcile reconcile,
-        FluxResume resume,
-        FluxSuspend suspend,
-        FluxTag tag,
-        FluxTree tree,
-        FluxTrigger trigger,
+        IFluxBootstrap bootstrap,
+        IFluxBuild build,
+        IFluxCreate create,
+        IFluxDebug debug,
+        IFluxDelete delete,
+        IFluxDiff diff,
+        IFluxExport export,
+        IFluxGet get,
+        IFluxList list,
+        IFluxPlugin plugin,
+        IFluxPull pull,
+        IFluxPush push,
+        IFluxReconcile reconcile,
+        IFluxResume resume,
+        IFluxSuspend suspend,
+        IFluxTag tag,
+        IFluxTree tree,
+        IFluxTrigger trigger,
         ICommandContext command
     )
     {
@@ -70,58 +70,58 @@ internal partial class Flux : IFlux
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public FluxBootstrap Bootstrap { get; }
+    public IFluxBootstrap Bootstrap { get; }
 
     /// <inheritdoc />
-    public FluxBuild Build { get; }
+    public IFluxBuild Build { get; }
 
     /// <inheritdoc />
-    public FluxCreate Create { get; }
+    public IFluxCreate Create { get; }
 
     /// <inheritdoc />
-    public FluxDebug Debug { get; }
+    public IFluxDebug Debug { get; }
 
     /// <inheritdoc />
-    public FluxDelete Delete { get; }
+    public IFluxDelete Delete { get; }
 
     /// <inheritdoc />
-    public FluxDiff Diff { get; }
+    public IFluxDiff Diff { get; }
 
     /// <inheritdoc />
-    public FluxExport Export { get; }
+    public IFluxExport Export { get; }
 
     /// <inheritdoc />
-    public FluxGet Get { get; }
+    public IFluxGet Get { get; }
 
     /// <inheritdoc />
-    public FluxList List { get; }
+    public IFluxList List { get; }
 
     /// <inheritdoc />
-    public FluxPlugin Plugin { get; }
+    public IFluxPlugin Plugin { get; }
 
     /// <inheritdoc />
-    public FluxPull Pull { get; }
+    public IFluxPull Pull { get; }
 
     /// <inheritdoc />
-    public FluxPush Push { get; }
+    public IFluxPush Push { get; }
 
     /// <inheritdoc />
-    public FluxReconcile Reconcile { get; }
+    public IFluxReconcile Reconcile { get; }
 
     /// <inheritdoc />
-    public FluxResume Resume { get; }
+    public IFluxResume Resume { get; }
 
     /// <inheritdoc />
-    public FluxSuspend Suspend { get; }
+    public IFluxSuspend Suspend { get; }
 
     /// <inheritdoc />
-    public FluxTag Tag { get; }
+    public IFluxTag Tag { get; }
 
     /// <inheritdoc />
-    public FluxTree Tree { get; }
+    public IFluxTree Tree { get; }
 
     /// <inheritdoc />
-    public FluxTrigger Trigger { get; }
+    public IFluxTrigger Trigger { get; }
 
     #endregion
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh attestation commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhAttestation
+public class GhAttestation : IGhAttestation
 {
     private readonly ICommandContext _command;
 

@@ -23,102 +23,102 @@ public partial interface IGh
     /// <summary>
     /// Gets the agenttask sub-domain service.
     /// </summary>
-    GhAgenttask Agenttask { get; }
+    IGhAgenttask Agenttask { get; }
 
     /// <summary>
     /// Gets the attestation sub-domain service.
     /// </summary>
-    GhAttestation Attestation { get; }
+    IGhAttestation Attestation { get; }
 
     /// <summary>
     /// Gets the auth sub-domain service.
     /// </summary>
-    GhAuth Auth { get; }
+    IGhAuth Auth { get; }
 
     /// <summary>
     /// Gets the cache sub-domain service.
     /// </summary>
-    GhCache Cache { get; }
+    IGhCache Cache { get; }
 
     /// <summary>
     /// Gets the codespace sub-domain service.
     /// </summary>
-    GhCodespace Codespace { get; }
+    IGhCodespace Codespace { get; }
 
     /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
-    GhConfig Config { get; }
+    IGhConfig Config { get; }
 
     /// <summary>
     /// Gets the extension sub-domain service.
     /// </summary>
-    GhExtension Extension { get; }
+    IGhExtension Extension { get; }
 
     /// <summary>
     /// Gets the gist sub-domain service.
     /// </summary>
-    GhGist Gist { get; }
+    IGhGist Gist { get; }
 
     /// <summary>
     /// Gets the gpgkey sub-domain service.
     /// </summary>
-    GhGpgkey Gpgkey { get; }
+    IGhGpgkey Gpgkey { get; }
 
     /// <summary>
     /// Gets the label sub-domain service.
     /// </summary>
-    GhLabel Label { get; }
+    IGhLabel Label { get; }
 
     /// <summary>
     /// Gets the preview sub-domain service.
     /// </summary>
-    GhPreview Preview { get; }
+    IGhPreview Preview { get; }
 
     /// <summary>
     /// Gets the project sub-domain service.
     /// </summary>
-    GhProject Project { get; }
+    IGhProject Project { get; }
 
     /// <summary>
     /// Gets the ruleset sub-domain service.
     /// </summary>
-    GhRuleset Ruleset { get; }
+    IGhRuleset Ruleset { get; }
 
     /// <summary>
     /// Gets the run sub-domain service.
     /// </summary>
-    GhRun Run { get; }
+    IGhRun Run { get; }
 
     /// <summary>
     /// Gets the search sub-domain service.
     /// </summary>
-    GhSearch Search { get; }
+    IGhSearch Search { get; }
 
     /// <summary>
     /// Gets the secret sub-domain service.
     /// </summary>
-    GhSecret Secret { get; }
+    IGhSecret Secret { get; }
 
     /// <summary>
     /// Gets the skill sub-domain service.
     /// </summary>
-    GhSkill Skill { get; }
+    IGhSkill Skill { get; }
 
     /// <summary>
     /// Gets the sshkey sub-domain service.
     /// </summary>
-    GhSshkey Sshkey { get; }
+    IGhSshkey Sshkey { get; }
 
     /// <summary>
     /// Gets the variable sub-domain service.
     /// </summary>
-    GhVariable Variable { get; }
+    IGhVariable Variable { get; }
 
     /// <summary>
     /// Gets the workflow sub-domain service.
     /// </summary>
-    GhWorkflow Workflow { get; }
+    IGhWorkflow Workflow { get; }
 
     #endregion
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az databoxedge commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzDataboxedge
+public class AzDataboxedge : IAzDataboxedge
 {
     private readonly ICommandContext _command;
     private AzDataboxedgeBandwidthSchedule? _bandwidthSchedule;

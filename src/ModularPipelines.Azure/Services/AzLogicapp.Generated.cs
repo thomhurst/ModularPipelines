@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az logicapp commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzLogicapp
+public class AzLogicapp : IAzLogicapp
 {
     private readonly ICommandContext _command;
     private AzLogicappConfig? _config;

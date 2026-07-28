@@ -37,19 +37,19 @@ public static class DockerExtensions
     public static IServiceCollection RegisterDockerContext(this IServiceCollection services)
     {
         services.TryAddScoped<IDocker, Services.Docker>();
-        services.TryAddScoped<DockerBuilder>();
-        services.TryAddScoped<DockerBuildx>();
-        services.TryAddScoped<DockerCompose>();
-        services.TryAddScoped<DockerContainer>();
-        services.TryAddScoped<DockerContext>();
-        services.TryAddScoped<DockerImage>();
-        services.TryAddScoped<DockerManifest>();
-        services.TryAddScoped<DockerNetwork>();
-        services.TryAddScoped<DockerPlugin>();
-        services.TryAddScoped<DockerSwarm>();
-        services.TryAddScoped<DockerSystem>();
-        services.TryAddScoped<DockerTrust>();
-        services.TryAddScoped<DockerVolume>();
+        services.TryAddScoped<IDockerBuilder, DockerBuilder>();
+        services.TryAddScoped<IDockerBuildx, DockerBuildx>();
+        services.TryAddScoped<IDockerCompose, DockerCompose>();
+        services.TryAddScoped<IDockerContainer, DockerContainer>();
+        services.TryAddScoped<IDockerContext, DockerContext>();
+        services.TryAddScoped<IDockerImage, DockerImage>();
+        services.TryAddScoped<IDockerManifest, DockerManifest>();
+        services.TryAddScoped<IDockerNetwork, DockerNetwork>();
+        services.TryAddScoped<IDockerPlugin, DockerPlugin>();
+        services.TryAddScoped<IDockerSwarm, DockerSwarm>();
+        services.TryAddScoped<IDockerSystem, DockerSystem>();
+        services.TryAddScoped<IDockerTrust, DockerTrust>();
+        services.TryAddScoped<IDockerVolume, DockerVolume>();
         return services;
     }
 

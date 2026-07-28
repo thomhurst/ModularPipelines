@@ -23,12 +23,12 @@ public partial interface IBuildah
     /// <summary>
     /// Gets the manifest sub-domain service.
     /// </summary>
-    BuildahManifest Manifest { get; }
+    IBuildahManifest Manifest { get; }
 
     /// <summary>
     /// Gets the source sub-domain service.
     /// </summary>
-    BuildahSource Source { get; }
+    IBuildahSource Source { get; }
 
     #endregion
 

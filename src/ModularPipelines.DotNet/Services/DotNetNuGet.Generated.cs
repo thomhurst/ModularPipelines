@@ -17,7 +17,7 @@ namespace ModularPipelines.DotNet.Services;
 /// dotnet nuget commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class DotNetNuGet
+public class DotNetNuGet : IDotNetNuGet
 {
     private readonly ICommandContext _command;
     private DotNetNuGetAdd? _add;

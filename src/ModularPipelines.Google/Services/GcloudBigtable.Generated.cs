@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud bigtable commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBigtable
+public class GcloudBigtable : IGcloudBigtable
 {
     private readonly ICommandContext _command;
     private GcloudBigtableAppProfiles? _appProfiles;

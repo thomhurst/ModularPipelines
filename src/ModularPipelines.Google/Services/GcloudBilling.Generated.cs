@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud billing commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBilling
+public class GcloudBilling : IGcloudBilling
 {
     private readonly ICommandContext _command;
     private GcloudBillingAccounts? _accounts;

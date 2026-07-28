@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux debug commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxDebug
+public class FluxDebug : IFluxDebug
 {
     private readonly ICommandContext _command;
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud agentidentity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAgentidentity
+public class GcloudAgentidentity : IGcloudAgentidentity
 {
     private readonly ICommandContext _command;
     private GcloudAgentidentityAccessSummaries? _accessSummaries;

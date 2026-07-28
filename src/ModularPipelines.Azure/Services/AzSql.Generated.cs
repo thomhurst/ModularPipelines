@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az sql commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzSql
+public class AzSql : IAzSql
 {
     private readonly ICommandContext _command;
     private AzSqlDb? _db;

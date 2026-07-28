@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud vectorsearch commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudVectorsearch
+public class GcloudVectorsearch : IGcloudVectorsearch
 {
     private readonly ICommandContext _command;
     private GcloudVectorsearchCollections? _collections;

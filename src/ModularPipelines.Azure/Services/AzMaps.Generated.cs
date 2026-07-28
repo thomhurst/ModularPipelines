@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az maps commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzMaps
+public class AzMaps : IAzMaps
 {
     private readonly ICommandContext _command;
     private AzMapsAccount? _account;

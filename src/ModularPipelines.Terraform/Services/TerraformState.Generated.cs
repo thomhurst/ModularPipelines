@@ -17,7 +17,7 @@ namespace ModularPipelines.Terraform.Services;
 /// terraform state commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class TerraformState
+public class TerraformState : ITerraformState
 {
     private readonly ICommandContext _command;
 

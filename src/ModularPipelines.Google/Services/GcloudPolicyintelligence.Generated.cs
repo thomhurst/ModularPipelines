@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud policyintelligence commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudPolicyintelligence
+public class GcloudPolicyintelligence : IGcloudPolicyintelligence
 {
     private readonly ICommandContext _command;
     private GcloudPolicyintelligenceSimulate? _simulate;

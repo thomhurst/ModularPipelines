@@ -17,7 +17,7 @@ namespace ModularPipelines.Eksctl.Services;
 /// eksctl scale commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class EksctlScale
+public class EksctlScale : IEksctlScale
 {
     private readonly ICommandContext _command;
 

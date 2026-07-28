@@ -17,7 +17,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// kustomize cfg commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KustomizeCfg
+public class KustomizeCfg : IKustomizeCfg
 {
     private readonly ICommandContext _command;
 

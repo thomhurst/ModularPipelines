@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az connection commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzConnection
+public class AzConnection : IAzConnection
 {
     private readonly ICommandContext _command;
     private AzConnectionCreate? _create;

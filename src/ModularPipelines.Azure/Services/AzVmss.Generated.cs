@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az vmss commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzVmss
+public class AzVmss : IAzVmss
 {
     private readonly ICommandContext _command;
     private AzVmssApplication? _application;

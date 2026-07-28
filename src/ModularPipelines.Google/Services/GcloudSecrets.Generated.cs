@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud secrets commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudSecrets
+public class GcloudSecrets : IGcloudSecrets
 {
     private readonly ICommandContext _command;
     private GcloudSecretsLocations? _locations;

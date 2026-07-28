@@ -23,72 +23,72 @@ public partial interface IPulumi
     /// <summary>
     /// Gets the api sub-domain service.
     /// </summary>
-    PulumiApi Api { get; }
+    IPulumiApi Api { get; }
 
     /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
-    PulumiConfig Config { get; }
+    IPulumiConfig Config { get; }
 
     /// <summary>
     /// Gets the deployment sub-domain service.
     /// </summary>
-    PulumiDeployment Deployment { get; }
+    IPulumiDeployment Deployment { get; }
 
     /// <summary>
     /// Gets the env sub-domain service.
     /// </summary>
-    PulumiEnv Env { get; }
+    IPulumiEnv Env { get; }
 
     /// <summary>
     /// Gets the insights sub-domain service.
     /// </summary>
-    PulumiInsights Insights { get; }
+    IPulumiInsights Insights { get; }
 
     /// <summary>
     /// Gets the logs sub-domain service.
     /// </summary>
-    PulumiLogs Logs { get; }
+    IPulumiLogs Logs { get; }
 
     /// <summary>
     /// Gets the org sub-domain service.
     /// </summary>
-    PulumiOrg Org { get; }
+    IPulumiOrg Org { get; }
 
     /// <summary>
     /// Gets the package sub-domain service.
     /// </summary>
-    PulumiPackage Package { get; }
+    IPulumiPackage Package { get; }
 
     /// <summary>
     /// Gets the plugin sub-domain service.
     /// </summary>
-    PulumiPlugin Plugin { get; }
+    IPulumiPlugin Plugin { get; }
 
     /// <summary>
     /// Gets the policy sub-domain service.
     /// </summary>
-    PulumiPolicy Policy { get; }
+    IPulumiPolicy Policy { get; }
 
     /// <summary>
     /// Gets the project sub-domain service.
     /// </summary>
-    PulumiProject Project { get; }
+    IPulumiProject Project { get; }
 
     /// <summary>
     /// Gets the stack sub-domain service.
     /// </summary>
-    PulumiStack Stack { get; }
+    IPulumiStack Stack { get; }
 
     /// <summary>
     /// Gets the state sub-domain service.
     /// </summary>
-    PulumiState State { get; }
+    IPulumiState State { get; }
 
     /// <summary>
     /// Gets the template sub-domain service.
     /// </summary>
-    PulumiTemplate Template { get; }
+    IPulumiTemplate Template { get; }
 
     #endregion
 

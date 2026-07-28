@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud parametermanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudParametermanager
+public class GcloudParametermanager : IGcloudParametermanager
 {
     private readonly ICommandContext _command;
     private GcloudParametermanagerParameters? _parameters;

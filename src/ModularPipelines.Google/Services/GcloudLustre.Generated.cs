@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud lustre commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudLustre
+public class GcloudLustre : IGcloudLustre
 {
     private readonly ICommandContext _command;
     private GcloudLustreInstances? _instances;

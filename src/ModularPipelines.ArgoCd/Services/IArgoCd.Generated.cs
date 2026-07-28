@@ -23,52 +23,52 @@ public partial interface IArgoCd
     /// <summary>
     /// Gets the account sub-domain service.
     /// </summary>
-    ArgoCdAccount Account { get; }
+    IArgoCdAccount Account { get; }
 
     /// <summary>
     /// Gets the admin sub-domain service.
     /// </summary>
-    ArgoCdAdmin Admin { get; }
+    IArgoCdAdmin Admin { get; }
 
     /// <summary>
     /// Gets the app sub-domain service.
     /// </summary>
-    ArgoCdApp App { get; }
+    IArgoCdApp App { get; }
 
     /// <summary>
     /// Gets the applicationset sub-domain service.
     /// </summary>
-    ArgoCdApplicationSet ApplicationSet { get; }
+    IArgoCdApplicationSet ApplicationSet { get; }
 
     /// <summary>
     /// Gets the cert sub-domain service.
     /// </summary>
-    ArgoCdCert Cert { get; }
+    IArgoCdCert Cert { get; }
 
     /// <summary>
     /// Gets the cluster sub-domain service.
     /// </summary>
-    ArgoCdCluster Cluster { get; }
+    IArgoCdCluster Cluster { get; }
 
     /// <summary>
     /// Gets the gpg sub-domain service.
     /// </summary>
-    ArgoCdGpg Gpg { get; }
+    IArgoCdGpg Gpg { get; }
 
     /// <summary>
     /// Gets the proj sub-domain service.
     /// </summary>
-    ArgoCdProj Proj { get; }
+    IArgoCdProj Proj { get; }
 
     /// <summary>
     /// Gets the repo sub-domain service.
     /// </summary>
-    ArgoCdRepo Repo { get; }
+    IArgoCdRepo Repo { get; }
 
     /// <summary>
     /// Gets the repocreds sub-domain service.
     /// </summary>
-    ArgoCdRepocreds Repocreds { get; }
+    IArgoCdRepocreds Repocreds { get; }
 
     #endregion
 

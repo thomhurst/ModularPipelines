@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud composer commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudComposer
+public class GcloudComposer : IGcloudComposer
 {
     private readonly ICommandContext _command;
     private GcloudComposerEnvironments? _environments;

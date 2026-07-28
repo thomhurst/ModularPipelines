@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud servicedirectory commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServicedirectory
+public class GcloudServicedirectory : IGcloudServicedirectory
 {
     private readonly ICommandContext _command;
     private GcloudServicedirectoryEndpoints? _endpoints;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud workflows commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudWorkflows
+public class GcloudWorkflows : IGcloudWorkflows
 {
     private readonly ICommandContext _command;
     private GcloudWorkflowsExecutions? _executions;

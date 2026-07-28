@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud container commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudContainer
+public class GcloudContainer : IGcloudContainer
 {
     private readonly ICommandContext _command;
     private GcloudContainerAi? _ai;

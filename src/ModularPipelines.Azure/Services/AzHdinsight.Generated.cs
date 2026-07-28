@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az hdinsight commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzHdinsight
+public class AzHdinsight : IAzHdinsight
 {
     private readonly ICommandContext _command;
     private AzHdinsightApplication? _application;

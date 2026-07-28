@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud apigateway commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudApigateway
+public class GcloudApigateway : IGcloudApigateway
 {
     private readonly ICommandContext _command;
     private GcloudApigatewayApiConfigs? _apiConfigs;

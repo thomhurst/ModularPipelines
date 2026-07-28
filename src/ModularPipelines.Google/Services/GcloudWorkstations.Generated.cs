@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud workstations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudWorkstations
+public class GcloudWorkstations : IGcloudWorkstations
 {
     private readonly ICommandContext _command;
     private GcloudWorkstationsClusters? _clusters;

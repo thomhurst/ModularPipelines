@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az resource commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzResource
+public class AzResource : IAzResource
 {
     private readonly ICommandContext _command;
     private AzResourceLink? _link;

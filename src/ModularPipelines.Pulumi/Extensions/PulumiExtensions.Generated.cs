@@ -37,20 +37,20 @@ public static class PulumiExtensions
     public static IServiceCollection RegisterPulumiContext(this IServiceCollection services)
     {
         services.TryAddScoped<IPulumi, Services.Pulumi>();
-        services.TryAddScoped<PulumiApi>();
-        services.TryAddScoped<PulumiConfig>();
-        services.TryAddScoped<PulumiDeployment>();
-        services.TryAddScoped<PulumiEnv>();
-        services.TryAddScoped<PulumiInsights>();
-        services.TryAddScoped<PulumiLogs>();
-        services.TryAddScoped<PulumiOrg>();
-        services.TryAddScoped<PulumiPackage>();
-        services.TryAddScoped<PulumiPlugin>();
-        services.TryAddScoped<PulumiPolicy>();
-        services.TryAddScoped<PulumiProject>();
-        services.TryAddScoped<PulumiStack>();
-        services.TryAddScoped<PulumiState>();
-        services.TryAddScoped<PulumiTemplate>();
+        services.TryAddScoped<IPulumiApi, PulumiApi>();
+        services.TryAddScoped<IPulumiConfig, PulumiConfig>();
+        services.TryAddScoped<IPulumiDeployment, PulumiDeployment>();
+        services.TryAddScoped<IPulumiEnv, PulumiEnv>();
+        services.TryAddScoped<IPulumiInsights, PulumiInsights>();
+        services.TryAddScoped<IPulumiLogs, PulumiLogs>();
+        services.TryAddScoped<IPulumiOrg, PulumiOrg>();
+        services.TryAddScoped<IPulumiPackage, PulumiPackage>();
+        services.TryAddScoped<IPulumiPlugin, PulumiPlugin>();
+        services.TryAddScoped<IPulumiPolicy, PulumiPolicy>();
+        services.TryAddScoped<IPulumiProject, PulumiProject>();
+        services.TryAddScoped<IPulumiStack, PulumiStack>();
+        services.TryAddScoped<IPulumiState, PulumiState>();
+        services.TryAddScoped<IPulumiTemplate, PulumiTemplate>();
         return services;
     }
 

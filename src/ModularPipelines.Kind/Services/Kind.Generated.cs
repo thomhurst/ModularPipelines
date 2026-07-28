@@ -25,12 +25,12 @@ internal partial class Kind : IKind
     /// Initializes a new instance of the <see cref="Kind"/> class.
     /// </summary>
     public Kind(
-        KindBuild build,
-        KindCreate create,
-        KindDelete delete,
-        KindExport export,
-        KindGet get,
-        KindLoad load,
+        IKindBuild build,
+        IKindCreate create,
+        IKindDelete delete,
+        IKindExport export,
+        IKindGet get,
+        IKindLoad load,
         ICommandContext command
     )
     {
@@ -46,22 +46,22 @@ internal partial class Kind : IKind
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public KindBuild Build { get; }
+    public IKindBuild Build { get; }
 
     /// <inheritdoc />
-    public KindCreate Create { get; }
+    public IKindCreate Create { get; }
 
     /// <inheritdoc />
-    public KindDelete Delete { get; }
+    public IKindDelete Delete { get; }
 
     /// <inheritdoc />
-    public KindExport Export { get; }
+    public IKindExport Export { get; }
 
     /// <inheritdoc />
-    public KindGet Get { get; }
+    public IKindGet Get { get; }
 
     /// <inheritdoc />
-    public KindLoad Load { get; }
+    public IKindLoad Load { get; }
 
     #endregion
 

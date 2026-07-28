@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az privatelink commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzPrivatelink
+public class AzPrivatelink : IAzPrivatelink
 {
     private readonly ICommandContext _command;
     private AzPrivatelinkAssociation? _association;

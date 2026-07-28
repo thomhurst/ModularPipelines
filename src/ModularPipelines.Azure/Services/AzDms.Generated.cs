@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az dms commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzDms
+public class AzDms : IAzDms
 {
     private readonly ICommandContext _command;
     private AzDmsProject? _project;

@@ -23,407 +23,407 @@ public partial interface IAz
     /// <summary>
     /// Gets the account sub-domain service.
     /// </summary>
-    AzAccount Account { get; }
+    IAzAccount Account { get; }
 
     /// <summary>
     /// Gets the acr sub-domain service.
     /// </summary>
-    AzAcr Acr { get; }
+    IAzAcr Acr { get; }
 
     /// <summary>
     /// Gets the ad sub-domain service.
     /// </summary>
-    AzAd Ad { get; }
+    IAzAd Ad { get; }
 
     /// <summary>
     /// Gets the advisor sub-domain service.
     /// </summary>
-    AzAdvisor Advisor { get; }
+    IAzAdvisor Advisor { get; }
 
     /// <summary>
     /// Gets the aks sub-domain service.
     /// </summary>
-    AzAks Aks { get; }
+    IAzAks Aks { get; }
 
     /// <summary>
     /// Gets the ams sub-domain service.
     /// </summary>
-    AzAms Ams { get; }
+    IAzAms Ams { get; }
 
     /// <summary>
     /// Gets the apim sub-domain service.
     /// </summary>
-    AzApim Apim { get; }
+    IAzApim Apim { get; }
 
     /// <summary>
     /// Gets the appconfig sub-domain service.
     /// </summary>
-    AzAppConfig AppConfig { get; }
+    IAzAppConfig AppConfig { get; }
 
     /// <summary>
     /// Gets the appservice sub-domain service.
     /// </summary>
-    AzAppservice Appservice { get; }
+    IAzAppservice Appservice { get; }
 
     /// <summary>
     /// Gets the aro sub-domain service.
     /// </summary>
-    AzAro Aro { get; }
+    IAzAro Aro { get; }
 
     /// <summary>
     /// Gets the backup sub-domain service.
     /// </summary>
-    AzBackup Backup { get; }
+    IAzBackup Backup { get; }
 
     /// <summary>
     /// Gets the batch sub-domain service.
     /// </summary>
-    AzBatch Batch { get; }
+    IAzBatch Batch { get; }
 
     /// <summary>
     /// Gets the bicep sub-domain service.
     /// </summary>
-    AzBicep Bicep { get; }
+    IAzBicep Bicep { get; }
 
     /// <summary>
     /// Gets the billing sub-domain service.
     /// </summary>
-    AzBilling Billing { get; }
+    IAzBilling Billing { get; }
 
     /// <summary>
     /// Gets the bot sub-domain service.
     /// </summary>
-    AzBot Bot { get; }
+    IAzBot Bot { get; }
 
     /// <summary>
     /// Gets the capacity sub-domain service.
     /// </summary>
-    AzCapacity Capacity { get; }
+    IAzCapacity Capacity { get; }
 
     /// <summary>
     /// Gets the cloud sub-domain service.
     /// </summary>
-    AzCloud Cloud { get; }
+    IAzCloud Cloud { get; }
 
     /// <summary>
     /// Gets the cognitiveservices sub-domain service.
     /// </summary>
-    AzCognitiveservices Cognitiveservices { get; }
+    IAzCognitiveservices Cognitiveservices { get; }
 
     /// <summary>
     /// Gets the computefleet sub-domain service.
     /// </summary>
-    AzComputefleet Computefleet { get; }
+    IAzComputefleet Computefleet { get; }
 
     /// <summary>
     /// Gets the connection sub-domain service.
     /// </summary>
-    AzConnection Connection { get; }
+    IAzConnection Connection { get; }
 
     /// <summary>
     /// Gets the container sub-domain service.
     /// </summary>
-    AzContainer Container { get; }
+    IAzContainer Container { get; }
 
     /// <summary>
     /// Gets the containerapp sub-domain service.
     /// </summary>
-    AzContainerapp Containerapp { get; }
+    IAzContainerapp Containerapp { get; }
 
     /// <summary>
     /// Gets the cosmosdb sub-domain service.
     /// </summary>
-    AzCosmosdb Cosmosdb { get; }
+    IAzCosmosdb Cosmosdb { get; }
 
     /// <summary>
     /// Gets the databoxedge sub-domain service.
     /// </summary>
-    AzDataboxedge Databoxedge { get; }
+    IAzDataboxedge Databoxedge { get; }
 
     /// <summary>
     /// Gets the deployment sub-domain service.
     /// </summary>
-    AzDeployment Deployment { get; }
+    IAzDeployment Deployment { get; }
 
     /// <summary>
     /// Gets the deploymentscripts sub-domain service.
     /// </summary>
-    AzDeploymentscripts Deploymentscripts { get; }
+    IAzDeploymentscripts Deploymentscripts { get; }
 
     /// <summary>
     /// Gets the disk sub-domain service.
     /// </summary>
-    AzDisk Disk { get; }
+    IAzDisk Disk { get; }
 
     /// <summary>
     /// Gets the diskaccess sub-domain service.
     /// </summary>
-    AzDiskaccess Diskaccess { get; }
+    IAzDiskaccess Diskaccess { get; }
 
     /// <summary>
     /// Gets the diskencryptionset sub-domain service.
     /// </summary>
-    AzDiskEncryptionSet DiskEncryptionSet { get; }
+    IAzDiskEncryptionSet DiskEncryptionSet { get; }
 
     /// <summary>
     /// Gets the dms sub-domain service.
     /// </summary>
-    AzDms Dms { get; }
+    IAzDms Dms { get; }
 
     /// <summary>
     /// Gets the eventgrid sub-domain service.
     /// </summary>
-    AzEventgrid Eventgrid { get; }
+    IAzEventgrid Eventgrid { get; }
 
     /// <summary>
     /// Gets the eventhubs sub-domain service.
     /// </summary>
-    AzEventhubs Eventhubs { get; }
+    IAzEventhubs Eventhubs { get; }
 
     /// <summary>
     /// Gets the extension sub-domain service.
     /// </summary>
-    AzExtension Extension { get; }
+    IAzExtension Extension { get; }
 
     /// <summary>
     /// Gets the feature sub-domain service.
     /// </summary>
-    AzFeature Feature { get; }
+    IAzFeature Feature { get; }
 
     /// <summary>
     /// Gets the functionapp sub-domain service.
     /// </summary>
-    AzFunctionapp Functionapp { get; }
+    IAzFunctionapp Functionapp { get; }
 
     /// <summary>
     /// Gets the group sub-domain service.
     /// </summary>
-    AzGroup Group { get; }
+    IAzGroup Group { get; }
 
     /// <summary>
     /// Gets the hdinsight sub-domain service.
     /// </summary>
-    AzHdinsight Hdinsight { get; }
+    IAzHdinsight Hdinsight { get; }
 
     /// <summary>
     /// Gets the identity sub-domain service.
     /// </summary>
-    AzIdentity Identity { get; }
+    IAzIdentity Identity { get; }
 
     /// <summary>
     /// Gets the image sub-domain service.
     /// </summary>
-    AzImage Image { get; }
+    IAzImage Image { get; }
 
     /// <summary>
     /// Gets the iot sub-domain service.
     /// </summary>
-    AzIot Iot { get; }
+    IAzIot Iot { get; }
 
     /// <summary>
     /// Gets the keyvault sub-domain service.
     /// </summary>
-    AzKeyvault Keyvault { get; }
+    IAzKeyvault Keyvault { get; }
 
     /// <summary>
     /// Gets the lock sub-domain service.
     /// </summary>
-    AzLock Lock { get; }
+    IAzLock Lock { get; }
 
     /// <summary>
     /// Gets the logicapp sub-domain service.
     /// </summary>
-    AzLogicapp Logicapp { get; }
+    IAzLogicapp Logicapp { get; }
 
     /// <summary>
     /// Gets the managedapp sub-domain service.
     /// </summary>
-    AzManagedapp Managedapp { get; }
+    IAzManagedapp Managedapp { get; }
 
     /// <summary>
     /// Gets the managedcassandra sub-domain service.
     /// </summary>
-    AzManagedcassandra Managedcassandra { get; }
+    IAzManagedcassandra Managedcassandra { get; }
 
     /// <summary>
     /// Gets the managedservices sub-domain service.
     /// </summary>
-    AzManagedservices Managedservices { get; }
+    IAzManagedservices Managedservices { get; }
 
     /// <summary>
     /// Gets the maps sub-domain service.
     /// </summary>
-    AzMaps Maps { get; }
+    IAzMaps Maps { get; }
 
     /// <summary>
     /// Gets the mariadb sub-domain service.
     /// </summary>
-    AzMariadb Mariadb { get; }
+    IAzMariadb Mariadb { get; }
 
     /// <summary>
     /// Gets the monitor sub-domain service.
     /// </summary>
-    AzMonitor Monitor { get; }
+    IAzMonitor Monitor { get; }
 
     /// <summary>
     /// Gets the mysql sub-domain service.
     /// </summary>
-    AzMysql Mysql { get; }
+    IAzMysql Mysql { get; }
 
     /// <summary>
     /// Gets the netappfiles sub-domain service.
     /// </summary>
-    AzNetappfiles Netappfiles { get; }
+    IAzNetappfiles Netappfiles { get; }
 
     /// <summary>
     /// Gets the network sub-domain service.
     /// </summary>
-    AzNetwork Network { get; }
+    IAzNetwork Network { get; }
 
     /// <summary>
     /// Gets the policy sub-domain service.
     /// </summary>
-    AzPolicy Policy { get; }
+    IAzPolicy Policy { get; }
 
     /// <summary>
     /// Gets the postgres sub-domain service.
     /// </summary>
-    AzPostgres Postgres { get; }
+    IAzPostgres Postgres { get; }
 
     /// <summary>
     /// Gets the ppg sub-domain service.
     /// </summary>
-    AzPpg Ppg { get; }
+    IAzPpg Ppg { get; }
 
     /// <summary>
     /// Gets the privatelink sub-domain service.
     /// </summary>
-    AzPrivatelink Privatelink { get; }
+    IAzPrivatelink Privatelink { get; }
 
     /// <summary>
     /// Gets the provider sub-domain service.
     /// </summary>
-    AzProvider Provider { get; }
+    IAzProvider Provider { get; }
 
     /// <summary>
     /// Gets the redis sub-domain service.
     /// </summary>
-    AzRedis Redis { get; }
+    IAzRedis Redis { get; }
 
     /// <summary>
     /// Gets the relay sub-domain service.
     /// </summary>
-    AzRelay Relay { get; }
+    IAzRelay Relay { get; }
 
     /// <summary>
     /// Gets the resource sub-domain service.
     /// </summary>
-    AzResource Resource { get; }
+    IAzResource Resource { get; }
 
     /// <summary>
     /// Gets the resourcemanagement sub-domain service.
     /// </summary>
-    AzResourceManagement ResourceManagement { get; }
+    IAzResourceManagement ResourceManagement { get; }
 
     /// <summary>
     /// Gets the restorepoint sub-domain service.
     /// </summary>
-    AzRestorePoint RestorePoint { get; }
+    IAzRestorePoint RestorePoint { get; }
 
     /// <summary>
     /// Gets the role sub-domain service.
     /// </summary>
-    AzRole Role { get; }
+    IAzRole Role { get; }
 
     /// <summary>
     /// Gets the search sub-domain service.
     /// </summary>
-    AzSearch Search { get; }
+    IAzSearch Search { get; }
 
     /// <summary>
     /// Gets the security sub-domain service.
     /// </summary>
-    AzSecurity Security { get; }
+    IAzSecurity Security { get; }
 
     /// <summary>
     /// Gets the servicebus sub-domain service.
     /// </summary>
-    AzServicebus Servicebus { get; }
+    IAzServicebus Servicebus { get; }
 
     /// <summary>
     /// Gets the sf sub-domain service.
     /// </summary>
-    AzSf Sf { get; }
+    IAzSf Sf { get; }
 
     /// <summary>
     /// Gets the sig sub-domain service.
     /// </summary>
-    AzSig Sig { get; }
+    IAzSig Sig { get; }
 
     /// <summary>
     /// Gets the signalr sub-domain service.
     /// </summary>
-    AzSignalr Signalr { get; }
+    IAzSignalr Signalr { get; }
 
     /// <summary>
     /// Gets the snapshot sub-domain service.
     /// </summary>
-    AzSnapshot Snapshot { get; }
+    IAzSnapshot Snapshot { get; }
 
     /// <summary>
     /// Gets the sql sub-domain service.
     /// </summary>
-    AzSql Sql { get; }
+    IAzSql Sql { get; }
 
     /// <summary>
     /// Gets the sshkey sub-domain service.
     /// </summary>
-    AzSshkey Sshkey { get; }
+    IAzSshkey Sshkey { get; }
 
     /// <summary>
     /// Gets the stack sub-domain service.
     /// </summary>
-    AzStack Stack { get; }
+    IAzStack Stack { get; }
 
     /// <summary>
     /// Gets the staticwebapp sub-domain service.
     /// </summary>
-    AzStaticwebapp Staticwebapp { get; }
+    IAzStaticwebapp Staticwebapp { get; }
 
     /// <summary>
     /// Gets the storage sub-domain service.
     /// </summary>
-    AzStorage Storage { get; }
+    IAzStorage Storage { get; }
 
     /// <summary>
     /// Gets the synapse sub-domain service.
     /// </summary>
-    AzSynapse Synapse { get; }
+    IAzSynapse Synapse { get; }
 
     /// <summary>
     /// Gets the tag sub-domain service.
     /// </summary>
-    AzTag Tag { get; }
+    IAzTag Tag { get; }
 
     /// <summary>
     /// Gets the ts sub-domain service.
     /// </summary>
-    AzTs Ts { get; }
+    IAzTs Ts { get; }
 
     /// <summary>
     /// Gets the vm sub-domain service.
     /// </summary>
-    AzVm Vm { get; }
+    IAzVm Vm { get; }
 
     /// <summary>
     /// Gets the vmss sub-domain service.
     /// </summary>
-    AzVmss Vmss { get; }
+    IAzVmss Vmss { get; }
 
     /// <summary>
     /// Gets the webapp sub-domain service.
     /// </summary>
-    AzWebapp Webapp { get; }
+    IAzWebapp Webapp { get; }
 
     #endregion
 

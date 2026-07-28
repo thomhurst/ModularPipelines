@@ -17,7 +17,7 @@ namespace ModularPipelines.DotNet.Services;
 /// dotnet reference commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class DotNetReference
+public class DotNetReference : IDotNetReference
 {
     private readonly ICommandContext _command;
 

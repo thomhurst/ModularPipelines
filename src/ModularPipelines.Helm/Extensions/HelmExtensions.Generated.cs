@@ -37,13 +37,13 @@ public static class HelmExtensions
     public static IServiceCollection RegisterHelmContext(this IServiceCollection services)
     {
         services.TryAddScoped<IHelm, Services.Helm>();
-        services.TryAddScoped<HelmDependency>();
-        services.TryAddScoped<HelmGet>();
-        services.TryAddScoped<HelmPlugin>();
-        services.TryAddScoped<HelmRegistry>();
-        services.TryAddScoped<HelmRepo>();
-        services.TryAddScoped<HelmSearch>();
-        services.TryAddScoped<HelmShow>();
+        services.TryAddScoped<IHelmDependency, HelmDependency>();
+        services.TryAddScoped<IHelmGet, HelmGet>();
+        services.TryAddScoped<IHelmPlugin, HelmPlugin>();
+        services.TryAddScoped<IHelmRegistry, HelmRegistry>();
+        services.TryAddScoped<IHelmRepo, HelmRepo>();
+        services.TryAddScoped<IHelmSearch, HelmSearch>();
+        services.TryAddScoped<IHelmShow, HelmShow>();
         return services;
     }
 

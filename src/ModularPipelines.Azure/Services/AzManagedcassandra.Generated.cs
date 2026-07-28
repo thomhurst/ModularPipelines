@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az managedcassandra commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzManagedcassandra
+public class AzManagedcassandra : IAzManagedcassandra
 {
     private readonly ICommandContext _command;
     private AzManagedcassandraCluster? _cluster;

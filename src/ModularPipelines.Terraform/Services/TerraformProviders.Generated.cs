@@ -17,7 +17,7 @@ namespace ModularPipelines.Terraform.Services;
 /// terraform providers commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class TerraformProviders
+public class TerraformProviders : ITerraformProviders
 {
     private readonly ICommandContext _command;
 

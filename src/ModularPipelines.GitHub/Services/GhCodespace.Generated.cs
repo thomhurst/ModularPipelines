@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh codespace commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhCodespace
+public class GhCodespace : IGhCodespace
 {
     private readonly ICommandContext _command;
     private GhCodespacePorts? _ports;

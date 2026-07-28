@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud assured commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAssured
+public class GcloudAssured : IGcloudAssured
 {
     private readonly ICommandContext _command;
     private GcloudAssuredOperations? _operations;

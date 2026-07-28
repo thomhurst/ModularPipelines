@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud eventarc commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEventarc
+public class GcloudEventarc : IGcloudEventarc
 {
     private readonly ICommandContext _command;
     private GcloudEventarcAuditLogsProvider? _auditLogsProvider;

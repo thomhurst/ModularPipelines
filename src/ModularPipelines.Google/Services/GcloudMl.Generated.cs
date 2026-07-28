@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud ml commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudMl
+public class GcloudMl : IGcloudMl
 {
     private readonly ICommandContext _command;
     private GcloudMlLanguage? _language;

@@ -23,47 +23,47 @@ public partial interface IDotNet
     /// <summary>
     /// Gets the buildserver sub-domain service.
     /// </summary>
-    DotNetBuildServer BuildServer { get; }
+    IDotNetBuildServer BuildServer { get; }
 
     /// <summary>
     /// Gets the new sub-domain service.
     /// </summary>
-    DotNetNew New { get; }
+    IDotNetNew New { get; }
 
     /// <summary>
     /// Gets the nuget sub-domain service.
     /// </summary>
-    DotNetNuGet NuGet { get; }
+    IDotNetNuGet NuGet { get; }
 
     /// <summary>
     /// Gets the package sub-domain service.
     /// </summary>
-    DotNetPackage Package { get; }
+    IDotNetPackage Package { get; }
 
     /// <summary>
     /// Gets the reference sub-domain service.
     /// </summary>
-    DotNetReference Reference { get; }
+    IDotNetReference Reference { get; }
 
     /// <summary>
     /// Gets the sdk sub-domain service.
     /// </summary>
-    DotNetSdk Sdk { get; }
+    IDotNetSdk Sdk { get; }
 
     /// <summary>
     /// Gets the solution sub-domain service.
     /// </summary>
-    DotNetSolution Solution { get; }
+    IDotNetSolution Solution { get; }
 
     /// <summary>
     /// Gets the tool sub-domain service.
     /// </summary>
-    DotNetTool Tool { get; }
+    IDotNetTool Tool { get; }
 
     /// <summary>
     /// Gets the workload sub-domain service.
     /// </summary>
-    DotNetWorkload Workload { get; }
+    IDotNetWorkload Workload { get; }
 
     #endregion
 

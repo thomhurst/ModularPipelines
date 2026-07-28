@@ -23,7 +23,7 @@ public partial interface IGrype
     /// <summary>
     /// Gets the db sub-domain service.
     /// </summary>
-    GrypeDb Db { get; }
+    IGrypeDb Db { get; }
 
     #endregion
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh skill commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhSkill
+public class GhSkill : IGhSkill
 {
     private readonly ICommandContext _command;
 

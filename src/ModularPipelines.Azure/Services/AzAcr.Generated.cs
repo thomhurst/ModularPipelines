@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az acr commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzAcr
+public class AzAcr : IAzAcr
 {
     private readonly ICommandContext _command;
     private AzAcrCache? _cache;

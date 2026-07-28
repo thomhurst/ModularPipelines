@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux get commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxGet
+public class FluxGet : IFluxGet
 {
     private readonly ICommandContext _command;
     private FluxGetArtifacts? _artifacts;

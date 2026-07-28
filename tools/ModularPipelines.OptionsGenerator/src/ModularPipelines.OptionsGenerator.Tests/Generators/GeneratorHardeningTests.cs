@@ -169,13 +169,21 @@ public class GeneratorHardeningTests
         var interfaceFiles = await new ServiceInterfaceGenerator().GenerateAsync(tool);
         var implementationFiles = await new ServiceImplementationGenerator().GenerateAsync(tool);
         var registrationFiles = await new DependencyRegistrationGenerator().GenerateAsync(tool);
+        var subDomainClass = subDomainFiles.Single(file =>
+            Path.GetFileName(file.RelativePath) == "ToolApplicationSet.Generated.cs");
+        var subDomainInterface = subDomainFiles.Single(file =>
+            Path.GetFileName(file.RelativePath) == "IToolApplicationSet.Generated.cs");
 
-        await Assert.That(subDomainFiles.Single().RelativePath).EndsWith("ToolApplicationSet.Generated.cs");
-        await Assert.That(subDomainFiles.Single().Content).Contains("ToolApplicationSetOptions? options = null");
-        await Assert.That(interfaceFiles.Single().Content).Contains("ToolApplicationSet ApplicationSet { get; }");
+        await Assert.That(subDomainClass.Content).Contains("ToolApplicationSetOptions? options = null");
+        await Assert.That(subDomainClass.Content)
+            .Contains("public class ToolApplicationSet : IToolApplicationSet");
+        await Assert.That(subDomainInterface.Content)
+            .Contains("Task<CommandResult> Execute(ToolApplicationSetOptions? options = null");
+        await Assert.That(interfaceFiles.Single().Content).Contains("IToolApplicationSet ApplicationSet { get; }");
         await Assert.That(interfaceFiles.Single().Content).DoesNotContain("Appset(");
-        await Assert.That(implementationFiles.Single().Content).Contains("ToolApplicationSet ApplicationSet { get; }");
-        await Assert.That(registrationFiles.Single().Content).Contains("TryAddScoped<ToolApplicationSet>()");
+        await Assert.That(implementationFiles.Single().Content).Contains("IToolApplicationSet ApplicationSet { get; }");
+        await Assert.That(registrationFiles.Single().Content)
+            .Contains("TryAddScoped<IToolApplicationSet, ToolApplicationSet>()");
         await Assert.That(GeneratorUtils.GetNonCollidingRootCommands(tool)).IsEmpty();
     }
 
@@ -190,9 +198,11 @@ public class GeneratorHardeningTests
 
         var subDomainFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
         var interfaceFiles = await new ServiceInterfaceGenerator().GenerateAsync(tool);
+        var subDomainClass = subDomainFiles.Single(file =>
+            Path.GetFileName(file.RelativePath) == "ToolWorkspaceAddOns.Generated.cs");
 
-        await Assert.That(subDomainFiles.Single().RelativePath).EndsWith("ToolWorkspaceAddOns.Generated.cs");
-        await Assert.That(interfaceFiles.Single().Content).Contains("ToolWorkspaceAddOns WorkspaceAddOns { get; }");
+        await Assert.That(subDomainClass.RelativePath).EndsWith("ToolWorkspaceAddOns.Generated.cs");
+        await Assert.That(interfaceFiles.Single().Content).Contains("IToolWorkspaceAddOns WorkspaceAddOns { get; }");
     }
 
     [Test]
@@ -204,7 +214,8 @@ public class GeneratorHardeningTests
             Command("ToolVexRepoDownloadOptions", "ToolOptions", ["vex", "repo", "download"], subDomainGroup: "vex"));
 
         var subDomainFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
-        var repoService = subDomainFiles.Single(file => file.RelativePath.EndsWith("ToolVexRepo.Generated.cs"));
+        var repoService = subDomainFiles.Single(file =>
+            Path.GetFileName(file.RelativePath) == "ToolVexRepo.Generated.cs");
 
         await Assert.That(repoService.Content).Contains("ToolVexRepoOptions? options = null");
         await Assert.That(repoService.Content).Contains("public virtual async Task<CommandResult> Execute(");
@@ -224,14 +235,15 @@ public class GeneratorHardeningTests
         var optionFiles = await new OptionsClassGenerator().GenerateAsync(tool);
         var subDomainFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
         var interfaceFiles = await new ServiceInterfaceGenerator().GenerateAsync(tool);
-        var groupService = subDomainFiles.Single();
+        var groupService = subDomainFiles.Single(file =>
+            Path.GetFileName(file.RelativePath) == "ToolGroup.Generated.cs");
 
         await Assert.That(groupService.Content).Contains("ToolGroupOptions? options = null");
         await Assert.That(groupService.Content)
             .Contains("public virtual async Task<CommandResult> Execute(");
         await Assert.That(groupService.Content)
             .Contains("public virtual async Task<CommandResult> Child(");
-        await Assert.That(interfaceFiles.Single().Content).Contains("ToolGroup Group { get; }");
+        await Assert.That(interfaceFiles.Single().Content).Contains("IToolGroup Group { get; }");
         await Assert.That(optionFiles.Single(file =>
                 file.RelativePath.EndsWith("ToolGroupOptions.Generated.cs")).Content)
             .Contains("[CliSubCommand(\"group\")]");
@@ -265,7 +277,7 @@ public class GeneratorHardeningTests
         var implementationFiles = await new ServiceImplementationGenerator().GenerateAsync(tool);
         var registrationFiles = await new DependencyRegistrationGenerator().GenerateAsync(tool);
         var clusterInfoService = subDomainFiles.Single(file =>
-            file.RelativePath.EndsWith("KubernetesClusterInfo.Generated.cs"));
+            Path.GetFileName(file.RelativePath) == "KubernetesClusterInfo.Generated.cs");
 
         await Assert.That(clusterInfoService.Content)
             .Contains("KubernetesClusterInfoOptions? options = null");
@@ -274,11 +286,42 @@ public class GeneratorHardeningTests
         await Assert.That(clusterInfoService.Content)
             .Contains("public virtual async Task<CommandResult> Dump(");
         await Assert.That(interfaceFiles.Single().Content)
-            .Contains("KubernetesClusterInfo ClusterInfo { get; }");
+            .Contains("IKubernetesClusterInfo ClusterInfo { get; }");
         await Assert.That(implementationFiles.Single().Content)
-            .Contains("KubernetesClusterInfo ClusterInfo { get; }");
+            .Contains("IKubernetesClusterInfo ClusterInfo { get; }");
         await Assert.That(registrationFiles.Single().Content)
-            .Contains("TryAddScoped<KubernetesClusterInfo>()");
+            .Contains("TryAddScoped<IKubernetesClusterInfo, KubernetesClusterInfo>()");
+    }
+
+    [Test]
+    public async Task SubDomain_Generator_Interfaces_Facade_Service_But_Not_Nested_Group()
+    {
+        var tool = Tool(Command(
+            "ToolParentChildRunOptions",
+            "ToolOptions",
+            ["parent", "child", "run"],
+            subDomainGroup: "parent"));
+
+        var generatedFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
+        var rootClass = generatedFiles.Single(file =>
+            Path.GetFileName(file.RelativePath) == "ToolParent.Generated.cs");
+        var rootInterface = generatedFiles.Single(file =>
+            Path.GetFileName(file.RelativePath) == "IToolParent.Generated.cs");
+        var childClass = generatedFiles.Single(file =>
+            Path.GetFileName(file.RelativePath) == "ToolParentChild.Generated.cs");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(rootClass.Content)
+                .Contains("public class ToolParent : IToolParent");
+            await Assert.That(rootInterface.Content)
+                .Contains("ToolParentChild Child { get; }");
+            await Assert.That(childClass.Content)
+                .Contains("public class ToolParentChild");
+            await Assert.That(generatedFiles.Any(file =>
+                    Path.GetFileName(file.RelativePath) == "IToolParentChild.Generated.cs"))
+                .IsFalse();
+        }
     }
 
     #endregion

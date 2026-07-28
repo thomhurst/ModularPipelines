@@ -37,8 +37,8 @@ public static class SyftExtensions
     public static IServiceCollection RegisterSyftContext(this IServiceCollection services)
     {
         services.TryAddScoped<ISyft, Services.Syft>();
-        services.TryAddScoped<SyftCataloger>();
-        services.TryAddScoped<SyftConfig>();
+        services.TryAddScoped<ISyftCataloger, SyftCataloger>();
+        services.TryAddScoped<ISyftConfig, SyftConfig>();
         return services;
     }
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az monitor commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzMonitor
+public class AzMonitor : IAzMonitor
 {
     private readonly ICommandContext _command;
     private AzMonitorAccount? _account;

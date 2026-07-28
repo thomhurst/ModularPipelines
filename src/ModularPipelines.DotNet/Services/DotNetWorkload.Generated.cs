@@ -17,7 +17,7 @@ namespace ModularPipelines.DotNet.Services;
 /// dotnet workload commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class DotNetWorkload
+public class DotNetWorkload : IDotNetWorkload
 {
     private readonly ICommandContext _command;
 

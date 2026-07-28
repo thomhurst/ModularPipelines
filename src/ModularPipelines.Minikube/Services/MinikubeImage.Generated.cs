@@ -17,7 +17,7 @@ namespace ModularPipelines.Minikube.Services;
 /// minikube image commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class MinikubeImage
+public class MinikubeImage : IMinikubeImage
 {
     private readonly ICommandContext _command;
 

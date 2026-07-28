@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh preview commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhPreview
+public class GhPreview : IGhPreview
 {
     private readonly ICommandContext _command;
 

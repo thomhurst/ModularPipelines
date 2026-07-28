@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud artifacts commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudArtifacts
+public class GcloudArtifacts : IGcloudArtifacts
 {
     private readonly ICommandContext _command;
     private GcloudArtifactsApt? _apt;

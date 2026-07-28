@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud app commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudApp
+public class GcloudApp : IGcloudApp
 {
     private readonly ICommandContext _command;
     private GcloudAppDomainMappings? _domainMappings;

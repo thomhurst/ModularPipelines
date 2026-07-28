@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az cognitiveservices commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzCognitiveservices
+public class AzCognitiveservices : IAzCognitiveservices
 {
     private readonly ICommandContext _command;
     private AzCognitiveservicesAccount? _account;

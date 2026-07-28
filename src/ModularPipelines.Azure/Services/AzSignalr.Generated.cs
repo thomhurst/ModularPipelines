@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az signalr commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzSignalr
+public class AzSignalr : IAzSignalr
 {
     private readonly ICommandContext _command;
     private AzSignalrCustomCertificate? _customCertificate;

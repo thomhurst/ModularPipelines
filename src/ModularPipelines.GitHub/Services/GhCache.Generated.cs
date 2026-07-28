@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh cache commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhCache
+public class GhCache : IGhCache
 {
     private readonly ICommandContext _command;
 

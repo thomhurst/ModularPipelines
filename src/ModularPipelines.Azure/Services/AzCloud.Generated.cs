@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az cloud commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzCloud
+public class AzCloud : IAzCloud
 {
     private readonly ICommandContext _command;
 

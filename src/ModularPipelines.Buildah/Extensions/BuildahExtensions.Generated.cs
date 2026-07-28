@@ -37,8 +37,8 @@ public static class BuildahExtensions
     public static IServiceCollection RegisterBuildahContext(this IServiceCollection services)
     {
         services.TryAddScoped<IBuildah, Services.Buildah>();
-        services.TryAddScoped<BuildahManifest>();
-        services.TryAddScoped<BuildahSource>();
+        services.TryAddScoped<IBuildahManifest, BuildahManifest>();
+        services.TryAddScoped<IBuildahSource, BuildahSource>();
         return services;
     }
 

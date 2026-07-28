@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud transcoder commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudTranscoder
+public class GcloudTranscoder : IGcloudTranscoder
 {
     private readonly ICommandContext _command;
     private GcloudTranscoderJobs? _jobs;

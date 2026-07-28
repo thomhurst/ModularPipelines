@@ -25,134 +25,134 @@ internal partial class Gcloud : IGcloud
     /// Initializes a new instance of the <see cref="Gcloud"/> class.
     /// </summary>
     public Gcloud(
-        GcloudAccessapproval accessapproval,
-        GcloudAccesscontextmanager accesscontextmanager,
-        GcloudActivedirectory activedirectory,
-        GcloudAgentidentity agentidentity,
-        GcloudAgentregistry agentregistry,
-        GcloudAi ai,
-        GcloudAiplatform aiplatform,
-        GcloudAlloydb alloydb,
-        GcloudAnthos anthos,
-        GcloudApigateway apigateway,
-        GcloudApigee apigee,
-        GcloudApihub apihub,
-        GcloudApp app,
-        GcloudApphub apphub,
-        GcloudArtifacts artifacts,
-        GcloudAsset asset,
-        GcloudAssured assured,
-        GcloudAuditmanager auditmanager,
-        GcloudAuth auth,
-        GcloudBackupdr backupdr,
-        GcloudBatch batch,
-        GcloudBeyondcorp beyondcorp,
-        GcloudBiglake biglake,
-        GcloudBigtable bigtable,
-        GcloudBilling billing,
-        GcloudBms bms,
-        GcloudBq bq,
-        GcloudBuilds builds,
-        GcloudCertificatemanager certificatemanager,
-        GcloudCloudlocationfinder cloudlocationfinder,
-        GcloudCloudshell cloudshell,
-        GcloudColab colab,
-        GcloudCompliancemanager compliancemanager,
-        GcloudComponents components,
-        GcloudComposer composer,
-        GcloudCompute compute,
-        GcloudConfig config,
-        GcloudContainer container,
-        GcloudDatabasemigration databasemigration,
-        GcloudDatacatalog datacatalog,
-        GcloudDataflow dataflow,
-        GcloudDatalineage datalineage,
-        GcloudDataplex dataplex,
-        GcloudDataproc dataproc,
-        GcloudDatastore datastore,
-        GcloudDatastream datastream,
-        GcloudDeploy deploy,
-        GcloudDeploymentmanager deploymentmanager,
-        GcloudDesigncenter designcenter,
-        GcloudDeveloperconnect developerconnect,
-        GcloudDns dns,
-        GcloudDomains domains,
-        GcloudEdgecache edgecache,
-        GcloudEdgecloud edgecloud,
-        GcloudEmulators emulators,
-        GcloudEndpoints endpoints,
-        GcloudEssentialcontacts essentialcontacts,
-        GcloudEventarc eventarc,
-        GcloudFilestore filestore,
-        GcloudFirebase firebase,
-        GcloudFirestore firestore,
-        GcloudFunctions functions,
-        GcloudGemini gemini,
-        GcloudHealthcare healthcare,
-        GcloudIam iam,
-        GcloudIap iap,
-        GcloudIdentity identity,
-        GcloudIds ids,
-        GcloudInframanager inframanager,
-        GcloudKms kms,
-        GcloudLogging logging,
-        GcloudLooker looker,
-        GcloudLustre lustre,
-        GcloudManagedkafka managedkafka,
-        GcloudMemcache memcache,
-        GcloudMemorystore memorystore,
-        GcloudMetastore metastore,
-        GcloudMigration migration,
-        GcloudMl ml,
-        GcloudModelarmor modelarmor,
-        GcloudMonitoring monitoring,
-        GcloudNetapp netapp,
-        GcloudNetworkconnectivity networkconnectivity,
-        GcloudNetworkmanagement networkmanagement,
-        GcloudNetworksecurity networksecurity,
-        GcloudNetworkservices networkservices,
-        GcloudNotebooks notebooks,
-        GcloudObservability observability,
-        GcloudOracledatabase oracledatabase,
-        GcloudOrganizations organizations,
-        GcloudOrgpolicies orgpolicies,
-        GcloudPam pam,
-        GcloudParametermanager parametermanager,
-        GcloudPolicyintelligence policyintelligence,
-        GcloudPolicytroubleshoot policytroubleshoot,
-        GcloudPreview preview,
-        GcloudPrivateca privateca,
-        GcloudProjects projects,
-        GcloudPublicca publicca,
-        GcloudPubsub pubsub,
-        GcloudRecaptcha recaptcha,
-        GcloudRecommender recommender,
-        GcloudRedis redis,
-        GcloudResourceManager resourcemanager,
-        GcloudRun run,
-        GcloudScc scc,
-        GcloudScheduler scheduler,
-        GcloudSecrets secrets,
-        GcloudServicedirectory servicedirectory,
-        GcloudServiceextensions serviceextensions,
-        GcloudServicehealth servicehealth,
-        GcloudServices services,
-        GcloudSource source,
-        GcloudSourcemanager sourcemanager,
-        GcloudSpanner spanner,
-        GcloudSql sql,
-        GcloudStorage storage,
-        GcloudTasks tasks,
-        GcloudTelcoautomation telcoautomation,
-        GcloudTranscoder transcoder,
-        GcloudTransfer transfer,
-        GcloudVectorsearch vectorsearch,
-        GcloudVmware vmware,
-        GcloudWorkbench workbench,
-        GcloudWorkflows workflows,
-        GcloudWorkloadidentity workloadidentity,
-        GcloudWorkspaceaddons workspaceaddons,
-        GcloudWorkstations workstations,
+        IGcloudAccessapproval accessapproval,
+        IGcloudAccesscontextmanager accesscontextmanager,
+        IGcloudActivedirectory activedirectory,
+        IGcloudAgentidentity agentidentity,
+        IGcloudAgentregistry agentregistry,
+        IGcloudAi ai,
+        IGcloudAiplatform aiplatform,
+        IGcloudAlloydb alloydb,
+        IGcloudAnthos anthos,
+        IGcloudApigateway apigateway,
+        IGcloudApigee apigee,
+        IGcloudApihub apihub,
+        IGcloudApp app,
+        IGcloudApphub apphub,
+        IGcloudArtifacts artifacts,
+        IGcloudAsset asset,
+        IGcloudAssured assured,
+        IGcloudAuditmanager auditmanager,
+        IGcloudAuth auth,
+        IGcloudBackupdr backupdr,
+        IGcloudBatch batch,
+        IGcloudBeyondcorp beyondcorp,
+        IGcloudBiglake biglake,
+        IGcloudBigtable bigtable,
+        IGcloudBilling billing,
+        IGcloudBms bms,
+        IGcloudBq bq,
+        IGcloudBuilds builds,
+        IGcloudCertificatemanager certificatemanager,
+        IGcloudCloudlocationfinder cloudlocationfinder,
+        IGcloudCloudshell cloudshell,
+        IGcloudColab colab,
+        IGcloudCompliancemanager compliancemanager,
+        IGcloudComponents components,
+        IGcloudComposer composer,
+        IGcloudCompute compute,
+        IGcloudConfig config,
+        IGcloudContainer container,
+        IGcloudDatabasemigration databasemigration,
+        IGcloudDatacatalog datacatalog,
+        IGcloudDataflow dataflow,
+        IGcloudDatalineage datalineage,
+        IGcloudDataplex dataplex,
+        IGcloudDataproc dataproc,
+        IGcloudDatastore datastore,
+        IGcloudDatastream datastream,
+        IGcloudDeploy deploy,
+        IGcloudDeploymentmanager deploymentmanager,
+        IGcloudDesigncenter designcenter,
+        IGcloudDeveloperconnect developerconnect,
+        IGcloudDns dns,
+        IGcloudDomains domains,
+        IGcloudEdgecache edgecache,
+        IGcloudEdgecloud edgecloud,
+        IGcloudEmulators emulators,
+        IGcloudEndpoints endpoints,
+        IGcloudEssentialcontacts essentialcontacts,
+        IGcloudEventarc eventarc,
+        IGcloudFilestore filestore,
+        IGcloudFirebase firebase,
+        IGcloudFirestore firestore,
+        IGcloudFunctions functions,
+        IGcloudGemini gemini,
+        IGcloudHealthcare healthcare,
+        IGcloudIam iam,
+        IGcloudIap iap,
+        IGcloudIdentity identity,
+        IGcloudIds ids,
+        IGcloudInframanager inframanager,
+        IGcloudKms kms,
+        IGcloudLogging logging,
+        IGcloudLooker looker,
+        IGcloudLustre lustre,
+        IGcloudManagedkafka managedkafka,
+        IGcloudMemcache memcache,
+        IGcloudMemorystore memorystore,
+        IGcloudMetastore metastore,
+        IGcloudMigration migration,
+        IGcloudMl ml,
+        IGcloudModelarmor modelarmor,
+        IGcloudMonitoring monitoring,
+        IGcloudNetapp netapp,
+        IGcloudNetworkconnectivity networkconnectivity,
+        IGcloudNetworkmanagement networkmanagement,
+        IGcloudNetworksecurity networksecurity,
+        IGcloudNetworkservices networkservices,
+        IGcloudNotebooks notebooks,
+        IGcloudObservability observability,
+        IGcloudOracledatabase oracledatabase,
+        IGcloudOrganizations organizations,
+        IGcloudOrgpolicies orgpolicies,
+        IGcloudPam pam,
+        IGcloudParametermanager parametermanager,
+        IGcloudPolicyintelligence policyintelligence,
+        IGcloudPolicytroubleshoot policytroubleshoot,
+        IGcloudPreview preview,
+        IGcloudPrivateca privateca,
+        IGcloudProjects projects,
+        IGcloudPublicca publicca,
+        IGcloudPubsub pubsub,
+        IGcloudRecaptcha recaptcha,
+        IGcloudRecommender recommender,
+        IGcloudRedis redis,
+        IGcloudResourceManager resourcemanager,
+        IGcloudRun run,
+        IGcloudScc scc,
+        IGcloudScheduler scheduler,
+        IGcloudSecrets secrets,
+        IGcloudServicedirectory servicedirectory,
+        IGcloudServiceextensions serviceextensions,
+        IGcloudServicehealth servicehealth,
+        IGcloudServices services,
+        IGcloudSource source,
+        IGcloudSourcemanager sourcemanager,
+        IGcloudSpanner spanner,
+        IGcloudSql sql,
+        IGcloudStorage storage,
+        IGcloudTasks tasks,
+        IGcloudTelcoautomation telcoautomation,
+        IGcloudTranscoder transcoder,
+        IGcloudTransfer transfer,
+        IGcloudVectorsearch vectorsearch,
+        IGcloudVmware vmware,
+        IGcloudWorkbench workbench,
+        IGcloudWorkflows workflows,
+        IGcloudWorkloadidentity workloadidentity,
+        IGcloudWorkspaceaddons workspaceaddons,
+        IGcloudWorkstations workstations,
         ICommandContext command
     )
     {
@@ -290,388 +290,388 @@ internal partial class Gcloud : IGcloud
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public GcloudAccessapproval Accessapproval { get; }
+    public IGcloudAccessapproval Accessapproval { get; }
 
     /// <inheritdoc />
-    public GcloudAccesscontextmanager Accesscontextmanager { get; }
+    public IGcloudAccesscontextmanager Accesscontextmanager { get; }
 
     /// <inheritdoc />
-    public GcloudActivedirectory Activedirectory { get; }
+    public IGcloudActivedirectory Activedirectory { get; }
 
     /// <inheritdoc />
-    public GcloudAgentidentity Agentidentity { get; }
+    public IGcloudAgentidentity Agentidentity { get; }
 
     /// <inheritdoc />
-    public GcloudAgentregistry Agentregistry { get; }
+    public IGcloudAgentregistry Agentregistry { get; }
 
     /// <inheritdoc />
-    public GcloudAi Ai { get; }
+    public IGcloudAi Ai { get; }
 
     /// <inheritdoc />
-    public GcloudAiplatform Aiplatform { get; }
+    public IGcloudAiplatform Aiplatform { get; }
 
     /// <inheritdoc />
-    public GcloudAlloydb Alloydb { get; }
+    public IGcloudAlloydb Alloydb { get; }
 
     /// <inheritdoc />
-    public GcloudAnthos Anthos { get; }
+    public IGcloudAnthos Anthos { get; }
 
     /// <inheritdoc />
-    public GcloudApigateway Apigateway { get; }
+    public IGcloudApigateway Apigateway { get; }
 
     /// <inheritdoc />
-    public GcloudApigee Apigee { get; }
+    public IGcloudApigee Apigee { get; }
 
     /// <inheritdoc />
-    public GcloudApihub Apihub { get; }
+    public IGcloudApihub Apihub { get; }
 
     /// <inheritdoc />
-    public GcloudApp App { get; }
+    public IGcloudApp App { get; }
 
     /// <inheritdoc />
-    public GcloudApphub Apphub { get; }
+    public IGcloudApphub Apphub { get; }
 
     /// <inheritdoc />
-    public GcloudArtifacts Artifacts { get; }
+    public IGcloudArtifacts Artifacts { get; }
 
     /// <inheritdoc />
-    public GcloudAsset Asset { get; }
+    public IGcloudAsset Asset { get; }
 
     /// <inheritdoc />
-    public GcloudAssured Assured { get; }
+    public IGcloudAssured Assured { get; }
 
     /// <inheritdoc />
-    public GcloudAuditmanager Auditmanager { get; }
+    public IGcloudAuditmanager Auditmanager { get; }
 
     /// <inheritdoc />
-    public GcloudAuth Auth { get; }
+    public IGcloudAuth Auth { get; }
 
     /// <inheritdoc />
-    public GcloudBackupdr Backupdr { get; }
+    public IGcloudBackupdr Backupdr { get; }
 
     /// <inheritdoc />
-    public GcloudBatch Batch { get; }
+    public IGcloudBatch Batch { get; }
 
     /// <inheritdoc />
-    public GcloudBeyondcorp Beyondcorp { get; }
+    public IGcloudBeyondcorp Beyondcorp { get; }
 
     /// <inheritdoc />
-    public GcloudBiglake Biglake { get; }
+    public IGcloudBiglake Biglake { get; }
 
     /// <inheritdoc />
-    public GcloudBigtable Bigtable { get; }
+    public IGcloudBigtable Bigtable { get; }
 
     /// <inheritdoc />
-    public GcloudBilling Billing { get; }
+    public IGcloudBilling Billing { get; }
 
     /// <inheritdoc />
-    public GcloudBms Bms { get; }
+    public IGcloudBms Bms { get; }
 
     /// <inheritdoc />
-    public GcloudBq Bq { get; }
+    public IGcloudBq Bq { get; }
 
     /// <inheritdoc />
-    public GcloudBuilds Builds { get; }
+    public IGcloudBuilds Builds { get; }
 
     /// <inheritdoc />
-    public GcloudCertificatemanager Certificatemanager { get; }
+    public IGcloudCertificatemanager Certificatemanager { get; }
 
     /// <inheritdoc />
-    public GcloudCloudlocationfinder Cloudlocationfinder { get; }
+    public IGcloudCloudlocationfinder Cloudlocationfinder { get; }
 
     /// <inheritdoc />
-    public GcloudCloudshell Cloudshell { get; }
+    public IGcloudCloudshell Cloudshell { get; }
 
     /// <inheritdoc />
-    public GcloudColab Colab { get; }
+    public IGcloudColab Colab { get; }
 
     /// <inheritdoc />
-    public GcloudCompliancemanager Compliancemanager { get; }
+    public IGcloudCompliancemanager Compliancemanager { get; }
 
     /// <inheritdoc />
-    public GcloudComponents Components { get; }
+    public IGcloudComponents Components { get; }
 
     /// <inheritdoc />
-    public GcloudComposer Composer { get; }
+    public IGcloudComposer Composer { get; }
 
     /// <inheritdoc />
-    public GcloudCompute Compute { get; }
+    public IGcloudCompute Compute { get; }
 
     /// <inheritdoc />
-    public GcloudConfig Config { get; }
+    public IGcloudConfig Config { get; }
 
     /// <inheritdoc />
-    public GcloudContainer Container { get; }
+    public IGcloudContainer Container { get; }
 
     /// <inheritdoc />
-    public GcloudDatabasemigration Databasemigration { get; }
+    public IGcloudDatabasemigration Databasemigration { get; }
 
     /// <inheritdoc />
-    public GcloudDatacatalog Datacatalog { get; }
+    public IGcloudDatacatalog Datacatalog { get; }
 
     /// <inheritdoc />
-    public GcloudDataflow Dataflow { get; }
+    public IGcloudDataflow Dataflow { get; }
 
     /// <inheritdoc />
-    public GcloudDatalineage Datalineage { get; }
+    public IGcloudDatalineage Datalineage { get; }
 
     /// <inheritdoc />
-    public GcloudDataplex Dataplex { get; }
+    public IGcloudDataplex Dataplex { get; }
 
     /// <inheritdoc />
-    public GcloudDataproc Dataproc { get; }
+    public IGcloudDataproc Dataproc { get; }
 
     /// <inheritdoc />
-    public GcloudDatastore Datastore { get; }
+    public IGcloudDatastore Datastore { get; }
 
     /// <inheritdoc />
-    public GcloudDatastream Datastream { get; }
+    public IGcloudDatastream Datastream { get; }
 
     /// <inheritdoc />
-    public GcloudDeploy Deploy { get; }
+    public IGcloudDeploy Deploy { get; }
 
     /// <inheritdoc />
-    public GcloudDeploymentmanager Deploymentmanager { get; }
+    public IGcloudDeploymentmanager Deploymentmanager { get; }
 
     /// <inheritdoc />
-    public GcloudDesigncenter Designcenter { get; }
+    public IGcloudDesigncenter Designcenter { get; }
 
     /// <inheritdoc />
-    public GcloudDeveloperconnect Developerconnect { get; }
+    public IGcloudDeveloperconnect Developerconnect { get; }
 
     /// <inheritdoc />
-    public GcloudDns Dns { get; }
+    public IGcloudDns Dns { get; }
 
     /// <inheritdoc />
-    public GcloudDomains Domains { get; }
+    public IGcloudDomains Domains { get; }
 
     /// <inheritdoc />
-    public GcloudEdgecache Edgecache { get; }
+    public IGcloudEdgecache Edgecache { get; }
 
     /// <inheritdoc />
-    public GcloudEdgecloud Edgecloud { get; }
+    public IGcloudEdgecloud Edgecloud { get; }
 
     /// <inheritdoc />
-    public GcloudEmulators Emulators { get; }
+    public IGcloudEmulators Emulators { get; }
 
     /// <inheritdoc />
-    public GcloudEndpoints Endpoints { get; }
+    public IGcloudEndpoints Endpoints { get; }
 
     /// <inheritdoc />
-    public GcloudEssentialcontacts Essentialcontacts { get; }
+    public IGcloudEssentialcontacts Essentialcontacts { get; }
 
     /// <inheritdoc />
-    public GcloudEventarc Eventarc { get; }
+    public IGcloudEventarc Eventarc { get; }
 
     /// <inheritdoc />
-    public GcloudFilestore Filestore { get; }
+    public IGcloudFilestore Filestore { get; }
 
     /// <inheritdoc />
-    public GcloudFirebase Firebase { get; }
+    public IGcloudFirebase Firebase { get; }
 
     /// <inheritdoc />
-    public GcloudFirestore Firestore { get; }
+    public IGcloudFirestore Firestore { get; }
 
     /// <inheritdoc />
-    public GcloudFunctions Functions { get; }
+    public IGcloudFunctions Functions { get; }
 
     /// <inheritdoc />
-    public GcloudGemini Gemini { get; }
+    public IGcloudGemini Gemini { get; }
 
     /// <inheritdoc />
-    public GcloudHealthcare Healthcare { get; }
+    public IGcloudHealthcare Healthcare { get; }
 
     /// <inheritdoc />
-    public GcloudIam Iam { get; }
+    public IGcloudIam Iam { get; }
 
     /// <inheritdoc />
-    public GcloudIap Iap { get; }
+    public IGcloudIap Iap { get; }
 
     /// <inheritdoc />
-    public GcloudIdentity Identity { get; }
+    public IGcloudIdentity Identity { get; }
 
     /// <inheritdoc />
-    public GcloudIds Ids { get; }
+    public IGcloudIds Ids { get; }
 
     /// <inheritdoc />
-    public GcloudInframanager Inframanager { get; }
+    public IGcloudInframanager Inframanager { get; }
 
     /// <inheritdoc />
-    public GcloudKms Kms { get; }
+    public IGcloudKms Kms { get; }
 
     /// <inheritdoc />
-    public GcloudLogging Logging { get; }
+    public IGcloudLogging Logging { get; }
 
     /// <inheritdoc />
-    public GcloudLooker Looker { get; }
+    public IGcloudLooker Looker { get; }
 
     /// <inheritdoc />
-    public GcloudLustre Lustre { get; }
+    public IGcloudLustre Lustre { get; }
 
     /// <inheritdoc />
-    public GcloudManagedkafka Managedkafka { get; }
+    public IGcloudManagedkafka Managedkafka { get; }
 
     /// <inheritdoc />
-    public GcloudMemcache Memcache { get; }
+    public IGcloudMemcache Memcache { get; }
 
     /// <inheritdoc />
-    public GcloudMemorystore Memorystore { get; }
+    public IGcloudMemorystore Memorystore { get; }
 
     /// <inheritdoc />
-    public GcloudMetastore Metastore { get; }
+    public IGcloudMetastore Metastore { get; }
 
     /// <inheritdoc />
-    public GcloudMigration Migration { get; }
+    public IGcloudMigration Migration { get; }
 
     /// <inheritdoc />
-    public GcloudMl Ml { get; }
+    public IGcloudMl Ml { get; }
 
     /// <inheritdoc />
-    public GcloudModelarmor Modelarmor { get; }
+    public IGcloudModelarmor Modelarmor { get; }
 
     /// <inheritdoc />
-    public GcloudMonitoring Monitoring { get; }
+    public IGcloudMonitoring Monitoring { get; }
 
     /// <inheritdoc />
-    public GcloudNetapp Netapp { get; }
+    public IGcloudNetapp Netapp { get; }
 
     /// <inheritdoc />
-    public GcloudNetworkconnectivity Networkconnectivity { get; }
+    public IGcloudNetworkconnectivity Networkconnectivity { get; }
 
     /// <inheritdoc />
-    public GcloudNetworkmanagement Networkmanagement { get; }
+    public IGcloudNetworkmanagement Networkmanagement { get; }
 
     /// <inheritdoc />
-    public GcloudNetworksecurity Networksecurity { get; }
+    public IGcloudNetworksecurity Networksecurity { get; }
 
     /// <inheritdoc />
-    public GcloudNetworkservices Networkservices { get; }
+    public IGcloudNetworkservices Networkservices { get; }
 
     /// <inheritdoc />
-    public GcloudNotebooks Notebooks { get; }
+    public IGcloudNotebooks Notebooks { get; }
 
     /// <inheritdoc />
-    public GcloudObservability Observability { get; }
+    public IGcloudObservability Observability { get; }
 
     /// <inheritdoc />
-    public GcloudOracledatabase Oracledatabase { get; }
+    public IGcloudOracledatabase Oracledatabase { get; }
 
     /// <inheritdoc />
-    public GcloudOrganizations Organizations { get; }
+    public IGcloudOrganizations Organizations { get; }
 
     /// <inheritdoc />
-    public GcloudOrgpolicies Orgpolicies { get; }
+    public IGcloudOrgpolicies Orgpolicies { get; }
 
     /// <inheritdoc />
-    public GcloudPam Pam { get; }
+    public IGcloudPam Pam { get; }
 
     /// <inheritdoc />
-    public GcloudParametermanager Parametermanager { get; }
+    public IGcloudParametermanager Parametermanager { get; }
 
     /// <inheritdoc />
-    public GcloudPolicyintelligence Policyintelligence { get; }
+    public IGcloudPolicyintelligence Policyintelligence { get; }
 
     /// <inheritdoc />
-    public GcloudPolicytroubleshoot Policytroubleshoot { get; }
+    public IGcloudPolicytroubleshoot Policytroubleshoot { get; }
 
     /// <inheritdoc />
-    public GcloudPreview Preview { get; }
+    public IGcloudPreview Preview { get; }
 
     /// <inheritdoc />
-    public GcloudPrivateca Privateca { get; }
+    public IGcloudPrivateca Privateca { get; }
 
     /// <inheritdoc />
-    public GcloudProjects Projects { get; }
+    public IGcloudProjects Projects { get; }
 
     /// <inheritdoc />
-    public GcloudPublicca Publicca { get; }
+    public IGcloudPublicca Publicca { get; }
 
     /// <inheritdoc />
-    public GcloudPubsub Pubsub { get; }
+    public IGcloudPubsub Pubsub { get; }
 
     /// <inheritdoc />
-    public GcloudRecaptcha Recaptcha { get; }
+    public IGcloudRecaptcha Recaptcha { get; }
 
     /// <inheritdoc />
-    public GcloudRecommender Recommender { get; }
+    public IGcloudRecommender Recommender { get; }
 
     /// <inheritdoc />
-    public GcloudRedis Redis { get; }
+    public IGcloudRedis Redis { get; }
 
     /// <inheritdoc />
-    public GcloudResourceManager ResourceManager { get; }
+    public IGcloudResourceManager ResourceManager { get; }
 
     /// <inheritdoc />
-    public GcloudRun Run { get; }
+    public IGcloudRun Run { get; }
 
     /// <inheritdoc />
-    public GcloudScc Scc { get; }
+    public IGcloudScc Scc { get; }
 
     /// <inheritdoc />
-    public GcloudScheduler Scheduler { get; }
+    public IGcloudScheduler Scheduler { get; }
 
     /// <inheritdoc />
-    public GcloudSecrets Secrets { get; }
+    public IGcloudSecrets Secrets { get; }
 
     /// <inheritdoc />
-    public GcloudServicedirectory Servicedirectory { get; }
+    public IGcloudServicedirectory Servicedirectory { get; }
 
     /// <inheritdoc />
-    public GcloudServiceextensions Serviceextensions { get; }
+    public IGcloudServiceextensions Serviceextensions { get; }
 
     /// <inheritdoc />
-    public GcloudServicehealth Servicehealth { get; }
+    public IGcloudServicehealth Servicehealth { get; }
 
     /// <inheritdoc />
-    public GcloudServices Services { get; }
+    public IGcloudServices Services { get; }
 
     /// <inheritdoc />
-    public GcloudSource Source { get; }
+    public IGcloudSource Source { get; }
 
     /// <inheritdoc />
-    public GcloudSourcemanager Sourcemanager { get; }
+    public IGcloudSourcemanager Sourcemanager { get; }
 
     /// <inheritdoc />
-    public GcloudSpanner Spanner { get; }
+    public IGcloudSpanner Spanner { get; }
 
     /// <inheritdoc />
-    public GcloudSql Sql { get; }
+    public IGcloudSql Sql { get; }
 
     /// <inheritdoc />
-    public GcloudStorage Storage { get; }
+    public IGcloudStorage Storage { get; }
 
     /// <inheritdoc />
-    public GcloudTasks Tasks { get; }
+    public IGcloudTasks Tasks { get; }
 
     /// <inheritdoc />
-    public GcloudTelcoautomation Telcoautomation { get; }
+    public IGcloudTelcoautomation Telcoautomation { get; }
 
     /// <inheritdoc />
-    public GcloudTranscoder Transcoder { get; }
+    public IGcloudTranscoder Transcoder { get; }
 
     /// <inheritdoc />
-    public GcloudTransfer Transfer { get; }
+    public IGcloudTransfer Transfer { get; }
 
     /// <inheritdoc />
-    public GcloudVectorsearch Vectorsearch { get; }
+    public IGcloudVectorsearch Vectorsearch { get; }
 
     /// <inheritdoc />
-    public GcloudVmware Vmware { get; }
+    public IGcloudVmware Vmware { get; }
 
     /// <inheritdoc />
-    public GcloudWorkbench Workbench { get; }
+    public IGcloudWorkbench Workbench { get; }
 
     /// <inheritdoc />
-    public GcloudWorkflows Workflows { get; }
+    public IGcloudWorkflows Workflows { get; }
 
     /// <inheritdoc />
-    public GcloudWorkloadidentity Workloadidentity { get; }
+    public IGcloudWorkloadidentity Workloadidentity { get; }
 
     /// <inheritdoc />
-    public GcloudWorkspaceaddons Workspaceaddons { get; }
+    public IGcloudWorkspaceaddons Workspaceaddons { get; }
 
     /// <inheritdoc />
-    public GcloudWorkstations Workstations { get; }
+    public IGcloudWorkstations Workstations { get; }
 
     #endregion
 

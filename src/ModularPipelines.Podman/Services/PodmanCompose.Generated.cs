@@ -17,7 +17,7 @@ namespace ModularPipelines.Podman.Services;
 /// podman compose commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class PodmanCompose
+public class PodmanCompose : IPodmanCompose
 {
     private readonly ICommandContext _command;
     private PodmanComposeBridge? _bridge;

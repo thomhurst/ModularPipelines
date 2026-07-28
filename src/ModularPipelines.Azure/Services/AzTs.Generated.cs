@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az ts commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzTs
+public class AzTs : IAzTs
 {
     private readonly ICommandContext _command;
 

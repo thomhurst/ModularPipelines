@@ -17,7 +17,7 @@ namespace ModularPipelines.Buildah.Services;
 /// buildah source commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class BuildahSource
+public class BuildahSource : IBuildahSource
 {
     private readonly ICommandContext _command;
 

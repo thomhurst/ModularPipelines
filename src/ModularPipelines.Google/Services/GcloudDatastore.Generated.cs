@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud datastore commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatastore
+public class GcloudDatastore : IGcloudDatastore
 {
     private readonly ICommandContext _command;
     private GcloudDatastoreIndexes? _indexes;

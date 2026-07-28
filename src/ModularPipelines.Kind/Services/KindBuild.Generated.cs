@@ -17,7 +17,7 @@ namespace ModularPipelines.Kind.Services;
 /// kind build commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KindBuild
+public class KindBuild : IKindBuild
 {
     private readonly ICommandContext _command;
 

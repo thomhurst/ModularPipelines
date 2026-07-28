@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud edgecloud commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloud
+public class GcloudEdgecloud : IGcloudEdgecloud
 {
     private readonly ICommandContext _command;
     private GcloudEdgecloudContainer? _container;

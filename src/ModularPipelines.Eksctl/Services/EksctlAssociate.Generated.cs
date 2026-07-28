@@ -17,7 +17,7 @@ namespace ModularPipelines.Eksctl.Services;
 /// eksctl associate commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class EksctlAssociate
+public class EksctlAssociate : IEksctlAssociate
 {
     private readonly ICommandContext _command;
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az appconfig commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzAppConfig
+public class AzAppConfig : IAzAppConfig
 {
     private readonly ICommandContext _command;
     private AzAppConfigCredential? _credential;

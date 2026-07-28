@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud dataproc commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDataproc
+public class GcloudDataproc : IGcloudDataproc
 {
     private readonly ICommandContext _command;
     private GcloudDataprocAutoscalingPolicies? _autoscalingPolicies;

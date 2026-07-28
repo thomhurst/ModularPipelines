@@ -17,7 +17,7 @@ namespace ModularPipelines.Minikube.Services;
 /// minikube profile commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class MinikubeProfile
+public class MinikubeProfile : IMinikubeProfile
 {
     private readonly ICommandContext _command;
 

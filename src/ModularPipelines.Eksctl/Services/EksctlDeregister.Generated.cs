@@ -17,7 +17,7 @@ namespace ModularPipelines.Eksctl.Services;
 /// eksctl deregister commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class EksctlDeregister
+public class EksctlDeregister : IEksctlDeregister
 {
     private readonly ICommandContext _command;
 

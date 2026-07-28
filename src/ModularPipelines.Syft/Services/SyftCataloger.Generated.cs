@@ -17,7 +17,7 @@ namespace ModularPipelines.Syft.Services;
 /// syft cataloger commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class SyftCataloger
+public class SyftCataloger : ISyftCataloger
 {
     private readonly ICommandContext _command;
 

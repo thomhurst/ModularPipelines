@@ -25,13 +25,13 @@ internal partial class Minikube : IMinikube
     /// Initializes a new instance of the <see cref="Minikube"/> class.
     /// </summary>
     public Minikube(
-        MinikubeAddons addons,
-        MinikubeCache cache,
-        MinikubeConfig config,
-        MinikubeImage image,
-        MinikubeNode node,
-        MinikubeProfile profile,
-        MinikubeService service,
+        IMinikubeAddons addons,
+        IMinikubeCache cache,
+        IMinikubeConfig config,
+        IMinikubeImage image,
+        IMinikubeNode node,
+        IMinikubeProfile profile,
+        IMinikubeService service,
         ICommandContext command
     )
     {
@@ -48,25 +48,25 @@ internal partial class Minikube : IMinikube
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public MinikubeAddons Addons { get; }
+    public IMinikubeAddons Addons { get; }
 
     /// <inheritdoc />
-    public MinikubeCache Cache { get; }
+    public IMinikubeCache Cache { get; }
 
     /// <inheritdoc />
-    public MinikubeConfig Config { get; }
+    public IMinikubeConfig Config { get; }
 
     /// <inheritdoc />
-    public MinikubeImage Image { get; }
+    public IMinikubeImage Image { get; }
 
     /// <inheritdoc />
-    public MinikubeNode Node { get; }
+    public IMinikubeNode Node { get; }
 
     /// <inheritdoc />
-    public MinikubeProfile Profile { get; }
+    public IMinikubeProfile Profile { get; }
 
     /// <inheritdoc />
-    public MinikubeService Service { get; }
+    public IMinikubeService Service { get; }
 
     #endregion
 

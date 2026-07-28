@@ -17,7 +17,7 @@ namespace ModularPipelines.Helm.Services;
 /// helm plugin commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class HelmPlugin
+public class HelmPlugin : IHelmPlugin
 {
     private readonly ICommandContext _command;
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud backupdr commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBackupdr
+public class GcloudBackupdr : IGcloudBackupdr
 {
     private readonly ICommandContext _command;
     private GcloudBackupdrBackupPlanAssociations? _backupPlanAssociations;

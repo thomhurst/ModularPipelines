@@ -17,7 +17,7 @@ namespace ModularPipelines.Docker.Services;
 /// docker trust commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class DockerTrust
+public class DockerTrust : IDockerTrust
 {
     private readonly ICommandContext _command;
     private DockerTrustKey? _key;

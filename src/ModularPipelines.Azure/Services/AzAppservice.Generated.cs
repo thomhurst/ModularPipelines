@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az appservice commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzAppservice
+public class AzAppservice : IAzAppservice
 {
     private readonly ICommandContext _command;
     private AzAppserviceAse? _ase;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az managedapp commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzManagedapp
+public class AzManagedapp : IAzManagedapp
 {
     private readonly ICommandContext _command;
     private AzManagedappDefinition? _definition;

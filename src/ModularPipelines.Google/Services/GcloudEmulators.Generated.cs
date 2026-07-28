@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud emulators commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEmulators
+public class GcloudEmulators : IGcloudEmulators
 {
     private readonly ICommandContext _command;
     private GcloudEmulatorsFirestore? _firestore;

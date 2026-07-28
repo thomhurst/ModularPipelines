@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az webapp commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzWebapp
+public class AzWebapp : IAzWebapp
 {
     private readonly ICommandContext _command;
     private AzWebappAuth? _auth;

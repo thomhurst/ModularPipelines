@@ -79,7 +79,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
                 var subDomainClassName = $"{tool.NamespacePrefix}{subDomain}";
                 var rawParamName = char.ToLowerInvariant(subDomain[0]) + subDomain[1..];
                 var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
-                constructorParams.Add($"        {subDomainClassName} {paramName}");
+                constructorParams.Add($"        I{subDomainClassName} {paramName}");
             }
             constructorParams.Add("        ICommandContext command");
 
@@ -122,7 +122,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
             {
                 var subDomainClassName = $"{tool.NamespacePrefix}{subDomain}";
                 sb.AppendLine($"    /// <inheritdoc />");
-                sb.AppendLine($"    public {subDomainClassName} {subDomain} {{ get; }}");
+                sb.AppendLine($"    public I{subDomainClassName} {subDomain} {{ get; }}");
                 sb.AppendLine();
             }
 

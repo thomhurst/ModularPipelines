@@ -37,12 +37,12 @@ public static class KindExtensions
     public static IServiceCollection RegisterKindContext(this IServiceCollection services)
     {
         services.TryAddScoped<IKind, Services.Kind>();
-        services.TryAddScoped<KindBuild>();
-        services.TryAddScoped<KindCreate>();
-        services.TryAddScoped<KindDelete>();
-        services.TryAddScoped<KindExport>();
-        services.TryAddScoped<KindGet>();
-        services.TryAddScoped<KindLoad>();
+        services.TryAddScoped<IKindBuild, KindBuild>();
+        services.TryAddScoped<IKindCreate, KindCreate>();
+        services.TryAddScoped<IKindDelete, KindDelete>();
+        services.TryAddScoped<IKindExport, KindExport>();
+        services.TryAddScoped<IKindGet, KindGet>();
+        services.TryAddScoped<IKindLoad, KindLoad>();
         return services;
     }
 

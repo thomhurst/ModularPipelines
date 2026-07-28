@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud essentialcontacts commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEssentialcontacts
+public class GcloudEssentialcontacts : IGcloudEssentialcontacts
 {
     private readonly ICommandContext _command;
 

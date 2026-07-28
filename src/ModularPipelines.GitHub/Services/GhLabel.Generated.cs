@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh label commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhLabel
+public class GhLabel : IGhLabel
 {
     private readonly ICommandContext _command;
 

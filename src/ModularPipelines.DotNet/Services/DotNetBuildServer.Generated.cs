@@ -17,7 +17,7 @@ namespace ModularPipelines.DotNet.Services;
 /// dotnet buildserver commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class DotNetBuildServer
+public class DotNetBuildServer : IDotNetBuildServer
 {
     private readonly ICommandContext _command;
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux trigger commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxTrigger
+public class FluxTrigger : IFluxTrigger
 {
     private readonly ICommandContext _command;
 

@@ -23,42 +23,42 @@ public partial interface IKubernetes
     /// <summary>
     /// Gets the apply sub-domain service.
     /// </summary>
-    KubernetesApply Apply { get; }
+    IKubernetesApply Apply { get; }
 
     /// <summary>
     /// Gets the auth sub-domain service.
     /// </summary>
-    KubernetesAuth Auth { get; }
+    IKubernetesAuth Auth { get; }
 
     /// <summary>
     /// Gets the certificate sub-domain service.
     /// </summary>
-    KubernetesCertificate Certificate { get; }
+    IKubernetesCertificate Certificate { get; }
 
     /// <summary>
     /// Gets the clusterinfo sub-domain service.
     /// </summary>
-    KubernetesClusterinfo Clusterinfo { get; }
+    IKubernetesClusterinfo Clusterinfo { get; }
 
     /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
-    KubernetesConfig Config { get; }
+    IKubernetesConfig Config { get; }
 
     /// <summary>
     /// Gets the kuberc sub-domain service.
     /// </summary>
-    KubernetesKuberc Kuberc { get; }
+    IKubernetesKuberc Kuberc { get; }
 
     /// <summary>
     /// Gets the rollout sub-domain service.
     /// </summary>
-    KubernetesRollout Rollout { get; }
+    IKubernetesRollout Rollout { get; }
 
     /// <summary>
     /// Gets the top sub-domain service.
     /// </summary>
-    KubernetesTop Top { get; }
+    IKubernetesTop Top { get; }
 
     #endregion
 

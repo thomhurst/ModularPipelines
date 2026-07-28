@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az feature commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzFeature
+public class AzFeature : IAzFeature
 {
     private readonly ICommandContext _command;
     private AzFeatureRegistration? _registration;

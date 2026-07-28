@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux resume commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxResume
+public class FluxResume : IFluxResume
 {
     private readonly ICommandContext _command;
     private FluxResumeImage? _image;

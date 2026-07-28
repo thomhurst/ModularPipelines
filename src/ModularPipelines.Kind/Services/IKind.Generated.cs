@@ -23,32 +23,32 @@ public partial interface IKind
     /// <summary>
     /// Gets the build sub-domain service.
     /// </summary>
-    KindBuild Build { get; }
+    IKindBuild Build { get; }
 
     /// <summary>
     /// Gets the create sub-domain service.
     /// </summary>
-    KindCreate Create { get; }
+    IKindCreate Create { get; }
 
     /// <summary>
     /// Gets the delete sub-domain service.
     /// </summary>
-    KindDelete Delete { get; }
+    IKindDelete Delete { get; }
 
     /// <summary>
     /// Gets the export sub-domain service.
     /// </summary>
-    KindExport Export { get; }
+    IKindExport Export { get; }
 
     /// <summary>
     /// Gets the get sub-domain service.
     /// </summary>
-    KindGet Get { get; }
+    IKindGet Get { get; }
 
     /// <summary>
     /// Gets the load sub-domain service.
     /// </summary>
-    KindLoad Load { get; }
+    IKindLoad Load { get; }
 
     #endregion
 

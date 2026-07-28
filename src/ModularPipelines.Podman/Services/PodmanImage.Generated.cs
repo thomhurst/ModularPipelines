@@ -17,7 +17,7 @@ namespace ModularPipelines.Podman.Services;
 /// podman image commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class PodmanImage
+public class PodmanImage : IPodmanImage
 {
     private readonly ICommandContext _command;
     private PodmanImageTrust? _trust;

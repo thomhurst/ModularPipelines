@@ -23,37 +23,37 @@ public partial interface IMinikube
     /// <summary>
     /// Gets the addons sub-domain service.
     /// </summary>
-    MinikubeAddons Addons { get; }
+    IMinikubeAddons Addons { get; }
 
     /// <summary>
     /// Gets the cache sub-domain service.
     /// </summary>
-    MinikubeCache Cache { get; }
+    IMinikubeCache Cache { get; }
 
     /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
-    MinikubeConfig Config { get; }
+    IMinikubeConfig Config { get; }
 
     /// <summary>
     /// Gets the image sub-domain service.
     /// </summary>
-    MinikubeImage Image { get; }
+    IMinikubeImage Image { get; }
 
     /// <summary>
     /// Gets the node sub-domain service.
     /// </summary>
-    MinikubeNode Node { get; }
+    IMinikubeNode Node { get; }
 
     /// <summary>
     /// Gets the profile sub-domain service.
     /// </summary>
-    MinikubeProfile Profile { get; }
+    IMinikubeProfile Profile { get; }
 
     /// <summary>
     /// Gets the service sub-domain service.
     /// </summary>
-    MinikubeService Service { get; }
+    IMinikubeService Service { get; }
 
     #endregion
 

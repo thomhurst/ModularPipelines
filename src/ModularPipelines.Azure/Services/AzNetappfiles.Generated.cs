@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az netappfiles commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzNetappfiles
+public class AzNetappfiles : IAzNetappfiles
 {
     private readonly ICommandContext _command;
     private AzNetappfilesAccount? _account;

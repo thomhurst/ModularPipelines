@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az backup commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzBackup
+public class AzBackup : IAzBackup
 {
     private readonly ICommandContext _command;
     private AzBackupContainer? _container;

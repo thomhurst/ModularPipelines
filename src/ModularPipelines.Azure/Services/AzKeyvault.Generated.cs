@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az keyvault commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzKeyvault
+public class AzKeyvault : IAzKeyvault
 {
     private readonly ICommandContext _command;
     private AzKeyvaultBackup? _backup;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az functionapp commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzFunctionapp
+public class AzFunctionapp : IAzFunctionapp
 {
     private readonly ICommandContext _command;
     private AzFunctionappConfig? _config;

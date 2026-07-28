@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az batch commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzBatch
+public class AzBatch : IAzBatch
 {
     private readonly ICommandContext _command;
     private AzBatchAccount? _account;

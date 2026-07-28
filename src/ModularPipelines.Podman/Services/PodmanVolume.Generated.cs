@@ -17,7 +17,7 @@ namespace ModularPipelines.Podman.Services;
 /// podman volume commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class PodmanVolume
+public class PodmanVolume : IPodmanVolume
 {
     private readonly ICommandContext _command;
 

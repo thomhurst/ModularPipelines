@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud datastream commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatastream
+public class GcloudDatastream : IGcloudDatastream
 {
     private readonly ICommandContext _command;
     private GcloudDatastreamConnectionProfiles? _connectionProfiles;

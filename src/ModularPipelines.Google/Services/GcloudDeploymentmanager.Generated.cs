@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud deploymentmanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDeploymentmanager
+public class GcloudDeploymentmanager : IGcloudDeploymentmanager
 {
     private readonly ICommandContext _command;
     private GcloudDeploymentmanagerDeployments? _deployments;

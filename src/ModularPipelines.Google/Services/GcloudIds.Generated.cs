@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud ids commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudIds
+public class GcloudIds : IGcloudIds
 {
     private readonly ICommandContext _command;
     private GcloudIdsEndpoints? _endpoints;

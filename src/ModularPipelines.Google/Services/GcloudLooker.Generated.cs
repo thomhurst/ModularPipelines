@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud looker commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudLooker
+public class GcloudLooker : IGcloudLooker
 {
     private readonly ICommandContext _command;
     private GcloudLookerBackups? _backups;

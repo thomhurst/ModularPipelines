@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud privateca commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudPrivateca
+public class GcloudPrivateca : IGcloudPrivateca
 {
     private readonly ICommandContext _command;
     private GcloudPrivatecaCertificates? _certificates;

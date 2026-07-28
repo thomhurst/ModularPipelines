@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud anthos commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAnthos
+public class GcloudAnthos : IGcloudAnthos
 {
     private readonly ICommandContext _command;
     private GcloudAnthosAuth? _auth;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud kms commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudKms
+public class GcloudKms : IGcloudKms
 {
     private readonly ICommandContext _command;
     private GcloudKmsAutokeyConfig? _autokeyConfig;

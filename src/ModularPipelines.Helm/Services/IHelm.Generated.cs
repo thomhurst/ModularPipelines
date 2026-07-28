@@ -23,37 +23,37 @@ public partial interface IHelm
     /// <summary>
     /// Gets the dependency sub-domain service.
     /// </summary>
-    HelmDependency Dependency { get; }
+    IHelmDependency Dependency { get; }
 
     /// <summary>
     /// Gets the get sub-domain service.
     /// </summary>
-    HelmGet Get { get; }
+    IHelmGet Get { get; }
 
     /// <summary>
     /// Gets the plugin sub-domain service.
     /// </summary>
-    HelmPlugin Plugin { get; }
+    IHelmPlugin Plugin { get; }
 
     /// <summary>
     /// Gets the registry sub-domain service.
     /// </summary>
-    HelmRegistry Registry { get; }
+    IHelmRegistry Registry { get; }
 
     /// <summary>
     /// Gets the repo sub-domain service.
     /// </summary>
-    HelmRepo Repo { get; }
+    IHelmRepo Repo { get; }
 
     /// <summary>
     /// Gets the search sub-domain service.
     /// </summary>
-    HelmSearch Search { get; }
+    IHelmSearch Search { get; }
 
     /// <summary>
     /// Gets the show sub-domain service.
     /// </summary>
-    HelmShow Show { get; }
+    IHelmShow Show { get; }
 
     #endregion
 

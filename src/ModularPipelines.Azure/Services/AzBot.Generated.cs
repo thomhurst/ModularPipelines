@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az bot commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzBot
+public class AzBot : IAzBot
 {
     private readonly ICommandContext _command;
     private AzBotAuthsetting? _authsetting;

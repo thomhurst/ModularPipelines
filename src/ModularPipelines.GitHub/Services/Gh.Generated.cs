@@ -25,26 +25,26 @@ internal partial class Gh : IGh
     /// Initializes a new instance of the <see cref="Gh"/> class.
     /// </summary>
     public Gh(
-        GhAgenttask agenttask,
-        GhAttestation attestation,
-        GhAuth auth,
-        GhCache cache,
-        GhCodespace codespace,
-        GhConfig config,
-        GhExtension extension,
-        GhGist gist,
-        GhGpgkey gpgkey,
-        GhLabel label,
-        GhPreview preview,
-        GhProject project,
-        GhRuleset ruleset,
-        GhRun run,
-        GhSearch search,
-        GhSecret secret,
-        GhSkill skill,
-        GhSshkey sshkey,
-        GhVariable variable,
-        GhWorkflow workflow,
+        IGhAgenttask agenttask,
+        IGhAttestation attestation,
+        IGhAuth auth,
+        IGhCache cache,
+        IGhCodespace codespace,
+        IGhConfig config,
+        IGhExtension extension,
+        IGhGist gist,
+        IGhGpgkey gpgkey,
+        IGhLabel label,
+        IGhPreview preview,
+        IGhProject project,
+        IGhRuleset ruleset,
+        IGhRun run,
+        IGhSearch search,
+        IGhSecret secret,
+        IGhSkill skill,
+        IGhSshkey sshkey,
+        IGhVariable variable,
+        IGhWorkflow workflow,
         ICommandContext command
     )
     {
@@ -74,64 +74,64 @@ internal partial class Gh : IGh
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public GhAgenttask Agenttask { get; }
+    public IGhAgenttask Agenttask { get; }
 
     /// <inheritdoc />
-    public GhAttestation Attestation { get; }
+    public IGhAttestation Attestation { get; }
 
     /// <inheritdoc />
-    public GhAuth Auth { get; }
+    public IGhAuth Auth { get; }
 
     /// <inheritdoc />
-    public GhCache Cache { get; }
+    public IGhCache Cache { get; }
 
     /// <inheritdoc />
-    public GhCodespace Codespace { get; }
+    public IGhCodespace Codespace { get; }
 
     /// <inheritdoc />
-    public GhConfig Config { get; }
+    public IGhConfig Config { get; }
 
     /// <inheritdoc />
-    public GhExtension Extension { get; }
+    public IGhExtension Extension { get; }
 
     /// <inheritdoc />
-    public GhGist Gist { get; }
+    public IGhGist Gist { get; }
 
     /// <inheritdoc />
-    public GhGpgkey Gpgkey { get; }
+    public IGhGpgkey Gpgkey { get; }
 
     /// <inheritdoc />
-    public GhLabel Label { get; }
+    public IGhLabel Label { get; }
 
     /// <inheritdoc />
-    public GhPreview Preview { get; }
+    public IGhPreview Preview { get; }
 
     /// <inheritdoc />
-    public GhProject Project { get; }
+    public IGhProject Project { get; }
 
     /// <inheritdoc />
-    public GhRuleset Ruleset { get; }
+    public IGhRuleset Ruleset { get; }
 
     /// <inheritdoc />
-    public GhRun Run { get; }
+    public IGhRun Run { get; }
 
     /// <inheritdoc />
-    public GhSearch Search { get; }
+    public IGhSearch Search { get; }
 
     /// <inheritdoc />
-    public GhSecret Secret { get; }
+    public IGhSecret Secret { get; }
 
     /// <inheritdoc />
-    public GhSkill Skill { get; }
+    public IGhSkill Skill { get; }
 
     /// <inheritdoc />
-    public GhSshkey Sshkey { get; }
+    public IGhSshkey Sshkey { get; }
 
     /// <inheritdoc />
-    public GhVariable Variable { get; }
+    public IGhVariable Variable { get; }
 
     /// <inheritdoc />
-    public GhWorkflow Workflow { get; }
+    public IGhWorkflow Workflow { get; }
 
     #endregion
 

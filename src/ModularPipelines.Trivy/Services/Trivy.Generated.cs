@@ -25,10 +25,10 @@ internal partial class Trivy : ITrivy
     /// Initializes a new instance of the <see cref="Trivy"/> class.
     /// </summary>
     public Trivy(
-        TrivyModule module,
-        TrivyPlugin plugin,
-        TrivyRegistry registry,
-        TrivyVex vex,
+        ITrivyModule module,
+        ITrivyPlugin plugin,
+        ITrivyRegistry registry,
+        ITrivyVex vex,
         ICommandContext command
     )
     {
@@ -42,16 +42,16 @@ internal partial class Trivy : ITrivy
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public TrivyModule Module { get; }
+    public ITrivyModule Module { get; }
 
     /// <inheritdoc />
-    public TrivyPlugin Plugin { get; }
+    public ITrivyPlugin Plugin { get; }
 
     /// <inheritdoc />
-    public TrivyRegistry Registry { get; }
+    public ITrivyRegistry Registry { get; }
 
     /// <inheritdoc />
-    public TrivyVex Vex { get; }
+    public ITrivyVex Vex { get; }
 
     #endregion
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud bms commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBms
+public class GcloudBms : IGcloudBms
 {
     private readonly ICommandContext _command;
     private GcloudBmsInstances? _instances;

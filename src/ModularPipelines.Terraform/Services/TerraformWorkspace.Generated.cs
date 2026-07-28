@@ -17,7 +17,7 @@ namespace ModularPipelines.Terraform.Services;
 /// terraform workspace commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class TerraformWorkspace
+public class TerraformWorkspace : ITerraformWorkspace
 {
     private readonly ICommandContext _command;
 

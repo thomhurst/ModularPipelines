@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh sshkey commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhSshkey
+public class GhSshkey : IGhSshkey
 {
     private readonly ICommandContext _command;
 

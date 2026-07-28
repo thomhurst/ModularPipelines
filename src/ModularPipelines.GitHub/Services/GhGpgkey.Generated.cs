@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh gpgkey commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhGpgkey
+public class GhGpgkey : IGhGpgkey
 {
     private readonly ICommandContext _command;
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Cosign.Services;
 /// cosign pkcs11tool commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class CosignPkcs11Tool
+public class CosignPkcs11Tool : ICosignPkcs11Tool
 {
     private readonly ICommandContext _command;
 

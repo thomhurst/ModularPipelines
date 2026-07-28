@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud accesscontextmanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAccesscontextmanager
+public class GcloudAccesscontextmanager : IGcloudAccesscontextmanager
 {
     private readonly ICommandContext _command;
     private GcloudAccesscontextmanagerAuthorizedOrgs? _authorizedOrgs;

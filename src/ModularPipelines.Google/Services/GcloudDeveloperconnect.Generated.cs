@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud developerconnect commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDeveloperconnect
+public class GcloudDeveloperconnect : IGcloudDeveloperconnect
 {
     private readonly ICommandContext _command;
     private GcloudDeveloperconnectConnections? _connections;

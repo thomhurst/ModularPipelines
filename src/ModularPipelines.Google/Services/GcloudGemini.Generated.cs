@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud gemini commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudGemini
+public class GcloudGemini : IGcloudGemini
 {
     private readonly ICommandContext _command;
     private GcloudGeminiCodeRepositoryIndexes? _codeRepositoryIndexes;

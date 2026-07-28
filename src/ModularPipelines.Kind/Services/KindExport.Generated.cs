@@ -17,7 +17,7 @@ namespace ModularPipelines.Kind.Services;
 /// kind export commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KindExport
+public class KindExport : IKindExport
 {
     private readonly ICommandContext _command;
 

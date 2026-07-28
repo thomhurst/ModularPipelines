@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud scc commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudScc
+public class GcloudScc : IGcloudScc
 {
     private readonly ICommandContext _command;
     private GcloudSccAssets? _assets;

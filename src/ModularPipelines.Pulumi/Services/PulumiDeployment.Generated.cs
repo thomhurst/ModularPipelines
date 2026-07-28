@@ -17,7 +17,7 @@ namespace ModularPipelines.Pulumi.Services;
 /// pulumi deployment commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class PulumiDeployment
+public class PulumiDeployment : IPulumiDeployment
 {
     private readonly ICommandContext _command;
     private PulumiDeploymentSettings? _settings;

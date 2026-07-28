@@ -17,7 +17,7 @@ namespace ModularPipelines.Eksctl.Services;
 /// eksctl unset commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class EksctlUnset
+public class EksctlUnset : IEksctlUnset
 {
     private readonly ICommandContext _command;
 

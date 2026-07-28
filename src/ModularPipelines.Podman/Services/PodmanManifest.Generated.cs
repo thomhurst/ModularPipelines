@@ -17,7 +17,7 @@ namespace ModularPipelines.Podman.Services;
 /// podman manifest commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class PodmanManifest
+public class PodmanManifest : IPodmanManifest
 {
     private readonly ICommandContext _command;
 

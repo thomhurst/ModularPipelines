@@ -17,7 +17,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// kubectl kuberc commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KubernetesKuberc
+public class KubernetesKuberc : IKubernetesKuberc
 {
     private readonly ICommandContext _command;
 

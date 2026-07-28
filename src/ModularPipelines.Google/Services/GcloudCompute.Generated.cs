@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud compute commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCompute
+public class GcloudCompute : IGcloudCompute
 {
     private readonly ICommandContext _command;
     private GcloudComputeAcceleratorTypes? _acceleratorTypes;

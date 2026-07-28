@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud biglake commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBiglake
+public class GcloudBiglake : IGcloudBiglake
 {
     private readonly ICommandContext _command;
     private GcloudBiglakeDataProductSharing? _dataProductSharing;

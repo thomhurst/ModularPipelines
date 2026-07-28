@@ -17,7 +17,7 @@ namespace ModularPipelines.Trivy.Services;
 /// trivy registry commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class TrivyRegistry
+public class TrivyRegistry : ITrivyRegistry
 {
     private readonly ICommandContext _command;
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az ad commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzAd
+public class AzAd : IAzAd
 {
     private readonly ICommandContext _command;
     private AzAdApp? _app;

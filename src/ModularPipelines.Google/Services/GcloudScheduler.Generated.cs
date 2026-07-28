@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud scheduler commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudScheduler
+public class GcloudScheduler : IGcloudScheduler
 {
     private readonly ICommandContext _command;
     private GcloudSchedulerCmekConfig? _cmekConfig;

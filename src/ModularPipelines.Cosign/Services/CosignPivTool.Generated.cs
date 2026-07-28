@@ -17,7 +17,7 @@ namespace ModularPipelines.Cosign.Services;
 /// cosign pivtool commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class CosignPivTool
+public class CosignPivTool : ICosignPivTool
 {
     private readonly ICommandContext _command;
 

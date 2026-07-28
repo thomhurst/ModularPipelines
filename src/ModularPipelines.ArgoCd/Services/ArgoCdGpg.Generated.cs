@@ -17,7 +17,7 @@ namespace ModularPipelines.ArgoCd.Services;
 /// argocd gpg commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class ArgoCdGpg
+public class ArgoCdGpg : IArgoCdGpg
 {
     private readonly ICommandContext _command;
 

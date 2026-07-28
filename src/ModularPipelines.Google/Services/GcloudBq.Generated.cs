@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud bq commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBq
+public class GcloudBq : IGcloudBq
 {
     private readonly ICommandContext _command;
     private GcloudBqMigrationWorkflows? _migrationWorkflows;

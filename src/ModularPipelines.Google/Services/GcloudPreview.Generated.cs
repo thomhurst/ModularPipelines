@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud preview commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudPreview
+public class GcloudPreview : IGcloudPreview
 {
     private readonly ICommandContext _command;
     private GcloudPreviewCompute? _compute;

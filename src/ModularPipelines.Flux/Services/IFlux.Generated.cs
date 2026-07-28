@@ -23,92 +23,92 @@ public partial interface IFlux
     /// <summary>
     /// Gets the bootstrap sub-domain service.
     /// </summary>
-    FluxBootstrap Bootstrap { get; }
+    IFluxBootstrap Bootstrap { get; }
 
     /// <summary>
     /// Gets the build sub-domain service.
     /// </summary>
-    FluxBuild Build { get; }
+    IFluxBuild Build { get; }
 
     /// <summary>
     /// Gets the create sub-domain service.
     /// </summary>
-    FluxCreate Create { get; }
+    IFluxCreate Create { get; }
 
     /// <summary>
     /// Gets the debug sub-domain service.
     /// </summary>
-    FluxDebug Debug { get; }
+    IFluxDebug Debug { get; }
 
     /// <summary>
     /// Gets the delete sub-domain service.
     /// </summary>
-    FluxDelete Delete { get; }
+    IFluxDelete Delete { get; }
 
     /// <summary>
     /// Gets the diff sub-domain service.
     /// </summary>
-    FluxDiff Diff { get; }
+    IFluxDiff Diff { get; }
 
     /// <summary>
     /// Gets the export sub-domain service.
     /// </summary>
-    FluxExport Export { get; }
+    IFluxExport Export { get; }
 
     /// <summary>
     /// Gets the get sub-domain service.
     /// </summary>
-    FluxGet Get { get; }
+    IFluxGet Get { get; }
 
     /// <summary>
     /// Gets the list sub-domain service.
     /// </summary>
-    FluxList List { get; }
+    IFluxList List { get; }
 
     /// <summary>
     /// Gets the plugin sub-domain service.
     /// </summary>
-    FluxPlugin Plugin { get; }
+    IFluxPlugin Plugin { get; }
 
     /// <summary>
     /// Gets the pull sub-domain service.
     /// </summary>
-    FluxPull Pull { get; }
+    IFluxPull Pull { get; }
 
     /// <summary>
     /// Gets the push sub-domain service.
     /// </summary>
-    FluxPush Push { get; }
+    IFluxPush Push { get; }
 
     /// <summary>
     /// Gets the reconcile sub-domain service.
     /// </summary>
-    FluxReconcile Reconcile { get; }
+    IFluxReconcile Reconcile { get; }
 
     /// <summary>
     /// Gets the resume sub-domain service.
     /// </summary>
-    FluxResume Resume { get; }
+    IFluxResume Resume { get; }
 
     /// <summary>
     /// Gets the suspend sub-domain service.
     /// </summary>
-    FluxSuspend Suspend { get; }
+    IFluxSuspend Suspend { get; }
 
     /// <summary>
     /// Gets the tag sub-domain service.
     /// </summary>
-    FluxTag Tag { get; }
+    IFluxTag Tag { get; }
 
     /// <summary>
     /// Gets the tree sub-domain service.
     /// </summary>
-    FluxTree Tree { get; }
+    IFluxTree Tree { get; }
 
     /// <summary>
     /// Gets the trigger sub-domain service.
     /// </summary>
-    FluxTrigger Trigger { get; }
+    IFluxTrigger Trigger { get; }
 
     #endregion
 

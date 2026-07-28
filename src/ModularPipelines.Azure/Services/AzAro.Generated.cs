@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az aro commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzAro
+public class AzAro : IAzAro
 {
     private readonly ICommandContext _command;
 

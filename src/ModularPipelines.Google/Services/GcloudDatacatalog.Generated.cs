@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud datacatalog commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatacatalog
+public class GcloudDatacatalog : IGcloudDatacatalog
 {
     private readonly ICommandContext _command;
     private GcloudDatacatalogEntries? _entries;

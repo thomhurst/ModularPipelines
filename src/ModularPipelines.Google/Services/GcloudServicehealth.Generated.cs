@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud servicehealth commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServicehealth
+public class GcloudServicehealth : IGcloudServicehealth
 {
     private readonly ICommandContext _command;
     private GcloudServicehealthEvents? _events;

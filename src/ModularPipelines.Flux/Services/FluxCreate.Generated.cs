@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux create commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxCreate
+public class FluxCreate : IFluxCreate
 {
     private readonly ICommandContext _command;
     private FluxCreateImage? _image;

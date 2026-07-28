@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud run commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudRun
+public class GcloudRun : IGcloudRun
 {
     private readonly ICommandContext _command;
     private GcloudRunCompose? _compose;

@@ -90,6 +90,8 @@ public class SubDomainClassGenerator : ICodeGenerator
             }
         }
 
+        var excludedCommands = collidingCommands.Values.ToHashSet();
+
         // Generate the command represented by this node as Execute(). Root nodes receive
         // their top-level command; nested nodes receive a command that collided with the
         // child property used to reach them.
@@ -97,7 +99,24 @@ public class SubDomainClassGenerator : ICodeGenerator
             node,
             tool,
             parentCommand,
-            collidingCommands.Values.ToHashSet());
+            excludedCommands);
+
+        if (node.Depth == 0)
+        {
+            var interfaceContent = GenerateNodeInterface(
+                node,
+                tool,
+                parentCommand,
+                excludedCommands);
+            var interfaceFileName = $"I{node.ClassName}.Generated.cs";
+            var interfaceRelativePath = Path.Combine(tool.OutputDirectory, "Services", interfaceFileName);
+
+            files.Add(new GeneratedFile
+            {
+                RelativePath = interfaceRelativePath,
+                Content = interfaceContent
+            });
+        }
 
         var fileName = $"{node.ClassName}.Generated.cs";
         var relativePath = Path.Combine(tool.OutputDirectory, "Services", fileName);
@@ -115,6 +134,62 @@ public class SubDomainClassGenerator : ICodeGenerator
             collidingCommands.TryGetValue(child.Segment, out var childParentCommand);
             GenerateFilesFromTree(child, tool, files, childParentCommand);
         }
+    }
+
+    private static string GenerateNodeInterface(
+        CommandTreeNode node,
+        CliToolDefinition tool,
+        CliCommandDefinition? parentCommand,
+        HashSet<CliCommandDefinition> excludedCommands)
+    {
+        var sb = new StringBuilder();
+
+        GeneratorUtils.GenerateFileHeaderWithNullable(sb);
+
+        sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine("using ModularPipelines.Models;");
+        sb.AppendLine("using ModularPipelines.Options;");
+        sb.AppendLine($"using {tool.TargetNamespace}.Options;");
+        sb.AppendLine();
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Services;");
+        sb.AppendLine();
+        sb.AppendLine("/// <summary>");
+        sb.AppendLine($"/// {tool.ToolName} {node.Segment.ToLowerInvariant()} commands.");
+        sb.AppendLine("/// </summary>");
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
+        sb.AppendLine($"public interface I{node.ClassName}");
+        sb.AppendLine("{");
+
+        foreach (var child in node.Children.Values.OrderBy(child => child.PascalSegment))
+        {
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// {tool.ToolName} {child.Segment.ToLowerInvariant()} sub-commands.");
+            sb.AppendLine("    /// </summary>");
+            sb.AppendLine($"    {child.ClassName} {child.PascalSegment} {{ get; }}");
+            sb.AppendLine();
+        }
+
+        var commands = node.Commands
+            .Where(command => !excludedCommands.Contains(command))
+            .ToList();
+        EnsureUniquePublicMemberNames(tool, node, commands, parentCommand);
+
+        if (parentCommand is not null)
+        {
+            GeneratorUtils.GenerateServiceMethodSignature(sb, "Execute", parentCommand);
+            sb.AppendLine();
+        }
+
+        foreach (var command in commands.OrderBy(command => command.ClassName))
+        {
+            var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
+            GeneratorUtils.GenerateServiceMethodSignature(sb, methodName, command);
+            sb.AppendLine();
+        }
+
+        sb.AppendLine("}");
+
+        return sb.ToString();
     }
 
     private static string GenerateNodeClass(
@@ -143,7 +218,8 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine($"/// {tool.ToolName} {node.Segment.ToLowerInvariant()} commands.");
         sb.AppendLine($"/// </summary>");
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
-        sb.AppendLine($"public class {node.ClassName}");
+        var interfaceClause = node.Depth == 0 ? $" : I{node.ClassName}" : string.Empty;
+        sb.AppendLine($"public class {node.ClassName}{interfaceClause}");
         sb.AppendLine("{");
 
         // Private field for ICommandContext

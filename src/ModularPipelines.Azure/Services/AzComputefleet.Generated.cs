@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az computefleet commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzComputefleet
+public class AzComputefleet : IAzComputefleet
 {
     private readonly ICommandContext _command;
 

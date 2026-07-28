@@ -17,7 +17,7 @@ namespace ModularPipelines.Pulumi.Services;
 /// pulumi logs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class PulumiLogs
+public class PulumiLogs : IPulumiLogs
 {
     private readonly ICommandContext _command;
 

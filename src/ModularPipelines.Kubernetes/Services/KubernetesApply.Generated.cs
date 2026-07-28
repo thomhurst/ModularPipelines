@@ -17,7 +17,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// kubectl apply commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KubernetesApply
+public class KubernetesApply : IKubernetesApply
 {
     private readonly ICommandContext _command;
 

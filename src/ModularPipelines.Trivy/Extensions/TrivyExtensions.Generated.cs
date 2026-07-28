@@ -37,10 +37,10 @@ public static class TrivyExtensions
     public static IServiceCollection RegisterTrivyContext(this IServiceCollection services)
     {
         services.TryAddScoped<ITrivy, Services.Trivy>();
-        services.TryAddScoped<TrivyModule>();
-        services.TryAddScoped<TrivyPlugin>();
-        services.TryAddScoped<TrivyRegistry>();
-        services.TryAddScoped<TrivyVex>();
+        services.TryAddScoped<ITrivyModule, TrivyModule>();
+        services.TryAddScoped<ITrivyPlugin, TrivyPlugin>();
+        services.TryAddScoped<ITrivyRegistry, TrivyRegistry>();
+        services.TryAddScoped<ITrivyVex, TrivyVex>();
         return services;
     }
 

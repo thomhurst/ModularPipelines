@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az capacity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzCapacity
+public class AzCapacity : IAzCapacity
 {
     private readonly ICommandContext _command;
     private AzCapacityReservation? _reservation;

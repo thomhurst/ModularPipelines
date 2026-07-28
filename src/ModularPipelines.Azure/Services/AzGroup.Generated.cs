@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az group commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzGroup
+public class AzGroup : IAzGroup
 {
     private readonly ICommandContext _command;
     private AzGroupLock? _lock;

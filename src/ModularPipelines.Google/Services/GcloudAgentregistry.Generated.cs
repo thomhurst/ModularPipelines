@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud agentregistry commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAgentregistry
+public class GcloudAgentregistry : IGcloudAgentregistry
 {
     private readonly ICommandContext _command;
     private GcloudAgentregistryAgents? _agents;

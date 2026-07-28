@@ -25,7 +25,7 @@ internal partial class Grype : IGrype
     /// Initializes a new instance of the <see cref="Grype"/> class.
     /// </summary>
     public Grype(
-        GrypeDb db,
+        IGrypeDb db,
         ICommandContext command
     )
     {
@@ -36,7 +36,7 @@ internal partial class Grype : IGrype
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public GrypeDb Db { get; }
+    public IGrypeDb Db { get; }
 
     #endregion
 

@@ -23,22 +23,22 @@ public partial interface ITrivy
     /// <summary>
     /// Gets the module sub-domain service.
     /// </summary>
-    TrivyModule Module { get; }
+    ITrivyModule Module { get; }
 
     /// <summary>
     /// Gets the plugin sub-domain service.
     /// </summary>
-    TrivyPlugin Plugin { get; }
+    ITrivyPlugin Plugin { get; }
 
     /// <summary>
     /// Gets the registry sub-domain service.
     /// </summary>
-    TrivyRegistry Registry { get; }
+    ITrivyRegistry Registry { get; }
 
     /// <summary>
     /// Gets the vex sub-domain service.
     /// </summary>
-    TrivyVex Vex { get; }
+    ITrivyVex Vex { get; }
 
     #endregion
 

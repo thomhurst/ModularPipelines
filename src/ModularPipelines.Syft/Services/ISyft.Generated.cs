@@ -23,12 +23,12 @@ public partial interface ISyft
     /// <summary>
     /// Gets the cataloger sub-domain service.
     /// </summary>
-    SyftCataloger Cataloger { get; }
+    ISyftCataloger Cataloger { get; }
 
     /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
-    SyftConfig Config { get; }
+    ISyftConfig Config { get; }
 
     #endregion
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud vmware commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudVmware
+public class GcloudVmware : IGcloudVmware
 {
     private readonly ICommandContext _command;
     private GcloudVmwareAnnouncements? _announcements;

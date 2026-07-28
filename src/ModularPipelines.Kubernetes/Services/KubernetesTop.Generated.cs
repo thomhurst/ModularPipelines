@@ -17,7 +17,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// kubectl top commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class KubernetesTop
+public class KubernetesTop : IKubernetesTop
 {
     private readonly ICommandContext _command;
 

@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az container commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzContainer
+public class AzContainer : IAzContainer
 {
     private readonly ICommandContext _command;
     private AzContainerContainerGroupProfile? _containerGroupProfile;

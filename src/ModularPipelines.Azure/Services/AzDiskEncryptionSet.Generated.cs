@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az diskencryptionset commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzDiskEncryptionSet
+public class AzDiskEncryptionSet : IAzDiskEncryptionSet
 {
     private readonly ICommandContext _command;
     private AzDiskEncryptionSetIdentity? _identity;

@@ -17,7 +17,7 @@ namespace ModularPipelines.Flux.Services;
 /// flux export commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class FluxExport
+public class FluxExport : IFluxExport
 {
     private readonly ICommandContext _command;
     private FluxExportArtifact? _artifact;

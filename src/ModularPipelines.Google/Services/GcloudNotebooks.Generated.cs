@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud notebooks commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNotebooks
+public class GcloudNotebooks : IGcloudNotebooks
 {
     private readonly ICommandContext _command;
     private GcloudNotebooksEnvironments? _environments;

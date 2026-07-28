@@ -37,10 +37,10 @@ public static class TerraformExtensions
     public static IServiceCollection RegisterTerraformContext(this IServiceCollection services)
     {
         services.TryAddScoped<ITerraform, Services.Terraform>();
-        services.TryAddScoped<TerraformProviders>();
-        services.TryAddScoped<TerraformStacks>();
-        services.TryAddScoped<TerraformState>();
-        services.TryAddScoped<TerraformWorkspace>();
+        services.TryAddScoped<ITerraformProviders, TerraformProviders>();
+        services.TryAddScoped<ITerraformStacks, TerraformStacks>();
+        services.TryAddScoped<ITerraformState, TerraformState>();
+        services.TryAddScoped<ITerraformWorkspace, TerraformWorkspace>();
         return services;
     }
 

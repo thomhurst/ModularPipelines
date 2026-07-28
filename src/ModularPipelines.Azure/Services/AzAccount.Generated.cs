@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az account commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzAccount
+public class AzAccount : IAzAccount
 {
     private readonly ICommandContext _command;
     private AzAccountLock? _lock;

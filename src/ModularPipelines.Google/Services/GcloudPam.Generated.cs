@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud pam commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudPam
+public class GcloudPam : IGcloudPam
 {
     private readonly ICommandContext _command;
     private GcloudPamEntitlements? _entitlements;

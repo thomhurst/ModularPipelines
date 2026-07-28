@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud accessapproval commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAccessapproval
+public class GcloudAccessapproval : IGcloudAccessapproval
 {
     private readonly ICommandContext _command;
     private GcloudAccessapprovalRequests? _requests;

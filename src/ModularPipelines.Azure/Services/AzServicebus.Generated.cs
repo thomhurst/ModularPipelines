@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az servicebus commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzServicebus
+public class AzServicebus : IAzServicebus
 {
     private readonly ICommandContext _command;
     private AzServicebusGeorecoveryAlias? _georecoveryAlias;

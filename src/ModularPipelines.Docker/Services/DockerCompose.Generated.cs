@@ -17,7 +17,7 @@ namespace ModularPipelines.Docker.Services;
 /// docker compose commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class DockerCompose
+public class DockerCompose : IDockerCompose
 {
     private readonly ICommandContext _command;
     private DockerComposeBridge? _bridge;

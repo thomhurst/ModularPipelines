@@ -17,7 +17,7 @@ namespace ModularPipelines.Google.Services;
 /// gcloud sql commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudSql
+public class GcloudSql : IGcloudSql
 {
     private readonly ICommandContext _command;
     private GcloudSqlBackups? _backups;

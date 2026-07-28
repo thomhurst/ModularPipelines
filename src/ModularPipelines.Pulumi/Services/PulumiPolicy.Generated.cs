@@ -17,7 +17,7 @@ namespace ModularPipelines.Pulumi.Services;
 /// pulumi policy commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public class PulumiPolicy
+public class PulumiPolicy : IPulumiPolicy
 {
     private readonly ICommandContext _command;
     private PulumiPolicyCompliance? _compliance;

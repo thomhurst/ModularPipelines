@@ -17,7 +17,7 @@ namespace ModularPipelines.ArgoCd.Services;
 /// argocd cert commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class ArgoCdCert
+public class ArgoCdCert : IArgoCdCert
 {
     private readonly ICommandContext _command;
 

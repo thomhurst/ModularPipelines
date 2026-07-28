@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az network commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzNetwork
+public class AzNetwork : IAzNetwork
 {
     private readonly ICommandContext _command;
     private AzNetworkApplicationGateway? _applicationGateway;

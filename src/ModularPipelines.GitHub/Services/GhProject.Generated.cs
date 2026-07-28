@@ -17,7 +17,7 @@ namespace ModularPipelines.GitHub.Services;
 /// gh project commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GhProject
+public class GhProject : IGhProject
 {
     private readonly ICommandContext _command;
 

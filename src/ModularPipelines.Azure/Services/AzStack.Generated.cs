@@ -17,7 +17,7 @@ namespace ModularPipelines.Azure.Services;
 /// az stack commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzStack
+public class AzStack : IAzStack
 {
     private readonly ICommandContext _command;
     private AzStackGroup? _group;
