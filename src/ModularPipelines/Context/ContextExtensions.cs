@@ -26,9 +26,7 @@ public static class ContextExtensions
     /// </example>
     public static T GetService<T>(this IPipelineContext context) where T : class
     {
-        return context.Services.Get<T>() ?? throw new InvalidOperationException(
-            $"Service '{typeof(T).FullName}' is not registered in the service provider. " +
-            $"Ensure the service is registered during pipeline configuration.");
+        return context.Services.Get<T>();
     }
 
     /// <summary>
@@ -48,7 +46,7 @@ public static class ContextExtensions
     /// </example>
     public static T? TryGetService<T>(this IPipelineContext context) where T : class
     {
-        return context.Services.Get<T>();
+        return context.Services.TryGet<T>();
     }
 
     /// <summary>
