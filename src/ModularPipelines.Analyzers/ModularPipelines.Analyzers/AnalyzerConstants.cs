@@ -66,9 +66,9 @@ internal static class AnalyzerConstants
         internal const string FromResult = "FromResult";
 
         /// <summary>
-        /// The OnAfterExecute method name from Module.
+        /// The OnAfterExecuteAsync method name from Module.
         /// </summary>
-        internal const string OnAfterExecute = "OnAfterExecute";
+        internal const string OnAfterExecuteAsync = "OnAfterExecuteAsync";
     }
 
     /// <summary>
