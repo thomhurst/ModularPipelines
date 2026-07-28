@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Text;
 using System.Threading.Channels;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -90,18 +91,20 @@ public class ModuleExecutorLoggingTests
     [Test]
     public async Task WaitForAllModules_WorkerFault_DoesNotStopRemainingModules()
     {
-        var readyModules = Channel.CreateUnbounded<ModuleState>();
-        readyModules.Writer.TryWrite(new ModuleState(new FaultingModule(), typeof(FaultingModule)));
-        readyModules.Writer.TryWrite(new ModuleState(new LaterModule(), typeof(LaterModule)));
-        readyModules.Writer.Complete();
-
-        var scheduler = new Mock<IModuleScheduler>();
-        scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
-        scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>()))
-            .Returns(Task.CompletedTask);
-
+        var dependencyRegistry = new ModuleDependencyRegistry();
+        var metadataRegistry = new ModuleMetadataRegistry(
+            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()));
+        var scheduler = new ModuleScheduler(
+            NullLogger.Instance,
+            TimeProvider.System,
+            Microsoft.Extensions.Options.Options.Create(new SchedulerOptions()),
+            dependencyRegistry,
+            metadataRegistry,
+            Mock.Of<IMetricsCollector>(),
+            new ModuleConstraintEvaluator(NullLogger<ModuleConstraintEvaluator>.Instance),
+            Mock.Of<ISchedulerStatusReporter>());
         var schedulerFactory = new Mock<IModuleSchedulerFactory>();
-        schedulerFactory.Setup(x => x.Create()).Returns(scheduler.Object);
+        schedulerFactory.Setup(x => x.Create()).Returns(scheduler);
 
         var registrationEvents = new Mock<IRegistrationEventExecutor>();
         registrationEvents.Setup(x => x.InvokeRegistrationEventsAsync(It.IsAny<IReadOnlyList<IModule>>()))
@@ -118,14 +121,20 @@ public class ModuleExecutorLoggingTests
                 It.IsAny<ModuleState>(),
                 It.IsAny<IModuleScheduler>(),
                 It.IsAny<CancellationToken>()))
-            .Returns<ModuleState, IModuleScheduler, CancellationToken>((moduleState, _, _) =>
+            .Returns<ModuleState, IModuleScheduler, CancellationToken>((moduleState, moduleScheduler, _) =>
             {
                 if (moduleState.ModuleType == typeof(FaultingModule))
                 {
                     throw new InvalidOperationException("Worker fault");
                 }
 
+                if (!moduleScheduler.MarkModuleStarted(moduleState.ModuleType))
+                {
+                    throw new InvalidOperationException("Later module could not start");
+                }
+
                 laterModuleRan = true;
+                moduleScheduler.MarkModuleCompleted(moduleState.ModuleType, success: true);
                 return Task.CompletedTask;
             });
 
@@ -138,8 +147,8 @@ public class ModuleExecutorLoggingTests
             parallelLimitProvider.Object,
             registrationEvents.Object,
             Mock.Of<IMetricsCollector>(),
-            new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
+            dependencyRegistry,
+            metadataRegistry,
             secondaryExceptionContainer.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
@@ -147,7 +156,8 @@ public class ModuleExecutorLoggingTests
             }),
             Mock.Of<Microsoft.Extensions.Logging.ILogger<ModuleExecutor>>());
 
-        await executor.ExecuteAsync([new FaultingModule(), new LaterModule()]);
+        await executor.ExecuteAsync([new FaultingModule(), new LaterModule()])
+            .WaitAsync(TimeSpan.FromSeconds(5));
 
         await Assert.That(laterModuleRan).IsTrue();
         secondaryExceptionContainer.Verify(

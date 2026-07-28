@@ -164,6 +164,7 @@ internal class ModuleStateTracker : IModuleStateTracker
         _stateLock.EnterWriteLock();
         try
         {
+            _queuedModules.Remove(state);
             _executingModules.Remove(state);
             state.State = ModuleExecutionState.Completed;
             state.CompletionTime = _timeProvider.GetUtcNow();

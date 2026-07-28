@@ -225,6 +225,11 @@ internal class ModuleExecutor : IModuleExecutor
                     }
                     catch (Exception ex)
                     {
+                        if (moduleState.State != ModuleExecutionState.Completed)
+                        {
+                            scheduler.MarkModuleCompleted(moduleState.ModuleType, success: false, ex);
+                        }
+
                         _secondaryExceptionContainer.RegisterException(ex);
                         _logger.LogError(
                             ex,
