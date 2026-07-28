@@ -297,9 +297,9 @@ public class GeneratorHardeningTests
     public async Task SubDomain_Generator_Interfaces_Facade_Service_But_Not_Nested_Group()
     {
         var tool = Tool(Command(
-            "ToolParentChildRunOptions",
+            "ToolParentImageToolsRunOptions",
             "ToolOptions",
-            ["parent", "child", "run"],
+            ["parent", "imagetools", "run"],
             subDomainGroup: "parent"));
 
         var generatedFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
@@ -308,18 +308,18 @@ public class GeneratorHardeningTests
         var rootInterface = generatedFiles.Single(file =>
             Path.GetFileName(file.RelativePath) == "IToolParent.Generated.cs");
         var childClass = generatedFiles.Single(file =>
-            Path.GetFileName(file.RelativePath) == "ToolParentChild.Generated.cs");
+            Path.GetFileName(file.RelativePath) == "ToolParentImageTools.Generated.cs");
 
         using (Assert.Multiple())
         {
             await Assert.That(rootClass.Content)
                 .Contains("public class ToolParent : IToolParent");
             await Assert.That(rootInterface.Content)
-                .Contains("ToolParentChild Child { get; }");
+                .Contains("ToolParentImageTools ImageTools { get; }");
             await Assert.That(childClass.Content)
-                .Contains("public class ToolParentChild");
+                .Contains("public class ToolParentImageTools");
             await Assert.That(generatedFiles.Any(file =>
-                    Path.GetFileName(file.RelativePath) == "IToolParentChild.Generated.cs"))
+                    Path.GetFileName(file.RelativePath) == "IToolParentImageTools.Generated.cs"))
                 .IsFalse();
         }
     }

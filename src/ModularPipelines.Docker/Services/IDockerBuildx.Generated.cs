@@ -31,7 +31,7 @@ public interface IDockerBuildx
     /// <summary>
     /// docker imagetools sub-commands.
     /// </summary>
-    DockerBuildxImagetools Imagetools { get; }
+    DockerBuildxImageTools ImageTools { get; }
 
     /// <summary>
     /// docker policy sub-commands.
