@@ -98,8 +98,8 @@ jobs:
           dotnet new modularpipeline \
             --name TemplateRun \
             --output "$RUNNER_TEMP/template-run" \
-            --solution "$RUNNER_TEMP/Example.slnx" \
-            --publish-project "$RUNNER_TEMP/src/Example/Example.csproj" \
+            --solution ../Example.slnx \
+            --publish-project ../src/Example/Example.csproj \
             --framework-version "$framework_version" \
             --no-restore
           mkdir "$RUNNER_TEMP/template-caller"
@@ -109,6 +109,8 @@ jobs:
               --project "$RUNNER_TEMP/template-run/TemplateRun.csproj" \
               --configuration Release
           )
+          test -f "$RUNNER_TEMP/template-run/artifacts/publish/Example.dll"
+          test ! -d "$RUNNER_TEMP/template-caller/artifacts"
       - name: Run OptionsGenerator unit tests
         run: |
           dotnet restore tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.sln
