@@ -55,7 +55,7 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
     /// </summary>
     private static ModuleClassInfo? GetModuleClassInfo(GeneratorSyntaxContext context)
     {
-        var classDeclaration = (ClassDeclarationSyntax)context.Node;
+        var classDeclaration = (ClassDeclarationSyntax) context.Node;
         var semanticModel = context.SemanticModel;
 
         // Get the declared symbol for this type
@@ -77,9 +77,8 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
             return null;
         }
 
-        // Check if this type inherits from Module<T> and get the result type
-        var resultType = GetModuleResultType(typeSymbol, semanticModel.Compilation);
-        if (resultType is null)
+        // Check if this type inherits from Module<T>
+        if (GetModuleResultType(typeSymbol, semanticModel.Compilation) is null)
         {
             return null;
         }
@@ -89,16 +88,9 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
             ? string.Empty
             : typeSymbol.ContainingNamespace.ToDisplayString();
 
-        // Get type names for code generation
-        var resultTypeName = resultType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
-        var resultTypeFullName = resultType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-
         return new ModuleClassInfo(
             Namespace: namespaceName,
-            ClassName: typeSymbol.Name,
-            ResultTypeName: resultTypeName,
-            ResultTypeFullName: resultTypeFullName,
-            Location: classDeclaration.Identifier.GetLocation()
+            ClassName: typeSymbol.Name
         );
     }
 
