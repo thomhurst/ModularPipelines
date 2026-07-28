@@ -92,6 +92,125 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
+    public async Task StopOnFirstException_SurfacesAllConcurrentWorkerFaults()
+    {
+        var faultingModule = new FaultingModule();
+        var laterModule = new LaterModule();
+        var workersStarted = 0;
+        var bothWorkersStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var executor = CreateStopOnFirstExceptionExecutor(
+            faultingModule,
+            laterModule,
+            async (moduleState, _, _) =>
+            {
+                if (Interlocked.Increment(ref workersStarted) == 2)
+                {
+                    bothWorkersStarted.TrySetResult();
+                }
+
+                await bothWorkersStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                throw new InvalidOperationException(moduleState.ModuleType.Name);
+            });
+
+        var exception = await Assert.That(async () =>
+                await executor.ExecuteAsync([faultingModule, laterModule]))
+            .Throws<AggregateException>();
+        await Assert.That(exception!.InnerExceptions.Select(x => x.Message))
+            .IsEquivalentTo([nameof(FaultingModule), nameof(LaterModule)]);
+    }
+
+    [Test]
+    public async Task StopOnFirstException_DoesNotDuplicateSharedWorkerFault()
+    {
+        var sharedException = new InvalidOperationException("Shared failure");
+        var faultingModule = new FaultingModule();
+        var laterModule = new LaterModule();
+        var executor = CreateStopOnFirstExceptionExecutor(
+            faultingModule,
+            laterModule,
+            (_, _, _) => Task.FromException(sharedException));
+
+        var exception = await Assert.That(async () =>
+                await executor.ExecuteAsync([faultingModule, laterModule]))
+            .Throws<InvalidOperationException>();
+
+        await Assert.That(exception).IsSameReferenceAs(sharedException);
+    }
+
+    [Test]
+    public async Task StopOnFirstException_IgnoresWorkerCancellation()
+    {
+        var faultingModule = new FaultingModule();
+        var laterModule = new LaterModule();
+        var workersStarted = 0;
+        var bothWorkersStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var executor = CreateStopOnFirstExceptionExecutor(
+            faultingModule,
+            laterModule,
+            async (moduleState, _, cancellationToken) =>
+            {
+                if (Interlocked.Increment(ref workersStarted) == 2)
+                {
+                    bothWorkersStarted.TrySetResult();
+                }
+
+                await bothWorkersStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+                if (moduleState.ModuleType == typeof(FaultingModule))
+                {
+                    throw new InvalidOperationException("Primary failure");
+                }
+
+                await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            });
+
+        var exception = await Assert.That(async () =>
+                await executor.ExecuteAsync([faultingModule, laterModule]))
+            .Throws<InvalidOperationException>();
+
+        await Assert.That(exception!.Message).IsEqualTo("Primary failure");
+    }
+
+    [Test]
+    public async Task StopOnFirstException_SurfacesIndependentWorkerCancellation()
+    {
+        var faultingModule = new FaultingModule();
+        var laterModule = new LaterModule();
+        var workersStarted = 0;
+        var bothWorkersStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var failFastCancellationObserved = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var independentCancellationToken = new CancellationToken(canceled: true);
+        var executor = CreateStopOnFirstExceptionExecutor(
+            faultingModule,
+            laterModule,
+            async (moduleState, _, cancellationToken) =>
+            {
+                if (Interlocked.Increment(ref workersStarted) == 2)
+                {
+                    bothWorkersStarted.TrySetResult();
+                }
+
+                await bothWorkersStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+                if (moduleState.ModuleType == typeof(FaultingModule))
+                {
+                    throw new InvalidOperationException("Primary failure");
+                }
+
+                using var registration = cancellationToken.Register(failFastCancellationObserved.SetResult);
+                await failFastCancellationObserved.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                throw new OperationCanceledException(independentCancellationToken);
+            });
+
+        var exception = await Assert.That(async () =>
+                await executor.ExecuteAsync([faultingModule, laterModule]))
+            .Throws<AggregateException>();
+
+        await Assert.That(exception!.InnerExceptions.Select(x => x.GetType()))
+            .IsEquivalentTo([typeof(InvalidOperationException), typeof(OperationCanceledException)]);
+    }
+
+    [Test]
     public async Task WaitForAllModules_WorkerFault_DoesNotStopRemainingModules()
     {
         var dependencyRegistry = new ModuleDependencyRegistry();
@@ -304,6 +423,65 @@ public class ModuleExecutorLoggingTests
         tracker.CancelPendingModules();
 
         await Assert.That(logs.ToString()).Contains("Cancelling 1 pending/queued modules");
+    }
+
+    private static ModuleExecutor CreateStopOnFirstExceptionExecutor(
+        FaultingModule faultingModule,
+        LaterModule laterModule,
+        Func<ModuleState, IModuleScheduler, CancellationToken, Task> executeModule)
+    {
+        var readyModules = Channel.CreateUnbounded<ModuleState>();
+        readyModules.Writer.TryWrite(new ModuleState(faultingModule, typeof(FaultingModule)));
+        readyModules.Writer.TryWrite(new ModuleState(laterModule, typeof(LaterModule)));
+        readyModules.Writer.Complete();
+
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
+        scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        var schedulerFactory = new Mock<IModuleSchedulerFactory>();
+        schedulerFactory.Setup(x => x.Create()).Returns(scheduler.Object);
+
+        var registrationEvents = new Mock<IRegistrationEventExecutor>();
+        registrationEvents.Setup(x => x.InvokeRegistrationEventsAsync(It.IsAny<IReadOnlyList<IModule>>()))
+            .Returns(Task.CompletedTask);
+
+        var parallelLimitProvider = new Mock<IParallelLimitProvider>();
+        parallelLimitProvider.Setup(x => x.GetMaxDegreeOfParallelism()).Returns(2);
+
+        var moduleRunner = new Mock<IModuleRunner>();
+        moduleRunner
+            .Setup(x => x.ExecuteAsync(
+                It.IsAny<ModuleState>(),
+                It.IsAny<IModuleScheduler>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<ModuleState, IModuleScheduler, CancellationToken>(executeModule);
+
+        var alwaysRunHandler = new Mock<IAlwaysRunHandler>();
+        alwaysRunHandler
+            .Setup(x => x.WaitForAlwaysRunModulesAsync(
+                It.IsAny<IModuleScheduler>(),
+                It.IsAny<IReadOnlyList<IModule>>()))
+            .Returns(Task.CompletedTask);
+
+        return new ModuleExecutor(
+            schedulerFactory.Object,
+            moduleRunner.Object,
+            alwaysRunHandler.Object,
+            Mock.Of<IModuleResultRegistrar>(),
+            Mock.Of<IModuleResultRegistry>(),
+            parallelLimitProvider.Object,
+            registrationEvents.Object,
+            Mock.Of<IMetricsCollector>(),
+            new ModuleDependencyRegistry(),
+            new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
+            new SecondaryExceptionContainer(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+            {
+                ExecutionMode = ExecutionMode.StopOnFirstException,
+            }),
+            Mock.Of<Microsoft.Extensions.Logging.ILogger<ModuleExecutor>>());
     }
 
     private static ModuleStateTracker CreateModuleStateTracker(
