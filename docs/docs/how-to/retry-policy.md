@@ -87,14 +87,14 @@ Retry policies are off by default. You can set a default retry count on the `Pip
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>();
 
 builder.Options.DefaultRetryCount = 3;
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 This applies to all modules that don't override their retry policy. Modules can override this default by configuring their own retry policy in `Configure()`.

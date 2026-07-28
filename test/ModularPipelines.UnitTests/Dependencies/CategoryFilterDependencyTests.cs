@@ -1,6 +1,7 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -177,28 +178,20 @@ public class CategoryFilterDependencyTests : TestBase
     }
 
     [Test]
-    public async Task Duplicate_Filtered_Module_Types_Cascade_Skip_Without_Crashing()
+    public async Task Duplicate_Filtered_Module_Types_Are_Rejected_By_Validation()
     {
         var firstCompileModule = new CompileModule();
         var secondCompileModule = new CompileModule();
 
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => TestPipelineHostBuilder.Create()
             .AddModule(firstCompileModule)
             .AddModule(secondCompileModule)
             .AddModule<TestModuleWithRequiredDep>()
             .ConfigurePipelineOptions(opt => opt.RunOnlyCategories = ["test"])
-            .ExecutePipelineAsync();
+            .ExecutePipelineAsync());
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
-        await Assert.That((await firstCompileModule).IsSkipped).IsTrue();
-        await Assert.That((await secondCompileModule).IsSkipped).IsTrue();
-
-        var requiredResult = await pipelineSummary.Modules
-            .OfType<TestModuleWithRequiredDep>()
-            .Single();
-        await Assert.That(requiredResult.IsSkipped).IsTrue();
-        await Assert.That(requiredResult.SkipDecisionOrDefault!.Reason)
-            .Contains(nameof(CompileModule));
+        await Assert.That(exception!.ValidationResult.Errors.Single().Message)
+            .IsEqualTo("Module 'CompileModule' is registered multiple times. Each module type should only be registered once.");
     }
 
     [Test]
@@ -225,25 +218,19 @@ public class CategoryFilterDependencyTests : TestBase
     }
 
     [Test]
-    public async Task Repeated_Factory_Module_Instance_Is_Resolved_Once_For_Dependents()
+    public async Task Repeated_Factory_Module_Type_Is_Rejected_By_Validation()
     {
         var compileModule = new CompileModule();
 
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => TestPipelineHostBuilder.Create()
             .AddModule<CompileModule>(_ => compileModule)
             .AddModule<CompileModule>(_ => compileModule)
             .AddModule<CompileResultConsumerModule>()
             .ConfigurePipelineOptions(opt => opt.RunOnlyCategories = ["compile"])
-            .ExecutePipelineAsync();
+            .ExecutePipelineAsync());
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
-        await Assert.That(pipelineSummary.Modules.Count(module => ReferenceEquals(module, compileModule)))
-            .IsEqualTo(1);
-
-        var consumerResult = await pipelineSummary.Modules
-            .OfType<CompileResultConsumerModule>()
-            .Single();
-        await Assert.That(consumerResult.ValueOrDefault).IsEqualTo("compiled");
+        await Assert.That(exception!.ValidationResult.Errors.Single().Message)
+            .IsEqualTo("Module 'CompileModule' is registered multiple times. Each module type should only be registered once.");
     }
 
     [Test]

@@ -140,7 +140,10 @@ public class UnifiedModuleConfigurationIntegrationTests
         var pipeline = TestPipelineHostBuilder.Create()
             .AddModule<SelfDependentModule>();
 
-        await Assert.ThrowsAsync<ModuleReferencingSelfException>(() => pipeline.ExecutePipelineAsync());
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => pipeline.ExecutePipelineAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors.Single().Message)
+            .Contains(nameof(SelfDependentModule));
     }
 
     [Test]
@@ -150,6 +153,9 @@ public class UnifiedModuleConfigurationIntegrationTests
             .AddModule<CircularDependencyModuleA>()
             .AddModule<CircularDependencyModuleB>();
 
-        await Assert.ThrowsAsync<DependencyCollisionException>(() => pipeline.ExecutePipelineAsync());
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => pipeline.ExecutePipelineAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors.Single().Message)
+            .Contains("Dependency collision detected");
     }
 }
