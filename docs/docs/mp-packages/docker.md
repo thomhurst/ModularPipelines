@@ -23,18 +23,21 @@ Import `ModularPipelines.Docker.Extensions`, then use this service from a module
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Docker.Extensions;
+using ModularPipelines.Docker.Options;
 
-public class UseDockerModule : SyncModule
+public class UseDockerModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var docker = context.Docker();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Docker integration is ready");
+        return await context.Docker().Info(
+            new DockerInfoOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```

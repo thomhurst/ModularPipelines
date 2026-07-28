@@ -24,18 +24,18 @@ Import `ModularPipelines.Node.Extensions`, then use these services from a module
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Node.Extensions;
 
-public class UseNodeModule : SyncModule
+public class UseNodeModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var node = context.Node();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Node integration is ready");
+        return await context.Node().Version(cancellationToken);
     }
 }
 ```

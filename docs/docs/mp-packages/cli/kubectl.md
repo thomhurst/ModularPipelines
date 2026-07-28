@@ -30,8 +30,8 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Kubernetes().Annotate(
-            new KubernetesAnnotateOptions(),
+        return await context.Kubernetes().Config.View(
+            new KubernetesConfigViewOptions(),
             cancellationToken: cancellationToken);
     }
 }

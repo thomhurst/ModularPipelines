@@ -15,32 +15,20 @@ internal static class DocumentationExampleCatalog
         {
             "argocd",
             "aws",
-            "az",
             "brew",
-            "cargo",
             "choco",
             "cosign",
-            "docker",
-            "dotnet",
             "eksctl",
             "flux",
             "flyway",
-            "gcloud",
-            "gh",
-            "git",
-            "go",
             "gradle",
             "grype",
             "hadolint",
-            "helm",
             "kind",
-            "kubectl",
             "kustomize",
             "liquibase",
             "minikube",
             "mvn",
-            "pip",
-            "pnpm",
             "podman",
             "pulumi",
             "shellcheck",
@@ -48,7 +36,6 @@ internal static class DocumentationExampleCatalog
             "snyk",
             "sonar-scanner",
             "syft",
-            "terraform",
             "trivy",
             "winget",
             "yarn",
@@ -66,11 +53,62 @@ internal static class DocumentationExampleCatalog
                         ("Pattern", "\"localhost\""),
                         ("ListHosts", "true")),
                 ]),
+            ["az"] = new(
+                "az account list",
+                [
+                    Safe("az account list"),
+                ]),
             ["buildah"] = new(
                 "buildah containers",
                 [
                     Unsafe("buildah add", isDestructive: true),
                     Safe("buildah containers"),
+                ]),
+            ["cargo"] = new(
+                "cargo check",
+                [
+                    Safe(
+                        "cargo check",
+                        ("Quiet", "true")),
+                ]),
+            ["docker"] = new(
+                "docker info",
+                [
+                    Safe("docker info"),
+                ]),
+            ["dotnet"] = new(
+                "dotnet workload list",
+                [
+                    Safe("dotnet workload list"),
+                ]),
+            ["gcloud"] = new(
+                "gcloud info",
+                [
+                    Safe(
+                        "gcloud info",
+                        ("Anonymize", "true")),
+                ]),
+            ["gh"] = new(
+                "gh config list",
+                [
+                    Safe("gh config list"),
+                ]),
+            ["git"] = new(
+                "git status",
+                [
+                    Safe(
+                        "git status",
+                        ("Short", "true")),
+                ]),
+            ["go"] = new(
+                "go vet",
+                [
+                    Safe("go vet"),
+                ]),
+            ["helm"] = new(
+                "helm env",
+                [
+                    Safe("helm env"),
                 ]),
             ["jq"] = new(
                 "jq",
@@ -79,6 +117,11 @@ internal static class DocumentationExampleCatalog
                         "jq",
                         ("Filter", "\".\""),
                         ("InputFiles", "[\"input.json\"]")),
+                ]),
+            ["kubectl"] = new(
+                "kubectl config view",
+                [
+                    Safe("kubectl config view"),
                 ]),
             ["newman"] = new(
                 null,
@@ -95,6 +138,23 @@ internal static class DocumentationExampleCatalog
                 null,
                 [
                     Unsafe("packer console", isInteractive: true),
+                ]),
+            ["pip"] = new(
+                "pip freeze",
+                [
+                    Safe("pip freeze"),
+                ]),
+            ["pnpm"] = new(
+                "pnpm audit",
+                [
+                    Safe(
+                        "pnpm audit",
+                        ("AuditLevel", "\"high\"")),
+                ]),
+            ["terraform"] = new(
+                "terraform validate",
+                [
+                    Safe("terraform validate"),
                 ]),
             ["vault"] = new(
                 "vault status",

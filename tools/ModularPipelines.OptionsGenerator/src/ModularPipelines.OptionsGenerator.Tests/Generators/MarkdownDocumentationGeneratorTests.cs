@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using ModularPipelines.OptionsGenerator.Generators;
@@ -398,13 +399,13 @@ public class MarkdownDocumentationGeneratorTests
     public async Task GenerateAsync_EnforcesIntentionalCatalogOmission()
     {
         var tool = Tool(
-            "docker",
-            Command("docker version", "DockerVersionOptions", ["version"]) with
+            "aws",
+            Command("aws version", "AwsVersionOptions", ["version"]) with
             {
                 IsSafeForDocumentation = true,
             }) with
         {
-            PreferredDocumentationExampleCommand = "docker version",
+            PreferredDocumentationExampleCommand = "aws version",
         };
 
         var documentation = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
@@ -521,6 +522,61 @@ public class MarkdownDocumentationGeneratorTests
         }
     }
 
+    [Test]
+    public async Task GenerateAsync_UsesCuratedExamplesForPopularTools()
+    {
+        var testCases = new[]
+        {
+            (Tool("az", Command("az account list", "AzAccountListOptions", ["account", "list"], "account")),
+                "context.Fake().Account.List("),
+            (Tool("cargo", Command("cargo check", "CargoCheckOptions", ["check"]) with
+                {
+                    Options = [Option("--quiet", "Quiet", "bool?")],
+                }),
+                "context.Fake().Check("),
+            (Tool("docker", Command("docker info", "DockerInfoOptions", ["info"])),
+                "context.Fake().Info("),
+            (Tool("dotnet", Command("dotnet workload list", "DotNetWorkloadListOptions", ["workload", "list"], "workload")),
+                "context.Fake().Workload.List("),
+            (Tool("gcloud", Command("gcloud info", "GcloudInfoOptions", ["info"]) with
+                {
+                    Options = [Option("--anonymize", "Anonymize", "bool?")],
+                }),
+                "context.Fake().Info("),
+            (Tool("gh", Command("gh config list", "GhConfigListOptions", ["config", "list"], "config")),
+                "context.Fake().Config.List("),
+            (Tool("git", Command("git status", "GitStatusOptions", ["status"]) with
+                {
+                    Options = [Option("--short", "Short", "bool?")],
+                }),
+                "context.Fake().Status("),
+            (Tool("go", Command("go vet", "GoVetOptions", ["vet"])),
+                "context.Fake().Vet("),
+            (Tool("helm", Command("helm env", "HelmEnvOptions", ["env"])),
+                "context.Fake().Env("),
+            (Tool("kubectl", Command("kubectl config view", "KubernetesConfigViewOptions", ["config", "view"], "config")),
+                "context.Fake().Config.View("),
+            (Tool("pip", Command("pip freeze", "PipFreezeOptions", ["freeze"])),
+                "context.Fake().Freeze("),
+            (Tool("pnpm", Command("pnpm audit", "PnpmAuditOptions", ["audit"]) with
+                {
+                    Options = [Option("--audit-level", "AuditLevel", "string?")],
+                }),
+                "context.Fake().Audit("),
+            (Tool("terraform", Command("terraform validate", "TerraformValidateOptions", ["validate"])),
+                "context.Fake().Validate("),
+        };
+
+        foreach (var (tool, expectedInvocation) in testCases)
+        {
+            var documentation = (await new MarkdownDocumentationGenerator()
+                .GenerateAsync(tool))[0].Content;
+
+            await Assert.That(documentation).Contains(expectedInvocation);
+            await AssertDocumentationExampleCompiles(tool);
+        }
+    }
+
     private static async Task AssertDocumentationExampleCompiles(CliToolDefinition tool)
     {
         var preparedTool = DocumentationExampleCatalog.Apply(tool);
@@ -598,7 +654,13 @@ public class MarkdownDocumentationGeneratorTests
             Environment.NewLine,
             properties.Select(property =>
                 $"        public {property.CSharpType} {property.PropertyName} {{ get; set; }}"));
-        var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
+        var navigationSegments = GetNavigationSegments(tool, command);
+        var methodName = navigationSegments[^1];
+        var serviceMembers = GenerateServiceMembers(
+            tool,
+            command,
+            navigationSegments,
+            methodName);
 
         return $$"""
             #nullable enable
@@ -643,10 +705,10 @@ public class MarkdownDocumentationGeneratorTests
 
                 public interface I{{tool.NamespacePrefix}}Service
                 {
-                    Task<CommandResult?> {{methodName}}(
-                        {{command.ClassName}} options,
-                        CancellationToken cancellationToken = default);
+            {{serviceMembers.RootMember}}
                 }
+
+            {{serviceMembers.NavigationTypes}}
 
                 public static class {{tool.NamespacePrefix}}Extensions
                 {
@@ -656,6 +718,65 @@ public class MarkdownDocumentationGeneratorTests
                 }
             }
             """;
+    }
+
+    private static IReadOnlyList<string> GetNavigationSegments(
+        CliToolDefinition tool,
+        CliCommandDefinition command)
+    {
+        var invocation = MarkdownDocumentationGenerator.BuildInvocation(tool, command);
+        var prefix = $"context.{tool.NamespacePrefix}().";
+        return invocation[prefix.Length..].Split('.');
+    }
+
+    private static (string RootMember, string NavigationTypes) GenerateServiceMembers(
+        CliToolDefinition tool,
+        CliCommandDefinition command,
+        IReadOnlyList<string> navigationSegments,
+        string methodName)
+    {
+        const string methodIndent = "                    ";
+        var methodDeclaration =
+            $"{methodIndent}Task<CommandResult?> {methodName}(\n"
+            + $"{methodIndent}    {command.ClassName} options,\n"
+            + $"{methodIndent}    CancellationToken cancellationToken = default);";
+        if (navigationSegments.Count == 1)
+        {
+            return (methodDeclaration, string.Empty);
+        }
+
+        methodDeclaration =
+            $"{methodIndent}public Task<CommandResult?> {methodName}(\n"
+            + $"{methodIndent}    {command.ClassName} options,\n"
+            + $"{methodIndent}    CancellationToken cancellationToken = default) =>\n"
+            + $"{methodIndent}    throw new NotImplementedException();";
+        var propertySegments = navigationSegments.SkipLast(1).ToArray();
+        var typeNames = propertySegments
+            .Select((_, index) =>
+                $"{tool.NamespacePrefix}{string.Concat(propertySegments.Take(index + 1))}Service")
+            .ToArray();
+        var rootMember = $"{methodIndent}{typeNames[0]} {propertySegments[0]} {{ get; }}";
+        var navigationTypes = new StringBuilder();
+
+        for (var index = 0; index < typeNames.Length; index++)
+        {
+            navigationTypes.AppendLine($"                public sealed class {typeNames[index]}");
+            navigationTypes.AppendLine("                {");
+            if (index == typeNames.Length - 1)
+            {
+                navigationTypes.AppendLine(methodDeclaration);
+            }
+            else
+            {
+                navigationTypes.AppendLine(
+                    $"{methodIndent}{typeNames[index + 1]} {propertySegments[index + 1]} {{ get; }} = new();");
+            }
+
+            navigationTypes.AppendLine("                }");
+            navigationTypes.AppendLine();
+        }
+
+        return (rootMember, navigationTypes.ToString());
     }
 
     private static CliToolDefinition Tool(
@@ -704,14 +825,14 @@ public class MarkdownDocumentationGeneratorTests
             SubDomainGroup = subDomainGroup,
         };
 
-    private static CliToolDefinition ToolDefinition(string toolName) => new()
+    private static CliToolDefinition ToolDefinition(string toolName)
     {
-        ToolName = toolName,
-        NamespacePrefix = "Fake",
-        TargetNamespace = "ModularPipelines.Fake",
-        OutputDirectory = "src/ModularPipelines.Fake",
-        Commands = [Command($"{toolName} status", "FakeStatusOptions", ["status"])],
-    };
+        var command = toolName == "terraform"
+            ? Command("terraform validate", "TerraformValidateOptions", ["validate"])
+            : Command($"{toolName} status", "FakeStatusOptions", ["status"]);
+
+        return Tool(toolName, command);
+    }
 
     private static async Task<string> GenerateDocumentation(CliToolDefinition tool) =>
         (await new MarkdownDocumentationGenerator().GenerateAsync(tool))[0].Content;

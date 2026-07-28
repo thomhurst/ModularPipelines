@@ -23,18 +23,21 @@ Import `ModularPipelines.Terraform.Extensions`, then use this service from a mod
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Terraform.Extensions;
+using ModularPipelines.Terraform.Options;
 
-public class UseTerraformModule : SyncModule
+public class UseTerraformModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var terraform = context.Terraform();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Terraform integration is ready");
+        return await context.Terraform().Validate(
+            new TerraformValidateOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```

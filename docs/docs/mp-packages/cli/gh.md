@@ -30,8 +30,8 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gh().Browse(
-            new GhBrowseOptions(),
+        return await context.Gh().Config.List(
+            new GhConfigListOptions(),
             cancellationToken: cancellationToken);
     }
 }

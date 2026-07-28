@@ -198,7 +198,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
             return;
         }
 
-        var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
+        var invocation = BuildInvocation(tool, command);
         var optionsExpression = BuildOptionsExpression(command);
 
         sb.AppendLine("```csharp");
@@ -214,7 +214,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine("        IModuleContext context,");
         sb.AppendLine("        CancellationToken cancellationToken)");
         sb.AppendLine("    {");
-        sb.AppendLine($"        return await context.{tool.NamespacePrefix}().{methodName}(");
+        sb.AppendLine($"        return await {invocation}(");
         AppendIndentedExpression(sb, optionsExpression, "            ", appendComma: true);
         sb.AppendLine("            cancellationToken: cancellationToken);");
         sb.AppendLine("    }");
@@ -230,7 +230,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
             return null;
         }
 
-        var command = GeneratorUtils.GetNonCollidingRootCommands(tool)
+        var command = tool.Commands
             .FirstOrDefault(candidate => string.Equals(
                 candidate.FullCommand,
                 tool.PreferredDocumentationExampleCommand,
@@ -252,6 +252,41 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         }
 
         return command;
+    }
+
+    internal static string BuildInvocation(
+        CliToolDefinition tool,
+        CliCommandDefinition command)
+    {
+        if (command.SubDomainGroup is null)
+        {
+            var rootMethod = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
+            var emittedRootCommand = GeneratorUtils.GetNonCollidingRootCommands(tool)
+                .Any(candidate => string.Equals(
+                    candidate.FullCommand,
+                    command.FullCommand,
+                    StringComparison.OrdinalIgnoreCase));
+            if (!emittedRootCommand)
+            {
+                throw new InvalidOperationException(
+                    $"Preferred documentation example command '{command.FullCommand}' for "
+                    + $"'{tool.ToolName}' is not exposed as a root service method.");
+            }
+
+            return $"context.{tool.NamespacePrefix}().{rootMethod}";
+        }
+
+        var navigationSegments = new List<string>
+        {
+            GeneratorUtils.GetSubDomainIdentifier(tool, command.SubDomainGroup),
+        };
+        navigationSegments.AddRange(command.CommandParts
+            .Skip(1)
+            .SkipLast(1)
+            .Select(GeneratorUtils.ToPascalCase));
+
+        var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
+        return $"context.{tool.NamespacePrefix}().{string.Join('.', navigationSegments)}.{methodName}";
     }
 
     private static string BuildOptionsExpression(CliCommandDefinition command)

@@ -24,18 +24,21 @@ Import `ModularPipelines.Azure.Extensions`, then use these services from a modul
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Azure.Extensions;
+using ModularPipelines.Azure.Options;
 
-public class UseAzureModule : SyncModule
+public class UseAzureModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var azure = context.Azure();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Azure integration is ready");
+        return await context.Az().Account.List(
+            new AzAccountListOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```
