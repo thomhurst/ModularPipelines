@@ -15,6 +15,8 @@ namespace ModularPipelines.Helpers;
 [ExcludeFromCodeCoverage]
 internal class SpectreResultsPrinter : IResultsPrinter
 {
+    private const int MaxStackFrames = 5;
+
     private readonly IOptions<PipelineOptions> _options;
 
     public SpectreResultsPrinter(IOptions<PipelineOptions> options)
@@ -49,6 +51,12 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
         System.Console.WriteLine();
     }
+
+    internal static Table CreateModulesTable(PipelineSummary pipelineSummary) =>
+        CreateModulesTableCore(pipelineSummary);
+
+    internal static Panel CreateMetricsPanel(PipelineMetrics metrics) =>
+        CreateMetricsPanelCore(metrics);
 
     private static void PrintHeader(PipelineSummary pipelineSummary)
     {
@@ -120,7 +128,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
         System.Console.WriteLine();
     }
 
-    internal static Table CreateModulesTable(PipelineSummary pipelineSummary)
+    private static Table CreateModulesTableCore(PipelineSummary pipelineSummary)
     {
         var table = new Table
         {
@@ -153,7 +161,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
                         ModuleStatus.PipelineTerminated => 0,
                         ModuleStatus.IgnoredFailure => 1,
                         ModuleStatus.Skipped => 2,
-                        _ => 3
+                        _ => 3,
                     };
                 }
 
@@ -232,7 +240,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
             ModuleStatus.Skipped => $"[dim]{moduleName}[/]",
             ModuleStatus.Successful => $"[green]{moduleName}[/]",
             ModuleStatus.UsedHistory => $"[green3]{moduleName}[/]",
-            _ => $"[cyan]{moduleName}[/]"
+            _ => $"[cyan]{moduleName}[/]",
         };
     }
 
@@ -251,7 +259,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
             ModuleStatus.Processing => "[blue]Running[/]",
             ModuleStatus.NotYetStarted => "[dim]Pending[/]",
             ModuleStatus.Unknown => "[dim]Unknown[/]",
-            _ => "[dim]-[/]"
+            _ => "[dim]-[/]",
         };
     }
 
@@ -286,7 +294,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
         AnsiConsole.Write(CreateMetricsPanel(metrics));
     }
 
-    internal static Panel CreateMetricsPanel(PipelineMetrics metrics)
+    private static Panel CreateMetricsPanelCore(PipelineMetrics metrics)
     {
         return new Panel(
             new Markup(
@@ -388,6 +396,4 @@ internal class SpectreResultsPrinter : IResultsPrinter
             }
         }
     }
-
-    private const int MaxStackFrames = 5;
 }
