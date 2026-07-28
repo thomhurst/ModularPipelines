@@ -18,14 +18,14 @@ It's recommended to store and retrieve results using the Git commit SHA, as then
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>();
 
 builder.AddResultsRepository<MyModuleRepository>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ```csharp

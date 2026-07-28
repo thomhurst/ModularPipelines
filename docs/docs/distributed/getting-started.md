@@ -56,11 +56,11 @@ builder.AddRedisDistributedCoordinator(o =>
 });
 
 // Register your modules as normal
-builder.Services.AddModule<BuildModule>();
-builder.Services.AddModule<TestModule>();
-builder.Services.AddModule<PublishModule>();
+builder.AddModule<BuildModule>();
+builder.AddModule<TestModule>();
+builder.AddModule<PublishModule>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 That's it. When `InstanceIndex` is `0`, the process runs as the master. All other instances run as workers.
@@ -136,11 +136,11 @@ builder.AddRedisDistributedCoordinator(o =>
         ?? "localhost:6379";
 });
 
-builder.Services.AddModule<RestoreModule>();
-builder.Services.AddModule<BuildModule>();
-builder.Services.AddModule<TestModule>();
+builder.AddModule<RestoreModule>();
+builder.AddModule<BuildModule>();
+builder.AddModule<TestModule>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 
 public class RestoreModule : Module<string>
 {

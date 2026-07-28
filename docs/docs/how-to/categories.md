@@ -23,7 +23,7 @@ If "Ignore Categories" have been set with some values, if a Module has one of th
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>()
@@ -31,7 +31,7 @@ builder.Services
 
 builder.Options.RunOnlyCategories = ["UnitTest", "IntegrationTest"];
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 
@@ -40,7 +40,7 @@ await builder.Build().RunAsync();
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>()
@@ -48,5 +48,5 @@ builder.Services
 
 builder.Options.IgnoreCategories = ["Publish", "Deploy"];
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```

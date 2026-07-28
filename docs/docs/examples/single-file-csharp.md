@@ -36,11 +36,11 @@ To use ModularPipelines in a single file C# application, you can follow these st
 
     var builder = Pipeline.CreateBuilder(args);
 
-    builder.Services
+    builder
         .AddModule<UpdateDotnetWorkloads>()
         .AddModule<CheckDotnetSdkModule>();
 
-    await builder.Build().RunAsync();
+    await builder.ExecutePipelineAsync();
 
     public class UpdateDotnetWorkloads : Module<CommandResult>
     {

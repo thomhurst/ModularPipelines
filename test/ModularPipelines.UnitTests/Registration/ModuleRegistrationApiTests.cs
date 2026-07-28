@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
@@ -54,8 +53,8 @@ public class ModuleRegistrationApiTests : TestBase
     {
         // Arrange & Act
         var builder = TestPipelineHostBuilder.Create();
-        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>();
-        var pipeline = builder.Build();
+        builder.AddModule<ModuleA>().AddModule<ModuleB>();
+        var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -70,8 +69,8 @@ public class ModuleRegistrationApiTests : TestBase
     {
         // Arrange & Act
         var builder = TestPipelineHostBuilder.Create();
-        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
-        var pipeline = builder.Build();
+        builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
+        var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -84,8 +83,8 @@ public class ModuleRegistrationApiTests : TestBase
     {
         // Arrange & Act
         var builder = TestPipelineHostBuilder.Create();
-        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>();
-        var pipeline = builder.Build();
+        builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>();
+        var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -98,8 +97,8 @@ public class ModuleRegistrationApiTests : TestBase
     {
         // Arrange & Act
         var builder = TestPipelineHostBuilder.Create();
-        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>().AddModule<ModuleE>();
-        var pipeline = builder.Build();
+        builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>().AddModule<ModuleE>();
+        var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -112,8 +111,8 @@ public class ModuleRegistrationApiTests : TestBase
     {
         // Arrange & Act
         var builder = TestPipelineHostBuilder.Create();
-        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>().AddModule<ModuleE>().AddModule<ModuleF>();
-        var pipeline = builder.Build();
+        builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>().AddModule<ModuleE>().AddModule<ModuleF>();
+        var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -130,8 +129,8 @@ public class ModuleRegistrationApiTests : TestBase
     {
         // Arrange & Act
         var builder = TestPipelineHostBuilder.Create();
-        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
-        var pipeline = builder.Build();
+        builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
+        var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -144,8 +143,8 @@ public class ModuleRegistrationApiTests : TestBase
     {
         // Arrange & Act
         var builder = TestPipelineHostBuilder.Create();
-        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>();
-        var pipeline = builder.Build();
+        builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>();
+        var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -161,20 +160,20 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModulesFromAssemblyContainingType_RegistersModulesFromAssembly()
     {
         // Arrange - test assembly scanning by verifying service registration
-        var services = new ServiceCollection();
+        var builder = TestPipelineHostBuilder.Create();
 
         // Act - scan TestHelpers assembly which contains TrueModule, NullModule, and ExceptionModule
-        services.AddModulesFromAssemblyContainingType<TrueModule>();
+        builder.AddModulesFromAssemblyContainingType<TrueModule>();
 
         // Assert - verify modules are registered (including ExceptionModule which throws at runtime)
-        var moduleRegistrations = services.Where(sd => sd.ServiceType == typeof(IModule)).ToList();
+        var moduleRegistrations = builder.Services.Where(sd => sd.ServiceType == typeof(IModule)).ToList();
 
         // Should find TrueModule, NullModule, and ExceptionModule (3 concrete non-generic modules)
         await Assert.That(moduleRegistrations.Count).IsGreaterThanOrEqualTo(3);
 
         // Verify specific modules are registered using the centralized type tracking
         // Note: ImplementationType is null for factory registrations, so we use GetRegisteredModuleTypes
-        var registeredTypes = ServiceCollectionExtensions.GetRegisteredModuleTypes(services);
+        var registeredTypes = ServiceCollectionExtensions.GetRegisteredModuleTypes(builder.Services);
 
         await Assert.That(registeredTypes).Contains(typeof(TrueModule));
         await Assert.That(registeredTypes).Contains(typeof(NullModule));
@@ -185,14 +184,14 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModulesFromAssembly_RegistersModulesFromAssembly()
     {
         // Arrange
-        var services = new ServiceCollection();
+        var builder = TestPipelineHostBuilder.Create();
         var assembly = typeof(TrueModule).Assembly;
 
         // Act
-        services.AddModulesFromAssembly(assembly);
+        builder.AddModulesFromAssembly(assembly);
 
         // Assert
-        var moduleRegistrations = services.Where(sd => sd.ServiceType == typeof(IModule)).ToList();
+        var moduleRegistrations = builder.Services.Where(sd => sd.ServiceType == typeof(IModule)).ToList();
         await Assert.That(moduleRegistrations.Count).IsGreaterThanOrEqualTo(3);
     }
 
@@ -202,8 +201,8 @@ public class ModuleRegistrationApiTests : TestBase
         // Arrange & Act
         // Test that assembly scanning can be chained with explicit registration
         var builder = TestPipelineHostBuilder.Create();
-        builder.Services.AddModule<TrueModule>().AddModule<NullModule>().AddModule<ModuleA>();
-        var pipeline = builder.Build();
+        builder.AddModule<TrueModule>().AddModule<NullModule>().AddModule<ModuleA>();
+        var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -215,15 +214,15 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModulesFromAssembly_FiltersOutOpenGenericTypes()
     {
         // Arrange - this test verifies open generic types like ThrowingSyncTestModule<T> are filtered out
-        var services = new ServiceCollection();
+        var builder = TestPipelineHostBuilder.Create();
         var assembly = typeof(TrueModule).Assembly;
 
         // Act
-        services.AddModulesFromAssembly(assembly);
+        builder.AddModulesFromAssembly(assembly);
 
         // Assert - open generics should NOT be registered
         // Note: Use GetRegisteredModuleTypes since ImplementationType is null for factory registrations
-        var registeredTypes = ServiceCollectionExtensions.GetRegisteredModuleTypes(services);
+        var registeredTypes = ServiceCollectionExtensions.GetRegisteredModuleTypes(builder.Services);
 
         // None of the registered types should be open generics
         await Assert.That(registeredTypes.Any(t => t.IsGenericTypeDefinition)).IsFalse();

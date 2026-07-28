@@ -36,9 +36,9 @@ public async Task MyModule_ReadsConfigFile()
     var builder = Pipeline.CreateBuilder(args);
 
     builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
-    builder.Services.AddModule<MyModule>();
+    builder.AddModule<MyModule>();
 
-    var result = await builder.Build().RunAsync();
+    var result = await builder.ExecutePipelineAsync();
 
     // Assert results
     Assert.That(result.Status, Is.EqualTo(PipelineStatus.Success));
@@ -56,9 +56,9 @@ public async Task MyModule_WritesOutputFile()
     var builder = Pipeline.CreateBuilder(args);
 
     builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
-    builder.Services.AddModule<OutputModule>();
+    builder.AddModule<OutputModule>();
 
-    await builder.Build().RunAsync();
+    await builder.ExecutePipelineAsync();
 
     // Verify the write occurred with expected content
     mockProvider.Verify(p => p.WriteAllTextAsync(

@@ -75,7 +75,7 @@ builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Silent;
 // Or use Diagnostic for debugging
 builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Diagnostic;
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ### Using Presets
