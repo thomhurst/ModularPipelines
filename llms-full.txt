@@ -1012,11 +1012,11 @@ builder.AddRedisDistributedCoordinator(o =>
 });
 
 // Register your modules as normal
-builder.Services.AddModule<BuildModule>();
-builder.Services.AddModule<TestModule>();
-builder.Services.AddModule<PublishModule>();
+builder.AddModule<BuildModule>();
+builder.AddModule<TestModule>();
+builder.AddModule<PublishModule>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 That's it. When `InstanceIndex` is `0`, the process runs as the master. All other instances run as workers.
@@ -1092,11 +1092,11 @@ builder.AddRedisDistributedCoordinator(o =>
         ?? "localhost:6379";
 });
 
-builder.Services.AddModule<RestoreModule>();
-builder.Services.AddModule<BuildModule>();
-builder.Services.AddModule<TestModule>();
+builder.AddModule<RestoreModule>();
+builder.AddModule<BuildModule>();
+builder.AddModule<TestModule>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 
 public class RestoreModule : Module<string>
 {
@@ -1231,13 +1231,13 @@ builder.AddRedisDistributedCoordinator(o =>
     // RunIdentifier auto-detected from GITHUB_SHA
 });
 
-builder.Services.AddModule<RestoreModule>();
-builder.Services.AddModule<LinuxBuildModule>();
-builder.Services.AddModule<WindowsBuildModule>();
-builder.Services.AddModule<MacBuildModule>();
-builder.Services.AddModule<AggregateResultsModule>();
+builder.AddModule<RestoreModule>();
+builder.AddModule<LinuxBuildModule>();
+builder.AddModule<WindowsBuildModule>();
+builder.AddModule<MacBuildModule>();
+builder.AddModule<AggregateResultsModule>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 
 public class RestoreModule : Module<string>
 {
@@ -1754,12 +1754,13 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
     let args = System.Environment.GetCommandLineArgs()
     let builder = Pipeline.CreateBuilder(args)
 
-    builder.Services
-        .RegisterDotNetContext()
+    builder.Services.RegisterDotNetContext()
+
+    builder
         .AddModule<UpdateDotnetWorkloads>()
         .AddModule<CheckDotnetSdkModule>()
 
-    builder.Build().RunAsync()
+    builder.ExecutePipelineAsync()
     |> Async.AwaitTask
     |> Async.RunSynchronously   
     ``` 
@@ -1812,11 +1813,11 @@ To use ModularPipelines in a single file C# application, you can follow these st
 
     var builder = Pipeline.CreateBuilder(args);
 
-    builder.Services
+    builder
         .AddModule<UpdateDotnetWorkloads>()
         .AddModule<CheckDotnetSdkModule>();
 
-    await builder.Build().RunAsync();
+    await builder.ExecutePipelineAsync();
 
     public class UpdateDotnetWorkloads : Module<CommandResult>
     {
@@ -1859,8 +1860,8 @@ Your pipeline is created using `Pipeline.CreateBuilder()`. This follows the ASP.
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
-builder.Services.AddModule<MyModule>();
-await builder.Build().RunAsync();
+builder.AddModule<MyModule>();
+await builder.ExecutePipelineAsync();
 ```
 
 ## Modules
@@ -2209,7 +2210,7 @@ If "Ignore Categories" have been set with some values, if a Module has one of th
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>()
@@ -2217,7 +2218,7 @@ builder.Services
 
 builder.Options.RunOnlyCategories = ["UnitTest", "IntegrationTest"];
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ## Example of Ignoring Specific Categories
@@ -2225,7 +2226,7 @@ await builder.Build().RunAsync();
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>()
@@ -2233,7 +2234,7 @@ builder.Services
 
 builder.Options.IgnoreCategories = ["Publish", "Deploy"];
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ---
@@ -3184,7 +3185,7 @@ builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Silent;
 // Or use Diagnostic for debugging
 builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Diagnostic;
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ### Using Presets
@@ -3391,12 +3392,12 @@ The pipeline builder follows the ASP.NET Core minimal API pattern, providing dir
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<BuildModule>()
     .AddModule<TestModule>()
     .AddModule<DeployModule>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ## Configuration
@@ -3418,19 +3419,19 @@ builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySetti
 
 ## Registering Modules
 
-Modules can be registered directly on the `Services` collection:
+Modules are registered directly on `PipelineBuilder`. Every registration method returns the same builder for chaining:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
 // Register modules
-builder.Services
+builder
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>();
 
 // Or register multiple at once
-builder.AddModules<Module1, Module2, Module3>();
+builder.AddModules(typeof(Module1), typeof(Module2), typeof(Module3));
 ```
 
 ### Conditional Registration
@@ -3445,16 +3446,16 @@ builder.Configuration.AddJsonFile("appsettings.json");
 // Environment-based registration
 if (builder.Environment.IsDevelopment())
 {
-    builder.Services.AddModule<DevOnlyModule>();
+    builder.AddModule<DevOnlyModule>();
 }
 
 // Configuration-based registration
 if (builder.Configuration.GetValue<bool>("EnableExtraModules"))
 {
-    builder.Services.AddModule<OptionalModule>();
+    builder.AddModule<OptionalModule>();
 }
 
-builder.Services.AddModule<AlwaysRunModule>();
+builder.AddModule<AlwaysRunModule>();
 ```
 
 ## Pipeline Options
@@ -3489,10 +3490,10 @@ The pipeline follows a two-step build-then-run pattern:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
-builder.Services.AddModule<MyModule>();
+builder.AddModule<MyModule>();
 
-// Step 1: Build the pipeline
-var pipeline = builder.Build();
+// Step 1: Build and validate the pipeline
+await using var pipeline = await builder.BuildAsync();
 
 // Step 2: Run it
 var summary = await pipeline.RunAsync();
@@ -3504,18 +3505,16 @@ if (summary.Status == PipelineStatus.Failed)
 }
 ```
 
-### With Validation
-
-Use `BuildAsync()` to validate the pipeline configuration before running:
+`BuildAsync()` always validates the pipeline configuration before returning:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
-builder.Services.AddModule<MyModule>();
+builder.AddModule<MyModule>();
 
 try
 {
     // BuildAsync validates and throws PipelineValidationException on errors
-    var pipeline = await builder.BuildAsync();
+    await using var pipeline = await builder.BuildAsync();
     await pipeline.RunAsync();
 }
 catch (PipelineValidationException ex)
@@ -3532,7 +3531,7 @@ catch (PipelineValidationException ex)
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
-builder.Services.AddModule<MyModule>();
+builder.AddModule<MyModule>();
 
 var validation = await builder.ValidateAsync();
 if (validation.HasErrors)
@@ -3544,7 +3543,7 @@ if (validation.HasErrors)
     Environment.Exit(1);
 }
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ## Complete Example
@@ -3575,25 +3574,25 @@ builder.Services.Configure<PublishSettings>(builder.Configuration.GetSection("Pu
 // Conditional modules
 if (builder.Environment.IsDevelopment())
 {
-    builder.Services
+    builder
         .AddModule<LocalBuildModule>()
         .AddModule<LocalTestModule>();
 }
 else
 {
-    builder.Services
+    builder
         .AddModule<CIBuildModule>()
         .AddModule<CITestModule>()
         .AddModule<PublishModule>();
 }
 
 // Always-registered modules
-builder.Services
+builder
     .AddModule<CleanupModule>()
     .AddModule<ReportModule>();
 
 // Run
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ## Hooks and Requirements
@@ -3622,11 +3621,8 @@ For a more fluent API, extension methods are available:
 var builder = Pipeline.CreateBuilder(args);
 
 await builder
-    .ConfigureServices(services =>
-    {
-        services.AddModule<Module1>();
-        services.AddModule<Module2>();
-    })
+    .AddModule<Module1>()
+    .AddModule<Module2>()
     .ConfigurePipelineOptions(options =>
     {
         options.ExecutionMode = ExecutionMode.StopOnFirstException;
@@ -3652,14 +3648,14 @@ If you want to run every module regardless, you can switch to `WaitForAllModules
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>();
 
 builder.Options.ExecutionMode = ExecutionMode.WaitForAllModules;
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ---
@@ -3768,14 +3764,14 @@ Retry policies are off by default. You can set a default retry count on the `Pip
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>();
 
 builder.Options.DefaultRetryCount = 3;
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 This applies to all modules that don't override their retry policy. Modules can override this default by configuring their own retry policy in `Configure()`.
@@ -4100,14 +4096,14 @@ It's recommended to store and retrieve results using the Git commit SHA, as then
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>();
 
 builder.AddResultsRepository<MyModuleRepository>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ```csharp
@@ -4228,9 +4224,9 @@ public async Task MyModule_ReadsConfigFile()
     var builder = Pipeline.CreateBuilder(args);
 
     builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
-    builder.Services.AddModule<MyModule>();
+    builder.AddModule<MyModule>();
 
-    var result = await builder.Build().RunAsync();
+    var result = await builder.ExecutePipelineAsync();
 
     // Assert results
     Assert.That(result.Status, Is.EqualTo(PipelineStatus.Success));
@@ -4248,9 +4244,9 @@ public async Task MyModule_WritesOutputFile()
     var builder = Pipeline.CreateBuilder(args);
 
     builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
-    builder.Services.AddModule<OutputModule>();
+    builder.AddModule<OutputModule>();
 
-    await builder.Build().RunAsync();
+    await builder.ExecutePipelineAsync();
 
     // Verify the write occurred with expected content
     mockProvider.Verify(p => p.WriteAllTextAsync(
@@ -4304,14 +4300,14 @@ Then on subsequent runs, it'll ask you for an estimated time for a module. You g
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>();
 
 builder.AddModuleEstimatedTimeProvider<MyEstimatedTimeProvider>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ```csharp
@@ -4470,6 +4466,9 @@ When a timeout occurs:
 # Migrating from V2 to V3
 
 ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET Core minimal API patterns. This guide covers all breaking changes and how to migrate your existing pipelines.
+
+> **Using V4?** This historical guide shows the V3 API. V4 registers modules directly on `PipelineBuilder`,
+> removes synchronous `Build()`, and validates before execution. See the [current pipeline builder guide](./how-to/pipeline-host.md).
 
 > **TL;DR - The 6 biggest changes:**
 > 1. `PipelineHostBuilder.Create()` → `Pipeline.CreateBuilder(args)`
@@ -20605,7 +20604,7 @@ builder.Configuration
 // Registers a section from the configuration file with GitHubOptions
 builder.Services.Configure<GitHubOptions>(builder.Configuration.GetSection("ModularPipelines:Secrets:GitHub"));
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 where `appsettings.json` is constructed as follows:
