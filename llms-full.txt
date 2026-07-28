@@ -5842,18 +5842,21 @@ Import `ModularPipelines.Azure.Extensions`, then use these services from a modul
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Azure.Extensions;
+using ModularPipelines.Azure.Options;
 
-public class UseAzureModule : SyncModule
+public class UseAzureModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var azure = context.Azure();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Azure integration is ready");
+        return await context.Az().Account.List(
+            new AzAccountListOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```
@@ -6216,8 +6219,8 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Az().Login(
-            new AzLoginOptions(),
+        return await context.Az().Account.List(
+            new AzAccountListOptions(),
             cancellationToken: cancellationToken);
     }
 }
@@ -9446,8 +9449,11 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Cargo().Build(
-            new CargoBuildOptions(),
+        return await context.Cargo().Check(
+            new CargoCheckOptions
+            {
+                Quiet = true,
+            },
             cancellationToken: cancellationToken);
     }
 }
@@ -9836,8 +9842,11 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gcloud().Docker(
-            new GcloudDockerOptions(),
+        return await context.Gcloud().Info(
+            new GcloudInfoOptions
+            {
+                Anonymize = true,
+            },
             cancellationToken: cancellationToken);
     }
 }
@@ -17518,8 +17527,8 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gh().Browse(
-            new GhBrowseOptions(),
+        return await context.Gh().Config.List(
+            new GhConfigListOptions(),
             cancellationToken: cancellationToken);
     }
 }
@@ -17686,8 +17695,8 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Go().Fix(
-            new GoFixOptions(),
+        return await context.Go().Vet(
+            new GoVetOptions(),
             cancellationToken: cancellationToken);
     }
 }
@@ -18062,8 +18071,8 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Kubernetes().Annotate(
-            new KubernetesAnnotateOptions(),
+        return await context.Kubernetes().Config.View(
+            new KubernetesConfigViewOptions(),
             cancellationToken: cancellationToken);
     }
 }
@@ -18682,8 +18691,11 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Pnpm().Unlink(
-            new PnpmUnlinkOptions(),
+        return await context.Pnpm().Audit(
+            new PnpmAuditOptions
+            {
+                AuditLevel = "high",
+            },
             cancellationToken: cancellationToken);
     }
 }
@@ -19246,8 +19258,8 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Terraform().Apply(
-            new TerraformApplyOptions(),
+        return await context.Terraform().Validate(
+            new TerraformValidateOptions(),
             cancellationToken: cancellationToken);
     }
 }
@@ -19893,18 +19905,21 @@ Import `ModularPipelines.Docker.Extensions`, then use this service from a module
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Docker.Extensions;
+using ModularPipelines.Docker.Options;
 
-public class UseDockerModule : SyncModule
+public class UseDockerModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var docker = context.Docker();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Docker integration is ready");
+        return await context.Docker().Info(
+            new DockerInfoOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```
@@ -19936,18 +19951,21 @@ Import `ModularPipelines.DotNet.Extensions`, then use these services from a modu
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.DotNet.Extensions;
+using ModularPipelines.DotNet.Options;
 
-public class UseDotNetModule : SyncModule
+public class UseDotNetModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var dotNet = context.DotNet();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("DotNet integration is ready");
+        return await context.DotNet().Workload.List(
+            new DotNetWorkloadListOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```
@@ -20200,18 +20218,24 @@ Import `ModularPipelines.Git.Extensions`, then use this service from a module:
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Git.Options;
 
-public class UseGitModule : SyncModule
+public class UseGitModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var git = context.Git();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Git integration is ready");
+        return await context.Git().Status(
+            new GitStatusOptions
+            {
+                Short = true,
+            },
+            cancellationToken: cancellationToken);
     }
 }
 ```
@@ -20334,18 +20358,21 @@ Import `ModularPipelines.Go.Extensions`, then use this service from a module:
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Go.Extensions;
+using ModularPipelines.Go.Options;
 
-public class UseGoModule : SyncModule
+public class UseGoModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var go = context.Go();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Go integration is ready");
+        return await context.Go().Vet(
+            new GoVetOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```
@@ -20376,18 +20403,24 @@ Import `ModularPipelines.Google.Extensions`, then use this service from a module
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Google.Extensions;
+using ModularPipelines.Google.Options;
 
-public class UseGcloudModule : SyncModule
+public class UseGcloudModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var gcloud = context.Gcloud();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Gcloud integration is ready");
+        return await context.Gcloud().Info(
+            new GcloudInfoOptions
+            {
+                Anonymize = true,
+            },
+            cancellationToken: cancellationToken);
     }
 }
 ```
@@ -20503,18 +20536,21 @@ Import `ModularPipelines.Helm.Extensions`, then use this service from a module:
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Helm.Extensions;
+using ModularPipelines.Helm.Options;
 
-public class UseHelmModule : SyncModule
+public class UseHelmModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var helm = context.Helm();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Helm integration is ready");
+        return await context.Helm().Env(
+            new HelmEnvOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```
@@ -20739,18 +20775,21 @@ Import `ModularPipelines.Kubernetes.Extensions`, then use these services from a 
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Kubernetes.Extensions;
+using ModularPipelines.Kubernetes.Options;
 
-public class UseKubernetesModule : SyncModule
+public class UseKubernetesModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var kubernetes = context.Kubernetes();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Kubernetes integration is ready");
+        return await context.Kubernetes().Config.View(
+            new KubernetesConfigViewOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```
@@ -20987,18 +21026,18 @@ Import `ModularPipelines.Node.Extensions`, then use these services from a module
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Node.Extensions;
 
-public class UseNodeModule : SyncModule
+public class UseNodeModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var node = context.Node();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Node integration is ready");
+        return await context.Node().Version(cancellationToken);
     }
 }
 ```
@@ -21155,18 +21194,21 @@ Import `ModularPipelines.Python.Extensions`, then use this service from a module
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Python.Extensions;
+using ModularPipelines.Python.Options;
 
-public class UsePipModule : SyncModule
+public class UsePipModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var pip = context.Pip();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Pip integration is ready");
+        return await context.Pip().Freeze(
+            new PipFreezeOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```
@@ -21197,18 +21239,24 @@ Import `ModularPipelines.Rust.Extensions`, then use this service from a module:
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Rust.Extensions;
+using ModularPipelines.Rust.Options;
 
-public class UseCargoModule : SyncModule
+public class UseCargoModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var cargo = context.Cargo();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Cargo integration is ready");
+        return await context.Cargo().Check(
+            new CargoCheckOptions
+            {
+                Quiet = true,
+            },
+            cancellationToken: cancellationToken);
     }
 }
 ```
@@ -21529,18 +21577,21 @@ Import `ModularPipelines.Terraform.Extensions`, then use this service from a mod
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Terraform.Extensions;
+using ModularPipelines.Terraform.Options;
 
-public class UseTerraformModule : SyncModule
+public class UseTerraformModule : Module<CommandResult>
 {
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var terraform = context.Terraform();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Terraform integration is ready");
+        return await context.Terraform().Validate(
+            new TerraformValidateOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```
