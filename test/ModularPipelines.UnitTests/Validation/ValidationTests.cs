@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -156,6 +157,24 @@ public class ValidationTests
             => Task.FromResult<string?>("b");
     }
 
+    private sealed class ThrowingValidator : IPipelineValidator, IAsyncDisposable
+    {
+        public int Order => int.MaxValue;
+
+        public bool IsDisposed { get; private set; }
+
+        public ValidationResult Validate(IServiceProvider services)
+        {
+            throw new InvalidOperationException("Custom validation failed.");
+        }
+
+        public ValueTask DisposeAsync()
+        {
+            IsDisposed = true;
+            return ValueTask.CompletedTask;
+        }
+    }
+
     [Test]
     public async Task ValidateAsync_WithValidConfiguration_ReturnsNoErrors()
     {
@@ -215,6 +234,21 @@ public class ValidationTests
         {
             await builder.BuildAsync();
         });
+    }
+
+    [Test]
+    public async Task BuildAsync_WhenCustomValidatorThrows_DisposesPipeline()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SimpleModule>();
+        ThrowingValidator? validator = null;
+        builder.Services.AddSingleton<IPipelineValidator>(_ => validator = new ThrowingValidator());
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.Message).IsEqualTo("Custom validation failed.");
+        await Assert.That(validator).IsNotNull();
+        await Assert.That(validator!.IsDisposed).IsTrue();
     }
 
     [Test]

@@ -21,6 +21,7 @@ public class DirectCollisionTests
 
         await Assert.That(exception!.ValidationResult.Errors.Single().Message)
             .IsEqualTo("Dependency collision detected: **DependencyConflictModule1** -> DependencyConflictModule2 -> **DependencyConflictModule1**");
+        await Assert.That(exception.InnerException).IsTypeOf<DependencyCollisionException>();
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]

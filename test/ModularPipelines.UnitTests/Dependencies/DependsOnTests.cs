@@ -146,6 +146,7 @@ public class DependsOnTests : TestBase
 
         await Assert.That(exception!.ValidationResult.Errors.Single().Message)
             .IsEqualTo("Module 'DependsOnSelfModule' cannot reference itself. A module cannot depend on its own result.");
+        await Assert.That(exception.InnerException).IsTypeOf<ModuleReferencingSelfException>();
     }
 
     [Test]

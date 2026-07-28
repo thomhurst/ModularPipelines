@@ -141,38 +141,8 @@ public sealed class PipelineBuilder
     /// <exception cref="PipelineValidationException">Thrown when validation fails.</exception>
     public async Task<IPipeline> BuildAsync()
     {
-        IPipeline? pipeline = null;
-        ValidationResult validationResult;
-
-        try
-        {
-            pipeline = await BuildPipelineAsync().ConfigureAwait(false);
-            validationResult = await ValidatePipelineAsync(pipeline.Services).ConfigureAwait(false);
-        }
-        catch (PipelineException ex) when (ex.Message.Contains("No modules"))
-        {
-            validationResult = ValidationResult.WithError(new ValidationError(
-                ValidationErrorCategory.ModuleConfiguration,
-                "No modules are registered. A pipeline must have at least one module."));
-        }
-        catch (ModuleNotRegisteredException ex)
-        {
-            validationResult = ValidationResult.WithError(new ValidationError(
-                ValidationErrorCategory.Dependency,
-                ex.Message));
-        }
-        catch (ModuleReferencingSelfException ex)
-        {
-            validationResult = ValidationResult.WithError(new ValidationError(
-                ValidationErrorCategory.Dependency,
-                ex.Message));
-        }
-        catch (DependencyCollisionException ex)
-        {
-            validationResult = ValidationResult.WithError(new ValidationError(
-                ValidationErrorCategory.Dependency,
-                ex.Message));
-        }
+        var (pipeline, validationResult, validationException) =
+            await BuildAndValidatePipelineAsync().ConfigureAwait(false);
 
         if (validationResult.HasErrors)
         {
@@ -181,7 +151,7 @@ public sealed class PipelineBuilder
                 await pipeline.DisposeAsync().ConfigureAwait(false);
             }
 
-            throw new PipelineValidationException(validationResult);
+            throw new PipelineValidationException(validationResult, validationException);
         }
 
         return pipeline!;
@@ -193,36 +163,12 @@ public sealed class PipelineBuilder
     /// <returns>A validation result containing any errors found.</returns>
     public async Task<ValidationResult> ValidateAsync()
     {
-        IPipeline? pipeline = null;
+        var (pipeline, validationResult, _) =
+            await BuildAndValidatePipelineAsync().ConfigureAwait(false);
 
         try
         {
-            pipeline = await BuildPipelineAsync().ConfigureAwait(false);
-            return await ValidatePipelineAsync(pipeline.Services).ConfigureAwait(false);
-        }
-        catch (PipelineException ex) when (ex.Message.Contains("No modules"))
-        {
-            return ValidationResult.WithError(new ValidationError(
-                ValidationErrorCategory.ModuleConfiguration,
-                "No modules are registered. A pipeline must have at least one module."));
-        }
-        catch (ModuleNotRegisteredException ex)
-        {
-            return ValidationResult.WithError(new ValidationError(
-                ValidationErrorCategory.Dependency,
-                ex.Message));
-        }
-        catch (ModuleReferencingSelfException ex)
-        {
-            return ValidationResult.WithError(new ValidationError(
-                ValidationErrorCategory.Dependency,
-                ex.Message));
-        }
-        catch (DependencyCollisionException ex)
-        {
-            return ValidationResult.WithError(new ValidationError(
-                ValidationErrorCategory.Dependency,
-                ex.Message));
+            return validationResult;
         }
         finally
         {
@@ -231,6 +177,50 @@ public sealed class PipelineBuilder
                 await pipeline.DisposeAsync().ConfigureAwait(false);
             }
         }
+    }
+
+    private async Task<(IPipeline? Pipeline, ValidationResult ValidationResult, Exception? ValidationException)>
+        BuildAndValidatePipelineAsync()
+    {
+        IPipeline? pipeline = null;
+
+        try
+        {
+            pipeline = await BuildPipelineAsync().ConfigureAwait(false);
+            var validationResult = await ValidatePipelineAsync(pipeline.Services).ConfigureAwait(false);
+            return (pipeline, validationResult, null);
+        }
+        catch (PipelineException ex) when (ex.Message.Contains("No modules"))
+        {
+            return (
+                pipeline,
+                ValidationResult.WithError(new ValidationError(
+                    ValidationErrorCategory.ModuleConfiguration,
+                    "No modules are registered. A pipeline must have at least one module.")),
+                ex);
+        }
+        catch (Exception ex) when (ex is ModuleNotRegisteredException
+            or ModuleReferencingSelfException
+            or DependencyCollisionException)
+        {
+            return (pipeline, CreateDependencyValidationResult(ex), ex);
+        }
+        catch
+        {
+            if (pipeline != null)
+            {
+                await pipeline.DisposeAsync().ConfigureAwait(false);
+            }
+
+            throw;
+        }
+    }
+
+    private static ValidationResult CreateDependencyValidationResult(Exception exception)
+    {
+        return ValidationResult.WithError(new ValidationError(
+            ValidationErrorCategory.Dependency,
+            exception.Message));
     }
 
     private static Task<ValidationResult> ValidatePipelineAsync(IServiceProvider services)
