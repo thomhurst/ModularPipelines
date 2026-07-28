@@ -402,6 +402,7 @@ public class CommandTests : TestBase
         var fileSuffix = Guid.NewGuid().ToString("N");
         var triggerFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-trigger-{fileSuffix}");
         var intermediatePidFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-intermediate-{fileSuffix}.pid");
+        var intermediateReadyFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-intermediate-{fileSuffix}.ready");
         var grandchildPidFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-grandchild-{fileSuffix}.pid");
         Process? intermediateProcess = null;
         Process? grandchildProcess = null;
@@ -412,6 +413,7 @@ public class CommandTests : TestBase
             using var cancellationTokenSource = new CancellationTokenSource();
             var intermediateScript = string.Join(
                 "; ",
+                $"Set-Content -LiteralPath '{EscapePowerShellLiteral(intermediateReadyFile)}' -Value 'ready'",
                 $"while (-not (Test-Path -LiteralPath '{EscapePowerShellLiteral(triggerFile)}')) {{ Start-Sleep -Milliseconds 10 }}",
                 "$grandchild = Start-Process pwsh -ArgumentList '-NoProfile', '-Command', 'Start-Sleep -Seconds 60' -PassThru",
                 $"Set-Content -LiteralPath '{EscapePowerShellLiteral(grandchildPidFile)}' -Value $grandchild.Id",
@@ -440,6 +442,7 @@ public class CommandTests : TestBase
                 intermediatePidFile,
                 intermediatePidFileTimeout.Token);
             intermediateProcess = Process.GetProcessById(intermediateProcessId);
+            await WaitForFileAsync(intermediateReadyFile, intermediatePidFileTimeout.Token);
             cancellationTokenSource.Cancel();
             await File.WriteAllTextAsync(triggerFile, string.Empty);
 
@@ -468,6 +471,7 @@ public class CommandTests : TestBase
 
             File.Delete(triggerFile);
             File.Delete(intermediatePidFile);
+            File.Delete(intermediateReadyFile);
             File.Delete(grandchildPidFile);
         }
     }
@@ -494,6 +498,14 @@ public class CommandTests : TestBase
                 }
             }
 
+            await Task.Delay(20, cancellationToken);
+        }
+    }
+
+    private static async Task WaitForFileAsync(string path, CancellationToken cancellationToken)
+    {
+        while (!File.Exists(path))
+        {
             await Task.Delay(20, cancellationToken);
         }
     }
