@@ -19,7 +19,7 @@ public class PipelineSummaryTests
     }
 
     [Test]
-    public async Task Missing_Registry_Entries_Are_Not_Fabricated_As_Failures()
+    public async Task Missing_Registry_Entries_Are_Unknown_Without_Fabricated_Failures()
     {
         var module = new UnfinishedModule();
         var resultRegistry = new ModuleResultRegistry();
@@ -41,7 +41,7 @@ public class PipelineSummaryTests
         {
             await Assert.That(summary.Modules).Count().IsEqualTo(1);
             await Assert.That(summary.Results).IsEmpty();
-            await Assert.That(summary.Status).IsEqualTo(Status.Successful);
+            await Assert.That(summary.Status).IsEqualTo(Status.Unknown);
         }
     }
 }

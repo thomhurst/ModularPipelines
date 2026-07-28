@@ -80,11 +80,22 @@ public record PipelineSummary
     /// <summary>
     /// Gets the status of the pipeline.
     /// </summary>
-    public Status Status => Results.Any(result =>
-        result.ExceptionOrDefault is not null
-        && result.ModuleStatus != Status.IgnoredFailure)
-        ? Status.Failed
-        : Status.Successful;
+    public Status Status
+    {
+        get
+        {
+            if (Results.Any(result =>
+                    result.ExceptionOrDefault is not null
+                    && result.ModuleStatus != Status.IgnoredFailure))
+            {
+                return Status.Failed;
+            }
+
+            return Results.Count == Modules.Count
+                ? Status.Successful
+                : Status.Unknown;
+        }
+    }
 
     /// <summary>
     /// Get the Module of type {T}.
