@@ -29,9 +29,13 @@ public interface IEnvironmentDomainContext
     string UserName { get; }
 
     /// <summary>
-    /// The current working directory.
+    /// Gets the working directory captured when the pipeline context was created.
     /// </summary>
-    string WorkingDirectory { get; set; }
+    /// <remarks>
+    /// To run a command in another directory, set
+    /// <see cref="Options.CommandExecutionOptions.WorkingDirectory"/>.
+    /// </remarks>
+    string WorkingDirectory { get; }
 
     /// <summary>
     /// Environment variable operations.

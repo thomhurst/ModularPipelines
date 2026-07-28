@@ -70,7 +70,7 @@ internal class EnvironmentDomainContext : IEnvironmentDomainContext
     public string UserName => System.Environment.UserName;
 
     /// <inheritdoc />
-    public string WorkingDirectory { get; set; }
+    public string WorkingDirectory { get; }
 
     /// <inheritdoc />
     public IEnvironmentVariablesContext Variables { get; }
