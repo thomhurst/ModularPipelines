@@ -13,7 +13,7 @@ public sealed class ModularPipelinesContextAttribute : Attribute
     private const string RegistrationMethodName = "Register";
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ModularPipelinesContextAttribute"/> class.
+    /// Initialises a new instance of the <see cref="ModularPipelinesContextAttribute"/> class.
     /// </summary>
     /// <param name="contextType">The generated registrar type.</param>
     public ModularPipelinesContextAttribute(
