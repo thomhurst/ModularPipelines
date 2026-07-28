@@ -219,7 +219,7 @@ public class MyModule : Module<string>
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithTimeout(TimeSpan.FromMinutes(5))
         .WithRetryCount(3)
-        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+        .WithSkipWhen(async ctx => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
             ? SkipDecision.Skip("Only runs on main branch")
             : SkipDecision.DoNotSkip)
         .WithIgnoreFailures()
@@ -833,14 +833,16 @@ The `WithSkipWhen` and `WithIgnoreFailuresWhen` methods accept both sync and asy
 // Async lambda - same method name
 .WithSkipWhen(async () => await CheckConditionAsync())
 
-// With context - sync
-.WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main")
+// With context - async repository lookup
+.WithSkipWhen(async ctx =>
+    (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main")
 
 // With context - async
 .WithSkipWhen(async ctx => await ctx.SomeAsyncCheck())
 
 // Returning SkipDecision
-.WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+.WithSkipWhen(async ctx =>
+    (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
     ? SkipDecision.Skip("Not main branch")
     : SkipDecision.DoNotSkip)
 ```
@@ -1159,7 +1161,7 @@ public class BuildModule : Module<BuildOutput>
 public class DeployModule : Module<bool>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+        .WithSkipWhen(async ctx => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
             ? SkipDecision.Skip("Not main branch")
             : SkipDecision.DoNotSkip)
         .Build();
