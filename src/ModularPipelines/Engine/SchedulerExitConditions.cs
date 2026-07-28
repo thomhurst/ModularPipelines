@@ -9,6 +9,8 @@ namespace ModularPipelines.Engine;
 /// </remarks>
 internal class SchedulerExitConditions
 {
+    private bool _previousSnapshotWasIdle;
+
     /// <summary>
     /// Determines if the scheduler should exit based on current state.
     /// </summary>
@@ -20,31 +22,35 @@ internal class SchedulerExitConditions
         // Exit if all work is done
         if (snapshot.AllCompleted)
         {
+            _previousSnapshotWasIdle = false;
             return true;
         }
 
-        // Exit if we're deadlocked (nothing active, work pending, but nothing could be queued)
-        if (IsDeadlocked(snapshot, queuedCount))
-        {
-            return true;
-        }
+        // A module can be returned from Queued to Pending when its execution-time
+        // constraints change. Give that transient state one scheduling cycle to
+        // requeue before treating consecutive idle snapshots as a deadlock.
+        var isIdle = IsDeadlocked(snapshot, queuedCount);
+        var shouldExit = isIdle && _previousSnapshotWasIdle;
+        _previousSnapshotWasIdle = isIdle;
 
-        return false;
+        return shouldExit;
     }
 
     /// <summary>
-    /// Detects deadlock condition: modules are pending but cannot make progress.
+    /// Detects a potential deadlock condition: modules are pending but cannot make progress.
     /// </summary>
     /// <param name="snapshot">Current state snapshot.</param>
     /// <param name="queuedCount">Number of modules queued in this iteration.</param>
-    /// <returns>True if deadlocked, false otherwise.</returns>
+    /// <returns>True if the current snapshot is idle with pending work, false otherwise.</returns>
     /// <remarks>
-    /// Deadlock occurs when:
+    /// A potential deadlock occurs when:
     /// - No modules are currently active (executing or queued)
     /// - Modules are still pending (waiting for dependencies)
     /// - No modules could be queued (dependencies will never complete)
     ///
-    /// This typically indicates circular dependencies or missing module registrations.
+    /// Two consecutive potential deadlocks indicate circular dependencies or missing
+    /// module registrations. A single idle snapshot can occur while a deferred module
+    /// transitions from queued back to pending.
     /// </remarks>
     public bool IsDeadlocked(ModuleStateSnapshot snapshot, int queuedCount)
     {

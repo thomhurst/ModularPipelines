@@ -121,6 +121,35 @@ public class ModuleSchedulerDynamicCycleTests
     }
 
     [Test]
+    public async Task RunSchedulerAsync_WhenOnlyModuleIsDeferred_DoesNotReportDeadlock()
+    {
+        var constraintEvaluator = new Mock<IModuleConstraintEvaluator>();
+        constraintEvaluator
+            .SetupSequence(x => x.CanQueue(It.IsAny<ModuleState>(), It.IsAny<IEnumerable<ModuleState>>()))
+            .Returns(true)
+            .Returns(false)
+            .Returns(true);
+        constraintEvaluator
+            .SetupSequence(x => x.CanStartExecution(It.IsAny<ModuleState>(), It.IsAny<IEnumerable<ModuleState>>()))
+            .Returns(false)
+            .Returns(true);
+
+        using var scheduler = CreateScheduler(constraintEvaluator.Object);
+        scheduler.InitializeModules([new CompletedDependencyModule()]);
+
+        var schedulerTask = scheduler.RunSchedulerAsync(CancellationToken.None);
+        var firstAttempt = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+
+        await Assert.That(scheduler.MarkModuleStarted(firstAttempt.ModuleType)).IsFalse();
+
+        var secondAttempt = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+        await Assert.That(scheduler.MarkModuleStarted(secondAttempt.ModuleType)).IsTrue();
+
+        scheduler.MarkModuleCompleted(secondAttempt.ModuleType, success: true);
+        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
+    }
+
+    [Test]
     public async Task AddModule_WhenExistingPredicateCreatesCycle_ThrowsAndRollsBack()
     {
         using var scheduler = CreateScheduler();
@@ -221,7 +250,7 @@ public class ModuleSchedulerDynamicCycleTests
         await Assert.That(state!.UnresolvedDependencies).Contains(typeof(CompletedDependencyModule));
     }
 
-    private static ModuleScheduler CreateScheduler()
+    private static ModuleScheduler CreateScheduler(IModuleConstraintEvaluator? constraintEvaluator = null)
     {
         return new ModuleScheduler(
             NullLogger.Instance,
@@ -230,7 +259,7 @@ public class ModuleSchedulerDynamicCycleTests
             new ModuleDependencyRegistry(),
             new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
             Mock.Of<IMetricsCollector>(),
-            Mock.Of<IModuleConstraintEvaluator>(),
+            constraintEvaluator ?? Mock.Of<IModuleConstraintEvaluator>(),
             Mock.Of<ISchedulerStatusReporter>());
     }
 }
