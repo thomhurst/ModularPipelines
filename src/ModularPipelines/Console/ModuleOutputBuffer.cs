@@ -40,7 +40,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     public Type ModuleType { get; }
 
     /// <summary>
-    /// Initializes a new buffer for the specified module type.
+    /// Initialises a new instance of the <see cref="ModuleOutputBuffer"/> class
+    /// for the specified module type.
     /// </summary>
     /// <param name="moduleType">The module type.</param>
     public ModuleOutputBuffer(
@@ -52,7 +53,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <summary>
-    /// Initializes a buffer for unattributed output (not from any module).
+    /// Initialises a new instance of the <see cref="ModuleOutputBuffer"/> class
+    /// for unattributed output.
     /// </summary>
     /// <param name="name">Display name for the buffer.</param>
     /// <param name="moduleType">Placeholder type.</param>
@@ -466,7 +468,7 @@ internal readonly struct BufferedOutput
     public LogEventData? LogEvent { get; private init; }
 
     /// <summary>
-    /// Gets whether this is a string output.
+    /// Gets a value indicating whether this output contains a string.
     /// </summary>
     public bool IsString => StringValue != null;
 
@@ -493,9 +495,13 @@ internal readonly struct BufferedOutput
 internal readonly struct LogEventData
 {
     public LogLevel Level { get; }
+
     public EventId EventId { get; }
+
     public object State { get; }
+
     public Exception? Exception { get; }
+
     public Func<object, Exception?, string> Formatter { get; }
 
     public LogEventData(

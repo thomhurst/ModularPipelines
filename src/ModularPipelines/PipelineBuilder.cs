@@ -450,21 +450,37 @@ public sealed class PipelineBuilder
         private readonly SemaphoreSlim _lock = new(1, 1);
         private volatile IDistributedCoordinator? _inner;
 
+        public async Task EnqueueModuleAsync(ModuleAssignment a, CancellationToken ct) => await (await GetAsync(ct)).EnqueueModuleAsync(a, ct);
+
+        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> c, CancellationToken ct) => await (await GetAsync(ct)).DequeueModuleAsync(c, ct);
+
+        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct)).PublishResultAsync(r, ct);
+
+        public async Task<SerializedModuleResult> WaitForResultAsync(string m, CancellationToken ct) => await (await GetAsync(ct)).WaitForResultAsync(m, ct);
+
+        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct)).RegisterWorkerAsync(r, ct);
+
+        public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken ct) => await (await GetAsync(ct)).GetRegisteredWorkersAsync(ct);
+
+        public async Task SignalCompletionAsync(CancellationToken ct) => await (await GetAsync(ct)).SignalCompletionAsync(ct);
+
         private async ValueTask<IDistributedCoordinator> GetAsync(CancellationToken ct)
         {
-            if (_inner is not null) return _inner;
-            await _lock.WaitAsync(ct);
-            try { return _inner ??= await factory.CreateAsync(ct); }
-            finally { _lock.Release(); }
-        }
+            if (_inner is not null)
+            {
+                return _inner;
+            }
 
-        public async Task EnqueueModuleAsync(ModuleAssignment a, CancellationToken ct) => await (await GetAsync(ct)).EnqueueModuleAsync(a, ct);
-        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> c, CancellationToken ct) => await (await GetAsync(ct)).DequeueModuleAsync(c, ct);
-        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct)).PublishResultAsync(r, ct);
-        public async Task<SerializedModuleResult> WaitForResultAsync(string m, CancellationToken ct) => await (await GetAsync(ct)).WaitForResultAsync(m, ct);
-        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct)).RegisterWorkerAsync(r, ct);
-        public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken ct) => await (await GetAsync(ct)).GetRegisteredWorkersAsync(ct);
-        public async Task SignalCompletionAsync(CancellationToken ct) => await (await GetAsync(ct)).SignalCompletionAsync(ct);
+            await _lock.WaitAsync(ct);
+            try
+            {
+                return _inner ??= await factory.CreateAsync(ct);
+            }
+            finally
+            {
+                _lock.Release();
+            }
+        }
     }
 
     /// <summary>
@@ -475,17 +491,30 @@ public sealed class PipelineBuilder
         private readonly SemaphoreSlim _lock = new(1, 1);
         private volatile IDistributedArtifactStore? _inner;
 
+        public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor d, Stream s, CancellationToken ct) => await (await GetAsync(ct)).UploadAsync(d, s, ct);
+
+        public async Task<Stream> DownloadAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DownloadAsync(r, ct);
+
+        public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(string m, CancellationToken ct) => await (await GetAsync(ct)).ListArtifactsAsync(m, ct);
+
+        public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DeleteAsync(r, ct);
+
         private async ValueTask<IDistributedArtifactStore> GetAsync(CancellationToken ct)
         {
-            if (_inner is not null) return _inner;
-            await _lock.WaitAsync(ct);
-            try { return _inner ??= await factory.CreateAsync(ct); }
-            finally { _lock.Release(); }
-        }
+            if (_inner is not null)
+            {
+                return _inner;
+            }
 
-        public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor d, Stream s, CancellationToken ct) => await (await GetAsync(ct)).UploadAsync(d, s, ct);
-        public async Task<Stream> DownloadAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DownloadAsync(r, ct);
-        public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(string m, CancellationToken ct) => await (await GetAsync(ct)).ListArtifactsAsync(m, ct);
-        public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DeleteAsync(r, ct);
+            await _lock.WaitAsync(ct);
+            try
+            {
+                return _inner ??= await factory.CreateAsync(ct);
+            }
+            finally
+            {
+                _lock.Release();
+            }
+        }
     }
 }

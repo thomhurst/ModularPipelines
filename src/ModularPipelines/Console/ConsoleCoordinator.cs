@@ -43,31 +43,21 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     private readonly ILoggerFactory _loggerFactory;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly IServiceProvider _serviceProvider;
-
-    // Console state
+    private readonly object _phaseLock = new();
+    private readonly ConcurrentDictionary<Type, ModuleOutputBuffer> _moduleBuffers = new();
+    private readonly ModuleOutputBuffer _unattributedBuffer;
+    private readonly ConcurrentQueue<string> _deferredExceptions = new();
+    private readonly IOutputCoordinator _outputCoordinator;
+    private readonly ISpectreConsoleLoggerControl _loggerControl;
     private TextWriter? _originalConsoleOut;
     private TextWriter? _originalConsoleError;
     private IAnsiConsole? _originalAnsiConsole;
     private CoordinatedTextWriter? _coordinatedOut;
     private CoordinatedTextWriter? _coordinatedError;
-
-    // Phase management
     private volatile bool _isProgressActive;
-    private readonly object _phaseLock = new();
     private bool _isInstalled;
     private IProgressSession? _activeSession;
-
-    // Module buffers
-    private readonly ConcurrentDictionary<Type, ModuleOutputBuffer> _moduleBuffers = new();
-    private readonly ModuleOutputBuffer _unattributedBuffer;
-
-    // Deferred exceptions
-    private readonly ConcurrentQueue<string> _deferredExceptions = new();
-
-    // Logger for output
     private ILogger? _outputLogger;
-    private readonly IOutputCoordinator _outputCoordinator;
-    private readonly ISpectreConsoleLoggerControl _loggerControl;
 
     public ConsoleCoordinator(
         IBuildSystemFormatterProvider formatterProvider,
@@ -280,20 +270,6 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         return session;
     }
 
-    /// <summary>
-    /// Ends the progress phase. Called by ProgressSession.DisposeAsync().
-    /// </summary>
-    internal void EndProgressPhase()
-    {
-        lock (_phaseLock)
-        {
-            _outputCoordinator.SetProgressController(NoOpProgressController.Instance);
-            _outputCoordinator.SetProgressActive(false);
-            _isProgressActive = false;
-            _activeSession = null;
-        }
-    }
-
     /// <inheritdoc />
     public IModuleOutputBuffer GetModuleBuffer(Type moduleType)
     {
@@ -312,36 +288,6 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     public Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync()
     {
         return FlushPendingWritesAsync(OutputFlushKind.Complete);
-    }
-
-    private async Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync(OutputFlushKind flushKind)
-    {
-        var populatedBeforeFlush = _moduleBuffers.Values
-            .Where(buffer => buffer.HasOutput)
-            .ToHashSet();
-
-        CoordinatedTextWriter? output;
-        CoordinatedTextWriter? error;
-        lock (_phaseLock)
-        {
-            output = _coordinatedOut;
-            error = _coordinatedError;
-        }
-
-        if (output is not null)
-        {
-            await FlushWriterAsync(output, flushKind).ConfigureAwait(false);
-        }
-
-        if (error is not null && !ReferenceEquals(error, output))
-        {
-            await FlushWriterAsync(error, flushKind).ConfigureAwait(false);
-        }
-
-        return _moduleBuffers.Values
-            .Where(buffer => buffer.HasOutput && !populatedBeforeFlush.Contains(buffer))
-            .Cast<IModuleOutputBuffer>()
-            .ToArray();
     }
 
     /// <inheritdoc />
@@ -374,84 +320,6 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                     cancellationToken)
                 .ConfigureAwait(false);
         }
-    }
-
-    private async Task FlushBufferSafelyAsync(
-        IModuleOutputBuffer buffer,
-        OutputFlushKind flushKind,
-        CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        try
-        {
-            if (flushKind is OutputFlushKind.Complete)
-            {
-                await _outputCoordinator
-                    .OnModuleCompletedAsync(buffer, buffer.ModuleType, cancellationToken)
-                    .ConfigureAwait(false);
-            }
-            else
-            {
-                await _outputCoordinator
-                    .EnqueueAndFlushAsync(buffer, flushKind, cancellationToken)
-                    .ConfigureAwait(false);
-            }
-        }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-            throw;
-        }
-        catch (Exception exception)
-        {
-            ReportFlushFailure(buffer, exception);
-        }
-    }
-
-    private void RequestThresholdFlush(IModuleOutputBuffer buffer)
-    {
-        // EnqueueAndFlushAsync registers pending work before its first await, so teardown sees this flush.
-        _ = FlushThresholdAsync(buffer);
-    }
-
-    private async Task FlushThresholdAsync(IModuleOutputBuffer buffer)
-    {
-        try
-        {
-            await _outputCoordinator
-                .EnqueueAndFlushAsync(buffer, OutputFlushKind.Incremental)
-                .ConfigureAwait(false);
-        }
-        catch (Exception exception)
-        {
-            ReportFlushFailure(buffer, exception);
-        }
-    }
-
-    private void ReportFlushFailure(IModuleOutputBuffer buffer, Exception exception)
-    {
-        try
-        {
-            var logger = _outputLogger ?? _loggerFactory.CreateLogger<ConsoleCoordinator>();
-            logger.LogWarning(
-                exception,
-                "Failed to flush output for {ModuleType}",
-                buffer.ModuleType);
-        }
-        catch
-        {
-            // The output provider itself may be the failing sink. Preserve a fallback
-            // diagnostic without preventing unrelated buffers from being flushed.
-            _deferredExceptions.Enqueue(
-                $"Failed to flush output for {buffer.ModuleType}: {exception}");
-        }
-    }
-
-    private static Task FlushWriterAsync(CoordinatedTextWriter writer, OutputFlushKind flushKind)
-    {
-        return flushKind is OutputFlushKind.Complete
-            ? writer.FlushAsync()
-            : writer.FlushAvailableAsync();
     }
 
     /// <inheritdoc />
@@ -549,42 +417,6 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         await Task.CompletedTask;
     }
 
-    private void ConfigureConsoleWidth()
-    {
-        var configuredWidth = _options.Value.ConsoleWidth;
-
-        if (configuredWidth.HasValue)
-        {
-            // User explicitly configured a width
-            AnsiConsole.Console.Profile.Width = configuredWidth.Value;
-        }
-        else if (_buildSystemDetector.IsKnownBuildAgent)
-        {
-            // Running in a known CI environment - use expanded width
-            // CI environments typically don't have a TTY, causing Spectre.Console to default to 80 chars
-            AnsiConsole.Console.Profile.Width = DefaultCiConsoleWidth;
-        }
-
-        // Otherwise, leave Spectre.Console's auto-detected width (works well for local terminals)
-    }
-
-    internal static AnsiConsoleSettings CreateAnsiConsoleSettings(TextWriter output, bool isKnownBuildAgent)
-    {
-        var settings = new AnsiConsoleSettings
-        {
-            Out = new AnsiConsoleOutput(output),
-        };
-
-        if (isKnownBuildAgent)
-        {
-            settings.Ansi = AnsiSupport.Yes;
-            settings.ColorSystem = ColorSystemSupport.Standard;
-            settings.Interactive = InteractionSupport.No;
-        }
-
-        return settings;
-    }
-
     #region IProgressDisplay Implementation
 
     /// <summary>
@@ -643,4 +475,162 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     }
 
     #endregion
+
+    /// <summary>
+    /// Ends the progress phase. Called by ProgressSession.DisposeAsync().
+    /// </summary>
+    internal void EndProgressPhase()
+    {
+        lock (_phaseLock)
+        {
+            _outputCoordinator.SetProgressController(NoOpProgressController.Instance);
+            _outputCoordinator.SetProgressActive(false);
+            _isProgressActive = false;
+            _activeSession = null;
+        }
+    }
+
+    internal static AnsiConsoleSettings CreateAnsiConsoleSettings(TextWriter output, bool isKnownBuildAgent)
+    {
+        var settings = new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(output),
+        };
+
+        if (isKnownBuildAgent)
+        {
+            settings.Ansi = AnsiSupport.Yes;
+            settings.ColorSystem = ColorSystemSupport.Standard;
+            settings.Interactive = InteractionSupport.No;
+        }
+
+        return settings;
+    }
+
+    private async Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync(OutputFlushKind flushKind)
+    {
+        var populatedBeforeFlush = _moduleBuffers.Values
+            .Where(buffer => buffer.HasOutput)
+            .ToHashSet();
+
+        CoordinatedTextWriter? output;
+        CoordinatedTextWriter? error;
+        lock (_phaseLock)
+        {
+            output = _coordinatedOut;
+            error = _coordinatedError;
+        }
+
+        if (output is not null)
+        {
+            await FlushWriterAsync(output, flushKind).ConfigureAwait(false);
+        }
+
+        if (error is not null && !ReferenceEquals(error, output))
+        {
+            await FlushWriterAsync(error, flushKind).ConfigureAwait(false);
+        }
+
+        return _moduleBuffers.Values
+            .Where(buffer => buffer.HasOutput && !populatedBeforeFlush.Contains(buffer))
+            .Cast<IModuleOutputBuffer>()
+            .ToArray();
+    }
+
+    private async Task FlushBufferSafelyAsync(
+        IModuleOutputBuffer buffer,
+        OutputFlushKind flushKind,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        try
+        {
+            if (flushKind is OutputFlushKind.Complete)
+            {
+                await _outputCoordinator
+                    .OnModuleCompletedAsync(buffer, buffer.ModuleType, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                await _outputCoordinator
+                    .EnqueueAndFlushAsync(buffer, flushKind, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            ReportFlushFailure(buffer, exception);
+        }
+    }
+
+    private void RequestThresholdFlush(IModuleOutputBuffer buffer)
+    {
+        // EnqueueAndFlushAsync registers pending work before its first await, so teardown sees this flush.
+        _ = FlushThresholdAsync(buffer);
+    }
+
+    private async Task FlushThresholdAsync(IModuleOutputBuffer buffer)
+    {
+        try
+        {
+            await _outputCoordinator
+                .EnqueueAndFlushAsync(buffer, OutputFlushKind.Incremental)
+                .ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            ReportFlushFailure(buffer, exception);
+        }
+    }
+
+    private void ReportFlushFailure(IModuleOutputBuffer buffer, Exception exception)
+    {
+        try
+        {
+            var logger = _outputLogger ?? _loggerFactory.CreateLogger<ConsoleCoordinator>();
+            logger.LogWarning(
+                exception,
+                "Failed to flush output for {ModuleType}",
+                buffer.ModuleType);
+        }
+        catch
+        {
+            // The output provider itself may be the failing sink. Preserve a fallback
+            // diagnostic without preventing unrelated buffers from being flushed.
+            _deferredExceptions.Enqueue(
+                $"Failed to flush output for {buffer.ModuleType}: {exception}");
+        }
+    }
+
+    private static Task FlushWriterAsync(CoordinatedTextWriter writer, OutputFlushKind flushKind)
+    {
+        return flushKind is OutputFlushKind.Complete
+            ? writer.FlushAsync()
+            : writer.FlushAvailableAsync();
+    }
+
+    private void ConfigureConsoleWidth()
+    {
+        var configuredWidth = _options.Value.ConsoleWidth;
+
+        if (configuredWidth.HasValue)
+        {
+            // User explicitly configured a width
+            AnsiConsole.Console.Profile.Width = configuredWidth.Value;
+        }
+        else if (_buildSystemDetector.IsKnownBuildAgent)
+        {
+            // Running in a known CI environment - use expanded width
+            // CI environments typically don't have a TTY, causing Spectre.Console to default to 80 chars
+            AnsiConsole.Console.Profile.Width = DefaultCiConsoleWidth;
+        }
+
+        // Otherwise, leave Spectre.Console's auto-detected width (works well for local terminals)
+    }
 }
