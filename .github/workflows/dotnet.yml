@@ -65,6 +65,7 @@ jobs:
             --output "$RUNNER_TEMP/template-pack"
           dotnet new install \
             "$RUNNER_TEMP/template-pack/ModularPipelines.Templates.$template_package_version.nupkg"
+          dotnet new modularpipeline --help | grep -F -- '--no-restore'
           dotnet new modularpipeline \
             --name TemplateVersionSmoke \
             --output "$RUNNER_TEMP/template-version-smoke"

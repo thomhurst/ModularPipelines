@@ -15,7 +15,7 @@
              Exclude="templates\**\bin\**;templates\**\obj\**;templates\modularpipeline\.template.config\dotnetcli.host.json;templates\modularpipeline\.template.config\template.json;templates\modularpipeline\Directory.Packages.props" />
     <Content Include="templates\modularpipeline\.template.config\dotnetcli.host.json"
              Pack="true"
-             PackagePath="content\templates\modularpipeline\.template.config\dotnetcli.host.json" />
+             PackagePath="content/templates/modularpipeline/.template.config" />
     <Content Include="$(VersionedTemplateRoot).template.config\template.json"
              Pack="true"
              PackagePath="content\templates\modularpipeline\.template.config\" />
