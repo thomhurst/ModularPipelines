@@ -220,6 +220,7 @@ internal class ModuleExecutor : IModuleExecutor
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                     {
+                        _secondaryExceptionContainer.RegisterException(ex);
                         Interlocked.CompareExchange(ref firstException, ex, null);
                         cancellationTokenSource.Cancel();
                     }

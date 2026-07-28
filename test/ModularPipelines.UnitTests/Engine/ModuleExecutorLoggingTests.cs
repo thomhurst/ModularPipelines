@@ -90,6 +90,85 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
+    public async Task StopOnFirstException_RegistersAllConcurrentWorkerFaults()
+    {
+        var faultingModule = new FaultingModule();
+        var laterModule = new LaterModule();
+        var readyModules = Channel.CreateUnbounded<ModuleState>();
+        await readyModules.Writer.WriteAsync(new ModuleState(faultingModule, typeof(FaultingModule)));
+        await readyModules.Writer.WriteAsync(new ModuleState(laterModule, typeof(LaterModule)));
+        readyModules.Writer.Complete();
+
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
+        scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        var schedulerFactory = new Mock<IModuleSchedulerFactory>();
+        schedulerFactory.Setup(x => x.Create()).Returns(scheduler.Object);
+
+        var registrationEvents = new Mock<IRegistrationEventExecutor>();
+        registrationEvents.Setup(x => x.InvokeRegistrationEventsAsync(It.IsAny<IReadOnlyList<IModule>>()))
+            .Returns(Task.CompletedTask);
+
+        var parallelLimitProvider = new Mock<IParallelLimitProvider>();
+        parallelLimitProvider.Setup(x => x.GetMaxDegreeOfParallelism()).Returns(2);
+
+        var workersStarted = 0;
+        var bothWorkersStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var moduleRunner = new Mock<IModuleRunner>();
+        moduleRunner
+            .Setup(x => x.ExecuteAsync(
+                It.IsAny<ModuleState>(),
+                It.IsAny<IModuleScheduler>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<ModuleState, IModuleScheduler, CancellationToken>(async (moduleState, _, _) =>
+            {
+                if (Interlocked.Increment(ref workersStarted) == 2)
+                {
+                    bothWorkersStarted.TrySetResult();
+                }
+
+                await bothWorkersStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                throw new InvalidOperationException(moduleState.ModuleType.Name);
+            });
+
+        var registeredExceptions = new ConcurrentBag<string>();
+        var secondaryExceptionContainer = new Mock<ISecondaryExceptionContainer>();
+        secondaryExceptionContainer
+            .Setup(x => x.RegisterException(It.IsAny<Exception>()))
+            .Callback<Exception>(exception => registeredExceptions.Add(exception.Message));
+        var alwaysRunHandler = new Mock<IAlwaysRunHandler>();
+        alwaysRunHandler
+            .Setup(x => x.WaitForAlwaysRunModulesAsync(
+                It.IsAny<IModuleScheduler>(),
+                It.IsAny<IReadOnlyList<IModule>>()))
+            .Returns(Task.CompletedTask);
+        var executor = new ModuleExecutor(
+            schedulerFactory.Object,
+            moduleRunner.Object,
+            alwaysRunHandler.Object,
+            Mock.Of<IModuleResultRegistrar>(),
+            Mock.Of<IModuleResultRegistry>(),
+            parallelLimitProvider.Object,
+            registrationEvents.Object,
+            Mock.Of<IMetricsCollector>(),
+            new ModuleDependencyRegistry(),
+            new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
+            secondaryExceptionContainer.Object,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+            {
+                ExecutionMode = ExecutionMode.StopOnFirstException,
+            }),
+            Mock.Of<Microsoft.Extensions.Logging.ILogger<ModuleExecutor>>());
+
+        await Assert.That(async () => { await executor.ExecuteAsync([faultingModule, laterModule]); })
+            .Throws<InvalidOperationException>();
+        await Assert.That(registeredExceptions)
+            .IsEquivalentTo([nameof(FaultingModule), nameof(LaterModule)]);
+    }
+
+    [Test]
     public async Task WaitForAllModules_WorkerFault_DoesNotStopRemainingModules()
     {
         var dependencyRegistry = new ModuleDependencyRegistry();
