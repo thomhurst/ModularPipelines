@@ -19,7 +19,8 @@ namespace ModularPipelines.Requirements;
 /// {
 ///     public override async Task&lt;RequirementDecision&gt; MustAsync(IPipelineContext context)
 ///     {
-///         var result = await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet", "--version"));
+///         var result = await context.Shell.Command.ExecuteCommandLineTool(
+///             new GenericCommandLineToolOptions("dotnet") { Arguments = ["--version"] });
 ///         return result.ExitCode == 0 ? Pass() : Fail(".NET SDK is not installed");
 ///     }
 /// }

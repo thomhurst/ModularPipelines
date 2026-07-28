@@ -7,7 +7,8 @@ namespace ModularPipelines.Distributed.Worker;
 
 /// <summary>
 /// Minimal <see cref="IModuleScheduler"/> implementation for the worker execution path.
-/// The distributed coordinator handles scheduling; this satisfies the <see cref="IModuleRunner"/> contract.
+/// The distributed coordinator handles scheduling; this satisfies the
+/// <see cref="ModularPipelines.Engine.Execution.IModuleRunner"/> contract.
 /// </summary>
 internal sealed class WorkerModuleScheduler : IModuleScheduler
 {

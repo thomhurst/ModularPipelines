@@ -21,7 +21,9 @@ namespace ModularPipelines.Modules;
 /// {
 ///     protected override async Task ExecuteModuleAsync(IModuleContext context, CancellationToken cancellationToken)
 ///     {
-///         await context.Command.ExecuteCommandLineTool(...);
+///         await context.Shell.Command.ExecuteCommandLineTool(
+///             new GenericCommandLineToolOptions("deploy"),
+///             cancellationToken: cancellationToken);
 ///         // No return statement needed
 ///     }
 /// }

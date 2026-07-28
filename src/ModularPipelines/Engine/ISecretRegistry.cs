@@ -7,7 +7,7 @@ namespace ModularPipelines.Engine;
 /// <remarks>
 /// <para>
 /// Use this interface when secrets are obtained dynamically (e.g., from a vault or API)
-/// and cannot be marked with <see cref="Attributes.SecretValueAttribute"/>.
+/// and cannot be marked with <see cref="ModularPipelines.Attributes.SecretValueAttribute"/>.
 /// </para>
 /// <para>
 /// Secrets are automatically registered with the CI/CD build system's secret masking

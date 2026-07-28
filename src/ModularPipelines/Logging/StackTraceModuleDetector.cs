@@ -20,7 +20,7 @@ namespace ModularPipelines.Logging;
 ///
 /// Fallback strategies (when AsyncLocal is not available):
 /// 1. Look for methods with [ModuleMethodMarker] attribute
-/// 2. Find types inheriting from ModuleBase
+/// 2. Find types implementing <see cref="IModule"/>
 /// 3. Find the calling class from the entry assembly
 /// 4. Find any non-abstract, non-generic calling class
 ///

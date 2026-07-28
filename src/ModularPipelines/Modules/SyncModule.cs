@@ -121,7 +121,7 @@ public abstract class SyncModule<T> : Module<T>
     /// </para>
     /// <para>
     /// This hook is called after both successful execution and failures.
-    /// Check <see cref="ModuleResult{T}.Exception"/> to determine if the module failed.
+    /// Check <see cref="ModuleResult.ExceptionOrDefault"/> to determine if the module failed.
     /// </para>
     /// </remarks>
     protected virtual ModuleResult<T>? OnAfterExecute(
