@@ -481,7 +481,9 @@ internal class ProgressSession : IProgressSession, IProgressController
         {
             if (_isPaused)
             {
-                return _refreshCompleted?.Task ?? Task.CompletedTask;
+                // The first caller already waits for any active refresh. Reusing its
+                // completion source here could wait forever if that source is stale.
+                return Task.CompletedTask;
             }
 
             _isPaused = true;
