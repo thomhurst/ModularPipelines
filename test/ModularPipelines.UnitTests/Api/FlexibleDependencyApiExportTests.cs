@@ -169,5 +169,4 @@ public class FlexibleDependencyApiExportTests
         await Assert.That(properties.Any(p => p.Name == "Tags")).IsTrue();
         await Assert.That(properties.Any(p => p.Name == "Category")).IsTrue();
     }
-
 }
