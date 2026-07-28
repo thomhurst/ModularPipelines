@@ -170,6 +170,45 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
+    public async Task StopOnFirstException_SurfacesIndependentWorkerCancellation()
+    {
+        var faultingModule = new FaultingModule();
+        var laterModule = new LaterModule();
+        var workersStarted = 0;
+        var bothWorkersStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var failFastCancellationObserved = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var independentCancellationToken = new CancellationToken(canceled: true);
+        var executor = CreateStopOnFirstExceptionExecutor(
+            faultingModule,
+            laterModule,
+            async (moduleState, _, cancellationToken) =>
+            {
+                if (Interlocked.Increment(ref workersStarted) == 2)
+                {
+                    bothWorkersStarted.TrySetResult();
+                }
+
+                await bothWorkersStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+                if (moduleState.ModuleType == typeof(FaultingModule))
+                {
+                    throw new InvalidOperationException("Primary failure");
+                }
+
+                using var registration = cancellationToken.Register(failFastCancellationObserved.SetResult);
+                await failFastCancellationObserved.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                throw new OperationCanceledException(independentCancellationToken);
+            });
+
+        var exception = await Assert.That(async () =>
+                await executor.ExecuteAsync([faultingModule, laterModule]))
+            .Throws<AggregateException>();
+
+        await Assert.That(exception!.InnerExceptions.Select(x => x.GetType()))
+            .IsEquivalentTo([typeof(InvalidOperationException), typeof(OperationCanceledException)]);
+    }
+
+    [Test]
     public async Task WaitForAllModules_WorkerFault_DoesNotStopRemainingModules()
     {
         var dependencyRegistry = new ModuleDependencyRegistry();

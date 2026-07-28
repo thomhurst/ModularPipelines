@@ -223,7 +223,7 @@ internal class ModuleExecutor : IModuleExecutor
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                     {
-                        if (!IsExpectedFailFastCancellation(ex, cancellationTokenSource)
+                        if (!IsExpectedFailFastCancellation(ex, ct)
                             && recordedWorkerExceptions.TryAdd(ex, 0))
                         {
                             _secondaryExceptionContainer.RegisterException(ex);
@@ -248,10 +248,10 @@ internal class ModuleExecutor : IModuleExecutor
 
     private static bool IsExpectedFailFastCancellation(
         Exception exception,
-        CancellationTokenSource cancellationTokenSource)
+        CancellationToken workerCancellationToken)
     {
-        return cancellationTokenSource.IsCancellationRequested
-               && exception is OperationCanceledException;
+        return exception is OperationCanceledException operationCanceledException
+               && operationCanceledException.CancellationToken == workerCancellationToken;
     }
 
     private void HandleWaitForAllWorkerFailure(
