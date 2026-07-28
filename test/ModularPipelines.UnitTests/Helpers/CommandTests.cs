@@ -86,7 +86,7 @@ public class CommandTests : TestBase
     public async Task Failed_Command_Exposes_Obfuscated_Result()
     {
         const string secret = "command-result-secret-value";
-        var (command, pipeline) = await GetService<ICommand>(_ => { });
+        var (command, pipeline) = await GetService<ICommandContext>(_ => { });
         pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
 
         var exception = await Assert.ThrowsAsync<CommandException>(() =>

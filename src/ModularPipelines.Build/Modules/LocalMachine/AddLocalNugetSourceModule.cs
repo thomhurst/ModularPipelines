@@ -26,7 +26,7 @@ public class AddLocalNugetSourceModule : Module<CommandResult>
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithIgnoreFailuresWhen((_, ex) =>
             ex is CommandException commandException &&
-            commandException.StandardOutput.Contains("The name specified has already been added to the list of available package sources"))
+            commandException.Result.StandardOutput.Contains("The name specified has already been added to the list of available package sources"))
         .Build();
 
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
