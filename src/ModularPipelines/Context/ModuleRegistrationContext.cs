@@ -1,5 +1,4 @@
 // src/ModularPipelines/Context/ModuleRegistrationContext.cs
-using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -82,7 +81,7 @@ internal class ModuleRegistrationContext : IModuleRegistrationContext
         => _registeredModuleTypes.Where(t => typeof(TBase).IsAssignableFrom(t) && t != ModuleType);
 
     public IEnumerable<Type> GetModulesWithAttribute<TAttribute>() where TAttribute : Attribute
-        => _registeredModuleTypes.Where(t => t.GetCustomAttribute<TAttribute>() != null);
+        => _registeredModuleTypes.Where(_metadataRegistry.HasAttribute<TAttribute>);
 
     public void AddDependency<TModule>() where TModule : IModule
         => AddDependency(typeof(TModule));

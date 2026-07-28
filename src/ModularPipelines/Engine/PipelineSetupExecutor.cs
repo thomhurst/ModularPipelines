@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
@@ -8,19 +9,22 @@ namespace ModularPipelines.Engine;
 internal class PipelineSetupExecutor : IPipelineSetupExecutor
 {
     private readonly IEnumerable<IPipelineGlobalHooks> _globalHooks;
-    private readonly IEnumerable<IPipelineModuleHooks> _moduleHooks;
+    private readonly IReadOnlyCollection<IPipelineModuleHooks> _moduleHooks;
     private readonly IPipelineContextProvider _moduleContextProvider;
     private readonly IModuleMetadataRegistry _metadataRegistry;
+    private readonly IModuleAttributeEventService _attributeEventService;
 
     public PipelineSetupExecutor(IEnumerable<IPipelineGlobalHooks> globalHooks,
         IEnumerable<IPipelineModuleHooks> moduleHooks,
         IPipelineContextProvider moduleContextProvider,
-        IModuleMetadataRegistry metadataRegistry)
+        IModuleMetadataRegistry metadataRegistry,
+        IModuleAttributeEventService attributeEventService)
     {
         _globalHooks = globalHooks;
-        _moduleHooks = moduleHooks;
+        _moduleHooks = moduleHooks as IReadOnlyCollection<IPipelineModuleHooks> ?? moduleHooks.ToArray();
         _moduleContextProvider = moduleContextProvider;
         _metadataRegistry = metadataRegistry;
+        _attributeEventService = attributeEventService;
     }
 
     public Task OnPipelineStartAsync()
@@ -34,33 +38,41 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
     }
 
     public Task OnModuleReadyAsync(ModuleState moduleState)
-    {
-        var context = CreateModuleHookContext(moduleState);
-        return Task.WhenAll(_moduleHooks.Select(x => x.OnModuleReadyAsync(context)));
-    }
+        => InvokeModuleHooksAsync(
+            moduleState,
+            static (hook, context) => hook.OnModuleReadyAsync(context));
 
     public Task OnModuleStartAsync(ModuleState moduleState)
-    {
-        var context = CreateModuleHookContext(moduleState);
-        return Task.WhenAll(_moduleHooks.Select(x => x.OnModuleStartAsync(context)));
-    }
+        => InvokeModuleHooksAsync(
+            moduleState,
+            static (hook, context) => hook.OnModuleStartAsync(context));
 
     public Task OnModuleEndAsync(ModuleState moduleState)
-    {
-        var context = CreateModuleHookContext(moduleState);
-        return Task.WhenAll(_moduleHooks.Select(x => x.OnModuleEndAsync(context)));
-    }
+        => InvokeModuleHooksAsync(
+            moduleState,
+            static (hook, context) => hook.OnModuleEndAsync(context));
 
     public Task OnModuleFailureAsync(ModuleState moduleState)
-    {
-        var context = CreateModuleHookContext(moduleState);
-        return Task.WhenAll(_moduleHooks.Select(x => x.OnModuleFailureAsync(context)));
-    }
+        => InvokeModuleHooksAsync(
+            moduleState,
+            static (hook, context) => hook.OnModuleFailureAsync(context));
 
     public Task OnModuleSkippedAsync(ModuleState moduleState)
+        => InvokeModuleHooksAsync(
+            moduleState,
+            static (hook, context) => hook.OnModuleSkippedAsync(context));
+
+    private Task InvokeModuleHooksAsync(
+        ModuleState moduleState,
+        Func<IPipelineModuleHooks, IModuleHookContext, Task> invokeHook)
     {
+        if (_moduleHooks.Count == 0)
+        {
+            return Task.CompletedTask;
+        }
+
         var context = CreateModuleHookContext(moduleState);
-        return Task.WhenAll(_moduleHooks.Select(x => x.OnModuleSkippedAsync(context)));
+        return Task.WhenAll(_moduleHooks.Select(hook => invokeHook(hook, context)));
     }
 
     private IPipelineHookContext GetPipelineContext()
@@ -71,7 +83,7 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
     private ModuleHookContext CreateModuleHookContext(ModuleState moduleState)
     {
         var moduleType = moduleState.ModuleType;
-        var moduleAttributes = Attribute.GetCustomAttributes(moduleType).ToList().AsReadOnly();
+        var moduleAttributes = _attributeEventService.GetAttributes(moduleType);
         var startTime = moduleState.ExecutionStartTime ?? moduleState.QueuedTime ?? DateTimeOffset.UtcNow;
 
         return new ModuleHookContext(
