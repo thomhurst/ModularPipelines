@@ -6,11 +6,10 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.Go.Services;
 
 namespace ModularPipelines.Go.Extensions;
@@ -21,19 +20,12 @@ namespace ModularPipelines.Go.Extensions;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class GoExtensions
 {
-#pragma warning disable CA2255
-    [ModuleInitializer]
-#pragma warning restore CA2255
-    public static void RegisterGoContext()
-    {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterGoContext(collection));
-    }
-
     /// <summary>
     /// Registers go services with the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
+    [ModularPipelinesIntegration]
     public static IServiceCollection RegisterGoContext(this IServiceCollection services)
     {
         services.TryAddScoped<IGo, Services.Go>();
