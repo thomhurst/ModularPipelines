@@ -100,13 +100,13 @@ builder.AddRedisDistributedCoordinator(o =>
     // RunIdentifier auto-detected from GITHUB_SHA
 });
 
-builder.Services.AddModule<RestoreModule>();
-builder.Services.AddModule<LinuxBuildModule>();
-builder.Services.AddModule<WindowsBuildModule>();
-builder.Services.AddModule<MacBuildModule>();
-builder.Services.AddModule<AggregateResultsModule>();
+builder.AddModule<RestoreModule>();
+builder.AddModule<LinuxBuildModule>();
+builder.AddModule<WindowsBuildModule>();
+builder.AddModule<MacBuildModule>();
+builder.AddModule<AggregateResultsModule>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 
 public class RestoreModule : Module<string>
 {

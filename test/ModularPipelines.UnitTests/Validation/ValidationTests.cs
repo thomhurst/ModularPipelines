@@ -161,7 +161,7 @@ public class ValidationTests
     {
         // Arrange
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<SimpleModule>().AddModule<AnotherModule>();
+        builder.AddModule<SimpleModule>().AddModule<AnotherModule>();
 
         // Act
         var result = await builder.ValidateAsync();
@@ -191,7 +191,7 @@ public class ValidationTests
     {
         // Arrange
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<SimpleModule>();
+        builder.AddModule<SimpleModule>();
 
         // Act
         var pipeline = await builder.BuildAsync();
@@ -222,7 +222,7 @@ public class ValidationTests
     {
         // Arrange
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<ModuleWithMissingDep>(); // MissingModule is not registered but will be auto-registered
+        builder.AddModule<ModuleWithMissingDep>(); // MissingModule is not registered but will be auto-registered
 
         // Act
         var result = await builder.ValidateAsync();
@@ -239,7 +239,7 @@ public class ValidationTests
     {
         // Arrange
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<ModuleWithOptionalDep>(); // MissingModule is not registered but marked as optional
+        builder.AddModule<ModuleWithOptionalDep>(); // MissingModule is not registered but marked as optional
 
         // Act
         var result = await builder.ValidateAsync();
@@ -256,7 +256,7 @@ public class ValidationTests
     public async Task BuildAsync_WithFluentMissingDependency_ThrowsValidationException()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<ModuleWithFluentMissingDependency>();
+        builder.AddModule<ModuleWithFluentMissingDependency>();
 
         await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
     }
@@ -265,7 +265,7 @@ public class ValidationTests
     public async Task BuildAsync_Ignores_Fluent_Dependencies_For_Discovery_Skipped_Modules()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<SkippedModuleWithFluentMissingDependency>();
+        builder.AddModule<SkippedModuleWithFluentMissingDependency>();
 
         await using var pipeline = await builder.BuildAsync();
 
@@ -276,7 +276,7 @@ public class ValidationTests
     public async Task ValidateAsync_Ignores_Fluent_Dependencies_For_Discovery_Skipped_Modules()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<SkippedModuleWithFluentMissingDependency>();
+        builder.AddModule<SkippedModuleWithFluentMissingDependency>();
 
         var result = await builder.ValidateAsync();
 
@@ -288,7 +288,7 @@ public class ValidationTests
     public async Task ValidateAsync_Rejects_Fluent_Missing_Dependency()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<ModuleWithFluentMissingDependency>();
+        builder.AddModule<ModuleWithFluentMissingDependency>();
 
         await AssertDependencyValidationError(builder);
     }
@@ -297,7 +297,7 @@ public class ValidationTests
     public async Task ValidateAsync_Rejects_Fluent_Self_Dependency()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<FluentSelfReferencingModule>();
+        builder.AddModule<FluentSelfReferencingModule>();
 
         await AssertDependencyValidationError(builder);
     }
@@ -306,7 +306,7 @@ public class ValidationTests
     public async Task ValidateAsync_Rejects_Fluent_Cycle()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.Services
+        builder
             .AddModule<FluentCycleModuleA>()
             .AddModule<FluentCycleModuleB>();
 
@@ -317,7 +317,7 @@ public class ValidationTests
     public async Task BuildAsync_Rejects_Selector_Cycle()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.Services
+        builder
             .AddModule<SelectorCycleModuleA>()
             .AddModule<SelectorCycleModuleB>();
 
@@ -328,7 +328,7 @@ public class ValidationTests
     public async Task ValidateAsync_Rejects_Selector_Cycle()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.Services
+        builder
             .AddModule<SelectorCycleModuleA>()
             .AddModule<SelectorCycleModuleB>();
 
@@ -347,7 +347,7 @@ public class ValidationTests
     {
         // Arrange
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<SimpleModule>();
+        builder.AddModule<SimpleModule>();
 
         // Act
         var pipeline = await builder.BuildAsync();
@@ -436,7 +436,7 @@ public class ValidationTests
     {
         // Arrange
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<SimpleModule>();
+        builder.AddModule<SimpleModule>();
         builder.Options.DefaultRetryCount = -1;
 
         // Act
@@ -453,7 +453,7 @@ public class ValidationTests
     public async Task ValidateAsync_WithNegativeDefaultModuleTimeout_ReturnsError()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<SimpleModule>();
+        builder.AddModule<SimpleModule>();
         builder.Options.DefaultModuleTimeout = TimeSpan.FromSeconds(-1);
 
         var result = await builder.ValidateAsync();
@@ -468,7 +468,7 @@ public class ValidationTests
     public async Task ValidateAsync_WithNegativeModuleOutputFlushInterval_ReturnsError()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<SimpleModule>();
+        builder.AddModule<SimpleModule>();
         builder.Options.ModuleOutputFlushInterval = TimeSpan.FromSeconds(-1);
 
         var result = await builder.ValidateAsync();
@@ -483,7 +483,7 @@ public class ValidationTests
     public async Task ValidateAsync_WithTooLargeModuleOutputFlushInterval_ReturnsError()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<SimpleModule>();
+        builder.AddModule<SimpleModule>();
         builder.Options.ModuleOutputFlushInterval = TimeSpan.FromMilliseconds(uint.MaxValue);
 
         var result = await builder.ValidateAsync();
@@ -499,7 +499,7 @@ public class ValidationTests
     {
         // Arrange
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<SimpleModule>();
+        builder.AddModule<SimpleModule>();
         builder.Options.RunOnlyCategories = ["Category1"];
         builder.Options.IgnoreCategories = ["Category1"];
 
@@ -518,7 +518,7 @@ public class ValidationTests
     {
         // Arrange
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<SelfReferencingModule>();
+        builder.AddModule<SelfReferencingModule>();
 
         // Act
         var result = await builder.ValidateAsync();
@@ -536,7 +536,7 @@ public class ValidationTests
     {
         // Arrange - ModuleA -> ModuleB -> ModuleC -> ModuleA (circular)
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
+        builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
 
         // Act
         var result = await builder.ValidateAsync();
@@ -553,7 +553,7 @@ public class ValidationTests
     {
         // Arrange
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<SelfReferencingModule>();
+        builder.AddModule<SelfReferencingModule>();
 
         // Act & Assert
         await Assert.ThrowsAsync<PipelineValidationException>(async () =>
@@ -567,7 +567,7 @@ public class ValidationTests
     {
         // Arrange - ModuleA -> ModuleB -> ModuleC -> ModuleA (circular)
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
+        builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
 
         // Act & Assert
         await Assert.ThrowsAsync<PipelineValidationException>(async () =>

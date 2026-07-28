@@ -31,6 +31,8 @@ public sealed class PipelineBuilder
     private readonly ConfigurationManager _configuration;
     private readonly PipelineOptions _options;
 
+    internal Type? LastRegisteredModuleType { get; set; }
+
     internal PipelineBuilder(string[]? args)
     {
         _services = new ServiceCollection();
@@ -61,7 +63,7 @@ public sealed class PipelineBuilder
     }
 
     /// <summary>
-    /// Gets the service collection for registering services and modules.
+    /// Gets the service collection for registering application services.
     /// </summary>
     public IServiceCollection Services => _services;
 
@@ -183,15 +185,6 @@ public sealed class PipelineBuilder
         }
 
         return pipeline!;
-    }
-
-    /// <summary>
-    /// Builds the pipeline without validation.
-    /// </summary>
-    /// <returns>A pipeline ready for execution.</returns>
-    public IPipeline Build()
-    {
-        return BuildPipelineAsync().GetAwaiter().GetResult();
     }
 
     /// <summary>

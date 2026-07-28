@@ -248,10 +248,8 @@ public class FlexibleDependencyIntegrationTests : TestBase
     {
         // Arrange & Act
         var result = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
-            {
-                services.AddModule<PlainModule>().WithTags("database");
-            })
+            .AddModule<PlainModule>()
+            .WithTags("database")
             .AddModule<AfterDatabaseModule>()
             .ExecutePipelineAsync();
 
@@ -271,10 +269,8 @@ public class FlexibleDependencyIntegrationTests : TestBase
     {
         // Arrange & Act
         var result = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
-            {
-                services.AddModule<PlainModule>().WithCategory("infrastructure");
-            })
+            .AddModule<PlainModule>()
+            .WithCategory("infrastructure")
             .AddModule<AfterInfrastructureModule>()
             .ExecutePipelineAsync();
 
@@ -294,10 +290,8 @@ public class FlexibleDependencyIntegrationTests : TestBase
     {
         // Arrange & Act - DatabaseModuleA has "database" tag via attribute, add "slow" via registration
         var result = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
-            {
-                services.AddModule<DatabaseModuleA>().WithTags("slow");
-            })
+            .AddModule<DatabaseModuleA>()
+            .WithTags("slow")
             .AddModule<AfterSlowModule>()
             .ExecutePipelineAsync();
 

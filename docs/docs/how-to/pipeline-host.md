@@ -20,12 +20,12 @@ The pipeline builder follows the ASP.NET Core minimal API pattern, providing dir
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services
+builder
     .AddModule<BuildModule>()
     .AddModule<TestModule>()
     .AddModule<DeployModule>();
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ## Configuration
@@ -47,19 +47,19 @@ builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySetti
 
 ## Registering Modules
 
-Modules can be registered directly on the `Services` collection:
+Modules are registered directly on `PipelineBuilder`. Every registration method returns the same builder for chaining:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
 // Register modules
-builder.Services
+builder
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>();
 
 // Or register multiple at once
-builder.AddModules<Module1, Module2, Module3>();
+builder.AddModules(typeof(Module1), typeof(Module2), typeof(Module3));
 ```
 
 ### Conditional Registration
@@ -74,16 +74,16 @@ builder.Configuration.AddJsonFile("appsettings.json");
 // Environment-based registration
 if (builder.Environment.IsDevelopment())
 {
-    builder.Services.AddModule<DevOnlyModule>();
+    builder.AddModule<DevOnlyModule>();
 }
 
 // Configuration-based registration
 if (builder.Configuration.GetValue<bool>("EnableExtraModules"))
 {
-    builder.Services.AddModule<OptionalModule>();
+    builder.AddModule<OptionalModule>();
 }
 
-builder.Services.AddModule<AlwaysRunModule>();
+builder.AddModule<AlwaysRunModule>();
 ```
 
 ## Pipeline Options
@@ -118,10 +118,10 @@ The pipeline follows a two-step build-then-run pattern:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
-builder.Services.AddModule<MyModule>();
+builder.AddModule<MyModule>();
 
-// Step 1: Build the pipeline
-var pipeline = builder.Build();
+// Step 1: Build and validate the pipeline
+await using var pipeline = await builder.BuildAsync();
 
 // Step 2: Run it
 var summary = await pipeline.RunAsync();
@@ -133,18 +133,16 @@ if (summary.Status == PipelineStatus.Failed)
 }
 ```
 
-### With Validation
-
-Use `BuildAsync()` to validate the pipeline configuration before running:
+`BuildAsync()` always validates the pipeline configuration before returning:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
-builder.Services.AddModule<MyModule>();
+builder.AddModule<MyModule>();
 
 try
 {
     // BuildAsync validates and throws PipelineValidationException on errors
-    var pipeline = await builder.BuildAsync();
+    await using var pipeline = await builder.BuildAsync();
     await pipeline.RunAsync();
 }
 catch (PipelineValidationException ex)
@@ -161,7 +159,7 @@ catch (PipelineValidationException ex)
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
-builder.Services.AddModule<MyModule>();
+builder.AddModule<MyModule>();
 
 var validation = await builder.ValidateAsync();
 if (validation.HasErrors)
@@ -173,7 +171,7 @@ if (validation.HasErrors)
     Environment.Exit(1);
 }
 
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ## Complete Example
@@ -204,25 +202,25 @@ builder.Services.Configure<PublishSettings>(builder.Configuration.GetSection("Pu
 // Conditional modules
 if (builder.Environment.IsDevelopment())
 {
-    builder.Services
+    builder
         .AddModule<LocalBuildModule>()
         .AddModule<LocalTestModule>();
 }
 else
 {
-    builder.Services
+    builder
         .AddModule<CIBuildModule>()
         .AddModule<CITestModule>()
         .AddModule<PublishModule>();
 }
 
 // Always-registered modules
-builder.Services
+builder
     .AddModule<CleanupModule>()
     .AddModule<ReportModule>();
 
 // Run
-await builder.Build().RunAsync();
+await builder.ExecutePipelineAsync();
 ```
 
 ## Hooks and Requirements
@@ -251,11 +249,8 @@ For a more fluent API, extension methods are available:
 var builder = Pipeline.CreateBuilder(args);
 
 await builder
-    .ConfigureServices(services =>
-    {
-        services.AddModule<Module1>();
-        services.AddModule<Module2>();
-    })
+    .AddModule<Module1>()
+    .AddModule<Module2>()
     .ConfigurePipelineOptions(options =>
     {
         options.ExecutionMode = ExecutionMode.StopOnFirstException;

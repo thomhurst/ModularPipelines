@@ -1,6 +1,5 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.DependencyInjection;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.UnitTests.Api;
@@ -109,17 +108,6 @@ public class FlexibleDependencyApiExportTests
     }
 
     [Test]
-    public async Task IModuleRegistrationBuilder_IsAccessibleFromDependencyInjectionNamespace()
-    {
-        // Verify IModuleRegistrationBuilder is in ModularPipelines.DependencyInjection namespace
-        var type = typeof(IModuleRegistrationBuilder);
-
-        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines.DependencyInjection");
-        await Assert.That(type.IsPublic).IsTrue();
-        await Assert.That(type.IsInterface).IsTrue();
-    }
-
-    [Test]
     public async Task AllFlexibleDependencyAttributes_HaveCorrectAttributeUsage()
     {
         // Verify all dependency attributes allow multiple usage and inheritance
@@ -182,16 +170,4 @@ public class FlexibleDependencyApiExportTests
         await Assert.That(properties.Any(p => p.Name == "Category")).IsTrue();
     }
 
-    [Test]
-    public async Task IModuleRegistrationBuilder_HasExpectedMembers()
-    {
-        // Verify IModuleRegistrationBuilder has all required members
-        var type = typeof(IModuleRegistrationBuilder);
-        var properties = type.GetProperties();
-        var methods = type.GetMethods();
-
-        await Assert.That(properties.Any(p => p.Name == "Services")).IsTrue();
-        await Assert.That(methods.Any(m => m.Name == "WithTags")).IsTrue();
-        await Assert.That(methods.Any(m => m.Name == "WithCategory")).IsTrue();
-    }
 }
