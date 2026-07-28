@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <GeneratedOptionsAssembly>ModularPipelines.AmazonWebServices</GeneratedOptionsAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ModularPipelines.AmazonWebServices\ModularPipelines.AmazonWebServices.csproj" />
+  </ItemGroup>
+  <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.props" />
+</Project>

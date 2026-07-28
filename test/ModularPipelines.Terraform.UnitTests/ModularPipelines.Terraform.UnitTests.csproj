@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <GeneratedOptionsAssembly>ModularPipelines.Terraform</GeneratedOptionsAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
+  </ItemGroup>
+  <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.props" />
+</Project>

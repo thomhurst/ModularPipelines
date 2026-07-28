@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <GeneratedOptionsAssembly>ModularPipelines.Rust</GeneratedOptionsAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ModularPipelines.Rust\ModularPipelines.Rust.csproj" />
+  </ItemGroup>
+  <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.props" />
+</Project>

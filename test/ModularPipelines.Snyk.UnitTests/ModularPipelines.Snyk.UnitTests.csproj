@@ -15,4 +15,5 @@
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
   </ItemGroup>
+  <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.targets" />
 </Project>

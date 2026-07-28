@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <GeneratedOptionsAssembly>ModularPipelines.Podman</GeneratedOptionsAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ModularPipelines.Podman\ModularPipelines.Podman.csproj" />
+  </ItemGroup>
+  <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.props" />
+</Project>

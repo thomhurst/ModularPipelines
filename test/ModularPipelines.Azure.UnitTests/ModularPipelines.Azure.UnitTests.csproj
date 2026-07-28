@@ -16,4 +16,5 @@
         <PackageReference Include="TUnit" />
     </ItemGroup>
 
+  <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.targets" />
 </Project>

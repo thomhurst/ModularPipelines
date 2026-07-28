@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <GeneratedOptionsAssembly Condition="'$(GeneratedOptionsAssembly)' == ''">$([System.String]::Copy('$(MSBuildProjectName)').Replace('.UnitTests', ''))</GeneratedOptionsAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>GeneratedOptionsAssembly</_Parameter1>
+      <_Parameter2>$(GeneratedOptionsAssembly)</_Parameter2>
+    </AssemblyAttribute>
+    <Compile Include="$(MSBuildThisFileDirectory)GeneratedOptionsSmokeTests.cs" Link="GeneratedOptionsSmokeTests.cs" />
+  </ItemGroup>
+</Project>
