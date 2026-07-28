@@ -32,6 +32,7 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly HashSet<ModuleState> _queuedModules;
     private readonly HashSet<ModuleState> _executingModules;
     private readonly ModuleStateQueries _stateQueries;
+    private readonly ModuleStateCounters _stateCounters;
     private readonly SchedulerExitConditions _exitConditions;
     private readonly Channel<ModuleState> _readyChannel;
     private readonly SemaphoreSlim _schedulerNotification;
@@ -39,6 +40,7 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly ReaderWriterLockSlim _stateLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
     private readonly IModuleStateTracker _stateTracker;
 
+    private bool _hasSchedulingConstraints;
     private bool _schedulerCompleted;
     private int _disposeState;
 
@@ -67,6 +69,7 @@ internal class ModuleScheduler : IModuleScheduler
         _queuedModules = new HashSet<ModuleState>();
         _executingModules = new HashSet<ModuleState>();
         _stateQueries = new ModuleStateQueries(_moduleStates);
+        _stateCounters = new ModuleStateCounters();
         _exitConditions = new SchedulerExitConditions();
         _readyChannel = Channel.CreateUnbounded<ModuleState>(new UnboundedChannelOptions
         {
@@ -88,7 +91,8 @@ internal class ModuleScheduler : IModuleScheduler
             _stateQueries,
             _stateLock,
             _schedulerNotification,
-            () => _schedulerCompleted);
+            () => _schedulerCompleted,
+            _stateCounters);
     }
 
     /// <summary>
@@ -216,6 +220,7 @@ internal class ModuleScheduler : IModuleScheduler
             }
 
             _moduleStates[moduleType] = state;
+            _stateCounters.AddPendingModule();
             _dependencyGraph.Clear();
             foreach (var (registeredType, registeredDependencies) in declaredDependenciesByType)
             {
@@ -263,7 +268,10 @@ internal class ModuleScheduler : IModuleScheduler
         foreach (var module in modules)
         {
             var moduleType = module.GetType();
-            _moduleStates.TryAdd(moduleType, new ModuleState(module, moduleType));
+            if (_moduleStates.TryAdd(moduleType, new ModuleState(module, moduleType)))
+            {
+                _stateCounters.AddPendingModule();
+            }
         }
     }
 
@@ -317,6 +325,7 @@ internal class ModuleScheduler : IModuleScheduler
         if (constraintKeys.Count == 0)
         {
             state.RequiresSequentialExecution = true;
+            _hasSchedulingConstraints = true;
             _logger.LogDebug(
                 "Module {ModuleName} requires sequential execution (NotInParallel)",
                 state.ModuleType.Name);
@@ -324,6 +333,7 @@ internal class ModuleScheduler : IModuleScheduler
         }
 
         state.RequiredLockKeys = [.. constraintKeys];
+        _hasSchedulingConstraints = true;
         _logger.LogDebug(
             "Module {ModuleName} requires locks: {Keys}",
             state.ModuleType.Name,
@@ -440,7 +450,7 @@ internal class ModuleScheduler : IModuleScheduler
         {
             var queuedCount = await FindAndQueueReadyModulesAsync(cancellationToken).ConfigureAwait(false);
 
-            if (ShouldExitScheduler(queuedCount))
+            if (ShouldExitScheduler(queuedCount, out var requiresDeadlockConfirmation))
             {
                 _logger.LogDebug("All modules scheduled, completing scheduler");
                 break;
@@ -451,7 +461,7 @@ internal class ModuleScheduler : IModuleScheduler
                 _statusReporter.LogStatusIfIntervalElapsed(_stateQueries, _stateLock);
             }
 
-            await WaitForNextSchedulingOpportunity(cancellationToken).ConfigureAwait(false);
+            await WaitForNextSchedulingOpportunity(requiresDeadlockConfirmation, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -460,7 +470,7 @@ internal class ModuleScheduler : IModuleScheduler
         return !IsDisposed && !cancellationToken.IsCancellationRequested;
     }
 
-    private bool ShouldExitScheduler(int queuedCount)
+    private bool ShouldExitScheduler(int queuedCount, out bool requiresDeadlockConfirmation)
     {
         // Use a single write lock since we may need to modify _schedulerCompleted
         // This avoids the inefficient pattern of read lock -> release -> write lock
@@ -472,9 +482,11 @@ internal class ModuleScheduler : IModuleScheduler
         _stateLock.EnterWriteLock();
         try
         {
-            snapshot = ModuleStateSnapshot.Create(_moduleStates.Values);
+            snapshot = _stateCounters.CreateSnapshot();
             shouldExit = _exitConditions.ShouldExit(snapshot, queuedCount);
-            isDeadlocked = shouldExit && _exitConditions.IsDeadlocked(snapshot, queuedCount);
+            var isPotentiallyDeadlocked = _exitConditions.IsDeadlocked(snapshot, queuedCount);
+            isDeadlocked = shouldExit && isPotentiallyDeadlocked;
+            requiresDeadlockConfirmation = isPotentiallyDeadlocked && !shouldExit;
             pendingModules = isDeadlocked
                 ? _moduleStates.Values
                     .Where(x => x.State == ModuleExecutionState.Pending)
@@ -504,11 +516,20 @@ internal class ModuleScheduler : IModuleScheduler
         return shouldExit;
     }
 
-    private async Task WaitForNextSchedulingOpportunity(CancellationToken cancellationToken)
+    private async Task WaitForNextSchedulingOpportunity(
+        bool requiresDeadlockConfirmation,
+        CancellationToken cancellationToken)
     {
         try
         {
-            await _schedulerNotification.WaitAsync(_options.NotificationTimeout, cancellationToken).ConfigureAwait(false);
+            if (requiresDeadlockConfirmation)
+            {
+                await _schedulerNotification.WaitAsync(_options.NotificationTimeout, cancellationToken).ConfigureAwait(false);
+            }
+            else
+            {
+                await _schedulerNotification.WaitAsync(cancellationToken).ConfigureAwait(false);
+            }
         }
         catch (OperationCanceledException)
         {
@@ -595,8 +616,8 @@ internal class ModuleScheduler : IModuleScheduler
         _stateLock.EnterReadLock();
         try
         {
-            var stats = _stateQueries.GetStatistics();
-            return (stats.Total, stats.Queued, stats.Executing, stats.Completed, stats.Pending);
+            var snapshot = _stateCounters.CreateSnapshot();
+            return (snapshot.Total, snapshot.Queued, snapshot.Executing, snapshot.Completed, snapshot.Pending);
         }
         finally
         {
@@ -669,26 +690,20 @@ internal class ModuleScheduler : IModuleScheduler
                 .OrderByDescending(m => (int) m.Priority)
                 .ToArray();
 
-            // Take immutable snapshot of already-active modules (queued or executing)
-            // This captures the state at the start of this scheduling cycle
-            var existingActiveModules = _moduleStates.Values
-                .Where(m => m.State == ModuleExecutionState.Queued || m.State == ModuleExecutionState.Executing)
-                .ToList();
-
-            // Track modules queued during this scheduling cycle separately
-            // This prevents mutation of the original snapshot and makes intent explicit
-            var newlyQueuedInThisCycle = new List<ModuleState>();
+            // Constraint-free pipelines need no active-module scan or pairwise evaluation.
+            // When constraints exist, keep one list and append modules queued in this cycle.
+            var activeModules = _hasSchedulingConstraints
+                ? _moduleStates.Values
+                    .Where(m => m.State == ModuleExecutionState.Queued || m.State == ModuleExecutionState.Executing)
+                    .ToList()
+                : null;
 
             modulesToQueue = new List<ModuleState>();
             metricsData = new List<(Type, DateTimeOffset, ModulePriority, ExecutionType, DateTimeOffset)>();
 
             foreach (var moduleState in potentiallyReadyModules)
             {
-                // Combine existing active modules with newly-queued ones for constraint checking
-                // This ensures modules queued earlier in this cycle are visible to later constraint checks
-                var allActiveModules = existingActiveModules.Concat(newlyQueuedInThisCycle).ToList();
-
-                if (!_constraintEvaluator.CanQueue(moduleState, allActiveModules))
+                if (activeModules is not null && !_constraintEvaluator.CanQueue(moduleState, activeModules))
                 {
                     continue;
                 }
@@ -700,12 +715,12 @@ internal class ModuleScheduler : IModuleScheduler
                 // Collect metrics data for recording outside lock
                 metricsData.Add((moduleState.ModuleType, moduleState.ReadyTime.Value, moduleState.Priority, moduleState.ExecutionType, now));
 
+                _stateCounters.Transition(moduleState.State, ModuleExecutionState.Queued);
                 moduleState.State = ModuleExecutionState.Queued;
                 moduleState.QueuedTime = now;
                 _queuedModules.Add(moduleState);
 
-                // Track in separate collection (not mutating the original snapshot)
-                newlyQueuedInThisCycle.Add(moduleState);
+                activeModules?.Add(moduleState);
 
                 modulesToQueue.Add(moduleState);
             }

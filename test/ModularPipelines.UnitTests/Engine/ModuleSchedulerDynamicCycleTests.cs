@@ -74,6 +74,14 @@ public class ModuleSchedulerDynamicCycleTests
             CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(CompletedDependencyModule));
     }
 
+    [ModularPipelines.Attributes.NotInParallel]
+    private class DeferredConstraintModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(DeferredConstraintModule));
+    }
+
     private class ConditionalExistingModule : Module<string>
     {
         public bool IncludeDependency { get; set; } = true;
@@ -135,7 +143,7 @@ public class ModuleSchedulerDynamicCycleTests
             .Returns(true);
 
         using var scheduler = CreateScheduler(constraintEvaluator.Object);
-        scheduler.InitializeModules([new CompletedDependencyModule()]);
+        scheduler.InitializeModules([new DeferredConstraintModule()]);
 
         var schedulerTask = scheduler.RunSchedulerAsync(CancellationToken.None);
         var firstAttempt = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
@@ -147,6 +155,70 @@ public class ModuleSchedulerDynamicCycleTests
 
         scheduler.MarkModuleCompleted(secondAttempt.ModuleType, success: true);
         await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
+    }
+
+    [Test]
+    public async Task RunSchedulerAsync_DoesNotPollWhileModuleIsExecuting()
+    {
+        var constraintEvaluator = new Mock<IModuleConstraintEvaluator>();
+        constraintEvaluator
+            .Setup(x => x.CanStartExecution(It.IsAny<ModuleState>(), It.IsAny<IEnumerable<ModuleState>>()))
+            .Returns(true);
+        var statusReporter = new Mock<ISchedulerStatusReporter>();
+
+        using var scheduler = CreateScheduler(
+            constraintEvaluator.Object,
+            statusReporter.Object,
+            new SchedulerOptions
+            {
+                NotificationTimeout = TimeSpan.FromMilliseconds(20),
+            });
+        scheduler.InitializeModules([new CompletedDependencyModule()]);
+
+        var schedulerTask = scheduler.RunSchedulerAsync(CancellationToken.None);
+        var module = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+        await Assert.That(scheduler.MarkModuleStarted(module.ModuleType)).IsTrue();
+
+        await Task.Delay(150);
+
+        statusReporter.Verify(
+            x => x.LogStatusIfIntervalElapsed(
+                It.IsAny<ModuleStateQueries>(),
+                It.IsAny<ReaderWriterLockSlim>()),
+            Times.Never);
+
+        scheduler.MarkModuleCompleted(module.ModuleType, success: true);
+        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
+
+        constraintEvaluator.Verify(
+            x => x.CanQueue(It.IsAny<ModuleState>(), It.IsAny<IEnumerable<ModuleState>>()),
+            Times.Never);
+    }
+
+    [Test]
+    public async Task GetStatistics_TracksStateTransitionsIncrementally()
+    {
+        var constraintEvaluator = new Mock<IModuleConstraintEvaluator>();
+        constraintEvaluator
+            .Setup(x => x.CanStartExecution(It.IsAny<ModuleState>(), It.IsAny<IEnumerable<ModuleState>>()))
+            .Returns(true);
+
+        using var scheduler = CreateScheduler(constraintEvaluator.Object);
+        scheduler.InitializeModules([new CompletedDependencyModule()]);
+
+        await Assert.That(scheduler.GetStatistics()).IsEqualTo((1, 0, 0, 0, 1));
+
+        var schedulerTask = scheduler.RunSchedulerAsync(CancellationToken.None);
+        var module = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+        await Assert.That(scheduler.GetStatistics()).IsEqualTo((1, 1, 0, 0, 0));
+
+        await Assert.That(scheduler.MarkModuleStarted(module.ModuleType)).IsTrue();
+        await Assert.That(scheduler.GetStatistics()).IsEqualTo((1, 0, 1, 0, 0));
+
+        scheduler.MarkModuleCompleted(module.ModuleType, success: true);
+        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
+
+        await Assert.That(scheduler.GetStatistics()).IsEqualTo((1, 0, 0, 1, 0));
     }
 
     [Test]
@@ -250,16 +322,19 @@ public class ModuleSchedulerDynamicCycleTests
         await Assert.That(state!.UnresolvedDependencies).Contains(typeof(CompletedDependencyModule));
     }
 
-    private static ModuleScheduler CreateScheduler(IModuleConstraintEvaluator? constraintEvaluator = null)
+    private static ModuleScheduler CreateScheduler(
+        IModuleConstraintEvaluator? constraintEvaluator = null,
+        ISchedulerStatusReporter? statusReporter = null,
+        SchedulerOptions? schedulerOptions = null)
     {
         return new ModuleScheduler(
             NullLogger.Instance,
             TimeProvider.System,
-            Microsoft.Extensions.Options.Options.Create(new SchedulerOptions()),
+            Microsoft.Extensions.Options.Options.Create(schedulerOptions ?? new SchedulerOptions()),
             new ModuleDependencyRegistry(),
             new ModuleMetadataRegistry(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions())),
             Mock.Of<IMetricsCollector>(),
             constraintEvaluator ?? Mock.Of<IModuleConstraintEvaluator>(),
-            Mock.Of<ISchedulerStatusReporter>());
+            statusReporter ?? Mock.Of<ISchedulerStatusReporter>());
     }
 }

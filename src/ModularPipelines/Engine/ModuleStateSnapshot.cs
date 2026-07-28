@@ -48,46 +48,4 @@ internal class ModuleStateSnapshot
     /// Gets a value indicating whether whether any modules are pending execution.
     /// </summary>
     public bool HasPendingModules => Pending > 0;
-
-    /// <summary>
-    /// Creates a snapshot from current module states.
-    /// </summary>
-    public static ModuleStateSnapshot Create(IEnumerable<ModuleState> moduleStates)
-    {
-        var total = 0;
-        var queued = 0;
-        var executing = 0;
-        var completed = 0;
-        var pending = 0;
-
-        foreach (var state in moduleStates)
-        {
-            total++;
-
-            switch (state.State)
-            {
-                case ModuleExecutionState.Completed:
-                    completed++;
-                    break;
-                case ModuleExecutionState.Executing:
-                    executing++;
-                    break;
-                case ModuleExecutionState.Queued:
-                    queued++;
-                    break;
-                case ModuleExecutionState.Pending:
-                    pending++;
-                    break;
-            }
-        }
-
-        return new ModuleStateSnapshot
-        {
-            Total = total,
-            Queued = queued,
-            Executing = executing,
-            Completed = completed,
-            Pending = pending,
-        };
-    }
 }

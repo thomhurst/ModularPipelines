@@ -18,16 +18,16 @@ internal class ModuleConstraintEvaluator : IModuleConstraintEvaluator
     /// <inheritdoc />
     public bool CanQueue(ModuleState moduleState, IEnumerable<ModuleState> activeModules)
     {
-        var activeList = activeModules.ToList();
+        var activeCollection = AsReadOnlyCollection(activeModules);
 
         // Check lock key conflicts
-        if (!CheckLockKeyConstraints(moduleState, activeList, logBlocking: false))
+        if (!CheckLockKeyConstraints(moduleState, activeCollection, logBlocking: false))
         {
             return false;
         }
 
         // Check sequential execution constraints
-        if (!CheckSequentialConstraints(moduleState, activeList, logBlocking: false))
+        if (!CheckSequentialConstraints(moduleState, activeCollection, logBlocking: false))
         {
             return false;
         }
@@ -38,16 +38,16 @@ internal class ModuleConstraintEvaluator : IModuleConstraintEvaluator
     /// <inheritdoc />
     public bool CanStartExecution(ModuleState moduleState, IEnumerable<ModuleState> executingModules)
     {
-        var executingList = executingModules.ToList();
+        var executingCollection = AsReadOnlyCollection(executingModules);
 
         // Primary constraint check: verify no executing module has conflicting lock keys
-        if (!CheckLockKeyConstraints(moduleState, executingList, logBlocking: true))
+        if (!CheckLockKeyConstraints(moduleState, executingCollection, logBlocking: true))
         {
             return false;
         }
 
         // Secondary check: sequential execution constraints
-        if (!CheckSequentialConstraints(moduleState, executingList, logBlocking: true))
+        if (!CheckSequentialConstraints(moduleState, executingCollection, logBlocking: true))
         {
             return false;
         }
@@ -55,7 +55,15 @@ internal class ModuleConstraintEvaluator : IModuleConstraintEvaluator
         return true;
     }
 
-    private bool CheckLockKeyConstraints(ModuleState moduleState, List<ModuleState> otherModules, bool logBlocking)
+    private static IReadOnlyCollection<ModuleState> AsReadOnlyCollection(IEnumerable<ModuleState> modules)
+    {
+        return modules as IReadOnlyCollection<ModuleState> ?? modules.ToArray();
+    }
+
+    private bool CheckLockKeyConstraints(
+        ModuleState moduleState,
+        IReadOnlyCollection<ModuleState> otherModules,
+        bool logBlocking)
     {
         if (moduleState.RequiredLockKeys.Length == 0)
         {
@@ -74,16 +82,18 @@ internal class ModuleConstraintEvaluator : IModuleConstraintEvaluator
                 continue;
             }
 
-            var intersection = other.RequiredLockKeys.Intersect(moduleState.RequiredLockKeys).ToArray();
-            if (intersection.Length > 0)
+            if (HasLockConflict(other.RequiredLockKeys, moduleState.RequiredLockKeys))
             {
                 if (logBlocking)
                 {
+                    var conflictingKeys = other.RequiredLockKeys
+                        .Where(key => Array.IndexOf(moduleState.RequiredLockKeys, key) >= 0)
+                        .ToArray();
                     _logger.LogDebug(
                         "Module {ModuleName} BLOCKED - {OtherModule} has conflicting keys [{Keys}]",
                         moduleState.ModuleType.Name,
                         other.ModuleType.Name,
-                        string.Join(", ", intersection));
+                        string.Join(", ", conflictingKeys));
                 }
 
                 return false;
@@ -93,27 +103,45 @@ internal class ModuleConstraintEvaluator : IModuleConstraintEvaluator
         return true;
     }
 
-    private bool CheckSequentialConstraints(ModuleState moduleState, List<ModuleState> otherModules, bool logBlocking)
+    private static bool HasLockConflict(string[] left, string[] right)
     {
-        var otherActiveModules = otherModules.Where(m => m != moduleState).ToList();
-
-        // If this module requires sequential execution, no other modules can be active
-        if (moduleState.RequiresSequentialExecution && otherActiveModules.Count > 0)
+        foreach (var key in left)
         {
-            if (logBlocking)
+            if (Array.IndexOf(right, key) >= 0)
             {
-                _logger.LogDebug(
-                    "Sequential module {ModuleName} blocked - {Count} modules already active",
-                    moduleState.ModuleType.Name,
-                    otherActiveModules.Count);
+                return true;
             }
-
-            return false;
         }
 
-        // If any other active module requires sequential execution, this module is blocked
-        foreach (var other in otherActiveModules)
+        return false;
+    }
+
+    private bool CheckSequentialConstraints(
+        ModuleState moduleState,
+        IReadOnlyCollection<ModuleState> otherModules,
+        bool logBlocking)
+    {
+        var otherActiveModuleCount = 0;
+
+        foreach (var other in otherModules)
         {
+            if (other == moduleState)
+            {
+                continue;
+            }
+
+            otherActiveModuleCount++;
+
+            if (moduleState.RequiresSequentialExecution)
+            {
+                if (!logBlocking)
+                {
+                    return false;
+                }
+
+                continue;
+            }
+
             if (other.RequiresSequentialExecution)
             {
                 if (logBlocking)
@@ -126,6 +154,16 @@ internal class ModuleConstraintEvaluator : IModuleConstraintEvaluator
 
                 return false;
             }
+        }
+
+        if (moduleState.RequiresSequentialExecution && otherActiveModuleCount > 0)
+        {
+            _logger.LogDebug(
+                "Sequential module {ModuleName} blocked - {Count} modules already active",
+                moduleState.ModuleType.Name,
+                otherActiveModuleCount);
+
+            return false;
         }
 
         return true;
