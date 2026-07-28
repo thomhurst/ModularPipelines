@@ -103,6 +103,12 @@ internal sealed class Command : ICommand, ICommandContext
     {
         var standardOutputBuffer = new BoundedCommandOutputBuffer(execOpts.MaxCapturedOutputLength);
         var standardErrorBuffer = new BoundedCommandOutputBuffer(execOpts.MaxCapturedOutputLength);
+        var completeStandardOutputBuffer = execOpts.OutputLoggingManipulator is null
+            ? null
+            : new BoundedCommandOutputBuffer(maximumLength: 0);
+        var completeStandardErrorBuffer = execOpts.OutputLoggingManipulator is null
+            ? null
+            : new BoundedCommandOutputBuffer(maximumLength: 0);
         var outputLogger = _commandLogger as ICommandOutputLogger;
         var streamsOutput = outputLogger is not null && execOpts.OutputLoggingManipulator is null;
         var stopwatch = Stopwatch.StartNew();
@@ -148,11 +154,13 @@ internal sealed class Command : ICommand, ICommandContext
                 var executionTask = command
                     .WithStandardOutputPipe(CreateOutputTarget(
                         standardOutputBuffer,
+                        completeStandardOutputBuffer,
                         streamsOutput
                             ? line => outputLogger!.LogStandardOutputLine(options, execOpts, line)
                             : null))
                     .WithStandardErrorPipe(CreateOutputTarget(
                         standardErrorBuffer,
+                        completeStandardErrorBuffer,
                         streamsOutput
                             ? line => outputLogger!.LogStandardErrorLine(options, execOpts, line)
                             : null))
@@ -188,6 +196,8 @@ internal sealed class Command : ICommand, ICommandContext
                     result.RunTime,
                     standardOutput,
                     standardError,
+                    completeStandardOutputBuffer,
+                    completeStandardErrorBuffer,
                     streamsOutput,
                     command.WorkingDirPath);
 
@@ -217,6 +227,8 @@ internal sealed class Command : ICommand, ICommandContext
                     stopwatch.Elapsed,
                     standardOutput,
                     standardError,
+                    completeStandardOutputBuffer,
+                    completeStandardErrorBuffer,
                     streamsOutput,
                     command.WorkingDirPath);
 
@@ -240,6 +252,8 @@ internal sealed class Command : ICommand, ICommandContext
                     stopwatch.Elapsed,
                     standardOutput,
                     standardError,
+                    completeStandardOutputBuffer,
+                    completeStandardErrorBuffer,
                     streamsOutput,
                     command.WorkingDirPath);
 
@@ -690,9 +704,10 @@ internal sealed class Command : ICommand, ICommandContext
 
     private static PipeTarget CreateOutputTarget(
         BoundedCommandOutputBuffer buffer,
+        BoundedCommandOutputBuffer? completeOutputBuffer,
         Action<string>? logLine)
     {
-        var captureTarget = CreateCaptureTarget(buffer);
+        var captureTarget = CreateCaptureTarget(buffer, completeOutputBuffer);
         return logLine is null
             ? captureTarget
             : PipeTarget.Merge(captureTarget, PipeTarget.ToDelegate(logLine));
@@ -706,6 +721,8 @@ internal sealed class Command : ICommand, ICommandContext
         TimeSpan runTime,
         string standardOutput,
         string standardError,
+        BoundedCommandOutputBuffer? completeStandardOutputBuffer,
+        BoundedCommandOutputBuffer? completeStandardErrorBuffer,
         bool streamsOutput,
         string workingDirectory)
     {
@@ -715,12 +732,18 @@ internal sealed class Command : ICommand, ICommandContext
             input,
             exitCode,
             runTime,
-            streamsOutput ? string.Empty : standardOutput,
-            streamsOutput ? string.Empty : standardError,
+            streamsOutput
+                ? string.Empty
+                : completeStandardOutputBuffer?.ToString() ?? standardOutput,
+            streamsOutput
+                ? string.Empty
+                : completeStandardErrorBuffer?.ToString() ?? standardError,
             workingDirectory);
     }
 
-    private static PipeTarget CreateCaptureTarget(BoundedCommandOutputBuffer buffer)
+    private static PipeTarget CreateCaptureTarget(
+        BoundedCommandOutputBuffer buffer,
+        BoundedCommandOutputBuffer? completeOutputBuffer)
     {
         return PipeTarget.Create(async (stream, cancellationToken) =>
         {
@@ -735,6 +758,7 @@ internal sealed class Command : ICommand, ICommandContext
             while ((charactersRead = await reader.ReadAsync(characters, cancellationToken).ConfigureAwait(false)) > 0)
             {
                 buffer.Append(characters.AsSpan(0, charactersRead));
+                completeOutputBuffer?.Append(characters.AsSpan(0, charactersRead));
             }
         });
     }

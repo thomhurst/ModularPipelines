@@ -66,17 +66,18 @@ public class CommandLoggerTests : TestBase
     }
 
     [Test]
-    public async Task OutputLoggingManipulator_Receives_Complete_Output()
+    public async Task OutputLoggingManipulator_Receives_Complete_Output_When_Result_Is_Truncated()
     {
         const string firstLine = "first-output-line";
         const string secondLine = "second-output-line";
         var receivedOutputs = new List<string>();
         var command = await GetService<ICommand>();
 
-        await command.ExecuteCommandLineTool(
+        var result = await command.ExecuteCommandLineTool(
             new PowershellScriptOptions($"Write-Output '{firstLine}'; Write-Output '{secondLine}'"),
             new CommandExecutionOptions
             {
+                MaxCapturedOutputLength = 10,
                 OutputLoggingManipulator = output =>
                 {
                     receivedOutputs.Add(output);
@@ -84,9 +85,11 @@ public class CommandLoggerTests : TestBase
                 },
             });
 
+        await Assert.That(result.StandardOutput).Contains("truncated");
         await Assert.That(receivedOutputs).Contains(output =>
             output.Contains(firstLine, StringComparison.Ordinal)
-            && output.Contains(secondLine, StringComparison.Ordinal));
+            && output.Contains(secondLine, StringComparison.Ordinal)
+            && !output.Contains("truncated", StringComparison.Ordinal));
     }
 
     [Test]

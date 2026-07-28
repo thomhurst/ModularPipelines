@@ -35,6 +35,8 @@ public record CommandExecutionOptions
 
     /// <summary>
     /// Gets if logging output, you can use this to edit how the output is logged.
+    /// The complete output stream is retained for this delegate even when
+    /// <see cref="MaxCapturedOutputLength"/> bounds the returned command result.
     /// </summary>
     public Func<string, string>? OutputLoggingManipulator { get; init; }
 
