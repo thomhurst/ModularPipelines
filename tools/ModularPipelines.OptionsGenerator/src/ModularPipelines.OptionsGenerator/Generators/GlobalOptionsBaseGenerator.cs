@@ -104,7 +104,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         // Secret attribute for sensitive values
         if (option.IsSecret)
         {
-            sb.AppendLine("    [SecretValue]");
+            sb.AppendLine($"    [{GeneratorUtils.GenerateSecretAttribute(option)}]");
         }
 
         // Command attribute

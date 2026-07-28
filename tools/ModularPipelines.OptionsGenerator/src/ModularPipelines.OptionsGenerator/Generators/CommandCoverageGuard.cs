@@ -23,7 +23,8 @@ internal static partial class CommandCoverageGuard
         CliToolDefinition tool,
         string outputDirectory,
         bool approveShrinkage,
-        string? fallbackManifestPath = null)
+        string? fallbackManifestPath = null,
+        StringComparer? pathComparer = null)
     {
         var commands = NormalizeCommands(tool.Commands.Select(command => command.FullCommand));
         var manifestPath = GetManifestPath(tool, outputDirectory);
@@ -31,7 +32,8 @@ internal static partial class CommandCoverageGuard
             tool,
             outputDirectory,
             manifestPath,
-            fallbackManifestPath);
+            fallbackManifestPath,
+            pathComparer ?? StringComparer.OrdinalIgnoreCase);
         var exclusions = ValidateExclusions(tool.CommandCoverage.Exclusions);
         var excludedCommands = exclusions
             .Select(exclusion => NormalizeCommand(exclusion.Command))
@@ -78,7 +80,8 @@ internal static partial class CommandCoverageGuard
         CliToolDefinition tool,
         string outputDirectory,
         string manifestPath,
-        string? fallbackManifestPath)
+        string? fallbackManifestPath,
+        StringComparer pathComparer)
     {
         var manifest = ReadManifest(manifestPath);
         if (manifest is not null)
@@ -87,10 +90,7 @@ internal static partial class CommandCoverageGuard
         }
 
         if (!string.IsNullOrEmpty(fallbackManifestPath)
-            && !string.Equals(
-                manifestPath,
-                fallbackManifestPath,
-                StringComparison.OrdinalIgnoreCase))
+            && !pathComparer.Equals(manifestPath, fallbackManifestPath))
         {
             manifest = ReadManifest(fallbackManifestPath);
             if (manifest is not null)

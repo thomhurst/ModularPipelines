@@ -37,6 +37,17 @@ public static partial class GeneratorUtils
     /// </summary>
     public static readonly string GeneratedCodeAttribute = $"[GeneratedCode(\"{GeneratorName}\", \"{GeneratorVersion}\")]";
 
+    internal static string GenerateSecretAttribute(CliOptionDefinition option)
+    {
+        if (option.SecretValueKeys.Count == 0)
+        {
+            return "SecretValue";
+        }
+
+        var keys = option.SecretValueKeys.Select(FormatStringLiteral);
+        return $"SecretValue({string.Join(", ", keys)})";
+    }
+
     /// <summary>
     /// Escapes text for use in XML documentation comments.
     /// </summary>

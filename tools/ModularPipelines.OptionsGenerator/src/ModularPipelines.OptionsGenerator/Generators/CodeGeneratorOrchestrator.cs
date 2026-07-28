@@ -163,6 +163,7 @@ public class CodeGeneratorOrchestrator
             cleanupGeneratedFilesByNamespacePrefix: false,
             writeAssemblyInfo: false,
             commandCoverageBaselinePath: previousCoverageManifestPath,
+            commandCoveragePathComparer: fileSystemPathComparer,
             replaceableExistingPaths: replaceableExistingPaths,
             enumBaselinePaths: enumBaselinePaths,
             beforeWrite: async (candidateOwnedPaths, token) =>
@@ -825,6 +826,7 @@ public class CodeGeneratorOrchestrator
         bool cleanupGeneratedFilesByNamespacePrefix = true,
         bool writeAssemblyInfo = true,
         string? commandCoverageBaselinePath = null,
+        StringComparer? commandCoveragePathComparer = null,
         IReadOnlySet<string>? replaceableExistingPaths = null,
         IReadOnlyDictionary<string, string>? enumBaselinePaths = null,
         Func<IReadOnlyCollection<string>, CancellationToken, Task>? beforeWrite = null)
@@ -893,7 +895,8 @@ public class CodeGeneratorOrchestrator
             toolDefinition,
             outputDirectory,
             approveCommandCoverageShrinkage,
-            commandCoverageBaselinePath);
+            commandCoverageBaselinePath,
+            commandCoveragePathComparer);
         result.CommandCoverage.Add(coverage);
 
         if (coverage.Violations.Count > 0)

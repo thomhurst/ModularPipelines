@@ -181,7 +181,7 @@ public class OptionsClassGenerator : ICodeGenerator
                     ? GeneratorUtils.GenerateCliAttributeString(option)
                     : GetPositionalAttributeString(parameter.PositionalArgument!);
                 var secretAttribute = parameter.Option is { IsSecret: true } secretOption
-                    ? $"{GenerateSecretAttribute(secretOption)}, "
+                    ? $"{GeneratorUtils.GenerateSecretAttribute(secretOption)}, "
                     : parameter.IsSecret ? "SecretValue, " : "";
                 parameters.Add(
                     $"    [property: {secretAttribute}{attribute}] " +
@@ -215,7 +215,7 @@ public class OptionsClassGenerator : ICodeGenerator
         // Secret attribute for sensitive values
         if (option.IsSecret)
         {
-            sb.AppendLine($"    [{GenerateSecretAttribute(option)}]");
+            sb.AppendLine($"    [{GeneratorUtils.GenerateSecretAttribute(option)}]");
         }
 
         // Command attribute
@@ -224,17 +224,6 @@ public class OptionsClassGenerator : ICodeGenerator
 
         // Property
         sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.CSharpType} {option.PropertyName} {{ get; set; }}");
-    }
-
-    private static string GenerateSecretAttribute(CliOptionDefinition option)
-    {
-        if (option.SecretValueKeys.Count == 0)
-        {
-            return "SecretValue";
-        }
-
-        var keys = option.SecretValueKeys.Select(GeneratorUtils.FormatStringLiteral);
-        return $"SecretValue({string.Join(", ", keys)})";
     }
 
     private static void GeneratePositionalArgument(StringBuilder sb, CliPositionalArgument positional)

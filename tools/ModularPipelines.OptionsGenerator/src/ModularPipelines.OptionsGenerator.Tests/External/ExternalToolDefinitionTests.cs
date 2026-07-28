@@ -1295,6 +1295,57 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Metadata_Preserves_Coverage_Baseline_Across_Case_Only_Output_Rename()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+        var orchestrator = CreateOrchestrator();
+
+        try
+        {
+            if (!IsCaseSensitiveFileSystem(workspace))
+            {
+                return;
+            }
+
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var firstTool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var deploy = firstTool.Commands.Single();
+            firstTool = firstTool with
+            {
+                Commands =
+                [
+                    deploy,
+                    deploy with
+                    {
+                        FullCommand = "private-widget destroy",
+                        CommandParts = ["destroy"],
+                        ClassName = "PrivateWidgetDestroyOptions",
+                    },
+                ],
+            };
+            await orchestrator.GenerateFromDefinitionAsync(firstTool, outputDirectory);
+
+            var secondTool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+
+            await Assert.That(async () =>
+                    await orchestrator.GenerateFromDefinitionAsync(
+                        secondTool with { OutputDirectory = "Generated" },
+                        outputDirectory))
+                .Throws<InvalidOperationException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Metadata_Reconciles_Ownership_When_Namespace_Prefix_Changes()
     {
         var workspace = CreateTemporaryDirectory();
