@@ -216,7 +216,8 @@ public record PipelineOptions
     /// </summary>
     /// <remarks>
     /// The default is 1,000 entries per module. This limits retained output between periodic flushes
-    /// without changing the order or final completion status of module output.
+    /// without changing the order or final completion status of module output. The threshold counts
+    /// entries and does not impose a byte-size cap.
     /// </remarks>
     public int ModuleOutputFlushThreshold { get; set; } = 1_000;
 

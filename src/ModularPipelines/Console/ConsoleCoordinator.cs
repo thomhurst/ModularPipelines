@@ -410,6 +410,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
     private void RequestThresholdFlush(IModuleOutputBuffer buffer)
     {
+        // EnqueueAndFlushAsync registers pending work before its first await, so teardown sees this flush.
         _ = FlushThresholdAsync(buffer);
     }
 
