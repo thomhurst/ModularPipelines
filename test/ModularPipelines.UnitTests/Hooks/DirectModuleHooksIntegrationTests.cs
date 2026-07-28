@@ -1,8 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Attributes.Events;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -85,41 +87,68 @@ public class DirectModuleHooksIntegrationTests : TestBase
     private class Module1 : LoggingModule;
     private class Module2 : LoggingModule;
 
-    /// <summary>
-    /// Module that depends on Module1 and uses hooks.
-    /// </summary>
-    [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class DependentLoggingModule : LoggingModule;
-
-    /// <summary>
-    /// Module with multiple hook systems for ordering verification.
-    /// </summary>
-    private class MultiHookSystemModule : Module<string>
+    private sealed class RecordingModuleEventReceiver : IModuleEventReceiver
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithBeforeExecute(_ =>
-            {
-                AddLogEntry("MultiHook:Config:OnBeforeExecute");
-                return Task.CompletedTask;
-            })
-            .WithAfterExecute(_ =>
-            {
-                AddLogEntry("MultiHook:Config:OnAfterExecute");
-                return Task.CompletedTask;
-            })
-            .Build();
-
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public Task OnModuleReadyAsync(IModuleHookContext context)
         {
-            await Task.Yield();
-            AddLogEntry("MultiHook:ExecuteAsync");
-            return "Success";
+            AddLogEntry("Global:Ready");
+            return Task.CompletedTask;
         }
 
-        // Direct hook (should run first)
-        protected override Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public Task OnModuleStartAsync(IModuleHookContext context)
         {
-            AddLogEntry("MultiHook:Direct:OnBeforeExecuteAsync");
+            AddLogEntry("Global:Start");
+            return Task.CompletedTask;
+        }
+
+        public Task OnModuleEndAsync(IModuleHookContext context)
+        {
+            AddLogEntry("Global:End");
+            return Task.CompletedTask;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class RecordingModuleEventAttribute : Attribute,
+        IModuleReadyHandler,
+        IModuleStartHandler,
+        IModuleEndHandler
+    {
+        public Task OnModuleReadyAsync(IModuleHookContext context)
+        {
+            AddLogEntry("Attribute:Ready");
+            return Task.CompletedTask;
+        }
+
+        public Task OnModuleStartAsync(IModuleHookContext context)
+        {
+            AddLogEntry("Attribute:Start");
+            return Task.CompletedTask;
+        }
+
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+        {
+            AddLogEntry("Attribute:End");
+            return Task.CompletedTask;
+        }
+    }
+
+    [RecordingModuleEvent]
+    private sealed class OrderedHooksModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            AddLogEntry("Module:Execute");
+            return Task.FromResult<string?>("Success");
+        }
+
+        protected override Task OnBeforeExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            AddLogEntry("Module:Before");
             return Task.CompletedTask;
         }
 
@@ -128,10 +157,16 @@ public class DirectModuleHooksIntegrationTests : TestBase
             ModuleResult<string> result,
             CancellationToken cancellationToken)
         {
-            AddLogEntry("MultiHook:Direct:OnAfterExecuteAsync");
+            AddLogEntry("Module:After");
             return Task.FromResult<ModuleResult<string>?>(null);
         }
     }
+
+    /// <summary>
+    /// Module that depends on Module1 and uses hooks.
+    /// </summary>
+    [ModularPipelines.Attributes.DependsOn<Module1>]
+    private class DependentLoggingModule : LoggingModule;
 
     /// <summary>
     /// Module that tracks context availability in hooks.
@@ -202,25 +237,34 @@ public class DirectModuleHooksIntegrationTests : TestBase
     }
 
     [Test]
-    public async Task HookOrdering_DirectHooksRunBeforeConfigHooks()
+    public async Task Global_Attribute_And_Module_Hooks_Have_Documented_Order()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .AddModule<MultiHookSystemModule>()
+            .AddModule<OrderedHooksModule>()
+            .AddModuleEventReceiver<RecordingModuleEventReceiver>()
             .BuildHostAsync();
 
         await host.ExecutePipelineAsync();
 
         var log = GetLogSnapshot();
+        var expected = new[]
+        {
+            "Global:Ready",
+            "Global:Start",
+            "Attribute:Ready",
+            "Attribute:Start",
+            "Module:Before",
+            "Module:Execute",
+            "Module:After",
+            "Global:End",
+            "Attribute:End",
+        };
 
-        var directBeforeIndex = log.IndexOf("MultiHook:Direct:OnBeforeExecuteAsync");
-        var configBeforeIndex = log.IndexOf("MultiHook:Config:OnBeforeExecute");
-        var executeIndex = log.IndexOf("MultiHook:ExecuteAsync");
-
-        // Direct hook should come before Config hook
-        await Assert.That(directBeforeIndex).IsLessThan(configBeforeIndex);
-
-        // Both hooks should come before execute
-        await Assert.That(configBeforeIndex).IsLessThan(executeIndex);
+        await Assert.That(log).Count().IsEqualTo(expected.Length);
+        for (var index = 0; index < expected.Length; index++)
+        {
+            await Assert.That(log[index]).IsEqualTo(expected[index]);
+        }
     }
 
     [Test]

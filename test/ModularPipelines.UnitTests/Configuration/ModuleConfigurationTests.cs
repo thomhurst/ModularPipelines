@@ -59,22 +59,6 @@ public class ModuleConfigurationTests
     }
 
     [Test]
-    public async Task Default_OnBeforeExecute_IsNull()
-    {
-        var config = ModuleConfiguration.Default;
-
-        await Assert.That(config.OnBeforeExecute).IsNull();
-    }
-
-    [Test]
-    public async Task Default_OnAfterExecute_IsNull()
-    {
-        var config = ModuleConfiguration.Default;
-
-        await Assert.That(config.OnAfterExecute).IsNull();
-    }
-
-    [Test]
     public async Task Create_ReturnsBuilder()
     {
         var builder = ModuleConfiguration.Create();
@@ -381,56 +365,6 @@ public class ModuleConfigurationTests
 
     #endregion
 
-    #region WithBeforeExecute Tests
-
-    [Test]
-    public async Task WithBeforeExecute_SetsOnBeforeExecute()
-    {
-        var executed = false;
-
-        var config = ModuleConfiguration.Create()
-            .WithBeforeExecute(async ctx =>
-            {
-                await Task.Delay(1).ConfigureAwait(false);
-                executed = true;
-            })
-            .Build();
-
-        await Assert.That(config.OnBeforeExecute).IsNotNull();
-
-        var context = Mock.Of<IModuleContext>();
-        await config.OnBeforeExecute!(context);
-
-        await Assert.That(executed).IsTrue();
-    }
-
-    #endregion
-
-    #region WithAfterExecute Tests
-
-    [Test]
-    public async Task WithAfterExecute_SetsOnAfterExecute()
-    {
-        var executed = false;
-
-        var config = ModuleConfiguration.Create()
-            .WithAfterExecute(async ctx =>
-            {
-                await Task.Delay(1).ConfigureAwait(false);
-                executed = true;
-            })
-            .Build();
-
-        await Assert.That(config.OnAfterExecute).IsNotNull();
-
-        var context = Mock.Of<IModuleContext>();
-        await config.OnAfterExecute!(context);
-
-        await Assert.That(executed).IsTrue();
-    }
-
-    #endregion
-
     #region Fluent Chaining Tests
 
     [Test]
@@ -468,8 +402,6 @@ public class ModuleConfigurationTests
             .WithRetryPolicy(policy)
             .WithIgnoreFailures()
             .WithAlwaysRun()
-            .WithBeforeExecute(ctx => Task.CompletedTask)
-            .WithAfterExecute(ctx => Task.CompletedTask)
             .WithNotInParallel("shared")
             .WithPriority(ModulePriority.High)
             .WithExecutionHint(ExecutionType.CpuIntensive)
@@ -485,8 +417,6 @@ public class ModuleConfigurationTests
             await Assert.That(config.RetryPolicyFactory).IsNotNull();
             await Assert.That(config.IgnoreFailuresCondition).IsNotNull();
             await Assert.That(config.AlwaysRun).IsTrue();
-            await Assert.That(config.OnBeforeExecute).IsNotNull();
-            await Assert.That(config.OnAfterExecute).IsNotNull();
             await Assert.That(config.ParallelConstraintKeys).IsEquivalentTo(new[] { "shared" });
             await Assert.That(config.Priority).IsEqualTo(ModulePriority.High);
             await Assert.That(config.ExecutionType).IsEqualTo(ExecutionType.CpuIntensive);

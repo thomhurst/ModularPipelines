@@ -15,22 +15,6 @@ using Polly;
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Interface for the module execution pipeline.
-/// </summary>
-internal interface IModuleExecutionPipeline
-{
-    /// <summary>
-    /// Executes a module with all applicable behaviors.
-    /// </summary>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task<ModuleResult<T>> ExecuteAsync<T>(
-        Module<T> module,
-        ModuleExecutionContext<T> executionContext,
-        IModuleContext moduleContext,
-        CancellationToken engineCancellationToken);
-}
-
-/// <summary>
 /// Orchestrates module execution by applying behaviors based on module configuration.
 /// </summary>
 /// <remarks>
@@ -103,13 +87,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             // Execute direct before hook first (virtual override)
             await _directHookInvoker.InvokeBeforeExecuteAsync(module, moduleContext, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
 
-            // Execute configuration before hook second
-            if (config.OnBeforeExecute != null)
-            {
-                await config.OnBeforeExecute(moduleContext).ConfigureAwait(false);
-            }
-
-            // Track that before hooks have executed (for OnAfterExecuteAsync in finally)
+            // Track that the before hook executed (for OnAfterExecuteAsync in finally)
             beforeHooksExecuted = true;
 
             // Mark as processing
@@ -172,19 +150,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 catch (Exception afterHookException)
                 {
                     logger.LogError(afterHookException, "Error in OnAfterExecuteAsync hook");
-                }
-            }
-
-            // Execute configuration after hook
-            if (config.OnAfterExecute != null)
-            {
-                try
-                {
-                    await config.OnAfterExecute(moduleContext).ConfigureAwait(false);
-                }
-                catch (Exception hookException)
-                {
-                    logger.LogError(hookException, "Error in OnAfterExecute hook");
                 }
             }
 
@@ -373,11 +338,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     timeoutException.ElapsedTime.ToDisplayString());
             }
         }
-
         else if (IsTimeout(config, executionContext, exception))
         {
             executionContext.Status = Status.TimedOut;
         }
+
         // Check for pipeline cancellation
         else if (IsPipelineCancelled(exception))
         {
