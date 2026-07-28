@@ -13,7 +13,7 @@ namespace ModularPipelines.UnitTests.Engine;
 public class ExecutionOrchestratorTests
 {
     [Test]
-    public async Task PipelineFailure_IsNotMaskedByOutputTeardownFailure()
+    public async Task PipelineFailure_IsNotMaskedByOutputTeardownOrLoggingFailure()
     {
         var organizedModules = new OrganizedModules([], []);
         var summary = new PipelineSummary(
@@ -23,6 +23,7 @@ public class ExecutionOrchestratorTests
             DateTimeOffset.UtcNow);
         var pipelineException = new InvalidOperationException("pipeline failed");
         var teardownException = new IOException("output teardown failed");
+        var loggingException = new InvalidOperationException("logging failed");
 
         var pipelineInitializer = new Mock<IPipelineInitializer>();
         pipelineInitializer
@@ -66,6 +67,14 @@ public class ExecutionOrchestratorTests
         var primaryExceptionContainer = new Mock<IPrimaryExceptionContainer>();
         using var engineCancellationToken = new PipelineEngineCancellationToken(primaryExceptionContainer.Object);
         var logger = new Mock<ILogger<ExecutionOrchestrator>>();
+        logger
+            .Setup(x => x.Log(
+                It.IsAny<LogLevel>(),
+                It.IsAny<EventId>(),
+                It.IsAny<It.IsAnyType>(),
+                It.IsAny<Exception?>(),
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()))
+            .Throws(loggingException);
         var orchestrator = new ExecutionOrchestrator(
             pipelineInitializer.Object,
             moduleDisposeExecutor.Object,

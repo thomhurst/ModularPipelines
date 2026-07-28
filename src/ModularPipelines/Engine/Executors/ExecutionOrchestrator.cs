@@ -219,10 +219,17 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 }
                 catch (Exception teardownException) when (pipelineException is not null)
                 {
-                    _logger.LogError(
-                        teardownException,
-                        "Pipeline output teardown failed while the pipeline was already failing with {ExceptionType}.",
-                        pipelineException.GetType().Name);
+                    try
+                    {
+                        _logger.LogError(
+                            teardownException,
+                            "Pipeline output teardown failed while the pipeline was already failing with {ExceptionType}.",
+                            pipelineException.GetType().Name);
+                    }
+                    catch
+                    {
+                        // Diagnostic providers must not replace the primary pipeline failure.
+                    }
                 }
             }
         }
