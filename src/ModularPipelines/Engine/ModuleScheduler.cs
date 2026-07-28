@@ -40,7 +40,9 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly IModuleStateTracker _stateTracker;
 
     private bool _schedulerCompleted;
-    private bool _isDisposed;
+    private int _disposeState;
+
+    private bool IsDisposed => Volatile.Read(ref _disposeState) != 0;
 
     public ModuleScheduler(
         ILogger logger,
@@ -101,6 +103,11 @@ internal class ModuleScheduler : IModuleScheduler
     {
         ArgumentNullException.ThrowIfNull(modules);
 
+        if (IsDisposed)
+        {
+            return;
+        }
+
         var moduleArray = modules.ToArray();
         AddModuleStates(moduleArray);
         var availableModuleTypes = _moduleStates.Keys.ToArray();
@@ -124,6 +131,11 @@ internal class ModuleScheduler : IModuleScheduler
     public void AddModule(IModule module)
     {
         ArgumentNullException.ThrowIfNull(module);
+
+        if (IsDisposed)
+        {
+            return;
+        }
 
         var moduleType = module.GetType();
         ModuleState state;
@@ -397,6 +409,11 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     public Task RunSchedulerAsync(CancellationToken cancellationToken)
     {
+        if (IsDisposed)
+        {
+            return Task.CompletedTask;
+        }
+
         return Task.Run(async () =>
         {
             try
@@ -440,7 +457,7 @@ internal class ModuleScheduler : IModuleScheduler
 
     private bool ShouldContinueScheduling(CancellationToken cancellationToken)
     {
-        return !_isDisposed && !cancellationToken.IsCancellationRequested;
+        return !IsDisposed && !cancellationToken.IsCancellationRequested;
     }
 
     private bool ShouldExitScheduler(int queuedCount)
@@ -533,6 +550,11 @@ internal class ModuleScheduler : IModuleScheduler
     /// <returns>True if the module can proceed with execution, false if constraints prevent execution.</returns>
     public bool MarkModuleStarted(Type moduleType)
     {
+        if (IsDisposed)
+        {
+            return false;
+        }
+
         return _stateTracker.MarkModuleStarted(moduleType);
     }
 
@@ -541,6 +563,11 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, Status? statusOverride = null)
     {
+        if (IsDisposed)
+        {
+            return;
+        }
+
         _stateTracker.MarkModuleCompleted(moduleType, success, exception, statusOverride);
     }
 
@@ -584,21 +611,28 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     public void CancelPendingModules()
     {
+        if (IsDisposed)
+        {
+            return;
+        }
+
         _stateTracker.CancelPendingModules();
     }
 
     public void Dispose()
     {
-        if (_isDisposed)
+        if (Interlocked.Exchange(ref _disposeState, 1) != 0)
         {
             return;
         }
 
-        _isDisposed = true;
         _disposalCancellationTokenSource.Cancel();
-        _schedulerNotification.Dispose();
         _disposalCancellationTokenSource.Dispose();
-        _stateLock.Dispose();
+
+        // Wake the scheduler so it observes disposal promptly. The lock and semaphore
+        // deliberately remain undisposed because in-flight workers may still be using
+        // them while unwinding; they become collectible with this scheduler.
+        _schedulerNotification.Release();
     }
 
     /// <summary>
