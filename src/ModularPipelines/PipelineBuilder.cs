@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -25,41 +26,53 @@ namespace ModularPipelines;
 /// <summary>
 /// A builder for configuring and creating a pipeline.
 /// </summary>
-public sealed class PipelineBuilder
+/// <remarks>
+/// The caller owns the builder and should dispose it when finished, especially after using
+/// <see cref="IHostEnvironment.ContentRootFileProvider"/>.
+/// </remarks>
+public sealed class PipelineBuilder : IDisposable
 {
     private readonly IHostBuilder _hostBuilder;
     private readonly ServiceCollection _services;
     private readonly ConfigurationManager _configuration;
     private readonly PipelineOptions _options;
+    private readonly PipelineHostEnvironment _environment;
 
     internal Type? LastRegisteredModuleType { get; set; }
 
     internal PipelineBuilder(string[]? args)
+        : this(new PipelineBuilderOptions { Args = args })
     {
+    }
+
+    internal PipelineBuilder(PipelineBuilderOptions options)
+    {
+        ArgumentNullException.ThrowIfNull(options);
+
         _services = new ServiceCollection();
         _configuration = new ConfigurationManager();
         _options = new PipelineOptions();
 
-        _hostBuilder = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args);
+        _hostBuilder = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(options.Args);
 
         // Add default configuration sources
         _configuration.AddEnvironmentVariables();
-        if (args != null)
+        if (options.Args != null)
         {
-            _configuration.AddCommandLine(args);
-        }
-    }
-
-    internal PipelineBuilder(PipelineBuilderOptions options) : this(options.Args)
-    {
-        if (!string.IsNullOrEmpty(options.EnvironmentName))
-        {
-            _hostBuilder.UseEnvironment(options.EnvironmentName);
+            _configuration.AddCommandLine(options.Args);
         }
 
-        if (!string.IsNullOrEmpty(options.ContentRootPath))
+        _environment = CreateHostEnvironment(options);
+        _hostBuilder.UseEnvironment(_environment.EnvironmentName);
+        _hostBuilder.UseContentRoot(_environment.ContentRootPath);
+
+        if (!string.IsNullOrEmpty(_environment.ApplicationName))
         {
-            _hostBuilder.UseContentRoot(options.ContentRootPath);
+            _hostBuilder.ConfigureHostConfiguration(configuration =>
+                configuration.AddInMemoryCollection(new Dictionary<string, string?>
+                {
+                    [HostDefaults.ApplicationKey] = _environment.ApplicationName,
+                }));
         }
     }
 
@@ -81,15 +94,15 @@ public sealed class PipelineBuilder
     /// <summary>
     /// Gets the host environment information.
     /// </summary>
-    public IHostEnvironment Environment
+    public IHostEnvironment Environment => _environment;
+
+    /// <summary>
+    /// Releases resources owned by the cached host environment.
+    /// </summary>
+    public void Dispose()
     {
-        get
-        {
-            // Build a temporary host to get the environment
-            // This is a lightweight operation as we're not running anything
-            using var tempHost = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder().Build();
-            return tempHost.Services.GetRequiredService<IHostEnvironment>();
-        }
+        (_environment.ContentRootFileProvider as IDisposable)?.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     /// <summary>
@@ -110,7 +123,7 @@ public sealed class PipelineBuilder
     /// <returns>The same builder instance for chaining.</returns>
     public PipelineBuilder RunCategories(params string[] categories)
     {
-        _options.RunOnlyCategories ??= new List<string>();
+        _options.RunOnlyCategories ??= [];
         foreach (var category in categories)
         {
             _options.RunOnlyCategories.Add(category);
@@ -126,7 +139,7 @@ public sealed class PipelineBuilder
     /// <returns>The same builder instance for chaining.</returns>
     public PipelineBuilder IgnoreCategories(params string[] categories)
     {
-        _options.IgnoreCategories ??= new List<string>();
+        _options.IgnoreCategories ??= [];
         foreach (var category in categories)
         {
             _options.IgnoreCategories.Add(category);
@@ -229,6 +242,44 @@ public sealed class PipelineBuilder
         var validationService = services.GetService<IPipelineValidationService>();
         return validationService?.ValidateAsync(services)
                ?? Task.FromResult(ValidationResult.Success());
+    }
+
+    private static PipelineHostEnvironment CreateHostEnvironment(PipelineBuilderOptions options)
+    {
+        var hostConfiguration = new ConfigurationManager();
+        hostConfiguration.AddEnvironmentVariables(prefix: "DOTNET_");
+        if (options.Args is not null)
+        {
+            hostConfiguration.AddCommandLine(options.Args);
+        }
+
+        var environmentName = FirstNonEmpty(
+            Environments.Production,
+            options.EnvironmentName,
+            hostConfiguration[HostDefaults.EnvironmentKey],
+            System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
+        var contentRootPath = Path.GetFullPath(FirstNonEmpty(
+            Directory.GetCurrentDirectory(),
+            options.ContentRootPath,
+            hostConfiguration[HostDefaults.ContentRootKey]));
+        var applicationName = FirstNonEmpty(
+            string.Empty,
+            options.ApplicationName,
+            hostConfiguration[HostDefaults.ApplicationKey],
+            Assembly.GetEntryAssembly()?.GetName().Name);
+
+        return new PipelineHostEnvironment
+        {
+            ApplicationName = applicationName,
+            EnvironmentName = environmentName,
+            ContentRootPath = contentRootPath,
+            ContentRootFileProvider = new PhysicalFileProvider(contentRootPath),
+        };
+    }
+
+    private static string FirstNonEmpty(string fallback, params string?[] candidates)
+    {
+        return candidates.FirstOrDefault(static value => !string.IsNullOrEmpty(value)) ?? fallback;
     }
 
     private async Task<IPipeline> BuildPipelineAsync()
@@ -458,6 +509,17 @@ public sealed class PipelineBuilder
         {
             services.Remove(descriptor);
         }
+    }
+
+    private sealed class PipelineHostEnvironment : IHostEnvironment
+    {
+        public string EnvironmentName { get; set; } = string.Empty;
+
+        public string ApplicationName { get; set; } = string.Empty;
+
+        public string ContentRootPath { get; set; } = string.Empty;
+
+        public IFileProvider ContentRootFileProvider { get; set; } = null!;
     }
 
     /// <summary>

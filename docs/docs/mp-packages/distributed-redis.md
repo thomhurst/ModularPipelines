@@ -20,7 +20,7 @@ Use the combined helper when Redis should provide both services:
 using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Distributed.Extensions;
 
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode(options => options.TotalInstances = 2);
 builder.AddRedisDistributed(

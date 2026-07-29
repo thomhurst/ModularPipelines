@@ -12,7 +12,7 @@ public static class Pipeline
     /// <returns>A new pipeline builder instance.</returns>
     /// <example>
     /// <code>
-    /// var builder = Pipeline.CreateBuilder(args);
+    /// using var builder = Pipeline.CreateBuilder(args);
     ///
     /// builder.AddModule&lt;BuildModule&gt;();
     /// builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
@@ -33,7 +33,7 @@ public static class Pipeline
     /// <returns>A new pipeline builder instance.</returns>
     /// <example>
     /// <code>
-    /// var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+    /// using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
     /// {
     ///     Args = args,
     ///     EnvironmentName = "Development"

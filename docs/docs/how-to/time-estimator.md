@@ -13,7 +13,7 @@ Then on subsequent runs, it'll ask you for an estimated time for a module. You g
 ## Example
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()

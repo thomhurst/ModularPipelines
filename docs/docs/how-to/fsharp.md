@@ -40,7 +40,7 @@ type TestModule() =
             return $"tested {build.ValueOrDefault}"
         }
 
-let builder = Pipeline.CreateBuilder()
+use builder = Pipeline.CreateBuilder()
 
 builder
     .AddModule<TestModule>()

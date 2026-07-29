@@ -104,6 +104,53 @@ public class PipelineBuilderRegistrationTests
     }
 
     [Test]
+    public async Task Environment_IsCachedAndHonorsBuilderOptions()
+    {
+        var contentRoot = Path.GetTempPath();
+        var fileName = $"pipeline-environment-{Guid.NewGuid():N}.txt";
+        var filePath = Path.Combine(contentRoot, fileName);
+        await File.WriteAllTextAsync(filePath, "content");
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+            {
+                ApplicationName = "ConfiguredApp",
+                EnvironmentName = "ConfiguredEnvironment",
+                ContentRootPath = contentRoot,
+            });
+
+            var environment = builder.Environment;
+
+            await Assert.That(builder.Environment).IsSameReferenceAs(environment);
+            await Assert.That(environment.ApplicationName).IsEqualTo("ConfiguredApp");
+            await Assert.That(environment.EnvironmentName).IsEqualTo("ConfiguredEnvironment");
+            await Assert.That(environment.ContentRootPath).IsEqualTo(Path.GetFullPath(contentRoot));
+            await Assert.That(environment.ContentRootFileProvider.GetFileInfo(fileName).Exists).IsTrue();
+        }
+        finally
+        {
+            File.Delete(filePath);
+        }
+    }
+
+    [Test]
+    public async Task Environment_HonorsCommandLineHostConfiguration()
+    {
+        var contentRoot = Path.GetTempPath();
+        using var builder = Pipeline.CreateBuilder(
+        [
+            "--applicationName", "CommandLineApp",
+            "--environment", "CommandLineEnvironment",
+            "--contentRoot", contentRoot,
+        ]);
+
+        await Assert.That(builder.Environment.ApplicationName).IsEqualTo("CommandLineApp");
+        await Assert.That(builder.Environment.EnvironmentName).IsEqualTo("CommandLineEnvironment");
+        await Assert.That(builder.Environment.ContentRootPath).IsEqualTo(Path.GetFullPath(contentRoot));
+    }
+
+    [Test]
     public async Task ExecutePipelineAsync_ValidatesBeforeRunning()
     {
         var builder = Pipeline.CreateBuilder();

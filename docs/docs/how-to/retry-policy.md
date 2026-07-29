@@ -85,7 +85,7 @@ public class ResilientModule : Module<CommandResult>
 Retry policies are off by default. You can set a default retry count on the `PipelineOptions`:
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()

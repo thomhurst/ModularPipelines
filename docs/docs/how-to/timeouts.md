@@ -7,7 +7,7 @@ title: Timeouts
 Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use `TimeSpan.Zero` to disable it:
 
 ```csharp
-var builder = Pipeline.CreateBuilder();
+using var builder = Pipeline.CreateBuilder();
 builder.Options.DefaultModuleTimeout = TimeSpan.FromHours(2);
 
 // Disable the default. Per-module timeouts still apply.

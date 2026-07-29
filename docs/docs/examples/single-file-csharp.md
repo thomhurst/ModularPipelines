@@ -35,6 +35,8 @@ To use ModularPipelines in a single file C# application, you can follow these st
     using ModularPipelines.Modules;
 
     var builder = Pipeline.CreateBuilder(args);
+    // PipelineBuilder became disposable in v4; retain compatibility with the v3 package above.
+    using var builderLifetime = ((object)builder) as System.IDisposable;
 
     builder
         .AddModule<UpdateDotnetWorkloads>()

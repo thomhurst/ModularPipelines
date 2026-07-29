@@ -21,7 +21,7 @@ namespace ModularPipelines.Options;
 /// </remarks>
 /// <example>
 /// <code>
-/// var builder = Pipeline.CreateBuilder();
+/// using var builder = Pipeline.CreateBuilder();
 /// builder.Services.Configure&lt;SecretMaskingOptions&gt;(options =>
 /// {
 ///     options.CaseInsensitive = true;  // Match "Password", "PASSWORD", "password"

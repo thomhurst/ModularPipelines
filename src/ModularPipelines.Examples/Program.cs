@@ -8,7 +8,7 @@ using ModularPipelines.Examples.Modules.Systems;
 using ModularPipelines.Extensions;
 using ModularPipelines.Options;
 
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false)

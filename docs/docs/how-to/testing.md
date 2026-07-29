@@ -33,7 +33,7 @@ public async Task MyModule_ReadsConfigFile()
         .ReturnsAsync("{\"setting\": \"value\"}");
 
     // Run pipeline with mock
-    var builder = Pipeline.CreateBuilder(args);
+    using var builder = Pipeline.CreateBuilder(args);
 
     builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
     builder.AddModule<MyModule>();
@@ -53,7 +53,7 @@ public async Task MyModule_WritesOutputFile()
 {
     var mockProvider = new Mock<IFileSystemProvider>();
 
-    var builder = Pipeline.CreateBuilder(args);
+    using var builder = Pipeline.CreateBuilder(args);
 
     builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
     builder.AddModule<OutputModule>();

@@ -67,7 +67,7 @@ await context.DotNet().Build(
 Set default logging for all commands at the pipeline level:
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 // All commands will use Silent logging unless overridden
 builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Silent;
