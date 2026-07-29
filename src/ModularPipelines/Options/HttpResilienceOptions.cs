@@ -19,6 +19,8 @@ namespace ModularPipelines.Options;
 /// </remarks>
 public record HttpResilienceOptions
 {
+    private IReadOnlyCollection<HttpStatusCode> _retryableStatusCodes = DefaultRetryableStatusCodes;
+
     /// <summary>
     /// Gets or sets the maximum number of retry attempts. Default is 3.
     /// Set to 0 to disable retries.
@@ -54,7 +56,11 @@ public record HttpResilienceOptions
     /// Gets or sets the HTTP status codes that should trigger a retry.
     /// Default includes server errors (5xx) and 408 Request Timeout.
     /// </summary>
-    public IReadOnlyCollection<HttpStatusCode> RetryableStatusCodes { get; init; } = DefaultRetryableStatusCodes;
+    public IReadOnlyCollection<HttpStatusCode> RetryableStatusCodes
+    {
+        get => _retryableStatusCodes;
+        init => _retryableStatusCodes = Array.AsReadOnly(value.ToArray());
+    }
 
     /// <summary>
     /// Gets or sets whether to retry on <see cref="HttpRequestException"/> (network failures). Default is true.
@@ -71,13 +77,14 @@ public record HttpResilienceOptions
     /// Default retryable HTTP status codes: 5xx server errors and 408 Request Timeout.
     /// </summary>
     public static IReadOnlyCollection<HttpStatusCode> DefaultRetryableStatusCodes { get; } =
-    [
-        HttpStatusCode.RequestTimeout,           // 408
-        HttpStatusCode.InternalServerError,      // 500
-        HttpStatusCode.BadGateway,               // 502
-        HttpStatusCode.ServiceUnavailable,       // 503
-        HttpStatusCode.GatewayTimeout,           // 504
-    ];
+        Array.AsReadOnly(new[]
+        {
+            HttpStatusCode.RequestTimeout,           // 408
+            HttpStatusCode.InternalServerError,      // 500
+            HttpStatusCode.BadGateway,               // 502
+            HttpStatusCode.ServiceUnavailable,       // 503
+            HttpStatusCode.GatewayTimeout,           // 504
+        });
 
     /// <summary>
     /// Default resilience options with 3 retries and exponential backoff.

@@ -1,3 +1,4 @@
+using System.Net;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -22,6 +23,8 @@ public class PipelineOptionsTests
     [Test]
     [Arguments(typeof(PipelineOptions))]
     [Arguments(typeof(ConcurrencyOptions))]
+    [Arguments(typeof(HttpLoggingOptions))]
+    [Arguments(typeof(HttpResilienceOptions))]
     public async Task PublicProperties_AreInitOnly(Type optionsType)
     {
         var mutableProperties = optionsType
@@ -84,6 +87,47 @@ public class PipelineOptionsTests
             await Assert.That(((ICollection<string>) options.RunOnlyCategories!).IsReadOnly)
                 .IsTrue();
             await Assert.That(((ICollection<string>) options.IgnoreCategories!).IsReadOnly)
+                .IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task NestedHttpCollections_AreDefensivelyCopied()
+    {
+        var sensitiveHeaders = new List<string> { "X-Secret" };
+        var retryableStatusCodes = new List<HttpStatusCode>
+        {
+            HttpStatusCode.ServiceUnavailable,
+        };
+        var options = new PipelineOptions
+        {
+            DefaultHttpLoggingOptions = new HttpLoggingOptions
+            {
+                SensitiveHeaderNames = sensitiveHeaders,
+            },
+            DefaultHttpResilienceOptions = new HttpResilienceOptions
+            {
+                RetryableStatusCodes = retryableStatusCodes,
+            },
+        };
+
+        sensitiveHeaders.Clear();
+        retryableStatusCodes.Add(HttpStatusCode.BadGateway);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.DefaultHttpLoggingOptions!.SensitiveHeaderNames)
+                .IsEquivalentTo(["X-Secret"]);
+            await Assert.That(options.DefaultHttpResilienceOptions!.RetryableStatusCodes)
+                .IsEquivalentTo([HttpStatusCode.ServiceUnavailable]);
+            await Assert.That(
+                    ((ICollection<string>) options.DefaultHttpLoggingOptions.SensitiveHeaderNames)
+                    .IsReadOnly)
+                .IsTrue();
+            await Assert.That(
+                    ((ICollection<HttpStatusCode>)
+                        options.DefaultHttpResilienceOptions.RetryableStatusCodes)
+                    .IsReadOnly)
                 .IsTrue();
         }
     }
