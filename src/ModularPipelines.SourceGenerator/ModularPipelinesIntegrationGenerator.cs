@@ -244,16 +244,7 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         ParseOptions parseOptions,
         EquatableArray<ReferencedToolProperty> referencedToolProperties)
     {
-        foreach (var candidate in candidates)
-        {
-            if (candidate.Registration is null)
-            {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    InvalidIntegrationMethod,
-                    candidate.Location,
-                    candidate.MethodName));
-            }
-        }
+        ReportInvalidIntegrationMethods(context, candidates);
 
         var uniqueRegistrations = candidates
             .Select(static candidate => candidate.Registration)
@@ -263,51 +254,12 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
             .ThenBy(static registration => registration.MethodName, StringComparer.Ordinal)
             .ToArray();
 
-        var toolProperties = candidates
-            .SelectMany(static candidate => candidate.ToolProperties)
-            .ToArray();
         var supportsExtensionMembers = SupportsExtensionMembers(parseOptions);
-        if (supportsExtensionMembers)
-        {
-            foreach (var property in toolProperties.Where(
-                         static property => ShadowedToolPropertyNames.Contains(property.Name)))
-            {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    ShadowedToolProperty,
-                    property.Location,
-                    property.MethodName,
-                    property.Name));
-            }
-
-            toolProperties =
-            [
-                .. toolProperties.Where(
-                    static property => !ShadowedToolPropertyNames.Contains(property.Name)),
-            ];
-        }
-
-        var allToolProperties = toolProperties
-            .Concat(referencedToolProperties.Select(static property => new ToolProperty(
-                property.Name,
-                property.TypeName,
-                MethodName: property.Name,
-                Location: null,
-                property.SourceId)))
-            .ToArray();
-        var conflictingPropertyNames = supportsExtensionMembers
-            ? ReportToolPropertyConflicts(context, allToolProperties)
-            : [];
-        var uniqueToolProperties = toolProperties
-            .Where(property => !conflictingPropertyNames.Contains(property.Name))
-            .GroupBy(static property => new
-            {
-                property.Name,
-                property.TypeName,
-            })
-            .Select(static group => group.First())
-            .OrderBy(static property => property.Name, StringComparer.Ordinal)
-            .ThenBy(static property => property.TypeName, StringComparer.Ordinal)
-            .ToArray();
+        var uniqueToolProperties = GetUniqueToolProperties(
+            context,
+            candidates,
+            referencedToolProperties,
+            supportsExtensionMembers);
 
         if (uniqueRegistrations.Length == 0)
         {
@@ -386,6 +338,81 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         }
 
         context.AddSource("ModularPipelines.IntegrationRegistration.g.cs", builder.ToString());
+    }
+
+    private static void ReportInvalidIntegrationMethods(
+        SourceProductionContext context,
+        ImmutableArray<IntegrationCandidate> candidates)
+    {
+        foreach (var candidate in candidates.Where(
+                     static candidate => candidate.Registration is null))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(
+                InvalidIntegrationMethod,
+                candidate.Location,
+                candidate.MethodName));
+        }
+    }
+
+    private static ToolProperty[] GetUniqueToolProperties(
+        SourceProductionContext context,
+        ImmutableArray<IntegrationCandidate> candidates,
+        EquatableArray<ReferencedToolProperty> referencedToolProperties,
+        bool supportsExtensionMembers)
+    {
+        var toolProperties = candidates
+            .SelectMany(static candidate => candidate.ToolProperties)
+            .ToArray();
+        if (supportsExtensionMembers)
+        {
+            ReportShadowedToolProperties(context, toolProperties);
+            toolProperties =
+            [
+                .. toolProperties.Where(
+                    static property => !ShadowedToolPropertyNames.Contains(property.Name)),
+            ];
+        }
+
+        var allToolProperties = toolProperties
+            .Concat(referencedToolProperties.Select(static property => new ToolProperty(
+                property.Name,
+                property.TypeName,
+                MethodName: property.Name,
+                Location: null,
+                property.SourceId)))
+            .ToArray();
+        var conflictingPropertyNames = supportsExtensionMembers
+            ? ReportToolPropertyConflicts(context, allToolProperties)
+            : [];
+
+        return
+        [
+            .. toolProperties
+                .Where(property => !conflictingPropertyNames.Contains(property.Name))
+                .GroupBy(static property => new
+                {
+                    property.Name,
+                    property.TypeName,
+                })
+                .Select(static group => group.First())
+                .OrderBy(static property => property.Name, StringComparer.Ordinal)
+                .ThenBy(static property => property.TypeName, StringComparer.Ordinal),
+        ];
+    }
+
+    private static void ReportShadowedToolProperties(
+        SourceProductionContext context,
+        ToolProperty[] toolProperties)
+    {
+        foreach (var property in toolProperties.Where(
+                     static property => ShadowedToolPropertyNames.Contains(property.Name)))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(
+                ShadowedToolProperty,
+                property.Location,
+                property.MethodName,
+                property.Name));
+        }
     }
 
     private static ImmutableHashSet<string> ReportToolPropertyConflicts(
