@@ -78,17 +78,17 @@ public class CommandGroupAliasGenerationTests
         await Assert.That(builderService.Content)
             .Contains("public class DockerBuilder : DockerBuildx, IDockerBuilder");
         await Assert.That(builderService.Content)
-            .Contains("public virtual Task<CommandResult> Execute(");
+            .Contains("public virtual Task<CommandResult> ExecuteAsync(");
         await Assert.That(builderService.Content)
             .Contains("DockerBuilderOptions? options = null");
         await Assert.That(builderService.Content)
-            .Contains("return base.Execute(options, executionOptions, cancellationToken);");
+            .Contains("return base.ExecuteAsync(options, executionOptions, cancellationToken);");
         await Assert.That(builderService.Content)
-            .Contains("public virtual Task<CommandResult> Build(");
+            .Contains("public virtual Task<CommandResult> BuildAsync(");
         await Assert.That(builderService.Content)
             .Contains("DockerBuilderBuildOptions? options = null");
         await Assert.That(builderService.Content)
-            .Contains("return base.Build(options, executionOptions, cancellationToken);");
+            .Contains("return base.BuildAsync(options, executionOptions, cancellationToken);");
 
         var builderInterface = serviceFiles.Single(file =>
             file.RelativePath.EndsWith(

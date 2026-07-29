@@ -10,6 +10,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ModularPipelines.Docker.Options;
 
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 public record DockerBuilderImageToolsInspectOptions : DockerBuildxImageToolsInspectOptions;

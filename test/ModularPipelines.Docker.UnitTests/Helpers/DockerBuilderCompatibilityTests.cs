@@ -24,9 +24,9 @@ public class DockerBuilderCompatibilityTests
             typeof(CancellationToken),
         };
 
-        await Assert.That(typeof(IDockerBuilder).GetMethod("Build", parameterTypes))
+        await Assert.That(typeof(IDockerBuilder).GetMethod("BuildAsync", parameterTypes))
             .IsNotNull();
-        await Assert.That(typeof(DockerBuilder).GetMethod("Build", parameterTypes))
+        await Assert.That(typeof(DockerBuilder).GetMethod("BuildAsync", parameterTypes))
             .IsNotNull();
         var rootParameterTypes = new[]
         {
@@ -34,9 +34,9 @@ public class DockerBuilderCompatibilityTests
             typeof(CommandExecutionOptions),
             typeof(CancellationToken),
         };
-        await Assert.That(typeof(IDockerBuilder).GetMethod("Execute", rootParameterTypes))
+        await Assert.That(typeof(IDockerBuilder).GetMethod("ExecuteAsync", rootParameterTypes))
             .IsNotNull();
-        await Assert.That(typeof(DockerBuilder).GetMethod("Execute", rootParameterTypes))
+        await Assert.That(typeof(DockerBuilder).GetMethod("ExecuteAsync", rootParameterTypes))
             .IsNotNull();
         await Assert.That(typeof(IDockerBuilder).GetProperty(nameof(IDockerBuilder.History))!.PropertyType)
             .IsEqualTo(typeof(DockerBuilderHistory));
@@ -47,19 +47,19 @@ public class DockerBuilderCompatibilityTests
 
         var nestedMethods = new (Type ServiceType, string MethodName, Type OptionsType)[]
         {
-            (typeof(DockerBuilderDap), "Build", typeof(DockerBuilderDapBuildOptions)),
-            (typeof(DockerBuilderHistory), "Export", typeof(DockerBuilderHistoryExportOptions)),
-            (typeof(DockerBuilderHistory), "Import", typeof(DockerBuilderHistoryImportOptions)),
-            (typeof(DockerBuilderHistory), "Logs", typeof(DockerBuilderHistoryLogsOptions)),
-            (typeof(DockerBuilderHistory), "Ls", typeof(DockerBuilderHistoryLsOptions)),
-            (typeof(DockerBuilderHistory), "Open", typeof(DockerBuilderHistoryOpenOptions)),
-            (typeof(DockerBuilderHistory), "Rm", typeof(DockerBuilderHistoryRmOptions)),
-            (typeof(DockerBuilderHistory), "Trace", typeof(DockerBuilderHistoryTraceOptions)),
-            (typeof(DockerBuilderHistoryInspect), "Attachment", typeof(DockerBuilderHistoryInspectAttachmentOptions)),
-            (typeof(DockerBuilderImageTools), "Create", typeof(DockerBuilderImageToolsCreateOptions)),
-            (typeof(DockerBuilderImageTools), "Inspect", typeof(DockerBuilderImageToolsInspectOptions)),
-            (typeof(DockerBuilderPolicy), "Eval", typeof(DockerBuilderPolicyEvalOptions)),
-            (typeof(DockerBuilderPolicy), "Test", typeof(DockerBuilderPolicyTestOptions)),
+            (typeof(DockerBuilderDap), "BuildAsync", typeof(DockerBuilderDapBuildOptions)),
+            (typeof(DockerBuilderHistory), "ExportAsync", typeof(DockerBuilderHistoryExportOptions)),
+            (typeof(DockerBuilderHistory), "ImportAsync", typeof(DockerBuilderHistoryImportOptions)),
+            (typeof(DockerBuilderHistory), "LogsAsync", typeof(DockerBuilderHistoryLogsOptions)),
+            (typeof(DockerBuilderHistory), "LsAsync", typeof(DockerBuilderHistoryLsOptions)),
+            (typeof(DockerBuilderHistory), "OpenAsync", typeof(DockerBuilderHistoryOpenOptions)),
+            (typeof(DockerBuilderHistory), "RmAsync", typeof(DockerBuilderHistoryRmOptions)),
+            (typeof(DockerBuilderHistory), "TraceAsync", typeof(DockerBuilderHistoryTraceOptions)),
+            (typeof(DockerBuilderHistoryInspect), "AttachmentAsync", typeof(DockerBuilderHistoryInspectAttachmentOptions)),
+            (typeof(DockerBuilderImageTools), "CreateAsync", typeof(DockerBuilderImageToolsCreateOptions)),
+            (typeof(DockerBuilderImageTools), "InspectAsync", typeof(DockerBuilderImageToolsInspectOptions)),
+            (typeof(DockerBuilderPolicy), "EvalAsync", typeof(DockerBuilderPolicyEvalOptions)),
+            (typeof(DockerBuilderPolicy), "TestAsync", typeof(DockerBuilderPolicyTestOptions)),
         };
 
         foreach (var (serviceType, methodName, optionsType) in nestedMethods)

@@ -14,7 +14,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Docker.Services;
 
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IDockerBuilder
 {
     DockerBuilderDap Dap { get; }
@@ -25,59 +25,59 @@ public interface IDockerBuilder
 
     DockerBuilderPolicy Policy { get; }
 
-    Task<CommandResult> Execute(DockerBuilderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ExecuteAsync(DockerBuilderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Bake(
+    Task<CommandResult> BakeAsync(
         DockerBuilderBakeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Build(
+    Task<CommandResult> BuildAsync(
         DockerBuilderBuildOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Create(
+    Task<CommandResult> CreateAsync(
         DockerBuilderCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> DialStdio(
+    Task<CommandResult> DialStdioAsync(
         DockerBuilderDialStdioOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Du(
+    Task<CommandResult> DuAsync(
         DockerBuilderDuOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Inspect(
+    Task<CommandResult> InspectAsync(
         DockerBuilderInspectOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Ls(
+    Task<CommandResult> LsAsync(
         DockerBuilderLsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Prune(
+    Task<CommandResult> PruneAsync(
         DockerBuilderPruneOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Rm(
+    Task<CommandResult> RmAsync(
         DockerBuilderRmOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Stop(
+    Task<CommandResult> StopAsync(
         DockerBuilderStopOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Use(
+    Task<CommandResult> UseAsync(
         DockerBuilderUseOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

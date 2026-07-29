@@ -14,7 +14,7 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Docker.Services;
 
 [Obsolete("docker builder is an alias of docker buildx. Use Buildx instead.")]
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DockerBuilderDap : DockerBuildxDap
 {
     public DockerBuilderDap(ICommandContext command)
@@ -22,9 +22,9 @@ public class DockerBuilderDap : DockerBuildxDap
     {
     }
 
-    public virtual Task<CommandResult> Build(
+    public virtual Task<CommandResult> BuildAsync(
         DockerBuilderDapBuildOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default) =>
-        base.Build(options, executionOptions, cancellationToken);
+        base.BuildAsync(options, executionOptions, cancellationToken);
 }

@@ -336,6 +336,8 @@ public class SubDomainClassGenerator : ICodeGenerator
         string methodName,
         CliCommandDefinition command)
     {
+        methodName = GeneratorUtils.EnsureAsyncSuffix(methodName);
+
         if (!string.IsNullOrEmpty(command.Description))
         {
             GeneratorUtils.GenerateXmlDocumentation(sb, command.Description);
@@ -371,6 +373,8 @@ public class SubDomainClassGenerator : ICodeGenerator
         string methodName,
         CliCommandDefinition command)
     {
+        methodName = GeneratorUtils.EnsureAsyncSuffix(methodName);
+
         sb.AppendLine($"    public virtual Task<CommandResult> {methodName}(");
         sb.AppendLine($"        {BuildCompatibilityOptionsParameter(tool, alias, command)},");
         sb.AppendLine($"        {GeneratorUtils.ExecutionOptionsParameter},");

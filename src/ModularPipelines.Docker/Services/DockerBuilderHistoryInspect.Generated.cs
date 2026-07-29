@@ -14,7 +14,7 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Docker.Services;
 
 [Obsolete("docker builder is an alias of docker buildx. Use Buildx instead.")]
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DockerBuilderHistoryInspect : DockerBuildxHistoryInspect
 {
     public DockerBuilderHistoryInspect(ICommandContext command)
@@ -22,9 +22,9 @@ public class DockerBuilderHistoryInspect : DockerBuildxHistoryInspect
     {
     }
 
-    public virtual Task<CommandResult> Attachment(
+    public virtual Task<CommandResult> AttachmentAsync(
         DockerBuilderHistoryInspectAttachmentOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default) =>
-        base.Attachment(options, executionOptions, cancellationToken);
+        base.AttachmentAsync(options, executionOptions, cancellationToken);
 }
