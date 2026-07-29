@@ -11,6 +11,7 @@ internal static class ModuleAuthoringAnalysis
 {
     private const string AssemblyMetadataName = "System.Reflection.Assembly";
     private const string CancellationTokenMetadataName = "System.Threading.CancellationToken";
+    private const string EventArgsMetadataName = "System.EventArgs";
 
     public static void InitializeRegistrationAnalysis(AnalysisContext context)
     {
@@ -77,7 +78,8 @@ internal static class ModuleAuthoringAnalysis
         var method = (IMethodSymbol) context.Symbol;
         if (!method.IsAsync
             || !method.ReturnsVoid
-            || !method.ContainingType.IsModule(context.Compilation))
+            || !method.ContainingType.IsModule(context.Compilation)
+            || HasEventHandlerSignature(method, context.Compilation))
         {
             return;
         }
@@ -365,10 +367,12 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsModuleRegistrationMethod(IMethodSymbol method)
     {
-        return method.ContainingNamespace.ToDisplayString().StartsWith(
-                   "ModularPipelines",
-                   StringComparison.Ordinal)
-               && method.Name is
+        var definition = (method.ReducedFrom ?? method).OriginalDefinition;
+        return definition.ContainingAssembly.Name == "ModularPipelines"
+               && definition.ContainingType.ToDisplayString() is
+                   "ModularPipelines.Extensions.PipelineBuilderExtensions"
+                   or "ModularPipelines.Extensions.ServiceCollectionExtensions"
+               && definition.Name is
                    "AddModule"
                    or "AddModules"
                    or "AddModulesFromAssembly"
@@ -417,6 +421,19 @@ internal static class ModuleAuthoringAnalysis
                 unresolvedModuleRegistrations.Add(0);
             }
         }
+    }
+
+    private static bool HasEventHandlerSignature(
+        IMethodSymbol method,
+        Compilation compilation)
+    {
+        return method.Parameters.Length == 2
+               && method.Parameters[0].RefKind == RefKind.None
+               && method.Parameters[0].Type.SpecialType == SpecialType.System_Object
+               && method.Parameters[1].RefKind == RefKind.None
+               && method.Parameters[1].Type.InheritsFrom(
+                   compilation,
+                   EventArgsMetadataName);
     }
 
     private static bool TryTrackInstanceModuleTypes(
@@ -1000,6 +1017,11 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
+            if (current is IForEachLoopOperation)
+            {
+                return true;
+            }
+
             if (current is not IInvocationOperation parentInvocation)
             {
                 return false;
@@ -1014,6 +1036,11 @@ internal static class ModuleAuthoringAnalysis
                 .ToDisplayString() != "System.Linq.Enumerable")
             {
                 return false;
+            }
+
+            if (parentInvocation.TargetMethod.Name is "ToArray" or "ToList")
+            {
+                return true;
             }
 
             current = parentInvocation.Parent;

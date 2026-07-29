@@ -47,6 +47,39 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Similarly_Named_Method_Does_Not_Register_Module()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class FakeRegistration
+            {
+                public static void AddModule<TModule>()
+                {
+                }
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    FakeRegistration.AddModule<BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Require_Registration_In_Reusable_Library()
     {
         var source = $$"""
@@ -857,6 +890,23 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Async_Void_Event_Handler_In_Module()
+    {
+        var source = ModuleSource($$"""
+            {{TestSourceConstants.SimpleAsyncExecuteBody}}
+
+                public event EventHandler? Completed;
+
+                private async void OnCompleted(object? sender, EventArgs eventArgs)
+                {
+                    await Task.Yield();
+                }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Generic_Overload_With_Unsatisfied_Constraints()
     {
         var source = ModuleSource("""
@@ -1038,6 +1088,58 @@ public class ModuleAuthoringAnalyzerTests
         var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
             .WithLocation(0)
             .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("ToList")]
+    [DataRow("ToArray")]
+    public async Task Reports_Async_Safety_Inside_Eager_Linq_Callback(
+        string terminalMethod)
+    {
+        var source = ModuleSource($$"""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                _ = Enumerable.Range(0, 1)
+                    .Select(_ =>
+                    {
+                        {|#0:Thread.Sleep(1)|};
+                        return 1;
+                    })
+                    .{{terminalMethod}}();
+                return Task.FromResult<List<string>?>(null);
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Foreach_Linq_Callback()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                foreach (var value in Enumerable.Range(0, 1).Select(_ =>
+                         {
+                             {|#0:Thread.Sleep(1)|};
+                             return 1;
+                         }))
+                {
+                }
+
+                return Task.FromResult<List<string>?>(null);
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
