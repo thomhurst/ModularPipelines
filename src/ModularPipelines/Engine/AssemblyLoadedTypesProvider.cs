@@ -11,13 +11,15 @@ internal class AssemblyLoadedTypesProvider : IAssemblyLoadedTypesProvider
 
     public Type[] GetLoadedTypesAssignableTo(Type type)
     {
-        return AppDomain.CurrentDomain
+        return
+        [
+            .. AppDomain.CurrentDomain
             .GetAssemblies()
             .Where(ReferencesModularPipelines)
             .SelectMany(assembly => GetKnownTypes(assembly, type))
             .Where(t => t.IsAssignableTo(type))
-            .Where(t => !t.IsAbstract)
-            .ToArray();
+            .Where(t => !t.IsAbstract),
+        ];
     }
 
     [UnconditionalSuppressMessage(
@@ -47,19 +49,6 @@ internal class AssemblyLoadedTypesProvider : IAssemblyLoadedTypesProvider
             return generatedModuleTypes;
         }
 
-        return GetLoadableTypes(assembly);
-    }
-
-    [RequiresUnreferencedCode("Calls System.Reflection.Assembly.GetTypes()")]
-    private static IEnumerable<Type> GetLoadableTypes(Assembly assembly)
-    {
-        try
-        {
-            return assembly.GetTypes();
-        }
-        catch (ReflectionTypeLoadException e)
-        {
-            return e.Types.OfType<Type>();
-        }
+        return AssemblyTypeLoader.GetLoadableTypes(assembly);
     }
 }

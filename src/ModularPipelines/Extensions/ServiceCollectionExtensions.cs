@@ -274,14 +274,16 @@ internal static class ServiceCollectionExtensions
             assembly,
             out var generatedModuleTypes,
             out var generatedMetadataIsComplete);
-        var modules = hasGeneratedMetadata && generatedMetadataIsComplete
-            ? generatedModuleTypes.ToList()
-            : GetLoadableTypes(assembly)
-                .Where(type => type.IsAssignableTo(typeof(IModule)))
-                .Where(type => type.IsClass)
-                .Where(type => !type.IsAbstract)
-                .Where(type => !type.IsGenericTypeDefinition)
-                .ToList();
+        List<Type> modules = hasGeneratedMetadata && generatedMetadataIsComplete
+            ? [.. generatedModuleTypes]
+            :
+            [
+                .. AssemblyTypeLoader.GetLoadableTypes(assembly)
+                    .Where(type => type.IsAssignableTo(typeof(IModule)))
+                    .Where(type => type.IsClass)
+                    .Where(type => !type.IsAbstract)
+                    .Where(type => !type.IsGenericTypeDefinition),
+            ];
 
         // Get already registered module types
         var existingModuleTypes = GetRegisteredModuleTypes(services);
@@ -347,19 +349,6 @@ internal static class ServiceCollectionExtensions
     internal static IServiceCollection AddServiceCollection(this IServiceCollection serviceCollection)
     {
         return serviceCollection.AddSingleton<IPipelineServiceContainerWrapper>(new PipelineServiceContainerWrapper(serviceCollection));
-    }
-
-    [RequiresUnreferencedCode("Calls System.Reflection.Assembly.GetTypes()")]
-    private static IEnumerable<Type> GetLoadableTypes(Assembly assembly)
-    {
-        try
-        {
-            return assembly.GetTypes();
-        }
-        catch (ReflectionTypeLoadException exception)
-        {
-            return exception.Types.OfType<Type>();
-        }
     }
 
     /// <summary>

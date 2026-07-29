@@ -228,6 +228,8 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
         // Generators cannot observe modules emitted by other generators in the same
         // compilation, so assembly discovery must retain its reflection fallback.
+        // TODO(#3228): Revisit completeness when final trim/AOT certification can
+        // account for every generator participating in the compilation.
         const bool isComplete = false;
         var registrationTypeName = $"ModuleMetadataRegistration_{GetStableIdentifier(assemblyName)}";
         var sb = new StringBuilder();
