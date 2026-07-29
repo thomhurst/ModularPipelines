@@ -320,6 +320,7 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals)
     {
         var pending = new Stack<(IOperation Operation, bool RequireTaskLike)>();
+        HashSet<IMethodSymbol> visitedCallables = [with(SymbolEqualityComparer.Default)];
         pending.Push((operation, false));
 
         while (pending.Count > 0)
@@ -329,6 +330,7 @@ internal static class ModuleAuthoringAnalysis
                     current,
                     requireTaskLike,
                     visitedLocals,
+                    visitedCallables,
                     pending) is { } invocation)
             {
                 yield return invocation;
@@ -340,6 +342,7 @@ internal static class ModuleAuthoringAnalysis
         IOperation operation,
         bool requireTaskLike,
         HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedCallables,
         Stack<(IOperation Operation, bool RequireTaskLike)> pending)
     {
         if (operation is IAnonymousFunctionOperation or IAwaitOperation)
@@ -355,7 +358,11 @@ internal static class ModuleAuthoringAnalysis
 
         if (operation is IInvocationOperation invocation)
         {
-            return ProcessAwaitedInvocation(invocation, requireTaskLike, pending);
+            return ProcessAwaitedInvocation(
+                invocation,
+                requireTaskLike,
+                visitedCallables,
+                pending);
         }
 
         QueueChildOperations(operation, requireTaskLike, pending);
@@ -378,6 +385,7 @@ internal static class ModuleAuthoringAnalysis
     private static IInvocationOperation? ProcessAwaitedInvocation(
         IInvocationOperation invocation,
         bool requireTaskLike,
+        HashSet<IMethodSymbol> visitedCallables,
         Stack<(IOperation Operation, bool RequireTaskLike)> pending)
     {
         if (invocation.TargetMethod.Name == "ConfigureAwait"
@@ -393,7 +401,7 @@ internal static class ModuleAuthoringAnalysis
             return null;
         }
 
-        QueueInvokedCallbackReturns(invocation, pending);
+        QueueInvokedCallbackReturns(invocation, visitedCallables, pending);
         foreach (var argument in invocation.Arguments.Reverse())
         {
             pending.Push((argument.Value, true));
@@ -411,45 +419,27 @@ internal static class ModuleAuthoringAnalysis
 
     private static void QueueInvokedCallbackReturns(
         IInvocationOperation invocation,
+        HashSet<IMethodSymbol> visitedCallables,
         Stack<(IOperation Operation, bool RequireTaskLike)> pending)
     {
-        if (!IsKnownDelegateInvoker(invocation))
-        {
-            return;
-        }
-
-        var enclosingCallable = GetEnclosingCallable(invocation);
-        foreach (var anonymousFunction in invocation.Arguments
-                     .SelectMany(static argument => argument.Value
-                         .DescendantsAndSelf()
-                         .OfType<IAnonymousFunctionOperation>())
-                     .Where(anonymousFunction =>
-                         ReferenceEquals(
-                             GetEnclosingCallable(anonymousFunction),
-                             enclosingCallable)))
-        {
-            QueueCallableReturns(
-                anonymousFunction.Body,
-                anonymousFunction,
-                pending);
-        }
-
         var root = GetRoot(invocation);
-        foreach (var localFunction in root.DescendantsAndSelf()
-                     .OfType<ILocalFunctionOperation>()
-                     .Where(localFunction => invocation.Arguments.Any(argument =>
-                         ValueContainsCallable(
-                             argument.Value,
-                             localFunction.Symbol,
-                             [with(SymbolEqualityComparer.Default)]))))
+        foreach (var callableOperation in root.DescendantsAndSelf()
+                     .Where(static operation =>
+                         operation is IAnonymousFunctionOperation
+                             or ILocalFunctionOperation))
         {
-            if (localFunction.Body is { } body)
+            var callableSymbol = GetCallableSymbol(callableOperation);
+            if (callableSymbol is null
+                || !InvocationTargetsCallable(invocation, callableSymbol)
+                || !visitedCallables.Add(callableSymbol))
             {
-                QueueCallableReturns(
-                    body,
-                    localFunction,
-                    pending);
+                continue;
             }
+
+            QueueCallableReturns(
+                callableOperation,
+                callableOperation,
+                pending);
         }
     }
 
@@ -563,6 +553,14 @@ internal static class ModuleAuthoringAnalysis
     {
         var method = invocation.TargetMethod;
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
+        if (IsServiceDescriptorRegistrationMethod(invocation))
+        {
+            return TryTrackServiceDescriptorArguments(
+                invocation,
+                instanceRegisteredModules,
+                unresolvedModuleRegistrations);
+        }
+
         if (!IsDirectServiceRegistrationMethod(definition)
             || !RegistersModuleService(invocation, method))
         {
@@ -587,26 +585,207 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsDirectServiceRegistrationMethod(IMethodSymbol definition)
     {
         var containingType = definition.ContainingType.ToDisplayString();
-        return (definition.Name is "AddSingleton" or "AddScoped" or "AddTransient"
-                && containingType is
-                    "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
-                    or "ModularPipelines.Extensions.PipelineBuilderExtensions")
-               || (definition.Name is "Singleton" or "Scoped" or "Transient"
-                   && containingType
-                   == "Microsoft.Extensions.DependencyInjection.ServiceDescriptor");
+        return definition.Name is "AddSingleton" or "AddScoped" or "AddTransient"
+               && containingType is
+                   "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
+                   or "ModularPipelines.Extensions.PipelineBuilderExtensions";
+    }
+
+    private static bool IsServiceDescriptorRegistrationMethod(
+        IInvocationOperation invocation)
+    {
+        if (invocation.TargetMethod.Name is not ("Add" or "TryAddEnumerable")
+            || !InvocationTargetsServiceCollection(invocation))
+        {
+            return false;
+        }
+
+        return invocation.TargetMethod.Parameters.Any(static parameter =>
+            IsServiceDescriptorType(parameter.Type));
+    }
+
+    private static bool InvocationTargetsServiceCollection(
+        IInvocationOperation invocation)
+    {
+        if (IsServiceCollectionType(invocation.Instance?.Type))
+        {
+            return true;
+        }
+
+        return invocation.Arguments.Any(argument =>
+            argument.Parameter?.Type is { } parameterType
+            && IsServiceCollectionType(parameterType));
+    }
+
+    private static bool IsServiceCollectionType(ITypeSymbol? type)
+    {
+        const string serviceCollectionType =
+            "Microsoft.Extensions.DependencyInjection.IServiceCollection";
+        return type?.ToDisplayString() == serviceCollectionType
+               || (type is INamedTypeSymbol namedType
+                   && namedType.AllInterfaces.Any(interfaceType =>
+                       interfaceType.ToDisplayString() == serviceCollectionType));
+    }
+
+    private static bool IsServiceDescriptorType(ITypeSymbol type)
+    {
+        if (type.ToDisplayString()
+            == "Microsoft.Extensions.DependencyInjection.ServiceDescriptor")
+        {
+            return true;
+        }
+
+        return type is INamedTypeSymbol namedType
+               && namedType.IsGenericType
+               && namedType.TypeArguments.Length == 1
+               && namedType.TypeArguments[0].ToDisplayString()
+               == "Microsoft.Extensions.DependencyInjection.ServiceDescriptor";
+    }
+
+    private static bool TryTrackServiceDescriptorArguments(
+        IInvocationOperation invocation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
+    {
+        var descriptorArguments = invocation.Arguments
+            .Where(argument => argument.Parameter is not null
+                               && IsServiceDescriptorType(argument.Parameter.Type))
+            .ToArray();
+        return descriptorArguments.Any(argument =>
+            TryTrackServiceDescriptor(
+                argument.Value,
+                instanceRegisteredModules,
+                unresolvedModuleRegistrations,
+                [with(SymbolEqualityComparer.Default)]));
+    }
+
+    private static bool TryTrackServiceDescriptor(
+        IOperation operation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        switch (operation)
+        {
+            case IConversionOperation conversion:
+                return TryTrackServiceDescriptor(
+                    conversion.Operand,
+                    instanceRegisteredModules,
+                    unresolvedModuleRegistrations,
+                    visitedLocals);
+            case ILocalReferenceOperation localReference
+                when visitedLocals.Add(localReference.Local)
+                     && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
+                return TryTrackServiceDescriptor(
+                    localValue,
+                    instanceRegisteredModules,
+                    unresolvedModuleRegistrations,
+                    visitedLocals);
+            case IInvocationOperation descriptorFactory
+                when IsServiceDescriptorFactory(descriptorFactory.TargetMethod):
+                return TrackServiceDescriptor(
+                    descriptorFactory.Arguments,
+                    descriptorFactory.TargetMethod.TypeArguments,
+                    instanceRegisteredModules,
+                    unresolvedModuleRegistrations);
+            case IObjectCreationOperation objectCreation
+                when objectCreation.Type?.ToDisplayString()
+                     == "Microsoft.Extensions.DependencyInjection.ServiceDescriptor":
+                return TrackServiceDescriptor(
+                    objectCreation.Arguments,
+                    objectCreation.Constructor?.TypeArguments
+                    ?? [],
+                    instanceRegisteredModules,
+                    unresolvedModuleRegistrations);
+            case IArrayCreationOperation { Initializer: { } initializer }:
+                return initializer.ElementValues.Any(element =>
+                    TryTrackServiceDescriptor(
+                        element,
+                        instanceRegisteredModules,
+                        unresolvedModuleRegistrations,
+                        visitedLocals));
+            case ICollectionExpressionOperation collection:
+                return collection.Elements.Any(element =>
+                    TryTrackServiceDescriptor(
+                        element,
+                        instanceRegisteredModules,
+                        unresolvedModuleRegistrations,
+                        visitedLocals));
+            default:
+                unresolvedModuleRegistrations.Add(0);
+                return true;
+        }
+    }
+
+    private static bool IsServiceDescriptorFactory(IMethodSymbol method)
+    {
+        return method.Name is "Singleton" or "Scoped" or "Transient"
+               && method.ContainingType.ToDisplayString()
+               == "Microsoft.Extensions.DependencyInjection.ServiceDescriptor";
+    }
+
+    private static bool TrackServiceDescriptor(
+        ImmutableArray<IArgumentOperation> arguments,
+        ImmutableArray<ITypeSymbol> typeArguments,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
+    {
+        if (!RegistersModuleService(arguments, typeArguments))
+        {
+            return false;
+        }
+
+        if (typeArguments.ElementAtOrDefault(1) is INamedTypeSymbol implementationType)
+        {
+            instanceRegisteredModules.Add(implementationType.OriginalDefinition);
+            return true;
+        }
+
+        var implementationTypeArgument = arguments.FirstOrDefault(
+            static argument => argument.Parameter?.Name == "implementationType");
+        if (implementationTypeArgument is not null
+            && TryGetTypeOfNamedType(
+                implementationTypeArgument.Value,
+                [with(SymbolEqualityComparer.Default)],
+                out implementationType))
+        {
+            instanceRegisteredModules.Add(implementationType.OriginalDefinition);
+            return true;
+        }
+
+        var tracked = arguments
+            .Where(static argument => argument.Parameter?.Name is
+                "implementationInstance" or "implementationFactory")
+            .Any(argument => TryTrackInstanceModuleTypes(
+                argument.Value,
+                instanceRegisteredModules,
+                [with(SymbolEqualityComparer.Default)]));
+        if (!tracked)
+        {
+            unresolvedModuleRegistrations.Add(0);
+        }
+
+        return true;
     }
 
     private static bool RegistersModuleService(
         IInvocationOperation invocation,
         IMethodSymbol method)
     {
-        if (method.TypeArguments.FirstOrDefault()?.ToDisplayString()
+        return RegistersModuleService(invocation.Arguments, method.TypeArguments);
+    }
+
+    private static bool RegistersModuleService(
+        ImmutableArray<IArgumentOperation> arguments,
+        ImmutableArray<ITypeSymbol> typeArguments)
+    {
+        if (typeArguments.FirstOrDefault()?.ToDisplayString()
             == "ModularPipelines.Modules.IModule")
         {
             return true;
         }
 
-        return invocation.Arguments.Any(argument =>
+        return arguments.Any(argument =>
             argument.Parameter?.Name == "serviceType"
             && TryGetTypeOfNamedType(
                 argument.Value,
@@ -1309,6 +1488,13 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation invocation,
         IMethodSymbol callable)
     {
+        if (SymbolEqualityComparer.Default.Equals(
+                invocation.TargetMethod.OriginalDefinition,
+                callable.OriginalDefinition))
+        {
+            return true;
+        }
+
         if (invocation.Instance is not null
             && ValueContainsCallable(
                 invocation.Instance,
