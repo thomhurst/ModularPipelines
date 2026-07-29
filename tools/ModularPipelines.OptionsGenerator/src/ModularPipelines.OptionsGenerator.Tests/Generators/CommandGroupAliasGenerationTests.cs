@@ -40,6 +40,17 @@ public class CommandGroupAliasGenerationTests
                 StringComparison.Ordinal));
         await Assert.That(rootBuilderOptions.Content)
             .Contains("public record DockerBuilderOptions : DockerBuildxOptions;");
+        var historyLogsOptions = optionFiles.Single(file =>
+            file.RelativePath.EndsWith(
+                "DockerBuilderHistoryLogsOptions.Generated.cs",
+                StringComparison.Ordinal));
+        await Assert.That(historyLogsOptions.Content)
+            .Contains("public new DockerBuilderHistoryLogsProgress? Progress");
+        await Assert.That(historyLogsOptions.Content)
+            .Contains(": (DockerBuilderHistoryLogsProgress)(int)base.Progress.Value;");
+        await Assert.That(historyLogsOptions.Content)
+            .Contains(": (DockerBuildxHistoryLogsProgress)(int)value.Value;");
+        await Assert.That(historyLogsOptions.Content).DoesNotContain("[CliOption(");
 
         var canonicalService = serviceFiles.Single(file =>
             Path.GetFileName(file.RelativePath).Equals(
@@ -106,13 +117,31 @@ public class CommandGroupAliasGenerationTests
             [
                 Command(["buildx"], "DockerBuildxOptions", null),
                 Command(["buildx", "build"], "DockerBuildxBuildOptions", "Buildx"),
+                Command(
+                    ["buildx", "history", "logs"],
+                    "DockerBuildxHistoryLogsOptions",
+                    "Buildx",
+                    [
+                        new CliOptionDefinition
+                        {
+                            SwitchName = "--progress",
+                            PropertyName = "Progress",
+                            CSharpType = "DockerBuildxHistoryLogsProgress?",
+                            EnumDefinition = new CliEnumDefinition
+                            {
+                                EnumName = "DockerBuildxHistoryLogsProgress",
+                                Values = [],
+                            },
+                        },
+                    ]),
             ],
         };
 
     private static CliCommandDefinition Command(
         string[] commandParts,
         string className,
-        string? subDomainGroup) =>
+        string? subDomainGroup,
+        IReadOnlyList<CliOptionDefinition>? options = null) =>
         new()
         {
             FullCommand = $"docker {string.Join(' ', commandParts)}",
@@ -120,7 +149,7 @@ public class CommandGroupAliasGenerationTests
             ClassName = className,
             ParentClassName = "DockerOptions",
             ToolNamespacePrefix = "Docker",
-            Options = [],
+            Options = options ?? [],
             SubDomainGroup = subDomainGroup,
         };
 }

@@ -64,16 +64,38 @@ public class OptionsClassGenerator : ICodeGenerator
             tool,
             alias,
             command.ClassName);
+        var enumOptions = command.Options
+            .Where(option => option.EnumDefinition is not null)
+            .ToArray();
         var sb = new StringBuilder();
         GeneratorUtils.GenerateFileHeaderWithNullable(sb, command.DocumentationUrl);
         sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
+        if (enumOptions.Length > 0)
+        {
+            sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
+        }
+
         sb.AppendLine();
         sb.AppendLine($"namespace {tool.TargetNamespace}.Options;");
         sb.AppendLine();
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
-        sb.AppendLine($"public record {aliasClassName} : {command.ClassName};");
+        if (enumOptions.Length == 0)
+        {
+            sb.AppendLine($"public record {aliasClassName} : {command.ClassName};");
+        }
+        else
+        {
+            sb.AppendLine($"public record {aliasClassName} : {command.ClassName}");
+            sb.AppendLine("{");
+            foreach (var option in enumOptions)
+            {
+                GenerateCompatibilityEnumProperty(sb, option, tool, alias);
+            }
+
+            sb.AppendLine("}");
+        }
 
         return new GeneratedFile
         {
@@ -83,6 +105,47 @@ public class OptionsClassGenerator : ICodeGenerator
                 $"{aliasClassName}.Generated.cs"),
             Content = sb.ToString(),
         };
+    }
+
+    private static void GenerateCompatibilityEnumProperty(
+        StringBuilder sb,
+        CliOptionDefinition option,
+        CliToolDefinition tool,
+        CliCommandGroupAlias alias)
+    {
+        var canonicalEnumName = option.EnumDefinition!.EnumName;
+        var aliasEnumName = GeneratorUtils.GetAliasedClassName(
+            tool,
+            alias,
+            canonicalEnumName);
+        var aliasType = option.CSharpType.Replace(
+            canonicalEnumName,
+            aliasEnumName,
+            StringComparison.Ordinal);
+        var isNullable = option.CSharpType.Equals(
+            $"{canonicalEnumName}?",
+            StringComparison.Ordinal);
+
+        sb.AppendLine($"    public new {aliasType} {option.PropertyName}");
+        sb.AppendLine("    {");
+        if (isNullable)
+        {
+            sb.AppendLine($"        get => base.{option.PropertyName} is null");
+            sb.AppendLine("            ? null");
+            sb.AppendLine($"            : ({aliasEnumName})(int)base.{option.PropertyName}.Value;");
+            sb.AppendLine($"        set => base.{option.PropertyName} = value is null");
+            sb.AppendLine("            ? null");
+            sb.AppendLine($"            : ({canonicalEnumName})(int)value.Value;");
+        }
+        else
+        {
+            sb.AppendLine(
+                $"        get => ({aliasEnumName})(int)base.{option.PropertyName};");
+            sb.AppendLine(
+                $"        set => base.{option.PropertyName} = ({canonicalEnumName})(int)value;");
+        }
+
+        sb.AppendLine("    }");
     }
 
     private static string GenerateOptionsClass(CliCommandDefinition command, CliToolDefinition tool)

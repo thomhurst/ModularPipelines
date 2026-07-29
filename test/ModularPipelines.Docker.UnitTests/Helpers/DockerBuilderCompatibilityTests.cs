@@ -3,6 +3,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Docker.Enums;
 using ModularPipelines.Docker.Extensions;
 using ModularPipelines.Docker.Options;
 using ModularPipelines.Docker.Services;
@@ -57,6 +58,26 @@ public class DockerBuilderCompatibilityTests
                     [optionsType, typeof(CommandExecutionOptions), typeof(CancellationToken)]))
                 .IsNotNull();
         }
+    }
+
+    [Test]
+    public async Task BuilderEnumOptionPreservesLegacyTypeAndCanonicalValue()
+    {
+        var options = new DockerBuilderHistoryLogsOptions
+        {
+            Progress = DockerBuilderHistoryLogsProgress.Plain,
+        };
+        var canonicalOptions = (DockerBuildxHistoryLogsOptions)options;
+
+        await Assert.That(options.Progress)
+            .IsEqualTo(DockerBuilderHistoryLogsProgress.Plain);
+        await Assert.That(canonicalOptions.Progress)
+            .IsEqualTo(DockerBuildxHistoryLogsProgress.Plain);
+
+        canonicalOptions.Progress = DockerBuildxHistoryLogsProgress.Rawjson;
+
+        await Assert.That(options.Progress)
+            .IsEqualTo(DockerBuilderHistoryLogsProgress.Rawjson);
     }
 
     [Test]

@@ -7,9 +7,21 @@
 
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-public record DockerBuilderHistoryLogsOptions : DockerBuildxHistoryLogsOptions;
+public record DockerBuilderHistoryLogsOptions : DockerBuildxHistoryLogsOptions
+{
+    public new DockerBuilderHistoryLogsProgress? Progress
+    {
+        get => base.Progress is null
+            ? null
+            : (DockerBuilderHistoryLogsProgress)(int)base.Progress.Value;
+        set => base.Progress = value is null
+            ? null
+            : (DockerBuildxHistoryLogsProgress)(int)value.Value;
+    }
+}
