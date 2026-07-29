@@ -127,7 +127,9 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             return false;
         }
 
-        if (loggerStorage.AssignmentStatement.Parent != constructor.Body)
+        if (loggerStorage.AssignmentStatement.Parent != constructor.Body
+            || loggerStorage.FieldDeclaration.ContainsDirectives
+            || loggerStorage.AssignmentStatement.ContainsDirectives)
         {
             return false;
         }

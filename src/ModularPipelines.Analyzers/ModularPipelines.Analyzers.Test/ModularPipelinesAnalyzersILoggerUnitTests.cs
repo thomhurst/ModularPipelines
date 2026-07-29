@@ -213,6 +213,60 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string DirectiveLoggerFieldSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+#if true
+    private readonly ILogger<Module1> _logger;
+    private readonly int _marker;
+#endif
+
+    public Module1(ILogger<Module1> logger)
+    {{
+        _logger = logger;
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        _logger.LogInformation(""Running"");
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string DirectiveLoggerAssignmentSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private readonly ILogger<Module1> _logger;
+
+    public Module1(ILogger<Module1> logger)
+    {{
+#if true
+        _logger = logger;
+        RegisterTelemetry();
+#endif
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        _logger.LogInformation(""Running"");
+        return Task.FromResult<List<string>?>([]);
+    }}
+
+    private static void RegisterTelemetry()
+    {{
+    }}
+}}
+";
+
     private const string BadPrivateConstructorSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -694,6 +748,22 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             DirectiveLoggerParameterListSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Logger_Field_Contains_Directives()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            DirectiveLoggerFieldSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Logger_Assignment_Contains_Directives()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            DirectiveLoggerAssignmentSource,
             LoggerInConstructorAnalyzer.DiagnosticId);
     }
 
