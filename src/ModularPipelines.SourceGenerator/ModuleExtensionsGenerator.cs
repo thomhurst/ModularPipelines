@@ -24,13 +24,8 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
     private const string GeneratorName = "ModularPipelines.SourceGenerator";
     private const string GeneratorVersion = "1.0.0";
 
-    private static readonly DiagnosticDescriptor DuplicateModuleAccessor = new(
-        id: "MPGEN002",
-        title: "Duplicate generated module accessor",
-        messageFormat: "Generated module accessor '{0}' conflicts for module types: {1}",
-        category: "ModularPipelines.SourceGenerator",
-        defaultSeverity: DiagnosticSeverity.Error,
-        isEnabledByDefault: true);
+    private static readonly DiagnosticDescriptor DuplicateModuleAccessor =
+        GeneratorDiagnostics.DuplicateModuleAccessor;
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {

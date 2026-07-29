@@ -1,5 +1,4 @@
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace ModularPipelines.SourceGenerator.UnitTests;
 
@@ -42,9 +41,10 @@ public class ModularPipelinesIntegrationGeneratorTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPGEN001");
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0001");
             await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
             await Assert.That(diagnostic.GetMessage()).Contains("InvalidIntegration.Register");
+            await Assert.That(diagnostic.Descriptor.HelpLinkUri).EndsWith("#mpg0001");
             await Assert.That(result.GeneratedTrees).IsEmpty();
         }
     }
@@ -95,7 +95,7 @@ public class ModularPipelinesIntegrationGeneratorTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPGEN001");
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0001");
             await Assert.That(diagnostic.GetMessage()).Contains("FileLocalIntegration.Register");
             await Assert.That(result.GeneratedTrees).IsEmpty();
         }
@@ -121,7 +121,7 @@ public class ModularPipelinesIntegrationGeneratorTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPGEN001");
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0001");
             await Assert.That(diagnostic.GetMessage()).Contains("ByReferenceIntegration.Register");
             await Assert.That(result.GeneratedTrees).IsEmpty();
         }
@@ -129,32 +129,9 @@ public class ModularPipelinesIntegrationGeneratorTests
 
     private static GeneratorDriverRunResult RunGenerator(string source)
     {
-        var infrastructureSyntaxTree = CSharpSyntaxTree.ParseText(TestInfrastructure);
-        var sourceSyntaxTree = CSharpSyntaxTree.ParseText(source);
-        var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
-            .Split(Path.PathSeparator)
-            .Select(static path => MetadataReference.CreateFromFile(path));
-        var compilation = CSharpCompilation.Create(
-            "GeneratorTests",
-            [infrastructureSyntaxTree, sourceSyntaxTree],
-            references,
-            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-        var compilationErrors = compilation.GetDiagnostics()
-            .Where(static diagnostic => diagnostic.Severity == DiagnosticSeverity.Error)
-            .ToArray();
-        if (compilationErrors.Length > 0)
-        {
-            throw new InvalidOperationException(string.Join(Environment.NewLine, compilationErrors));
-        }
-
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(
-            new ModularPipelinesIntegrationGenerator());
-
-        driver = driver.RunGeneratorsAndUpdateCompilation(
-            compilation,
-            out _,
-            out _);
-
-        return driver.GetRunResult();
+        return GeneratorTestRunner.Run(
+            new ModularPipelinesIntegrationGenerator(),
+            TestInfrastructure,
+            source);
     }
 }

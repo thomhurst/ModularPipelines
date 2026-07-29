@@ -1,5 +1,4 @@
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace ModularPipelines.SourceGenerator.UnitTests;
 
@@ -31,8 +30,9 @@ public class ModuleExtensionsGeneratorTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPGEN002");
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0002");
             await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
+            await Assert.That(diagnostic.Descriptor.HelpLinkUri).EndsWith("#mpg0002");
             await Assert.That(diagnostic.GetMessage()).Contains("global::First.BuildModule");
             await Assert.That(diagnostic.GetMessage()).Contains("global::Second.BuildModule");
             await Assert.That(diagnostic.Location.IsInSource).IsTrue();
@@ -80,31 +80,9 @@ public class ModuleExtensionsGeneratorTests
 
     private static GeneratorDriverRunResult RunGenerator(string source)
     {
-        var infrastructureSyntaxTree = CSharpSyntaxTree.ParseText(TestInfrastructure);
-        var sourceSyntaxTree = CSharpSyntaxTree.ParseText(source);
-        var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
-            .Split(Path.PathSeparator)
-            .Select(static path => MetadataReference.CreateFromFile(path));
-        var compilation = CSharpCompilation.Create(
-            "GeneratorTests",
-            [infrastructureSyntaxTree, sourceSyntaxTree],
-            references,
-            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-        var compilationErrors = compilation.GetDiagnostics()
-            .Where(static diagnostic => diagnostic.Severity == DiagnosticSeverity.Error)
-            .ToArray();
-        if (compilationErrors.Length > 0)
-        {
-            throw new InvalidOperationException(string.Join(Environment.NewLine, compilationErrors));
-        }
-
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(new ModuleExtensionsGenerator());
-
-        driver = driver.RunGeneratorsAndUpdateCompilation(
-            compilation,
-            out _,
-            out _);
-
-        return driver.GetRunResult();
+        return GeneratorTestRunner.Run(
+            new ModuleExtensionsGenerator(),
+            TestInfrastructure,
+            source);
     }
 }

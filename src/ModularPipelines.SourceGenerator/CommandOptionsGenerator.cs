@@ -22,29 +22,55 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     // Keep synchronized with CommandLinePhase.Passthrough; GeneratedRuntimeMetadataTests guards the ordinal.
     private const int PassthroughCommandLinePhase = 3;
 
+    private static readonly DiagnosticDescriptor IncompleteCommandMetadata =
+        GeneratorDiagnostics.IncompleteCommandMetadata;
+
+    private static readonly DiagnosticDescriptor IncompleteSecretMetadata =
+        GeneratorDiagnostics.IncompleteSecretMetadata;
+
+    private static readonly DiagnosticDescriptor SkippedRuntimeMetadata =
+        GeneratorDiagnostics.SkippedRuntimeMetadata;
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        var typeMetadata = context.SyntaxProvider
+        var typeCandidates = context.SyntaxProvider
             .CreateSyntaxProvider(
                 static (node, _) => IsTypeCandidate(node),
-                static (generatorContext, _) => GetTypeMetadata(generatorContext))
+                static (generatorContext, _) => GetTypeCandidate(generatorContext))
             .Where(static item => item is not null)
             .Select(static (item, _) => item!);
 
-        var secretMetadata = context.SyntaxProvider
+        var secretCandidates = context.SyntaxProvider
             .ForAttributeWithMetadataName(
                 SecretValueAttributeFullName,
                 static (_, _) => true,
-                static (generatorContext, _) => GetTypeMetadata(generatorContext))
+                static (generatorContext, _) => GetTypeCandidate(generatorContext))
             .Where(static item => item is not null)
             .Select(static (item, _) => item!);
 
-        var metadata = typeMetadata.Collect().Combine(secretMetadata.Collect());
-        context.RegisterSourceOutput(metadata, static (sourceContext, itemGroups) =>
+        var candidates = typeCandidates.Collect().Combine(secretCandidates.Collect());
+        context.RegisterSourceOutput(candidates, static (sourceContext, candidateGroups) =>
         {
-            var items = itemGroups.Left.AddRange(itemGroups.Right);
+            var candidates = candidateGroups.Left
+                .AddRange(candidateGroups.Right)
+                .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
+                .Select(static group => group.First())
+                .ToArray();
+            foreach (var skipped in candidates.Where(static candidate => candidate.Metadata is null))
+            {
+                sourceContext.ReportDiagnostic(Diagnostic.Create(
+                    SkippedRuntimeMetadata,
+                    skipped.Location,
+                    skipped.TypeName));
+            }
+
+            var items = candidates
+                .Select(static candidate => candidate.Metadata)
+                .OfType<TypeMetadata>()
+                .ToImmutableArray();
             if (items.Length > 0)
             {
+                ReportIncompleteMetadata(sourceContext, items);
                 sourceContext.AddSource("ModularPipelines.RuntimeMetadata.g.cs", Generate(items));
             }
         });
@@ -60,43 +86,55 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                         static parameter => parameter.AttributeLists.Count > 0) == true));
     }
 
-    private static TypeMetadata? GetTypeMetadata(GeneratorSyntaxContext context)
+    private static TypeMetadataCandidate? GetTypeCandidate(GeneratorSyntaxContext context)
     {
-        return GetTypeMetadata(
+        return GetTypeCandidate(
             context.SemanticModel.GetDeclaredSymbol(context.Node) as INamedTypeSymbol,
-            context.SemanticModel.Compilation);
+            context.SemanticModel.Compilation,
+            hasKnownSecretAttribute: false);
     }
 
-    private static TypeMetadata? GetTypeMetadata(GeneratorAttributeSyntaxContext context)
+    private static TypeMetadataCandidate? GetTypeCandidate(GeneratorAttributeSyntaxContext context)
     {
-        return GetTypeMetadata(context.TargetSymbol.ContainingType, context.SemanticModel.Compilation);
+        return GetTypeCandidate(
+            context.TargetSymbol.ContainingType,
+            context.SemanticModel.Compilation,
+            hasKnownSecretAttribute: true);
     }
 
-    private static TypeMetadata? GetTypeMetadata(INamedTypeSymbol? type, Compilation compilation)
+    private static TypeMetadataCandidate? GetTypeCandidate(
+        INamedTypeSymbol? type,
+        Compilation compilation,
+        bool hasKnownSecretAttribute)
     {
-        if (type is null
-            || type.IsGenericType
-            || !IsTypeAccessible(type, compilation.Assembly))
+        if (type is null)
         {
             return null;
         }
 
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
-        var commandMetadata = isCommandOptions
-            ? GetCommandProperties(type, compilation.Assembly)
-            : PropertyCollection.Empty;
-        var secretMetadata = GetSecretProperties(type, compilation.Assembly);
-
-        if (!isCommandOptions && !secretMetadata.HasAttributes)
+        if (!isCommandOptions && !hasKnownSecretAttribute)
         {
             return null;
         }
 
-        return new TypeMetadata(
-            type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+        var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        var location = type.Locations.FirstOrDefault() ?? Location.None;
+        if (type.IsGenericType || !IsTypeAccessible(type, compilation.Assembly))
+        {
+            return new TypeMetadataCandidate(typeName, location, Metadata: null);
+        }
+
+        var commandMetadata = isCommandOptions
+            ? GetCommandProperties(type, compilation.Assembly)
+            : PropertyCollection.Empty;
+        var secretMetadata = GetSecretProperties(type, compilation.Assembly);
+        return new TypeMetadataCandidate(typeName, location, new TypeMetadata(
+            typeName,
+            location,
             isCommandOptions,
             commandMetadata,
-            secretMetadata);
+            secretMetadata));
     }
 
     private static PropertyCollection GetCommandProperties(
@@ -310,6 +348,32 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return sb.ToString();
     }
 
+    private static void ReportIncompleteMetadata(
+        SourceProductionContext context,
+        ImmutableArray<TypeMetadata> items)
+    {
+        foreach (var item in items
+                     .GroupBy(static item => item.TypeName, StringComparer.Ordinal)
+                     .Select(static group => group.First()))
+        {
+            if (!item.CommandMetadata.IsComplete)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    IncompleteCommandMetadata,
+                    item.Location,
+                    item.TypeName));
+            }
+
+            if (!item.SecretMetadata.IsComplete)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    IncompleteSecretMetadata,
+                    item.Location,
+                    item.TypeName));
+            }
+        }
+    }
+
     private static void AppendCommandRegistration(StringBuilder sb, TypeMetadata item)
     {
         sb.AppendLine("        global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata.Register(");
@@ -476,9 +540,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private sealed record TypeMetadata(
         string TypeName,
+        Location Location,
         bool IsCommandOptions,
         PropertyCollection CommandMetadata,
         PropertyCollection SecretMetadata);
+
+    private sealed record TypeMetadataCandidate(
+        string TypeName,
+        Location Location,
+        TypeMetadata? Metadata);
 
     private sealed record PropertyCollection(
         EquatableArray<PropertyMetadata> Properties,
