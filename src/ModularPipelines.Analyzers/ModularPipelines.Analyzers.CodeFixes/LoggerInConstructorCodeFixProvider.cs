@@ -336,6 +336,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         var removeConstructor = constructor.ParameterList.Parameters.Count == 1
                                 && remainingStatements == 0
                                 && constructor.Initializer is null
+                                && constructor.AttributeLists.Count == 0
                                 && constructor.Modifiers.Any(SyntaxKind.PublicKeyword)
                                 && IsOnlyInstanceConstructor(constructor);
 

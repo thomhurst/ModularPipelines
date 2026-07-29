@@ -31,7 +31,8 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
             .FirstAncestorOrSelf<AwaitExpressionSyntax>();
 
         if (awaitExpression?.Parent is not ExpressionStatementSyntax expressionStatement
-            || expressionStatement.ContainsDirectives)
+            || expressionStatement.ContainsDirectives
+            || IsDirectLoopBody(expressionStatement))
         {
             return;
         }
@@ -42,6 +43,15 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
                 cancellationToken => RemoveAwaitAsync(context.Document, expressionStatement, cancellationToken),
                 nameof(CodeFixResources.AwaitThisCodeFixTitle)),
             diagnostic);
+    }
+
+    private static bool IsDirectLoopBody(ExpressionStatementSyntax statement)
+    {
+        return statement.Parent is WhileStatementSyntax
+            or DoStatementSyntax
+            or ForStatementSyntax
+            or ForEachStatementSyntax
+            or ForEachVariableStatementSyntax;
     }
 
     private static async Task<Document> RemoveAwaitAsync(

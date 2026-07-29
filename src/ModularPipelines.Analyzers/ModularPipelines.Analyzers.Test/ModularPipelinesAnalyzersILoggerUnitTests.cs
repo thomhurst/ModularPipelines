@@ -78,6 +78,40 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string AttributedLoggerConstructorSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    [Obsolete(""Kept for compatibility"")]
+    public Module1({{|#0:ILogger<Module1> logger|}})
+    {{
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string FixedAttributedLoggerConstructorSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    [Obsolete(""Kept for compatibility"")]
+    public Module1()
+    {{
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string BadPrivateConstructorSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -429,6 +463,17 @@ public class Module1 : Module<List<string>>
         var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSourceILoggerGeneric, expected, FixedModuleSourceILoggerGeneric);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Preserves_Attributed_Constructor()
+    {
+        var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            AttributedLoggerConstructorSource,
+            expected,
+            FixedAttributedLoggerConstructorSource);
     }
 
     [TestMethod]

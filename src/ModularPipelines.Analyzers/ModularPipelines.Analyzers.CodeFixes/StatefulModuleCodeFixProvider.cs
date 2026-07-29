@@ -40,7 +40,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
             || containingType.Modifiers.Any(SyntaxKind.PartialKeyword)
             || semanticModel?.GetDeclaredSymbol(variable, context.CancellationToken) is not IFieldSymbol field
             || field.DeclaredAccessibility != Accessibility.Private
-            || field.Type is INamedTypeSymbol { IsValueType: true, IsReadOnly: false }
+            || !IsDeeplyImmutable(field.Type)
             || IsWrittenOutsideConstructor(
                 containingType,
                 field,
@@ -59,6 +59,13 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
                     cancellationToken),
                 nameof(CodeFixResources.StatefulModuleCodeFixTitle)),
             diagnostic);
+    }
+
+    private static bool IsDeeplyImmutable(ITypeSymbol type)
+    {
+        return type.SpecialType == SpecialType.System_String
+               || type.TypeKind == TypeKind.Enum
+               || type is INamedTypeSymbol { IsValueType: true, IsReadOnly: true };
     }
 
     private static bool IsWrittenOutsideConstructor(

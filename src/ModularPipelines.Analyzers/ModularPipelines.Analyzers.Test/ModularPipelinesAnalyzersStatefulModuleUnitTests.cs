@@ -40,18 +40,40 @@ public class Module1 : Module<int>
 }}
 ";
 
-    private const string FixedModuleWithReadonlyCollection = $@"
+    private const string ModuleWithImmutableField = $@"
 {TestSourceConstants.StandardModuleHeader}
 
-public class Module1 : Module<int>
+public class Module1 : Module<string>
 {{
-    private readonly List<string> _items = new();
+    private string {{|#0:_name|}};
 
-    protected override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public Module1()
     {{
-        await Task.Delay(1, cancellationToken);
-        _items.Add(""item"");
-        return _items.Count;
+        _name = ""module"";
+    }}
+
+    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<string?>(_name);
+    }}
+}}
+";
+
+    private const string FixedModuleWithImmutableField = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class Module1 : Module<string>
+{{
+    private readonly string _name;
+
+    public Module1()
+    {{
+        _name = ""module"";
+    }}
+
+    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<string?>(_name);
     }}
 }}
 ";
@@ -501,12 +523,22 @@ public class Module1 : Module<object>
     {
         var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId)
             .WithLocation(0)
-            .WithArguments("_items", "Module1");
+            .WithArguments("_name", "Module1");
 
         await VerifyCS.VerifyCodeFixAsync(
-            BadModuleWithMutableCollection,
+            ModuleWithImmutableField,
             expected,
-            FixedModuleWithReadonlyCollection);
+            FixedModuleWithImmutableField);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Mutable_Reference_Type()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            BadModuleWithMutableCollection
+                .Replace("{|#0:", string.Empty)
+                .Replace("|}", string.Empty),
+            StatefulModuleAnalyzer.DiagnosticId);
     }
 
     [TestMethod]
