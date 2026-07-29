@@ -257,6 +257,61 @@ public class Module1 : Module<string>
 }
 ";
 
+    private const string ModuleWithOtherInstanceConstructorWrite = @"
+#nullable enable
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public class Module1 : Module<string>
+{
+    private string _state = string.Empty;
+
+    public Module1(Module1 other)
+    {
+        other._state = ""updated"";
+    }
+
+    protected override Task<string?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        return Task.FromResult<string?>(_state);
+    }
+}
+";
+
+    private const string ModuleWithObjectInitializerConstructorWrite = @"
+#nullable enable
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public class Module1 : Module<string>
+{
+    private string _state = string.Empty;
+
+    public Module1()
+    {
+        _ = new Module1(true)
+        {
+            _state = ""updated"",
+        };
+    }
+
+    private Module1(bool _) { }
+
+    protected override Task<string?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        return Task.FromResult<string?>(_state);
+    }
+}
+";
+
     private const string ModuleWithMutableStructMethodCall = @"
 #nullable enable
 using System.Threading;
@@ -632,6 +687,22 @@ public class Module1 : Module<int>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ModuleWithConstructorNestedWrite,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Other_Instance_Constructor_Write()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithOtherInstanceConstructorWrite,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Object_Initializer_Constructor_Write()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithObjectInitializerConstructorWrite,
             StatefulModuleAnalyzer.DiagnosticId);
     }
 

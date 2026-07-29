@@ -55,7 +55,6 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
                     invocation,
                     contextParameter.Identifier,
                     IsConsoleError(invocation, semanticModel, context.CancellationToken),
-                    MessageCanBeNull(invocation, semanticModel, context.CancellationToken),
                     cancellationToken),
                 nameof(CodeFixResources.ConsoleUseCodeFixTitle)),
             diagnostic);
@@ -106,23 +105,11 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
                && SymbolEqualityComparer.Default.Equals(property.ContainingType, consoleType);
     }
 
-    private static bool MessageCanBeNull(
-        InvocationExpressionSyntax invocation,
-        SemanticModel semanticModel,
-        CancellationToken cancellationToken)
-    {
-        var arguments = invocation.ArgumentList.Arguments;
-        return arguments.Count == 1
-               && semanticModel.GetTypeInfo(arguments[0].Expression, cancellationToken)
-                   .ConvertedNullability.FlowState != NullableFlowState.NotNull;
-    }
-
     private static async Task<Document> ReplaceWithLoggerAsync(
         Document document,
         InvocationExpressionSyntax invocation,
         SyntaxToken contextParameterIdentifier,
         bool isConsoleError,
-        bool messageCanBeNull,
         CancellationToken cancellationToken)
     {
         var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
@@ -132,9 +119,7 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
         }
 
         var logMethod = isConsoleError ? "LogError" : "LogInformation";
-        var arguments = CreateLoggerArguments(
-            invocation.ArgumentList,
-            messageCanBeNull);
+        var arguments = CreateLoggerArguments(invocation.ArgumentList);
         var contextLogger = SyntaxFactory.MemberAccessExpression(
             SyntaxKind.SimpleMemberAccessExpression,
             SyntaxFactory.IdentifierName(contextParameterIdentifier.WithoutTrivia()),
@@ -170,8 +155,7 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
     }
 
     private static SeparatedSyntaxList<ArgumentSyntax> CreateLoggerArguments(
-        ArgumentListSyntax argumentList,
-        bool messageCanBeNull)
+        ArgumentListSyntax argumentList)
     {
         var arguments = argumentList.Arguments;
         if (arguments.Count == 0)
@@ -193,20 +177,17 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
         }
 
         var argument = arguments[0].WithLeadingTrivia(default(SyntaxTriviaList));
-        if (messageCanBeNull)
-        {
-            var parenthesizedMessage = SyntaxFactory.ParenthesizedExpression(
-                argument.Expression.WithoutTrivia());
-            argument = argument.WithExpression(
-                    SyntaxFactory.BinaryExpression(
-                        SyntaxKind.CoalesceExpression,
-                        parenthesizedMessage,
-                        SyntaxFactory.MemberAccessExpression(
-                            SyntaxKind.SimpleMemberAccessExpression,
-                            SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.StringKeyword)),
-                            SyntaxFactory.IdentifierName(nameof(string.Empty)))))
-                .WithTriviaFrom(argument);
-        }
+        var parenthesizedMessage = SyntaxFactory.ParenthesizedExpression(
+            argument.Expression.WithoutTrivia());
+        argument = argument.WithExpression(
+                SyntaxFactory.BinaryExpression(
+                    SyntaxKind.CoalesceExpression,
+                    parenthesizedMessage,
+                    SyntaxFactory.MemberAccessExpression(
+                        SyntaxKind.SimpleMemberAccessExpression,
+                        SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.StringKeyword)),
+                        SyntaxFactory.IdentifierName(nameof(string.Empty)))))
+            .WithTriviaFrom(argument);
 
         return SyntaxFactory.SeparatedList<ArgumentSyntax>(
         [

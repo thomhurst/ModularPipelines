@@ -112,7 +112,7 @@ public class Module1 : Module<List<string>>
 {{
     protected override Task<List<string>?> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
     {{
-        @event.Logger.LogError(""{{Message}}"", ""Failure!"");
+        @event.Logger.LogError(""{{Message}}"", (""Failure!"") ?? string.Empty);
         return Task.FromResult<List<string>?>([]);
     }}
 }}
@@ -150,6 +150,41 @@ public class Module1 : Module<List<string>>
     {{
         string? message = null;
         context.Logger.LogInformation(""{{Message}}"", (message) ?? string.Empty);
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string SuppressedNullConsoleMessageSource = $@"
+{TestSourceConstants.StandardUsings}
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        {{|#0:Console.WriteLine((string)null!)|}};
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string FixedSuppressedNullConsoleMessageSource = $@"
+{TestSourceConstants.StandardUsings}
+using Microsoft.Extensions.Logging;
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        context.Logger.LogInformation(""{{Message}}"", ((string)null!) ?? string.Empty);
         return Task.FromResult<List<string>?>([]);
     }}
 }}
@@ -285,7 +320,7 @@ public class Module1 : Module<List<string>>
     {
         var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
         var fixedSource = CreateFixedModuleSource(
-            @"context.Logger.LogInformation(""{Message}"", ""Done!"")");
+            @"context.Logger.LogInformation(""{Message}"", (""Done!"") ?? string.Empty)");
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSource, expected, fixedSource);
     }
@@ -295,7 +330,7 @@ public class Module1 : Module<List<string>>
     {
         var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
         var fixedSource = CreateFixedModuleSource(
-            @"context.Logger.LogInformation(""{Message}"", ""Done!"")");
+            @"context.Logger.LogInformation(""{Message}"", (""Done!"") ?? string.Empty)");
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSource5, expected, fixedSource);
     }
@@ -307,7 +342,7 @@ public class Module1 : Module<List<string>>
             @"Console.WriteLine(""Status: {pending}"")");
         var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
         var fixedSource = CreateFixedModuleSource(
-            @"context.Logger.LogInformation(""{Message}"", ""Status: {pending}"")");
+            @"context.Logger.LogInformation(""{Message}"", (""Status: {pending}"") ?? string.Empty)");
 
         await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
     }
@@ -380,6 +415,17 @@ public class Module1 : Module<List<string>>
             NullableConsoleMessageSource,
             expected,
             FixedNullableConsoleMessageSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Coalesces_Runtime_Null_When_Flow_State_Is_NotNull()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            SuppressedNullConsoleMessageSource,
+            expected,
+            FixedSuppressedNullConsoleMessageSource);
     }
 
     [TestMethod]

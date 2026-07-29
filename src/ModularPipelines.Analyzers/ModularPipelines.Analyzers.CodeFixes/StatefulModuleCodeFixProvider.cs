@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace ModularPipelines.Analyzers;
 
@@ -89,7 +90,11 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
             .Any(identifier =>
                 IsRefEscape(identifier)
                 || (IsWrite(identifier, field, semanticModel, cancellationToken)
-                    && !IsDirectlyWithinConstructor(identifier, containingType)));
+                    && !IsCurrentInstanceWriteWithinConstructor(
+                        identifier,
+                        containingType,
+                        semanticModel,
+                        cancellationToken)));
     }
 
     private static bool IsRefEscape(IdentifierNameSyntax identifier)
@@ -100,18 +105,30 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
                       ?.IsKind(SyntaxKind.AddressOfExpression) == true;
     }
 
-    private static bool IsDirectlyWithinConstructor(
+    private static bool IsCurrentInstanceWriteWithinConstructor(
         IdentifierNameSyntax identifier,
-        TypeDeclarationSyntax containingType)
+        TypeDeclarationSyntax containingType,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
     {
         var containingCallable = identifier.Ancestors().FirstOrDefault(node =>
             node is BaseMethodDeclarationSyntax
                 or LocalFunctionStatementSyntax
                 or AnonymousFunctionExpressionSyntax
                 or AccessorDeclarationSyntax);
+        SyntaxNode fieldReferenceNode = identifier.Parent is MemberAccessExpressionSyntax memberAccess
+                                        && memberAccess.Name == identifier
+            ? memberAccess
+            : identifier;
+        var fieldReference = semanticModel.GetOperation(fieldReferenceNode, cancellationToken)
+            as IFieldReferenceOperation;
 
         return containingCallable is ConstructorDeclarationSyntax constructor
-               && constructor.Parent == containingType;
+               && constructor.Parent == containingType
+               && fieldReference?.Instance is IInstanceReferenceOperation
+               {
+                   ReferenceKind: InstanceReferenceKind.ContainingTypeInstance,
+               };
     }
 
     private static bool IsWrite(
