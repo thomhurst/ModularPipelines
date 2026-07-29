@@ -14,7 +14,7 @@ public class ModuleExtensionsGeneratorTests
     [Test]
     public async Task Duplicate_Generated_Method_Names_Report_Diagnostic()
     {
-        var result = RunGenerator("""
+        var result = GeneratorTestHarness.Run(new ModuleExtensionsGenerator(), TestInfrastructure, """
             namespace First
             {
                 public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
@@ -43,29 +43,23 @@ public class ModuleExtensionsGeneratorTests
     [Test]
     public async Task Generated_Accessors_Use_Fully_Qualified_Module_Names()
     {
-        var result = RunGenerator("""
+        var result = GeneratorTestHarness.Run(new ModuleExtensionsGenerator(), TestInfrastructure, """
             namespace Consumer
             {
                 public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
             }
             """);
 
-        var generatedSource = result.GeneratedTrees.Single().GetText().ToString();
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource)
-                .Contains("public static global::Consumer.BuildModule GetBuildModule");
-            await Assert.That(generatedSource)
-                .Contains("context.GetModule<global::Consumer.BuildModule>()");
-        }
+        await Assert.That(result.Diagnostics).IsEmpty();
+        await SnapshotVerifier.VerifyAsync(
+            "ModuleExtensionsGenerator.BuildModule",
+            result.GeneratedTrees.Single().GetText().ToString());
     }
 
     [Test]
     public async Task Partial_Module_Declarations_Do_Not_Report_A_Collision()
     {
-        var result = RunGenerator("""
+        var result = GeneratorTestHarness.Run(new ModuleExtensionsGenerator(), TestInfrastructure, """
             namespace Consumer
             {
                 public sealed partial class BuildModule : ModularPipelines.Modules.Module<string>;
@@ -78,11 +72,19 @@ public class ModuleExtensionsGeneratorTests
             .Contains("GetBuildModule");
     }
 
-    private static GeneratorDriverRunResult RunGenerator(string source)
+    [Test]
+    public async Task Unchanged_Compilation_Uses_Incremental_Cache()
     {
-        return GeneratorTestRunner.Run(
+        var result = GeneratorTestHarness.RunTwiceWithStepTracking(
             new ModuleExtensionsGenerator(),
             TestInfrastructure,
-            source);
+            """
+            namespace Consumer
+            {
+                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+            }
+            """);
+
+        await Assert.That(GeneratorTestHarness.HasCachedOutput(result)).IsTrue();
     }
 }

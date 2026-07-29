@@ -1,5 +1,5 @@
+using System.Text;
 using ModularPipelines.Context.Domains.Network;
-using ModularPipelines.Http;
 using ModularPipelines.Slack.Options;
 using Slack.Webhooks;
 
@@ -18,8 +18,14 @@ internal class Slack : ISlack
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var slackClient = new SlackClient(options.WebHookUri.AbsoluteUri, httpClient: _http.GetLoggingHttpClient());
+        using var request = new HttpRequestMessage(HttpMethod.Post, options.WebHookUri)
+        {
+            Content = new StringContent(
+                SlackClient.SerializeObject(options.SlackMessage),
+                Encoding.UTF8,
+                "application/json"),
+        };
 
-        await slackClient.PostAsync(options.SlackMessage);
+        using var response = await _http.SendAsync(request, cancellationToken).ConfigureAwait(false);
     }
 }

@@ -24,7 +24,7 @@ public class ModularPipelinesIntegrationGeneratorTests
     [Test]
     public async Task Invalid_Integration_Method_Reports_Diagnostic()
     {
-        var result = RunGenerator("""
+        var result = GeneratorTestHarness.Run(new ModularPipelinesIntegrationGenerator(), TestInfrastructure, """
             using ModularPipelines.Attributes;
             using Microsoft.Extensions.DependencyInjection;
 
@@ -52,7 +52,7 @@ public class ModularPipelinesIntegrationGeneratorTests
     [Test]
     public async Task Valid_Integration_Method_Generates_Registrar()
     {
-        var result = RunGenerator("""
+        var result = GeneratorTestHarness.Run(new ModularPipelinesIntegrationGenerator(), TestInfrastructure, """
             using ModularPipelines.Attributes;
             using Microsoft.Extensions.DependencyInjection;
 
@@ -65,20 +65,16 @@ public class ModularPipelinesIntegrationGeneratorTests
             }
             """);
 
-        var generatedSource = result.GeneratedTrees.Single().GetText().ToString();
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource)
-                .Contains("global::ValidIntegration.Register(services);");
-        }
+        await Assert.That(result.Diagnostics).IsEmpty();
+        await SnapshotVerifier.VerifyAsync(
+            "ModularPipelinesIntegrationGenerator.ValidIntegration",
+            result.GeneratedTrees.Single().GetText().ToString());
     }
 
     [Test]
     public async Task File_Local_Integration_Type_Reports_Diagnostic()
     {
-        var result = RunGenerator("""
+        var result = GeneratorTestHarness.Run(new ModularPipelinesIntegrationGenerator(), TestInfrastructure, """
             using ModularPipelines.Attributes;
             using Microsoft.Extensions.DependencyInjection;
 
@@ -104,7 +100,7 @@ public class ModularPipelinesIntegrationGeneratorTests
     [Test]
     public async Task By_Reference_Parameter_Reports_Diagnostic()
     {
-        var result = RunGenerator("""
+        var result = GeneratorTestHarness.Run(new ModularPipelinesIntegrationGenerator(), TestInfrastructure, """
             using ModularPipelines.Attributes;
             using Microsoft.Extensions.DependencyInjection;
 
@@ -127,11 +123,25 @@ public class ModularPipelinesIntegrationGeneratorTests
         }
     }
 
-    private static GeneratorDriverRunResult RunGenerator(string source)
+    [Test]
+    public async Task Unchanged_Compilation_Uses_Incremental_Cache()
     {
-        return GeneratorTestRunner.Run(
+        var result = GeneratorTestHarness.RunTwiceWithStepTracking(
             new ModularPipelinesIntegrationGenerator(),
             TestInfrastructure,
-            source);
+            """
+            using ModularPipelines.Attributes;
+            using Microsoft.Extensions.DependencyInjection;
+
+            public static class ValidIntegration
+            {
+                [ModularPipelinesIntegration]
+                public static void Register(IServiceCollection services)
+                {
+                }
+            }
+            """);
+
+        await Assert.That(GeneratorTestHarness.HasCachedOutput(result)).IsTrue();
     }
 }

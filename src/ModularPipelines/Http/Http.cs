@@ -9,20 +9,17 @@ namespace ModularPipelines.Http;
 
 internal class Http : IHttpContext
 {
-    public HttpClient HttpClient { get; }
-
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IHttpLogger _httpLogger;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
 
-    public Http(HttpClient defaultHttpClient,
+    public Http(
         IHttpClientFactory httpClientFactory,
         IModuleLoggerProvider moduleLoggerProvider,
         IHttpLogger httpLogger,
         IOptions<PipelineOptions> pipelineOptions)
     {
-        HttpClient = defaultHttpClient;
         _httpClientFactory = httpClientFactory;
         _moduleLoggerProvider = moduleLoggerProvider;
         _httpLogger = httpLogger;
@@ -51,7 +48,7 @@ internal class Http : IHttpContext
             return await SendAndWrapLogging(httpOptions, effectiveCancellationToken).ConfigureAwait(false);
         }
 
-        var httpClient = GetLoggingHttpClient(httpOptions.LoggingType);
+        var httpClient = GetHttpClient(httpOptions.LoggingType);
 
         var response = await httpClient.SendAsync(httpOptions.HttpRequestMessage, effectiveCancellationToken).ConfigureAwait(false);
 
@@ -63,7 +60,7 @@ internal class Http : IHttpContext
         return await response.EnsureSuccessStatusCodeWithContentAsync(effectiveCancellationToken).ConfigureAwait(false);
     }
 
-    public HttpClient GetLoggingHttpClient(HttpLoggingType loggingType)
+    private HttpClient GetHttpClient(HttpLoggingType loggingType)
     {
         var clientName = HttpClientNames.GetClientName(loggingType);
         return _httpClientFactory.CreateClient(clientName);
