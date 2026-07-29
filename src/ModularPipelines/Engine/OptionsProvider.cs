@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.DependencyInjection;
@@ -26,7 +25,7 @@ namespace ModularPipelines.Engine;
 internal class OptionsProvider : IOptionsProvider
 {
     /// <summary>
-    /// Cache of compiled property accessors for IOptions&lt;T&gt;.Value.
+    /// Cache of property accessors for IOptions&lt;T&gt;.Value.
     /// Avoids repeated reflection for property access.
     /// </summary>
     private static readonly ConcurrentDictionary<Type, Func<object, object?>> ValueGetterCache = new();
@@ -105,8 +104,8 @@ internal class OptionsProvider : IOptionsProvider
                 continue;
             }
 
-            // Use cached compiled delegate instead of reflection
-            var getter = ValueGetterCache.GetOrAdd(option.GetType(), CreateValueGetter);
+            // Cache the interface property lookup used for each options type
+            var getter = ValueGetterCache.GetOrAdd(optionsType, CreateValueGetter);
             yield return getter(option);
         }
     }
@@ -128,12 +127,8 @@ internal class OptionsProvider : IOptionsProvider
     }
 
     /// <summary>
-    /// Creates a compiled delegate to access the Value property of an IOptions&lt;T&gt; instance.
+    /// Creates a delegate to access the Value property of an IOptions&lt;T&gt; instance.
     /// </summary>
-    [UnconditionalSuppressMessage(
-        "AOT",
-        "IL3050",
-        Justification = "Options registered through the static DI path are rooted; runtime-discovered option types are unsupported in Native AOT.")]
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2070",
@@ -143,13 +138,7 @@ internal class OptionsProvider : IOptionsProvider
         var valueProperty = optionsType.GetProperty("Value")
             ?? throw new InvalidOperationException($"Property 'Value' not found on type '{optionsType.Name}'.");
 
-        // Build: (object obj) => (object?)((OptionsType)obj).Value
-        var param = Expression.Parameter(typeof(object), "obj");
-        var cast = Expression.Convert(param, optionsType);
-        var propertyAccess = Expression.Property(cast, valueProperty);
-        var convertToObject = Expression.Convert(propertyAccess, typeof(object));
-
-        return Expression.Lambda<Func<object, object?>>(convertToObject, param).Compile();
+        return instance => valueProperty.GetValue(instance);
     }
 
     /// <summary>
