@@ -350,7 +350,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         TrackGenericModuleRegistrations(
-            method,
+            invocation,
             registeredModules,
             instanceRegisteredModules,
             unresolvedModuleRegistrations);
@@ -376,11 +376,12 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static void TrackGenericModuleRegistrations(
-        IMethodSymbol method,
+        IInvocationOperation invocation,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
         ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
+        var method = invocation.TargetMethod;
         if (method.TypeArguments.Any(static typeArgument =>
                 typeArgument is not INamedTypeSymbol))
         {
@@ -397,6 +398,92 @@ internal static class ModuleAuthoringAnalysis
             {
                 instanceRegisteredModules.Add(normalizedType);
             }
+        }
+
+        if (method.Name != "AddModule")
+        {
+            return;
+        }
+
+        foreach (var argument in invocation.Arguments.Where(static argument =>
+                     argument.Parameter?.Name is "module" or "factory"))
+        {
+            if (!TryTrackInstanceModuleTypes(
+                    argument.Value,
+                    registeredModules,
+                    instanceRegisteredModules,
+                    [with(SymbolEqualityComparer.Default)]))
+            {
+                unresolvedModuleRegistrations.Add(0);
+            }
+        }
+    }
+
+    private static bool TryTrackInstanceModuleTypes(
+        IOperation operation,
+        ConcurrentBag<INamedTypeSymbol> registeredModules,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        switch (operation)
+        {
+            case IConversionOperation conversion:
+                return TryTrackInstanceModuleTypes(
+                    conversion.Operand,
+                    registeredModules,
+                    instanceRegisteredModules,
+                    visitedLocals);
+            case IDelegateCreationOperation delegateCreation:
+                return TryTrackInstanceModuleTypes(
+                    delegateCreation.Target,
+                    registeredModules,
+                    instanceRegisteredModules,
+                    visitedLocals);
+            case IObjectCreationOperation { Type: INamedTypeSymbol moduleType }:
+                var normalizedType = moduleType.OriginalDefinition;
+                registeredModules.Add(normalizedType);
+                instanceRegisteredModules.Add(normalizedType);
+                return true;
+            case ILocalReferenceOperation localReference
+                when visitedLocals.Add(localReference.Local)
+                     && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
+                return TryTrackInstanceModuleTypes(
+                    localValue,
+                    registeredModules,
+                    instanceRegisteredModules,
+                    visitedLocals);
+            case IAnonymousFunctionOperation anonymousFunction:
+                var returnValues = anonymousFunction.Body
+                    .DescendantsAndSelf()
+                    .OfType<IReturnOperation>()
+                    .Where(returnOperation =>
+                        ReferenceEquals(
+                            GetEnclosingCallable(returnOperation),
+                            anonymousFunction))
+                    .Select(static returnOperation => returnOperation.ReturnedValue)
+                    .OfType<IOperation>()
+                    .ToArray();
+                return returnValues.Length > 0
+                       && returnValues.All(returnValue =>
+                           TryTrackInstanceModuleTypes(
+                               returnValue,
+                               registeredModules,
+                               instanceRegisteredModules,
+                               visitedLocals));
+            case IConditionalOperation conditional:
+                return TryTrackInstanceModuleTypes(
+                           conditional.WhenTrue,
+                           registeredModules,
+                           instanceRegisteredModules,
+                           visitedLocals)
+                       && conditional.WhenFalse is { } whenFalse
+                       && TryTrackInstanceModuleTypes(
+                           whenFalse,
+                           registeredModules,
+                           instanceRegisteredModules,
+                           visitedLocals);
+            default:
+                return false;
         }
     }
 
@@ -1207,17 +1294,25 @@ internal static class ModuleAuthoringAnalysis
             .OfType<IMethodSymbol>()
             .Where(candidate => candidate.IsStatic == selectedMethod.IsStatic)
             .Where(candidate => compilation.IsSymbolAccessibleWithin(candidate, within))
-            .Any(candidate => IsCancellationOverload(selectedMethod, candidate));
+            .Any(candidate => IsCancellationOverload(
+                selectedMethod,
+                candidate,
+                compilation));
     }
 
     private static bool IsCancellationOverload(
         IMethodSymbol selectedMethod,
-        IMethodSymbol candidate)
+        IMethodSymbol candidate,
+        Compilation compilation)
     {
         if (candidate.IsGenericMethod
             && candidate.Arity == selectedMethod.TypeArguments.Length)
         {
             candidate = candidate.Construct([.. selectedMethod.TypeArguments]);
+            if (!SatisfiesGenericConstraints(candidate, compilation))
+            {
+                return false;
+            }
         }
 
         if (!HasCompatibleAwaitedResult(
@@ -1242,6 +1337,46 @@ internal static class ModuleAuthoringAnalysis
                 static (left, right) => left.RefKind == right.RefKind
                     && SymbolEqualityComparer.Default.Equals(left.Type, right.Type))
             .All(static matches => matches);
+    }
+
+    private static bool SatisfiesGenericConstraints(
+        IMethodSymbol method,
+        Compilation compilation)
+    {
+        for (var index = 0; index < method.TypeParameters.Length; index++)
+        {
+            var parameter = method.TypeParameters[index];
+            var argument = method.TypeArguments[index];
+            if (argument is ITypeParameterSymbol
+                || (parameter.HasReferenceTypeConstraint && !argument.IsReferenceType)
+                || (parameter.HasValueTypeConstraint && !SatisfiesValueTypeConstraint(argument))
+                || (parameter.HasUnmanagedTypeConstraint && !argument.IsUnmanagedType)
+                || (parameter.HasConstructorConstraint
+                    && !HasPublicParameterlessConstructor(argument))
+                || parameter.ConstraintTypes.Any(constraint =>
+                    !compilation.ClassifyCommonConversion(argument, constraint).IsImplicit))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool SatisfiesValueTypeConstraint(ITypeSymbol type)
+    {
+        return type.IsValueType
+               && type.OriginalDefinition.SpecialType != SpecialType.System_Nullable_T;
+    }
+
+    private static bool HasPublicParameterlessConstructor(ITypeSymbol type)
+    {
+        return type.IsValueType
+               || (type is INamedTypeSymbol namedType
+                   && !namedType.IsAbstract
+                   && namedType.InstanceConstructors.Any(static constructor =>
+                       constructor.Parameters.Length == 0
+                       && constructor.DeclaredAccessibility == Accessibility.Public));
     }
 
     private static bool HasCompatibleAwaitedResult(

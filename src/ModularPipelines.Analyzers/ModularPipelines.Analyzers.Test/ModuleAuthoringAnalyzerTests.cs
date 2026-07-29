@@ -857,6 +857,30 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Generic_Overload_With_Unsatisfied_Constraints()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await FetchAsync<string>();
+                return null;
+            }
+
+                private static Task FetchAsync<T>()
+                    where T : class =>
+                    Task.CompletedTask;
+
+                private static Task FetchAsync<T>(CancellationToken cancellationToken)
+                    where T : struct =>
+                    Task.CompletedTask;
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Unflowed_Token_For_Reduced_Extension_Overload()
     {
         var source = $$"""
@@ -1158,6 +1182,32 @@ public class ModuleAuthoringAnalyzerTests
             {
                 public static void Register() =>
                     Pipeline.CreateBuilder().AddModule(new BuildModule());
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Instance_Registered_Through_Interface()
+    {
+        var source = $$"""
+            {{Header}}
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    IModule module = new BuildModule();
+                    Pipeline.CreateBuilder().AddModule(module);
+                }
             }
 
             {{EntryPoint}}
