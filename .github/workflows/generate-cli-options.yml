@@ -7,14 +7,6 @@ on:
   workflow_dispatch:
     inputs:
       # Specify which tools to run (comma-separated). Leave empty to run all tools.
-      # Linux tools: helm, kubectl, kustomize, docker, trivy, hadolint, podman, buildah, skopeo
-      # Cloud CLIs: az, gcloud, aws
-      # Infrastructure: terraform, pulumi, packer, vault, ansible, flyway, liquibase
-      # Development: dotnet, go, cargo, mvn, gradle, yarn, pnpm, gh, git, brew
-      # Kubernetes/GitOps: eksctl, argocd, flux, kind, minikube
-      # Security/Quality: sonar-scanner, snyk, shellcheck, cosign, syft, grype
-      # Other: newman, nbgv, jq, yq, pip
-      # Windows-only: choco, winget
       tools:
         description: 'Tools to run (comma-separated, empty = all). Example: helm,kubectl,docker'
         required: false
@@ -42,75 +34,64 @@ jobs:
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-StageGeneratedChanges.ps1
 
+  tool-catalog:
+    needs: validate-generation-safety
+    runs-on: ubuntu-latest
+    outputs:
+      linux: ${{ steps.catalog.outputs.linux }}
+      windows: ${{ steps.catalog.outputs.windows }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: 10.0.x
+      - name: Build generator
+        run: >-
+          dotnet build
+          tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj
+          -c Release
+      - name: Create generation matrices
+        id: catalog
+        run: |
+          dotnet run --no-build \
+            --project tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj \
+            -c Release -- \
+            --list-tools --json > "$RUNNER_TEMP/tool-catalog.json"
+
+          create_matrix() {
+            jq -c --arg platform "$1" \
+              '{include: [.[] | select(
+                .generationPlatform == $platform and .includeInGenerationMatrix
+              ) | {
+                tool: .toolName,
+                package: .packageName,
+                prefix: .namespacePrefix,
+                outputDirectory: .outputDirectory
+              }]}' \
+              "$RUNNER_TEMP/tool-catalog.json"
+          }
+
+          LINUX_MATRIX="$(create_matrix linux)"
+          WINDOWS_MATRIX="$(create_matrix windows)"
+          jq -e '.include | length > 0' <<< "$LINUX_MATRIX"
+          jq -e '.include | length > 0' <<< "$WINDOWS_MATRIX"
+          echo "linux=$LINUX_MATRIX" >> "$GITHUB_OUTPUT"
+          echo "windows=$WINDOWS_MATRIX" >> "$GITHUB_OUTPUT"
+
   # Generate options for each tool in parallel (Linux)
   generate:
-    needs: validate-generation-safety
+    needs:
+      - validate-generation-safety
+      - tool-catalog
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
     strategy:
       fail-fast: false
-      matrix:
-        tool:
-          # Kubernetes/Container ecosystem
-          - helm
-          - kubectl
-          - kustomize
-          - docker
-          - trivy
-          - hadolint
-          - podman
-          - buildah
-          - skopeo
-          # Cloud CLIs
-          - az
-          - gcloud
-          - aws
-          # Infrastructure/DevOps
-          - terraform
-          - pulumi
-          - packer
-          - vault
-          - ansible
-          - flyway
-          - liquibase
-          # Development tools
-          - dotnet
-          - go
-          - cargo
-          - mvn
-          - gradle
-          - git
-          - brew
-          # Node.js ecosystem
-          - yarn
-          - pnpm
-          # GitHub CLI
-          - gh
-          # Kubernetes/GitOps
-          - eksctl
-          - argocd
-          - flux
-          - kind
-          - minikube
-          # Code quality/Security
-          - sonar-scanner
-          - snyk
-          - shellcheck
-          # Supply chain security
-          - cosign
-          - syft
-          - grype
-          # Testing
-          - newman
-          # Versioning
-          - nbgv
-          # Data processing
-          - jq
-          - yq
-          # Python
-          - pip
+      matrix: ${{ fromJSON(needs.tool-catalog.outputs.linux) }}
 
     steps:
       - name: Check if tool should run
@@ -170,75 +151,9 @@ jobs:
         id: package
         if: steps.should-run.outputs.run == 'true'
         run: |
-          # Map tool to package directory and namespace prefix
-          declare -A TOOL_MAP=(
-            # Kubernetes/Container ecosystem
-            ["helm"]="ModularPipelines.Helm:Helm"
-            ["kubectl"]="ModularPipelines.Kubernetes:Kubernetes"
-            ["kustomize"]="ModularPipelines.Kubernetes:Kustomize"
-            ["docker"]="ModularPipelines.Docker:Docker"
-            ["trivy"]="ModularPipelines.Trivy:Trivy"
-            ["hadolint"]="ModularPipelines.Hadolint:Hadolint"
-            ["podman"]="ModularPipelines.Podman:Podman"
-            ["buildah"]="ModularPipelines.Buildah:Buildah"
-            ["skopeo"]="ModularPipelines.Skopeo:Skopeo"
-            # Cloud CLIs
-            ["az"]="ModularPipelines.Azure:Az"
-            ["gcloud"]="ModularPipelines.Google:Gcloud"
-            ["aws"]="ModularPipelines.AmazonWebServices:Aws"
-            # Infrastructure/DevOps
-            ["terraform"]="ModularPipelines.Terraform:Terraform"
-            ["pulumi"]="ModularPipelines.Pulumi:Pulumi"
-            ["packer"]="ModularPipelines.Packer:Packer"
-            ["vault"]="ModularPipelines.Vault:Vault"
-            ["ansible"]="ModularPipelines.Ansible:Ansible"
-            ["flyway"]="ModularPipelines.Flyway:Flyway"
-            ["liquibase"]="ModularPipelines.Liquibase:Liquibase"
-            # Development tools
-            ["dotnet"]="ModularPipelines.DotNet:DotNet"
-            ["go"]="ModularPipelines.Go:Go"
-            ["cargo"]="ModularPipelines.Rust:Cargo"
-            ["mvn"]="ModularPipelines.Java:Maven"
-            ["gradle"]="ModularPipelines.Java:Gradle"
-            ["git"]="ModularPipelines.Git:Git"
-            ["brew"]="ModularPipelines.Homebrew:Brew"
-            # Node.js ecosystem
-            ["yarn"]="ModularPipelines.Yarn:Yarn"
-            ["pnpm"]="ModularPipelines.Node:Pnpm"
-            # GitHub CLI
-            ["gh"]="ModularPipelines.GitHub:Gh"
-            # Kubernetes/GitOps
-            ["eksctl"]="ModularPipelines.Eksctl:Eksctl"
-            ["argocd"]="ModularPipelines.ArgoCd:ArgoCd"
-            ["flux"]="ModularPipelines.Flux:Flux"
-            ["kind"]="ModularPipelines.Kind:Kind"
-            ["minikube"]="ModularPipelines.Minikube:Minikube"
-            # Code quality/Security
-            ["sonar-scanner"]="ModularPipelines.SonarScanner:SonarScanner"
-            ["snyk"]="ModularPipelines.Snyk:Snyk"
-            ["shellcheck"]="ModularPipelines.Shellcheck:Shellcheck"
-            # Supply chain security
-            ["cosign"]="ModularPipelines.Cosign:Cosign"
-            ["syft"]="ModularPipelines.Syft:Syft"
-            ["grype"]="ModularPipelines.Grype:Grype"
-            # Testing
-            ["newman"]="ModularPipelines.Newman:Newman"
-            # Versioning
-            ["nbgv"]="ModularPipelines.NerdbankGitVersioning:Nbgv"
-            # Data processing
-            ["jq"]="ModularPipelines.Jq:Jq"
-            ["yq"]="ModularPipelines.Yq:Yq"
-            # Python
-            ["pip"]="ModularPipelines.Python:Pip"
-          )
-
-          IFS=':' read -r PACKAGE PREFIX <<< "${TOOL_MAP[${{ matrix.tool }}]}"
-          if [ -z "$PACKAGE" ]; then
-            echo "No package mapping exists for ${{ matrix.tool }}" >&2
-            exit 1
-          fi
-
-          PKG_DIR="src/$PACKAGE"
+          PACKAGE="${{ matrix.package }}"
+          PREFIX="${{ matrix.prefix }}"
+          PKG_DIR="${{ matrix.outputDirectory }}"
           PROJECT="$PKG_DIR/$PACKAGE.csproj"
           if [ ! -f "$PROJECT" ]; then
             echo "Package project not found: $PROJECT" >&2
@@ -749,17 +664,16 @@ jobs:
 
   # Generate options for Windows-only tools
   generate-windows:
-    needs: validate-generation-safety
+    needs:
+      - validate-generation-safety
+      - tool-catalog
     runs-on: windows-latest
     permissions:
       contents: write
       pull-requests: write
     strategy:
       fail-fast: false
-      matrix:
-        tool:
-          - choco
-          - winget
+      matrix: ${{ fromJSON(needs.tool-catalog.outputs.windows) }}
 
     steps:
       - name: Check if tool should run
@@ -825,20 +739,9 @@ jobs:
         if: steps.should-run.outputs.run == 'true'
         shell: pwsh
         run: |
-          # Map tool to package directory and namespace prefix
-          $toolMap = @{
-            "choco" = @{ Package = "ModularPipelines.Chocolatey"; Prefix = "Choco" }
-            "winget" = @{ Package = "ModularPipelines.WinGet"; Prefix = "Winget" }
-          }
-
-          $toolInfo = $toolMap["${{ matrix.tool }}"]
-          if (-not $toolInfo) {
-            throw "No package mapping exists for ${{ matrix.tool }}"
-          }
-
-          $package = $toolInfo.Package
-          $prefix = $toolInfo.Prefix
-          $pkgDir = "src/$package"
+          $package = "${{ matrix.package }}"
+          $prefix = "${{ matrix.prefix }}"
+          $pkgDir = "${{ matrix.outputDirectory }}"
           $project = "$pkgDir/$package.csproj"
           if (-not (Test-Path -LiteralPath $project -PathType Leaf)) {
             throw "Package project not found: $project"

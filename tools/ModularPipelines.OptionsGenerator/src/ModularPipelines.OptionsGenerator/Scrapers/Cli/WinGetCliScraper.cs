@@ -52,6 +52,7 @@ public partial class WinGetCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.WinGet";
 
+    public override CliGenerationPlatform GenerationPlatform => CliGenerationPlatform.Windows;
 
     /// <summary>
     /// Skip utility commands.

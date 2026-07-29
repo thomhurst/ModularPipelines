@@ -47,6 +47,14 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </summary>
     public abstract string OutputDirectory { get; }
 
+    /// <summary>
+    /// The operating-system family used to run this scraper in generation automation.
+    /// </summary>
+    public virtual CliGenerationPlatform GenerationPlatform => CliGenerationPlatform.Linux;
+
+    /// <inheritdoc />
+    public virtual bool IncludeInGenerationMatrix => true;
+
     #endregion
 
     #region Virtual Properties - Can Override

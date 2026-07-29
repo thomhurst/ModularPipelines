@@ -53,6 +53,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Chocolatey";
 
+    public override CliGenerationPlatform GenerationPlatform => CliGenerationPlatform.Windows;
 
     /// <summary>
     /// Skip utility commands.
