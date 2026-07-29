@@ -1188,6 +1188,38 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Cancellation_Overloads_In_Awaited_Switch_Control()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await (SelectArm() switch
+                {
+                    0 when ShouldFetch() => FetchAsync(),
+                    _ => OtherAsync(),
+                });
+                return null;
+            }
+
+                private static int SelectArm() => 0;
+
+                private static int SelectArm(CancellationToken cancellationToken) => 0;
+
+                private static bool ShouldFetch() => true;
+
+                private static bool ShouldFetch(CancellationToken cancellationToken) => true;
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task OtherAsync() => Task.CompletedTask;
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Unflowed_CancellationToken_In_Task_Producing_Receiver()
     {
         var source = ModuleSource("""
@@ -1884,6 +1916,55 @@ public class ModuleAuthoringAnalyzerTests
         var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
             .WithLocation(0);
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Derived_Parallel_ForEachAsync_Callback_Token()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await Parallel.ForEachAsync(
+                    new[] { 1 },
+                    cancellationToken,
+                    async (_, token) => await Task.Delay(1, token));
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Unrelated_Parallel_ForEachAsync_Callback_Token()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await {|#1:Parallel.ForEachAsync(
+                    new[] { 1 },
+                    CancellationToken.None,
+                    async (_, token) => await {|#0:Task.Delay(1, token)|})|};
+                return null;
+            }
+            """);
+
+        var delayDiagnostic = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        var forEachDiagnostic = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(1)
+            .WithArguments("ForEachAsync");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(
+            source,
+            delayDiagnostic,
+            forEachDiagnostic);
     }
 
     [TestMethod]

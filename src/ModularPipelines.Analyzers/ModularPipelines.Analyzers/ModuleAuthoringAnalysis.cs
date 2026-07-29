@@ -378,6 +378,23 @@ internal static class ModuleAuthoringAnalysis
             return null;
         }
 
+        if (operation is ISwitchExpressionOperation switchExpression)
+        {
+            foreach (var arm in switchExpression.Arms.Reverse())
+            {
+                pending.Push((arm.Value, requireTaskLike));
+                if (arm.Guard is { } guard)
+                {
+                    pending.Push((guard, true));
+                }
+
+                pending.Push((arm.Pattern, true));
+            }
+
+            pending.Push((switchExpression.Value, true));
+            return null;
+        }
+
         QueueChildOperations(operation, requireTaskLike, pending);
         return null;
     }
@@ -1709,7 +1726,11 @@ internal static class ModuleAuthoringAnalysis
             IParameterReferenceOperation parameterReference =>
                 SymbolEqualityComparer.Default.Equals(
                     parameterReference.Parameter,
-                    cancellationToken),
+                    cancellationToken)
+                || FlowsFromParallelCallbackToken(
+                    parameterReference,
+                    cancellationToken,
+                    visitedLocals),
             ILocalReferenceOperation localReference =>
                 FlowsFromCancellationTokenLocal(
                     localReference,
@@ -1747,6 +1768,36 @@ internal static class ModuleAuthoringAnalysis
                     visitedLocals),
             _ => false,
         };
+    }
+
+    private static bool FlowsFromParallelCallbackToken(
+        IParameterReferenceOperation parameterReference,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (!IsCancellationToken(parameterReference.Parameter)
+            || parameterReference.Parameter.ContainingSymbol
+                is not IMethodSymbol callback)
+        {
+            return false;
+        }
+
+        return GetRoot(parameterReference)
+            .DescendantsAndSelf()
+            .OfType<IInvocationOperation>()
+            .Where(static invocation =>
+                invocation.TargetMethod.Name == "ForEachAsync"
+                && invocation.TargetMethod.ContainingType.ToDisplayString()
+                == "System.Threading.Tasks.Parallel")
+            .Where(invocation => InvocationTargetsCallable(invocation, callback))
+            .SelectMany(static invocation => invocation.Arguments)
+            .Where(static argument =>
+                argument.Parameter is not null
+                && IsCancellationToken(argument.Parameter))
+            .Any(argument => FlowsFromCancellationToken(
+                argument.Value,
+                cancellationToken,
+                CloneVisitedLocals(visitedLocals)));
     }
 
     private static bool FlowsFromCancellationTokenProperty(
