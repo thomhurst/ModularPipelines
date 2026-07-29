@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using NReco.Logging.File;
@@ -239,9 +240,8 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: command line includes working directory and command
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Output is streamed on a separate line
-        await Assert.That(logFile).Contains("↳");
-        await Assert.That(Regex.Matches(logFile, "↳ Hello").Count).IsEqualTo(1);
+        // Fast commands inline output; slower commands may begin streaming under load.
+        await Assert.That(Regex.Matches(logFile, "(?:→|↳) Hello").Count).IsEqualTo(1);
         // Normal doesn't show exit code or duration
         await Assert.That(logFile).DoesNotContain("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsFalse();
@@ -257,8 +257,8 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: all info on one line
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Output is streamed on a separate line
-        await Assert.That(logFile).Contains("↳");
+        // Output is logged exactly once, inline or streamed if startup exceeds the deferral.
+        await Assert.That(Regex.Matches(logFile, "(?:→|↳) Hello").Count).IsEqualTo(1);
         // Exit code and duration shown inline
         await Assert.That(logFile).Contains("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsTrue();
@@ -274,16 +274,46 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: all info on one line
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Output is streamed on a separate line
-        await Assert.That(logFile).Contains("↳");
+        // Output is logged exactly once, inline or streamed if startup exceeds the deferral.
+        await Assert.That(Regex.Matches(logFile, "(?:→|↳) Hello").Count).IsEqualTo(1);
         // Exit code and duration shown inline
         await Assert.That(logFile).Contains("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsTrue();
-        // Working directory logged separately at Diagnostic level
-        await Assert.That(logFile).Contains("Working Directory:");
+        // The working directory stays in the command summary instead of adding another log entry.
+        await Assert.That(logFile).DoesNotContain("Working Directory:");
     }
 
-    private async Task<string> RunPowershellCommandWithLoggingOptions(string command, CommandLoggingOptions loggingOptions)
+    [Test]
+    public async Task Fast_Command_Logs_Complete_Output_When_Result_Is_Truncated()
+    {
+        const string output = "complete-output";
+        var file = await RunPowershellCommandWithLoggingOptions(
+            $"Write-Output '{output}'",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Normal },
+            maxCapturedOutputLength: 4);
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).Contains($"→ {output}");
+        await Assert.That(logFile).DoesNotContain("truncated");
+    }
+
+    [Test]
+    public async Task Failed_Fast_Command_Logs_Short_Standard_Output()
+    {
+        const string output = "failure-output";
+        var file = await RunPowershellCommandWithLoggingOptions(
+            $"Write-Output '{output}'; exit 1",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(Regex.Matches(logFile, $"↳ {output}").Count).IsEqualTo(1);
+        await Assert.That(logFile).Contains("exit 1");
+    }
+
+    private async Task<string> RunPowershellCommandWithLoggingOptions(
+        string command,
+        CommandLoggingOptions loggingOptions,
+        int? maxCapturedOutputLength = null)
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
@@ -299,6 +329,8 @@ public class CommandLoggerTests : TestBase
             {
                 LogSettings = loggingOptions,
                 ThrowOnNonZeroExitCode = false,
+                MaxCapturedOutputLength =
+                    maxCapturedOutputLength ?? CommandExecutionOptions.DefaultMaxCapturedOutputLength,
             });
 
         await result.Host.DisposeAsync();
@@ -339,6 +371,103 @@ public class CommandLoggerTests : TestBase
             await File.WriteAllTextAsync(releaseFile, "release");
             await commandTask;
         }
+    }
+
+    [Test]
+    public async Task Deferred_Logging_Failure_After_Success_Is_Not_A_Command_Failure()
+    {
+        var marker = $"throwing-output-{Guid.NewGuid():N}";
+        using var loggingProvider = new SelectiveThrowingLoggerProvider($"  ↳ {marker}");
+        var (commandContext, _) = await GetService<ICommandContext>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(
+                options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddProvider(loggingProvider));
+        });
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(() =>
+            commandContext.ExecuteCommandLineTool(
+                new PowershellScriptOptions(
+                    $"Write-Output '{marker}'; "
+                    + "Start-Sleep -Milliseconds 750; "
+                    + $"Write-Output '{marker}'")));
+
+        await Assert.That(exception!.InnerExceptions).Count().IsEqualTo(1);
+        await Assert.That(exception.InnerExceptions[0]).IsTypeOf<InvalidOperationException>();
+        await Assert.That(exception.InnerExceptions[0].Message).IsEqualTo("Logging failed.");
+        await Assert.That(loggingProvider.ThrowCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Deferred_Logging_Failure_After_NonZero_Exit_Preserves_Command_Failure()
+    {
+        var marker = $"throwing-failure-output-{Guid.NewGuid():N}";
+        using var loggingProvider = new SelectiveThrowingLoggerProvider($"  ↳ {marker}");
+        var (commandContext, _) = await GetService<ICommandContext>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(
+                options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddProvider(loggingProvider));
+        });
+
+        var exception = await Assert.ThrowsAsync<CommandException>(() =>
+            commandContext.ExecuteCommandLineTool(
+                new PowershellScriptOptions(
+                    $"Write-Output '{marker}'; "
+                    + "Start-Sleep -Milliseconds 750; "
+                    + "exit 7")));
+
+        await Assert.That(exception!.Result.ExitCode).IsEqualTo(7);
+        var failures = (exception.InnerException as AggregateException)
+            ?.Flatten().InnerExceptions;
+        await Assert.That(failures).IsNotNull();
+        await Assert.That(failures!)
+            .Contains(failure =>
+                failure is CommandException commandFailure
+                && commandFailure.Result.ExitCode == 7);
+        await Assert.That(failures)
+            .Contains(failure =>
+                failure is InvalidOperationException
+                && failure.Message == "Logging failed.");
+        await Assert.That(loggingProvider.ThrowCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Deferred_Logging_Failure_During_Cancellation_Is_Wrapped_By_Command()
+    {
+        var marker = $"throwing-cancellation-output-{Guid.NewGuid():N}";
+        using var loggingProvider = new SelectiveThrowingLoggerProvider($"  ↳ {marker}");
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var (commandContext, _) = await GetService<ICommandContext>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(
+                options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddProvider(loggingProvider));
+        });
+
+        var commandTask =
+            commandContext.ExecuteCommandLineTool(
+                new PowershellScriptOptions(
+                    $"Write-Output '{marker}'; Start-Sleep -Seconds 30"),
+                new CommandExecutionOptions
+                {
+                    GracefulShutdownTimeout = TimeSpan.FromMilliseconds(100),
+                },
+                cancellationToken: cancellationTokenSource.Token);
+
+        await loggingProvider.LoggingFailed.WaitAsync(TimeSpan.FromSeconds(30));
+        await cancellationTokenSource.CancelAsync();
+
+        var exception = await Assert.ThrowsAsync<CommandException>(() => commandTask);
+
+        var failures = (exception!.InnerException as AggregateException)
+            ?.Flatten().InnerExceptions;
+        await Assert.That(failures).IsNotNull();
+        await Assert.That(failures!)
+            .Contains(failure =>
+                failure is InvalidOperationException
+                && failure.Message == "Logging failed.");
+        await Assert.That(loggingProvider.ThrowCount).IsEqualTo(1);
     }
 
     private static async Task<bool> WaitUntilAsync(Func<bool> condition, TimeSpan timeout)
@@ -411,6 +540,35 @@ public class CommandLoggerTests : TestBase
             Func<TState, Exception?, string> formatter)
         {
             record(formatter(state, exception));
+        }
+    }
+
+    private sealed class SelectiveThrowingLoggerProvider(string messageToThrowOn)
+        : ILoggerProvider
+    {
+        private readonly TaskCompletionSource _loggingFailed =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private int _throwCount;
+
+        public Task LoggingFailed => _loggingFailed.Task;
+
+        public int ThrowCount => _throwCount;
+
+        public ILogger CreateLogger(string categoryName)
+        {
+            return new ObserverLogger(message =>
+            {
+                if (message == messageToThrowOn)
+                {
+                    Interlocked.Increment(ref _throwCount);
+                    _loggingFailed.TrySetResult();
+                    throw new InvalidOperationException("Logging failed.");
+                }
+            });
+        }
+
+        public void Dispose()
+        {
         }
     }
 

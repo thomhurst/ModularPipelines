@@ -10,6 +10,8 @@ namespace ModularPipelines.Logging;
 
 internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 {
+    internal const int MaximumInlineOutputLength = 100;
+
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ISecretObfuscator _secretObfuscator;
@@ -144,7 +146,8 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
         var trimmedOutput = standardOutputToLog.Trim();
         var hasShortOutput = ShouldInlineOutput(options, trimmedOutput);
-        var inlineOutput = hasShortOutput && isSuccess
+        var hasInlineOutput = hasShortOutput && isSuccess;
+        var inlineOutput = hasInlineOutput
             ? $" → {_secretObfuscator.Obfuscate(trimmedOutput, null)}"
             : string.Empty;
         var commandStatus = BuildCommandStatus(options, isSuccess, exitCode, runTime);
@@ -155,21 +158,15 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             inlineOutput,
             commandStatus);
 
-        LogCapturedOutput(options, trimmedOutput, hasShortOutput);
+        LogCapturedOutput(options, trimmedOutput, hasInlineOutput);
         LogCapturedError(options, standardErrorToLog, exitCode);
-
-        // Log working directory only at Diagnostic level (separate line, indented)
-        if (options.Verbosity >= CommandLogVerbosity.Diagnostic || options.ShowWorkingDirectory)
-        {
-            Logger.LogInformation("  Working Directory: {WorkingDirectory}", workingDirectory);
-        }
     }
 
     private static bool ShouldInlineOutput(CommandLoggingOptions options, string output)
     {
         return !string.IsNullOrEmpty(output)
                && !output.Contains('\n')
-               && output.Length <= 100
+               && output.Length <= MaximumInlineOutputLength
                && options.Verbosity >= CommandLogVerbosity.Normal
                && options.ShowStandardOutput;
     }
