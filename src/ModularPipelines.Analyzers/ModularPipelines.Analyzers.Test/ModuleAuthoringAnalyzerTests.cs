@@ -547,6 +547,41 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Collection_Spread_Does_Not_Hide_Unregistered_Module()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class RegisteredModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:UnregisteredModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    Type[] modules = [typeof(RegisteredModule)];
+                    Pipeline.CreateBuilder().AddModules([.. modules]);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("UnregisteredModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Repeated_Local_Module_Type_Does_Not_Suppress_Diagnostics()
     {
         var source = $$"""

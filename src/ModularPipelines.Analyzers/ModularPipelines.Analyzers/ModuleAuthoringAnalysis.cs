@@ -1124,6 +1124,11 @@ internal static class ModuleAuthoringAnalysis
                         element,
                         registeredModules,
                         CloneVisitedLocals(visitedLocals)));
+            case ISpreadOperation spread:
+                return TryTrackModuleTypes(
+                    spread.Operand,
+                    registeredModules,
+                    visitedLocals);
             case IInvocationOperation invocation
                 when invocation.TargetMethod.Name == "Empty"
                      && invocation.TargetMethod.ContainingType.OriginalDefinition
