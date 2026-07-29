@@ -1,6 +1,8 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
@@ -17,7 +19,7 @@ namespace ModularPipelines.Context;
 internal class PipelineContext : IPipelineContext, IInternalPipelineContext
 {
     private readonly IInternalModuleLoggerProvider _moduleLoggerProvider;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly Lazy<ModuleLookup> _moduleLookup;
 
     /// <summary>
     /// Cached logger instance for this context.
@@ -67,7 +69,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PipelineContext"/> class.
+    /// Initialises a new instance of the <see cref="PipelineContext"/> class.
     /// </summary>
     public PipelineContext(
         IServiceProvider serviceProvider,
@@ -85,7 +87,9 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
         IServicesContext services,
         ISummaryLogger summary)
     {
-        _serviceProvider = serviceProvider;
+        _moduleLookup = new Lazy<ModuleLookup>(
+            () => ModuleLookup.Create(serviceProvider.GetServices<IModule>()),
+            LazyThreadSafetyMode.ExecutionAndPublication);
         _moduleLoggerProvider = moduleLoggerProvider;
         DependencyCollisionDetector = dependencyCollisionDetector;
         ModuleResultRepository = moduleResultRepository;
@@ -106,15 +110,95 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     public TModule? GetModule<TModule>()
         where TModule : class, IModule
     {
-        return GetDistinctModules().OfType<TModule>().SingleOrDefault();
+        return (TModule?) _moduleLookup.Value.GetAssignable(typeof(TModule));
     }
 
     public IModule? GetModule(Type type)
     {
-        return GetDistinctModules().SingleOrDefault(module => module.GetType() == type);
+        return _moduleLookup.Value.GetExact(type);
     }
 
-    private IEnumerable<IModule> GetDistinctModules() =>
-        _serviceProvider.GetServices<IModule>()
-            .Distinct<IModule>(ReferenceEqualityComparer.Instance);
+    private sealed class ModuleLookup
+    {
+        private readonly ConcurrentDictionary<Type, IReadOnlyList<IModule>> _assignableModules = new();
+        private readonly IReadOnlyDictionary<Type, IReadOnlyList<IModule>> _ambiguousConcreteModules;
+        private readonly IReadOnlyDictionary<Type, IModule> _concreteModules;
+        private readonly IReadOnlyList<IModule> _modules;
+
+        private ModuleLookup(
+            IReadOnlyList<IModule> modules,
+            IReadOnlyDictionary<Type, IModule> concreteModules,
+            IReadOnlyDictionary<Type, IReadOnlyList<IModule>> ambiguousConcreteModules)
+        {
+            _modules = modules;
+            _concreteModules = concreteModules;
+            _ambiguousConcreteModules = ambiguousConcreteModules;
+        }
+
+        public static ModuleLookup Create(IEnumerable<IModule> registeredModules)
+        {
+            var modules = registeredModules
+                .Distinct<IModule>(ReferenceEqualityComparer.Instance)
+                .ToArray();
+
+            var modulesByConcreteType = modules
+                .GroupBy(x => x.GetType())
+                .ToDictionary(
+                    x => x.Key,
+                    x => (IReadOnlyList<IModule>) x.ToArray());
+
+            return new ModuleLookup(
+                modules,
+                modulesByConcreteType
+                    .Where(x => x.Value.Count == 1)
+                    .ToDictionary(x => x.Key, x => x.Value[0]),
+                modulesByConcreteType
+                    .Where(x => x.Value.Count > 1)
+                    .ToDictionary(x => x.Key, x => x.Value));
+        }
+
+        public IModule? GetAssignable(Type type)
+        {
+            if (_concreteModules.ContainsKey(type) || _ambiguousConcreteModules.ContainsKey(type))
+            {
+                return GetExact(type);
+            }
+
+            var matches = _assignableModules.GetOrAdd(
+                type,
+                requestedType => _modules.Where(requestedType.IsInstanceOfType).ToArray());
+
+            return GetSingleMatch(type, matches);
+        }
+
+        public IModule? GetExact(Type type)
+        {
+            ThrowIfAmbiguous(type, _ambiguousConcreteModules);
+            return _concreteModules.GetValueOrDefault(type);
+        }
+
+        private static IModule? GetSingleMatch(Type requestedType, IReadOnlyList<IModule> matches)
+        {
+            if (matches.Count > 1)
+            {
+                throw new AmbiguousModuleException(
+                    requestedType,
+                    matches.Select(x => x.GetType()).ToArray());
+            }
+
+            return matches.Count == 1 ? matches[0] : null;
+        }
+
+        private static void ThrowIfAmbiguous(
+            Type requestedType,
+            IReadOnlyDictionary<Type, IReadOnlyList<IModule>> ambiguousModules)
+        {
+            if (ambiguousModules.TryGetValue(requestedType, out var matches))
+            {
+                throw new AmbiguousModuleException(
+                    requestedType,
+                    matches.Select(x => x.GetType()).ToArray());
+            }
+        }
+    }
 }
