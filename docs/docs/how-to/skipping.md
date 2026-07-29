@@ -103,15 +103,19 @@ public class MyModule : Module<CommandResult>
 
 ## Combining with Other Behaviors
 
-Repeated skip conditions use AND semantics. They run in registration order and stop as soon as
-one returns `SkipDecision.DoNotSkip`. When every condition skips, their reasons are combined:
+Repeated skip conditions use AND-to-skip semantics. They run in registration order, and the module
+is skipped only when every condition returns `SkipDecision.Skip`. A `SkipDecision.DoNotSkip`
+result stops evaluation and keeps the module eligible to run. When every condition skips, their
+reasons are combined.
+
+For example, this module skips cleanup only for CI builds that are not on the main branch:
 
 ```csharp
 public class CleanupModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(_ => Environment.GetEnvironmentVariable("SKIP_CLEANUP") == "true"
-            ? SkipDecision.Skip("SKIP_CLEANUP is true")
+        .WithSkipWhen(_ => Environment.GetEnvironmentVariable("CI") == "true"
+            ? SkipDecision.Skip("Running in CI")
             : SkipDecision.DoNotSkip)
         .WithSkipWhen(async (ctx, _) =>
             (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
@@ -122,6 +126,9 @@ public class CleanupModule : Module<CommandResult>
         .Build();
 }
 ```
+
+When any one of several independent predicates should be enough to skip, combine them in a single
+condition and return `SkipDecision.Skip` when their OR expression is true.
 
 ## History
 If a module was skipped, you can attempt to find its history from a previous run. See [History](storing-and-retrieving-results)

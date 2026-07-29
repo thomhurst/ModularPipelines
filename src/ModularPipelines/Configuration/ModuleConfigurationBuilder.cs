@@ -35,7 +35,7 @@ namespace ModularPipelines.Configuration;
 /// </example>
 public sealed class ModuleConfigurationBuilder
 {
-    private readonly HashSet<string> _tags = new(StringComparer.OrdinalIgnoreCase);
+    private readonly HashSet<string> _tags = [with(StringComparer.OrdinalIgnoreCase)];
     private readonly List<DeclaredDependency> _dependencies = [];
     private readonly List<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>> _skipConditions = [];
     private TimeSpan? _timeout;
@@ -54,7 +54,12 @@ public sealed class ModuleConfigurationBuilder
     /// </summary>
     /// <param name="condition">A function that receives the module context and returns a <see cref="SkipDecision"/>.</param>
     /// <returns>This builder instance for method chaining.</returns>
-    /// <remarks>Repeated conditions are combined with AND semantics and evaluated in registration order.</remarks>
+    /// <remarks>
+    /// Repeated conditions are evaluated in registration order and combined with AND-to-skip semantics:
+    /// the module is skipped only when every condition returns <see cref="SkipDecision.Skip(string?)"/>.
+    /// Any <see cref="SkipDecision.DoNotSkip"/> result keeps the module eligible to run.
+    /// To skip when any of several predicates matches, combine those predicates in one condition.
+    /// </remarks>
     public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, SkipDecision> condition)
     {
         ArgumentNullException.ThrowIfNull(condition);
@@ -67,7 +72,12 @@ public sealed class ModuleConfigurationBuilder
     /// </summary>
     /// <param name="condition">A function that receives the module context and cancellation token and returns a <see cref="SkipDecision"/>.</param>
     /// <returns>This builder instance for method chaining.</returns>
-    /// <remarks>Repeated conditions are combined with AND semantics and evaluated in registration order.</remarks>
+    /// <remarks>
+    /// Repeated conditions are evaluated in registration order and combined with AND-to-skip semantics:
+    /// the module is skipped only when every condition returns <see cref="SkipDecision.Skip(string?)"/>.
+    /// Any <see cref="SkipDecision.DoNotSkip"/> result keeps the module eligible to run.
+    /// To skip when any of several predicates matches, combine those predicates in one condition.
+    /// </remarks>
     public ModuleConfigurationBuilder WithSkipWhen(
         Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>> condition)
     {
