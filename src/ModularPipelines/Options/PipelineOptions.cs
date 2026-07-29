@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Spectre.Console;
 
 namespace ModularPipelines.Options;
 
@@ -71,7 +72,7 @@ public record PipelineOptions
     /// <summary>
     /// Gets a value indicating whether to show progress information in the console.
     /// </summary>
-    public bool ShowProgressInConsole { get; init; } = !System.Console.IsOutputRedirected;
+    public bool ShowProgressInConsole { get; init; } = AnsiConsole.Profile.Capabilities.Interactive;
 
     /// <summary>
     /// Gets a value indicating whether to print execution results to the console.

@@ -321,8 +321,11 @@ public sealed class PipelineBuilder : IDisposable
             // Activate distributed mode if configured (replaces executor based on role)
             ActivateDistributedModeIfConfigured(services);
 
-            services.AddSingleton<IOptions<PipelineOptions>>(
-                Microsoft.Extensions.Options.Options.Create(_options));
+            var optionsSnapshot = new PipelineOptionsSnapshot(_options);
+            services
+                .AddSingleton<IOptions<PipelineOptions>>(optionsSnapshot)
+                .AddSingleton<IOptionsSnapshot<PipelineOptions>>(optionsSnapshot)
+                .AddSingleton<IOptionsMonitor<PipelineOptions>>(optionsSnapshot);
 
             // Auto-register any missing required dependencies
             ModuleAutoRegistrar.AutoRegisterMissingDependencies(services);

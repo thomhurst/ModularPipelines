@@ -55,17 +55,32 @@ public class PipelineOptionsTests
     }
 
     [Test]
-    public async Task PipelineBuilder_RegistersOptionsSnapshotWithoutCopyingProperties()
+    public async Task DefaultProgressOption_UsesSpectreCapability()
+    {
+        await Assert.That(new PipelineOptions().ShowProgressInConsole)
+            .IsEqualTo(AnsiConsole.Profile.Capabilities.Interactive);
+    }
+
+    [Test]
+    public async Task PipelineBuilder_RegistersConsistentOptionsSnapshotWithoutCopyingProperties()
     {
         var builder = TestPipelineHostBuilder.Create()
             .AddModule<OptionsTestModule>();
         var expected = builder.Options;
 
         await using var pipeline = await builder.BuildAsync();
-        var actual = pipeline.Services
+        var options = pipeline.Services
             .GetRequiredService<IOptions<PipelineOptions>>()
             .Value;
+        var snapshot = pipeline.Services
+            .GetRequiredService<IOptionsSnapshot<PipelineOptions>>()
+            .Value;
+        var monitor = pipeline.Services
+            .GetRequiredService<IOptionsMonitor<PipelineOptions>>()
+            .CurrentValue;
 
-        await Assert.That(actual).IsSameReferenceAs(expected);
+        await Assert.That(options).IsSameReferenceAs(expected);
+        await Assert.That(snapshot).IsSameReferenceAs(expected);
+        await Assert.That(monitor).IsSameReferenceAs(expected);
     }
 }

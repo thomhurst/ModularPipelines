@@ -246,7 +246,10 @@ public static class PipelineBuilderExtensions
     /// Configures pipeline options.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
-    /// <param name="configureOptions">Function that returns the configured immutable options.</param>
+    /// <param name="configureOptions">
+    /// Function that returns the configured immutable options while preserving prior settings,
+    /// typically with <see langword="with"/>.
+    /// </param>
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder ConfigurePipelineOptions(
         this PipelineBuilder builder,
@@ -261,7 +264,10 @@ public static class PipelineBuilderExtensions
     /// Configures pipeline options with builder context.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
-    /// <param name="configureOptions">Function that receives the builder and returns the configured immutable options.</param>
+    /// <param name="configureOptions">
+    /// Function that receives the builder and returns the configured immutable options while preserving prior settings,
+    /// typically with <see langword="with"/>.
+    /// </param>
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder ConfigurePipelineOptions(
         this PipelineBuilder builder,
