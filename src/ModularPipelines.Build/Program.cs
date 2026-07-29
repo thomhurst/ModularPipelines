@@ -18,6 +18,7 @@ using Octokit;
 using Octokit.Internal;
 
 var builder = Pipeline.CreateBuilder(args);
+builder.ConfigurePipelineOptions(options => options.LoadModularPipelineAssemblies = true);
 
 builder.Configuration
     .AddJsonFile("appsettings.json")
