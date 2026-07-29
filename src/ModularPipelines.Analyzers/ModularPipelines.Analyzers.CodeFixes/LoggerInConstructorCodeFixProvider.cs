@@ -97,7 +97,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
                 .Any(initializer => SymbolEqualityComparer.Default.Equals(
                     semanticModel.GetSymbolInfo(initializer, cancellationToken).Symbol,
                     constructorSymbol))
-            || WouldDuplicateConstructor(constructorSymbol, parameter))
+            || WouldOverlapSiblingConstructor(constructorSymbol, parameter))
         {
             return false;
         }
@@ -120,6 +120,11 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             semanticModel,
             cancellationToken);
         if (loggerStorage is null)
+        {
+            return false;
+        }
+
+        if (loggerStorage.AssignmentStatement.Parent != constructor.Body)
         {
             return false;
         }
@@ -153,38 +158,32 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         return references.Any(static reference => reference.Locations.Any());
     }
 
-    private static bool WouldDuplicateConstructor(
+    private static bool WouldOverlapSiblingConstructor(
         IMethodSymbol constructor,
         IParameterSymbol removedParameter)
     {
         var remainingParameters = constructor.Parameters
             .Where(parameter => !SymbolEqualityComparer.Default.Equals(parameter, removedParameter))
             .ToArray();
+        var remainingArity = GetCallableArity(remainingParameters);
 
         return constructor.ContainingType.InstanceConstructors
             .Where(other => !SymbolEqualityComparer.Default.Equals(other, constructor))
-            .Any(other => HaveSameSignature(remainingParameters, other.Parameters));
+            .Select(static other => GetCallableArity(other.Parameters))
+            .Any(otherArity =>
+                remainingArity.Minimum <= otherArity.Maximum
+                && otherArity.Minimum <= remainingArity.Maximum);
     }
 
-    private static bool HaveSameSignature(
-        IParameterSymbol[] first,
-        IReadOnlyList<IParameterSymbol> second)
+    private static (int Minimum, int Maximum) GetCallableArity(
+        IReadOnlyList<IParameterSymbol> parameters)
     {
-        if (first.Length != second.Count)
-        {
-            return false;
-        }
-
-        for (var index = 0; index < first.Length; index++)
-        {
-            if (!SymbolEqualityComparer.Default.Equals(first[index].Type, second[index].Type)
-                || (first[index].RefKind == RefKind.None) != (second[index].RefKind == RefKind.None))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        var minimum = parameters.Count(static parameter =>
+            !parameter.IsOptional && !parameter.IsParams);
+        var maximum = parameters.Any(static parameter => parameter.IsParams)
+            ? int.MaxValue
+            : parameters.Count;
+        return (minimum, maximum);
     }
 
     private static LoggerStorage? GetLoggerStorage(

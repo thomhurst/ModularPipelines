@@ -297,6 +297,49 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string LoggerConstructorWithOptionalOverloadSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    public Module1(ILogger<Module1> logger)
+    {{
+    }}
+
+    public Module1(int value = 0)
+    {{
+    }}
+
+    public static Module1 Create() => new();
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string EmbeddedLoggerAssignmentSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private ILogger<Module1> _logger = null!;
+
+    public Module1(ILogger<Module1> logger, bool enabled)
+    {{
+        if (enabled)
+            _logger = logger;
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        _logger.LogInformation(""Running"");
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string EscapedContextStoredLoggerSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -544,6 +587,22 @@ public class Module1 : Module<List<string>>
             LoggerConstructorWithOverloadSource,
             expected,
             FixedLoggerConstructorWithOverloadSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Sibling_Constructor_Arity_Overlaps()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            LoggerConstructorWithOptionalOverloadSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Embedded_Logger_Assignment()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            EmbeddedLoggerAssignmentSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
     }
 
     [TestMethod]
