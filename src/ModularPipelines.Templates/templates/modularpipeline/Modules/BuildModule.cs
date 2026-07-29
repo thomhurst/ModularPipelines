@@ -16,7 +16,7 @@ public sealed class BuildModule(IOptions<BuildSettings> settings) : Module<Comma
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.DotNet().BuildAsync(
+        return await context.DotNet().Build(
             new DotNetBuildOptions
             {
                 ProjectSolution = settings.Value.Solution,

@@ -16,7 +16,7 @@ public sealed class TestModule(IOptions<BuildSettings> settings) : Module<Comman
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.DotNet().TestAsync(
+        return await context.DotNet().Test(
             new DotNetTestOptions
             {
                 Arguments = [settings.Value.Solution],
