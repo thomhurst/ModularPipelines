@@ -1,0 +1,66 @@
+namespace ModularPipelines.SourceGenerator.UnitTests;
+
+public class ModuleEventMetadataGeneratorTests
+{
+    private const string Infrastructure = """
+        namespace ModularPipelines
+        {
+            public sealed class PipelineBuilder;
+        }
+
+        namespace ModularPipelines.Modules
+        {
+            public interface IModule;
+
+            public abstract class Module<T> : IModule;
+        }
+
+        namespace ModularPipelines.Extensions
+        {
+            public static class PipelineBuilderExtensions
+            {
+                public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                    this ModularPipelines.PipelineBuilder builder)
+                    where TModule : class, ModularPipelines.Modules.IModule => builder;
+            }
+        }
+        """;
+
+    [Test]
+    public async Task Registered_Closed_Generic_Module_Emits_Event_Metadata()
+    {
+        var result = GeneratorTestRunner.Run(
+            new ModuleEventMetadataGenerator(),
+            Infrastructure,
+            """
+            namespace Consumer
+            {
+                using ModularPipelines.Extensions;
+
+                [System.AttributeUsage(System.AttributeTargets.Class)]
+                public sealed class MarkerAttribute : System.Attribute;
+
+                [Marker]
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                public static class Registration
+                {
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        builder.AddModule<GenericModule<string>>();
+                    }
+                }
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated)
+                .Contains("typeof(global::Consumer.GenericModule<string>)");
+            await Assert.That(generated)
+                .Contains("new global::Consumer.MarkerAttribute()");
+        }
+    }
+}

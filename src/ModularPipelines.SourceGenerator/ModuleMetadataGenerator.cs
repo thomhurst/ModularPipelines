@@ -73,14 +73,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             });
     }
 
-    private static bool IsCandidate(SyntaxNode node)
-    {
-        return node is ClassDeclarationSyntax { BaseList.Types.Count: > 0 }
-               || (node is RecordDeclarationSyntax { BaseList.Types.Count: > 0 } record
-                   && record.ClassOrStructKeyword.ValueText != "struct");
-    }
-
-    private static bool IsModuleRegistrationCandidate(SyntaxNode node)
+    internal static bool IsModuleRegistrationCandidate(SyntaxNode node)
     {
         if (node is not InvocationExpressionSyntax invocation)
         {
@@ -101,20 +94,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         };
     }
 
-    private static ModuleMetadataInfo? GetModuleMetadata(GeneratorSyntaxContext context)
-    {
-        if (context.SemanticModel.GetDeclaredSymbol(context.Node) is not INamedTypeSymbol type
-            || type.IsAbstract
-            || type.IsGenericType
-            || !ImplementsModule(type, context.SemanticModel.Compilation))
-        {
-            return null;
-        }
-
-        return CreateModuleMetadata(type, context.SemanticModel.Compilation);
-    }
-
-    private static ModuleMetadataInfo? GetRegisteredModuleMetadata(
+    internal static INamedTypeSymbol? GetRegisteredClosedGenericModule(
         GeneratorSyntaxContext context)
     {
         if (context.Node is not InvocationExpressionSyntax invocation
@@ -131,6 +111,39 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             return null;
         }
 
+        return type;
+    }
+
+    private static bool IsCandidate(SyntaxNode node)
+    {
+        return node is ClassDeclarationSyntax { BaseList.Types.Count: > 0 }
+               || (node is RecordDeclarationSyntax { BaseList.Types.Count: > 0 } record
+                   && record.ClassOrStructKeyword.ValueText != "struct");
+    }
+
+    private static ModuleMetadataInfo? GetModuleMetadata(GeneratorSyntaxContext context)
+    {
+        if (context.SemanticModel.GetDeclaredSymbol(context.Node) is not INamedTypeSymbol type
+            || type.IsAbstract
+            || type.IsGenericType
+            || !ImplementsModule(type, context.SemanticModel.Compilation))
+        {
+            return null;
+        }
+
+        return CreateModuleMetadata(type, context.SemanticModel.Compilation);
+    }
+
+    private static ModuleMetadataInfo? GetRegisteredModuleMetadata(
+        GeneratorSyntaxContext context)
+    {
+        var type = GetRegisteredClosedGenericModule(context);
+        if (type is null)
+        {
+            return null;
+        }
+
+        var invocation = (InvocationExpressionSyntax) context.Node;
         if (!SymbolEqualityComparer.Default.Equals(
                 type.ContainingAssembly,
                 context.SemanticModel.Compilation.Assembly))

@@ -33,7 +33,20 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
             .Select(static (candidate, _) => candidate!)
             .WithComparer(ModuleEventMetadataCandidateComparer.Instance);
 
-        context.RegisterSourceOutput(moduleCandidates.Collect(), static (sourceContext, candidates) =>
+        var registeredClosedGenericCandidates = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                static (node, _) => ModuleMetadataGenerator.IsModuleRegistrationCandidate(node),
+                static (generatorContext, _) => GetRegisteredModuleCandidate(generatorContext))
+            .Where(static candidate => candidate is not null)
+            .Select(static (candidate, _) => candidate!)
+            .WithComparer(ModuleEventMetadataCandidateComparer.Instance);
+
+        var allCandidates = moduleCandidates
+            .Collect()
+            .Combine(registeredClosedGenericCandidates.Collect())
+            .Select(static (input, _) => input.Left.AddRange(input.Right));
+
+        context.RegisterSourceOutput(allCandidates, static (sourceContext, candidates) =>
         {
             foreach (var skipped in candidates
                          .Where(static candidate => candidate.Metadata is null)
@@ -89,14 +102,39 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
             return null;
         }
 
+        return CreateModuleCandidate(
+            type,
+            compilation,
+            type.Locations.FirstOrDefault() ?? Location.None,
+            allowConstructedGeneric: false);
+    }
+
+    private static ModuleEventMetadataCandidate? GetRegisteredModuleCandidate(
+        GeneratorSyntaxContext context)
+    {
+        var type = ModuleMetadataGenerator.GetRegisteredClosedGenericModule(context);
+        return type is null
+            ? null
+            : CreateModuleCandidate(
+                type,
+                context.SemanticModel.Compilation,
+                context.Node.GetLocation(),
+                allowConstructedGeneric: true);
+    }
+
+    private static ModuleEventMetadataCandidate CreateModuleCandidate(
+        INamedTypeSymbol type,
+        Compilation compilation,
+        Location location,
+        bool allowConstructedGeneric)
+    {
         var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-        var location = type.Locations.FirstOrDefault() ?? Location.None;
         if (!IsTypeDeclarationAccessible(type, compilation.Assembly))
         {
             return new ModuleEventMetadataCandidate(typeName, location, Metadata: null);
         }
 
-        if (type.IsGenericType)
+        if (type.IsGenericType && !allowConstructedGeneric)
         {
             return new ModuleEventMetadataCandidate(typeName, location, Metadata: null);
         }
