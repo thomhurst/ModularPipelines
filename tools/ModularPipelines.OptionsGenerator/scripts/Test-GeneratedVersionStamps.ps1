@@ -18,31 +18,46 @@ if ($LASTEXITCODE -ne 0 -or -not $repositoryRoot) {
     throw 'Could not resolve the repository root.'
 }
 
-$stampPattern = [regex]::new(
-    '\[GeneratedCode\("ModularPipelines\.OptionsGenerator", "([^"]*)"\)\]')
-$matchingLines = @(
-    & git -C $repositoryRoot grep -n -F `
-        'GeneratedCode("ModularPipelines.OptionsGenerator"' `
-        -- 'src'
+$stampDefinitions = @(
+    [pscustomobject]@{
+        SearchText = 'GeneratedCode("ModularPipelines.OptionsGenerator"'
+        Pattern = [regex]::new(
+            '\[GeneratedCode\("ModularPipelines\.OptionsGenerator", "(?<Version>[^"]*)"\)\]')
+        Replacement = "[GeneratedCode(`"ModularPipelines.OptionsGenerator`", `"$expectedVersion`")]"
+    }
+    [pscustomobject]@{
+        SearchText = 'AssemblyMetadata("ModularPipelines.OptionsGenerator.Version"'
+        Pattern = [regex]::new(
+            '\[assembly: AssemblyMetadata\("ModularPipelines\.OptionsGenerator\.Version", "(?<Version>[^"]*)"\)\]')
+        Replacement = "[assembly: AssemblyMetadata(`"ModularPipelines.OptionsGenerator.Version`", `"$expectedVersion`")]"
+    }
 )
-if ($LASTEXITCODE -notin @(0, 1)) {
-    throw 'Failed to inspect tracked generated files.'
-}
+$matchingLines = @(
+    foreach ($stampDefinition in $stampDefinitions) {
+        & git -C $repositoryRoot grep -n -F $stampDefinition.SearchText -- 'src'
+        if ($LASTEXITCODE -notin @(0, 1)) {
+            throw "Failed to inspect tracked generated files for '$($stampDefinition.SearchText)'."
+        }
+    }
+)
 
 $stamps = foreach ($line in $matchingLines) {
     if ($line -notmatch '^(?<Path>.+?):(?<Line>\d+):(?<Text>.*)$') {
         throw "Could not parse git grep output: $line"
     }
 
-    $stamp = $stampPattern.Match($Matches.Text)
-    if (!$stamp.Success) {
+    $stamp = $stampDefinitions |
+        ForEach-Object { $_.Pattern.Match($Matches.Text) } |
+        Where-Object Success |
+        Select-Object -First 1
+    if ($null -eq $stamp) {
         throw "Could not parse generator version stamp: $line"
     }
 
     [pscustomobject]@{
         Path = $Matches.Path
         Line = [int] $Matches.Line
-        Version = $stamp.Groups[1].Value
+        Version = $stamp.Groups['Version'].Value
     }
 }
 
@@ -71,11 +86,16 @@ if (!$Fix) {
         "$expectedVersion ($($summary -join ', ')). Examples: $($examples -join ', ')"
 }
 
-$replacement = "[GeneratedCode(`"ModularPipelines.OptionsGenerator`", `"$expectedVersion`")]"
 foreach ($relativePath in $staleStamps.Path | Sort-Object -Unique) {
     $path = Join-Path $repositoryRoot $relativePath
     $content = [IO.File]::ReadAllText($path)
-    $updated = $stampPattern.Replace($content, $replacement)
+    $updated = $content
+    foreach ($stampDefinition in $stampDefinitions) {
+        $updated = $stampDefinition.Pattern.Replace(
+            $updated,
+            $stampDefinition.Replacement)
+    }
+
     if ($updated -eq $content) {
         throw "No version stamp was replaced in $relativePath."
     }
