@@ -179,9 +179,14 @@ internal sealed class NonSpectreLoggerFactory(
         private LoggerFilterRule Translate(LoggerFilterRule rule)
         {
             var originalFilter = rule.Filter;
-            var translatedProviderName = rule.ProviderName == _providerName
-                                         || (_providerAlias is not null
-                                             && rule.ProviderName == _providerAlias)
+            var translatedProviderName = string.Equals(
+                                             rule.ProviderName,
+                                             _providerName,
+                                             StringComparison.OrdinalIgnoreCase)
+                                         || (_providerAlias is not null && string.Equals(
+                                             rule.ProviderName,
+                                             _providerAlias,
+                                             StringComparison.OrdinalIgnoreCase))
                 ? WrapperProviderName
                 : rule.ProviderName;
             if (translatedProviderName == rule.ProviderName && originalFilter is null)

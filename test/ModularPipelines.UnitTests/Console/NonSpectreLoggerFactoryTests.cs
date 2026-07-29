@@ -18,7 +18,7 @@ public class NonSpectreLoggerFactoryTests
             MinLevel = LogLevel.Error,
         };
         options.Rules.Add(new LoggerFilterRule(
-            "Recording",
+            "recording",
             "Allowed",
             LogLevel.Warning,
             null));
@@ -42,7 +42,7 @@ public class NonSpectreLoggerFactoryTests
             MinLevel = LogLevel.Error,
         };
         options.Rules.Add(new LoggerFilterRule(
-            "Recording",
+            typeof(RecordingLoggerProvider).FullName!.ToLowerInvariant(),
             "Allowed",
             null,
             (providerName, _, _) =>
@@ -210,7 +210,7 @@ public class NonSpectreLoggerFactoryTests
             LogLevel.Trace,
             null));
         options.Rules.Add(new LoggerFilterRule(
-            SpectreLoggerSuppressionRegistration.SpectreProviderTypeName,
+            SpectreLoggerSuppressionRegistration.SpectreProviderTypeName.ToLowerInvariant(),
             "Category",
             LogLevel.Warning,
             filter));
@@ -257,7 +257,7 @@ public class NonSpectreLoggerFactoryTests
             LogLevel.Information,
             filter));
         options.Rules.Add(new LoggerFilterRule(
-            SpectreLoggerSuppressionRegistration.SpectreProviderAlias,
+            SpectreLoggerSuppressionRegistration.SpectreProviderAlias.ToLowerInvariant(),
             "Alias",
             LogLevel.Warning,
             filter));
@@ -279,7 +279,7 @@ public class NonSpectreLoggerFactoryTests
         {
             await Assert.That(options.Rules[0].ProviderName).IsNull();
             await Assert.That(options.Rules[1].ProviderName)
-                .IsEqualTo(SpectreLoggerSuppressionRegistration.SpectreProviderAlias);
+                .IsEqualTo(SpectreLoggerSuppressionRegistration.SpectreProviderAlias.ToLowerInvariant());
             await Assert.That(filteredProviderNames).IsEquivalentTo(expectedProviderNames);
         }
     }

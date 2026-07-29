@@ -241,7 +241,10 @@ internal sealed class SpectreLoggerFilterOptionsPostConfigure
             return rule;
         }
 
-        var providerName = rule.ProviderName is SpectreLoggerSuppressionRegistration.SpectreProviderTypeName
+        var providerName = string.Equals(
+            rule.ProviderName,
+            SpectreLoggerSuppressionRegistration.SpectreProviderTypeName,
+            StringComparison.OrdinalIgnoreCase)
             ? typeof(SuppressibleSpectreLoggerProvider).FullName
             : rule.ProviderName;
         var filter = TranslateFilter(rule.Filter);
@@ -259,8 +262,14 @@ internal sealed class SpectreLoggerFilterOptionsPostConfigure
 
     private static bool TargetsSpectreProvider(string? providerName) =>
         providerName is null
-        or SpectreLoggerSuppressionRegistration.SpectreProviderAlias
-        or SpectreLoggerSuppressionRegistration.SpectreProviderTypeName;
+        || string.Equals(
+            providerName,
+            SpectreLoggerSuppressionRegistration.SpectreProviderAlias,
+            StringComparison.OrdinalIgnoreCase)
+        || string.Equals(
+            providerName,
+            SpectreLoggerSuppressionRegistration.SpectreProviderTypeName,
+            StringComparison.OrdinalIgnoreCase);
 
     private static Func<string?, string?, LogLevel, bool>? TranslateFilter(
         Func<string?, string?, LogLevel, bool>? filter)
