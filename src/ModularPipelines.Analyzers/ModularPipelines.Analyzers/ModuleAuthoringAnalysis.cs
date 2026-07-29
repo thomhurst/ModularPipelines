@@ -435,25 +435,20 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var root = GetRoot(invocation);
-        foreach (var methodReference in invocation.Arguments
-                     .SelectMany(static argument => argument.Value
-                         .DescendantsAndSelf()
-                         .OfType<IMethodReferenceOperation>()))
+        foreach (var localFunction in root.DescendantsAndSelf()
+                     .OfType<ILocalFunctionOperation>()
+                     .Where(localFunction => invocation.Arguments.Any(argument =>
+                         ValueContainsCallable(
+                             argument.Value,
+                             localFunction.Symbol,
+                             [with(SymbolEqualityComparer.Default)]))))
         {
-            foreach (var localFunction in root.DescendantsAndSelf()
-                         .OfType<ILocalFunctionOperation>()
-                         .Where(localFunction =>
-                             SymbolEqualityComparer.Default.Equals(
-                                 localFunction.Symbol.OriginalDefinition,
-                                 methodReference.Method.OriginalDefinition)))
+            if (localFunction.Body is { } body)
             {
-                if (localFunction.Body is { } body)
-                {
-                    QueueCallableReturns(
-                        body,
-                        localFunction,
-                        pending);
-                }
+                QueueCallableReturns(
+                    body,
+                    localFunction,
+                    pending);
             }
         }
     }
@@ -591,10 +586,14 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsDirectServiceRegistrationMethod(IMethodSymbol definition)
     {
-        return definition.Name is "AddSingleton" or "AddScoped" or "AddTransient"
-               && definition.ContainingType.ToDisplayString() is
-                   "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
-                   or "ModularPipelines.Extensions.PipelineBuilderExtensions";
+        var containingType = definition.ContainingType.ToDisplayString();
+        return (definition.Name is "AddSingleton" or "AddScoped" or "AddTransient"
+                && containingType is
+                    "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
+                    or "ModularPipelines.Extensions.PipelineBuilderExtensions")
+               || (definition.Name is "Singleton" or "Scoped" or "Transient"
+                   && containingType
+                   == "Microsoft.Extensions.DependencyInjection.ServiceDescriptor");
     }
 
     private static bool RegistersModuleService(
