@@ -34,6 +34,11 @@ public interface ICliScraper
     CliGenerationPlatform GenerationPlatform => CliGenerationPlatform.Linux;
 
     /// <summary>
+    /// Whether this integration is ready for catalog-driven generation automation.
+    /// </summary>
+    bool IncludeInGenerationMatrix => true;
+
+    /// <summary>
     /// Whether the CLI tool is available on the system.
     /// </summary>
     Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default);

@@ -52,6 +52,9 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </summary>
     public virtual CliGenerationPlatform GenerationPlatform => CliGenerationPlatform.Linux;
 
+    /// <inheritdoc />
+    public virtual bool IncludeInGenerationMatrix => true;
+
     #endregion
 
     #region Virtual Properties - Can Override

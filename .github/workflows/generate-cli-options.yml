@@ -62,7 +62,9 @@ jobs:
 
           create_matrix() {
             jq -c --arg platform "$1" \
-              '{include: [.[] | select(.generationPlatform == $platform) | {
+              '{include: [.[] | select(
+                .generationPlatform == $platform and .includeInGenerationMatrix
+              ) | {
                 tool: .toolName,
                 package: .packageName,
                 prefix: .namespacePrefix,
