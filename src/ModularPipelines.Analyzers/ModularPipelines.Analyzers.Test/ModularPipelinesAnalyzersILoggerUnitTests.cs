@@ -112,6 +112,40 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string DirectiveLoggerConstructorSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    public Module1({{|#0:ILogger<Module1> logger|}})
+    {{
+#pragma warning disable CS0618
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string FixedDirectiveLoggerConstructorSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    public Module1()
+    {{
+#pragma warning disable CS0618
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string BadPrivateConstructorSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -517,6 +551,17 @@ public class Module1 : Module<List<string>>
             AttributedLoggerConstructorSource,
             expected,
             FixedAttributedLoggerConstructorSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Preserves_Constructor_Containing_Directives()
+    {
+        var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            DirectiveLoggerConstructorSource,
+            expected,
+            FixedDirectiveLoggerConstructorSource);
     }
 
     [TestMethod]

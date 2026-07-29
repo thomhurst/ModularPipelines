@@ -336,6 +336,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
                                 && remainingStatements == 0
                                 && constructor.Initializer is null
                                 && constructor.AttributeLists.Count == 0
+                                && !constructor.ContainsDirectives
                                 && constructor.Modifiers.Any(SyntaxKind.PublicKeyword)
                                 && IsOnlyInstanceConstructor(constructor);
 
