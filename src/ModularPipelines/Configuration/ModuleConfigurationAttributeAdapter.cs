@@ -34,7 +34,8 @@ internal static class ModuleConfigurationAttributeAdapter
         {
             SkipCondition = configured.SkipCondition,
             Timeout = configured.Timeout,
-            RetryPolicyFactory = configured.RetryPolicyFactory,
+            RetryConfiguration = configured.RetryConfiguration,
+            AdvancedRetryPolicyFactory = configured.AdvancedRetryPolicyFactory,
             IgnoreFailuresCondition = configured.IgnoreFailuresCondition,
             AlwaysRun = configured.AlwaysRun,
             ParallelConstraintKeys = configured.ParallelConstraintKeys

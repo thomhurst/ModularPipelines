@@ -389,7 +389,7 @@ public class SyncModuleTests : TestBase
         public int ExecutionCount { get; private set; }
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithRetryCount(3)
+            .WithRetry(3, TimeSpan.Zero)
             .Build();
 
         protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)

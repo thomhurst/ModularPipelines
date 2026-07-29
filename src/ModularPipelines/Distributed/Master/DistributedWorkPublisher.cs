@@ -55,7 +55,7 @@ internal class DistributedWorkPublisher(
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfig(
                 TimeoutSeconds: config.Timeout is not null ? (int?) config.Timeout.Value.TotalSeconds : null,
-                RetryCount: 0, // Retry policies are Polly IAsyncPolicy factories, not portable across processes
+                RetryCount: config.RetryConfiguration?.Count ?? 0,
                 AlwaysRun: config.AlwaysRun
             ),
             DependencyResults: dependencyResults

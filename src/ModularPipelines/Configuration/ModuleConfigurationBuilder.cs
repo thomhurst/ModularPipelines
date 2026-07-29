@@ -27,7 +27,7 @@ namespace ModularPipelines.Configuration;
 ///         ? SkipDecision.Skip("Configured skip condition returned true")
 ///         : SkipDecision.DoNotSkip)
 ///     .WithTimeout(TimeSpan.FromMinutes(5))
-///     .WithRetryCount(3)
+///     .WithRetry(3)
 ///     .WithIgnoreFailures()
 ///     .WithAlwaysRun()
 ///     .Build();
@@ -39,13 +39,19 @@ public sealed class ModuleConfigurationBuilder
     private readonly List<DeclaredDependency> _dependencies = [];
     private readonly List<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>> _skipConditions = [];
     private TimeSpan? _timeout;
-    private Func<IModuleContext, IAsyncPolicy>? _retryPolicyFactory;
+    private ModuleRetryConfiguration? _retryConfiguration;
+    private Func<IModuleContext, IAsyncPolicy>? _advancedRetryPolicyFactory;
     private Func<IModuleContext, Exception, Task<bool>>? _ignoreFailuresCondition;
     private bool _alwaysRun;
     private string[]? _parallelConstraintKeys;
     private ModulePriority? _priority;
     private ExecutionType? _executionType;
     private string? _category;
+
+    /// <summary>
+    /// Gets advanced configuration APIs that expose third-party policy abstractions.
+    /// </summary>
+    public AdvancedModuleConfigurationBuilder Advanced => new(this);
 
     #region WithSkipWhen Overloads
 
@@ -244,43 +250,34 @@ public sealed class ModuleConfigurationBuilder
 
     #endregion
 
-    #region WithRetryPolicy Overloads
+    #region WithRetry
 
     /// <summary>
-    /// Sets a retry policy for module execution.
+    /// Configures retries with exponential backoff and jitter.
     /// </summary>
-    /// <param name="policy">The Polly async policy to use for retries.</param>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithRetryPolicy(IAsyncPolicy policy)
-    {
-        _retryPolicyFactory = _ => policy;
-        return this;
-    }
-
-    /// <summary>
-    /// Sets a retry policy factory that creates the policy based on the module context.
-    /// </summary>
-    /// <param name="factory">A factory function that creates a Polly async policy using the module context.</param>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithRetryPolicy(Func<IModuleContext, IAsyncPolicy> factory)
-    {
-        _retryPolicyFactory = factory;
-        return this;
-    }
-
-    /// <summary>
-    /// Sets a simple retry count using an exponential backoff strategy.
-    /// </summary>
-    /// <param name="count">The number of retry attempts.</param>
+    /// <param name="count">The number of retry attempts after the initial execution.</param>
+    /// <param name="baseDelay">The first exponential-backoff ceiling. Defaults to 100 milliseconds.</param>
+    /// <param name="shouldRetry">An optional predicate that selects retryable exceptions.</param>
     /// <returns>This builder instance for method chaining.</returns>
     /// <remarks>
-    /// This creates a retry policy with exponential backoff where each retry waits
-    /// (attempt^2 * 100) milliseconds before the next attempt.
+    /// Each delay uses equal jitter between half and all of its exponential-backoff ceiling.
+    /// A null <paramref name="shouldRetry"/> retries every exception handled by the retry engine.
     /// </remarks>
-    public ModuleConfigurationBuilder WithRetryCount(int count)
+    public ModuleConfigurationBuilder WithRetry(
+        int count,
+        TimeSpan? baseDelay = null,
+        Func<Exception, bool>? shouldRetry = null)
     {
-        _retryPolicyFactory = _ => Policy.Handle<Exception>()
-            .WaitAndRetryAsync(count, attempt => TimeSpan.FromMilliseconds(attempt * attempt * 100));
+        ArgumentOutOfRangeException.ThrowIfNegative(count);
+
+        var retryBaseDelay = baseDelay ?? ModuleRetryConfiguration.DefaultBaseDelay;
+        if (retryBaseDelay < TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(baseDelay), baseDelay, "The retry base delay cannot be negative.");
+        }
+
+        _retryConfiguration = new ModuleRetryConfiguration(count, retryBaseDelay, shouldRetry);
+        _advancedRetryPolicyFactory = null;
         return this;
     }
 
@@ -346,7 +343,8 @@ public sealed class ModuleConfigurationBuilder
         {
             SkipCondition = ComposeSkipConditions(),
             Timeout = _timeout,
-            RetryPolicyFactory = _retryPolicyFactory,
+            RetryConfiguration = _retryConfiguration,
+            AdvancedRetryPolicyFactory = _advancedRetryPolicyFactory,
             IgnoreFailuresCondition = _ignoreFailuresCondition,
             AlwaysRun = _alwaysRun,
             ParallelConstraintKeys = _parallelConstraintKeys,
@@ -386,6 +384,13 @@ public sealed class ModuleConfigurationBuilder
 
             return SkipDecision.Skip(reasons is null ? null : string.Join("; ", reasons));
         };
+    }
+
+    internal ModuleConfigurationBuilder SetAdvancedRetryPolicy(Func<IModuleContext, IAsyncPolicy> factory)
+    {
+        _advancedRetryPolicyFactory = factory;
+        _retryConfiguration = null;
+        return this;
     }
 
     private static void ValidateModuleType(Type moduleType)

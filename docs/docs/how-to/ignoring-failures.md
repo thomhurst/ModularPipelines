@@ -74,7 +74,7 @@ Ignoring failures can be combined with other module behaviors:
 public class ResilientModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithRetryCount(3)  // Try 3 times first
+        .WithRetry(3)  // Try 3 times first
         .WithIgnoreFailuresWhen((ctx, ex) => ex is HttpRequestException)  // Then ignore HTTP errors
         .WithAlwaysRun()  // Run even if dependencies failed
         .Build();

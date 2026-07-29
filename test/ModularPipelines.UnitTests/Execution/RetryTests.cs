@@ -69,11 +69,55 @@ public class RetryTests : TestBase
         }
     }
 
+    private sealed class RetryableTestException : Exception
+    {
+    }
+
+    private class FailedModuleWithFilteredRetries : Module<bool>
+    {
+        internal int ExecutionCount;
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithRetry(
+                DefaultRetryCount,
+                TimeSpan.Zero,
+                exception => exception is RetryableTestException)
+            .Build();
+
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            ExecutionCount++;
+
+            return ExecutionCount == ExpectedExecutionCountAfterRetries
+                ? Task.FromResult(true)
+                : Task.FromException<bool>(new RetryableTestException());
+        }
+    }
+
+    private class FailedModuleWithRejectedRetry : Module<bool>
+    {
+        internal int ExecutionCount;
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithRetry(
+                DefaultRetryCount,
+                TimeSpan.Zero,
+                exception => exception is RetryableTestException)
+            .Build();
+
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            ExecutionCount++;
+            return Task.FromException<bool>(new InvalidOperationException());
+        }
+    }
+
     private class FailedModuleWithCustomRetryPolicy : Module<string>
     {
         internal int ExecutionCount;
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .Advanced
             .WithRetryPolicy(Policy
                 .Handle<Exception>()
                 .WaitAndRetryAsync(DefaultRetryCount, _ => TimeSpan.Zero))
@@ -99,6 +143,7 @@ public class RetryTests : TestBase
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
+            .Advanced
             .WithRetryPolicy(Policy
                 .Handle<Exception>()
                 .WaitAndRetryAsync(DefaultRetryCount, _ => TimeSpan.FromMilliseconds(RetryDelayMs)))
@@ -190,6 +235,39 @@ public class RetryTests : TestBase
             await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
             await Assert.That(result.ExceptionOrDefault).IsNull();
         }
+    }
+
+    [Test]
+    public async Task When_Error_Matches_Filter_Then_Retry()
+    {
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<FailedModuleWithFilteredRetries>()
+            .BuildAsync();
+
+        await host.RunAsync();
+
+        var module = host.Services.GetServices<IModule>().OfType<FailedModuleWithFilteredRetries>().Single();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(FailedModuleWithFilteredRetries))!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
+            await Assert.That(result.ExceptionOrDefault).IsNull();
+        }
+    }
+
+    [Test]
+    public async Task When_Error_DoesNotMatch_Filter_Then_DoNotRetry()
+    {
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<FailedModuleWithRejectedRetry>()
+            .BuildAsync();
+
+        await Assert.ThrowsAsync<ModuleFailedException>(() => host.RunAsync());
+
+        var module = host.Services.GetServices<IModule>().OfType<FailedModuleWithRejectedRetry>().Single();
+        await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
     }
 
     [Test]

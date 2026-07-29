@@ -35,11 +35,15 @@ public class ModuleConfigurationTests
     }
 
     [Test]
-    public async Task Default_RetryPolicyFactory_IsNull()
+    public async Task Default_RetryConfiguration_IsNull()
     {
         var config = ModuleConfiguration.Default;
 
-        await Assert.That(config.RetryPolicyFactory).IsNull();
+        using (Assert.Multiple())
+        {
+            await Assert.That(config.RetryConfiguration).IsNull();
+            await Assert.That(config.AdvancedRetryPolicyFactory).IsNull();
+        }
     }
 
     [Test]
@@ -230,50 +234,121 @@ public class ModuleConfigurationTests
 
     #endregion
 
-    #region WithRetryPolicy Tests
+    #region WithRetry Tests
 
     [Test]
-    public async Task WithRetryPolicy_Direct_SetsRetryPolicyFactory()
+    public async Task WithRetry_UsesDefaultBaseDelay()
+    {
+        var config = ModuleConfiguration.Create()
+            .WithRetry(3)
+            .Build();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(config.RetryConfiguration).IsNotNull();
+            await Assert.That(config.RetryConfiguration!.Count).IsEqualTo(3);
+            await Assert.That(config.RetryConfiguration.BaseDelay).IsEqualTo(TimeSpan.FromMilliseconds(100));
+            await Assert.That(config.RetryConfiguration.ShouldRetry).IsNull();
+            await Assert.That(config.AdvancedRetryPolicyFactory).IsNull();
+        }
+    }
+
+    [Test]
+    public async Task WithRetry_StoresBaseDelayAndExceptionFilter()
+    {
+        var baseDelay = TimeSpan.FromSeconds(2);
+        Func<Exception, bool> shouldRetry = exception => exception is TimeoutException;
+
+        var config = ModuleConfiguration.Create()
+            .WithRetry(5, baseDelay, shouldRetry)
+            .Build();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(config.RetryConfiguration).IsNotNull();
+            await Assert.That(config.RetryConfiguration!.Count).IsEqualTo(5);
+            await Assert.That(config.RetryConfiguration.BaseDelay).IsEqualTo(baseDelay);
+            await Assert.That(config.RetryConfiguration.ShouldRetry).IsSameReferenceAs(shouldRetry);
+        }
+    }
+
+    [Test]
+    public async Task WithRetry_RejectsNegativeValues()
+    {
+        var countException = Assert.Throws<ArgumentOutOfRangeException>(
+            () => ModuleConfiguration.Create().WithRetry(-1));
+        var delayException = Assert.Throws<ArgumentOutOfRangeException>(
+            () => ModuleConfiguration.Create().WithRetry(1, TimeSpan.FromMilliseconds(-1)));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(countException.ParamName).IsEqualTo("count");
+            await Assert.That(delayException.ParamName).IsEqualTo("baseDelay");
+        }
+    }
+
+    [Test]
+    public async Task Advanced_WithRetryPolicy_Direct_SetsAdvancedRetryPolicyFactory()
     {
         var policy = Policy.NoOpAsync();
 
         var config = ModuleConfiguration.Create()
+            .Advanced
             .WithRetryPolicy(policy)
             .Build();
 
-        await Assert.That(config.RetryPolicyFactory).IsNotNull();
+        await Assert.That(config.AdvancedRetryPolicyFactory).IsNotNull();
 
         var context = Mock.Of<IModuleContext>();
-        var result = config.RetryPolicyFactory!(context);
+        var result = config.AdvancedRetryPolicyFactory!(context);
 
         await Assert.That(result).IsEqualTo(policy);
     }
 
     [Test]
-    public async Task WithRetryPolicy_Factory_SetsRetryPolicyFactory()
+    public async Task Advanced_WithRetryPolicy_Factory_SetsAdvancedRetryPolicyFactory()
     {
         var policy = Policy.NoOpAsync();
 
         var config = ModuleConfiguration.Create()
-            .WithRetryPolicy(ctx => policy)
+            .Advanced
+            .WithRetryPolicy(_ => policy)
             .Build();
 
-        await Assert.That(config.RetryPolicyFactory).IsNotNull();
+        await Assert.That(config.AdvancedRetryPolicyFactory).IsNotNull();
 
         var context = Mock.Of<IModuleContext>();
-        var result = config.RetryPolicyFactory!(context);
+        var result = config.AdvancedRetryPolicyFactory!(context);
 
         await Assert.That(result).IsEqualTo(policy);
     }
 
     [Test]
-    public async Task WithRetryCount_SetsRetryPolicyFactory()
+    public async Task StandardConfigurationSurface_DoesNotExposePollyTypes()
     {
-        var config = ModuleConfiguration.Create()
-            .WithRetryCount(3)
-            .Build();
+        var publicSurfaceTypes = typeof(ModuleConfigurationBuilder)
+            .GetMethods()
+            .SelectMany(method => method.GetParameters()
+                .Select(parameter => parameter.ParameterType)
+                .Append(method.ReturnType))
+            .Concat(typeof(ModuleConfiguration)
+                .GetProperties()
+                .Select(property => property.PropertyType));
 
-        await Assert.That(config.RetryPolicyFactory).IsNotNull();
+        await Assert.That(publicSurfaceTypes.Any(ContainsPollyType)).IsFalse();
+    }
+
+    [Test]
+    [Arguments(0, 100)]
+    [Arguments(1, 200)]
+    public async Task RetryDelayCalculator_AddsBoundedJitter(double jitterFactor, int expectedMilliseconds)
+    {
+        var delay = ModuleRetryPolicyFactory.CalculateDelay(
+            retryAttempt: 2,
+            baseDelay: TimeSpan.FromMilliseconds(100),
+            jitterFactor);
+
+        await Assert.That(delay).IsEqualTo(TimeSpan.FromMilliseconds(expectedMilliseconds));
     }
 
     #endregion
@@ -378,12 +453,10 @@ public class ModuleConfigurationTests
     [Test]
     public async Task Builder_FluentChaining_AllMethodsChain()
     {
-        var policy = Policy.NoOpAsync();
-
         var config = ModuleConfiguration.Create()
             .WithSkipWhen(_ => false)
             .WithTimeout(TimeSpan.FromMinutes(1))
-            .WithRetryPolicy(policy)
+            .WithRetry(3)
             .WithIgnoreFailures()
             .WithAlwaysRun()
             .WithNotInParallel("shared")
@@ -398,7 +471,7 @@ public class ModuleConfigurationTests
         {
             await Assert.That((object?) config.SkipCondition).IsNotNull();
             await Assert.That(config.Timeout).IsEqualTo(TimeSpan.FromMinutes(1));
-            await Assert.That(config.RetryPolicyFactory).IsNotNull();
+            await Assert.That(config.RetryConfiguration).IsNotNull();
             await Assert.That(config.IgnoreFailuresCondition).IsNotNull();
             await Assert.That(config.AlwaysRun).IsTrue();
             await Assert.That(config.ParallelConstraintKeys).IsEquivalentTo(new[] { "shared" });
@@ -411,4 +484,8 @@ public class ModuleConfigurationTests
     }
 
     #endregion
+
+    private static bool ContainsPollyType(Type type) =>
+        type.Namespace?.StartsWith("Polly", StringComparison.Ordinal) == true
+        || type.GetGenericArguments().Any(ContainsPollyType);
 }

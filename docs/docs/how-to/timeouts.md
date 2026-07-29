@@ -41,7 +41,7 @@ public class ResilientModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithTimeout(TimeSpan.FromMinutes(5))
-        .WithRetryCount(3)  // Retry if timeout or other failure occurs
+        .WithRetry(3)  // Retry if timeout or other failure occurs
         .WithIgnoreFailures()  // Don't fail the pipeline if module times out
         .Build();
 
