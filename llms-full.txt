@@ -2516,6 +2516,24 @@ The method must be accessible from its assembly, static, non-generic, declared o
 non-generic accessible type, and accept one `IServiceCollection` parameter. It can return
 either `void` or `IServiceCollection`.
 
+To expose the integration through the discoverable `context.Tools.PrivateWidget` API, keep
+its public `IPipelineContext` extension accessor in the same static class as the attributed
+registration method:
+
+```csharp
+public static IPrivateWidget PrivateWidget(this IPipelineContext context) =>
+    context.Services.Get<IPrivateWidget>();
+```
+
+The generator uses that shared declaring type to associate the accessor with its
+registration. Accessor names must be unique across all referenced integration packages.
+They also cannot use names already exposed by `IToolsContext` or `object`, such as `Get`
+or `GetType`, because instance-member lookup would hide the generated property.
+`context.Tools.*` is the preferred discoverable API; the original extension method remains
+available for compatibility. Generated tool properties use C# 14 extension members. On
+older language versions, registration metadata still generates and `MPG0008` explains why
+the optional `Tools` property was skipped.
+
 Referencing the `ModularPipelines` package includes the source generator as an analyzer.
 The generator emits immutable assembly registration metadata, which each pipeline consumes
 independently. Remove the old parameterless module initializer and any call to
@@ -3915,6 +3933,28 @@ generic or inaccessible to generated code. Make the type and its containing type
 accessible and non-generic. Until fixed, Modular Pipelines uses runtime reflection.
 
 **Severity:** Info
+
+## MPG0008
+
+A tool accessor cannot generate a discoverable `context.Tools` property because
+the consuming project uses a language version older than C# 14. Registration
+metadata still generates. Use C# 14 or preview to enable the property.
+
+**Severity:** Warning
+
+## MPG0009
+
+Multiple tool accessors would generate the same discoverable property with
+conflicting declarations. Give each accessor a unique name.
+
+**Severity:** Error
+
+## MPG0010
+
+A tool accessor would generate a property whose name is already available on
+`IToolsContext` or `object`, such as `Get` or `GetType`. Rename the accessor.
+
+**Severity:** Error
 
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:
