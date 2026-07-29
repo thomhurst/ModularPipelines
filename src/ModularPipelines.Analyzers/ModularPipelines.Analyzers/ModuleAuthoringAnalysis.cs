@@ -1071,7 +1071,8 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
-        foreach (var argument in invocation.Arguments)
+        foreach (var argument in invocation.Arguments.Where(static argument =>
+                     argument.Parameter?.Name == "moduleTypes"))
         {
             if (!TryTrackModuleTypes(
                     argument.Value,
@@ -1107,10 +1108,16 @@ internal static class ModuleAuthoringAnalysis
                     visitedLocals);
             case IArrayCreationOperation { Initializer: { } initializer }:
                 return initializer.ElementValues.All(element =>
-                    TryTrackModuleTypes(element, registeredModules, visitedLocals));
+                    TryTrackModuleTypes(
+                        element,
+                        registeredModules,
+                        CloneVisitedLocals(visitedLocals)));
             case ICollectionExpressionOperation collection:
                 return collection.Elements.All(element =>
-                    TryTrackModuleTypes(element, registeredModules, visitedLocals));
+                    TryTrackModuleTypes(
+                        element,
+                        registeredModules,
+                        CloneVisitedLocals(visitedLocals)));
             case IInvocationOperation invocation
                 when invocation.TargetMethod.Name == "Empty"
                      && invocation.TargetMethod.ContainingType.OriginalDefinition
@@ -1613,7 +1620,9 @@ internal static class ModuleAuthoringAnalysis
                        "System.Threading.Tasks.Task"
                        or "System.Threading.Tasks.Task<TResult>")
                || (method.Name == "StartNew"
-                   && containingType == "System.Threading.Tasks.TaskFactory")
+                   && containingType is
+                       "System.Threading.Tasks.TaskFactory"
+                       or "System.Threading.Tasks.TaskFactory<TResult>")
                || (method.Name == "ForEach"
                    && containingType is
                        "System.Array"
@@ -1633,7 +1642,16 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
-        for (var current = invocation.Parent; current is not null;)
+        return IsDeferredLinqSequenceConsumed(
+            invocation,
+            [with(SymbolEqualityComparer.Default)]);
+    }
+
+    private static bool IsDeferredLinqSequenceConsumed(
+        IOperation operation,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        for (var current = operation.Parent; current is not null;)
         {
             if (current is IArgumentOperation or IConversionOperation)
             {
@@ -1644,6 +1662,27 @@ internal static class ModuleAuthoringAnalysis
             if (current is IForEachLoopOperation)
             {
                 return true;
+            }
+
+            if (current is IVariableInitializerOperation
+                {
+                    Parent: IVariableDeclaratorOperation declarator,
+                })
+            {
+                return IsDeferredLinqLocalConsumed(
+                    current,
+                    declarator.Symbol,
+                    visitedLocals);
+            }
+
+            if (current is ISimpleAssignmentOperation assignment
+                && assignment.Target is ILocalReferenceOperation localReference
+                && HasAncestor(operation, assignment.Value))
+            {
+                return IsDeferredLinqLocalConsumed(
+                    current,
+                    localReference.Local,
+                    visitedLocals);
             }
 
             if (current is not IInvocationOperation parentInvocation)
@@ -1671,6 +1710,42 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return false;
+    }
+
+    private static bool IsDeferredLinqLocalConsumed(
+        IOperation assignment,
+        ILocalSymbol local,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (!visitedLocals.Add(local))
+        {
+            return false;
+        }
+
+        var callable = GetEnclosingCallable(assignment);
+        return GetRoot(assignment)
+            .DescendantsAndSelf()
+            .OfType<ILocalReferenceOperation>()
+            .Where(reference => reference.Syntax.SpanStart > assignment.Syntax.Span.End)
+            .Where(reference => SymbolEqualityComparer.Default.Equals(
+                reference.Local,
+                local))
+            .Where(reference => ReferenceEquals(
+                GetEnclosingCallable(reference),
+                callable))
+            .Where(reference =>
+                FindReachingLocalValue(reference, local) is { } reachingValue
+                && HasAncestor(reachingValue, assignment))
+            .Where(static reference => !IsLocalAssignmentTarget(reference))
+            .Any(reference => IsDeferredLinqSequenceConsumed(
+                reference,
+                CloneVisitedLocals(visitedLocals)));
+    }
+
+    private static bool IsLocalAssignmentTarget(ILocalReferenceOperation reference)
+    {
+        return reference.Parent is ISimpleAssignmentOperation assignment
+               && ReferenceEquals(assignment.Target, reference);
     }
 
     private static bool IsAwaitedBeforeNestedCallable(IOperation operation)

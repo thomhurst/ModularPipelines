@@ -518,6 +518,41 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Repeated_Local_Module_Type_Does_Not_Suppress_Diagnostics()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class RegisteredModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:UnregisteredModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var moduleType = typeof(RegisteredModule);
+                    Pipeline.CreateBuilder().AddModules(moduleType, moduleType);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("UnregisteredModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Reports_Library_Module_When_Entry_Assembly_Is_Scanned()
     {
         var source = $$"""
@@ -2008,6 +2043,31 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Generic_Task_Factory_Callback()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var factory = new TaskFactory<int>();
+                await factory.StartNew(
+                    () =>
+                    {
+                        {|#0:Thread.Sleep(1)|};
+                        return 0;
+                    },
+                    cancellationToken);
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Reports_Async_Safety_Inside_Parallel_ForEachAsync_Callback()
     {
         var source = ModuleSource("""
@@ -2104,6 +2164,59 @@ public class ModuleAuthoringAnalyzerTests
         var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
             .WithLocation(0);
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Stored_Foreach_Linq_Callback()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var values = Enumerable.Range(0, 1).Select(_ =>
+                {
+                    {|#0:Thread.Sleep(1)|};
+                    return 1;
+                });
+
+                foreach (var value in values)
+                {
+                }
+
+                return Task.FromResult<List<string>?>(null);
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Overwritten_Deferred_Linq_Callback()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var values = Enumerable.Range(0, 1).Select(_ =>
+                {
+                    Thread.Sleep(1);
+                    return 1;
+                });
+                values = Enumerable.Empty<int>();
+
+                foreach (var value in values)
+                {
+                }
+
+                return Task.FromResult<List<string>?>(null);
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
