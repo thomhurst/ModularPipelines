@@ -239,6 +239,127 @@ internal class ModuleScheduler : IModuleScheduler
         _schedulerNotification.Release();
     }
 
+    /// <summary>
+    /// Starts the scheduler loop that continuously queues ready modules.
+    /// </summary>
+    public Task RunSchedulerAsync(CancellationToken cancellationToken)
+    {
+        if (IsDisposed)
+        {
+            return Task.CompletedTask;
+        }
+
+        return Task.Run(async () =>
+        {
+            try
+            {
+                _logger.LogDebug("Module scheduler started");
+                await RunSchedulerLoopAsync(cancellationToken).ConfigureAwait(false);
+                CompleteScheduler();
+                _logger.LogDebug("Module scheduler completed");
+            }
+            catch (Exception ex)
+            {
+                // Catch ALL exceptions including fatal ones - we need to complete the channel
+                // and log before re-throwing. The immediate throw ensures exceptions propagate.
+                _logger.LogError(ex, "Module scheduler encountered an error");
+                _readyChannel.Writer.Complete(ex);
+                throw;
+            }
+        }, cancellationToken);
+    }
+
+    /// <summary>
+    /// Marks a module as started execution.
+    /// </summary>
+    /// <returns>True if the module can proceed with execution, false if constraints prevent execution.</returns>
+    public bool MarkModuleStarted(Type moduleType)
+    {
+        if (IsDisposed)
+        {
+            return false;
+        }
+
+        return _stateTracker.MarkModuleStarted(moduleType);
+    }
+
+    /// <summary>
+    /// Marks a module as completed and notifies dependents.
+    /// </summary>
+    public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, Status? statusOverride = null)
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        _stateTracker.MarkModuleCompleted(moduleType, success, exception, statusOverride);
+    }
+
+    /// <summary>
+    /// Gets the completion task for a specific module.
+    /// </summary>
+    public Task<IModule>? GetModuleCompletionTask(Type moduleType)
+    {
+        return _stateTracker.GetModuleCompletionTask(moduleType);
+    }
+
+    /// <summary>
+    /// Gets the state for a specific module.
+    /// </summary>
+    public ModuleState? GetModuleState(Type moduleType)
+    {
+        return _stateTracker.GetModuleState(moduleType);
+    }
+
+    /// <summary>
+    /// Gets statistics about the current scheduler state.
+    /// </summary>
+    public (int Total, int Queued, int Executing, int Completed, int Pending) GetStatistics()
+    {
+        _stateLock.EnterReadLock();
+        try
+        {
+            var snapshot = _stateCounters.CreateSnapshot();
+            return (snapshot.Total, snapshot.Queued, snapshot.Executing, snapshot.Completed, snapshot.Pending);
+        }
+        finally
+        {
+            _stateLock.ExitReadLock();
+        }
+    }
+
+    /// <summary>
+    /// Cancels all modules that are queued or pending (not yet executing)
+    /// This is used when the pipeline is cancelled to ensure TaskCompletionSources are properly completed
+    /// Note: AlwaysRun modules are not cancelled as they should be allowed to complete.
+    /// </summary>
+    public void CancelPendingModules()
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        _stateTracker.CancelPendingModules();
+    }
+
+    public void Dispose()
+    {
+        if (Interlocked.Exchange(ref _disposeState, 1) != 0)
+        {
+            return;
+        }
+
+        _disposalCancellationTokenSource.Cancel();
+        _disposalCancellationTokenSource.Dispose();
+
+        // Wake the scheduler so it observes disposal promptly. The lock and semaphore
+        // deliberately remain undisposed because in-flight workers may still be using
+        // them while unwinding; they become collectible with this scheduler.
+        _schedulerNotification.Release();
+    }
+
     private (
         Dictionary<Type, bool> DependenciesByType,
         HashSet<Type> SelectorDependents) ResolveNewlyAvailableDependencies(Type moduleType)
@@ -485,36 +606,6 @@ internal class ModuleScheduler : IModuleScheduler
             $"Dependency collision detected: {string.Join(" -> ", formattedCycle)}");
     }
 
-    /// <summary>
-    /// Starts the scheduler loop that continuously queues ready modules.
-    /// </summary>
-    public Task RunSchedulerAsync(CancellationToken cancellationToken)
-    {
-        if (IsDisposed)
-        {
-            return Task.CompletedTask;
-        }
-
-        return Task.Run(async () =>
-        {
-            try
-            {
-                _logger.LogDebug("Module scheduler started");
-                await RunSchedulerLoopAsync(cancellationToken).ConfigureAwait(false);
-                CompleteScheduler();
-                _logger.LogDebug("Module scheduler completed");
-            }
-            catch (Exception ex)
-            {
-                // Catch ALL exceptions including fatal ones - we need to complete the channel
-                // and log before re-throwing. The immediate throw ensures exceptions propagate.
-                _logger.LogError(ex, "Module scheduler encountered an error");
-                _readyChannel.Writer.Complete(ex);
-                throw;
-            }
-        }, cancellationToken);
-    }
-
     private async Task RunSchedulerLoopAsync(CancellationToken cancellationToken)
     {
         while (ShouldContinueScheduling(cancellationToken))
@@ -634,97 +725,6 @@ internal class ModuleScheduler : IModuleScheduler
         }
 
         _readyChannel.Writer.Complete();
-    }
-
-    /// <summary>
-    /// Marks a module as started execution.
-    /// </summary>
-    /// <returns>True if the module can proceed with execution, false if constraints prevent execution.</returns>
-    public bool MarkModuleStarted(Type moduleType)
-    {
-        if (IsDisposed)
-        {
-            return false;
-        }
-
-        return _stateTracker.MarkModuleStarted(moduleType);
-    }
-
-    /// <summary>
-    /// Marks a module as completed and notifies dependents.
-    /// </summary>
-    public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, Status? statusOverride = null)
-    {
-        if (IsDisposed)
-        {
-            return;
-        }
-
-        _stateTracker.MarkModuleCompleted(moduleType, success, exception, statusOverride);
-    }
-
-    /// <summary>
-    /// Gets the completion task for a specific module.
-    /// </summary>
-    public Task<IModule>? GetModuleCompletionTask(Type moduleType)
-    {
-        return _stateTracker.GetModuleCompletionTask(moduleType);
-    }
-
-    /// <summary>
-    /// Gets the state for a specific module.
-    /// </summary>
-    public ModuleState? GetModuleState(Type moduleType)
-    {
-        return _stateTracker.GetModuleState(moduleType);
-    }
-
-    /// <summary>
-    /// Gets statistics about the current scheduler state.
-    /// </summary>
-    public (int Total, int Queued, int Executing, int Completed, int Pending) GetStatistics()
-    {
-        _stateLock.EnterReadLock();
-        try
-        {
-            var snapshot = _stateCounters.CreateSnapshot();
-            return (snapshot.Total, snapshot.Queued, snapshot.Executing, snapshot.Completed, snapshot.Pending);
-        }
-        finally
-        {
-            _stateLock.ExitReadLock();
-        }
-    }
-
-    /// <summary>
-    /// Cancels all modules that are queued or pending (not yet executing)
-    /// This is used when the pipeline is cancelled to ensure TaskCompletionSources are properly completed
-    /// Note: AlwaysRun modules are not cancelled as they should be allowed to complete.
-    /// </summary>
-    public void CancelPendingModules()
-    {
-        if (IsDisposed)
-        {
-            return;
-        }
-
-        _stateTracker.CancelPendingModules();
-    }
-
-    public void Dispose()
-    {
-        if (Interlocked.Exchange(ref _disposeState, 1) != 0)
-        {
-            return;
-        }
-
-        _disposalCancellationTokenSource.Cancel();
-        _disposalCancellationTokenSource.Dispose();
-
-        // Wake the scheduler so it observes disposal promptly. The lock and semaphore
-        // deliberately remain undisposed because in-flight workers may still be using
-        // them while unwinding; they become collectible with this scheduler.
-        _schedulerNotification.Release();
     }
 
     /// <summary>
