@@ -38,12 +38,12 @@ public class AzNetworkTrafficManagerEndpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
+    public virtual async Task<CommandResult> CreateAsync(
         AzNetworkTrafficManagerEndpointCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkTrafficManagerEndpointCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkTrafficManagerEndpointCreateOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class AzNetworkTrafficManagerEndpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
+    public virtual async Task<CommandResult> ListAsync(
         AzNetworkTrafficManagerEndpointListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkTrafficManagerEndpointListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkTrafficManagerEndpointListOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -68,12 +68,12 @@ public class AzNetworkTrafficManagerEndpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
+    public virtual async Task<CommandResult> UpdateAsync(
         AzNetworkTrafficManagerEndpointUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkTrafficManagerEndpointUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkTrafficManagerEndpointUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

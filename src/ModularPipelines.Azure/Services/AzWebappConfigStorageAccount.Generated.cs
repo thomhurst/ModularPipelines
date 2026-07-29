@@ -38,12 +38,12 @@ public class AzWebappConfigStorageAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Add(
+    public virtual async Task<CommandResult> AddAsync(
         AzWebappConfigStorageAccountAddOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigStorageAccountAddOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzWebappConfigStorageAccountAddOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class AzWebappConfigStorageAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
+    public virtual async Task<CommandResult> DeleteAsync(
         AzWebappConfigStorageAccountDeleteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigStorageAccountDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzWebappConfigStorageAccountDeleteOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -68,12 +68,12 @@ public class AzWebappConfigStorageAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
+    public virtual async Task<CommandResult> ListAsync(
         AzWebappConfigStorageAccountListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigStorageAccountListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzWebappConfigStorageAccountListOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -83,12 +83,12 @@ public class AzWebappConfigStorageAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
+    public virtual async Task<CommandResult> UpdateAsync(
         AzWebappConfigStorageAccountUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigStorageAccountUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzWebappConfigStorageAccountUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -38,12 +38,12 @@ public class GcloudBigtableOperations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
+    public virtual async Task<CommandResult> DescribeAsync(
         GcloudBigtableOperationsDescribeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableOperationsDescribeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBigtableOperationsDescribeOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class GcloudBigtableOperations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
+    public virtual async Task<CommandResult> ListAsync(
         GcloudBigtableOperationsListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableOperationsListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBigtableOperationsListOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

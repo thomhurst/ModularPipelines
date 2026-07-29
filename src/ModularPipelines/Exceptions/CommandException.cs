@@ -19,7 +19,7 @@ namespace ModularPipelines.Exceptions;
 /// <code>
 /// try
 /// {
-///     await context.Shell.Command.ExecuteCommandLineTool(
+///     await context.Shell.Command.ExecuteCommandLineToolAsync(
 ///         new GenericCommandLineToolOptions("mycommand"));
 /// }
 /// catch (CommandException ex)

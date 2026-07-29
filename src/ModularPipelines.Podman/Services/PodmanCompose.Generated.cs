@@ -48,12 +48,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
+    public virtual async Task<CommandResult> ExecuteAsync(
         PodmanComposeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -63,12 +63,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Attach(
+    public virtual async Task<CommandResult> AttachAsync(
         PodmanComposeAttachOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeAttachOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeAttachOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -78,12 +78,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Build(
+    public virtual async Task<CommandResult> BuildAsync(
         PodmanComposeBuildOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeBuildOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeBuildOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -93,12 +93,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Commit(
+    public virtual async Task<CommandResult> CommitAsync(
         PodmanComposeCommitOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeCommitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeCommitOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -108,12 +108,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Config(
+    public virtual async Task<CommandResult> ConfigAsync(
         PodmanComposeConfigOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeConfigOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -123,12 +123,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cp(
+    public virtual async Task<CommandResult> CpAsync(
         PodmanComposeCpOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeCpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeCpOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -138,12 +138,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
+    public virtual async Task<CommandResult> CreateAsync(
         PodmanComposeCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeCreateOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -153,12 +153,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Down(
+    public virtual async Task<CommandResult> DownAsync(
         PodmanComposeDownOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeDownOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeDownOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -168,12 +168,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Events(
+    public virtual async Task<CommandResult> EventsAsync(
         PodmanComposeEventsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeEventsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeEventsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -183,12 +183,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Exec(
+    public virtual async Task<CommandResult> ExecAsync(
         PodmanComposeExecOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeExecOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeExecOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -198,12 +198,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
+    public virtual async Task<CommandResult> ExportAsync(
         PodmanComposeExportOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeExportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeExportOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -213,12 +213,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Images(
+    public virtual async Task<CommandResult> ImagesAsync(
         PodmanComposeImagesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeImagesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeImagesOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -228,12 +228,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Kill(
+    public virtual async Task<CommandResult> KillAsync(
         PodmanComposeKillOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeKillOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeKillOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -243,12 +243,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Logs(
+    public virtual async Task<CommandResult> LogsAsync(
         PodmanComposeLogsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeLogsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeLogsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -258,12 +258,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Ls(
+    public virtual async Task<CommandResult> LsAsync(
         PodmanComposeLsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeLsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeLsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -273,12 +273,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Pause(
+    public virtual async Task<CommandResult> PauseAsync(
         PodmanComposePauseOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposePauseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposePauseOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -288,12 +288,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Port(
+    public virtual async Task<CommandResult> PortAsync(
         PodmanComposePortOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposePortOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposePortOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -303,12 +303,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Ps(
+    public virtual async Task<CommandResult> PsAsync(
         PodmanComposePsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposePsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposePsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -318,12 +318,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Publish(
+    public virtual async Task<CommandResult> PublishAsync(
         PodmanComposePublishOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposePublishOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposePublishOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -333,12 +333,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Pull(
+    public virtual async Task<CommandResult> PullAsync(
         PodmanComposePullOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposePullOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposePullOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -348,12 +348,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Push(
+    public virtual async Task<CommandResult> PushAsync(
         PodmanComposePushOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposePushOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposePushOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -363,12 +363,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Restart(
+    public virtual async Task<CommandResult> RestartAsync(
         PodmanComposeRestartOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeRestartOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeRestartOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -378,12 +378,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rm(
+    public virtual async Task<CommandResult> RmAsync(
         PodmanComposeRmOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeRmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeRmOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -393,12 +393,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Run(
+    public virtual async Task<CommandResult> RunAsync(
         PodmanComposeRunOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeRunOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -408,12 +408,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Scale(
+    public virtual async Task<CommandResult> ScaleAsync(
         PodmanComposeScaleOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeScaleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeScaleOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -423,12 +423,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Start(
+    public virtual async Task<CommandResult> StartAsync(
         PodmanComposeStartOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeStartOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeStartOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -438,12 +438,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Stats(
+    public virtual async Task<CommandResult> StatsAsync(
         PodmanComposeStatsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeStatsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeStatsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -453,12 +453,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Stop(
+    public virtual async Task<CommandResult> StopAsync(
         PodmanComposeStopOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeStopOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeStopOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -468,12 +468,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Top(
+    public virtual async Task<CommandResult> TopAsync(
         PodmanComposeTopOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeTopOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeTopOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -483,12 +483,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Unpause(
+    public virtual async Task<CommandResult> UnpauseAsync(
         PodmanComposeUnpauseOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeUnpauseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeUnpauseOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -498,12 +498,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Up(
+    public virtual async Task<CommandResult> UpAsync(
         PodmanComposeUpOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeUpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeUpOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -513,12 +513,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Volumes(
+    public virtual async Task<CommandResult> VolumesAsync(
         PodmanComposeVolumesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeVolumesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeVolumesOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -528,12 +528,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Wait(
+    public virtual async Task<CommandResult> WaitAsync(
         PodmanComposeWaitOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeWaitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeWaitOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -543,12 +543,12 @@ public class PodmanCompose : IPodmanCompose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Watch(
+    public virtual async Task<CommandResult> WatchAsync(
         PodmanComposeWatchOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeWatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeWatchOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

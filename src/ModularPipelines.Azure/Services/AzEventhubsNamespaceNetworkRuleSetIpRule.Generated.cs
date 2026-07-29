@@ -38,12 +38,12 @@ public class AzEventhubsNamespaceNetworkRuleSetIpRule
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Add(
+    public virtual async Task<CommandResult> AddAsync(
         AzEventhubsNamespaceNetworkRuleSetIpRuleAddOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceNetworkRuleSetIpRuleAddOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespaceNetworkRuleSetIpRuleAddOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class AzEventhubsNamespaceNetworkRuleSetIpRule
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Remove(
+    public virtual async Task<CommandResult> RemoveAsync(
         AzEventhubsNamespaceNetworkRuleSetIpRuleRemoveOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceNetworkRuleSetIpRuleRemoveOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespaceNetworkRuleSetIpRuleRemoveOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -70,7 +70,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Create(
+    Task<CommandResult> CreateAsync(
         AzVmssCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -82,7 +82,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Deallocate(
+    Task<CommandResult> DeallocateAsync(
         AzVmssDeallocateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -94,7 +94,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteInstances(
+    Task<CommandResult> DeleteInstancesAsync(
         AzVmssDeleteInstancesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -106,7 +106,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Delete(
+    Task<CommandResult> DeleteAsync(
         AzVmssDeleteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -118,7 +118,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListInstances(
+    Task<CommandResult> ListInstancesAsync(
         AzVmssListInstancesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -130,7 +130,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> List(
+    Task<CommandResult> ListAsync(
         AzVmssListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -142,7 +142,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PerformMaintenance(
+    Task<CommandResult> PerformMaintenanceAsync(
         AzVmssPerformMaintenanceOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -154,7 +154,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Reimage(
+    Task<CommandResult> ReimageAsync(
         AzVmssReimageOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -166,7 +166,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Restart(
+    Task<CommandResult> RestartAsync(
         AzVmssRestartOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -178,7 +178,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Scale(
+    Task<CommandResult> ScaleAsync(
         AzVmssScaleOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -190,7 +190,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SetOrchestrationServiceState(
+    Task<CommandResult> SetOrchestrationServiceStateAsync(
         AzVmssSetOrchestrationServiceStateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -202,7 +202,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Show(
+    Task<CommandResult> ShowAsync(
         AzVmssShowOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -214,7 +214,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Start(
+    Task<CommandResult> StartAsync(
         AzVmssStartOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -226,7 +226,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Stop(
+    Task<CommandResult> StopAsync(
         AzVmssStopOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -238,7 +238,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateDomainWalk(
+    Task<CommandResult> UpdateDomainWalkAsync(
         AzVmssUpdateDomainWalkOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -250,7 +250,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateInstances(
+    Task<CommandResult> UpdateInstancesAsync(
         AzVmssUpdateInstancesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -262,7 +262,7 @@ public interface IAzVmss
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Update(
+    Task<CommandResult> UpdateAsync(
         AzVmssUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

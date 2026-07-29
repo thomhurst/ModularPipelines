@@ -66,12 +66,12 @@ public class GcloudSpannerDatabases
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
+    public virtual async Task<CommandResult> AddIamPolicyBindingAsync(
         GcloudSpannerDatabasesAddIamPolicyBindingOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -81,12 +81,12 @@ public class GcloudSpannerDatabases
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ChangeQuorum(
+    public virtual async Task<CommandResult> ChangeQuorumAsync(
         GcloudSpannerDatabasesChangeQuorumOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesChangeQuorumOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesChangeQuorumOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -96,12 +96,12 @@ public class GcloudSpannerDatabases
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
+    public virtual async Task<CommandResult> CreateAsync(
         GcloudSpannerDatabasesCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesCreateOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -111,12 +111,12 @@ public class GcloudSpannerDatabases
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
+    public virtual async Task<CommandResult> DeleteAsync(
         GcloudSpannerDatabasesDeleteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesDeleteOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -126,12 +126,12 @@ public class GcloudSpannerDatabases
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
+    public virtual async Task<CommandResult> DescribeAsync(
         GcloudSpannerDatabasesDescribeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesDescribeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesDescribeOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -141,12 +141,12 @@ public class GcloudSpannerDatabases
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExecuteSql(
+    public virtual async Task<CommandResult> ExecuteSqlAsync(
         GcloudSpannerDatabasesExecuteSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesExecuteSqlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesExecuteSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -156,12 +156,12 @@ public class GcloudSpannerDatabases
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
+    public virtual async Task<CommandResult> GetIamPolicyAsync(
         GcloudSpannerDatabasesGetIamPolicyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesGetIamPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesGetIamPolicyOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -171,12 +171,12 @@ public class GcloudSpannerDatabases
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
+    public virtual async Task<CommandResult> ListAsync(
         GcloudSpannerDatabasesListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesListOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -186,12 +186,12 @@ public class GcloudSpannerDatabases
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
+    public virtual async Task<CommandResult> RemoveIamPolicyBindingAsync(
         GcloudSpannerDatabasesRemoveIamPolicyBindingOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -201,12 +201,12 @@ public class GcloudSpannerDatabases
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Restore(
+    public virtual async Task<CommandResult> RestoreAsync(
         GcloudSpannerDatabasesRestoreOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesRestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesRestoreOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -216,12 +216,12 @@ public class GcloudSpannerDatabases
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
+    public virtual async Task<CommandResult> SetIamPolicyAsync(
         GcloudSpannerDatabasesSetIamPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -231,12 +231,12 @@ public class GcloudSpannerDatabases
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
+    public virtual async Task<CommandResult> UpdateAsync(
         GcloudSpannerDatabasesUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSpannerDatabasesUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -15,7 +15,7 @@ public class BashTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Shell.Bash.Command(new("echo \"Foo bar!\""), cancellationToken: cancellationToken);
+            return await context.Shell.Bash.CommandAsync(new("echo \"Foo bar!\""), cancellationToken: cancellationToken);
         }
     }
 
@@ -26,7 +26,7 @@ public class BashTests : TestBase
             var repositoryInfo = await context.Git().Information.GetInfoAsync()
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");
             var file = repositoryInfo.Root.FindFile(x => x.Name == "BashTest.sh");
-            return await context.Shell.Bash.FromFile(new BashFileOptions(file!), cancellationToken: cancellationToken);
+            return await context.Shell.Bash.FromFileAsync(new BashFileOptions(file!), cancellationToken: cancellationToken);
         }
     }
 

@@ -16,7 +16,7 @@ public class DotNetBuildBuilderTests : TestBase
     {
         var mock = new Mock<ICommandContext>();
         mock
-            .Setup(c => c.ExecuteCommandLineTool(
+            .Setup(c => c.ExecuteCommandLineToolAsync(
                 It.IsAny<CommandLineToolOptions>(),
                 It.IsAny<CommandExecutionOptions>(),
                 It.IsAny<CancellationToken>()))
@@ -312,7 +312,7 @@ public class DotNetBuildBuilderTests : TestBase
         var result = await builder.ExecuteAsync();
 
         await Assert.That(result).IsNotNull();
-        mockCommand.Verify(c => c.ExecuteCommandLineTool(
+        mockCommand.Verify(c => c.ExecuteCommandLineToolAsync(
             It.Is<DotNetBuildOptions>(o =>
                 o.ProjectSolution == "MyProject.csproj" &&
                 o.Configuration == "Release"),
@@ -326,7 +326,7 @@ public class DotNetBuildBuilderTests : TestBase
         var mockCommand = CreateMockCommand();
         CommandExecutionOptions? capturedExecOptions = null;
         mockCommand
-            .Setup(c => c.ExecuteCommandLineTool(
+            .Setup(c => c.ExecuteCommandLineToolAsync(
                 It.IsAny<CommandLineToolOptions>(),
                 It.IsAny<CommandExecutionOptions>(),
                 It.IsAny<CancellationToken>()))

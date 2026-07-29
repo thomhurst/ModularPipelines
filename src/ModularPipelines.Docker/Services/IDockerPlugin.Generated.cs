@@ -25,7 +25,7 @@ public interface IDockerPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Execute(
+    Task<CommandResult> ExecuteAsync(
         DockerPluginOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -37,7 +37,7 @@ public interface IDockerPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Create(
+    Task<CommandResult> CreateAsync(
         DockerPluginCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -49,7 +49,7 @@ public interface IDockerPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Disable(
+    Task<CommandResult> DisableAsync(
         DockerPluginDisableOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -61,7 +61,7 @@ public interface IDockerPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Enable(
+    Task<CommandResult> EnableAsync(
         DockerPluginEnableOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -73,7 +73,7 @@ public interface IDockerPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Inspect(
+    Task<CommandResult> InspectAsync(
         DockerPluginInspectOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -85,7 +85,7 @@ public interface IDockerPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Install(
+    Task<CommandResult> InstallAsync(
         DockerPluginInstallOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -97,7 +97,7 @@ public interface IDockerPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Ls(
+    Task<CommandResult> LsAsync(
         DockerPluginLsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -109,7 +109,7 @@ public interface IDockerPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Push(
+    Task<CommandResult> PushAsync(
         DockerPluginPushOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -121,7 +121,7 @@ public interface IDockerPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Rm(
+    Task<CommandResult> RmAsync(
         DockerPluginRmOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -133,7 +133,7 @@ public interface IDockerPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Upgrade(
+    Task<CommandResult> UpgradeAsync(
         DockerPluginUpgradeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

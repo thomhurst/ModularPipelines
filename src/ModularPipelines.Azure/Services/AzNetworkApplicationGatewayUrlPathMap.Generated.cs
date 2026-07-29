@@ -48,12 +48,12 @@ public class AzNetworkApplicationGatewayUrlPathMap
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
+    public virtual async Task<CommandResult> CreateAsync(
         AzNetworkApplicationGatewayUrlPathMapCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayUrlPathMapCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkApplicationGatewayUrlPathMapCreateOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -63,12 +63,12 @@ public class AzNetworkApplicationGatewayUrlPathMap
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
+    public virtual async Task<CommandResult> DeleteAsync(
         AzNetworkApplicationGatewayUrlPathMapDeleteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayUrlPathMapDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkApplicationGatewayUrlPathMapDeleteOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -78,12 +78,12 @@ public class AzNetworkApplicationGatewayUrlPathMap
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
+    public virtual async Task<CommandResult> UpdateAsync(
         AzNetworkApplicationGatewayUrlPathMapUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayUrlPathMapUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkApplicationGatewayUrlPathMapUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

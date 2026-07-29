@@ -35,7 +35,7 @@ public interface IDockerTrust
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Execute(
+    Task<CommandResult> ExecuteAsync(
         DockerTrustOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -47,7 +47,7 @@ public interface IDockerTrust
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Inspect(
+    Task<CommandResult> InspectAsync(
         DockerTrustInspectOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -59,7 +59,7 @@ public interface IDockerTrust
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Revoke(
+    Task<CommandResult> RevokeAsync(
         DockerTrustRevokeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -71,7 +71,7 @@ public interface IDockerTrust
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Sign(
+    Task<CommandResult> SignAsync(
         DockerTrustSignOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

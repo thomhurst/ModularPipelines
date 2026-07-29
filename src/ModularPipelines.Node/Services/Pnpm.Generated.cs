@@ -32,93 +32,93 @@ internal partial class Pnpm : IPnpm
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Add(
+    public virtual async Task<CommandResult> AddAsync(
         PnpmAddOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PnpmAddOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmAddOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Audit(
+    public virtual async Task<CommandResult> AuditAsync(
         PnpmAuditOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PnpmAuditOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmAuditOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Create(
+    public virtual async Task<CommandResult> CreateAsync(
         PnpmCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PnpmCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmCreateOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Dlx(
+    public virtual async Task<CommandResult> DlxAsync(
         PnpmDlxOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PnpmDlxOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmDlxOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Init(
+    public virtual async Task<CommandResult> InitAsync(
         PnpmInitOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PnpmInitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmInitOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Publish(
+    public virtual async Task<CommandResult> PublishAsync(
         PnpmPublishOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PnpmPublishOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmPublishOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Run(
+    public virtual async Task<CommandResult> RunAsync(
         PnpmRunOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PnpmRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmRunOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Stage(
+    public virtual async Task<CommandResult> StageAsync(
         PnpmStageOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PnpmStageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmStageOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Unlink(
+    public virtual async Task<CommandResult> UnlinkAsync(
         PnpmUnlinkOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PnpmUnlinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmUnlinkOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Why(
+    public virtual async Task<CommandResult> WhyAsync(
         PnpmWhyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PnpmWhyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmWhyOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -47,7 +47,7 @@ public class PushVersionTagModule : Module<CommandResult>
         // Configure remote URL with authentication token
         var token = _gitHubSettings.Value.StandardToken!;
 
-        await context.Git().Commands.Remote(new GitRemoteOptions
+        await context.Git().Commands.Remotes.RemoteAsync(new GitRemoteOptions
         {
             Arguments =
             [
@@ -56,13 +56,12 @@ public class PushVersionTagModule : Module<CommandResult>
             ],
         }, null, cancellationToken);
 
-        await context.Git().Commands.Tag(new GitTagOptions
+        await context.Git().Commands.Branches.TagAsync(new GitTagOptions
         {
             TagName = $"v{versionInformation.ValueOrDefault!}",
         }, cancellationToken: cancellationToken);
 
-        return await context.Git().Commands.Push
-        (
+        return await context.Git().Commands.Remotes.PushAsync(
             new GitPushOptions
             {
                 Tags = true,
@@ -71,7 +70,6 @@ public class PushVersionTagModule : Module<CommandResult>
             {
                 ThrowOnNonZeroExitCode = false,
             },
-            cancellationToken: cancellationToken
-        );
+            cancellationToken: cancellationToken);
     }
 }

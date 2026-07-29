@@ -5,198 +5,198 @@ namespace ModularPipelines.Node;
 
 public interface INpm
 {
-    Task<CommandResult> AccessListPackages(NpmAccessListPackagesOptions? options = default,
+    Task<CommandResult> AccessListPackagesAsync(NpmAccessListPackagesOptions? options = default,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> AccessListCollaborators(NpmAccessListCollaboratorsOptions? options = default,
+    Task<CommandResult> AccessListCollaboratorsAsync(NpmAccessListCollaboratorsOptions? options = default,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> AccessGetStatus(NpmAccessGetStatusOptions? options = default,
+    Task<CommandResult> AccessGetStatusAsync(NpmAccessGetStatusOptions? options = default,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> AccessSet(NpmAccessSetOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> AccessSetAsync(NpmAccessSetOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> AccessGrant(NpmAccessGrantOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> AccessGrantAsync(NpmAccessGrantOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> AccessRevoke(NpmAccessRevokeOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> AccessRevokeAsync(NpmAccessRevokeOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Adduser(NpmAdduserOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> AdduserAsync(NpmAdduserOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Audit(NpmAuditOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> AuditAsync(NpmAuditOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Bugs(NpmBugsOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> BugsAsync(NpmBugsOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> CacheAdd(NpmCacheAddOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> CacheAddAsync(NpmCacheAddOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> CacheClean(NpmCacheCleanOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> CacheCleanAsync(NpmCacheCleanOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> CacheLs(NpmCacheLsOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> CacheLsAsync(NpmCacheLsOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> CacheVerify(NpmCacheVerifyOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> CacheVerifyAsync(NpmCacheVerifyOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Ci(NpmCiOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> CiAsync(NpmCiOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Completion(NpmCompletionOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> CompletionAsync(NpmCompletionOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ConfigSet(NpmConfigSetOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigSetAsync(NpmConfigSetOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ConfigSetRegistry(NpmConfigSetRegistryOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigSetRegistryAsync(NpmConfigSetRegistryOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ConfigGet(NpmConfigGetOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigGetAsync(NpmConfigGetOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ConfigDelete(NpmConfigDeleteOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigDeleteAsync(NpmConfigDeleteOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ConfigList(NpmConfigListOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigListAsync(NpmConfigListOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ConfigEdit(NpmConfigEditOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigEditAsync(NpmConfigEditOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ConfigFix(NpmConfigFixOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigFixAsync(NpmConfigFixOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Dedupe(NpmDedupeOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> DedupeAsync(NpmDedupeOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Deprecate(NpmDeprecateOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> DeprecateAsync(NpmDeprecateOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Diff(NpmDiffOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> DiffAsync(NpmDiffOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Docs(NpmDocsOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> DocsAsync(NpmDocsOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Doctor(NpmDoctorOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> DoctorAsync(NpmDoctorOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Edit(NpmEditOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> EditAsync(NpmEditOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Exec(NpmExecOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ExecAsync(NpmExecOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ExecC(NpmExecCOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> ExecCAsync(NpmExecCOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Explain(NpmExplainOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> ExplainAsync(NpmExplainOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Explore(NpmExploreOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> ExploreAsync(NpmExploreOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Fund(NpmFundOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> FundAsync(NpmFundOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Help(NpmHelpOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> HelpAsync(NpmHelpOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> HookAdd(NpmHookAddOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> HookAddAsync(NpmHookAddOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> HookLs(NpmHookLsOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> HookLsAsync(NpmHookLsOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> HookRm(NpmHookRmOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> HookRmAsync(NpmHookRmOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> HookUpdate(NpmHookUpdateOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> HookUpdateAsync(NpmHookUpdateOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Init(NpmInitOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> InitAsync(NpmInitOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Install(NpmInstallOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> InstallAsync(NpmInstallOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Link(NpmLinkOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> LinkAsync(NpmLinkOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Login(NpmLoginOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> LoginAsync(NpmLoginOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Logout(NpmLogoutOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> LogoutAsync(NpmLogoutOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Ls(NpmLsOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> LsAsync(NpmLsOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> OrgSet(NpmOrgSetOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> OrgSetAsync(NpmOrgSetOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> OrgRm(NpmOrgRmOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> OrgRmAsync(NpmOrgRmOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> OrgLs(NpmOrgLsOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> OrgLsAsync(NpmOrgLsOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Outdated(NpmOutdatedOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> OutdatedAsync(NpmOutdatedOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> OwnerAdd(NpmOwnerAddOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> OwnerAddAsync(NpmOwnerAddOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> OwnerRm(NpmOwnerRmOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> OwnerRmAsync(NpmOwnerRmOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> OwnerLs(NpmOwnerLsOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> OwnerLsAsync(NpmOwnerLsOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Pack(NpmPackOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> PackAsync(NpmPackOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Ping(NpmPingOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> PingAsync(NpmPingOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> PkgSet(NpmPkgSetOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> PkgSetAsync(NpmPkgSetOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> PkgGet(NpmPkgGetOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> PkgGetAsync(NpmPkgGetOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> PkgDelete(NpmPkgDeleteOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> PkgDeleteAsync(NpmPkgDeleteOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> PkgFix(NpmPkgFixOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> PkgFixAsync(NpmPkgFixOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Prefix(NpmPrefixOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> PrefixAsync(NpmPrefixOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ProfileEnable2fa(NpmProfileEnable2faOptions? options = default,
+    Task<CommandResult> ProfileEnable2faAsync(NpmProfileEnable2faOptions? options = default,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ProfileDisable2fa(NpmProfileDisable2faOptions? options = default,
+    Task<CommandResult> ProfileDisable2faAsync(NpmProfileDisable2faOptions? options = default,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ProfileGet(NpmProfileGetOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> ProfileGetAsync(NpmProfileGetOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ProfileSet(NpmProfileSetOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ProfileSetAsync(NpmProfileSetOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Prune(NpmPruneOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> PruneAsync(NpmPruneOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Publish(NpmPublishOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> PublishAsync(NpmPublishOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Query(NpmQueryOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> QueryAsync(NpmQueryOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Rebuild(NpmRebuildOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> RebuildAsync(NpmRebuildOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Repo(NpmRepoOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> RepoAsync(NpmRepoOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Restart(NpmRestartOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> RestartAsync(NpmRestartOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Root(NpmRootOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> RootAsync(NpmRootOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Run(NpmRunOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> RunAsync(NpmRunOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Sbom(NpmSbomOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> SbomAsync(NpmSbomOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Search(NpmSearchOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> SearchAsync(NpmSearchOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Shrinkwrap(NpmShrinkwrapOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> ShrinkwrapAsync(NpmShrinkwrapOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Star(NpmStarOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> StarAsync(NpmStarOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Stars(NpmStarsOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> StarsAsync(NpmStarsOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Start(NpmStartOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> StartAsync(NpmStartOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Stop(NpmStopOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> StopAsync(NpmStopOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> TeamCreate(NpmTeamCreateOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> TeamCreateAsync(NpmTeamCreateOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> TeamDestroy(NpmTeamDestroyOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> TeamDestroyAsync(NpmTeamDestroyOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> TeamAdd(NpmTeamAddOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> TeamAddAsync(NpmTeamAddOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> TeamRm(NpmTeamRmOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> TeamRmAsync(NpmTeamRmOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> TeamLs(NpmTeamLsOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> TeamLsAsync(NpmTeamLsOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Test(NpmTestOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> TestAsync(NpmTestOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> TokenList(NpmTokenListOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> TokenListAsync(NpmTokenListOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> TokenRevoke(NpmTokenRevokeOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> TokenRevokeAsync(NpmTokenRevokeOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> TokenCreate(NpmTokenCreateOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> TokenCreateAsync(NpmTokenCreateOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Uninstall(NpmUninstallOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> UninstallAsync(NpmUninstallOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Unpublish(NpmUnpublishOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> UnpublishAsync(NpmUnpublishOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Unstar(NpmUnstarOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> UnstarAsync(NpmUnstarOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Update(NpmUpdateOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateAsync(NpmUpdateOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Version(NpmVersionOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> VersionAsync(NpmVersionOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> View(NpmViewOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> ViewAsync(NpmViewOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Whoami(NpmWhoamiOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> WhoamiAsync(NpmWhoamiOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Npx(NpxOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> NpxAsync(NpxOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> NpxC(NpxCOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> NpxCAsync(NpxCOptions? options = default, CancellationToken cancellationToken = default);
 }

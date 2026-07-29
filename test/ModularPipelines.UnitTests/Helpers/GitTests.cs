@@ -15,7 +15,7 @@ public class GitTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Git().Commands.Git(new GitBaseOptions
+            return await context.Git().Commands.Repository.GitAsync(new GitBaseOptions
             {
                 Version = true,
             }, cancellationToken: cancellationToken);
@@ -70,5 +70,23 @@ public class GitTests : TestBase
         await using var commits = git.Information.Commits().GetAsyncEnumerator();
 
         await Assert.That(await commits.MoveNextAsync()).IsTrue();
+    }
+
+    [Test]
+    public async Task Commands_Are_Grouped_And_Asynchronous()
+    {
+        var groups = typeof(IGitCommands).GetProperties();
+        var commandMethods = groups
+            .SelectMany(property => property.PropertyType.GetMethods())
+            .Where(method => !method.IsSpecialName)
+            .ToList();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(groups).Count().IsEqualTo(6);
+            await Assert.That(typeof(IGitCommands).GetMethods().All(method => method.IsSpecialName)).IsTrue();
+            await Assert.That(commandMethods).Count().IsEqualTo(80);
+            await Assert.That(commandMethods.All(method => method.Name.EndsWith("Async", StringComparison.Ordinal))).IsTrue();
+        }
     }
 }

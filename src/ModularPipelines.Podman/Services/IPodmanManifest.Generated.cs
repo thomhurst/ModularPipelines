@@ -25,7 +25,7 @@ public interface IPodmanManifest
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Execute(
+    Task<CommandResult> ExecuteAsync(
         PodmanManifestOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -37,7 +37,7 @@ public interface IPodmanManifest
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Add(
+    Task<CommandResult> AddAsync(
         PodmanManifestAddOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -49,7 +49,7 @@ public interface IPodmanManifest
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Annotate(
+    Task<CommandResult> AnnotateAsync(
         PodmanManifestAnnotateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -61,7 +61,7 @@ public interface IPodmanManifest
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Create(
+    Task<CommandResult> CreateAsync(
         PodmanManifestCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -73,7 +73,7 @@ public interface IPodmanManifest
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Inspect(
+    Task<CommandResult> InspectAsync(
         PodmanManifestInspectOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -85,7 +85,7 @@ public interface IPodmanManifest
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Push(
+    Task<CommandResult> PushAsync(
         PodmanManifestPushOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

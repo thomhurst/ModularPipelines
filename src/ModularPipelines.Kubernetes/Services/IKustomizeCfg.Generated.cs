@@ -25,7 +25,7 @@ public interface IKustomizeCfg
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Execute(
+    Task<CommandResult> ExecuteAsync(
         KustomizeCfgOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -37,7 +37,7 @@ public interface IKustomizeCfg
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Cat(
+    Task<CommandResult> CatAsync(
         KustomizeCfgCatOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -49,7 +49,7 @@ public interface IKustomizeCfg
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Count(
+    Task<CommandResult> CountAsync(
         KustomizeCfgCountOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -61,7 +61,7 @@ public interface IKustomizeCfg
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Grep(
+    Task<CommandResult> GrepAsync(
         KustomizeCfgGrepOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -73,7 +73,7 @@ public interface IKustomizeCfg
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Tree(
+    Task<CommandResult> TreeAsync(
         KustomizeCfgTreeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

@@ -21,7 +21,7 @@ using ModularPipelines.Jq.Extensions;
 using ModularPipelines.Jq.Options;
 using ModularPipelines.Models;
 
-var result = await context.Jq().Execute(
+var result = await context.Jq().ExecuteAsync(
     new JqExecuteOptions
     {
         RawOutput = true,

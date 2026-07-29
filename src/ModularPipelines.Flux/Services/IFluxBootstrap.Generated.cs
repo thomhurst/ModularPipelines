@@ -25,7 +25,7 @@ public interface IFluxBootstrap
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Execute(
+    Task<CommandResult> ExecuteAsync(
         FluxBootstrapOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -37,7 +37,7 @@ public interface IFluxBootstrap
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> BitbucketServer(
+    Task<CommandResult> BitbucketServerAsync(
         FluxBootstrapBitbucketServerOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -49,7 +49,7 @@ public interface IFluxBootstrap
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Gitea(
+    Task<CommandResult> GiteaAsync(
         FluxBootstrapGiteaOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -61,7 +61,7 @@ public interface IFluxBootstrap
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Github(
+    Task<CommandResult> GithubAsync(
         FluxBootstrapGithubOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -73,7 +73,7 @@ public interface IFluxBootstrap
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Gitlab(
+    Task<CommandResult> GitlabAsync(
         FluxBootstrapGitlabOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -85,7 +85,7 @@ public interface IFluxBootstrap
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Git(
+    Task<CommandResult> GitAsync(
         FluxBootstrapGitOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

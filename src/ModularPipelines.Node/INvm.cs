@@ -4,11 +4,11 @@ namespace ModularPipelines.Node;
 
 public interface INvm
 {
-    Task<CommandResult> Use(string version, CancellationToken cancellationToken = default);
+    Task<CommandResult> UseAsync(string version, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Install(string version, CancellationToken cancellationToken = default);
+    Task<CommandResult> InstallAsync(string version, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Version(CancellationToken cancellationToken = default);
+    Task<CommandResult> VersionAsync(CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Which(CancellationToken cancellationToken = default);
+    Task<CommandResult> WhichAsync(CancellationToken cancellationToken = default);
 }

@@ -52,6 +52,6 @@ public class ShellcheckOptionsTests : TestBase
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
     {
         var command = await GetService<ICommandContext>();
-        return await command.ExecuteCommandLineTool(options, new CommandExecutionOptions { InternalDryRun = true });
+        return await command.ExecuteCommandLineToolAsync(options, new CommandExecutionOptions { InternalDryRun = true });
     }
 }

@@ -15,6 +15,9 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
+/// <summary>
+/// Provides predefined installers for common development tools.
+/// </summary>
 [ExcludeFromCodeCoverage]
 public partial class PredefinedInstallers : IPredefinedInstallersContext
 {
@@ -26,9 +29,9 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     /// <remarks>
     /// These versions are used to construct download URLs for various installers.
     /// Check the respective project repositories for the latest available versions:
-    /// - PowerShell: https://github.com/PowerShell/PowerShell/releases
-    /// - NVM for Windows: https://github.com/coreybutler/nvm-windows/releases
-    /// - NVM for Unix: https://github.com/nvm-sh/nvm/releases
+    /// - PowerShell: https://github.com/PowerShell/PowerShell/releases.
+    /// - NVM for Windows: https://github.com/coreybutler/nvm-windows/releases.
+    /// - NVM for Unix: https://github.com/nvm-sh/nvm/releases.
     /// </remarks>
     private static class Versions
     {
@@ -84,9 +87,9 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     }
 
     /// <inheritdoc/>
-    public virtual async Task<CommandResult> Chocolatey()
+    public virtual async Task<CommandResult> ChocolateyAsync()
     {
-        return await _command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("cmd")
+        return await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("cmd")
         {
             Arguments =
             [
@@ -106,7 +109,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     }
 
     /// <inheritdoc/>
-    public async virtual Task<CommandResult> Powershell7()
+    public virtual async Task<CommandResult> Powershell7Async()
     {
         var operatingSystem = _environmentContext.OperatingSystem;
 
@@ -115,18 +118,18 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
             var arch = _environmentContext.Is64BitOperatingSystem ? "x64" : "x86";
             var url = $"https://github.com/PowerShell/PowerShell/releases/download/v{Versions.PowerShell7}/PowerShell-{Versions.PowerShell7}-win-{arch}.msi";
 
-            return await _windowsInstaller.InstallMsi(new MsiInstallerOptions(url)).ConfigureAwait(false);
+            return await _windowsInstaller.InstallMsiAsync(new MsiInstallerOptions(url)).ConfigureAwait(false);
         }
 
         if (operatingSystem == OperatingSystemIdentifier.MacOS)
         {
-            return await _macInstaller.InstallFromBrew(new MacBrewOptions("powershell")).ConfigureAwait(false);
+            return await _macInstaller.InstallFromBrewAsync(new MacBrewOptions("powershell")).ConfigureAwait(false);
         }
 
         var linuxUrl = $"https://github.com/PowerShell/PowerShell/releases/download/v{Versions.PowerShell7}/powershell_{Versions.PowerShell7}-1.deb_amd64.deb";
         var linuxFile = await _downloader.DownloadFileAsync(new DownloadFileOptions(new Uri(linuxUrl))).ConfigureAwait(false);
 
-        return await _linuxInstaller.InstallFromDpkg(new DpkgInstallOptions(linuxFile)).ConfigureAwait(false);
+        return await _linuxInstaller.InstallFromDpkgAsync(new DpkgInstallOptions(linuxFile)).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -164,19 +167,19 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
         var bashScript = await _downloader.DownloadFileAsync(
             new DownloadFileOptions(new Uri(nvmLinuxUrl))).ConfigureAwait(false);
 
-        await _bash.FromFile(new BashFileOptions(bashScript)).ConfigureAwait(false);
+        await _bash.FromFileAsync(new BashFileOptions(bashScript)).ConfigureAwait(false);
 
-        await _bash.Command(new BashCommandOptions("export NVM_DIR=\"$HOME/.nvm\"")).ConfigureAwait(false);
-        await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"")).ConfigureAwait(false);
-        await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\"")).ConfigureAwait(false);
-        await _bash.Command(new BashCommandOptions("source ~/.bashrc")).ConfigureAwait(false);
+        await _bash.CommandAsync(new BashCommandOptions("export NVM_DIR=\"$HOME/.nvm\"")).ConfigureAwait(false);
+        await _bash.CommandAsync(new BashCommandOptions("[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"")).ConfigureAwait(false);
+        await _bash.CommandAsync(new BashCommandOptions("[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\"")).ConfigureAwait(false);
+        await _bash.CommandAsync(new BashCommandOptions("source ~/.bashrc")).ConfigureAwait(false);
 
         var nvmDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nvm");
         return new File(nvmDir);
     }
 
     /// <inheritdoc/>
-    public virtual async Task<CommandResult> Node(string version = "--lts")
+    public virtual async Task<CommandResult> NodeAsync(string version = "--lts")
     {
         ValidateNodeVersion(version);
 
@@ -185,7 +188,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
         if (OperatingSystem.IsWindows())
         {
             // Windows: CliWrap handles argument escaping automatically via WithArguments()
-            return await _command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
+            return await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
             {
                 Arguments = ["install", version],
             }).ConfigureAwait(false);
@@ -194,7 +197,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
         // Linux/Mac: Use shell escaping since BashCommandOptions uses string interpolation.
         // The validation regex ensures no single quotes in version, making this escaping safe.
         var escapedVersion = EscapeShellArgument(version);
-        return await _bash.Command(new BashCommandOptions($"nvm install {escapedVersion}")).ConfigureAwait(false);
+        return await _bash.CommandAsync(new BashCommandOptions($"nvm install {escapedVersion}")).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -333,7 +333,7 @@ public class CommandBuilderBaseTests : TestBase
             0);
 
         mockCommand
-            .Setup(c => c.ExecuteCommandLineTool(
+            .Setup(c => c.ExecuteCommandLineToolAsync(
                 It.IsAny<CommandLineToolOptions>(),
                 It.IsAny<CommandExecutionOptions>(),
                 It.IsAny<CancellationToken>()))
@@ -345,7 +345,7 @@ public class CommandBuilderBaseTests : TestBase
         var result = await builder.ExecuteAsync();
 
         await Assert.That(result).IsNotNull();
-        mockCommand.Verify(c => c.ExecuteCommandLineTool(
+        mockCommand.Verify(c => c.ExecuteCommandLineToolAsync(
             It.Is<TestToolOptions>(o => o.Configuration == "Release"),
             It.IsAny<CommandExecutionOptions>(),
             It.IsAny<CancellationToken>()), Times.Once);
@@ -368,7 +368,7 @@ public class CommandBuilderBaseTests : TestBase
 
         CancellationToken capturedToken = default;
         mockCommand
-            .Setup(c => c.ExecuteCommandLineTool(
+            .Setup(c => c.ExecuteCommandLineToolAsync(
                 It.IsAny<CommandLineToolOptions>(),
                 It.IsAny<CommandExecutionOptions>(),
                 It.IsAny<CancellationToken>()))
@@ -401,7 +401,7 @@ public class CommandBuilderBaseTests : TestBase
 
         CommandExecutionOptions? capturedExecOptions = null;
         mockCommand
-            .Setup(c => c.ExecuteCommandLineTool(
+            .Setup(c => c.ExecuteCommandLineToolAsync(
                 It.IsAny<CommandLineToolOptions>(),
                 It.IsAny<CommandExecutionOptions>(),
                 It.IsAny<CancellationToken>()))

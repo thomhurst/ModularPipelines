@@ -38,12 +38,12 @@ public class DockerBuildxHistoryInspect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Attachment(
+    public virtual async Task<CommandResult> AttachmentAsync(
         DockerBuildxHistoryInspectAttachmentOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxHistoryInspectAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuildxHistoryInspectAttachmentOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

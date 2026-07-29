@@ -38,12 +38,12 @@ public class AzVmBootDiagnostics
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Enable(
+    public virtual async Task<CommandResult> EnableAsync(
         AzVmBootDiagnosticsEnableOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsEnableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmBootDiagnosticsEnableOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class AzVmBootDiagnostics
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetBootLogUris(
+    public virtual async Task<CommandResult> GetBootLogUrisAsync(
         AzVmBootDiagnosticsGetBootLogUrisOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsGetBootLogUrisOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmBootDiagnosticsGetBootLogUrisOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

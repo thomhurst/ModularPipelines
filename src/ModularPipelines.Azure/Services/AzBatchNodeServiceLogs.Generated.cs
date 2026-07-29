@@ -38,12 +38,12 @@ public class AzBatchNodeServiceLogs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Upload(
+    public virtual async Task<CommandResult> UploadAsync(
         AzBatchNodeServiceLogsUploadOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBatchNodeServiceLogsUploadOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBatchNodeServiceLogsUploadOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

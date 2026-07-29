@@ -35,7 +35,7 @@ public class UsePipModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Pip().Freeze(
+        return await context.Pip().FreezeAsync(
             new PipFreezeOptions(),
             cancellationToken: cancellationToken);
     }

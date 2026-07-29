@@ -12,7 +12,7 @@ public class PowershellTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Shell.PowerShell.Script(new("Write-Host \"Foo bar!\""), cancellationToken: cancellationToken);
+            return await context.Shell.PowerShell.ScriptAsync(new("Write-Host \"Foo bar!\""), cancellationToken: cancellationToken);
         }
     }
 

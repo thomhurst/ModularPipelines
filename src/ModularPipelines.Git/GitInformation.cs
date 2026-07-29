@@ -175,7 +175,7 @@ internal class GitInformation : IGitInformation
                 // These are internal one-time setup commands that don't need to be logged
                 LogSettings = CommandLoggingOptions.Silent,
             };
-            var result = await command.ExecuteCommandLineTool(gitOptions, options).ConfigureAwait(false);
+            var result = await command.ExecuteCommandLineToolAsync(gitOptions, options).ConfigureAwait(false);
             return result.StandardOutput.Trim();
         }
         catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))

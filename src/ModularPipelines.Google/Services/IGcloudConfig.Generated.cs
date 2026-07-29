@@ -30,7 +30,7 @@ public interface IGcloudConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Execute(
+    Task<CommandResult> ExecuteAsync(
         GcloudConfigOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -42,7 +42,7 @@ public interface IGcloudConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Get(
+    Task<CommandResult> GetAsync(
         GcloudConfigGetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -54,7 +54,7 @@ public interface IGcloudConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> List(
+    Task<CommandResult> ListAsync(
         GcloudConfigListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -66,7 +66,7 @@ public interface IGcloudConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Set(
+    Task<CommandResult> SetAsync(
         GcloudConfigSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -78,7 +78,7 @@ public interface IGcloudConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Unset(
+    Task<CommandResult> UnsetAsync(
         GcloudConfigUnsetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

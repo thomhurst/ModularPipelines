@@ -38,12 +38,12 @@ public class GcloudDomainsRegistrationsGoogleDomainsDns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExportDnsRecordSets(
+    public virtual async Task<CommandResult> ExportDnsRecordSetsAsync(
         GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class GcloudDomainsRegistrationsGoogleDomainsDns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetForwardingConfig(
+    public virtual async Task<CommandResult> GetForwardingConfigAsync(
         GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

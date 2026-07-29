@@ -32,12 +32,12 @@ internal partial class Hadolint : IHadolint
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Execute(
+    public virtual async Task<CommandResult> ExecuteAsync(
         HadolintExecuteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HadolintExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new HadolintExecuteOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

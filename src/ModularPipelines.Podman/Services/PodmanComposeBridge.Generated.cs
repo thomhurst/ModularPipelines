@@ -48,12 +48,12 @@ public class PodmanComposeBridge
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Convert(
+    public virtual async Task<CommandResult> ConvertAsync(
         PodmanComposeBridgeConvertOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PodmanComposeBridgeConvertOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeBridgeConvertOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

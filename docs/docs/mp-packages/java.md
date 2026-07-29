@@ -22,7 +22,7 @@ using ModularPipelines.Java.Extensions;
 using ModularPipelines.Java.Options;
 using ModularPipelines.Models;
 
-var result = await context.Maven().Execute(
+var result = await context.Maven().ExecuteAsync(
     new MavenExecuteOptions
     {
         BatchMode = true,
@@ -42,7 +42,7 @@ mvn --batch-mode --color never --define skipTests=true clean verify
 ## Gradle
 
 ```csharp
-var result = await context.Gradle().Execute(
+var result = await context.Gradle().ExecuteAsync(
     new GradleExecuteOptions
     {
         Console = GradleConsole.Plain,

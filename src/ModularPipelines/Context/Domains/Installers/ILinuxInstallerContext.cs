@@ -13,5 +13,5 @@ public interface ILinuxInstallerContext
     /// </summary>
     /// <param name="options">The options specifying the package file and installation parameters.</param>
     /// <returns>A <see cref="CommandResult"/> containing the result of the dpkg installation command.</returns>
-    Task<CommandResult> InstallFromDpkg(DpkgInstallOptions options);
+    Task<CommandResult> InstallFromDpkgAsync(DpkgInstallOptions options);
 }

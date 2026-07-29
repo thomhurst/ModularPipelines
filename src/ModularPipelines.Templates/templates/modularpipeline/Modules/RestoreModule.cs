@@ -14,7 +14,7 @@ public sealed class RestoreModule(IOptions<BuildSettings> settings) : Module<Com
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.DotNet().Restore(
+        return await context.DotNet().RestoreAsync(
             new DotNetRestoreOptions
             {
                 ProjectSolution = settings.Value.Solution,

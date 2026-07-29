@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Choco().Apikey(
+        return await context.Choco().ApikeyAsync(
             new ChocoApikeyOptions(),
             cancellationToken: cancellationToken);
     }

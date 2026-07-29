@@ -15,33 +15,33 @@ internal class Nvm : INvm
         _context = context;
     }
 
-    public virtual Task<CommandResult> Use(string version, CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> UseAsync(string version, CancellationToken cancellationToken = default)
     {
-        return _context.Shell.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
+        return _context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
         {
             Arguments = ["use", version],
         }, null, cancellationToken);
     }
 
-    public virtual Task<CommandResult> Install(string version, CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> InstallAsync(string version, CancellationToken cancellationToken = default)
     {
-        return _context.Shell.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
+        return _context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
         {
             Arguments = ["install", version],
         }, null, cancellationToken);
     }
 
-    public virtual Task<CommandResult> Version(CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> VersionAsync(CancellationToken cancellationToken = default)
     {
-        return _context.Shell.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
+        return _context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
         {
             Arguments = ["version"],
         }, null, cancellationToken);
     }
 
-    public virtual Task<CommandResult> Which(CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> WhichAsync(CancellationToken cancellationToken = default)
     {
-        return _context.Shell.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
+        return _context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
         {
             Arguments = ["which"],
         }, null, cancellationToken);

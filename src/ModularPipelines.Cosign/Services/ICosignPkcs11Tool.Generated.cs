@@ -25,7 +25,7 @@ public interface ICosignPkcs11Tool
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListKeysUris(
+    Task<CommandResult> ListKeysUrisAsync(
         CosignPkcs11ToolListKeysUrisOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -37,7 +37,7 @@ public interface ICosignPkcs11Tool
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListTokens(
+    Task<CommandResult> ListTokensAsync(
         CosignPkcs11ToolListTokensOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

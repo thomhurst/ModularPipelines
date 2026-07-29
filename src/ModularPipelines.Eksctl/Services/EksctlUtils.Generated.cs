@@ -38,12 +38,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
+    public virtual async Task<CommandResult> ExecuteAsync(
         EksctlUtilsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AssociateIamOidcProvider(
+    public virtual async Task<CommandResult> AssociateIamOidcProviderAsync(
         EksctlUtilsAssociateIamOidcProviderOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsAssociateIamOidcProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsAssociateIamOidcProviderOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -68,12 +68,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeAddonConfiguration(
+    public virtual async Task<CommandResult> DescribeAddonConfigurationAsync(
         EksctlUtilsDescribeAddonConfigurationOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsDescribeAddonConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsDescribeAddonConfigurationOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -83,12 +83,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeAddonVersions(
+    public virtual async Task<CommandResult> DescribeAddonVersionsAsync(
         EksctlUtilsDescribeAddonVersionsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsDescribeAddonVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsDescribeAddonVersionsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -98,12 +98,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeClusterVersions(
+    public virtual async Task<CommandResult> DescribeClusterVersionsAsync(
         EksctlUtilsDescribeClusterVersionsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsDescribeClusterVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsDescribeClusterVersionsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,12 +113,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeStacks(
+    public virtual async Task<CommandResult> DescribeStacksAsync(
         EksctlUtilsDescribeStacksOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsDescribeStacksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsDescribeStacksOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -128,12 +128,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> EnableSecretsEncryption(
+    public virtual async Task<CommandResult> EnableSecretsEncryptionAsync(
         EksctlUtilsEnableSecretsEncryptionOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsEnableSecretsEncryptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsEnableSecretsEncryptionOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -143,12 +143,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> InstallVpcControllers(
+    public virtual async Task<CommandResult> InstallVpcControllersAsync(
         EksctlUtilsInstallVpcControllersOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsInstallVpcControllersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsInstallVpcControllersOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -158,12 +158,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> MigrateToAccessEntry(
+    public virtual async Task<CommandResult> MigrateToAccessEntryAsync(
         EksctlUtilsMigrateToAccessEntryOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsMigrateToAccessEntryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsMigrateToAccessEntryOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -173,12 +173,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> MigrateToPodIdentity(
+    public virtual async Task<CommandResult> MigrateToPodIdentityAsync(
         EksctlUtilsMigrateToPodIdentityOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsMigrateToPodIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsMigrateToPodIdentityOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -188,12 +188,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> NodegroupHealth(
+    public virtual async Task<CommandResult> NodegroupHealthAsync(
         EksctlUtilsNodegroupHealthOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsNodegroupHealthOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsNodegroupHealthOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -203,12 +203,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Schema(
+    public virtual async Task<CommandResult> SchemaAsync(
         EksctlUtilsSchemaOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsSchemaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsSchemaOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -218,12 +218,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetPublicAccessCidrs(
+    public virtual async Task<CommandResult> SetPublicAccessCidrsAsync(
         EksctlUtilsSetPublicAccessCidrsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsSetPublicAccessCidrsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsSetPublicAccessCidrsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -233,12 +233,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateAuthenticationMode(
+    public virtual async Task<CommandResult> UpdateAuthenticationModeAsync(
         EksctlUtilsUpdateAuthenticationModeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsUpdateAuthenticationModeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsUpdateAuthenticationModeOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -248,12 +248,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateAwsNode(
+    public virtual async Task<CommandResult> UpdateAwsNodeAsync(
         EksctlUtilsUpdateAwsNodeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsUpdateAwsNodeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsUpdateAwsNodeOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -263,12 +263,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateClusterEndpoints(
+    public virtual async Task<CommandResult> UpdateClusterEndpointsAsync(
         EksctlUtilsUpdateClusterEndpointsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsUpdateClusterEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsUpdateClusterEndpointsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -278,12 +278,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateClusterLogging(
+    public virtual async Task<CommandResult> UpdateClusterLoggingAsync(
         EksctlUtilsUpdateClusterLoggingOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsUpdateClusterLoggingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsUpdateClusterLoggingOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -293,12 +293,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateClusterVpcConfig(
+    public virtual async Task<CommandResult> UpdateClusterVpcConfigAsync(
         EksctlUtilsUpdateClusterVpcConfigOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsUpdateClusterVpcConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsUpdateClusterVpcConfigOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -308,12 +308,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateCoredns(
+    public virtual async Task<CommandResult> UpdateCorednsAsync(
         EksctlUtilsUpdateCorednsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsUpdateCorednsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsUpdateCorednsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -323,12 +323,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateKubeProxy(
+    public virtual async Task<CommandResult> UpdateKubeProxyAsync(
         EksctlUtilsUpdateKubeProxyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsUpdateKubeProxyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsUpdateKubeProxyOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -338,12 +338,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateLegacySubnetSettings(
+    public virtual async Task<CommandResult> UpdateLegacySubnetSettingsAsync(
         EksctlUtilsUpdateLegacySubnetSettingsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsUpdateLegacySubnetSettingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsUpdateLegacySubnetSettingsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -353,12 +353,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateZonalShiftConfig(
+    public virtual async Task<CommandResult> UpdateZonalShiftConfigAsync(
         EksctlUtilsUpdateZonalShiftConfigOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsUpdateZonalShiftConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsUpdateZonalShiftConfigOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -368,12 +368,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> WriteKubeconfig(
+    public virtual async Task<CommandResult> WriteKubeconfigAsync(
         EksctlUtilsWriteKubeconfigOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new EksctlUtilsWriteKubeconfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsWriteKubeconfigOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

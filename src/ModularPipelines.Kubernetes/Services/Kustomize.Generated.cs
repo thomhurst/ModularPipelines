@@ -53,30 +53,30 @@ internal partial class Kustomize : IKustomize
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Build(
+    public virtual async Task<CommandResult> BuildAsync(
         KustomizeBuildOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new KustomizeBuildOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KustomizeBuildOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Create(
+    public virtual async Task<CommandResult> CreateAsync(
         KustomizeCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new KustomizeCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KustomizeCreateOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Localize(
+    public virtual async Task<CommandResult> LocalizeAsync(
         KustomizeLocalizeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new KustomizeLocalizeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KustomizeLocalizeOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

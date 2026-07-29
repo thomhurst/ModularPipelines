@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Terraform().Validate(
+        return await context.Terraform().ValidateAsync(
             new TerraformValidateOptions(),
             cancellationToken: cancellationToken);
     }

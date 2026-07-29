@@ -38,12 +38,12 @@ public class AzSecurityAlertsSuppressionRule
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
+    public virtual async Task<CommandResult> UpdateAsync(
         AzSecurityAlertsSuppressionRuleUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAlertsSuppressionRuleUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSecurityAlertsSuppressionRuleUpdateOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,21 +53,21 @@ public class AzSecurityAlertsSuppressionRule
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpsertScope(
+    public virtual async Task<CommandResult> UpsertScopeAsync(
         AzSecurityAlertsSuppressionRuleUpsertScopeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAlertsSuppressionRuleUpsertScopeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSecurityAlertsSuppressionRuleUpsertScopeOptions(), executionOptions, cancellationToken);
     }
 
-    [Obsolete("Use UpsertScope instead.")]
-    public virtual async Task<CommandResult> Upsert_scope(
+    [Obsolete("Use UpsertScopeAsync instead.")]
+    public virtual async Task<CommandResult> Upsert_scopeAsync(
         AzSecurityAlertsSuppressionRuleUpsertScopeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await UpsertScope(options, executionOptions, cancellationToken);
+        return await UpsertScopeAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

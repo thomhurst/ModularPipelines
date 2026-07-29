@@ -58,174 +58,174 @@ internal partial class Terraform : ITerraform
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Apply(
+    public virtual async Task<CommandResult> ApplyAsync(
         TerraformApplyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformApplyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformApplyOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Console(
+    public virtual async Task<CommandResult> ConsoleAsync(
         TerraformConsoleOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformConsoleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformConsoleOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Destroy(
+    public virtual async Task<CommandResult> DestroyAsync(
         TerraformDestroyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformDestroyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformDestroyOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Fmt(
+    public virtual async Task<CommandResult> FmtAsync(
         TerraformFmtOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformFmtOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformFmtOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ForceUnlock(
+    public virtual async Task<CommandResult> ForceUnlockAsync(
         TerraformForceUnlockOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformForceUnlockOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformForceUnlockOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Get(
+    public virtual async Task<CommandResult> GetAsync(
         TerraformGetOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformGetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformGetOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Graph(
+    public virtual async Task<CommandResult> GraphAsync(
         TerraformGraphOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformGraphOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformGraphOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Import(
+    public virtual async Task<CommandResult> ImportAsync(
         TerraformImportOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformImportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformImportOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Init(
+    public virtual async Task<CommandResult> InitAsync(
         TerraformInitOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformInitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformInitOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Modules(
+    public virtual async Task<CommandResult> ModulesAsync(
         TerraformModulesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformModulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformModulesOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Output(
+    public virtual async Task<CommandResult> OutputAsync(
         TerraformOutputOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformOutputOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Plan(
+    public virtual async Task<CommandResult> PlanAsync(
         TerraformPlanOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformPlanOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformPlanOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Query(
+    public virtual async Task<CommandResult> QueryAsync(
         TerraformQueryOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformQueryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformQueryOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Refresh(
+    public virtual async Task<CommandResult> RefreshAsync(
         TerraformRefreshOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformRefreshOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformRefreshOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Show(
+    public virtual async Task<CommandResult> ShowAsync(
         TerraformShowOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformShowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Taint(
+    public virtual async Task<CommandResult> TaintAsync(
         TerraformTaintOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformTaintOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformTaintOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Test(
+    public virtual async Task<CommandResult> TestAsync(
         TerraformTestOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformTestOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Untaint(
+    public virtual async Task<CommandResult> UntaintAsync(
         TerraformUntaintOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformUntaintOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformUntaintOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Validate(
+    public virtual async Task<CommandResult> ValidateAsync(
         TerraformValidateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new TerraformValidateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformValidateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

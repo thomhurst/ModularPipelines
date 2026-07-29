@@ -24,7 +24,7 @@ public class CommandLoggerTests : TestBase
             collection.AddLogging(builder => builder.AddFile(file));
         });
 
-        await result.T.ExecuteCommandLineTool(
+        await result.T.ExecuteCommandLineToolAsync(
             new SecretCommandOptions { Secret = secret },
             new CommandExecutionOptions { ThrowOnNonZeroExitCode = false });
         await result.Host.DisposeAsync();
@@ -46,7 +46,7 @@ public class CommandLoggerTests : TestBase
             collection.AddLogging(builder => builder.AddFile(file));
         });
 
-        var commandResult = await result.T.ExecuteCommandLineTool(
+        var commandResult = await result.T.ExecuteCommandLineToolAsync(
             new PowershellScriptOptions($"Write-Output '{rawOutput}'"),
             new CommandExecutionOptions
             {
@@ -74,7 +74,7 @@ public class CommandLoggerTests : TestBase
         var receivedOutputs = new List<string>();
         var command = await GetService<ICommandContext>();
 
-        var result = await command.ExecuteCommandLineTool(
+        var result = await command.ExecuteCommandLineToolAsync(
             new PowershellScriptOptions($"Write-Output '{firstLine}'; Write-Output '{secondLine}'"),
             new CommandExecutionOptions
             {
@@ -182,7 +182,7 @@ public class CommandLoggerTests : TestBase
             ShowExecutionTime = logDuration,
         };
 
-        await result.T.ExecuteCommandLineTool(
+        await result.T.ExecuteCommandLineToolAsync(
             new PowershellScriptOptions(command),
             new CommandExecutionOptions
             {
@@ -293,7 +293,7 @@ public class CommandLoggerTests : TestBase
             collection.AddLogging(builder => { builder.AddFile(file); });
         });
 
-        await result.T.ExecuteCommandLineTool(
+        await result.T.ExecuteCommandLineToolAsync(
             new PowershellScriptOptions(command),
             new CommandExecutionOptions
             {
@@ -326,7 +326,7 @@ public class CommandLoggerTests : TestBase
                       while (-not (Test-Path '{{releaseFile}}')) { Start-Sleep -Milliseconds 10 }
                       """;
 
-        var commandTask = result.T.ExecuteCommandLineTool(new PowershellScriptOptions(script));
+        var commandTask = result.T.ExecuteCommandLineToolAsync(new PowershellScriptOptions(script));
 
         try
         {

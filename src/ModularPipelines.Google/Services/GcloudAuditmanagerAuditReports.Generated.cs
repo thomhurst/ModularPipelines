@@ -38,12 +38,12 @@ public class GcloudAuditmanagerAuditReports
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Generate(
+    public virtual async Task<CommandResult> GenerateAsync(
         GcloudAuditManagerAuditReportsGenerateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuditManagerAuditReportsGenerateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAuditManagerAuditReportsGenerateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

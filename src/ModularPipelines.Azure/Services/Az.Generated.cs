@@ -443,21 +443,21 @@ internal partial class Az : IAz
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Login(
+    public virtual async Task<CommandResult> LoginAsync(
         AzLoginOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLoginOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzLoginOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Logout(
+    public virtual async Task<CommandResult> LogoutAsync(
         AzLogoutOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogoutOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzLogoutOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

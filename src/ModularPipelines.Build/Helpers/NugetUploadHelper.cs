@@ -17,7 +17,7 @@ public static class NugetUploadHelper
         CancellationToken cancellationToken)
     {
         return await packagePaths
-            .SelectAsync(async nugetFile => await context.DotNet().NuGet.Push(new DotNetNuGetPushOptions
+            .SelectAsync(async nugetFile => await context.DotNet().NuGet.PushAsync(new DotNetNuGetPushOptions
                 {
                     Path = nugetFile,
                     Source = source,

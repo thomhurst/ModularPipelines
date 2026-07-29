@@ -42,7 +42,7 @@ internal sealed class Command : ICommandContext
         _secretObfuscator = secretObfuscator;
     }
 
-    public async Task<CommandResult> ExecuteCommandLineTool(
+    public async Task<CommandResult> ExecuteCommandLineToolAsync(
         CommandLineToolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)

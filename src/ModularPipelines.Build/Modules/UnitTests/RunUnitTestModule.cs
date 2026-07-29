@@ -57,7 +57,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
 
         try
         {
-            return await context.DotNet().Run(new DotNetRunOptions
+            return await context.DotNet().RunAsync(new DotNetRunOptions
             {
                 Project = testProject.Path,
                 NoBuild = true,

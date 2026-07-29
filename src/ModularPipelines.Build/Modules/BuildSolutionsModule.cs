@@ -30,7 +30,7 @@ public class BuildSolutionsModule : Module<CommandResult[]>
         // into one compilation unit; that test was removed, not MSBuild parallelism changed.
         var results = await solutions
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async solution => await context.DotNet().Build(new DotNetBuildOptions
+            .SelectAsync(async solution => await context.DotNet().BuildAsync(new DotNetBuildOptions
             {
                 ProjectSolution = Path.Combine(gitRoot, solution),
                 Configuration = "Release",

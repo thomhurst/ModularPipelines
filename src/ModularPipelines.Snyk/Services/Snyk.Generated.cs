@@ -32,165 +32,165 @@ internal partial class Snyk : ISnyk
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Aibom(
+    public virtual async Task<CommandResult> AibomAsync(
         SnykAibomOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new SnykAibomOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykAibomOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> AibomTest(
+    public virtual async Task<CommandResult> AibomTestAsync(
         SnykAibomTestOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new SnykAibomTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykAibomTestOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Auth(
+    public virtual async Task<CommandResult> AuthAsync(
         SnykAuthOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new SnykAuthOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykAuthOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> CodeTest(
+    public virtual async Task<CommandResult> CodeTestAsync(
         SnykCodeTestOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new SnykCodeTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykCodeTestOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ContainerMonitor(
+    public virtual async Task<CommandResult> ContainerMonitorAsync(
         SnykContainerMonitorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ContainerSbom(
+    public virtual async Task<CommandResult> ContainerSbomAsync(
         SnykContainerSbomOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ContainerTest(
+    public virtual async Task<CommandResult> ContainerTestAsync(
         SnykContainerTestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> IacDescribe(
+    public virtual async Task<CommandResult> IacDescribeAsync(
         SnykIacDescribeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new SnykIacDescribeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykIacDescribeOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Iac(
+    public virtual async Task<CommandResult> IacAsync(
         SnykIacOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new SnykIacOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykIacOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> IacTest(
+    public virtual async Task<CommandResult> IacTestAsync(
         SnykIacTestOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new SnykIacTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykIacTestOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> IacUpdateExcludePolicy(
+    public virtual async Task<CommandResult> IacUpdateExcludePolicyAsync(
         SnykIacUpdateExcludePolicyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new SnykIacUpdateExcludePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykIacUpdateExcludePolicyOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Ignore(
+    public virtual async Task<CommandResult> IgnoreAsync(
         SnykIgnoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Log4shell(
+    public virtual async Task<CommandResult> Log4shellAsync(
         SnykLog4shellOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new SnykLog4shellOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykLog4shellOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Monitor(
+    public virtual async Task<CommandResult> MonitorAsync(
         SnykMonitorOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new SnykMonitorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykMonitorOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Policy(
+    public virtual async Task<CommandResult> PolicyAsync(
         SnykPolicyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new SnykPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykPolicyOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Sbom(
+    public virtual async Task<CommandResult> SbomAsync(
         SnykSbomOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> SbomTest(
+    public virtual async Task<CommandResult> SbomTestAsync(
         SnykSbomTestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Test(
+    public virtual async Task<CommandResult> TestAsync(
         SnykTestOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new SnykTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykTestOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

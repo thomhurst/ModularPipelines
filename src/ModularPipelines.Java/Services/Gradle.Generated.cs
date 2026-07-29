@@ -32,12 +32,12 @@ internal partial class Gradle : IGradle
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Execute(
+    public virtual async Task<CommandResult> ExecuteAsync(
         GradleExecuteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GradleExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GradleExecuteOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

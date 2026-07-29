@@ -27,7 +27,7 @@ public class DotNetTestResultsTests : TestBase
             var testProject = repositoryInfo.Root
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
 
-            return await context.DotNet().Test(
+            return await context.DotNet().TestAsync(
                 new DotNetTestOptions
                 {
                     Framework = "net10.0",
@@ -62,7 +62,7 @@ public class DotNetTestResultsTests : TestBase
 
             // Run all tests without filtering - the TRX file will contain all results
             // Use Arguments with explicit -- to pass TUnit arguments correctly
-            var result = await context.DotNet().Run(
+            var result = await context.DotNet().RunAsync(
                 new DotNetRunOptions
                 {
                     Project = testProject.Path,

@@ -24,16 +24,16 @@ public class FileInstaller : IFileInstaller
     {
         if (OperatingSystem.IsWindows())
         {
-            return await _command.ExecuteCommandLineTool(new GenericCommandLineToolOptions(options.Path)
+            return await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions(options.Path)
             {
                 Arguments = options.Arguments ?? Array.Empty<string>(),
             }, null, cancellationToken).ConfigureAwait(false);
         }
 
         var escapedPath = options.Path.Replace("'", "'\''");
-        await _bash.Command(new BashCommandOptions($"chmod u+x '{escapedPath}'"), cancellationToken).ConfigureAwait(false);
+        await _bash.CommandAsync(new BashCommandOptions($"chmod u+x '{escapedPath}'"), cancellationToken).ConfigureAwait(false);
 
-        return await _bash.FromFile(new BashFileOptions(options.Path), cancellationToken).ConfigureAwait(false);
+        return await _bash.FromFileAsync(new BashFileOptions(options.Path), cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>

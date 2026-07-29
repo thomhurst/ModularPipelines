@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Podman().Attach(
+        return await context.Podman().AttachAsync(
             new PodmanAttachOptions(),
             cancellationToken: cancellationToken);
     }

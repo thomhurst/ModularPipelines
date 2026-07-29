@@ -38,12 +38,12 @@ public class AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Add(
+    public virtual async Task<CommandResult> AddAsync(
         AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleAddOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleAddOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleAddOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Remove(
+    public virtual async Task<CommandResult> RemoveAsync(
         AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

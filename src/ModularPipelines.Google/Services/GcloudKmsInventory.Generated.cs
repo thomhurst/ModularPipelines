@@ -38,12 +38,12 @@ public class GcloudKmsInventory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetProtectedResourcesSummary(
+    public virtual async Task<CommandResult> GetProtectedResourcesSummaryAsync(
         GcloudKmsInventoryGetProtectedResourcesSummaryOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventoryGetProtectedResourcesSummaryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsInventoryGetProtectedResourcesSummaryOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class GcloudKmsInventory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListKeys(
+    public virtual async Task<CommandResult> ListKeysAsync(
         GcloudKmsInventoryListKeysOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventoryListKeysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsInventoryListKeysOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -68,12 +68,12 @@ public class GcloudKmsInventory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SearchProtectedResources(
+    public virtual async Task<CommandResult> SearchProtectedResourcesAsync(
         GcloudKmsInventorySearchProtectedResourcesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventorySearchProtectedResourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsInventorySearchProtectedResourcesOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

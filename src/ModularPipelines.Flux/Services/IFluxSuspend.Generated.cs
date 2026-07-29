@@ -35,7 +35,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Execute(
+    Task<CommandResult> ExecuteAsync(
         FluxSuspendOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -47,7 +47,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Alert(
+    Task<CommandResult> AlertAsync(
         FluxSuspendAlertOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -59,7 +59,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AlertProvider(
+    Task<CommandResult> AlertProviderAsync(
         FluxSuspendAlertProviderOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -71,7 +71,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Helmrelease(
+    Task<CommandResult> HelmreleaseAsync(
         FluxSuspendHelmreleaseOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -83,7 +83,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Kustomization(
+    Task<CommandResult> KustomizationAsync(
         FluxSuspendKustomizationOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -95,7 +95,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Receiver(
+    Task<CommandResult> ReceiverAsync(
         FluxSuspendReceiverOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

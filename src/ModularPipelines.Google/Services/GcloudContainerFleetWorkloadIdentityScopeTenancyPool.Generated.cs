@@ -38,12 +38,12 @@ public class GcloudContainerFleetWorkloadIdentityScopeTenancyPool
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Set(
+    public virtual async Task<CommandResult> SetAsync(
         GcloudContainerFleetWorkloadIdentityScopeTenancyPoolSetOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetWorkloadIdentityScopeTenancyPoolSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetWorkloadIdentityScopeTenancyPoolSetOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class GcloudContainerFleetWorkloadIdentityScopeTenancyPool
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Unset(
+    public virtual async Task<CommandResult> UnsetAsync(
         GcloudContainerFleetWorkloadIdentityScopeTenancyPoolUnsetOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetWorkloadIdentityScopeTenancyPoolUnsetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetWorkloadIdentityScopeTenancyPoolUnsetOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -38,12 +38,12 @@ public class GcloudInframanagerAutomigrationconfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
+    public virtual async Task<CommandResult> DescribeAsync(
         GcloudInfraManagerAutomigrationconfigDescribeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerAutomigrationconfigDescribeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudInfraManagerAutomigrationconfigDescribeOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class GcloudInframanagerAutomigrationconfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DisableAutoMigration(
+    public virtual async Task<CommandResult> DisableAutoMigrationAsync(
         GcloudInfraManagerAutomigrationconfigDisableAutoMigrationOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerAutomigrationconfigDisableAutoMigrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudInfraManagerAutomigrationconfigDisableAutoMigrationOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -68,12 +68,12 @@ public class GcloudInframanagerAutomigrationconfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> EnableAutoMigration(
+    public virtual async Task<CommandResult> EnableAutoMigrationAsync(
         GcloudInfraManagerAutomigrationconfigEnableAutoMigrationOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerAutomigrationconfigEnableAutoMigrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudInfraManagerAutomigrationconfigEnableAutoMigrationOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -32,21 +32,21 @@ public class DotNetNuGetUpdate
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ClientCert(
+    public virtual async Task<CommandResult> ClientCertAsync(
         DotNetNuGetUpdateClientCertOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNuGetUpdateClientCertOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetUpdateClientCertOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Source(
+    public virtual async Task<CommandResult> SourceAsync(
         DotNetNuGetUpdateSourceOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNuGetUpdateSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetUpdateSourceOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

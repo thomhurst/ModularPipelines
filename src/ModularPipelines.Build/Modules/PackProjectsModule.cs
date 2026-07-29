@@ -43,7 +43,7 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         var effectiveVersion = GetEffectiveVersion(projectFile, packageVersion);
 
-        return await context.DotNet().Pack(new DotNetPackOptions
+        return await context.DotNet().PackAsync(new DotNetPackOptions
         {
             ProjectSolution = projectFile.Path,
             Configuration = "Release",

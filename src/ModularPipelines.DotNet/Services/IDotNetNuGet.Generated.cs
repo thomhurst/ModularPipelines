@@ -65,32 +65,32 @@ public interface IDotNetNuGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Execute(
+    Task<CommandResult> ExecuteAsync(
         DotNetNuGetOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Delete(
+    Task<CommandResult> DeleteAsync(
         DotNetNuGetDeleteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Locals(
+    Task<CommandResult> LocalsAsync(
         DotNetNuGetLocalsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Push(
+    Task<CommandResult> PushAsync(
         DotNetNuGetPushOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Sign(
+    Task<CommandResult> SignAsync(
         DotNetNuGetSignOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Verify(
+    Task<CommandResult> VerifyAsync(
         DotNetNuGetVerifyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -102,7 +102,7 @@ public interface IDotNetNuGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Why(
+    Task<CommandResult> WhyAsync(
         DotNetNuGetWhyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

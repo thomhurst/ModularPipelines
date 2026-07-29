@@ -30,7 +30,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Execute(
+    Task<CommandResult> ExecuteAsync(
         ArgoCdAppOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -42,7 +42,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AddSource(
+    Task<CommandResult> AddSourceAsync(
         ArgoCdAppAddSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -54,7 +54,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ConfirmDeletion(
+    Task<CommandResult> ConfirmDeletionAsync(
         ArgoCdAppConfirmDeletionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -66,7 +66,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Create(
+    Task<CommandResult> CreateAsync(
         ArgoCdAppCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -78,7 +78,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Delete(
+    Task<CommandResult> DeleteAsync(
         ArgoCdAppDeleteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -90,7 +90,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteResource(
+    Task<CommandResult> DeleteResourceAsync(
         ArgoCdAppDeleteResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -102,7 +102,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Diff(
+    Task<CommandResult> DiffAsync(
         ArgoCdAppDiffOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -114,7 +114,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Edit(
+    Task<CommandResult> EditAsync(
         ArgoCdAppEditOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -126,7 +126,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Get(
+    Task<CommandResult> GetAsync(
         ArgoCdAppGetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -138,7 +138,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GetResource(
+    Task<CommandResult> GetResourceAsync(
         ArgoCdAppGetResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -150,7 +150,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> History(
+    Task<CommandResult> HistoryAsync(
         ArgoCdAppHistoryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -162,7 +162,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> List(
+    Task<CommandResult> ListAsync(
         ArgoCdAppListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -174,7 +174,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Logs(
+    Task<CommandResult> LogsAsync(
         ArgoCdAppLogsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -186,7 +186,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Manifests(
+    Task<CommandResult> ManifestsAsync(
         ArgoCdAppManifestsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -198,7 +198,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Patch(
+    Task<CommandResult> PatchAsync(
         ArgoCdAppPatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -210,7 +210,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PatchResource(
+    Task<CommandResult> PatchResourceAsync(
         ArgoCdAppPatchResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -222,7 +222,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RemoveSource(
+    Task<CommandResult> RemoveSourceAsync(
         ArgoCdAppRemoveSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -234,7 +234,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Resources(
+    Task<CommandResult> ResourcesAsync(
         ArgoCdAppResourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -246,7 +246,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Rollback(
+    Task<CommandResult> RollbackAsync(
         ArgoCdAppRollbackOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -258,7 +258,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Set(
+    Task<CommandResult> SetAsync(
         ArgoCdAppSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -270,7 +270,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Sync(
+    Task<CommandResult> SyncAsync(
         ArgoCdAppSyncOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -282,7 +282,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TerminateOp(
+    Task<CommandResult> TerminateOpAsync(
         ArgoCdAppTerminateOpOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -294,7 +294,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Unset(
+    Task<CommandResult> UnsetAsync(
         ArgoCdAppUnsetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -306,7 +306,7 @@ public interface IArgoCdApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Wait(
+    Task<CommandResult> WaitAsync(
         ArgoCdAppWaitOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

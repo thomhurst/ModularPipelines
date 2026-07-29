@@ -22,7 +22,7 @@ public class DockerTests : TestBase
                 .GetFolder("MyApp")
                 .GetFile("Dockerfile");
 
-            return await context.Docker().Image.Build(new DockerImageBuildOptions
+            return await context.Docker().Image.BuildAsync(new DockerImageBuildOptions
             {
                 BuildArg = new List<string>
                 {

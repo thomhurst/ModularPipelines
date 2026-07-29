@@ -18,7 +18,7 @@ public static class GitHelpers
     {
         var settings = GetGitHubSettings(context);
 
-        await context.Git().Commands.Config(new GitConfigOptions
+        await context.Git().Commands.Repository.ConfigAsync(new GitConfigOptions
         {
             Local = true,
             Arguments =
@@ -32,7 +32,7 @@ public static class GitHelpers
     {
         var settings = GetGitHubSettings(context);
 
-        await context.Git().Commands.Config(new GitConfigOptions
+        await context.Git().Commands.Repository.ConfigAsync(new GitConfigOptions
         {
             Local = true,
             Arguments =
@@ -48,7 +48,7 @@ public static class GitHelpers
         CancellationToken cancellationToken)
     {
         var pathArguments = paths.ToArray();
-        var changedFilesResult = await context.Git().Commands.Diff(
+        var changedFilesResult = await context.Git().Commands.WorkingTree.DiffAsync(
             new GitDiffOptions
             {
                 NameOnly = true,
@@ -62,7 +62,7 @@ public static class GitHelpers
             return null;
         }
 
-        var diffStatResult = await context.Git().Commands.Diff(
+        var diffStatResult = await context.Git().Commands.WorkingTree.DiffAsync(
             new GitDiffOptions
             {
                 Stat = true,

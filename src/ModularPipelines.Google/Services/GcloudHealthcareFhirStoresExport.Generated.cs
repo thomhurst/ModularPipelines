@@ -38,12 +38,12 @@ public class GcloudHealthcareFhirStoresExport
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Bq(
+    public virtual async Task<CommandResult> BqAsync(
         GcloudHealthcareFhirStoresExportBqOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresExportBqOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudHealthcareFhirStoresExportBqOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class GcloudHealthcareFhirStoresExport
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Gcs(
+    public virtual async Task<CommandResult> GcsAsync(
         GcloudHealthcareFhirStoresExportGcsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresExportGcsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudHealthcareFhirStoresExportGcsOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -23,7 +23,7 @@ public abstract class CommandServiceBase
     protected readonly ICommandContext Command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CommandServiceBase"/> class.
+    /// Initialises a new instance of the <see cref="CommandServiceBase"/> class.
     /// </summary>
     /// <param name="command">The command execution service.</param>
     protected CommandServiceBase(ICommandContext command)
@@ -45,6 +45,6 @@ public abstract class CommandServiceBase
         CancellationToken cancellationToken = default)
         where TOptions : CommandLineToolOptions
     {
-        return await Command.ExecuteCommandLineTool(options, executionOptions, cancellationToken).ConfigureAwait(false);
+        return await Command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 }

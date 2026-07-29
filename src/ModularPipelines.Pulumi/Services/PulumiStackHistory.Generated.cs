@@ -38,12 +38,12 @@ public class PulumiStackHistory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Events(
+    public virtual async Task<CommandResult> EventsAsync(
         PulumiStackHistoryEventsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiStackHistoryEventsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiStackHistoryEventsOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

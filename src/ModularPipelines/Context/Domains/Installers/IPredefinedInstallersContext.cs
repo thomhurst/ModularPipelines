@@ -12,7 +12,7 @@ public interface IPredefinedInstallersContext
     /// Installs the Chocolatey package manager for Windows.
     /// </summary>
     /// <returns>The result of the installation command.</returns>
-    Task<CommandResult> Chocolatey();
+    Task<CommandResult> ChocolateyAsync();
 
     /// <summary>
     /// Installs PowerShell 7 on the current system.
@@ -23,7 +23,7 @@ public interface IPredefinedInstallersContext
     /// On macOS, installs via Homebrew.
     /// On Linux, installs the deb package.
     /// </remarks>
-    Task<CommandResult> Powershell7();
+    Task<CommandResult> Powershell7Async();
 
     /// <summary>
     /// Installs Node Version Manager (nvm).
@@ -40,5 +40,5 @@ public interface IPredefinedInstallersContext
     /// Supports formats like "18.0.0", "v18", "--lts", "--latest", "lts/argon", etc.
     /// </param>
     /// <returns>The result of the installation command.</returns>
-    Task<CommandResult> Node(string version = "--lts");
+    Task<CommandResult> NodeAsync(string version = "--lts");
 }

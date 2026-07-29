@@ -38,12 +38,12 @@ public class AzRelayHycoAuthorizationRuleKeys
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Renew(
+    public virtual async Task<CommandResult> RenewAsync(
         AzRelayHycoAuthorizationRuleKeysRenewOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayHycoAuthorizationRuleKeysRenewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzRelayHycoAuthorizationRuleKeysRenewOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

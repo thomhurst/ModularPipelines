@@ -14,7 +14,7 @@ public class AzureCommandTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Azure().Az.Account.List(new AzAccountListOptions
+            return await context.Azure().Az.Account.ListAsync(new AzAccountListOptions
             {
                 All = true,
             }, new CommandExecutionOptions { InternalDryRun = true }, cancellationToken);
@@ -25,7 +25,7 @@ public class AzureCommandTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Azure().Az.Account.ManagementGroup.List(new AzAccountManagementGroupListOptions(),
+            return await context.Azure().Az.Account.ManagementGroup.ListAsync(new AzAccountManagementGroupListOptions(),
                 new CommandExecutionOptions { InternalDryRun = true }, cancellationToken);
         }
     }

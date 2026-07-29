@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Newman().Url(
+        return await context.Newman().UrlAsync(
             new NewmanUrlOptions(),
             cancellationToken: cancellationToken);
     }

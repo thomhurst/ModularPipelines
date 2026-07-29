@@ -38,21 +38,21 @@ public class AzSecurityAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateOrUpdate(
+    public virtual async Task<CommandResult> CreateOrUpdateAsync(
         AzSecurityAutomationCreateOrUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAutomationCreateOrUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSecurityAutomationCreateOrUpdateOptions(), executionOptions, cancellationToken);
     }
 
-    [Obsolete("Use CreateOrUpdate instead.")]
-    public virtual async Task<CommandResult> Create_or_update(
+    [Obsolete("Use CreateOrUpdateAsync instead.")]
+    public virtual async Task<CommandResult> Create_or_updateAsync(
         AzSecurityAutomationCreateOrUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await CreateOrUpdate(options, executionOptions, cancellationToken);
+        return await CreateOrUpdateAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -62,12 +62,12 @@ public class AzSecurityAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
+    public virtual async Task<CommandResult> ListAsync(
         AzSecurityAutomationListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAutomationListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSecurityAutomationListOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -77,12 +77,12 @@ public class AzSecurityAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Validate(
+    public virtual async Task<CommandResult> ValidateAsync(
         AzSecurityAutomationValidateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAutomationValidateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSecurityAutomationValidateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

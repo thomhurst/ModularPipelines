@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Snyk().Auth(
+        return await context.Snyk().AuthAsync(
             new SnykAuthOptions(),
             cancellationToken: cancellationToken);
     }

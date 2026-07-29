@@ -38,12 +38,12 @@ public class PulumiEnvProviderGcpLogin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Oidc(
+    public virtual async Task<CommandResult> OidcAsync(
         PulumiEnvProviderGcpLoginOidcOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvProviderGcpLoginOidcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiEnvProviderGcpLoginOidcOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class PulumiEnvProviderGcpLogin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Static(
+    public virtual async Task<CommandResult> StaticAsync(
         PulumiEnvProviderGcpLoginStaticOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvProviderGcpLoginStaticOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiEnvProviderGcpLoginStaticOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

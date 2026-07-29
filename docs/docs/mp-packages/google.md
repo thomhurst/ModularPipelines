@@ -35,7 +35,7 @@ public class UseGcloudModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gcloud().Info(
+        return await context.Gcloud().InfoAsync(
             new GcloudInfoOptions
             {
                 Anonymize = true,

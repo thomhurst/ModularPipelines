@@ -32,12 +32,12 @@ internal partial class Maven : IMaven
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Execute(
+    public virtual async Task<CommandResult> ExecuteAsync(
         MavenExecuteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new MavenExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new MavenExecuteOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

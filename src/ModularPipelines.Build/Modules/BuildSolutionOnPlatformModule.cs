@@ -15,7 +15,7 @@ public abstract class BuildSolutionOnPlatformModule : Module<CommandResult>
         var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
 
-        return await context.DotNet().Build(new DotNetBuildOptions
+        return await context.DotNet().BuildAsync(new DotNetBuildOptions
         {
             ProjectSolution = Path.Combine(repositoryInfo.Root.Path, "ModularPipelines.All.sln"),
             Configuration = "Release",

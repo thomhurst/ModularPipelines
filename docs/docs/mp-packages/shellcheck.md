@@ -25,7 +25,7 @@ public class CheckShellScriptsModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Shellcheck().Execute(
+        return await context.Shellcheck().ExecuteAsync(
             new ShellcheckExecuteOptions
             {
                 Files = ["scripts/build.sh", "scripts/deploy.sh"],

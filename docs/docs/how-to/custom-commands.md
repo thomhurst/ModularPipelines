@@ -12,7 +12,7 @@ Every argument should be passed as a separate string in a collection. This allow
 ## Example
 
 ```csharp
-await context.Shell.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet")
+await context.Shell.Command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("dotnet")
         {
             Arguments = new[] { "tool", "install", "--global", "dotnet-coverage" },
         }, cancellationToken);

@@ -13,13 +13,13 @@ internal class Powershell : IPowerShellContext
         _command = command;
     }
 
-    public virtual Task<CommandResult> Script(PowershellScriptOptions options, CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> ScriptAsync(PowershellScriptOptions options, CancellationToken cancellationToken = default)
     {
-        return _command.ExecuteCommandLineTool(options, null, cancellationToken);
+        return _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual Task<CommandResult> FromFile(PowershellFileOptions options, CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> FromFileAsync(PowershellFileOptions options, CancellationToken cancellationToken = default)
     {
-        return _command.ExecuteCommandLineTool(options, null, cancellationToken);
+        return _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 }

@@ -19,7 +19,7 @@ public interface ICommandContext
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task<CommandResult> ExecuteCommandLineTool(
+    Task<CommandResult> ExecuteCommandLineToolAsync(
         CommandLineToolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

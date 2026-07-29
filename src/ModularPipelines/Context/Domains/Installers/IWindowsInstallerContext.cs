@@ -13,12 +13,12 @@ public interface IWindowsInstallerContext
     /// </summary>
     /// <param name="msiInstallerOptions">The options specifying the MSI file path and installation parameters.</param>
     /// <returns>A <see cref="CommandResult"/> containing the result of the MSI installation command.</returns>
-    Task<CommandResult> InstallMsi(MsiInstallerOptions msiInstallerOptions);
+    Task<CommandResult> InstallMsiAsync(MsiInstallerOptions msiInstallerOptions);
 
     /// <summary>
     /// Installs software from an executable installer.
     /// </summary>
     /// <param name="exeInstallerOptions">The options specifying the executable file path and installation parameters.</param>
     /// <returns>A <see cref="CommandResult"/> containing the result of the executable installation command.</returns>
-    Task<CommandResult> InstallExe(ExeInstallerOptions exeInstallerOptions);
+    Task<CommandResult> InstallExeAsync(ExeInstallerOptions exeInstallerOptions);
 }

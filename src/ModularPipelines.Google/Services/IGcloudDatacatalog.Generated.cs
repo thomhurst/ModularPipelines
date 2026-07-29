@@ -50,7 +50,7 @@ public interface IGcloudDatacatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Search(
+    Task<CommandResult> SearchAsync(
         GcloudDataCatalogSearchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

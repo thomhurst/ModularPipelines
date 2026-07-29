@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Context;
+using ModularPipelines.Context;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context.Domains.Shell;
 using Moq;
@@ -41,7 +41,7 @@ public class GitInformationTests : TestBase
     public async Task Unavailable_Git_Returns_Null()
     {
         var command = new Mock<ICommandContext>();
-        command.Setup(x => x.ExecuteCommandLineTool(
+        command.Setup(x => x.ExecuteCommandLineToolAsync(
                 It.IsAny<CommandLineToolOptions>(),
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>()))

@@ -38,7 +38,7 @@ public class SubDomainClassGenerator : ICodeGenerator
     {
         var files = new List<GeneratedFile>();
 
-        // Root commands that own subcommands are exposed as Execute() on the
+        // Root commands that own subcommands are exposed as ExecuteAsync() on the
         // corresponding sub-domain class.
         var parentCommands = GeneratorUtils.GetSubDomainParentCommands(tool)
             .ToDictionary(
@@ -76,7 +76,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         CliCommandDefinition? parentCommand = null)
     {
         // Build map of commands that collide with child property names
-        // These will become Execute() methods on the child classes instead
+        // These will become ExecuteAsync() methods on the child classes instead
         var collidingCommands = new Dictionary<string, CliCommandDefinition>(StringComparer.OrdinalIgnoreCase);
         foreach (var command in node.Commands)
         {
@@ -92,7 +92,7 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         var excludedCommands = collidingCommands.Values.ToHashSet();
 
-        // Generate the command represented by this node as Execute(). Root nodes receive
+        // Generate the command represented by this node as ExecuteAsync(). Root nodes receive
         // their top-level command; nested nodes receive a command that collided with the
         // child property used to reach them.
         var content = GenerateNodeClass(
@@ -130,7 +130,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         });
 
         // Recursively generate files for children
-        // Pass colliding command as parentCommand so it becomes Execute() on the child
+        // Pass colliding command as parentCommand so it becomes ExecuteAsync() on the child
         foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
         {
             collidingCommands.TryGetValue(child.Segment, out var childParentCommand);
@@ -284,7 +284,7 @@ public class SubDomainClassGenerator : ICodeGenerator
             sb.AppendLine("    #region Commands");
             sb.AppendLine();
 
-            // Add Execute method for the parent command if it exists
+            // Add ExecuteAsync method for the parent command if it exists
             if (parentCommand is not null)
             {
                 GenerateExecuteMethod(sb, parentCommand);
@@ -314,10 +314,12 @@ public class SubDomainClassGenerator : ICodeGenerator
     {
         var publicMembers = node.Children.Values
             .Select(child => child.PascalSegment)
-            .Concat(commands.Select(GeneratorUtils.GenerateMethodNameFromLastCommandPart));
+            .Concat(commands
+                .Select(GeneratorUtils.GenerateMethodNameFromLastCommandPart)
+                .Select(GeneratorUtils.EnsureAsyncSuffix));
         if (parentCommand is not null)
         {
-            publicMembers = publicMembers.Append("Execute");
+            publicMembers = publicMembers.Append("ExecuteAsync");
         }
 
         var duplicates = publicMembers
@@ -335,7 +337,7 @@ public class SubDomainClassGenerator : ICodeGenerator
 
     private static void GenerateExecuteMethod(StringBuilder sb, CliCommandDefinition command)
     {
-        // Execute method for parent commands uses custom description if none provided
+        // ExecuteAsync method for parent commands uses custom description if none provided
         // and always has nullable options (unlike regular commands which check RequiredOptions)
         var description = !string.IsNullOrEmpty(command.Description)
             ? command.Description
@@ -345,12 +347,12 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine("    /// <param name=\"executionOptions\">The execution configuration options.</param>");
         sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
         sb.AppendLine("    /// <returns>The command result.</returns>");
-        sb.AppendLine($"    public virtual async Task<CommandResult> Execute(");
+        sb.AppendLine($"    public virtual async Task<CommandResult> ExecuteAsync(");
         sb.AppendLine($"        {command.ClassName}? options = null,");
         sb.AppendLine($"        {GeneratorUtils.ExecutionOptionsParameter},");
         sb.AppendLine("        CancellationToken cancellationToken = default)");
         sb.AppendLine("    {");
-        sb.AppendLine($"        return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), executionOptions, cancellationToken);");
+        sb.AppendLine($"        return await _command.ExecuteCommandLineToolAsync(options ?? new {command.ClassName}(), executionOptions, cancellationToken);");
         sb.AppendLine("    }");
     }
 }

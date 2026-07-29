@@ -32,12 +32,12 @@ internal partial class Jq : IJq
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Execute(
+    public virtual async Task<CommandResult> ExecuteAsync(
         JqExecuteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new JqExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new JqExecuteOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

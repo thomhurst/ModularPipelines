@@ -30,7 +30,7 @@ public interface IGcloudDomains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Execute(
+    Task<CommandResult> ExecuteAsync(
         GcloudDomainsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -42,7 +42,7 @@ public interface IGcloudDomains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListUserVerified(
+    Task<CommandResult> ListUserVerifiedAsync(
         GcloudDomainsListUserVerifiedOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -54,7 +54,7 @@ public interface IGcloudDomains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Verify(
+    Task<CommandResult> VerifyAsync(
         GcloudDomainsVerifyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

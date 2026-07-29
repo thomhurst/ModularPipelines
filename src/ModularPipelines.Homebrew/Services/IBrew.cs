@@ -27,7 +27,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Alias(BrewAliasOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AliasAsync(BrewAliasOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Check formula or cask for Homebrew coding style violations. This should be run before submitting a new formula or cask. If no formula or cask are provided, check all locally available formulae and casks and skip style checks. Will exit with a non-zero status if any errors are found.
@@ -36,7 +36,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Audit(BrewAuditOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AuditAsync(BrewAuditOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uninstall formulae that were only installed as a dependency of another formula and are now no longer needed.
@@ -45,7 +45,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Autoremove(BrewAutoremoveOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AutoremoveAsync(BrewAutoremoveOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generate a bottle (binary package) from a formula that was installed with --build-bottle. If the formula specifies a rebuild version, it will be incremented in the generated DSL. Passing --keep-old will attempt to keep it at its original value, while --no-rebuild will remove it.
@@ -54,7 +54,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Bottle(BrewBottleOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> BottleAsync(BrewBottleOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a pull request to update cask with a new version. A best effort to determine the SHA-256 will be made if the value is not supplied by the user.
@@ -63,7 +63,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> BumpCaskPr(BrewBumpCaskPrOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> BumpCaskPrAsync(BrewBumpCaskPrOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a pull request to update formula with a new URL or a new tag. If a URL is specified, the SHA-256 checksum of the new download should also be specified. A best effort to determine the SHA-256 will be made if not supplied by the user. If a tag is specified, the Git commit revision corresponding to that tag should also be specified. A best effort to determine the revision will be made if the value is not supplied by the user. If a version is specified, a best effort to determine the URL a...
@@ -72,7 +72,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> BumpFormulaPr(BrewBumpFormulaPrOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> BumpFormulaPrAsync(BrewBumpFormulaPrOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays out-of-date packages and the latest version available. If the returned current and livecheck versions differ or when querying specific packages, also displays whether a pull request has been opened with the URL.
@@ -81,7 +81,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Bump(BrewBumpOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> BumpAsync(BrewBumpOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a commit to increment the revision of formula. If no revision is present, “revision 1” will be added.
@@ -90,7 +90,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> BumpRevision(BrewBumpRevisionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> BumpRevisionAsync(BrewBumpRevisionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Check all casks with unversioned URLs in a given tap for updates.
@@ -99,7 +99,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> BumpUnversionedCasks(BrewBumpUnversionedCasksOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> BumpUnversionedCasksAsync(BrewBumpUnversionedCasksOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Bundler for non-Ruby dependencies from Homebrew, Homebrew Cask, Mac App Store, Visual Studio Code (and forks/variants), Go packages, Cargo packages and Flatpak. Note: Flatpak support is only available on Linux.
@@ -108,7 +108,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Bundle(BrewBundleOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> BundleAsync(BrewBundleOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all locally installable casks including short names.
@@ -117,7 +117,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Casks(BrewCasksOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> CasksAsync(BrewCasksOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Display the source of a formula or cask.
@@ -126,7 +126,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Cat(BrewCatOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> CatAsync(BrewCatOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove stale lock files and outdated downloads for all formulae and casks, and remove old versions of installed formulae. If arguments are specified, only do this for the given formulae and casks. Removes all downloads more than 120 days old. This can be adjusted with $HOMEBREW_CLEANUP_MAX_AGE_DAYS.
@@ -135,7 +135,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Cleanup(BrewCleanupOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> CleanupAsync(BrewCleanupOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Display the path to the file being used when invoking brew cmd.
@@ -144,7 +144,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CommandCommand(BrewCommandCommandOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> CommandCommandAsync(BrewCommandCommandOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Print instructions for setting up the command-not-found hook for your shell. If the output is not to a tty, print the appropriate handler script for your shell. For more information, see: https://docs.brew.sh/Command-Not-Found
@@ -153,7 +153,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CommandNotFoundInit(BrewCommandNotFoundInitOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> CommandNotFoundInitAsync(BrewCommandNotFoundInitOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Summarise contributions to Homebrew repositories.
@@ -162,7 +162,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Contributions(BrewContributionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ContributionsAsync(BrewContributionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generate a formula or, with --cask, a cask for the downloadable file at URL and open it in the editor. Homebrew will attempt to automatically derive the formula name and version, but if it fails, you’ll have to make your own template. The wget formula serves as a simple example. For the complete API, see: https://docs.brew.sh/rubydoc/Formula
@@ -171,7 +171,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Create(BrewCreateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> CreateAsync(BrewCreateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run the specified Homebrew command in debug mode. To pass flags to the command, use -- to separate them from the brew flags. For example: brew debugger -- list --formula.
@@ -180,7 +180,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Debugger(BrewDebuggerOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> DebuggerAsync(BrewDebuggerOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show dependencies for formula. When given multiple formula arguments, show the intersection of dependencies for each formula. By default, deps shows all required and recommended dependencies. If any version of each formula argument is installed and no other options are passed, this command displays their actual runtime dependencies (similar to brew linkage), which may differ from a formula’s declared dependencies. Note: --missing and --skip-recommended have precedence over --include-*.
@@ -189,7 +189,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Deps(BrewDepsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> DepsAsync(BrewDepsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Display formula’s name and one-line description. The cache is created on the first search, making that search slower than subsequent ones.
@@ -198,7 +198,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Desc(BrewDescOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> DescAsync(BrewDescOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Control Homebrew’s developer mode. When developer mode is enabled, brew update will update Homebrew to the latest commit on the main branch instead of the latest stable version along with some other behaviour changes.
@@ -207,7 +207,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Developer(BrewDeveloperOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> DeveloperAsync(BrewDeveloperOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Build bottles for these formulae with GitHub Actions.
@@ -216,7 +216,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DispatchBuildBottle(BrewDispatchBuildBottleOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> DispatchBuildBottleAsync(BrewDispatchBuildBottleOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Open Homebrew’s online documentation at https://docs.brew.sh in a browser.
@@ -225,7 +225,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Docs(BrewDocsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> DocsAsync(BrewDocsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Open a formula, cask or tap in the editor set by $EDITOR or $HOMEBREW_EDITOR, or open the Homebrew repository for editing if no argument is provided.
@@ -234,7 +234,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Edit(BrewEditOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> EditAsync(BrewEditOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Look through repository history to find the most recent version of formula and create a copy in tap. Specifically, the command will create the new formula file at tap/Formula/formula@version.rb. If the tap is not installed yet, attempt to install/clone the tap before continuing. To extract a formula from a tap that is not homebrew/core use its fully-qualified form of user/repo/formula.
@@ -243,7 +243,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Extract(BrewExtractOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ExtractAsync(BrewExtractOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download a bottle (if available) or source packages for formulae and binaries for casks. For files, also print SHA-256 checksums.
@@ -252,7 +252,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Fetch(BrewFetchOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> FetchAsync(BrewFetchOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Query Homebrew’s analytics.
@@ -261,7 +261,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FormulaAnalytics(BrewFormulaAnalyticsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> FormulaAnalyticsAsync(BrewFormulaAnalyticsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all locally installable formulae including short names.
@@ -270,7 +270,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Formulae(BrewFormulaeOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> FormulaeAsync(BrewFormulaeOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Display the path where formula is located.
@@ -279,7 +279,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FormulaFormula(BrewFormulaFormulaOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> FormulaFormulaAsync(BrewFormulaFormulaOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates analytics API data files for https://formulae.brew.sh. The generated files are written to the current directory.
@@ -288,7 +288,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GenerateAnalyticsApi(BrewGenerateAnalyticsApiOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> GenerateAnalyticsApiAsync(BrewGenerateAnalyticsApiOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generate homebrew/cask API data files for https://formulae.brew.sh. The generated files are written to the current directory.
@@ -297,7 +297,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GenerateCaskApi(BrewGenerateCaskApiOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> GenerateCaskApiAsync(BrewGenerateCaskApiOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generate homebrew/core API data files for https://formulae.brew.sh. The generated files are written to the current directory.
@@ -306,7 +306,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GenerateFormulaApi(BrewGenerateFormulaApiOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> GenerateFormulaApiAsync(BrewGenerateFormulaApiOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generate Homebrew’s manpages and shell completions.
@@ -315,7 +315,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GenerateManCompletions(BrewGenerateManCompletionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> GenerateManCompletionsAsync(BrewGenerateManCompletionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Upload logs for a failed build of formula to a new Gist. Presents an error message if no logs are found.
@@ -324,7 +324,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GistLogs(BrewGistLogsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> GistLogsAsync(BrewGistLogsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Install Homebrew’s Bundler gems.
@@ -333,7 +333,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InstallBundlerGems(BrewInstallBundlerGemsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> InstallBundlerGemsAsync(BrewInstallBundlerGemsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Install formula. formula is usually the name of the formula to install, but it has other syntaxes which are listed in the SPECIFYING FORMULAE section.
@@ -342,7 +342,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InstallFormula(BrewInstallFormulaOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> InstallFormulaAsync(BrewInstallFormulaOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Install a formula or cask. Additional options specific to a formula may be appended to the command. Unless $HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK is set, brew upgrade or brew reinstall will be run for outdated dependents and dependents with broken linkage, respectively. Unless $HOMEBREW_NO_INSTALL_CLEANUP is set, brew cleanup will then be run for the installed formulae or, every 30 days, for all formulae. Unless $HOMEBREW_NO_INSTALL_UPGRADE is set, brew install formula will upgrade formula i...
@@ -351,7 +351,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Install(BrewInstallOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> InstallAsync(BrewInstallOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enter the interactive Homebrew Ruby shell.
@@ -360,7 +360,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Irb(BrewIrbOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> IrbAsync(BrewIrbOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List installed formulae that are not dependencies of another installed formula or cask.
@@ -369,7 +369,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Leaves(BrewLeavesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> LeavesAsync(BrewLeavesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run brew typecheck, brew style --changed and brew tests --changed in one go.
@@ -378,7 +378,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Lgtm(BrewLgtmOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> LgtmAsync(BrewLgtmOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Check the library links from the given formula kegs. If no formula are provided, check all kegs. Raises an error if run on uninstalled formulae.
@@ -387,7 +387,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Linkage(BrewLinkageOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> LinkageAsync(BrewLinkageOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all installed formulae.
@@ -396,7 +396,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> List(BrewListOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ListAsync(BrewListOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show the git log for formula or cask, or show the log for the Homebrew repository if no formula or cask is provided.
@@ -405,7 +405,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Log(BrewLogOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> LogAsync(BrewLogOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the Homebrew MCP (Model Context Protocol) server.
@@ -414,7 +414,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> McpServer(BrewMcpServerOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> McpServerAsync(BrewMcpServerOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Migrate renamed packages to new names, where formula are old names of packages.
@@ -423,7 +423,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Migrate(BrewMigrateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> MigrateAsync(BrewMigrateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Check the given formula kegs for missing dependencies. If no formula are provided, check all kegs. Will exit with a non-zero status if any kegs are found to be missing dependencies.
@@ -432,7 +432,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Missing(BrewMissingOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> MissingAsync(BrewMissingOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create symlinks for Homebrew’s installed NodeJS versions in ~/.nodenv/versions. Note that older version symlinks will also be created so e.g. NodeJS 19.1.0 will also be symlinked to 19.0.0.
@@ -441,7 +441,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NodenvSync(BrewNodenvSyncOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> NodenvSyncAsync(BrewNodenvSyncOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show install options specific to formula.
@@ -450,7 +450,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Options(BrewOptionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OptionsAsync(BrewOptionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List installed casks and formulae that have an updated version available. By default, version information is displayed in interactive shells and suppressed otherwise.
@@ -459,7 +459,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Outdated(BrewOutdatedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OutdatedAsync(BrewOutdatedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Pin the specified formula, preventing them from being upgraded when issuing the brew upgrade formula command. See also unpin. Note: Other packages which depend on newer versions of a pinned formula might not install or run correctly.
@@ -468,7 +468,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PinInstalled_formula(BrewPinInstalled_formulaOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PinInstalled_formulaAsync(BrewPinInstalled_formulaOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Find pull requests that can be automatically merged using brew pr-publish.
@@ -477,7 +477,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PrAutomerge(BrewPrAutomergeOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PrAutomergeAsync(BrewPrAutomergeOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run Homebrew with a Ruby profiler. For example, brew prof readall.
@@ -486,7 +486,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Prof(BrewProfOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ProfAsync(BrewProfOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Publish bottles for a pull request with GitHub Actions. Requires write access to the repository.
@@ -495,7 +495,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PrPublish(BrewPrPublishOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PrPublishAsync(BrewPrPublishOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download and publish bottles and apply the bottle commit from a pull request with artifacts generated by GitHub Actions. Requires write access to the repository.
@@ -504,7 +504,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PrPull(BrewPrPullOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PrPullAsync(BrewPrPullOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Apply the bottle commit and publish bottles to a host.
@@ -513,7 +513,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PrUpload(BrewPrUploadOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PrUploadAsync(BrewPrUploadOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create symlinks for Homebrew’s installed Python versions in ~/.pyenv/versions. Note that older patch version symlinks will be created and linked to the minor version so e.g. Python 3.11.0 will also be symlinked to 3.11.3.
@@ -522,7 +522,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PyenvSync(BrewPyenvSyncOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PyenvSyncAsync(BrewPyenvSyncOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create symlinks for Homebrew’s installed Ruby versions in ~/.rbenv/versions. Note that older version symlinks will also be created so e.g. Ruby 3.2.1 will also be symlinked to 3.2.0.
@@ -531,7 +531,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RbenvSync(BrewRbenvSyncOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> RbenvSyncAsync(BrewRbenvSyncOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Import all items from the specified tap, or from all installed taps if none is provided. This can be useful for debugging issues across all items when making significant changes to formula.rb, testing the performance of loading all items or checking if any current formulae/casks have Ruby issues.
@@ -540,7 +540,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Readall(BrewReadallOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ReadallAsync(BrewReadallOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uninstall and then reinstall a formula or cask using the same options it was originally installed with, plus any appended options specific to a formula. Unless $HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK is set, brew upgrade or brew reinstall will be run for outdated dependents and dependents with broken linkage, respectively. Unless $HOMEBREW_NO_INSTALL_CLEANUP is set, brew cleanup will then be run for the reinstalled formulae or, every 30 days, for all formulae.
@@ -549,7 +549,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Reinstall(BrewReinstallOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ReinstallAsync(BrewReinstallOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new draft Homebrew/brew release with the appropriate version number and release notes. By default, brew release will bump the patch version number. Pass --major or --minor to bump the major or minor version numbers, respectively. The command will fail if the previous major or minor release was made less than one month ago. Without --force, this command will just output the release notes without creating the release or triggering the workflow. Note: Requires write access to the Homebr...
@@ -558,7 +558,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Release(BrewReleaseOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ReleaseAsync(BrewReleaseOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Installs, configures and runs Homebrew’s rubocop.
@@ -567,7 +567,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Rubocop(BrewRubocopOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> RubocopAsync(BrewRubocopOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generate Homebrew’s RubyDoc documentation.
@@ -576,7 +576,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Rubydoc(BrewRubydocOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> RubydocAsync(BrewRubydocOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run a Ruby instance with Homebrew’s libraries loaded. For example, brew ruby -e "puts :gcc.f.deps" or brew ruby script.rb. Run e.g. brew ruby -- --version to pass arbitrary arguments to ruby.
@@ -585,7 +585,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Ruby(BrewRubyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> RubyAsync(BrewRubyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Perform a substring search of cask tokens and formula names for text. If text is flanked by slashes, it is interpreted as a regular expression. The search for text is extended online to homebrew/core and homebrew/cask. If no search term is provided, all locally available formulae are listed.
@@ -594,7 +594,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Search(BrewSearchOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> SearchAsync(BrewSearchOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Manage background services with macOS’ launchctl(1) daemon manager or Linux’s systemctl(1) service manager. If sudo is passed, operate on /Library/LaunchDaemons or /usr/lib/systemd/system (started at boot). Otherwise, operate on ~/Library/LaunchAgents or ~/.config/systemd/user (started at login).
@@ -603,7 +603,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Services(BrewServicesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ServicesAsync(BrewServicesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Installs and configures Homebrew’s Ruby. If command is passed, it will only run Bundler if necessary for that command.
@@ -612,7 +612,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SetupRuby(BrewSetupRubyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> SetupRubyAsync(BrewSetupRubyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enter an interactive shell for Homebrew’s build environment. Use years-battle-hardened build logic to help your ./configure &amp;&amp; make &amp;&amp; make install and even your gem install succeed. Especially handy if you run Homebrew in an Xcode-only configuration since it adds tools like make to your $PATH which build systems would not find otherwise. With --ruby, enter an interactive shell for Homebrew’s Ruby environment. This sets up the correct Ruby paths, $GEM_HOME and bundle configuration used by Hom...
@@ -621,7 +621,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Sh(BrewShOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ShAsync(BrewShOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Open a formula’s source repository in a browser, or open Homebrew’s own repository if no argument is provided. The repository URL is determined from the formula’s head URL, stable URL, or homepage. Supports GitHub, GitLab, Bitbucket, Codeberg and SourceHut repositories.
@@ -630,7 +630,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Source(BrewSourceOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> SourceAsync(BrewSourceOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Check formulae or files for conformance to Homebrew style guidelines. Lists of file, tap and formula may not be combined. If none are provided, style will run style checks on the whole Homebrew library, including core code and all formulae.
@@ -639,7 +639,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Style(BrewStyleOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> StyleAsync(BrewStyleOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Edit tab information for installed formulae or casks. This can be useful when you want to control whether an installed formula should be removed by brew autoremove. To prevent removal, mark the formula as installed on request; to allow removal, mark the formula as not installed on request.
@@ -648,7 +648,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Tab(BrewTabOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TabAsync(BrewTabOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show detailed information about one or more taps. If no tap names are provided, display brief statistics for all installed taps.
@@ -657,7 +657,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TapInfo(BrewTapInfoOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TapInfoAsync(BrewTapInfoOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generate the template files for a new tap.
@@ -666,7 +666,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TapNew(BrewTapNewOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TapNewAsync(BrewTapNewOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tap a formula repository. If no arguments are provided, list all installed taps. With URL unspecified, tap a formula repository from GitHub using HTTPS. Since so many taps are hosted on GitHub, this command is a shortcut for brew tap user/repo https://github.com/user/homebrew-repo. With URL specified, tap a formula repository from anywhere, using any transport protocol that git(1) handles. The one-argument form of tap simplifies but also limits. This two-argument command makes no assumptions,...
@@ -675,7 +675,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Tap(BrewTapOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TapAsync(BrewTapOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tests the full lifecycle of a Homebrew change to a tap (Git repository). For example, for a GitHub Actions pull request that changes a formula brew test-bot will ensure the system is cleaned and set up to test the formula, install the formula, run various tests and checks on it, bottle (package) the binaries and test formulae that depend on it to ensure they aren’t broken by these changes. Only supports GitHub Actions as a CI provider. This is because Homebrew uses GitHub Actions and it’s fre...
@@ -684,7 +684,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TestBot(BrewTestBotOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TestBotAsync(BrewTestBotOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run the test method provided by an installed formula. There is no standard output or return code, but generally it should notify the user if something is wrong with the installed formula. Example: brew install jruby &amp;&amp; brew test jruby
@@ -693,7 +693,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Test(BrewTestOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TestAsync(BrewTestOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run Homebrew’s unit and integration tests.
@@ -702,7 +702,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Tests(BrewTestsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TestsAsync(BrewTestsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove aliases.
@@ -711,7 +711,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UnaliasAlias(BrewUnaliasAliasOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UnaliasAliasAsync(BrewUnaliasAliasOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show the unbottled dependents of formulae.
@@ -720,7 +720,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Unbottled(BrewUnbottledOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UnbottledAsync(BrewUnbottledOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uninstall formula.
@@ -729,7 +729,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UninstallFormula(BrewUninstallFormulaOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UninstallFormulaAsync(BrewUninstallFormulaOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove symlinks for formula from Homebrew’s prefix. This can be useful for temporarily disabling a formula: brew unlink formula &amp;&amp; commands &amp;&amp; brew link formula
@@ -738,7 +738,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Unlink(BrewUnlinkOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UnlinkAsync(BrewUnlinkOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unpack the files for the formula or cask into subdirectories of the current working directory.
@@ -747,7 +747,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Unpack(BrewUnpackOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UnpackAsync(BrewUnpackOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unpin formula, allowing them to be upgraded by brew upgrade formula. See also pin.
@@ -756,7 +756,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UnpinInstalled_formula(BrewUnpinInstalled_formulaOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UnpinInstalled_formulaAsync(BrewUnpinInstalled_formulaOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove a tapped formula repository.
@@ -765,7 +765,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Untap(BrewUntapOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UntapAsync(BrewUntapOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Runs brew update --auto-update only if needed. This is a good replacement for brew update in scripts where you want the no-op case to be both possible and really fast.
@@ -774,7 +774,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateIfNeeded(BrewUpdateIfNeededOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateIfNeededAsync(BrewUpdateIfNeededOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update SPDX license data in the Homebrew repository.
@@ -783,7 +783,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateLicenseData(BrewUpdateLicenseDataOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateLicenseDataAsync(BrewUpdateLicenseDataOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the list of maintainers in the Homebrew/brew README.
@@ -792,7 +792,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateMaintainers(BrewUpdateMaintainersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateMaintainersAsync(BrewUpdateMaintainersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update versions for CPAN resource blocks in formula.
@@ -801,7 +801,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdatePerlResources(BrewUpdatePerlResourcesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdatePerlResourcesAsync(BrewUpdatePerlResourcesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update versions for PyPI resource blocks in formula.
@@ -810,7 +810,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdatePythonResources(BrewUpdatePythonResourcesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdatePythonResourcesAsync(BrewUpdatePythonResourcesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Fetch and reset Homebrew and all tap repositories (or any specified repository) using git(1) to their latest origin/HEAD. Note: this will destroy all your uncommitted or committed changes.
@@ -819,7 +819,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateReset(BrewUpdateResetOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateResetAsync(BrewUpdateResetOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the list of GitHub Sponsors in the Homebrew/brew README.
@@ -828,7 +828,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateSponsors(BrewUpdateSponsorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateSponsorsAsync(BrewUpdateSponsorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run a test of brew update with a new repository clone. If no options are passed, use origin/main as the start commit.
@@ -837,7 +837,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateTest(BrewUpdateTestOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateTestAsync(BrewUpdateTestOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Upgrade outdated casks and outdated, unpinned formulae using the same options they were originally installed with, plus any appended brew formula options. If cask or formula are specified, upgrade only the given cask or formula kegs (unless they are pinned; see pin, unpin). Unless $HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK is set, brew upgrade or brew reinstall will be run for outdated dependents and dependents with broken linkage, respectively. Unless $HOMEBREW_NO_INSTALL_CLEANUP is set, brew c...
@@ -846,7 +846,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Upgrade(BrewUpgradeOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UpgradeAsync(BrewUpgradeOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show formulae and casks that specify formula as a dependency; that is, show dependents of formula. When given multiple formula arguments, show the intersection of formulae that use formula. By default, uses shows all formulae and casks that specify formula as a required or recommended dependency for their stable builds. Note: --missing and --skip-recommended have precedence over --include-*.
@@ -855,7 +855,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Uses(BrewUsesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> UsesAsync(BrewUsesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Install and commit Homebrew’s vendored gems.
@@ -864,7 +864,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> VendorGems(BrewVendorGemsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> VendorGemsAsync(BrewVendorGemsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Verify the build provenance of bottles using GitHub’s attestation tools. This is done by first fetching the given bottles and then verifying their provenance. Note that this command depends on the GitHub CLI. Run brew install gh.
@@ -873,7 +873,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Verify(BrewVerifyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> VerifyAsync(BrewVerifyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show which formula(e) provides the given command.
@@ -882,7 +882,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> WhichFormula(BrewWhichFormulaOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> WhichFormulaAsync(BrewWhichFormulaOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Database update for brew which-formula.
@@ -891,7 +891,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> WhichUpdate(BrewWhichUpdateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> WhichUpdateAsync(BrewWhichUpdateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

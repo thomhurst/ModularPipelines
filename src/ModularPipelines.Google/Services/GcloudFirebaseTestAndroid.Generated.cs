@@ -60,12 +60,12 @@ public class GcloudFirebaseTestAndroid
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDeviceCapacities(
+    public virtual async Task<CommandResult> ListDeviceCapacitiesAsync(
         GcloudFirebaseTestAndroidListDeviceCapacitiesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestAndroidListDeviceCapacitiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirebaseTestAndroidListDeviceCapacitiesOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -75,12 +75,12 @@ public class GcloudFirebaseTestAndroid
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Run(
+    public virtual async Task<CommandResult> RunAsync(
         GcloudFirebaseTestAndroidRunOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestAndroidRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirebaseTestAndroidRunOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

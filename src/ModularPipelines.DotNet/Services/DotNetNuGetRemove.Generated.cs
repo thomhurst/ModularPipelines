@@ -32,21 +32,21 @@ public class DotNetNuGetRemove
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ClientCert(
+    public virtual async Task<CommandResult> ClientCertAsync(
         DotNetNuGetRemoveClientCertOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNuGetRemoveClientCertOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetRemoveClientCertOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Source(
+    public virtual async Task<CommandResult> SourceAsync(
         DotNetNuGetRemoveSourceOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNuGetRemoveSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetRemoveSourceOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

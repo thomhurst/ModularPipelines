@@ -40,7 +40,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Execute(
+    Task<CommandResult> ExecuteAsync(
         GcloudAssetOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -52,7 +52,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AnalyzeIamPolicyLongrunning(
+    Task<CommandResult> AnalyzeIamPolicyLongrunningAsync(
         GcloudAssetAnalyzeIamPolicyLongrunningOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -64,7 +64,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AnalyzeIamPolicy(
+    Task<CommandResult> AnalyzeIamPolicyAsync(
         GcloudAssetAnalyzeIamPolicyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -76,7 +76,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AnalyzeMove(
+    Task<CommandResult> AnalyzeMoveAsync(
         GcloudAssetAnalyzeMoveOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -88,7 +88,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AnalyzeOrgPolicies(
+    Task<CommandResult> AnalyzeOrgPoliciesAsync(
         GcloudAssetAnalyzeOrgPoliciesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -100,7 +100,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AnalyzeOrgPolicyGovernedAssets(
+    Task<CommandResult> AnalyzeOrgPolicyGovernedAssetsAsync(
         GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -112,7 +112,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AnalyzeOrgPolicyGovernedContainers(
+    Task<CommandResult> AnalyzeOrgPolicyGovernedContainersAsync(
         GcloudAssetAnalyzeOrgPolicyGovernedContainersOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -124,7 +124,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Export(
+    Task<CommandResult> ExportAsync(
         GcloudAssetExportOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -136,7 +136,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GetEffectiveIamPolicy(
+    Task<CommandResult> GetEffectiveIamPolicyAsync(
         GcloudAssetGetEffectiveIamPolicyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -148,7 +148,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GetHistory(
+    Task<CommandResult> GetHistoryAsync(
         GcloudAssetGetHistoryOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -160,7 +160,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> List(
+    Task<CommandResult> ListAsync(
         GcloudAssetListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -172,7 +172,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Query(
+    Task<CommandResult> QueryAsync(
         GcloudAssetQueryOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -184,7 +184,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SearchAllIamPolicies(
+    Task<CommandResult> SearchAllIamPoliciesAsync(
         GcloudAssetSearchAllIamPoliciesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -196,7 +196,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SearchAllResources(
+    Task<CommandResult> SearchAllResourcesAsync(
         GcloudAssetSearchAllResourcesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

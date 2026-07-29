@@ -23,19 +23,21 @@ Import `ModularPipelines.Homebrew.Extensions`, then use this service from a modu
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Homebrew.Extensions;
+using ModularPipelines.Homebrew.Options;
 
-public class UseBrewModule : SyncModule<None>
+public class UseBrewModule : Module<CommandResult>
 {
-    protected override None Execute(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var brew = context.Brew();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Brew integration is ready");
-        return None.Value;
+        return await context.Brew().ListAsync(
+            new BrewListOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```

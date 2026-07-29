@@ -1,5 +1,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Linux;
 using ModularPipelines.Options.Windows;
@@ -10,6 +11,20 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class InstallerTests : TestBase
 {
+    [Test]
+    public async Task Public_Command_Methods_Are_Asynchronous()
+    {
+        var commandMethods = typeof(IModuleContext).Assembly.ExportedTypes
+            .Where(type => type.IsInterface)
+            .SelectMany(type => type.GetMethods())
+            .Where(method => method.ReturnType == typeof(Task<CommandResult>))
+            .ToList();
+
+        await Assert.That(commandMethods).IsNotEmpty();
+        await Assert.That(commandMethods.All(method =>
+            method.Name.EndsWith("Async", StringComparison.Ordinal))).IsTrue();
+    }
+
     [Test]
     [Skip("Avoid installing things on people's machines")]
     public async Task Can_Install()
@@ -28,7 +43,7 @@ public class InstallerTests : TestBase
 
             var file = await downloader.DownloadFileAsync(new DownloadFileOptions(uri));
 
-            var result = await installer.WindowsInstaller.InstallExe(new ExeInstallerOptions(file));
+            var result = await installer.WindowsInstaller.InstallExeAsync(new ExeInstallerOptions(file));
             await Assert.That(result.ExitCode).IsEqualTo(0);
         }
         else if (OperatingSystem.IsLinux())
@@ -37,7 +52,7 @@ public class InstallerTests : TestBase
 
             var file = await downloader.DownloadFileAsync(new DownloadFileOptions(uri));
 
-            var result = await installer.LinuxInstaller.InstallFromDpkg(new DpkgInstallOptions(file));
+            var result = await installer.LinuxInstaller.InstallFromDpkgAsync(new DpkgInstallOptions(file));
             await Assert.That(result.ExitCode).IsEqualTo(0);
         }
     }
