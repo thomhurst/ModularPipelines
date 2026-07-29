@@ -17,7 +17,7 @@ namespace ModularPipelines.Analyzers;
 public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
 {
     private static readonly ImmutableHashSet<string> SupportedMethodNames =
-        ["Write", "WriteLine", "WriteAsync", "WriteLineAsync"];
+        ["WriteLine", "WriteLineAsync"];
 
     /// <inheritdoc/>
     public override ImmutableArray<string> FixableDiagnosticIds =>

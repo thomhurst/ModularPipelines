@@ -35,6 +35,13 @@ public class Module1 : Module<List<string>>
     private static readonly string BadModuleSource4 = CreateBadModuleSource(@"Console.Out.WriteLine(""Done!"")");
     private static readonly string BadModuleSource5 = CreateBadModuleSource(@"Console.Out.WriteLineAsync(""Done!"")", isAsync: true);
     private static readonly string BadModuleSource6 = CreateBadModuleSource(@"Console.Out.Dispose()");
+    private static readonly string NonTerminatingWriteSource =
+        CreateBadModuleSource(@"Console.Write(""Done!"")", markDiagnostic: false);
+    private static readonly string NonTerminatingWriteAsyncSource =
+        CreateBadModuleSource(
+            @"Console.Out.WriteAsync(""Done!"")",
+            isAsync: true,
+            markDiagnostic: false);
     private static readonly string NamedArgumentSource = CreateBadModuleSource(
         @"Console.WriteLine(value: ""Done!"")",
         markDiagnostic: false);
@@ -191,6 +198,22 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             NamedArgumentSource,
+            ConsoleUseAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Non_Terminating_Write()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            NonTerminatingWriteSource,
+            ConsoleUseAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Non_Terminating_WriteAsync()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            NonTerminatingWriteAsyncSource,
             ConsoleUseAnalyzer.DiagnosticId);
     }
 
