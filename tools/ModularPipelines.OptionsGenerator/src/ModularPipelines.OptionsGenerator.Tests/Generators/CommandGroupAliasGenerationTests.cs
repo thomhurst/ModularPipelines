@@ -34,10 +34,12 @@ public class CommandGroupAliasGenerationTests
         await Assert.That(builderOptions.Content)
             .Contains("public record DockerBuilderBuildOptions : DockerBuildxBuildOptions;");
         await Assert.That(builderOptions.Content).DoesNotContain("[CliOption(");
-        await Assert.That(optionFiles).DoesNotContain(file =>
+        var rootBuilderOptions = optionFiles.Single(file =>
             file.RelativePath.EndsWith(
                 "DockerBuilderOptions.Generated.cs",
                 StringComparison.Ordinal));
+        await Assert.That(rootBuilderOptions.Content)
+            .Contains("public record DockerBuilderOptions : DockerBuildxOptions;");
 
         var canonicalService = serviceFiles.Single(file =>
             Path.GetFileName(file.RelativePath).Equals(
@@ -55,6 +57,12 @@ public class CommandGroupAliasGenerationTests
         await Assert.That(builderService.Content)
             .Contains("public class DockerBuilder : DockerBuildx, IDockerBuilder");
         await Assert.That(builderService.Content)
+            .Contains("public virtual Task<CommandResult> Execute(");
+        await Assert.That(builderService.Content)
+            .Contains("DockerBuilderOptions? options = null");
+        await Assert.That(builderService.Content)
+            .Contains("return base.Execute(options, executionOptions, cancellationToken);");
+        await Assert.That(builderService.Content)
             .Contains("public virtual Task<CommandResult> Build(");
         await Assert.That(builderService.Content)
             .Contains("DockerBuilderBuildOptions? options = null");
@@ -69,6 +77,8 @@ public class CommandGroupAliasGenerationTests
             .Contains("public interface IDockerBuilder");
         await Assert.That(builderInterface.Content)
             .DoesNotContain(": IDockerBuildx");
+        await Assert.That(builderInterface.Content)
+            .Contains("DockerBuilderOptions? options = null");
         await Assert.That(builderInterface.Content)
             .Contains("DockerBuilderBuildOptions? options = null");
 

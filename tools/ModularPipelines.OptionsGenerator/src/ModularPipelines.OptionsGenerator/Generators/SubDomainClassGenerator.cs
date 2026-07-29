@@ -143,6 +143,7 @@ public class SubDomainClassGenerator : ICodeGenerator
                     node,
                     tool,
                     alias,
+                    parentCommand,
                     excludedCommands));
             }
 
@@ -172,6 +173,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         CommandTreeNode node,
         CliToolDefinition tool,
         CliCommandGroupAlias alias,
+        CliCommandDefinition? parentCommand,
         HashSet<CliCommandDefinition> excludedCommands)
     {
         var aliasClassName = GeneratorUtils.GetAliasedClassName(
@@ -203,6 +205,12 @@ public class SubDomainClassGenerator : ICodeGenerator
             sb.AppendLine($"    /// {tool.ToolName} {child.Segment.ToLowerInvariant()} sub-commands.");
             sb.AppendLine("    /// </summary>");
             sb.AppendLine($"    {aliasChildClassName} {child.PascalSegment} {{ get; }}");
+            sb.AppendLine();
+        }
+
+        if (parentCommand is not null)
+        {
+            GenerateCompatibilityMethodSignature(sb, tool, alias, "Execute", parentCommand);
             sb.AppendLine();
         }
 

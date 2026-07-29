@@ -31,7 +31,7 @@ public class OptionsClassGenerator : ICodeGenerator
                 Content = content
             });
 
-            if (command.CommandParts.Length <= 1)
+            if (command.CommandParts.Length == 0)
             {
                 continue;
             }
