@@ -113,6 +113,37 @@ public class ModularPipelinesIntegrationGeneratorTests
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource)
                 .Contains("public global::IGit Git => tools.Get<global::IGit>();");
+            await Assert.That(generatedSource)
+                .Contains("\"ModularPipelines.ToolProperty:Git\", \"global::IGit\"");
+        }
+    }
+
+    [Test]
+    public async Task Value_Type_Accessor_Does_Not_Generate_Tool_Property()
+    {
+        var result = RunGenerator("""
+            using ModularPipelines.Attributes;
+            using ModularPipelines.Context;
+            using Microsoft.Extensions.DependencyInjection;
+
+            public static class AvailabilityIntegration
+            {
+                [ModularPipelinesIntegration]
+                public static void Register(IServiceCollection services)
+                {
+                }
+
+                public static bool IsAvailable(this IPipelineContext context) => true;
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).DoesNotContain("IsAvailable");
+            await Assert.That(generatedSource).DoesNotContain("tools.Get<bool>");
         }
     }
 
@@ -206,6 +237,41 @@ public class ModularPipelinesIntegrationGeneratorTests
     }
 
     [Test]
+    public async Task Conflicting_Referenced_Tool_Accessors_Report_Diagnostics()
+    {
+        var firstIntegration = CreateMetadataReference(
+            "FirstIntegration",
+            """
+            [assembly: System.Reflection.AssemblyMetadata(
+                "ModularPipelines.ToolProperty:Git",
+                "global::FirstIntegration.IGit")]
+            """);
+        var secondIntegration = CreateMetadataReference(
+            "SecondIntegration",
+            """
+            [assembly: System.Reflection.AssemblyMetadata(
+                "ModularPipelines.ToolProperty:Git",
+                "global::SecondIntegration.IGit")]
+            """);
+
+        var result = RunGenerator(
+            source: string.Empty,
+            additionalReferences: [firstIntegration, secondIntegration]);
+        var diagnostics = result.Diagnostics
+            .Where(static diagnostic => diagnostic.Id == "MPGEN004")
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostics).Count().IsEqualTo(2);
+            await Assert.That(diagnostics.Select(static diagnostic => diagnostic.Severity))
+                .IsEquivalentTo([DiagnosticSeverity.Error, DiagnosticSeverity.Error]);
+            await Assert.That(diagnostics[0].GetMessage()).Contains("Git");
+            await Assert.That(result.GeneratedTrees).IsEmpty();
+        }
+    }
+
+    [Test]
     public async Task File_Local_Integration_Type_Reports_Diagnostic()
     {
         var result = GeneratorTestHarness.Run(new ModularPipelinesIntegrationGenerator(), TestInfrastructure, """
@@ -281,7 +347,8 @@ public class ModularPipelinesIntegrationGeneratorTests
 
     private static GeneratorDriverRunResult RunGenerator(
         string source,
-        LanguageVersion languageVersion = LanguageVersion.Preview)
+        LanguageVersion languageVersion = LanguageVersion.Preview,
+        IReadOnlyList<MetadataReference>? additionalReferences = null)
     {
         var parseOptions = new CSharpParseOptions(languageVersion);
         var infrastructureSyntaxTree = CSharpSyntaxTree.ParseText(
@@ -290,7 +357,8 @@ public class ModularPipelinesIntegrationGeneratorTests
         var sourceSyntaxTree = CSharpSyntaxTree.ParseText(source, parseOptions);
         var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
             .Split(Path.PathSeparator)
-            .Select(static path => MetadataReference.CreateFromFile(path));
+            .Select(static path => MetadataReference.CreateFromFile(path))
+            .Concat(additionalReferences ?? []);
         var compilation = CSharpCompilation.Create(
             "GeneratorTests",
             [infrastructureSyntaxTree, sourceSyntaxTree],
@@ -314,5 +382,31 @@ public class ModularPipelinesIntegrationGeneratorTests
             out _);
 
         return driver.GetRunResult();
+    }
+
+    private static MetadataReference CreateMetadataReference(
+        string assemblyName,
+        string source)
+    {
+        var syntaxTree = CSharpSyntaxTree.ParseText(source);
+        var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
+            .Split(Path.PathSeparator)
+            .Select(static path => MetadataReference.CreateFromFile(path));
+        var compilation = CSharpCompilation.Create(
+            assemblyName,
+            [syntaxTree],
+            references,
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+        using var stream = new MemoryStream();
+        var emitResult = compilation.Emit(stream);
+        if (!emitResult.Success)
+        {
+            throw new InvalidOperationException(string.Join(
+                Environment.NewLine,
+                emitResult.Diagnostics));
+        }
+
+        return MetadataReference.CreateFromImage(stream.ToArray());
     }
 }

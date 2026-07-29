@@ -21,6 +21,12 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private const string PipelineContextFullName =
         "ModularPipelines.Context.IPipelineContext";
 
+    private const string AssemblyMetadataAttributeFullName =
+        "System.Reflection.AssemblyMetadataAttribute";
+
+    private const string ToolPropertyMetadataPrefix =
+        "ModularPipelines.ToolProperty:";
+
     private static readonly DiagnosticDescriptor InvalidIntegrationMethod =
         GeneratorDiagnostics.InvalidIntegrationMethod;
 
@@ -48,12 +54,18 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 IntegrationAttributeFullName,
                 static (node, _) => node is MethodDeclarationSyntax,
                 static (generatorContext, _) => GetCandidate(generatorContext));
+        var referencedToolProperties = context.CompilationProvider.Select(
+            static (compilation, _) => GetReferencedToolProperties(compilation));
 
         context.RegisterSourceOutput(
-            candidates.Collect().Combine(context.ParseOptionsProvider),
+            candidates
+                .Collect()
+                .Combine(context.ParseOptionsProvider)
+                .Combine(referencedToolProperties),
             static (sourceContext, input) => Generate(
                 sourceContext,
-                input.Left,
+                input.Left.Left,
+                input.Left.Right,
                 input.Right));
     }
 
@@ -106,12 +118,35 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 && method.Parameters.Length == 1
                 && method.Parameters[0].RefKind == RefKind.None
                 && method.Parameters[0].Type.ToDisplayString() == PipelineContextFullName
-                && !method.ReturnsVoid)
+                && method.ReturnType.IsReferenceType)
             .Select(static method => new ToolProperty(
                 method.Name,
                 method.ReturnType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 method.ToDisplayString(),
                 method.Locations.FirstOrDefault()))
+            .ToImmutableArray();
+    }
+
+    private static EquatableArray<ReferencedToolProperty> GetReferencedToolProperties(
+        Compilation compilation)
+    {
+        return compilation.References
+            .Select(compilation.GetAssemblyOrModuleSymbol)
+            .OfType<IAssemblySymbol>()
+            .SelectMany(static assembly => assembly.GetAttributes())
+            .Where(static attribute =>
+                attribute.AttributeClass?.ToDisplayString() == AssemblyMetadataAttributeFullName
+                && attribute.ConstructorArguments.Length == 2
+                && attribute.ConstructorArguments[0].Value is string key
+                && key.StartsWith(ToolPropertyMetadataPrefix, StringComparison.Ordinal)
+                && attribute.ConstructorArguments[1].Value is string)
+            .Select(static attribute => new ReferencedToolProperty(
+                ((string) attribute.ConstructorArguments[0].Value!)
+                    .Substring(ToolPropertyMetadataPrefix.Length),
+                (string) attribute.ConstructorArguments[1].Value!))
+            .Distinct()
+            .OrderBy(static property => property.Name, StringComparer.Ordinal)
+            .ThenBy(static property => property.TypeName, StringComparer.Ordinal)
             .ToImmutableArray();
     }
 
@@ -160,7 +195,8 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private static void Generate(
         SourceProductionContext context,
         ImmutableArray<IntegrationCandidate> candidates,
-        ParseOptions parseOptions)
+        ParseOptions parseOptions,
+        EquatableArray<ReferencedToolProperty> referencedToolProperties)
     {
         foreach (var candidate in candidates)
         {
@@ -184,7 +220,14 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         var toolProperties = candidates
             .SelectMany(static candidate => candidate.ToolProperties)
             .ToArray();
-        var conflictingPropertyNames = ReportToolPropertyConflicts(context, toolProperties);
+        var allToolProperties = toolProperties
+            .Concat(referencedToolProperties.Select(static property => new ToolProperty(
+                property.Name,
+                property.TypeName,
+                MethodName: property.Name,
+                Location: null)))
+            .ToArray();
+        var conflictingPropertyNames = ReportToolPropertyConflicts(context, allToolProperties);
         var uniqueToolProperties = toolProperties
             .Where(property => !conflictingPropertyNames.Contains(property.Name))
             .GroupBy(static property => new
@@ -209,6 +252,17 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         builder.AppendLine(
             "[assembly: global::ModularPipelines.Attributes.ModularPipelinesContextAttribute("
             + "typeof(global::ModularPipelines.Generated.ModularPipelinesContextRegistration))]");
+        if (uniqueToolProperties.Length > 0 && SupportsExtensionMembers(parseOptions))
+        {
+            foreach (var property in uniqueToolProperties)
+            {
+                builder.AppendLine(
+                    "[assembly: global::System.Reflection.AssemblyMetadataAttribute("
+                    + $"{Literal(ToolPropertyMetadataPrefix + property.Name)}, "
+                    + $"{Literal(property.TypeName)})]");
+            }
+        }
+
         builder.AppendLine();
         builder.AppendLine("namespace ModularPipelines.Generated");
         builder.AppendLine("{");
@@ -314,6 +368,9 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
             : parseOptions.Language;
     }
 
+    private static string Literal(string value) =>
+        global::Microsoft.CodeAnalysis.CSharp.SymbolDisplay.FormatLiteral(value, quote: true);
+
     private sealed record IntegrationCandidate(
         IntegrationRegistration? Registration,
         EquatableArray<ToolProperty> ToolProperties,
@@ -328,4 +385,8 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         string TypeName,
         string MethodName,
         Location? Location);
+
+    private sealed record ReferencedToolProperty(
+        string Name,
+        string TypeName);
 }
