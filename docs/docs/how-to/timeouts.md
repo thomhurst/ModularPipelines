@@ -8,10 +8,16 @@ Modules have a 30-minute timeout by default. Configure the pipeline default when
 
 ```csharp
 using var builder = Pipeline.CreateBuilder();
-builder.Options.DefaultModuleTimeout = TimeSpan.FromHours(2);
+builder.ConfigurePipelineOptions(options => options with
+{
+    DefaultModuleTimeout = TimeSpan.FromHours(2),
+});
 
 // Disable the default. Per-module timeouts still apply.
-builder.Options.DefaultModuleTimeout = TimeSpan.Zero;
+builder.ConfigurePipelineOptions(options => options with
+{
+    DefaultModuleTimeout = TimeSpan.Zero,
+});
 ```
 
 You can override the pipeline default for one module using `Configure()`. Bear in mind some build runners, like GitHub Actions, have their own timeouts, so extending past these won't help.

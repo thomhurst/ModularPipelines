@@ -109,7 +109,10 @@ builder
     .AddModule<Module2>()
     .AddModule<Module3>();
 
-builder.Options.DefaultRetryCount = 3;
+builder.ConfigurePipelineOptions(options => options with
+{
+    DefaultRetryCount = 3,
+});
 
 await builder.ExecutePipelineAsync();
 ```

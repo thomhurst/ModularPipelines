@@ -70,10 +70,16 @@ Set default logging for all commands at the pipeline level:
 using var builder = Pipeline.CreateBuilder(args);
 
 // All commands will use Silent logging unless overridden
-builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Silent;
+builder.ConfigurePipelineOptions(options => options with
+{
+    DefaultLoggingOptions = CommandLoggingOptions.Silent,
+});
 
 // Or use Diagnostic for debugging
-builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Diagnostic;
+builder.ConfigurePipelineOptions(options => options with
+{
+    DefaultLoggingOptions = CommandLoggingOptions.Diagnostic,
+});
 
 await builder.ExecutePipelineAsync();
 ```
@@ -129,5 +135,5 @@ new CommandExecutionOptions
 Logging settings are resolved in this order (highest to lowest priority):
 
 1. **Per-Call**: `CommandExecutionOptions.LogSettings` on individual command calls
-2. **Global Default**: `builder.Options.DefaultLoggingOptions` set at pipeline level
+2. **Global Default**: `DefaultLoggingOptions` configured at pipeline level
 3. **System Default**: `CommandLoggingOptions.Default` (Normal verbosity)

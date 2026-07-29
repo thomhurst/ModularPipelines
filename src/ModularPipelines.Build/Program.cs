@@ -18,7 +18,10 @@ using Octokit;
 using Octokit.Internal;
 
 using var builder = Pipeline.CreateBuilder(args);
-builder.ConfigurePipelineOptions(options => options.LoadModularPipelineAssemblies = true);
+builder.ConfigurePipelineOptions(options => options with
+{
+    LoadModularPipelineAssemblies = true,
+});
 
 builder.Configuration
     .AddJsonFile("appsettings.json")
@@ -103,7 +106,10 @@ builder.Services.AddSingleton<IGitHubClient>(sp =>
 BuildPipelineConfiguration.ConfigureEnvironmentSpecificModules(builder);
 
 var pipelineSettings = builder.Configuration.GetSection("Pipeline").Get<PipelineSettings>() ?? new PipelineSettings();
-builder.Options.DefaultRetryCount = pipelineSettings.DefaultRetryCount;
+builder.ConfigurePipelineOptions(options => options with
+{
+    DefaultRetryCount = pipelineSettings.DefaultRetryCount,
+});
 
 // Support running only specific categories via environment variable
 var runCategories = Environment.GetEnvironmentVariable("Pipeline__RunCategories");

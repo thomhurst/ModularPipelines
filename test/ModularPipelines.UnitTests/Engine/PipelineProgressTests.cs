@@ -117,10 +117,10 @@ public class PipelineProgressTests
     {
         await Assert.That(async () =>
                 await TestPipelineHostBuilder.Create()
-                    .ConfigurePipelineOptions((_, options) =>
+                    .ConfigurePipelineOptions((_, options) => options with
                     {
-                        options.PrintResults = true;
-                        options.ShowProgressInConsole = true;
+                        PrintResults = true,
+                        ShowProgressInConsole = true,
                     })
                     .AddModule<Module1>()
                     .AddModule<Module2>()

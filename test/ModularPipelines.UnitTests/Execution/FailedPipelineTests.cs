@@ -43,10 +43,10 @@ public class FailedPipelineTests : TestBase
     public async Task Given_Failing_Module_With_Dependent_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
     {
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
-                .ConfigurePipelineOptions((_, options) =>
+                .ConfigurePipelineOptions((_, options) => options with
                 {
-                    options.ExecutionMode = executionMode;
-                    options.ThrowOnPipelineFailure = true;
+                    ExecutionMode = executionMode,
+                    ThrowOnPipelineFailure = true,
                 })
                 .AddModule<Module1>()
                 .AddModule<Module2>()
@@ -61,10 +61,10 @@ public class FailedPipelineTests : TestBase
     public async Task Given_Failing_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
     {
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
-                .ConfigurePipelineOptions((_, options) =>
+                .ConfigurePipelineOptions((_, options) => options with
                 {
-                    options.ExecutionMode = executionMode;
-                    options.ThrowOnPipelineFailure = true;
+                    ExecutionMode = executionMode,
+                    ThrowOnPipelineFailure = true,
                 })
                 .AddModule<Module1>()
                 .AddModule<Module2>()
@@ -78,8 +78,10 @@ public class FailedPipelineTests : TestBase
     public async Task Given_No_Failing_Module_Then_No_Exceptions(ExecutionMode executionMode)
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()
-                .ConfigurePipelineOptions((_, options)
-                    => options.ExecutionMode = executionMode)
+                .ConfigurePipelineOptions((_, options) => options with
+                {
+                    ExecutionMode = executionMode,
+                })
                 .AddModule<Module1>()
                 .AddModule<Module3>()
                 .ExecutePipelineAsync();

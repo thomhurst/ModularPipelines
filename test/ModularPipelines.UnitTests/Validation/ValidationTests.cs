@@ -471,7 +471,10 @@ public class ValidationTests
         // Arrange
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<SimpleModule>();
-        builder.Options.DefaultRetryCount = -1;
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            DefaultRetryCount = -1,
+        });
 
         // Act
         var result = await builder.ValidateAsync();
@@ -488,7 +491,10 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<SimpleModule>();
-        builder.Options.DefaultModuleTimeout = TimeSpan.FromSeconds(-1);
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            DefaultModuleTimeout = TimeSpan.FromSeconds(-1),
+        });
 
         var result = await builder.ValidateAsync();
 
@@ -503,7 +509,10 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<SimpleModule>();
-        builder.Options.ModuleOutputFlushInterval = TimeSpan.FromSeconds(-1);
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ModuleOutputFlushInterval = TimeSpan.FromSeconds(-1),
+        });
 
         var result = await builder.ValidateAsync();
 
@@ -518,7 +527,10 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<SimpleModule>();
-        builder.Options.ModuleOutputFlushInterval = TimeSpan.FromMilliseconds(uint.MaxValue);
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ModuleOutputFlushInterval = TimeSpan.FromMilliseconds(uint.MaxValue),
+        });
 
         var result = await builder.ValidateAsync();
 
@@ -533,7 +545,10 @@ public class ValidationTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.Services.AddModule<SimpleModule>();
-        builder.Options.ModuleOutputFlushThreshold = -1;
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ModuleOutputFlushThreshold = -1,
+        });
 
         var result = await builder.ValidateAsync();
 
@@ -549,8 +564,11 @@ public class ValidationTests
         // Arrange
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<SimpleModule>();
-        builder.Options.RunOnlyCategories = ["Category1"];
-        builder.Options.IgnoreCategories = ["Category1"];
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["Category1"],
+            IgnoreCategories = ["Category1"],
+        });
 
         // Act
         var result = await builder.ValidateAsync();

@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using Spectre.Console;
 
 namespace ModularPipelines.Options;
 
@@ -49,64 +48,58 @@ namespace ModularPipelines.Options;
 public record PipelineOptions
 {
     /// <summary>
-    /// Gets or sets the execution mode that determines how the pipeline handles failures.
+    /// Gets the execution mode that determines how the pipeline handles failures.
     /// </summary>
-    public ExecutionMode ExecutionMode { get; set; } = ExecutionMode.StopOnFirstException;
+    public ExecutionMode ExecutionMode { get; init; } = ExecutionMode.StopOnFirstException;
 
     /// <summary>
-    /// Gets or sets the default timeout for modules that do not configure their own timeout.
+    /// Gets the default timeout for modules that do not configure their own timeout.
     /// Set to <see cref="TimeSpan.Zero"/> to disable the default module timeout.
     /// </summary>
-    public TimeSpan DefaultModuleTimeout { get; set; } = TimeSpan.FromMinutes(30);
+    public TimeSpan DefaultModuleTimeout { get; init; } = TimeSpan.FromMinutes(30);
 
     /// <summary>
-    /// Gets or sets the collection of module categories to run exclusively. If specified, only modules in these categories will run.
+    /// Gets the collection of module categories to run exclusively. If specified, only modules in these categories will run.
     /// </summary>
-    public IReadOnlyList<string>? RunOnlyCategories { get; set; }
+    public IReadOnlyList<string>? RunOnlyCategories { get; init; }
 
     /// <summary>
-    /// Gets or sets the collection of module categories to ignore during execution.
+    /// Gets the collection of module categories to ignore during execution.
     /// </summary>
-    public IReadOnlyList<string>? IgnoreCategories { get; set; }
-
-    private bool _showProgressInConsole = AnsiConsole.Profile.Capabilities.Interactive;
+    public IReadOnlyList<string>? IgnoreCategories { get; init; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to show progress information in the console.
+    /// Gets a value indicating whether to show progress information in the console.
     /// </summary>
-    public bool ShowProgressInConsole
-    {
-        get => _showProgressInConsole;
-        set => AnsiConsole.Profile.Capabilities.Interactive = _showProgressInConsole = value;
-    }
+    public bool ShowProgressInConsole { get; init; } = !System.Console.IsOutputRedirected;
 
     /// <summary>
-    /// Gets or sets a value indicating whether to print execution results to the console.
+    /// Gets a value indicating whether to print execution results to the console.
     /// </summary>
-    public bool PrintResults { get; set; } = true;
+    public bool PrintResults { get; init; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether to print the ModularPipelines logo.
+    /// Gets a value indicating whether to print the ModularPipelines logo.
     /// </summary>
-    public bool PrintLogo { get; set; } = true;
+    public bool PrintLogo { get; init; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether to print module dependency chains.
+    /// Gets a value indicating whether to print module dependency chains.
     /// </summary>
-    public bool PrintDependencyChains { get; set; } = true;
+    public bool PrintDependencyChains { get; init; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether assemblies whose filenames contain
+    /// Gets a value indicating whether assemblies whose filenames contain
     /// <c>ModularPipeline</c> are eagerly loaded from the application directory.
     /// </summary>
     /// <remarks>
     /// Disabled by default. Enable this only when a plugin relies on module initializers
     /// instead of explicit assembly or service registration.
     /// </remarks>
-    public bool LoadModularPipelineAssemblies { get; set; }
+    public bool LoadModularPipelineAssemblies { get; init; }
 
     /// <summary>
-    /// Gets or sets the default number of retry attempts for failed operations.
+    /// Gets the default number of retry attempts for failed operations.
     /// </summary>
     /// <remarks>
     /// <para>
@@ -119,10 +112,10 @@ public record PipelineOptions
     /// <item>If this value is 0 (default), no retries are attempted</item>
     /// </list>
     /// </remarks>
-    public int DefaultRetryCount { get; set; }
+    public int DefaultRetryCount { get; init; }
 
     /// <summary>
-    /// Gets or sets the default logging options for all commands.
+    /// Gets the default logging options for all commands.
     /// </summary>
     /// <remarks>
     /// <para>
@@ -134,10 +127,10 @@ public record PipelineOptions
     /// <item>System defaults (lowest priority)</item>
     /// </list>
     /// </remarks>
-    public CommandLoggingOptions? DefaultLoggingOptions { get; set; }
+    public CommandLoggingOptions? DefaultLoggingOptions { get; init; }
 
     /// <summary>
-    /// Gets or sets the default HTTP logging options for all HTTP requests.
+    /// Gets the default HTTP logging options for all HTTP requests.
     /// Controls what parts of HTTP requests and responses are logged (headers, body, etc.).
     /// Use <see cref="HttpLoggingOptions.None"/> to disable all logging,
     /// <see cref="HttpLoggingOptions.Minimal"/> for URL/status only,
@@ -154,10 +147,10 @@ public record PipelineOptions
     /// <item><see cref="HttpLoggingOptions.Default"/> - System default (lowest priority)</item>
     /// </list>
     /// </remarks>
-    public HttpLoggingOptions? DefaultHttpLoggingOptions { get; set; }
+    public HttpLoggingOptions? DefaultHttpLoggingOptions { get; init; }
 
     /// <summary>
-    /// Gets or sets the default timeout for all HTTP requests.
+    /// Gets the default timeout for all HTTP requests.
     /// When set, HTTP requests will be cancelled if they exceed this duration,
     /// unless overridden by <see cref="HttpOptions.Timeout"/> on individual requests.
     /// If not set (null), HTTP requests will use the default HttpClient timeout.
@@ -172,26 +165,26 @@ public record PipelineOptions
     /// <item>HttpClient default timeout - System default (lowest priority)</item>
     /// </list>
     /// </remarks>
-    public TimeSpan? DefaultHttpTimeout { get; set; }
+    public TimeSpan? DefaultHttpTimeout { get; init; }
 
     /// <summary>
-    /// Gets or sets the default HTTP resilience options for all HTTP requests.
+    /// Gets the default HTTP resilience options for all HTTP requests.
     /// Controls retry behavior for transient failures (network errors, 5xx server errors).
     /// Use <see cref="HttpResilienceOptions.None"/> to disable retries,
     /// <see cref="HttpResilienceOptions.Default"/> for standard retry behavior (3 retries with exponential backoff),
     /// <see cref="HttpResilienceOptions.Aggressive"/> for more retries with shorter delays,
     /// or <see cref="HttpResilienceOptions.Conservative"/> for fewer retries with longer delays.
     /// </summary>
-    public HttpResilienceOptions? DefaultHttpResilienceOptions { get; set; }
+    public HttpResilienceOptions? DefaultHttpResilienceOptions { get; init; }
 
     /// <summary>
-    /// Gets or sets the concurrency options for module execution.
+    /// Gets the concurrency options for module execution.
     /// Controls parallelism limits and resource-based throttling.
     /// </summary>
-    public ConcurrencyOptions Concurrency { get; set; } = new();
+    public ConcurrencyOptions Concurrency { get; init; } = new();
 
     /// <summary>
-    /// Gets or sets the console width for output rendering.
+    /// Gets the console width for output rendering.
     /// When set to a value, that width is used for all console output.
     /// When null (default), the width is auto-detected: 160 characters for known CI environments,
     /// or the terminal's detected width for local execution.
@@ -207,10 +200,10 @@ public record PipelineOptions
     /// Bitbucket, Travis CI, AppVeyor) automatically use 160 characters unless overridden.
     /// </para>
     /// </remarks>
-    public int? ConsoleWidth { get; set; }
+    public int? ConsoleWidth { get; init; }
 
     /// <summary>
-    /// Gets or sets how often buffered output from still-running modules is written to the console.
+    /// Gets how often buffered output from still-running modules is written to the console.
     /// Set to <see cref="TimeSpan.Zero"/> to disable time-based flushing.
     /// </summary>
     /// <remarks>
@@ -218,10 +211,10 @@ public record PipelineOptions
     /// teardown can run. Size-triggered flushing remains controlled separately by
     /// <see cref="ModuleOutputFlushThreshold"/>. The default is one minute.
     /// </remarks>
-    public TimeSpan ModuleOutputFlushInterval { get; set; } = TimeSpan.FromMinutes(1);
+    public TimeSpan ModuleOutputFlushInterval { get; init; } = TimeSpan.FromMinutes(1);
 
     /// <summary>
-    /// Gets or sets the number of buffered output entries that triggers an immediate incremental flush.
+    /// Gets the number of buffered output entries that triggers an immediate incremental flush.
     /// Set to 0 to disable size-triggered flushing.
     /// </summary>
     /// <remarks>
@@ -229,10 +222,10 @@ public record PipelineOptions
     /// without changing the order or final completion status of module output. The threshold counts
     /// entries and does not impose a byte-size cap.
     /// </remarks>
-    public int ModuleOutputFlushThreshold { get; set; } = 1_000;
+    public int ModuleOutputFlushThreshold { get; init; } = 1_000;
 
     /// <summary>
-    /// Gets or sets the default execution options for all commands.
+    /// Gets the default execution options for all commands.
     /// When set, these options apply to all command executions unless overridden per-call.
     /// </summary>
     /// <remarks>
@@ -242,10 +235,10 @@ public record PipelineOptions
     /// Properties set on per-call <see cref="CommandExecutionOptions"/> override matching properties here.
     /// </para>
     /// </remarks>
-    public CommandExecutionOptions? DefaultExecutionOptions { get; set; }
+    public CommandExecutionOptions? DefaultExecutionOptions { get; init; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to throw a <see cref="Exceptions.PipelineFailedException"/>
+    /// Gets a value indicating whether to throw a <see cref="Exceptions.PipelineFailedException"/>
     /// when the pipeline completes with one or more failed modules.
     /// </summary>
     /// <remarks>
@@ -259,7 +252,7 @@ public record PipelineOptions
     /// programmatically without catching exceptions (e.g., in tests or when implementing custom failure handling).
     /// </para>
     /// </remarks>
-    public bool ThrowOnPipelineFailure { get; set; } = true;
+    public bool ThrowOnPipelineFailure { get; init; } = true;
 
     internal static TimeSpan MaximumModuleOutputFlushInterval { get; } =
         TimeSpan.FromMilliseconds(uint.MaxValue - 1);

@@ -35,8 +35,8 @@ public sealed class PipelineBuilder : IDisposable
     private readonly IHostBuilder _hostBuilder;
     private readonly ServiceCollection _services;
     private readonly ConfigurationManager _configuration;
-    private readonly PipelineOptions _options;
     private readonly PipelineHostEnvironment _environment;
+    private PipelineOptions _options;
 
     internal Type? LastRegisteredModuleType { get; set; }
 
@@ -88,9 +88,19 @@ public sealed class PipelineBuilder : IDisposable
     public ConfigurationManager Configuration => _configuration;
 
     /// <summary>
-    /// Gets the pipeline options for configuring execution behavior.
+    /// Gets the current immutable pipeline options snapshot.
     /// </summary>
+    /// <remarks>
+    /// Use <see cref="Extensions.PipelineBuilderExtensions.ConfigurePipelineOptions(PipelineBuilder, Func{PipelineOptions, PipelineOptions})"/>
+    /// to replace this snapshot.
+    /// </remarks>
     public PipelineOptions Options => _options;
+
+    internal void SetOptions(PipelineOptions options)
+    {
+        ArgumentNullException.ThrowIfNull(options);
+        _options = options;
+    }
 
     /// <summary>
     /// Gets the host environment information.
@@ -124,11 +134,10 @@ public sealed class PipelineBuilder : IDisposable
     /// <returns>The same builder instance for chaining.</returns>
     public PipelineBuilder RunCategories(params string[] categories)
     {
-        _options.RunOnlyCategories =
-        [
-            .. _options.RunOnlyCategories ?? [],
-            .. categories,
-        ];
+        _options = _options with
+        {
+            RunOnlyCategories = [.. _options.RunOnlyCategories ?? [], .. categories],
+        };
 
         return this;
     }
@@ -140,11 +149,10 @@ public sealed class PipelineBuilder : IDisposable
     /// <returns>The same builder instance for chaining.</returns>
     public PipelineBuilder IgnoreCategories(params string[] categories)
     {
-        _options.IgnoreCategories =
-        [
-            .. _options.IgnoreCategories ?? [],
-            .. categories,
-        ];
+        _options = _options with
+        {
+            IgnoreCategories = [.. _options.IgnoreCategories ?? [], .. categories],
+        };
 
         return this;
     }
@@ -313,30 +321,8 @@ public sealed class PipelineBuilder : IDisposable
             // Activate distributed mode if configured (replaces executor based on role)
             ActivateDistributedModeIfConfigured(services);
 
-            // Configure pipeline options
-            services.Configure<PipelineOptions>(opts =>
-            {
-                opts.ExecutionMode = _options.ExecutionMode;
-                opts.DefaultModuleTimeout = _options.DefaultModuleTimeout;
-                opts.RunOnlyCategories = _options.RunOnlyCategories;
-                opts.IgnoreCategories = _options.IgnoreCategories;
-                opts.ShowProgressInConsole = _options.ShowProgressInConsole;
-                opts.PrintResults = _options.PrintResults;
-                opts.PrintLogo = _options.PrintLogo;
-                opts.PrintDependencyChains = _options.PrintDependencyChains;
-                opts.LoadModularPipelineAssemblies = _options.LoadModularPipelineAssemblies;
-                opts.DefaultRetryCount = _options.DefaultRetryCount;
-                opts.DefaultLoggingOptions = _options.DefaultLoggingOptions;
-                opts.DefaultHttpLoggingOptions = _options.DefaultHttpLoggingOptions;
-                opts.DefaultHttpTimeout = _options.DefaultHttpTimeout;
-                opts.DefaultHttpResilienceOptions = _options.DefaultHttpResilienceOptions;
-                opts.Concurrency = _options.Concurrency;
-                opts.ConsoleWidth = _options.ConsoleWidth;
-                opts.DefaultExecutionOptions = _options.DefaultExecutionOptions;
-                opts.ThrowOnPipelineFailure = _options.ThrowOnPipelineFailure;
-                opts.ModuleOutputFlushInterval = _options.ModuleOutputFlushInterval;
-                opts.ModuleOutputFlushThreshold = _options.ModuleOutputFlushThreshold;
-            });
+            services.AddSingleton<IOptions<PipelineOptions>>(
+                Microsoft.Extensions.Options.Options.Create(_options));
 
             // Auto-register any missing required dependencies
             ModuleAutoRegistrar.AutoRegisterMissingDependencies(services);

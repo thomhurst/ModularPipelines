@@ -18,14 +18,20 @@ Configure the interval globally. Setting it to zero disables time-based flushing
 entry threshold still protects against unbounded buffering:
 
 ```csharp
-builder.Options.ModuleOutputFlushInterval = TimeSpan.FromSeconds(30);
+builder.ConfigurePipelineOptions(options => options with
+{
+    ModuleOutputFlushInterval = TimeSpan.FromSeconds(30),
+});
 ```
 
 To keep all output buffered until each module completes, disable both triggers:
 
 ```csharp
-builder.Options.ModuleOutputFlushInterval = TimeSpan.Zero;
-builder.Options.ModuleOutputFlushThreshold = 0;
+builder.ConfigurePipelineOptions(options => options with
+{
+    ModuleOutputFlushInterval = TimeSpan.Zero,
+    ModuleOutputFlushThreshold = 0,
+});
 ```
 
 `ModuleOutputFlushThreshold` counts entries, not bytes. Its default is 1,000 entries per

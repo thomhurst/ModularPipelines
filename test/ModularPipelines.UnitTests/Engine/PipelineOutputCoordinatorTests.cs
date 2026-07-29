@@ -28,8 +28,11 @@ public class PipelineOutputCoordinatorTests
             .AddModule<OptionsTestModule>();
         var expectedInterval = TimeSpan.FromSeconds(17);
         const int expectedThreshold = 23;
-        builder.Options.ModuleOutputFlushInterval = expectedInterval;
-        builder.Options.ModuleOutputFlushThreshold = expectedThreshold;
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ModuleOutputFlushInterval = expectedInterval,
+            ModuleOutputFlushThreshold = expectedThreshold,
+        });
 
         await using var pipeline = await builder.BuildAsync();
         var runtimeOptions = pipeline.Services

@@ -22,7 +22,10 @@ builder
     .AddModule<Module2>()
     .AddModule<Module3>();
 
-builder.Options.ExecutionMode = ExecutionMode.WaitForAllModules;
+builder.ConfigurePipelineOptions(options => options with
+{
+    ExecutionMode = ExecutionMode.WaitForAllModules,
+});
 
 await builder.ExecutePipelineAsync();
 ```

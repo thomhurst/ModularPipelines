@@ -246,11 +246,14 @@ public static class PipelineBuilderExtensions
     /// Configures pipeline options.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
-    /// <param name="configureOptions">Action to configure pipeline options.</param>
+    /// <param name="configureOptions">Function that returns the configured immutable options.</param>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder ConfigurePipelineOptions(this PipelineBuilder builder, Action<PipelineOptions> configureOptions)
+    public static PipelineBuilder ConfigurePipelineOptions(
+        this PipelineBuilder builder,
+        Func<PipelineOptions, PipelineOptions> configureOptions)
     {
-        configureOptions(builder.Options);
+        ArgumentNullException.ThrowIfNull(configureOptions);
+        builder.SetOptions(configureOptions(builder.Options));
         return builder;
     }
 
@@ -258,11 +261,14 @@ public static class PipelineBuilderExtensions
     /// Configures pipeline options with builder context.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
-    /// <param name="configureOptions">Action to configure pipeline options, receiving the builder as context.</param>
+    /// <param name="configureOptions">Function that receives the builder and returns the configured immutable options.</param>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder ConfigurePipelineOptions(this PipelineBuilder builder, Action<PipelineBuilder, PipelineOptions> configureOptions)
+    public static PipelineBuilder ConfigurePipelineOptions(
+        this PipelineBuilder builder,
+        Func<PipelineBuilder, PipelineOptions, PipelineOptions> configureOptions)
     {
-        configureOptions(builder, builder.Options);
+        ArgumentNullException.ThrowIfNull(configureOptions);
+        builder.SetOptions(configureOptions(builder, builder.Options));
         return builder;
     }
 

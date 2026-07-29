@@ -93,23 +93,26 @@ Configure pipeline behavior via the `Options` property:
 ```csharp
 using var builder = Pipeline.CreateBuilder(args);
 
-// Execution mode
-builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
-
-// Category filtering
-builder.Options.RunOnlyCategories = ["Build", "Test"];
-builder.Options.IgnoreCategories = ["Experimental"];
-
-// Display options
-builder.Options.ShowProgressInConsole = true;
-builder.Options.PrintResults = true;
-builder.Options.PrintLogo = true;
-
-// Concurrency settings
-builder.Options.Concurrency = new ConcurrencyOptions
+builder.ConfigurePipelineOptions(options => options with
 {
-    MaxParallelModules = 4
-};
+    // Execution mode
+    ExecutionMode = ExecutionMode.StopOnFirstException,
+
+    // Category filtering
+    RunOnlyCategories = ["Build", "Test"],
+    IgnoreCategories = ["Experimental"],
+
+    // Display options
+    ShowProgressInConsole = true,
+    PrintResults = true,
+    PrintLogo = true,
+
+    // Concurrency settings
+    Concurrency = new ConcurrencyOptions
+    {
+        MaxParallelism = 4,
+    },
+});
 ```
 
 ## Building and Running
@@ -192,8 +195,11 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 // Options
-builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
-builder.Options.IgnoreCategories = ["Experimental"];
+builder.ConfigurePipelineOptions(options => options with
+{
+    ExecutionMode = ExecutionMode.StopOnFirstException,
+    IgnoreCategories = ["Experimental"],
+});
 
 // Services
 builder.Services.Configure<NuGetSettings>(builder.Configuration.GetSection("NuGet"));
@@ -251,9 +257,9 @@ using var builder = Pipeline.CreateBuilder(args);
 await builder
     .AddModule<Module1>()
     .AddModule<Module2>()
-    .ConfigurePipelineOptions(options =>
+    .ConfigurePipelineOptions(options => options with
     {
-        options.ExecutionMode = ExecutionMode.StopOnFirstException;
+        ExecutionMode = ExecutionMode.StopOnFirstException,
     })
     .ExecutePipelineAsync();
 ```

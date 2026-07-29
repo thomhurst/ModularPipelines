@@ -15,7 +15,10 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 
-builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
+builder.ConfigurePipelineOptions(options => options with
+{
+    ExecutionMode = ExecutionMode.StopOnFirstException,
+});
 
 builder
     // Layer 1: Pre-Flight Checks (No Dependencies - Run in Parallel)

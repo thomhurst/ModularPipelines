@@ -111,7 +111,7 @@ await PipelineHostBuilder.Create()
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 
-// Direct property access instead of callbacks
+// Direct builder access
 builder.Configuration
     .AddJsonFile("appsettings.json")
     .AddUserSecrets<Program>()
@@ -130,8 +130,11 @@ builder.Services
     .AddModule<TestModule>()
     .AddModule<DeployModule>();
 
-// Configure options directly
-builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
+// Configure immutable option snapshots
+builder.ConfigurePipelineOptions(options => options with
+{
+    ExecutionMode = ExecutionMode.StopOnFirstException,
+});
 
 // Two-step build and run
 await builder.Build().RunAsync();
@@ -144,7 +147,7 @@ await builder.Build().RunAsync();
 | `PipelineHostBuilder.Create()` | `Pipeline.CreateBuilder(args)` |
 | `.ConfigureAppConfiguration((ctx, builder) => ...)` | `builder.Configuration.Add...()` |
 | `.ConfigureServices((ctx, collection) => ...)` | `builder.Services.Add...()` |
-| `.ConfigurePipelineOptions((ctx, options) => ...)` | `builder.Options.Property = value` |
+| `.ConfigurePipelineOptions((ctx, options) => ...)` | `builder.ConfigurePipelineOptions(options => options with { ... })` |
 | `.AddModule<T>()` on builder | `builder.Services.AddModule<T>()` |
 | `.ExecutePipelineAsync()` | `.Build().RunAsync()` |
 
@@ -439,14 +442,19 @@ V3 uses a three-tier configuration system (highest to lowest priority):
 var builder = Pipeline.CreateBuilder(args);
 
 // Set global default for all commands
-builder.Options.DefaultLoggingOptions = new CommandLoggingOptions
+builder.ConfigurePipelineOptions(options => options with
 {
-    Verbosity = CommandLogVerbosity.Minimal
-};
+    DefaultLoggingOptions = new CommandLoggingOptions
+    {
+        Verbosity = CommandLogVerbosity.Minimal,
+    },
+});
 
-// Or use presets
-builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Silent;
-builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Diagnostic;
+// Or use a preset
+builder.ConfigurePipelineOptions(options => options with
+{
+    DefaultLoggingOptions = CommandLoggingOptions.Diagnostic,
+});
 
 await builder.Build().RunAsync();
 ```
@@ -1052,7 +1060,10 @@ public class MyPlugin : IModularPipelinesPlugin
     public void ConfigurePipeline(PipelineBuilder builder)
     {
         builder.Services.AddModule<PluginModule>();
-        builder.Options.PrintLogo = false;
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            PrintLogo = false,
+        });
     }
 }
 
@@ -1181,7 +1192,7 @@ public class DeployModule : Module<bool>
 | `.ExecutePipelineAsync()` | `.Build().RunAsync()` | Two-step, or use extension |
 | `.ConfigureAppConfiguration(...)` | `builder.Configuration` | Direct access |
 | `.ConfigureServices(...)` | `builder.Services` | Direct access |
-| `.ConfigurePipelineOptions(...)` | `builder.Options` | Direct access |
+| `.ConfigurePipelineOptions(...)` | `builder.ConfigurePipelineOptions(options => options with { ... })` | Immutable snapshots |
 | `IPipelineContext` | `IModuleContext` | In ExecuteAsync signature |
 | `GetModule<T>()` | `context.GetModule<T>()` | Method moved to context |
 | `SubModule()` | `context.SubModule()` | Method moved to context |
@@ -1231,7 +1242,7 @@ This section provides structured data optimized for AI assistants helping with c
   new: "builder.Services.Add...()"
 
 - old: ".ConfigurePipelineOptions((context, options) => { ... })"
-  new: "builder.Options.PropertyName = value"
+  new: "builder.ConfigurePipelineOptions(options => options with { PropertyName = value })"
 
 # Context Parameter
 - old: "IPipelineContext context"
@@ -1311,7 +1322,7 @@ This section provides structured data optimized for AI assistants helping with c
 - new_only: "CommandLogVerbosity.Silent/Minimal/Normal/Detailed/Diagnostic"
   note: "Use verbosity levels for quick configuration"
 
-- new_only: "builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Silent"
+- new_only: "builder.ConfigurePipelineOptions(options => options with { DefaultLoggingOptions = CommandLoggingOptions.Silent })"
   note: "Set global defaults at pipeline level"
 
 - new_only: "CommandLoggingOptions.Silent / .Diagnostic / .Default presets"
