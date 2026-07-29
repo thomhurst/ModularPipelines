@@ -99,10 +99,10 @@ remains available for ordinary JIT deployments.
 
 ## MPG0012
 
-An `AddModule<T>()` call registers a closed generic module declared in another
-assembly. The consumer generator cannot add runtime metadata owned by that external
-assembly. Use a consumer-owned non-generic wrapper for the module before publishing
-with Native AOT.
+A consumer references a closed generic module declared in another assembly, either
+through `AddModule<T>()` or a transitive `DependsOn<T>` chain. The consumer generator
+cannot add runtime metadata owned by that external assembly. Use a consumer-owned
+non-generic wrapper for the module before publishing with Native AOT.
 
 **Severity:** Warning
 
