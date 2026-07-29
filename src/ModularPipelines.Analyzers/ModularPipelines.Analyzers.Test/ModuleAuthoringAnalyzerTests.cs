@@ -703,6 +703,28 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_NonAwaitable_CancellationToken_Overload()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await FetchAsync();
+                return null;
+            }
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static void FetchAsync(CancellationToken cancellationToken)
+                {
+                }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Inaccessible_CancellationToken_Overload()
     {
         var source = $$"""

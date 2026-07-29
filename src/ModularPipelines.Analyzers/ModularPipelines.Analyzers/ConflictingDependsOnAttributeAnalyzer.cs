@@ -267,6 +267,7 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             }
         }
     }
+
     private static Dictionary<INamedTypeSymbol, int> FindStronglyConnectedComponents(
         IReadOnlyDictionary<INamedTypeSymbol, List<INamedTypeSymbol>> graph,
         CancellationToken cancellationToken)

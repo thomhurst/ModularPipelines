@@ -320,21 +320,8 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsTaskLike(ITypeSymbol? type)
     {
-        for (var current = type as INamedTypeSymbol;
-             current is not null;
-             current = current.BaseType)
-        {
-            if (current.OriginalDefinition.ToDisplayString() is
-                "System.Threading.Tasks.Task"
-                or "System.Threading.Tasks.Task<TResult>"
-                or "System.Threading.Tasks.ValueTask"
-                or "System.Threading.Tasks.ValueTask<TResult>")
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return type is not null
+               && TryGetTaskResultType(type, out _);
     }
 
     private static void TrackRegistrationInvocation(
@@ -1151,6 +1138,13 @@ internal static class ModuleAuthoringAnalysis
             candidate = candidate.Construct([.. selectedMethod.TypeArguments]);
         }
 
+        if (!HasCompatibleAwaitedResult(
+                selectedMethod.ReturnType,
+                candidate.ReturnType))
+        {
+            return false;
+        }
+
         var candidateParameters = candidate.Parameters
             .Where(parameter => !IsCancellationToken(parameter))
             .ToArray();
@@ -1166,6 +1160,49 @@ internal static class ModuleAuthoringAnalysis
                 static (left, right) => left.RefKind == right.RefKind
                     && SymbolEqualityComparer.Default.Equals(left.Type, right.Type))
             .All(static matches => matches);
+    }
+
+    private static bool HasCompatibleAwaitedResult(
+        ITypeSymbol selectedReturnType,
+        ITypeSymbol candidateReturnType)
+    {
+        if (SymbolEqualityComparer.Default.Equals(
+                selectedReturnType,
+                candidateReturnType))
+        {
+            return true;
+        }
+
+        return TryGetTaskResultType(selectedReturnType, out var selectedResultType)
+               && TryGetTaskResultType(candidateReturnType, out var candidateResultType)
+               && SymbolEqualityComparer.Default.Equals(
+                   selectedResultType,
+                   candidateResultType);
+    }
+
+    private static bool TryGetTaskResultType(
+        ITypeSymbol returnType,
+        out ITypeSymbol? resultType)
+    {
+        for (var current = returnType as INamedTypeSymbol;
+             current is not null;
+             current = current.BaseType)
+        {
+            switch (current.OriginalDefinition.ToDisplayString())
+            {
+                case "System.Threading.Tasks.Task":
+                case "System.Threading.Tasks.ValueTask":
+                    resultType = null;
+                    return true;
+                case "System.Threading.Tasks.Task<TResult>":
+                case "System.Threading.Tasks.ValueTask<TResult>":
+                    resultType = current.TypeArguments[0];
+                    return true;
+            }
+        }
+
+        resultType = null;
+        return false;
     }
 
     private static bool IsCancellationToken(IParameterSymbol parameter)
