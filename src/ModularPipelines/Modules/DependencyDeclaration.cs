@@ -24,7 +24,8 @@ internal sealed class DependencyDeclaration : IDependencyDeclaration
     public IReadOnlyList<DeclaredDependency> Dependencies => _dependencies;
 
     /// <inheritdoc />
-    public IDependencyDeclaration DependsOn<TModule>() where TModule : IModule
+    public IDependencyDeclaration DependsOn<TModule>()
+        where TModule : IModule
     {
         return DependsOn(typeof(TModule));
     }
@@ -38,7 +39,8 @@ internal sealed class DependencyDeclaration : IDependencyDeclaration
     }
 
     /// <inheritdoc />
-    public IDependencyDeclaration DependsOnOptional<TModule>() where TModule : IModule
+    public IDependencyDeclaration DependsOnOptional<TModule>()
+        where TModule : IModule
     {
         return DependsOnOptional(typeof(TModule));
     }
@@ -52,7 +54,8 @@ internal sealed class DependencyDeclaration : IDependencyDeclaration
     }
 
     /// <inheritdoc />
-    public IDependencyDeclaration DependsOnIf<TModule>(bool condition) where TModule : IModule
+    public IDependencyDeclaration DependsOnIf<TModule>(bool condition)
+        where TModule : IModule
     {
         return DependsOnIf(typeof(TModule), condition);
     }

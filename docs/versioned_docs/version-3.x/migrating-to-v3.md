@@ -959,7 +959,6 @@ public class MyModule : Module<string>
 
         // Conditional dependency
         deps.DependsOnIf<ProductionModule>(Environment.IsProduction);
-
     }
 
     protected override async Task<string?> ExecuteAsync(
@@ -969,6 +968,13 @@ public class MyModule : Module<string>
     }
 }
 ```
+
+Two redundant dependency APIs have been removed:
+
+- Replace `DependsOnLazy<TModule>()` with `DependsOnOptional<TModule>()`. The removed API was only an optional-dependency marker; it did not defer module execution.
+- Replace `DependsOnIf<TModule>(Func<bool>)` with `DependsOnIf<TModule>(bool)` by evaluating the predicate before the call, for example `deps.DependsOnIf<HeavyModule>(ShouldRunHeavyProcessing())`.
+
+The same replacements apply to the overloads that accept a module `Type`.
 
 ### New Dependency Attributes
 

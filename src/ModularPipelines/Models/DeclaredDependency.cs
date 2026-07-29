@@ -16,18 +16,21 @@ public readonly record struct DeclaredDependency(
     /// <summary>
     /// Creates a required dependency.
     /// </summary>
+    /// <returns>A required dependency declaration.</returns>
     public static DeclaredDependency Required(Type type) =>
         new(type, Enums.DependencyType.Required, false);
 
     /// <summary>
     /// Creates an optional dependency.
     /// </summary>
+    /// <returns>An optional dependency declaration.</returns>
     public static DeclaredDependency Optional(Type type) =>
         new(type, Enums.DependencyType.Optional, true);
 
     /// <summary>
     /// Creates a conditional dependency.
     /// </summary>
+    /// <returns>A conditional dependency declaration.</returns>
     public static DeclaredDependency Conditional(Type type) =>
         new(type, Enums.DependencyType.Conditional, false);
 }

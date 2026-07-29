@@ -24,13 +24,13 @@ namespace ModularPipelines.Modules;
 ///         // Optional dependency (doesn't fail if not registered)
 ///         deps.DependsOnOptional&lt;CachingModule&gt;();
 ///
-///         // Conditional dependency
+///         // Evaluate the condition before declaring a required dependency
 ///         if (Environment.IsProduction)
 ///         {
 ///             deps.DependsOn&lt;PerformanceMonitoringModule&gt;();
 ///         }
 ///
-///         // Conditional dependency
+///         // Declare a dependency only when the supplied value is true
 ///         deps.DependsOnIf&lt;HeavyProcessingModule&gt;(ShouldRunHeavyProcessing);
 ///     }
 /// }
@@ -46,7 +46,8 @@ public interface IDependencyDeclaration
     /// <exception cref="Exceptions.ModuleNotRegisteredException">
     /// Thrown during pipeline execution if the dependency is not registered.
     /// </exception>
-    IDependencyDeclaration DependsOn<TModule>() where TModule : IModule;
+    IDependencyDeclaration DependsOn<TModule>()
+        where TModule : IModule;
 
     /// <summary>
     /// Declares a required dependency on the specified module type.
@@ -67,7 +68,8 @@ public interface IDependencyDeclaration
     /// </summary>
     /// <typeparam name="TModule">The type of module to depend on.</typeparam>
     /// <returns>This instance for method chaining.</returns>
-    IDependencyDeclaration DependsOnOptional<TModule>() where TModule : IModule;
+    IDependencyDeclaration DependsOnOptional<TModule>()
+        where TModule : IModule;
 
     /// <summary>
     /// Declares an optional dependency on the specified module type.
@@ -89,7 +91,8 @@ public interface IDependencyDeclaration
     /// <remarks>
     /// If the condition is false, the dependency is not added at all.
     /// </remarks>
-    IDependencyDeclaration DependsOnIf<TModule>(bool condition) where TModule : IModule;
+    IDependencyDeclaration DependsOnIf<TModule>(bool condition)
+        where TModule : IModule;
 
     /// <summary>
     /// Declares a conditional dependency that is only active if the condition is true.
