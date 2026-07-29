@@ -18,6 +18,7 @@ public class CommandGroupAliasGenerationTests
         var tool = CreateTool();
 
         var optionFiles = await new OptionsClassGenerator().GenerateAsync(tool);
+        var enumFiles = await new EnumGenerator().GenerateAsync(tool);
         var serviceFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
         var serviceInterface = (await new ServiceInterfaceGenerator().GenerateAsync(tool))
             .Single().Content;
@@ -52,6 +53,14 @@ public class CommandGroupAliasGenerationTests
             .Contains(": (DockerBuildxHistoryLogsProgress)(int)value.Value;");
         await Assert.That(historyLogsOptions.Content)
             .Contains("[CliOption(\"--progress\", Format = OptionFormat.EqualsSeparated)]");
+        var historyLogsEnum = enumFiles.Single(file =>
+            file.RelativePath.EndsWith(
+                "DockerBuilderHistoryLogsProgress.Generated.cs",
+                StringComparison.Ordinal));
+        await Assert.That(historyLogsEnum.Content)
+            .Contains("public enum DockerBuilderHistoryLogsProgress");
+        await Assert.That(historyLogsEnum.Content)
+            .Contains("[EnumValue(\"plain\")]");
 
         var canonicalService = serviceFiles.Single(file =>
             Path.GetFileName(file.RelativePath).Equals(
@@ -132,7 +141,14 @@ public class CommandGroupAliasGenerationTests
                             EnumDefinition = new CliEnumDefinition
                             {
                                 EnumName = "DockerBuildxHistoryLogsProgress",
-                                Values = [],
+                                Values =
+                                [
+                                    new CliEnumValue
+                                    {
+                                        MemberName = "Plain",
+                                        CliValue = "plain",
+                                    },
+                                ],
                             },
                         },
                     ]),
