@@ -1,3 +1,5 @@
+using MEL.Spectre;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
@@ -20,7 +22,8 @@ public class NonSpectreLoggerFactoryTests
             "Allowed",
             LogLevel.Warning,
             null));
-        var logger = CreateFactory(provider, options).CreateLoggers("Allowed.Category").Single();
+        using var loggerFactory = CreateLoggerFactory(provider, options);
+        var logger = CreateFactory(loggerFactory).CreateLoggers("Allowed.Category").Single();
 
         logger.LogInformation("filtered");
         logger.LogWarning("delivered");
@@ -42,7 +45,8 @@ public class NonSpectreLoggerFactoryTests
             "Allowed",
             null,
             (_, _, _) => true));
-        var logger = CreateFactory(provider, options).CreateLoggers("Allowed.Category").Single();
+        using var loggerFactory = CreateLoggerFactory(provider, options);
+        var logger = CreateFactory(loggerFactory).CreateLoggers("Allowed.Category").Single();
 
         logger.LogInformation("delivered");
 
@@ -50,13 +54,63 @@ public class NonSpectreLoggerFactoryTests
         await Assert.That(provider.Entries[0]).IsEqualTo((LogLevel.Information, "delivered"));
     }
 
-    private static NonSpectreLoggerFactory CreateFactory(
+    [Test]
+    public async Task CreateLoggers_Includes_Provider_Added_After_Logger_Creation()
+    {
+        var spectreProvider = new RecordingLoggerProvider();
+        var dynamicProvider = new RecordingLoggerProvider();
+        var suppression = new SpectreLoggerSuppression();
+        using var suppressibleSpectreProvider =
+            new SuppressibleSpectreLoggerProvider(
+                spectreProvider,
+                Mock.Of<ISpectreConsoleLoggerControl>(),
+                suppression);
+        using var loggerFactory = new LoggerFactory([suppressibleSpectreProvider]);
+        var logger = new NonSpectreLoggerFactory(loggerFactory, suppression)
+            .CreateLoggers("Category")
+            .Single();
+
+        loggerFactory.AddProvider(dynamicProvider);
+        logger.LogWarning("delivered");
+
+        await Assert.That(spectreProvider.Entries).IsEmpty();
+        await Assert.That(dynamicProvider.Entries).HasSingleItem();
+        await Assert.That(dynamicProvider.Entries[0]).IsEqualTo((LogLevel.Warning, "delivered"));
+    }
+
+    [Test]
+    public async Task Registration_Resolves_Logger_Factory_And_Control()
+    {
+        var services = new ServiceCollection();
+        services.AddLogging(builder =>
+        {
+            builder.AddSpectreConsole();
+            builder.Services.MakeSpectreLoggerSuppressible();
+        });
+        await using var serviceProvider = services.BuildServiceProvider();
+
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+        var control = serviceProvider.GetRequiredService<ISpectreConsoleLoggerControl>();
+
+        await Assert.That(loggerFactory).IsNotNull();
+        await Assert.That(control.SynchronizationLock).IsNotNull();
+    }
+
+    private static NonSpectreLoggerFactory CreateFactory(ILoggerFactory loggerFactory)
+    {
+        return new NonSpectreLoggerFactory(loggerFactory, new SpectreLoggerSuppression());
+    }
+
+    private static LoggerFactory CreateLoggerFactory(
         ILoggerProvider provider,
         LoggerFilterOptions options)
     {
         var monitor = new Mock<IOptionsMonitor<LoggerFilterOptions>>();
         monitor.SetupGet(x => x.CurrentValue).Returns(options);
-        return new NonSpectreLoggerFactory([provider], monitor.Object);
+        monitor
+            .Setup(x => x.OnChange(It.IsAny<Action<LoggerFilterOptions, string?>>()))
+            .Returns(Mock.Of<IDisposable>());
+        return new LoggerFactory([provider], monitor.Object);
     }
 
     [ProviderAlias("Recording")]

@@ -105,6 +105,7 @@ internal static class DependencyInjectionSetup
                     .AddFilter("System", LogLevel.Warning);
 
                 builder.AddSpectreConsole(ConfigureSpectreConsoleLogger);
+                builder.Services.MakeSpectreLoggerSuppressible();
             })
             .AddHttpClient()
             .AddLoggingHttpClients()
