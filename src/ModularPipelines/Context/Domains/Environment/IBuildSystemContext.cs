@@ -1,3 +1,5 @@
+using ModularPipelines.Enums;
+
 namespace ModularPipelines.Context.Domains.Environment;
 
 /// <summary>
@@ -6,47 +8,64 @@ namespace ModularPipelines.Context.Domains.Environment;
 public interface IBuildSystemContext
 {
     /// <summary>
-    /// True if running on GitHub Actions.
+    /// Gets the current build system.
+    /// </summary>
+    BuildSystem Current =>
+        this switch
+        {
+            { IsAzurePipelines: true } => BuildSystem.AzurePipelines,
+            { IsTeamCity: true } => BuildSystem.TeamCity,
+            { IsGitHubActions: true } => BuildSystem.GitHubActions,
+            { IsJenkins: true } => BuildSystem.Jenkins,
+            { IsGitLab: true } => BuildSystem.GitLab,
+            { IsBitbucket: true } => BuildSystem.Bitbucket,
+            { IsTravisCI: true } => BuildSystem.TravisCI,
+            { IsAppVeyor: true } => BuildSystem.AppVeyor,
+            _ => BuildSystem.Unknown,
+        };
+
+    /// <summary>
+    /// Gets a value indicating whether this is running on GitHub Actions.
     /// </summary>
     bool IsGitHubActions { get; }
 
     /// <summary>
-    /// True if running on Azure Pipelines.
+    /// Gets a value indicating whether this is running on Azure Pipelines.
     /// </summary>
     bool IsAzurePipelines { get; }
 
     /// <summary>
-    /// True if running on TeamCity.
+    /// Gets a value indicating whether this is running on TeamCity.
     /// </summary>
     bool IsTeamCity { get; }
 
     /// <summary>
-    /// True if running on Jenkins.
+    /// Gets a value indicating whether this is running on Jenkins.
     /// </summary>
     bool IsJenkins { get; }
 
     /// <summary>
-    /// True if running on GitLab CI/CD.
+    /// Gets a value indicating whether this is running on GitLab CI/CD.
     /// </summary>
     bool IsGitLab { get; }
 
     /// <summary>
-    /// True if running on Bitbucket Pipelines.
+    /// Gets a value indicating whether this is running on Bitbucket Pipelines.
     /// </summary>
     bool IsBitbucket { get; }
 
     /// <summary>
-    /// True if running on Travis CI.
+    /// Gets a value indicating whether this is running on Travis CI.
     /// </summary>
     bool IsTravisCI { get; }
 
     /// <summary>
-    /// True if running on AppVeyor.
+    /// Gets a value indicating whether this is running on AppVeyor.
     /// </summary>
     bool IsAppVeyor { get; }
 
     /// <summary>
-    /// True if running on any CI/CD build server.
+    /// Gets a value indicating whether this is running on any CI/CD build server.
     /// </summary>
     bool IsBuildServer { get; }
 }

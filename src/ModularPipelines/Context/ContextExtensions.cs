@@ -24,7 +24,8 @@ public static class ContextExtensions
     /// var myService = context.GetService&lt;IMyService&gt;();
     /// </code>
     /// </example>
-    public static T GetService<T>(this IPipelineContext context) where T : class
+    public static T GetService<T>(this IPipelineContext context)
+        where T : class
     {
         return context.Services.Get<T>();
     }
@@ -44,7 +45,8 @@ public static class ContextExtensions
     /// }
     /// </code>
     /// </example>
-    public static T? TryGetService<T>(this IPipelineContext context) where T : class
+    public static T? TryGetService<T>(this IPipelineContext context)
+        where T : class
     {
         return context.Services.TryGet<T>();
     }
@@ -106,14 +108,7 @@ public static class ContextExtensions
     /// </example>
     public static bool IsRunningIn(this IPipelineContext context, BuildSystem buildSystem)
     {
-        return buildSystem switch
-        {
-            BuildSystem.GitHubActions => context.Environment.BuildSystem.IsGitHubActions,
-            BuildSystem.AzurePipelines => context.Environment.BuildSystem.IsAzurePipelines,
-            BuildSystem.TeamCity => context.Environment.BuildSystem.IsTeamCity,
-            BuildSystem.Jenkins => context.Environment.BuildSystem.IsJenkins,
-            _ => false,
-        };
+        return context.Environment.BuildSystem.Current == buildSystem;
     }
 
     /// <summary>

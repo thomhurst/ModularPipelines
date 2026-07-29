@@ -1,47 +1,41 @@
 using ModularPipelines.Context.Domains.Environment;
 
+using ModularPipelines.Enums;
+
 namespace ModularPipelines.Context.Domains.Implementations;
 
 /// <summary>
 /// Adapter that wraps <see cref="IBuildSystemDetector"/> to provide the <see cref="IBuildSystemContext"/> interface.
 /// </summary>
-internal class BuildSystemContext : IBuildSystemContext
+internal class BuildSystemContext(IBuildSystemDetector detector) : IBuildSystemContext
 {
-    private readonly IBuildSystemDetector _detector;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BuildSystemContext"/> class.
-    /// </summary>
-    /// <param name="detector">The build system detector to wrap.</param>
-    public BuildSystemContext(IBuildSystemDetector detector)
-    {
-        _detector = detector;
-    }
+    /// <inheritdoc />
+    public BuildSystem Current => detector.Current;
 
     /// <inheritdoc />
-    public bool IsGitHubActions => _detector.IsRunningOnGitHubActions;
+    public bool IsGitHubActions => detector.IsRunningOnGitHubActions;
 
     /// <inheritdoc />
-    public bool IsAzurePipelines => _detector.IsRunningOnAzurePipelines;
+    public bool IsAzurePipelines => detector.IsRunningOnAzurePipelines;
 
     /// <inheritdoc />
-    public bool IsTeamCity => _detector.IsRunningOnTeamCity;
+    public bool IsTeamCity => detector.IsRunningOnTeamCity;
 
     /// <inheritdoc />
-    public bool IsJenkins => _detector.IsRunningOnJenkins;
+    public bool IsJenkins => detector.IsRunningOnJenkins;
 
     /// <inheritdoc />
-    public bool IsGitLab => _detector.IsRunningOnGitLab;
+    public bool IsGitLab => detector.IsRunningOnGitLab;
 
     /// <inheritdoc />
-    public bool IsBitbucket => _detector.IsRunningOnBitbucket;
+    public bool IsBitbucket => detector.IsRunningOnBitbucket;
 
     /// <inheritdoc />
-    public bool IsTravisCI => _detector.IsRunningOnTravisCI;
+    public bool IsTravisCI => detector.IsRunningOnTravisCI;
 
     /// <inheritdoc />
-    public bool IsAppVeyor => _detector.IsRunningOnAppVeyor;
+    public bool IsAppVeyor => detector.IsRunningOnAppVeyor;
 
     /// <inheritdoc />
-    public bool IsBuildServer => _detector.IsKnownBuildAgent;
+    public bool IsBuildServer => detector.IsKnownBuildAgent;
 }
