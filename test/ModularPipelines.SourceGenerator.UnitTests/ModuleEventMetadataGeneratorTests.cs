@@ -106,4 +106,77 @@ public class ModuleEventMetadataGeneratorTests
                 .Contains("new global::Consumer.MarkerAttribute()");
         }
     }
+
+    [Test]
+    public async Task Transitive_Closed_Generic_Dependency_Emits_Event_Metadata()
+    {
+        var result = GeneratorTestRunner.Run(
+            new ModuleEventMetadataGenerator(),
+            Infrastructure,
+            """
+            namespace Consumer
+            {
+                [System.AttributeUsage(System.AttributeTargets.Class)]
+                public sealed class MarkerAttribute : System.Attribute;
+
+                [Marker]
+                public sealed class LeafModule<T> : ModularPipelines.Modules.Module<T>;
+
+                [ModularPipelines.Attributes.DependsOn<LeafModule<string>>]
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
+                public sealed class ParentModule : ModularPipelines.Modules.Module<bool>;
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated)
+                .Contains("typeof(global::Consumer.GenericModule<int>)");
+            await Assert.That(generated)
+                .Contains("typeof(global::Consumer.LeafModule<string>)");
+            await Assert.That(generated)
+                .Contains("new global::Consumer.MarkerAttribute()");
+        }
+    }
+
+    [Test]
+    public async Task Transitive_Closed_Generic_Dependency_Cycle_Emits_Each_Module_Once()
+    {
+        var result = GeneratorTestRunner.Run(
+            new ModuleEventMetadataGenerator(),
+            Infrastructure,
+            """
+            namespace Consumer
+            {
+                [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
+                public sealed class LeafModule<T> : ModularPipelines.Modules.Module<T>;
+
+                [ModularPipelines.Attributes.DependsOn<LeafModule<string>>]
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
+                public sealed class ParentModule : ModularPipelines.Modules.Module<bool>;
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated
+                .Split(
+                    "typeof(global::Consumer.GenericModule<int>)",
+                    StringSplitOptions.None)
+                .Length - 1).IsEqualTo(1);
+            await Assert.That(generated
+                .Split(
+                    "typeof(global::Consumer.LeafModule<string>)",
+                    StringSplitOptions.None)
+                .Length - 1).IsEqualTo(1);
+        }
+    }
 }

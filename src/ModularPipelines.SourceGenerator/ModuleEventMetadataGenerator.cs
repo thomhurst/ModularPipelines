@@ -145,16 +145,32 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
             return [];
         }
 
-        return
-        [
-            .. ModuleMetadataGenerator
-                .GetClosedGenericModuleDependencies(type, compilation)
-                .Select(dependency => CreateModuleCandidate(
-                    dependency,
-                    compilation,
-                    context.Node.GetLocation(),
-                    allowConstructedGeneric: true)),
-        ];
+        var candidates = ImmutableArray.CreateBuilder<ModuleEventMetadataCandidate>();
+        var pending = new Stack<INamedTypeSymbol>(
+            ModuleMetadataGenerator.GetClosedGenericModuleDependencies(type, compilation));
+        var visited = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
+
+        while (pending.Count > 0)
+        {
+            var dependency = pending.Pop();
+            if (!visited.Add(dependency))
+            {
+                continue;
+            }
+
+            candidates.Add(CreateModuleCandidate(
+                dependency,
+                compilation,
+                context.Node.GetLocation(),
+                allowConstructedGeneric: true));
+            foreach (var transitiveDependency in ModuleMetadataGenerator
+                         .GetClosedGenericModuleDependencies(dependency, compilation))
+            {
+                pending.Push(transitiveDependency);
+            }
+        }
+
+        return candidates.ToImmutable();
     }
 
     private static ModuleEventMetadataCandidate CreateModuleCandidate(
