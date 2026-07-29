@@ -6,112 +6,106 @@ using ModularPipelines.Enums;
 namespace ModularPipelines.Build.Modules.UnitTests;
 
 [ExecutionHint(ExecutionType.CpuIntensive)]
-public sealed class RunGeneratedOptionsUnitTestsModule<TProject>(
+[DependsOn<RunCoreUnitTestsModule>]
+public abstract class RunGeneratedOptionsUnitTestsModule(
     IOptions<PipelineSettings> pipelineSettings)
     : RunUnitTestModule(pipelineSettings)
 {
     protected override string TestProjectFileName =>
-        $"ModularPipelines.{typeof(TProject).Name}.UnitTests.csproj";
+        $"ModularPipelines.{GetType().Name}.UnitTests.csproj";
 }
 
 public static class GeneratedOptionsUnitTestProjects
 {
-    public static Type[] ModuleTypes { get; } = GetModuleTypes();
+    public static Type[] ModuleTypes { get; } =
+    [
+        .. typeof(GeneratedOptionsUnitTestProjects)
+            .GetNestedTypes()
+            .Where(type => type.IsAssignableTo(typeof(RunGeneratedOptionsUnitTestsModule)))
+            .OrderBy(type => type.Name),
+    ];
 
-    public sealed class AmazonWebServices;
+    public sealed class AmazonWebServices(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Buildah;
+    public sealed class Buildah(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Chocolatey;
+    public sealed class Chocolatey(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class DotNet;
+    public sealed class DotNet(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Flux;
+    public sealed class Flux(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Flyway;
+    public sealed class Flyway(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Git;
+    public sealed class Git(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Go;
+    public sealed class Go(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Google;
+    public sealed class Google(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Grype;
+    public sealed class Grype(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Helm;
+    public sealed class Helm(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Homebrew;
+    public sealed class Homebrew(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Kind;
+    public sealed class Kind(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Kubernetes;
+    public sealed class Kubernetes(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Minikube;
+    public sealed class Minikube(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Newman;
+    public sealed class Newman(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Packer;
+    public sealed class Packer(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Podman;
+    public sealed class Podman(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Pulumi;
+    public sealed class Pulumi(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Python;
+    public sealed class Python(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Rust;
+    public sealed class Rust(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Skopeo;
+    public sealed class Skopeo(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Syft;
+    public sealed class Syft(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Terraform;
+    public sealed class Terraform(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Vault;
+    public sealed class Vault(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class WinGet;
+    public sealed class WinGet(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Yarn;
+    public sealed class Yarn(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 
-    public sealed class Yq;
-
-    private static Type[] GetModuleTypes()
-    {
-        Type[] projectTypes =
-        [
-            typeof(AmazonWebServices),
-            typeof(Buildah),
-            typeof(Chocolatey),
-            typeof(DotNet),
-            typeof(Flux),
-            typeof(Flyway),
-            typeof(Git),
-            typeof(Go),
-            typeof(Google),
-            typeof(Grype),
-            typeof(Helm),
-            typeof(Homebrew),
-            typeof(Kind),
-            typeof(Kubernetes),
-            typeof(Minikube),
-            typeof(Newman),
-            typeof(Packer),
-            typeof(Podman),
-            typeof(Pulumi),
-            typeof(Python),
-            typeof(Rust),
-            typeof(Skopeo),
-            typeof(Syft),
-            typeof(Terraform),
-            typeof(Vault),
-            typeof(WinGet),
-            typeof(Yarn),
-            typeof(Yq),
-        ];
-
-        return
-        [
-            .. projectTypes.Select(type =>
-                typeof(RunGeneratedOptionsUnitTestsModule<>).MakeGenericType(type)),
-        ];
-    }
+    public sealed class Yq(IOptions<PipelineSettings> pipelineSettings)
+        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 }
