@@ -130,6 +130,7 @@ internal class OptionsProvider : IOptionsProvider
     /// <summary>
     /// Creates a delegate to access the Value property of an IOptions&lt;T&gt; instance.
     /// </summary>
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(IOptions<>))]
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2070",

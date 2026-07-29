@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Attributes.Events;
@@ -16,6 +17,10 @@ if (args is [SmokeState.ChildArgument, var childValue])
 }
 
 using var builder = Pipeline.CreateBuilder(args);
+
+// Exercise OptionsProvider's runtime-discovered IOptions<T> path after trimming.
+builder.Services.AddSingleton<IOptions<SmokePipelineOptions>>(
+    Options.Create(new SmokePipelineOptions { Marker = SmokeState.OptionsMarker }));
 builder
     .AddModule<CommandModule>()
     .AddModule<VerificationModule>()
@@ -63,7 +68,14 @@ internal static class SmokeState
 
     public const string Secret = "trim-aot-smoke-secret";
 
+    public const string OptionsMarker = "trim-aot-options-marker";
+
     public static int HookInvocations { get; set; }
+}
+
+internal sealed class SmokePipelineOptions
+{
+    public string? Marker { get; set; }
 }
 
 [AttributeUsage(AttributeTargets.Class)]
