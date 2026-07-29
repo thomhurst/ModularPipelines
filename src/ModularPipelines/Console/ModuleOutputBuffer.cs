@@ -202,6 +202,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         lock (_lock)
         {
+            if (_isComplete)
+            {
+                return;
+            }
+
             _outputs.Add(output);
             if (_requestIncrementalFlush is not null
                 && _outputFlushThreshold > 0

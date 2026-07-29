@@ -91,6 +91,26 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task OutputAddedAfterCompletion_IsIgnored()
+    {
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+
+        buffer.MarkComplete();
+        buffer.WriteLine("late output");
+        buffer.AddLogEvent(new BufferedLogEvent<string>(
+            LogLevel.Information,
+            default,
+            "late log",
+            "late log",
+            null,
+            static (state, _) => state,
+            new PassthroughSecretObfuscator()));
+
+        await Assert.That(buffer.HasOutput).IsFalse();
+        await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
+    }
+
+    [Test]
     public async Task IncrementalFlush_Marks_Module_As_InProgress()
     {
         var writer = new StringWriter();
