@@ -341,14 +341,7 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
         var method = invocation.TargetMethod;
-        if (!method.ContainingNamespace.ToDisplayString().StartsWith(
-                "ModularPipelines",
-                StringComparison.Ordinal)
-            || method.Name is not (
-                "AddModule"
-                or "AddModules"
-                or "AddModulesFromAssembly"
-                or "AddModulesFromAssemblyContainingType"))
+        if (!IsModuleRegistrationMethod(method))
         {
             return;
         }
@@ -359,6 +352,36 @@ internal static class ModuleAuthoringAnalysis
             return;
         }
 
+        TrackGenericModuleRegistrations(
+            method,
+            registeredModules,
+            instanceRegisteredModules);
+        if (method.Name == "AddModules")
+        {
+            TrackDynamicModuleRegistrations(
+                invocation,
+                registeredModules,
+                unresolvedModuleRegistrations);
+        }
+    }
+
+    private static bool IsModuleRegistrationMethod(IMethodSymbol method)
+    {
+        return method.ContainingNamespace.ToDisplayString().StartsWith(
+                   "ModularPipelines",
+                   StringComparison.Ordinal)
+               && method.Name is
+                   "AddModule"
+                   or "AddModules"
+                   or "AddModulesFromAssembly"
+                   or "AddModulesFromAssemblyContainingType";
+    }
+
+    private static void TrackGenericModuleRegistrations(
+        IMethodSymbol method,
+        ConcurrentBag<INamedTypeSymbol> registeredModules,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
+    {
         foreach (var typeArgument in method.TypeArguments.OfType<INamedTypeSymbol>())
         {
             var normalizedType = typeArgument.OriginalDefinition;
@@ -370,12 +393,13 @@ internal static class ModuleAuthoringAnalysis
                 instanceRegisteredModules.Add(normalizedType);
             }
         }
+    }
 
-        if (method.Name != "AddModules")
-        {
-            return;
-        }
-
+    private static void TrackDynamicModuleRegistrations(
+        IInvocationOperation invocation,
+        ConcurrentBag<INamedTypeSymbol> registeredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
+    {
         foreach (var argument in invocation.Arguments)
         {
             if (!TryTrackModuleTypes(
@@ -914,22 +938,30 @@ internal static class ModuleAuthoringAnalysis
         IOperation candidate,
         IOperation operation)
     {
-        IBlockOperation? containingBlock = null;
-        for (var ancestor = candidate.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        var containingBlock = GetContainingBlock(candidate);
+        return containingBlock is not null
+               && HasAncestor(operation, containingBlock)
+               && !HasBranchingAncestor(candidate, containingBlock);
+    }
+
+    private static IBlockOperation? GetContainingBlock(IOperation operation)
+    {
+        for (var ancestor = operation.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
             if (ancestor is IBlockOperation block)
             {
-                containingBlock = block;
-                break;
+                return block;
             }
         }
 
-        if (containingBlock is null || !HasAncestor(operation, containingBlock))
-        {
-            return false;
-        }
+        return null;
+    }
 
-        for (var ancestor = candidate.Parent;
+    private static bool HasBranchingAncestor(
+        IOperation operation,
+        IBlockOperation containingBlock)
+    {
+        for (var ancestor = operation.Parent;
              ancestor is not null && !ReferenceEquals(ancestor, containingBlock);
              ancestor = ancestor.Parent)
         {
@@ -937,11 +969,11 @@ internal static class ModuleAuthoringAnalysis
                 or ILoopOperation
                 or ISwitchOperation)
             {
-                return false;
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     private static bool HasAncestor(
