@@ -30,9 +30,59 @@ public class OptionsClassGenerator : ICodeGenerator
                 RelativePath = relativePath,
                 Content = content
             });
+
+            if (command.CommandParts.Length <= 1)
+            {
+                continue;
+            }
+
+            foreach (var alias in tool.CommandGroupAliases.Where(alias =>
+                         command.CommandParts[0].Equals(
+                             alias.CanonicalCommand,
+                             StringComparison.OrdinalIgnoreCase)))
+            {
+                files.Add(GenerateCompatibilityOptionsAlias(command, tool, alias));
+            }
         }
 
         return Task.FromResult<IReadOnlyList<GeneratedFile>>(files);
+    }
+
+    private static GeneratedFile GenerateCompatibilityOptionsAlias(
+        CliCommandDefinition command,
+        CliToolDefinition tool,
+        CliCommandGroupAlias alias)
+    {
+        if (GeneratorUtils.HasRequiredParameters(command))
+        {
+            throw new InvalidOperationException(
+                $"Command-group compatibility alias '{alias.Alias}' cannot wrap "
+                + $"'{command.FullCommand}' because it has required constructor parameters.");
+        }
+
+        var aliasClassName = GeneratorUtils.GetAliasedClassName(
+            tool,
+            alias,
+            command.ClassName);
+        var sb = new StringBuilder();
+        GeneratorUtils.GenerateFileHeaderWithNullable(sb, command.DocumentationUrl);
+        sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
+        sb.AppendLine();
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Options;");
+        sb.AppendLine();
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
+        sb.AppendLine("[ExcludeFromCodeCoverage]");
+        sb.AppendLine($"public record {aliasClassName} : {command.ClassName};");
+
+        return new GeneratedFile
+        {
+            RelativePath = Path.Combine(
+                tool.OutputDirectory,
+                "Options",
+                $"{aliasClassName}.Generated.cs"),
+            Content = sb.ToString(),
+        };
     }
 
     private static string GenerateOptionsClass(CliCommandDefinition command, CliToolDefinition tool)

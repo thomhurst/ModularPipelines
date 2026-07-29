@@ -80,6 +80,17 @@ public class DependencyRegistrationGenerator : ICodeGenerator
             var subDomainIdentifier = GeneratorUtils.GetSubDomainIdentifier(tool, subDomain);
             var subDomainClassName = $"{tool.NamespacePrefix}{subDomainIdentifier}";
             sb.AppendLine($"        services.TryAddScoped<I{subDomainClassName}, {subDomainClassName}>();");
+
+            foreach (var alias in GeneratorUtils.GetCommandGroupAliases(
+                         tool,
+                         subDomainIdentifier))
+            {
+                var aliasIdentifier = GeneratorUtils.GetAliasCommandGroupIdentifier(alias);
+                sb.AppendLine(
+                    $"        services.TryAddScoped<I{tool.NamespacePrefix}{aliasIdentifier}>("
+                    + $"serviceProvider => (I{tool.NamespacePrefix}{aliasIdentifier})"
+                    + $"serviceProvider.GetRequiredService<I{subDomainClassName}>());");
+            }
         }
 
         sb.AppendLine("        return services;");

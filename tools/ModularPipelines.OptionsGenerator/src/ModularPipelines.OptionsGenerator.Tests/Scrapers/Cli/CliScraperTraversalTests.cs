@@ -103,6 +103,45 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task DockerTraversal_Detects_And_Skips_Builder_Alias_Tree()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  docker <command>
+
+                Management Commands:
+                  builder     Manage builds
+                  buildx      Docker Buildx
+                """,
+            ["builder --help"] = """
+                Usage:
+                  docker buildx [OPTIONS] COMMAND
+                """,
+            ["buildx --help"] = """
+                Usage: docker buildx [OPTIONS]
+
+                Flags:
+                  --builder string   Override the builder
+                """,
+        });
+        var scraper = new DockerCliScraper(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<DockerCliScraper>.Instance);
+
+        var commands = await ScrapeAsync(scraper);
+        var alias = scraper.CreateToolDefinition().CommandGroupAliases.Single();
+
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .Contains("docker buildx");
+        await Assert.That(alias.Alias).IsEqualTo("builder");
+        await Assert.That(alias.CanonicalCommand).IsEqualTo("buildx");
+        await Assert.That(executor.Arguments).DoesNotContain("builder build --help");
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Documented_Repeatability()
     {
         const string helpText = """

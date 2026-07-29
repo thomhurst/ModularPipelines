@@ -21,14 +21,12 @@ public partial interface IDocker
     #region Sub-domain Services
 
     /// <summary>
-    /// Gets the builder sub-domain service.
-    /// </summary>
-    IDockerBuilder Builder { get; }
-
-    /// <summary>
     /// Gets the buildx sub-domain service.
     /// </summary>
     IDockerBuildx Buildx { get; }
+
+    [Obsolete("docker builder is an alias of docker buildx. Use Buildx instead.")]
+    IDockerBuilder Builder { get; }
 
     /// <summary>
     /// Gets the compose sub-domain service.

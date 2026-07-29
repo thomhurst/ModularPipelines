@@ -7,32 +7,9 @@
 
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Attributes;
-using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
-/// <summary>
-/// Stop builder instance
-/// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("builder", "stop")]
-public record DockerBuilderStopOptions : DockerOptions
-{
-    /// <summary>
-    /// Override the configured builder instance (default "default")
-    /// </summary>
-    [CliOption("--builder", Format = OptionFormat.EqualsSeparated)]
-    public string? Builder { get; set; }
-
-    /// <summary>
-    /// Enable debug logging
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Name { get; set; }
-
-}
+public record DockerBuilderStopOptions : DockerBuildxStopOptions;

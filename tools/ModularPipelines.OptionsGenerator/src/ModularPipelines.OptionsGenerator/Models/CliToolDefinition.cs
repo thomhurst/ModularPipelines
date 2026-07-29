@@ -44,6 +44,11 @@ public record CliToolDefinition
     public required IReadOnlyList<CliCommandDefinition> Commands { get; init; }
 
     /// <summary>
+    /// Top-level command groups that are aliases of a canonical generated command tree.
+    /// </summary>
+    public IReadOnlyList<CliCommandGroupAlias> CommandGroupAliases { get; init; } = [];
+
+    /// <summary>
     /// Version reported by the installed CLI, when available.
     /// </summary>
     public string? ToolVersion { get; init; }
@@ -120,6 +125,27 @@ public record CliToolDefinition
     /// Any scraping errors encountered.
     /// </summary>
     public IReadOnlyList<ScrapingError> Errors { get; init; } = [];
+}
+
+/// <summary>
+/// Describes a top-level command group that aliases a canonical command group.
+/// </summary>
+public record CliCommandGroupAlias
+{
+    /// <summary>
+    /// Alias command segment exposed for compatibility.
+    /// </summary>
+    public required string Alias { get; init; }
+
+    /// <summary>
+    /// Canonical command segment whose generated tree performs execution.
+    /// </summary>
+    public required string CanonicalCommand { get; init; }
+
+    /// <summary>
+    /// Obsolete diagnostic shown to consumers of the alias API.
+    /// </summary>
+    public required string ObsoleteMessage { get; init; }
 }
 
 /// <summary>

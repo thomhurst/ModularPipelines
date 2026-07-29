@@ -29,8 +29,9 @@ public static class DockerExtensions
     public static IServiceCollection RegisterDockerContext(this IServiceCollection services)
     {
         services.TryAddScoped<IDocker, Services.Docker>();
-        services.TryAddScoped<IDockerBuilder, DockerBuilder>();
         services.TryAddScoped<IDockerBuildx, DockerBuildx>();
+        services.TryAddScoped<IDockerBuilder>(
+            serviceProvider => (IDockerBuilder)serviceProvider.GetRequiredService<IDockerBuildx>());
         services.TryAddScoped<IDockerCompose, DockerCompose>();
         services.TryAddScoped<IDockerContainer, DockerContainer>();
         services.TryAddScoped<IDockerContext, DockerContext>();

@@ -7,41 +7,9 @@
 
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Attributes;
-using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
-/// <summary>
-/// List builder instances
-/// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("builder", "ls")]
-public record DockerBuilderLsOptions : DockerOptions
-{
-    /// <summary>
-    /// Enable debug logging
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Format the output (default "table")
-    /// </summary>
-    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
-
-    /// <summary>
-    /// Don't truncate output
-    /// </summary>
-    [CliFlag("--no-trunc")]
-    public bool? NoTrunc { get; set; }
-
-    /// <summary>
-    /// Override the default timeout for loading builder status (default 20s)
-    /// </summary>
-    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
-
-}
+public record DockerBuilderLsOptions : DockerBuildxLsOptions;

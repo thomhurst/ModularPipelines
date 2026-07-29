@@ -7,56 +7,9 @@
 
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Attributes;
-using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
-/// <summary>
-/// Evaluate policy for a source
-/// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("builder", "policy", "eval")]
-public record DockerBuilderPolicyEvalOptions : DockerOptions
-{
-    /// <summary>
-    /// Override the configured builder instance (default "default")
-    /// </summary>
-    [CliOption("--builder", Format = OptionFormat.EqualsSeparated)]
-    public string? Builder { get; set; }
-
-    /// <summary>
-    /// Enable debug logging
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Fields to evaluate
-    /// </summary>
-    [CliOption("--fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Fields { get; set; }
-
-    /// <summary>
-    /// Policy filename to evaluate (default "Dockerfile")
-    /// </summary>
-    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? File { get; set; }
-
-    /// <summary>
-    /// Target platform for policy evaluation
-    /// </summary>
-    [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
-    public string? Platform { get; set; }
-
-    /// <summary>
-    /// Print policy output
-    /// </summary>
-    [CliFlag("--print")]
-    public bool? Print { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-}
+public record DockerBuilderPolicyEvalOptions : DockerBuildxPolicyEvalOptions;

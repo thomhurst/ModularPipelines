@@ -7,77 +7,9 @@
 
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Attributes;
-using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
-/// <summary>
-/// Remove build cache
-/// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("builder", "prune")]
-public record DockerBuilderPruneOptions : DockerOptions
-{
-    /// <summary>
-    /// Include internal/frontend images
-    /// </summary>
-    [CliFlag("--all", ShortForm = "-a")]
-    public bool? All { get; set; }
-
-    /// <summary>
-    /// Override the configured builder instance (default "default")
-    /// </summary>
-    [CliOption("--builder", Format = OptionFormat.EqualsSeparated)]
-    public string? Builder { get; set; }
-
-    /// <summary>
-    /// Enable debug logging
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Provide filter values
-    /// </summary>
-    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
-    public string? Filter { get; set; }
-
-    /// <summary>
-    /// Do not prompt for confirmation
-    /// </summary>
-    [CliFlag("--force", ShortForm = "-f")]
-    public bool? Force { get; set; }
-
-    /// <summary>
-    /// Maximum amount of disk space allowed to keep for cache
-    /// </summary>
-    [CliOption("--max-used-space", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxUsedSpace { get; set; }
-
-    /// <summary>
-    /// Target amount of free disk space after pruning
-    /// </summary>
-    [CliOption("--min-free-space", Format = OptionFormat.EqualsSeparated)]
-    public string? MinFreeSpace { get; set; }
-
-    /// <summary>
-    /// Amount of disk space always allowed to keep for cache
-    /// </summary>
-    [CliOption("--reserved-space", Format = OptionFormat.EqualsSeparated)]
-    public string? ReservedSpace { get; set; }
-
-    /// <summary>
-    /// Override the default timeout for loading builder status (default 20s)
-    /// </summary>
-    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
-
-    /// <summary>
-    /// Provide a more verbose output
-    /// </summary>
-    [CliFlag("--verbose")]
-    public bool? Verbose { get; set; }
-
-}
+public record DockerBuilderPruneOptions : DockerBuildxPruneOptions;

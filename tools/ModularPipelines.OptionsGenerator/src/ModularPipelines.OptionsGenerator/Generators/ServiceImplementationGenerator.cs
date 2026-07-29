@@ -124,6 +124,17 @@ public class ServiceImplementationGenerator : ICodeGenerator
                 sb.AppendLine($"    /// <inheritdoc />");
                 sb.AppendLine($"    public I{subDomainClassName} {subDomain} {{ get; }}");
                 sb.AppendLine();
+
+                foreach (var alias in GeneratorUtils.GetCommandGroupAliases(tool, subDomain))
+                {
+                    var aliasIdentifier =
+                        GeneratorUtils.GetAliasCommandGroupIdentifier(alias);
+                    sb.AppendLine("    /// <inheritdoc />");
+                    sb.AppendLine(
+                        $"    public I{tool.NamespacePrefix}{aliasIdentifier} {aliasIdentifier} "
+                        + $"=> (I{tool.NamespacePrefix}{aliasIdentifier}){subDomain};");
+                    sb.AppendLine();
+                }
             }
 
             sb.AppendLine("    #endregion");

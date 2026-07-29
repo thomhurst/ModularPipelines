@@ -63,7 +63,12 @@ public class SubDomainClassGenerator : ICodeGenerator
             }
 
             // Generate files for all nodes in the tree
-            GenerateFilesFromTree(tree, tool, files, parentCommand);
+            GenerateFilesFromTree(
+                tree,
+                tool,
+                files,
+                GeneratorUtils.GetCommandGroupAliases(tool, subDomainIdentifier),
+                parentCommand);
         }
 
         return Task.FromResult<IReadOnlyList<GeneratedFile>>(files);
@@ -73,6 +78,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         CommandTreeNode node,
         CliToolDefinition tool,
         List<GeneratedFile> files,
+        IReadOnlyList<CliCommandGroupAlias> commandGroupAliases,
         CliCommandDefinition? parentCommand = null)
     {
         // Build map of commands that collide with child property names
@@ -98,6 +104,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         var content = GenerateNodeClass(
             node,
             tool,
+            commandGroupAliases,
             parentCommand,
             excludedCommands);
 
@@ -129,13 +136,94 @@ public class SubDomainClassGenerator : ICodeGenerator
             Content = content
         });
 
+        foreach (var alias in commandGroupAliases)
+        {
+            if (node.Depth == 0)
+            {
+                files.Add(GenerateCompatibilityInterface(node, tool, alias));
+            }
+
+            files.Add(GenerateCompatibilityClass(node, tool, alias));
+        }
+
         // Recursively generate files for children
         // Pass colliding command as parentCommand so it becomes ExecuteAsync() on the child
         foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
         {
             collidingCommands.TryGetValue(child.Segment, out var childParentCommand);
-            GenerateFilesFromTree(child, tool, files, childParentCommand);
+            GenerateFilesFromTree(
+                child,
+                tool,
+                files,
+                commandGroupAliases,
+                childParentCommand);
         }
+    }
+
+    private static GeneratedFile GenerateCompatibilityInterface(
+        CommandTreeNode node,
+        CliToolDefinition tool,
+        CliCommandGroupAlias alias)
+    {
+        var aliasClassName = GeneratorUtils.GetAliasedClassName(
+            tool,
+            alias,
+            node.ClassName);
+        var sb = new StringBuilder();
+        GeneratorUtils.GenerateFileHeaderWithNullable(sb);
+        sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine();
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Services;");
+        sb.AppendLine();
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
+        sb.AppendLine($"public interface I{aliasClassName} : I{node.ClassName}");
+        sb.AppendLine("{");
+        sb.AppendLine("}");
+
+        return new GeneratedFile
+        {
+            RelativePath = Path.Combine(
+                tool.OutputDirectory,
+                "Services",
+                $"I{aliasClassName}.Generated.cs"),
+            Content = sb.ToString(),
+        };
+    }
+
+    private static GeneratedFile GenerateCompatibilityClass(
+        CommandTreeNode node,
+        CliToolDefinition tool,
+        CliCommandGroupAlias alias)
+    {
+        var aliasClassName = GeneratorUtils.GetAliasedClassName(
+            tool,
+            alias,
+            node.ClassName);
+        var sb = new StringBuilder();
+        GeneratorUtils.GenerateFileHeaderWithNullable(sb);
+        sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine("using ModularPipelines.Context.Domains.Shell;");
+        sb.AppendLine();
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Services;");
+        sb.AppendLine();
+        sb.AppendLine($"[Obsolete({GeneratorUtils.FormatStringLiteral(alias.ObsoleteMessage)})]");
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
+        sb.AppendLine($"public class {aliasClassName} : {node.ClassName}");
+        sb.AppendLine("{");
+        sb.AppendLine($"    public {aliasClassName}(ICommandContext command)");
+        sb.AppendLine("        : base(command)");
+        sb.AppendLine("    {");
+        sb.AppendLine("    }");
+        sb.AppendLine("}");
+
+        return new GeneratedFile
+        {
+            RelativePath = Path.Combine(
+                tool.OutputDirectory,
+                "Services",
+                $"{aliasClassName}.Generated.cs"),
+            Content = sb.ToString(),
+        };
     }
 
     private static string GenerateNodeInterface(
@@ -200,6 +288,7 @@ public class SubDomainClassGenerator : ICodeGenerator
     private static string GenerateNodeClass(
         CommandTreeNode node,
         CliToolDefinition tool,
+        IReadOnlyList<CliCommandGroupAlias> commandGroupAliases,
         CliCommandDefinition? parentCommand = null,
         HashSet<CliCommandDefinition>? excludedCommands = null)
     {
@@ -223,7 +312,15 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine($"/// {tool.ToolName} {node.Segment.ToLowerInvariant()} commands.");
         sb.AppendLine($"/// </summary>");
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
-        var interfaceClause = node.Depth == 0 ? $" : I{node.ClassName}" : string.Empty;
+        var implementedInterfaces = node.Depth == 0
+            ? new[] { $"I{node.ClassName}" }
+                .Concat(commandGroupAliases.Select(alias =>
+                    $"I{GeneratorUtils.GetAliasedClassName(tool, alias, node.ClassName)}"))
+                .ToList()
+            : [];
+        var interfaceClause = implementedInterfaces.Count > 0
+            ? $" : {string.Join(", ", implementedInterfaces)}"
+            : string.Empty;
         sb.AppendLine($"public class {node.ClassName}{interfaceClause}");
         sb.AppendLine("{");
 

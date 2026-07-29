@@ -7,44 +7,15 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
-using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
 
-/// <summary>
-/// docker dap commands.
-/// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class DockerBuilderDap
+[Obsolete("docker builder is an alias of docker buildx. Use Buildx instead.")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+public class DockerBuilderDap : DockerBuildxDap
 {
-    private readonly ICommandContext _command;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DockerBuilderDap"/> class.
-    /// </summary>
     public DockerBuilderDap(ICommandContext command)
+        : base(command)
     {
-        _command = command;
     }
-
-    #region Commands
-
-    /// <summary>
-    /// Start a build
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BuildAsync(
-        DockerBuilderDapBuildOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderDapBuildOptions(), executionOptions, cancellationToken);
-    }
-
-    #endregion
 }
