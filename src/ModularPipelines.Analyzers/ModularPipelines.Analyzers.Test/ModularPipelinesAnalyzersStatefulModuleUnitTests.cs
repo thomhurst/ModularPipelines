@@ -616,6 +616,18 @@ public class Module1 : Module<int>
     }
 
     [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Nullable_Struct_With_Mutable_State()
+    {
+        var source = BadModuleWithReadonlyStructContainingMutableState
+            .Replace("private CacheHolder {|#0:_cache|}", "private CacheHolder? _cache")
+            .Replace("_cache.Items", "_cache.Value.Items");
+
+        await VerifyCS.VerifyNoCodeFixAsync(
+            source,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
     public async Task CodeFix_Is_Not_Offered_For_Constructor_Nested_Write()
     {
         await VerifyCS.VerifyNoCodeFixAsync(

@@ -63,6 +63,13 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
 
     private static bool IsDeeplyImmutable(ITypeSymbol type)
     {
+        if (type is INamedTypeSymbol nullableType
+            && nullableType.OriginalDefinition.SpecialType
+            == SpecialType.System_Nullable_T)
+        {
+            return IsDeeplyImmutable(nullableType.TypeArguments[0]);
+        }
+
         return type.SpecialType == SpecialType.System_String
                || type.TypeKind == TypeKind.Enum
                || (type.IsValueType && type.SpecialType != SpecialType.None);
