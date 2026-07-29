@@ -64,7 +64,7 @@ public class MyModule : Module<FileInfo>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithTimeout(TimeSpan.FromMinutes(5))
-        .WithRetryCount(3)
+        .WithRetry(3)
         .WithSkipWhen(_ => !File.Exists("important.json")
             ? SkipDecision.Skip("important.json does not exist")
             : SkipDecision.DoNotSkip)
@@ -90,8 +90,8 @@ public class MyModule : Module<FileInfo>
 | Method | Description |
 |--------|-------------|
 | `.WithTimeout(TimeSpan)` | Maximum execution time before module is cancelled |
-| `.WithRetryCount(int)` | Number of retry attempts on failure |
-| `.WithRetryPolicy(IAsyncPolicy)` | Custom Polly retry policy |
+| `.WithRetry(int, TimeSpan?, Func<Exception, bool>?)` | Retry attempts, jittered base delay, and optional exception filter |
+| `.Advanced.WithRetryPolicy(IAsyncPolicy)` | Custom Polly policy for advanced scenarios |
 | `.WithSkipWhen(...)` | Condition to skip the module |
 | `.WithIgnoreFailures()` | Don't fail the pipeline if this module fails |
 | `.WithIgnoreFailuresWhen(...)` | Conditionally ignore failures |

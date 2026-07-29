@@ -170,6 +170,7 @@ public class SubModuleTests : TestBase
         public int _threeCount;
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .Advanced
             .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(3))
             .Build();
 
@@ -207,6 +208,7 @@ public class SubModuleTests : TestBase
         public int _threeCount;
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .Advanced
             .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(3))
             .Build();
 

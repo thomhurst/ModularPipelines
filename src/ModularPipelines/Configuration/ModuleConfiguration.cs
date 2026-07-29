@@ -39,7 +39,7 @@ public sealed class ModuleConfiguration
     /// <code>
     /// var config = ModuleConfiguration.Create()
     ///     .WithTimeout(TimeSpan.FromMinutes(5))
-    ///     .WithRetryCount(3)
+    ///     .WithRetry(3)
     ///     .Build();
     /// </code>
     /// </example>
@@ -63,15 +63,6 @@ public sealed class ModuleConfiguration
     /// or null if no timeout is configured.
     /// </value>
     public TimeSpan? Timeout { get; init; }
-
-    /// <summary>
-    /// Gets the factory function that creates a retry policy for module execution.
-    /// </summary>
-    /// <value>
-    /// A function that takes an <see cref="IModuleContext"/> and returns an <see cref="IAsyncPolicy"/>,
-    /// or null if no retry policy is configured.
-    /// </value>
-    public Func<IModuleContext, IAsyncPolicy>? RetryPolicyFactory { get; init; }
 
     /// <summary>
     /// Gets the condition that determines whether a failure should be ignored.
@@ -122,4 +113,14 @@ public sealed class ModuleConfiguration
     /// Gets dependencies declared through fluent configuration or attributes.
     /// </summary>
     internal IReadOnlyList<DeclaredDependency> Dependencies { get; init; } = [];
+
+    /// <summary>
+    /// Gets the standard retry configuration for module execution.
+    /// </summary>
+    internal ModuleRetryConfiguration? RetryConfiguration { get; init; }
+
+    /// <summary>
+    /// Gets the advanced policy factory for module execution.
+    /// </summary>
+    internal Func<IModuleContext, IAsyncPolicy>? AdvancedRetryPolicyFactory { get; init; }
 }

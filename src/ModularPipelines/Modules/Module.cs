@@ -21,7 +21,7 @@ namespace ModularPipelines.Modules;
 /// <list type="bullet">
 /// <item><see cref="ModuleConfigurationBuilder.WithSkipWhen(System.Func{IModuleContext, SkipDecision})"/> - Define skip conditions</item>
 /// <item><see cref="ModuleConfigurationBuilder.WithTimeout"/> - Set execution timeout</item>
-/// <item><see cref="ModuleConfigurationBuilder.WithRetryCount"/> - Configure retry policy</item>
+/// <item><see cref="ModuleConfigurationBuilder.WithRetry"/> - Configure retries</item>
 /// <item><see cref="ModuleConfigurationBuilder.WithIgnoreFailures()"/> - Handle failures gracefully</item>
 /// <item><see cref="ModuleConfigurationBuilder.WithAlwaysRun"/> - Run even when pipeline fails</item>
 /// <item><see cref="ModuleConfigurationBuilder.WithPriority"/> - Set scheduling priority</item>
@@ -95,7 +95,7 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// <code>
     /// protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
     ///     .WithTimeout(TimeSpan.FromMinutes(5))
-    ///     .WithRetryCount(3)
+    ///     .WithRetry(3)
     ///     .WithAlwaysRun()
     ///     .Build();
     /// </code>

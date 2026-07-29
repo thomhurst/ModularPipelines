@@ -313,17 +313,24 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleConfiguration config,
         IModuleContext moduleContext)
     {
-        if (config.RetryPolicyFactory != null)
+        if (config.AdvancedRetryPolicyFactory != null)
         {
-            return config.RetryPolicyFactory(moduleContext);
+            return config.AdvancedRetryPolicyFactory(moduleContext);
+        }
+
+        if (config.RetryConfiguration != null)
+        {
+            return ModuleRetryPolicyFactory.Create(config.RetryConfiguration);
         }
 
         // Check if default retry count is configured
         var defaultRetryCount = moduleContext.Services.Options.DefaultRetryCount;
         if (defaultRetryCount > 0)
         {
-            return Policy.Handle<Exception>()
-                .WaitAndRetryAsync(defaultRetryCount, i => TimeSpan.FromMilliseconds(i * i * 100));
+            return ModuleRetryPolicyFactory.Create(new ModuleRetryConfiguration(
+                defaultRetryCount,
+                ModuleRetryConfiguration.DefaultBaseDelay,
+                ShouldRetry: null));
         }
 
         return null;
