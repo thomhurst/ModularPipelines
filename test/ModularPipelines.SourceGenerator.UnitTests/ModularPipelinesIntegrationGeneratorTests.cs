@@ -272,6 +272,108 @@ public class ModularPipelinesIntegrationGeneratorTests
     }
 
     [Test]
+    public async Task Identical_Referenced_Tool_Accessors_Report_Diagnostics()
+    {
+        var firstIntegration = CreateMetadataReference(
+            "FirstIntegration",
+            """
+            [assembly: System.Reflection.AssemblyMetadata(
+                "ModularPipelines.ToolProperty:Git",
+                "global::Shared.IGit")]
+            """);
+        var secondIntegration = CreateMetadataReference(
+            "SecondIntegration",
+            """
+            [assembly: System.Reflection.AssemblyMetadata(
+                "ModularPipelines.ToolProperty:Git",
+                "global::Shared.IGit")]
+            """);
+
+        var result = RunGenerator(
+            source: string.Empty,
+            additionalReferences: [firstIntegration, secondIntegration]);
+        var diagnostics = result.Diagnostics
+            .Where(static diagnostic => diagnostic.Id == "MPGEN004")
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostics).Count().IsEqualTo(2);
+            await Assert.That(diagnostics[0].GetMessage()).Contains("FirstIntegration");
+            await Assert.That(diagnostics[0].GetMessage()).Contains("SecondIntegration");
+            await Assert.That(result.GeneratedTrees).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task Inaccessible_Tool_Return_Type_Does_Not_Generate_Property()
+    {
+        var result = RunGenerator("""
+            using ModularPipelines.Attributes;
+            using ModularPipelines.Context;
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal interface IHiddenTool
+            {
+            }
+
+            internal static class HiddenIntegration
+            {
+                [ModularPipelinesIntegration]
+                public static void Register(IServiceCollection services)
+                {
+                }
+
+                public static IHiddenTool Hidden(this IPipelineContext context) => throw null!;
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).DoesNotContain("ToolProperty:Hidden");
+            await Assert.That(generatedSource).DoesNotContain("tools.Get<global::IHiddenTool>");
+        }
+    }
+
+    [Test]
+    public async Task Keyword_Tool_Accessor_Generates_Escaped_Property()
+    {
+        var result = RunGenerator("""
+            using ModularPipelines.Attributes;
+            using ModularPipelines.Context;
+            using Microsoft.Extensions.DependencyInjection;
+
+            public interface IClassTool
+            {
+            }
+
+            public static class ClassIntegration
+            {
+                [ModularPipelinesIntegration]
+                public static void Register(IServiceCollection services)
+                {
+                }
+
+                public static IClassTool @class(this IPipelineContext context) => throw null!;
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource)
+                .Contains("public global::IClassTool @class => tools.Get<global::IClassTool>();");
+            await Assert.That(generatedSource)
+                .Contains("\"ModularPipelines.ToolProperty:class\", \"global::IClassTool\"");
+        }
+    }
+
+    [Test]
     public async Task File_Local_Integration_Type_Reports_Diagnostic()
     {
         var result = GeneratorTestHarness.Run(new ModularPipelinesIntegrationGenerator(), TestInfrastructure, """

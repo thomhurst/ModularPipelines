@@ -43,7 +43,7 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private static readonly DiagnosticDescriptor ConflictingToolProperty = new(
         id: "MPGEN004",
         title: "Conflicting discoverable tool property",
-        messageFormat: "Tool property '{0}' has conflicting return types: {1}",
+        messageFormat: "Tool property '{0}' has conflicting declarations: {1}",
         category: "ModularPipelines.SourceGenerator",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
@@ -118,12 +118,14 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 && method.Parameters.Length == 1
                 && method.Parameters[0].RefKind == RefKind.None
                 && method.Parameters[0].Type.ToDisplayString() == PipelineContextFullName
-                && method.ReturnType.IsReferenceType)
+                && method.ReturnType.IsReferenceType
+                && IsPubliclyAccessible(method.ReturnType))
             .Select(static method => new ToolProperty(
                 method.Name,
                 method.ReturnType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 method.ToDisplayString(),
-                method.Locations.FirstOrDefault()))
+                method.Locations.FirstOrDefault(),
+                method.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)))
             .ToImmutableArray();
     }
 
@@ -133,20 +135,22 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         return compilation.References
             .Select(compilation.GetAssemblyOrModuleSymbol)
             .OfType<IAssemblySymbol>()
-            .SelectMany(static assembly => assembly.GetAttributes())
-            .Where(static attribute =>
-                attribute.AttributeClass?.ToDisplayString() == AssemblyMetadataAttributeFullName
-                && attribute.ConstructorArguments.Length == 2
-                && attribute.ConstructorArguments[0].Value is string key
-                && key.StartsWith(ToolPropertyMetadataPrefix, StringComparison.Ordinal)
-                && attribute.ConstructorArguments[1].Value is string)
-            .Select(static attribute => new ReferencedToolProperty(
-                ((string) attribute.ConstructorArguments[0].Value!)
-                    .Substring(ToolPropertyMetadataPrefix.Length),
-                (string) attribute.ConstructorArguments[1].Value!))
+            .SelectMany(static assembly => assembly.GetAttributes()
+                .Where(static attribute =>
+                    attribute.AttributeClass?.ToDisplayString() == AssemblyMetadataAttributeFullName
+                    && attribute.ConstructorArguments.Length == 2
+                    && attribute.ConstructorArguments[0].Value is string key
+                    && key.StartsWith(ToolPropertyMetadataPrefix, StringComparison.Ordinal)
+                    && attribute.ConstructorArguments[1].Value is string)
+                .Select(attribute => new ReferencedToolProperty(
+                    ((string) attribute.ConstructorArguments[0].Value!)
+                        .Substring(ToolPropertyMetadataPrefix.Length),
+                    (string) attribute.ConstructorArguments[1].Value!,
+                    assembly.Identity.ToString())))
             .Distinct()
             .OrderBy(static property => property.Name, StringComparer.Ordinal)
             .ThenBy(static property => property.TypeName, StringComparer.Ordinal)
+            .ThenBy(static property => property.SourceId, StringComparer.Ordinal)
             .ToImmutableArray();
     }
 
@@ -192,6 +196,29 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         return true;
     }
 
+    private static bool IsPubliclyAccessible(ITypeSymbol type)
+    {
+        if (type is IArrayTypeSymbol arrayType)
+        {
+            return IsPubliclyAccessible(arrayType.ElementType);
+        }
+
+        if (type is not INamedTypeSymbol namedType)
+        {
+            return type.TypeKind == TypeKind.Dynamic;
+        }
+
+        for (var current = namedType; current is not null; current = current.ContainingType)
+        {
+            if (current.DeclaredAccessibility != Accessibility.Public)
+            {
+                return false;
+            }
+        }
+
+        return namedType.TypeArguments.All(IsPubliclyAccessible);
+    }
+
     private static void Generate(
         SourceProductionContext context,
         ImmutableArray<IntegrationCandidate> candidates,
@@ -225,7 +252,8 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 property.Name,
                 property.TypeName,
                 MethodName: property.Name,
-                Location: null)))
+                Location: null,
+                property.SourceId)))
             .ToArray();
         var conflictingPropertyNames = ReportToolPropertyConflicts(context, allToolProperties);
         var uniqueToolProperties = toolProperties
@@ -307,7 +335,7 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
             foreach (var property in uniqueToolProperties)
             {
                 builder.AppendLine(
-                    $"        public {property.TypeName} {property.Name} "
+                    $"        public {property.TypeName} {EscapeIdentifier(property.Name)} "
                     + $"=> tools.Get<{property.TypeName}>();");
             }
 
@@ -324,28 +352,31 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         ToolProperty[] toolProperties)
     {
         var conflicts = toolProperties
+            .GroupBy(static property => new
+            {
+                property.Name,
+                property.TypeName,
+                property.SourceId,
+            })
+            .Select(static group => group.First())
             .GroupBy(static property => property.Name, StringComparer.Ordinal)
-            .Where(static group =>
-                group.Select(static property => property.TypeName)
-                    .Distinct(StringComparer.Ordinal)
-                    .Skip(1)
-                    .Any())
+            .Where(static group => group.Skip(1).Any())
             .ToArray();
 
         foreach (var conflict in conflicts)
         {
-            var types = string.Join(
+            var declarations = string.Join(
                 ", ",
-                conflict.Select(static property => property.TypeName)
-                    .Distinct(StringComparer.Ordinal)
-                    .OrderBy(static typeName => typeName, StringComparer.Ordinal));
+                conflict.Select(static property =>
+                        $"{property.TypeName} ({property.SourceId})")
+                    .OrderBy(static declaration => declaration, StringComparer.Ordinal));
             foreach (var property in conflict)
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     ConflictingToolProperty,
                     property.Location,
                     property.Name,
-                    types));
+                    declarations));
             }
         }
 
@@ -371,6 +402,12 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private static string Literal(string value) =>
         global::Microsoft.CodeAnalysis.CSharp.SymbolDisplay.FormatLiteral(value, quote: true);
 
+    private static string EscapeIdentifier(string identifier) =>
+        SyntaxFacts.GetKeywordKind(identifier) != SyntaxKind.None
+        || SyntaxFacts.GetContextualKeywordKind(identifier) != SyntaxKind.None
+            ? $"@{identifier}"
+            : identifier;
+
     private sealed record IntegrationCandidate(
         IntegrationRegistration? Registration,
         EquatableArray<ToolProperty> ToolProperties,
@@ -384,9 +421,11 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         string Name,
         string TypeName,
         string MethodName,
-        Location? Location);
+        Location? Location,
+        string SourceId);
 
     private sealed record ReferencedToolProperty(
         string Name,
-        string TypeName);
+        string TypeName,
+        string SourceId);
 }
