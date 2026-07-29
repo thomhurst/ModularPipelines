@@ -49,10 +49,14 @@ internal static class GeneratorTestHarness
 
     public static bool HasCachedOutput(GeneratorDriverRunResult result)
     {
-        return result.Results.Single().TrackedSteps.Values
+        var outputReasons = result.Results.Single().TrackedOutputSteps.Values
             .SelectMany(static steps => steps)
             .SelectMany(static step => step.Outputs)
-            .Any(static output => output.Reason == IncrementalStepRunReason.Cached);
+            .Select(static output => output.Reason)
+            .ToArray();
+
+        return outputReasons.Length > 0
+               && outputReasons.All(static reason => reason == IncrementalStepRunReason.Cached);
     }
 
     private static CSharpCompilation CreateCompilation(string infrastructure, string source)
