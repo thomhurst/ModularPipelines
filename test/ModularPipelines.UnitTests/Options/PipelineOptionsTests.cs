@@ -64,6 +64,31 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    public async Task CategoryFilters_AreDefensivelyCopied()
+    {
+        var runOnlyCategories = new List<string> { "run" };
+        var ignoreCategories = new List<string> { "ignore" };
+        var options = new PipelineOptions
+        {
+            RunOnlyCategories = runOnlyCategories,
+            IgnoreCategories = ignoreCategories,
+        };
+
+        runOnlyCategories.Add("added later");
+        ignoreCategories.Clear();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.RunOnlyCategories).IsEquivalentTo(["run"]);
+            await Assert.That(options.IgnoreCategories).IsEquivalentTo(["ignore"]);
+            await Assert.That(((ICollection<string>) options.RunOnlyCategories!).IsReadOnly)
+                .IsTrue();
+            await Assert.That(((ICollection<string>) options.IgnoreCategories!).IsReadOnly)
+                .IsTrue();
+        }
+    }
+
+    [Test]
     public async Task PipelineBuilder_RegistersConsistentOptionsSnapshotWithoutCopyingProperties()
     {
         var builder = TestPipelineHostBuilder.Create()

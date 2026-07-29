@@ -48,6 +48,9 @@ namespace ModularPipelines.Options;
 [ExcludeFromCodeCoverage]
 public record PipelineOptions
 {
+    private IReadOnlyList<string>? _runOnlyCategories;
+    private IReadOnlyList<string>? _ignoreCategories;
+
     /// <summary>
     /// Gets the execution mode that determines how the pipeline handles failures.
     /// </summary>
@@ -62,12 +65,24 @@ public record PipelineOptions
     /// <summary>
     /// Gets the collection of module categories to run exclusively. If specified, only modules in these categories will run.
     /// </summary>
-    public IReadOnlyList<string>? RunOnlyCategories { get; init; }
+    public IReadOnlyList<string>? RunOnlyCategories
+    {
+        get => _runOnlyCategories;
+        init => _runOnlyCategories = value is null
+            ? null
+            : Array.AsReadOnly(value.ToArray());
+    }
 
     /// <summary>
     /// Gets the collection of module categories to ignore during execution.
     /// </summary>
-    public IReadOnlyList<string>? IgnoreCategories { get; init; }
+    public IReadOnlyList<string>? IgnoreCategories
+    {
+        get => _ignoreCategories;
+        init => _ignoreCategories = value is null
+            ? null
+            : Array.AsReadOnly(value.ToArray());
+    }
 
     /// <summary>
     /// Gets a value indicating whether to show progress information in the console.
