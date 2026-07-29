@@ -9,6 +9,7 @@ namespace ModularPipelines.Analyzers;
 
 internal static class ModuleAuthoringAnalysis
 {
+    private const string AssemblyMetadataName = "System.Reflection.Assembly";
     private const string CancellationTokenMetadataName = "System.Threading.CancellationToken";
 
     public static void InitializeRegistrationAnalysis(AnalysisContext context)
@@ -340,7 +341,11 @@ internal static class ModuleAuthoringAnalysis
 
         if (method.Name.StartsWith("AddModulesFromAssembly", StringComparison.Ordinal))
         {
-            TrackScannedAssemblies(invocation, currentAssembly, scannedAssemblies);
+            TrackScannedAssemblies(
+                invocation,
+                currentAssembly,
+                scannedAssemblies,
+                unresolvedModuleRegistrations);
             return;
         }
 
@@ -453,31 +458,52 @@ internal static class ModuleAuthoringAnalysis
     private static void TrackScannedAssemblies(
         IInvocationOperation invocation,
         IAssemblySymbol currentAssembly,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
-        foreach (var typeArgument in invocation.TargetMethod.TypeArguments.OfType<INamedTypeSymbol>())
+        foreach (var typeArgument in invocation.TargetMethod.TypeArguments)
         {
-            scannedAssemblies.Add(typeArgument.ContainingAssembly);
+            if (typeArgument is INamedTypeSymbol namedType)
+            {
+                scannedAssemblies.Add(namedType.ContainingAssembly);
+            }
+            else
+            {
+                unresolvedModuleRegistrations.Add(0);
+            }
         }
 
-        foreach (var value in invocation.Arguments.SelectMany(argument =>
-                     GetValueAndReachingLocalValues(
-                         argument.Value,
-                         [with(SymbolEqualityComparer.Default)])))
+        foreach (var argument in invocation.Arguments.Where(static argument =>
+                     argument.Parameter?.Type.ToDisplayString()
+                     == AssemblyMetadataName))
         {
-            foreach (var typeOfOperation in value.DescendantsAndSelf().OfType<ITypeOfOperation>())
+            var resolvedArgument = false;
+
+            foreach (var value in GetValueAndReachingLocalValues(
+                         argument.Value,
+                         [with(SymbolEqualityComparer.Default)]))
             {
-                scannedAssemblies.Add(typeOfOperation.TypeOperand.ContainingAssembly);
+                foreach (var typeOfOperation in value.DescendantsAndSelf().OfType<ITypeOfOperation>())
+                {
+                    scannedAssemblies.Add(typeOfOperation.TypeOperand.ContainingAssembly);
+                    resolvedArgument = true;
+                }
+
+                if (value.DescendantsAndSelf()
+                    .OfType<IInvocationOperation>()
+                    .Any(static operation =>
+                        operation.TargetMethod.Name is "GetExecutingAssembly" or "GetEntryAssembly"
+                        && operation.TargetMethod.ContainingType.ToDisplayString()
+                        == AssemblyMetadataName))
+                {
+                    scannedAssemblies.Add(currentAssembly);
+                    resolvedArgument = true;
+                }
             }
 
-            if (value.DescendantsAndSelf()
-                .OfType<IInvocationOperation>()
-                .Any(static operation =>
-                    operation.TargetMethod.Name is "GetExecutingAssembly" or "GetEntryAssembly"
-                    && operation.TargetMethod.ContainingType.ToDisplayString()
-                    == "System.Reflection.Assembly"))
+            if (!resolvedArgument)
             {
-                scannedAssemblies.Add(currentAssembly);
+                unresolvedModuleRegistrations.Add(0);
             }
         }
     }
@@ -490,6 +516,11 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<IAssemblySymbol> scannedAssemblies,
         ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
+        if (!unresolvedModuleRegistrations.IsEmpty)
+        {
+            return;
+        }
+
         var moduleSet = modules
             .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default)
             .ToImmutableArray();
@@ -509,11 +540,6 @@ internal static class ModuleAuthoringAnalysis
         }
 
         if (!IsApplication(context.Compilation.Options.OutputKind))
-        {
-            return;
-        }
-
-        if (!unresolvedModuleRegistrations.IsEmpty)
         {
             return;
         }

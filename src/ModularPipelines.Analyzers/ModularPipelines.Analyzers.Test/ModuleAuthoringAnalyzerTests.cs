@@ -171,6 +171,61 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_For_Unresolved_Assembly_Helper()
+    {
+        var source = $$"""
+            {{Header}}
+            using System.Reflection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static Assembly GetModuleAssembly() =>
+                    typeof(BuildModule).Assembly;
+
+                public static void Register() =>
+                    Pipeline.CreateBuilder()
+                        .AddModulesFromAssembly(GetModuleAssembly());
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_For_Generic_Assembly_Helper()
+    {
+        var source = $$"""
+            {{Header}}
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static void Register<T>() =>
+                    Pipeline.CreateBuilder()
+                        .AddModulesFromAssemblyContainingType<T>();
+
+                public static void RegisterBuildModule() =>
+                    Register<BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Open_Generic_Module_In_Scanned_Assembly()
     {
         var source = $$"""
