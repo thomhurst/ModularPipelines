@@ -76,10 +76,10 @@ public class ModuleConfigureTests
     }
 
     [ModularPipelines.Attributes.DependsOn<TestModule>]
-    private class RequiredAndLazyDependencyModule : Module<string>
+    private class RequiredAndOptionalDependencyModule : Module<string>
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOnLazy<TestModule>()
+            .DependsOnOptional<TestModule>()
             .Build();
 
         protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -160,7 +160,7 @@ public class ModuleConfigureTests
     [Test]
     public async Task Module_Configuration_Uses_Strictest_Duplicate_Dependency()
     {
-        var dependency = ((IModule) new RequiredAndLazyDependencyModule()).Configuration.Dependencies.Single();
+        var dependency = ((IModule) new RequiredAndOptionalDependencyModule()).Configuration.Dependencies.Single();
 
         await Assert.That(dependency.Kind).IsEqualTo(DependencyType.Required);
         await Assert.That(dependency.IsOptional).IsFalse();

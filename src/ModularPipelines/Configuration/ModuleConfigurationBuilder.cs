@@ -286,54 +286,11 @@ public sealed class ModuleConfigurationBuilder
         => condition ? DependsOn<TModule>() : this;
 
     /// <summary>
-    /// Adds a required dependency when the supplied predicate returns true.
-    /// </summary>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder DependsOnIf<TModule>(Func<bool> predicate)
-        where TModule : IModule
-    {
-        ArgumentNullException.ThrowIfNull(predicate);
-        return DependsOnIf<TModule>(predicate());
-    }
-
-    /// <summary>
     /// Adds a required dependency when the supplied condition is true.
     /// </summary>
     /// <returns>This builder instance for method chaining.</returns>
     public ModuleConfigurationBuilder DependsOnIf(Type moduleType, bool condition)
         => condition ? DependsOn(moduleType) : this;
-
-    /// <summary>
-    /// Adds a required dependency when the supplied predicate returns true.
-    /// </summary>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder DependsOnIf(Type moduleType, Func<bool> predicate)
-    {
-        ArgumentNullException.ThrowIfNull(predicate);
-        return DependsOnIf(moduleType, predicate());
-    }
-
-    /// <summary>
-    /// Adds a lazy optional dependency.
-    /// </summary>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder DependsOnLazy<TModule>()
-        where TModule : IModule
-    {
-        _dependencies.Add(DeclaredDependency.Lazy(typeof(TModule)));
-        return this;
-    }
-
-    /// <summary>
-    /// Adds a lazy optional dependency.
-    /// </summary>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder DependsOnLazy(Type moduleType)
-    {
-        ValidateModuleType(moduleType);
-        _dependencies.Add(DeclaredDependency.Lazy(moduleType));
-        return this;
-    }
 
     #endregion
 

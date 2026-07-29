@@ -151,7 +151,6 @@ public abstract class Module<T> : IModule, ITaggedModule
     ///     deps.DependsOn&lt;RequiredModule&gt;();
     ///     deps.DependsOnOptional&lt;OptionalModule&gt;();
     ///     deps.DependsOnIf&lt;ConditionalModule&gt;(SomeCondition);
-    ///     deps.DependsOnLazy&lt;HeavyModule&gt;();
     /// }
     /// </code>
     /// </example>

@@ -30,8 +30,8 @@ namespace ModularPipelines.Modules;
 ///             deps.DependsOn&lt;PerformanceMonitoringModule&gt;();
 ///         }
 ///
-///         // Conditional with predicate
-///         deps.DependsOnIf&lt;HeavyProcessingModule&gt;(() =&gt; ShouldRunHeavyProcessing);
+///         // Conditional dependency
+///         deps.DependsOnIf&lt;HeavyProcessingModule&gt;(ShouldRunHeavyProcessing);
 ///     }
 /// }
 /// </code>
@@ -92,18 +92,6 @@ public interface IDependencyDeclaration
     IDependencyDeclaration DependsOnIf<TModule>(bool condition) where TModule : IModule;
 
     /// <summary>
-    /// Declares a conditional dependency that is only active if the predicate returns true.
-    /// </summary>
-    /// <typeparam name="TModule">The type of module to depend on.</typeparam>
-    /// <param name="predicate">The predicate that determines whether the dependency is active.</param>
-    /// <returns>This instance for method chaining.</returns>
-    /// <remarks>
-    /// The predicate is evaluated immediately when this method is called.
-    /// If it returns false, the dependency is not added at all.
-    /// </remarks>
-    IDependencyDeclaration DependsOnIf<TModule>(Func<bool> predicate) where TModule : IModule;
-
-    /// <summary>
     /// Declares a conditional dependency that is only active if the condition is true.
     /// </summary>
     /// <param name="moduleType">The type of module to depend on.</param>
@@ -113,55 +101,4 @@ public interface IDependencyDeclaration
     /// Thrown if the type does not implement <see cref="IModule"/>.
     /// </exception>
     IDependencyDeclaration DependsOnIf(Type moduleType, bool condition);
-
-    /// <summary>
-    /// Declares a conditional dependency that is only active if the predicate returns true.
-    /// </summary>
-    /// <param name="moduleType">The type of module to depend on.</param>
-    /// <param name="predicate">The predicate that determines whether the dependency is active.</param>
-    /// <returns>This instance for method chaining.</returns>
-    /// <exception cref="ArgumentException">
-    /// Thrown if the type does not implement <see cref="IModule"/>.
-    /// </exception>
-    IDependencyDeclaration DependsOnIf(Type moduleType, Func<bool> predicate);
-
-    /// <summary>
-    /// Declares a lazy dependency - an optional dependency intended to be awaited on-demand.
-    /// </summary>
-    /// <typeparam name="TModule">The type of module to depend on.</typeparam>
-    /// <returns>This instance for method chaining.</returns>
-    /// <remarks>
-    /// <para>
-    /// Lazy dependencies behave the same as <see cref="DependsOnOptional{TModule}"/> for
-    /// dependency resolution purposes - the dependency is optional and will not fail if not
-    /// registered. This is a semantic marker to indicate intent that the dependency may be
-    /// awaited on-demand rather than required upfront.
-    /// </para>
-    /// <para>
-    /// <strong>Important:</strong> The lazy module will still execute during normal pipeline
-    /// scheduling if it is registered. It does NOT defer execution until explicitly awaited.
-    /// The "lazy" designation indicates the dependency relationship is optional and the result
-    /// may be consumed on-demand, but does not affect when the module runs.
-    /// </para>
-    /// <para>
-    /// Use this to express intent for optional processing that may or may not be awaited.
-    /// </para>
-    /// </remarks>
-    IDependencyDeclaration DependsOnLazy<TModule>() where TModule : IModule;
-
-    /// <summary>
-    /// Declares a lazy dependency - an optional dependency intended to be awaited on-demand.
-    /// </summary>
-    /// <param name="moduleType">The type of module to depend on.</param>
-    /// <returns>This instance for method chaining.</returns>
-    /// <remarks>
-    /// <para>
-    /// Lazy dependencies behave the same as <see cref="DependsOnOptional(Type)"/> for
-    /// dependency resolution purposes. See <see cref="DependsOnLazy{TModule}"/> for full details.
-    /// </para>
-    /// </remarks>
-    /// <exception cref="ArgumentException">
-    /// Thrown if the type does not implement <see cref="IModule"/>.
-    /// </exception>
-    IDependencyDeclaration DependsOnLazy(Type moduleType);
 }

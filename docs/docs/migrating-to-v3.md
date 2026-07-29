@@ -962,8 +962,6 @@ public class MyModule : Module<string>
         // Conditional dependency
         deps.DependsOnIf<ProductionModule>(Environment.IsProduction);
 
-        // Lazy dependency (evaluated later)
-        deps.DependsOnLazy<HeavyModule>();
     }
 
     protected override async Task<string?> ExecuteAsync(
