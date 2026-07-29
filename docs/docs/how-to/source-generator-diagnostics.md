@@ -134,6 +134,15 @@ type directly before publishing with Native AOT.
 
 **Severity:** Warning
 
+## MPG0016
+
+A module, base class, or implemented interface uses
+`DependsOnAllModulesInheritingFrom<T>`. This selector is evaluated against the runtime
+module set and requires attribute reflection, so trimming can remove its metadata.
+Replace it with explicit `DependsOn<T>` dependencies before publishing with Native AOT.
+
+**Severity:** Warning
+
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:
 

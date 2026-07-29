@@ -117,6 +117,14 @@ internal static class GeneratorDiagnostics
         + "with Native AOT",
         DiagnosticSeverity.Warning);
 
+    public static DiagnosticDescriptor SelectorDependencyRuntimeMetadata { get; } = Create(
+        "MPG0016",
+        "Selector dependency metadata requires reflection",
+        "Selector dependency metadata for module '{0}' requires runtime attribute reflection "
+        + "and may be removed by trimming; use explicit DependsOn<T> dependencies before "
+        + "publishing with Native AOT",
+        DiagnosticSeverity.Warning);
+
     private static DiagnosticDescriptor Create(
         string id,
         string title,

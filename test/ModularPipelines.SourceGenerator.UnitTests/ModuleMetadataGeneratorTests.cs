@@ -479,6 +479,36 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
+    public async Task Inherited_Selector_Dependency_Reports_Aot_Diagnostic()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace ModularPipelines.Attributes
+            {
+                public class DependsOnAllModulesInheritingFromAttribute : System.Attribute;
+
+                public class DependsOnAllModulesInheritingFromAttribute<TModule>
+                    : DependsOnAllModulesInheritingFromAttribute;
+            }
+
+            namespace Consumer
+            {
+                public abstract class BaseModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.DependsOnAllModulesInheritingFrom<BaseModule>]
+                public interface IHasSelectorDependency;
+
+                public sealed class BuildModule
+                    : ModularPipelines.Modules.Module<string>, IHasSelectorDependency;
+            }
+            """);
+
+        await Assert.That(result.Diagnostics)
+            .Contains(diagnostic => diagnostic.Id == "MPG0016"
+                                    && diagnostic.GetMessage().Contains("Consumer.BuildModule")
+                                    && diagnostic.Descriptor.HelpLinkUri.EndsWith("#mpg0016"));
+    }
+
+    [Test]
     public async Task Registered_External_Closed_Generic_Module_Reports_Aot_Diagnostic()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(

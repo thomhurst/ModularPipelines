@@ -17,6 +17,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     internal const string GenericModuleMetadataName = "Module`1";
     internal const string DependsOnAttributeFullName = "ModularPipelines.Attributes.DependsOnAttribute";
     internal const string GenericDependsOnAttributeMetadataName = "DependsOnAttribute`1";
+    internal const string SelectorDependencyAttributeFullName =
+        "ModularPipelines.Attributes.DependsOnAllModulesInheritingFromAttribute";
+
     internal const string PipelineBuilderExtensionsFullName =
         "ModularPipelines.Extensions.PipelineBuilderExtensions";
 
@@ -34,6 +37,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
     private static readonly DiagnosticDescriptor NonConcreteModuleRegistrationRuntimeMetadata =
         GeneratorDiagnostics.NonConcreteModuleRegistrationRuntimeMetadata;
+
+    private static readonly DiagnosticDescriptor SelectorDependencyRuntimeMetadata =
+        GeneratorDiagnostics.SelectorDependencyRuntimeMetadata;
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -94,6 +100,18 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                             PartialModuleRuntimeMetadata,
                             partial.Location,
                             partial.TypeName));
+                    }
+
+                    foreach (var selector in input.Right
+                                 .Where(static module =>
+                                     module.SelectorDependencyLocation is not null)
+                                 .GroupBy(static module => module.TypeName, StringComparer.Ordinal)
+                                 .Select(static group => group.First()))
+                    {
+                        sourceContext.ReportDiagnostic(Diagnostic.Create(
+                            SelectorDependencyRuntimeMetadata,
+                            selector.SelectorDependencyLocation,
+                            selector.TypeName));
                     }
 
                     sourceContext.AddSource(
@@ -260,7 +278,8 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                     [],
                     false,
                     false,
-                    true),
+                    true,
+                    null),
             ];
         }
 
@@ -303,7 +322,8 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                     [],
                     false,
                     false,
-                    true));
+                    true,
+                    null));
             }
         }
 
@@ -363,7 +383,51 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                 .ThenBy(static dependency => dependency.Optional)],
             dependenciesComplete,
             isPartial,
-            false);
+            false,
+            GetSelectorDependencyLocation(type));
+    }
+
+    private static Location? GetSelectorDependencyLocation(INamedTypeSymbol type)
+    {
+        foreach (var interfaceType in type.AllInterfaces)
+        {
+            var attribute = interfaceType.GetAttributes()
+                .FirstOrDefault(IsSelectorDependencyAttribute);
+            if (attribute is not null)
+            {
+                return GetAttributeLocation(attribute, type);
+            }
+        }
+
+        for (var current = type; current is not null; current = current.BaseType)
+        {
+            var attribute = current.GetAttributes().FirstOrDefault(IsSelectorDependencyAttribute);
+            if (attribute is not null)
+            {
+                return GetAttributeLocation(attribute, type);
+            }
+        }
+
+        return null;
+    }
+
+    private static Location? GetAttributeLocation(AttributeData attribute, INamedTypeSymbol type)
+    {
+        return attribute.ApplicationSyntaxReference?.GetSyntax().GetLocation()
+               ?? type.Locations.FirstOrDefault(static location => location.IsInSource);
+    }
+
+    private static bool IsSelectorDependencyAttribute(AttributeData attribute)
+    {
+        for (var current = attribute.AttributeClass; current is not null; current = current.BaseType)
+        {
+            if (current.ToDisplayString() == SelectorDependencyAttributeFullName)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool HasPartialDeclaration(INamedTypeSymbol type)
@@ -656,7 +720,8 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         ImmutableArray<DependencyMetadataInfo> Dependencies,
         bool DependenciesComplete,
         bool IsPartial,
-        bool IsExternalRegistration);
+        bool IsExternalRegistration,
+        Location? SelectorDependencyLocation);
 
     private sealed record DependencyMetadataInfo(
         string TypeName,
