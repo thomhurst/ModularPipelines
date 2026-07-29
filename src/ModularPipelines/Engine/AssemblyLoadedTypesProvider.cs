@@ -31,6 +31,10 @@ internal class AssemblyLoadedTypesProvider : IAssemblyLoadedTypesProvider
                    string.Equals(reference.Name, ModularPipelinesAssemblyName, StringComparison.Ordinal));
     }
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Unused-module diagnostics tolerate types removed by trimming.")]
     private static IEnumerable<Type> GetLoadableTypes(Assembly assembly)
     {
         try
