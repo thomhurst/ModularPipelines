@@ -22,7 +22,7 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         nameof(Resources.ConflictingDependsOnAttributeAnalyzerDescription));
 
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
@@ -122,7 +122,26 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            if (components[edge.DependentType] != components[edge.DependencyType])
+            var dependencyType = Normalize(edge.DependencyType);
+            var declarationType = Normalize(edge.DependentType);
+            var effectiveDependentType =
+                components[declarationType] == components[dependencyType]
+                    ? declarationType
+                    : graph.Keys
+                        .Where(type => !SymbolEqualityComparer.Default.Equals(
+                            type,
+                            declarationType))
+                        .Where(type => ReceivesAttributesFrom(type, declarationType))
+                        .Where(type => graph[type].Contains(
+                            dependencyType,
+                            SymbolEqualityComparer.Default))
+                        .Where(type => components[type] == components[dependencyType])
+                        .OrderBy(
+                            type => type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                            StringComparer.Ordinal)
+                        .FirstOrDefault();
+
+            if (effectiveDependentType is null)
             {
                 continue;
             }
@@ -131,7 +150,7 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
                 Rule,
                 edge.Location,
                 edge.DependencyType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
-                edge.DependentType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+                effectiveDependentType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
         }
     }
 
@@ -144,16 +163,19 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
         foreach (var edge in edges)
         {
-            nodes.Add(edge.DependentType);
-            nodes.Add(edge.DependencyType);
+            var dependentType = Normalize(edge.DependentType);
+            var dependencyType = Normalize(edge.DependencyType);
 
-            if (!directGraph.TryGetValue(edge.DependentType, out var dependencies))
+            nodes.Add(dependentType);
+            nodes.Add(dependencyType);
+
+            if (!directGraph.TryGetValue(dependentType, out var dependencies))
             {
                 dependencies = [];
-                directGraph.Add(edge.DependentType, dependencies);
+                directGraph.Add(dependentType, dependencies);
             }
 
-            dependencies.Add(edge.DependencyType);
+            dependencies.Add(dependencyType);
         }
 
         var effectiveGraph = new Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>>(
@@ -161,9 +183,11 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
         foreach (var node in nodes)
         {
-            effectiveGraph[node] = GetDependencies(node, directGraph)
-                .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default)
-                .ToList();
+            effectiveGraph[node] =
+            [
+                .. GetDependencies(node, directGraph)
+                    .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default),
+            ];
         }
 
         return effectiveGraph;
@@ -173,71 +197,106 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         IReadOnlyDictionary<INamedTypeSymbol, List<INamedTypeSymbol>> graph,
         CancellationToken cancellationToken)
     {
-        var nextIndex = 0;
-        var nextComponent = 0;
-        var indices = new Dictionary<INamedTypeSymbol, int>(SymbolEqualityComparer.Default);
-        var lowLinks = new Dictionary<INamedTypeSymbol, int>(SymbolEqualityComparer.Default);
-        var stack = new Stack<INamedTypeSymbol>();
-        var onStack = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
-        var components = new Dictionary<INamedTypeSymbol, int>(SymbolEqualityComparer.Default);
+        var visited = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
+        var finishOrder = new List<INamedTypeSymbol>(graph.Count);
 
         foreach (var node in graph.Keys)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (!indices.ContainsKey(node))
+            if (visited.Contains(node))
             {
-                Visit(node);
+                continue;
+            }
+
+            var traversal = new Stack<(INamedTypeSymbol Node, bool IsExpanded)>();
+            traversal.Push((node, false));
+
+            while (traversal.Count > 0)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var (current, isExpanded) = traversal.Pop();
+
+                if (isExpanded)
+                {
+                    finishOrder.Add(current);
+                    continue;
+                }
+
+                if (!visited.Add(current))
+                {
+                    continue;
+                }
+
+                traversal.Push((current, true));
+
+                foreach (var dependency in graph[current])
+                {
+                    if (!visited.Contains(dependency))
+                    {
+                        traversal.Push((dependency, false));
+                    }
+                }
             }
         }
 
-        return components;
+        var reverseGraph = graph.Keys.ToDictionary(
+            node => node,
+            _ => new List<INamedTypeSymbol>(),
+            SymbolEqualityComparer.Default);
 
-        void Visit(INamedTypeSymbol node)
+        foreach (var entry in graph)
+        {
+            foreach (var dependency in entry.Value)
+            {
+                reverseGraph[dependency].Add(entry.Key);
+            }
+        }
+
+        var components = new Dictionary<INamedTypeSymbol, int>(SymbolEqualityComparer.Default);
+        var nextComponent = 0;
+
+        for (var index = finishOrder.Count - 1; index >= 0; index--)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            indices[node] = nextIndex;
-            lowLinks[node] = nextIndex;
-            nextIndex++;
-            stack.Push(node);
-            onStack.Add(node);
+            var node = finishOrder[index];
 
-            foreach (var dependency in graph[node])
+            if (components.ContainsKey(node))
             {
-                if (!indices.ContainsKey(dependency))
+                continue;
+            }
+
+            var traversal = new Stack<INamedTypeSymbol>();
+            traversal.Push(node);
+            components[node] = nextComponent;
+
+            while (traversal.Count > 0)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var current = traversal.Pop();
+
+                foreach (var dependent in reverseGraph[current])
                 {
-                    Visit(dependency);
-                    lowLinks[node] = Math.Min(lowLinks[node], lowLinks[dependency]);
+                    if (!components.ContainsKey(dependent))
+                    {
+                        components.Add(dependent, nextComponent);
+                        traversal.Push(dependent);
+                    }
                 }
-                else if (onStack.Contains(dependency))
-                {
-                    lowLinks[node] = Math.Min(lowLinks[node], indices[dependency]);
-                }
             }
 
-            if (lowLinks[node] != indices[node])
-            {
-                return;
-            }
-
-            INamedTypeSymbol componentNode;
-
-            do
-            {
-                componentNode = stack.Pop();
-                onStack.Remove(componentNode);
-                components[componentNode] = nextComponent;
-            }
-            while (!SymbolEqualityComparer.Default.Equals(componentNode, node));
-
-            nextComponent++;
+            nextComponent += 1;
         }
+
+        return components;
     }
 
     private static IEnumerable<INamedTypeSymbol> GetDependencies(
         INamedTypeSymbol type,
-        IReadOnlyDictionary<INamedTypeSymbol, List<INamedTypeSymbol>> graph)
+        Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> graph)
     {
         if (graph.TryGetValue(type, out var directDependencies))
         {
@@ -249,7 +308,9 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
         foreach (var interfaceType in type.AllInterfaces)
         {
-            if (!graph.TryGetValue(interfaceType, out var interfaceDependencies))
+            if (!graph.TryGetValue(
+                    Normalize(interfaceType),
+                    out var interfaceDependencies))
             {
                 continue;
             }
@@ -262,7 +323,9 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
         for (var baseType = type.BaseType; baseType is not null; baseType = baseType.BaseType)
         {
-            if (!graph.TryGetValue(baseType, out var baseDependencies))
+            if (!graph.TryGetValue(
+                    Normalize(baseType),
+                    out var baseDependencies))
             {
                 continue;
             }
@@ -272,6 +335,41 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
                 yield return dependency;
             }
         }
+    }
+
+    private static bool ReceivesAttributesFrom(
+        INamedTypeSymbol type,
+        INamedTypeSymbol declarationType)
+    {
+        if (SymbolEqualityComparer.Default.Equals(type, declarationType))
+        {
+            return true;
+        }
+
+        if (type.AllInterfaces.Any(interfaceType =>
+                SymbolEqualityComparer.Default.Equals(
+                    Normalize(interfaceType),
+                    declarationType)))
+        {
+            return true;
+        }
+
+        for (var baseType = type.BaseType; baseType is not null; baseType = baseType.BaseType)
+        {
+            if (SymbolEqualityComparer.Default.Equals(
+                    Normalize(baseType),
+                    declarationType))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static INamedTypeSymbol Normalize(INamedTypeSymbol type)
+    {
+        return type.OriginalDefinition;
     }
 
     private sealed class DependencyEdge(

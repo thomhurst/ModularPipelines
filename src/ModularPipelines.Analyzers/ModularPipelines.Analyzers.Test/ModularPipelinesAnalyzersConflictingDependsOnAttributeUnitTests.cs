@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.ConflictingDependsOnAttributeAnalyzer>;
 
 namespace ModularPipelines.Analyzers.Test;
@@ -85,7 +86,7 @@ public class Module3 : Module<List<string>>
     private const string InheritedInterfaceCycleSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
-[DependsOn<Module2>]
+    [{{|#0:DependsOn<Module2>|}}]
 public interface IModule1Dependencies
 {{
 }}
@@ -93,7 +94,39 @@ public interface IModule1Dependencies
 public class Module1 : Module<List<string>>, IModule1Dependencies
 {SimpleModuleBody}
 
-[{{|#0:DependsOn<Module1>|}}]
+[{{|#1:DependsOn<Module1>|}}]
+public class Module2 : Module<List<string>>
+{SimpleModuleBody}
+";
+
+    private const string InheritedBaseCycleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+[{{|#0:DependsOn<Module2>|}}]
+public abstract class Module1Base : Module<List<string>>
+{{
+}}
+
+public class Module1 : Module1Base
+{SimpleModuleBody}
+
+[{{|#1:DependsOn<Module1>|}}]
+public abstract class Module2Base : Module<List<string>>
+{{
+}}
+
+public class Module2 : Module2Base
+{SimpleModuleBody}
+";
+
+    private const string ConstructedGenericCycleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+[{{|#0:DependsOn<Module2>|}}]
+public class Module1<T> : Module<List<string>>
+{SimpleModuleBody}
+
+[{{|#1:DependsOn<Module1<int>>|}}]
 public class Module2 : Module<List<string>>
 {SimpleModuleBody}
 ";
@@ -182,16 +215,94 @@ public class Module2 : Module<List<string>>
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Cycle_Uses_Inherited_Interface_Dependency()
     {
-        var expected = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
+        var expected1 = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
             .WithLocation(0)
+            .WithArguments("Module2", "Module1");
+
+        var expected2 = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithLocation(1)
             .WithArguments("Module1", "Module2");
 
-        await VerifyCS.VerifyAnalyzerAsync(InheritedInterfaceCycleSource, expected);
+        await VerifyCS.VerifyAnalyzerAsync(
+            InheritedInterfaceCycleSource,
+            expected1,
+            expected2);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_All_Cycle_Edges_Are_Inherited()
+    {
+        var expected1 = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Module2", "Module1");
+
+        var expected2 = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithLocation(1)
+            .WithArguments("Module1", "Module2");
+
+        await VerifyCS.VerifyAnalyzerAsync(
+            InheritedBaseCycleSource,
+            expected1,
+            expected2);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_Cycle_Uses_Constructed_Generic()
+    {
+        var expected1 = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Module2", "Module1<T>");
+
+        var expected2 = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithLocation(1)
+            .WithArguments("Module1<int>", "Module2");
+
+        await VerifyCS.VerifyAnalyzerAsync(
+            ConstructedGenericCycleSource,
+            expected1,
+            expected2);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerHandlesLongDependencyChainsIteratively()
+    {
+        await VerifyCS.VerifyAnalyzerAsync(CreateLongDependencyChain(5_000));
     }
 
     [TestMethod]
     public async Task AnalyzerIsNotTriggered_When_No_Conflicting_Dependencies()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource);
+    }
+
+    private static string CreateLongDependencyChain(int length)
+    {
+        var source = new StringBuilder(
+            TestSourceConstants.StandardModuleHeaderWithLogging);
+        source.AppendLine("""
+                          public abstract class ChainModule : Module<List<string>>
+                          {
+                              protected override Task<List<string>?> ExecuteAsync(
+                                  IModuleContext context,
+                                  CancellationToken cancellationToken)
+                              {
+                                  return Task.FromResult<List<string>?>([]);
+                              }
+                          }
+                          """);
+
+        for (var index = 0; index < length - 1; index++)
+        {
+            source.AppendLine($"[DependsOn<Chain{index + 1}>]");
+            source.AppendLine($"public class Chain{index} : ChainModule");
+            source.AppendLine("{");
+            source.AppendLine("}");
+        }
+
+        source.AppendLine($"public class Chain{length - 1} : ChainModule");
+        source.AppendLine("{");
+        source.AppendLine("}");
+
+        return source.ToString();
     }
 }
