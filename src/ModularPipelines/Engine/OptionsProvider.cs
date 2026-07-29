@@ -1,5 +1,7 @@
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using System.Runtime.ExceptionServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.DependencyInjection;
@@ -40,8 +42,8 @@ internal class OptionsProvider : IOptionsProvider
     /// Using a HashSet for O(1) lookup instead of multiple IsAssignableTo calls.
     /// This is read-only after static initialization so no synchronization needed.
     /// </summary>
-    private static readonly HashSet<Type> OptionsTypeDefinitions = new()
-    {
+    private static readonly HashSet<Type> OptionsTypeDefinitions =
+    [
         typeof(IConfigureOptions<>),
         typeof(IPostConfigureOptions<>),
         typeof(IOptions<>),
@@ -49,7 +51,7 @@ internal class OptionsProvider : IOptionsProvider
         typeof(IOptionsSnapshot<>),
         typeof(IValidateOptions<>),
         typeof(IConfigureNamedOptions<>),
-    };
+    ];
 
     private readonly IPipelineServiceContainerWrapper _pipelineServiceContainerWrapper;
     private readonly IServiceProvider _serviceProvider;
@@ -67,12 +69,11 @@ internal class OptionsProvider : IOptionsProvider
 
         // Use Lazy<T> for thread-safe initialization
         _cachedOptionTypes = new Lazy<IReadOnlyList<Type>>(
-            () => _pipelineServiceContainerWrapper.ServiceCollection
+            () => [.. _pipelineServiceContainerWrapper.ServiceCollection
                 .Select(sd => sd.ServiceType)
                 .Where(t => t.IsGenericType && t.IsConstructedGenericType && IsOptionsType(t.GetGenericTypeDefinition()))
                 .Select(s => s.GetGenericArguments()[0])
-                .Distinct()
-                .ToList(),
+                .Distinct()],
             LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
@@ -138,7 +139,18 @@ internal class OptionsProvider : IOptionsProvider
         var valueProperty = optionsType.GetProperty("Value")
             ?? throw new InvalidOperationException($"Property 'Value' not found on type '{optionsType.Name}'.");
 
-        return instance => valueProperty.GetValue(instance);
+        return instance =>
+        {
+            try
+            {
+                return valueProperty.GetValue(instance);
+            }
+            catch (TargetInvocationException exception) when (exception.InnerException is not null)
+            {
+                ExceptionDispatchInfo.Capture(exception.InnerException).Throw();
+                throw;
+            }
+        };
     }
 
     /// <summary>
