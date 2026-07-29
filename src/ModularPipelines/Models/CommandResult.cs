@@ -9,12 +9,13 @@ public record CommandResult
     /// <summary>
     /// Gets the command that was executed.
     /// </summary>
-    public string CommandInput { get; }
+    public required string CommandInput { get; init; }
 
-    public IReadOnlyDictionary<string, string?> EnvironmentVariables { get; }
+    public required IReadOnlyDictionary<string, string?> EnvironmentVariables { get; init; }
 
-    public string WorkingDirectory { get; }
+    public required string WorkingDirectory { get; init; }
 
+    [SetsRequiredMembers]
     public CommandResult(
         string commandInput,
         string workingDirectory,
@@ -38,18 +39,23 @@ public record CommandResult
         ExitCode = exitCode;
     }
 
-#if NET7_0_OR_GREATER
-    [SetsRequiredMembersAttribute]
-#endif
-#pragma warning disable CS8618
+    [SetsRequiredMembers]
     internal CommandResult(Command command)
-#pragma warning restore CS8618
     {
+        var completedAt = DateTimeOffset.UtcNow;
+
         CommandInput = command.ToString();
         WorkingDirectory = command.WorkingDirPath;
         EnvironmentVariables = GetPublicEnvironmentVariables(command);
+        StandardOutput = string.Empty;
+        StandardError = string.Empty;
+        ExitCode = 0;
+        StartTime = completedAt;
+        EndTime = completedAt;
+        Duration = TimeSpan.Zero;
     }
 
+    [SetsRequiredMembers]
     internal CommandResult(Command command, CliWrap.CommandResult commandResult, string standardOutput, string standardError)
     {
         CommandInput = command.ToString();
@@ -78,30 +84,30 @@ public record CommandResult
     /// <summary>
     /// Gets standard output data produced by the underlying process.
     /// </summary>
-    public string StandardOutput { get; }
+    public required string StandardOutput { get; init; }
 
     /// <summary>
     /// Gets standard error data produced by the underlying process.
     /// </summary>
-    public string StandardError { get; }
+    public required string StandardError { get; init; }
 
     /// <summary>
     /// Gets exit code set by the underlying process.
     /// </summary>
-    public int ExitCode { get; }
+    public required int ExitCode { get; init; }
 
     /// <summary>
     /// Gets time at which the command started executing.
     /// </summary>
-    public DateTimeOffset StartTime { get; }
+    public required DateTimeOffset StartTime { get; init; }
 
     /// <summary>
     /// Gets time at which the command finished executing.
     /// </summary>
-    public DateTimeOffset EndTime { get; }
+    public required DateTimeOffset EndTime { get; init; }
 
     /// <summary>
     /// Gets total duration of the command execution.
     /// </summary>
-    public TimeSpan Duration { get; }
+    public required TimeSpan Duration { get; init; }
 }
