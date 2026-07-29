@@ -211,6 +211,35 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_With_Inserted_ServiceDescriptor()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.Insert(
+                        0,
+                        ServiceDescriptor.Singleton<IModule, BuildModule>());
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Describe_Registration_Still_Reports_Unregistered_Module()
     {
         var source = $$"""
@@ -2213,6 +2242,81 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("FetchAsync");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_In_Invoked_Member_Helper()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await WorkAsync(cancellationToken);
+                return null;
+            }
+
+                private static async Task WorkAsync(CancellationToken cancellationToken)
+                {
+                    await {|#0:Task.Delay(1)|};
+                    {|#1:Thread.Sleep(1)|};
+                }
+            """);
+
+        var unflowedToken = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        var blockingCall = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(1);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(
+            source,
+            unflowedToken,
+            blockingCall);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Flowed_Token_In_Invoked_Member_Helper()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await FirstAsync(cancellationToken);
+                return null;
+            }
+
+                private static Task FirstAsync(CancellationToken cancellationToken) =>
+                    SecondAsync(cancellationToken);
+
+                private static Task SecondAsync(CancellationToken cancellationToken) =>
+                    Task.Delay(1, cancellationToken);
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Async_Safety_In_Unused_Member_Helper()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                return Task.FromResult<List<string>?>(null);
+            }
+
+                private static async Task WorkAsync(CancellationToken cancellationToken)
+                {
+                    await Task.Delay(1);
+                    Thread.Sleep(1);
+                }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
