@@ -41,9 +41,10 @@ public class ModularPipelinesIntegrationGeneratorTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPGEN001");
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0001");
             await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
             await Assert.That(diagnostic.GetMessage()).Contains("InvalidIntegration.Register");
+            await Assert.That(diagnostic.Descriptor.HelpLinkUri).EndsWith("#mpg0001");
             await Assert.That(result.GeneratedTrees).IsEmpty();
         }
     }
@@ -90,7 +91,7 @@ public class ModularPipelinesIntegrationGeneratorTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPGEN001");
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0001");
             await Assert.That(diagnostic.GetMessage()).Contains("FileLocalIntegration.Register");
             await Assert.That(result.GeneratedTrees).IsEmpty();
         }
@@ -116,7 +117,7 @@ public class ModularPipelinesIntegrationGeneratorTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPGEN001");
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0001");
             await Assert.That(diagnostic.GetMessage()).Contains("ByReferenceIntegration.Register");
             await Assert.That(result.GeneratedTrees).IsEmpty();
         }

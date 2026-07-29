@@ -17,19 +17,53 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
 
     private const string AttributeUsageFullName = "System.AttributeUsageAttribute";
 
+    private static readonly DiagnosticDescriptor IncompleteModuleEventMetadata =
+        GeneratorDiagnostics.IncompleteModuleEventMetadata;
+
+    private static readonly DiagnosticDescriptor SkippedModuleEventMetadata =
+        GeneratorDiagnostics.SkippedModuleEventMetadata;
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        var modules = context.SyntaxProvider
+        var moduleCandidates = context.SyntaxProvider
             .CreateSyntaxProvider(
                 static (node, _) => IsTypeCandidate(node),
-                static (generatorContext, _) => GetModuleMetadata(generatorContext))
-            .Where(static metadata => metadata is not null)
-            .Select(static (metadata, _) => metadata!);
+                static (generatorContext, _) => GetModuleCandidate(generatorContext))
+            .Where(static candidate => candidate is not null)
+            .Select(static (candidate, _) => candidate!)
+            .WithComparer(ModuleEventMetadataCandidateComparer.Instance);
 
-        context.RegisterSourceOutput(modules.Collect(), static (sourceContext, metadata) =>
+        context.RegisterSourceOutput(moduleCandidates.Collect(), static (sourceContext, candidates) =>
         {
+            foreach (var skipped in candidates
+                         .Where(static candidate => candidate.Metadata is null)
+                         .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
+                         .Select(static group => group.First()))
+            {
+                sourceContext.ReportDiagnostic(Diagnostic.Create(
+                    SkippedModuleEventMetadata,
+                    skipped.Location,
+                    skipped.TypeName));
+            }
+
+            var metadata = candidates
+                .Select(static candidate => candidate.Metadata)
+                .OfType<ModuleEventMetadata>()
+                .ToImmutableArray();
             if (!metadata.IsEmpty)
             {
+                foreach (var candidate in candidates
+                             .Where(static candidate =>
+                                 candidate.Metadata is { IsComplete: false })
+                             .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
+                             .Select(static group => group.First()))
+                {
+                    sourceContext.ReportDiagnostic(Diagnostic.Create(
+                        IncompleteModuleEventMetadata,
+                        candidate.Location,
+                        candidate.TypeName));
+                }
+
                 sourceContext.AddSource(
                     "ModularPipelines.ModuleEventMetadata.g.cs",
                     Generate(metadata));
@@ -44,36 +78,34 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
                 && !record.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword));
     }
 
-    private static ModuleEventMetadata? GetModuleMetadata(GeneratorSyntaxContext context)
+    private static ModuleEventMetadataCandidate? GetModuleCandidate(
+        GeneratorSyntaxContext context)
     {
         var compilation = context.SemanticModel.Compilation;
-        var type = GetEligibleModuleType(context, compilation);
-        if (type is null)
-        {
-            return null;
-        }
-
-        var attributeMetadata = GetAttributeMetadata(type, compilation.Assembly);
-        return new ModuleEventMetadata(
-            type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-            attributeMetadata.Expressions,
-            attributeMetadata.IsComplete);
-    }
-
-    private static INamedTypeSymbol? GetEligibleModuleType(
-        GeneratorSyntaxContext context,
-        Compilation compilation)
-    {
         if (context.SemanticModel.GetDeclaredSymbol(context.Node) is not INamedTypeSymbol type
             || type.IsAbstract
-            || type.IsGenericType
-            || !IsTypeAccessible(type, compilation.Assembly)
             || !InheritsFromModule(type, compilation))
         {
             return null;
         }
 
-        return type;
+        var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        var location = type.Locations.FirstOrDefault() ?? Location.None;
+        if (!IsTypeDeclarationAccessible(type, compilation.Assembly))
+        {
+            return new ModuleEventMetadataCandidate(typeName, location, Metadata: null);
+        }
+
+        if (type.IsGenericType)
+        {
+            return new ModuleEventMetadataCandidate(typeName, location, Metadata: null);
+        }
+
+        var attributeMetadata = GetAttributeMetadata(type, compilation.Assembly);
+        return new ModuleEventMetadataCandidate(typeName, location, new ModuleEventMetadata(
+            typeName,
+            attributeMetadata.Expressions,
+            attributeMetadata.IsComplete));
     }
 
     private static AttributeMetadata GetAttributeMetadata(
@@ -415,6 +447,15 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
 
     private static bool IsTypeAccessible(INamedTypeSymbol type, IAssemblySymbol currentAssembly)
     {
+        return IsTypeDeclarationAccessible(type, currentAssembly)
+               && type.TypeArguments.All(typeArgument =>
+                   IsTypeReferenceAccessible(typeArgument, currentAssembly));
+    }
+
+    private static bool IsTypeDeclarationAccessible(
+        INamedTypeSymbol type,
+        IAssemblySymbol currentAssembly)
+    {
         for (var current = type; current is not null; current = current.ContainingType)
         {
             if (!IsAccessible(current.DeclaredAccessibility, current.ContainingAssembly, currentAssembly))
@@ -423,8 +464,7 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
             }
         }
 
-        return type.TypeArguments.All(typeArgument =>
-            IsTypeReferenceAccessible(typeArgument, currentAssembly));
+        return true;
     }
 
     private static bool IsAccessible(
@@ -491,6 +531,39 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         string TypeName,
         EquatableArray<string> Attributes,
         bool IsComplete);
+
+    private sealed record ModuleEventMetadataCandidate(
+        string TypeName,
+        Location Location,
+        ModuleEventMetadata? Metadata);
+
+    private sealed class ModuleEventMetadataCandidateComparer
+        : IEqualityComparer<ModuleEventMetadataCandidate>
+    {
+        public static ModuleEventMetadataCandidateComparer Instance { get; } = new();
+
+        public bool Equals(
+            ModuleEventMetadataCandidate? x,
+            ModuleEventMetadataCandidate? y) =>
+            ReferenceEquals(x, y)
+            || (x is not null
+                && y is not null
+                && StringComparer.Ordinal.Equals(x.TypeName, y.TypeName)
+                && EqualityComparer<ModuleEventMetadata?>.Default.Equals(x.Metadata, y.Metadata)
+                && (!RequiresDiagnostic(x) || x.Location.Equals(y.Location)));
+
+        public int GetHashCode(ModuleEventMetadataCandidate obj)
+        {
+            var hashCode = (StringComparer.Ordinal.GetHashCode(obj.TypeName) * 397)
+                           ^ (obj.Metadata?.GetHashCode() ?? 0);
+            return RequiresDiagnostic(obj)
+                ? (hashCode * 397) ^ obj.Location.GetHashCode()
+                : hashCode;
+        }
+
+        private static bool RequiresDiagnostic(ModuleEventMetadataCandidate candidate) =>
+            candidate.Metadata is null or { IsComplete: false };
+    }
 
     private sealed record AttributeMetadata(
         EquatableArray<string> Expressions,

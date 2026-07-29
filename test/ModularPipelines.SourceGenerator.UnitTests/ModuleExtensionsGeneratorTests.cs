@@ -30,8 +30,9 @@ public class ModuleExtensionsGeneratorTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPGEN002");
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0002");
             await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
+            await Assert.That(diagnostic.Descriptor.HelpLinkUri).EndsWith("#mpg0002");
             await Assert.That(diagnostic.GetMessage()).Contains("global::First.BuildModule");
             await Assert.That(diagnostic.GetMessage()).Contains("global::Second.BuildModule");
             await Assert.That(diagnostic.Location.IsInSource).IsTrue();

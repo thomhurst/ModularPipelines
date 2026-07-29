@@ -17,16 +17,8 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private const string ServiceCollectionFullName =
         "Microsoft.Extensions.DependencyInjection.IServiceCollection";
 
-    private static readonly DiagnosticDescriptor InvalidIntegrationMethod = new(
-        id: "MPGEN001",
-        title: "Invalid Modular Pipelines integration registrar",
-        messageFormat:
-            "Method '{0}' marked with [ModularPipelinesIntegration] must be an accessible, "
-            + "non-generic static method on an accessible, non-generic type; it must accept exactly "
-            + "one by-value IServiceCollection parameter and return void or IServiceCollection",
-        category: "ModularPipelines.SourceGenerator",
-        defaultSeverity: DiagnosticSeverity.Error,
-        isEnabledByDefault: true);
+    private static readonly DiagnosticDescriptor InvalidIntegrationMethod =
+        GeneratorDiagnostics.InvalidIntegrationMethod;
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
